@@ -88,6 +88,30 @@ if auto_stack and IsServer then
         end
 	end
 
+    --鱼人王给予物品自动堆叠
+    AddPrefabPostInit("mermking", function(inst)
+        local old_onaccept = inst.components.trader.onaccept
+        inst.components.trader.onaccept = function(inst, giver, item)
+            if old_onaccept ~= nil then old_onaccept(inst, giver, item) end
+
+            inst:DoTaskInTime(2, function(inst)
+                local pos = inst:GetPosition()
+                local x, y, z = pos:Get()
+                local ents = TheSim:FindEntities(x, y, z, SEE_ITEM_STACK_DIST, { "_inventoryitem" }, { "INLIMBO", "NOCLICK", "catchable", "fire" })
+                for _,objBase in pairs(ents) do
+                    -- objBase.replica.inventoryitem.classified ~= nil
+                    if objBase:IsValid() and objBase.components.stackable and not objBase.components.stackable:IsFull() then
+                        for _,obj in pairs(ents) do
+                            if obj:IsValid() then
+                                AnimPut(objBase, obj)
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+
     -- 猪王给予物品自动堆叠
     AddPrefabPostInit("pigking", function(inst)
         local old_onaccept = inst.components.trader.onaccept

@@ -20,7 +20,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "7.2.0.0"
+version = "7.3.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -510,7 +510,7 @@ configuration_options = {
         label = "帐篷耐久",
         hover = "改帐篷耐久",
         options = {
-            { description = "关闭", data = 16 },
+            { description = "关闭", data = 15 },
             { description = "10", data = 10 },
             { description = "20", data = 10 },
             { description = "30", data = 10 },
