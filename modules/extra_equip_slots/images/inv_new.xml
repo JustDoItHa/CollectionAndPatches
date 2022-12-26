@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Atlas>
+	<Texture filename="inv_new.tex" />
+	<Elements>
+		<Element name="back.tex" u1="0.001" u2="0.032203125" v2="0.999" v1="0.93459375" variant="" />
+		<Element name="craftingsubmenu_fullhorizontal_left.tex" u1="0.001" u2="0.0195078125" v2="0.93259375" v1="0.57521875" variant="" />
+		<Element name="craftingsubmenu_fullhorizontal_left_edge.tex" u1="0.034203125" u2="0.086890625" v2="0.999" v1="0.6250234375" variant="" />
+		<Element name="craftingsubmenu_fullhorizontal_mid.tex" u1="0.088890625" u2="0.14499609375" v2="0.999" v1="0.6015859375" variant="" />
+		<Element name="craftingsubmenu_fullhorizontal_right.tex" u1="0.14699609375" u2="0.16696875" v2="0.999" v1="0.641625" variant="" />
+		<Element name="craftingsubmenu_fullhorizontal_right_edge.tex" u1="0.16896875" u2="0.19089453125" v2="0.999" v1="0.626" variant="" />
+		<Element name="craftingsubmenu_fullvertical_left.tex" u1="0.19289453125" u2="0.22165625" v2="0.999" v1="0.641625" variant="" />
+		<Element name="craftingsubmenu_fullvertical_left_edge.tex" u1="0.22365625" u2="0.2519296875" v2="0.999" v1="0.6250234375" variant="" />
+		<Element name="craftingsubmenu_fullvertical_mid.tex" u1="0.2539296875" u2="0.2909921875" v2="0.999" v1="0.5742421875" variant="" />
+		<Element name="craftingsubmenu_fullvertical_right.tex" u1="0.2929921875" u2="0.321265625" v2="0.999" v1="0.641625" variant="" />
+		<Element name="craftingsubmenu_fullvertical_right_edge.tex" u1="0.323265625" u2="0.35105078125" v2="0.999" v1="0.626" variant="" />
+		<Element name="hud.tex" u1="0.35305078125" u2="0.3730234375" v2="0.999" v1="0.641625" variant="" />
+		<Element name="inventory_bg.tex" u1="0.001" u2="0.6581796875" v2="0.5722421875" v1="0.331078125" variant="" />
+		<Element name="neck.tex" u1="0.001" u2="0.032203125" v2="0.329078125" v1="0.264671875" variant="" />
+		<Element name="waist.tex" u1="0.001" u2="0.032203125" v2="0.262671875" v1="0.198265625" variant="" />
+	</Elements>
+</Atlas>

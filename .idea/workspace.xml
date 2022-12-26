@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2IErWzJoCNIroVS3GZJnNbURbtt" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Volumes/Extends-C/Games/mods self/Collection And Patches",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/modules/passerby" />
+      <recent name="$PROJECT_DIR$/scripts" />
+      <recent name="$PROJECT_DIR$/scripts/prefabs" />
+      <recent name="$PROJECT_DIR$/scripts/components" />
+      <recent name="$PROJECT_DIR$/cn" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Collection And Patches" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Collection And Patches" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="" />
+      <created>1669757619227</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1669757619227</updated>
+      <workItem from="1669757620696" duration="3719000" />
+      <workItem from="1669770514811" duration="413000" />
+      <workItem from="1669786313560" duration="5115000" />
+      <workItem from="1669976857607" duration="3377000" />
+      <workItem from="1670028350218" duration="30573000" />
+      <workItem from="1670189451754" duration="7179000" />
+      <workItem from="1670254799112" duration="5819000" />
+      <workItem from="1670431081953" duration="3621000" />
+      <workItem from="1670471469091" duration="2272000" />
+      <workItem from="1670637272481" duration="1227000" />
+      <workItem from="1670779129666" duration="10000" />
+      <workItem from="1670812221304" duration="1050000" />
+      <workItem from="1670893184828" duration="66000" />
+      <workItem from="1670907707463" duration="3154000" />
+      <workItem from="1671106949957" duration="315000" />
+      <workItem from="1671370173224" duration="292000" />
+      <workItem from="1671435375065" duration="1010000" />
+      <workItem from="1671672730964" duration="7964000" />
+      <workItem from="1671869189919" duration="71000" />
+      <workItem from="1671869274248" duration="401000" />
+      <workItem from="1672038903927" duration="204000" />
+      <workItem from="1672039694293" duration="22000" />
+      <workItem from="1672048201644" duration="28000" />
+      <workItem from="1672048277066" duration="147000" />
+      <workItem from="1672048852825" duration="1157000" />
+      <workItem from="1672067909192" duration="1217000" />
+      <workItem from="1672069588925" duration="478000" />
+      <workItem from="1672070210605" duration="54000" />
+      <workItem from="1672070298114" duration="1508000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
