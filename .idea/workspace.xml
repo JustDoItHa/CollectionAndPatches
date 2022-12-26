@@ -2,12 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/anim/ui_showbundle.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/anim/ui_showbundle_3x2.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/actions/repairable_equipment.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/bundle/show_bundle.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/bundle/showbundle_widgetcreation.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/bundle/smart_unwrap.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/creature/blockable_pooping.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/creature/repairable_statueglommer.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/equipment/repairable_equipment.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/naming/nameable_watches.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/util.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/components/sewingnew.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/upvalueutil.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/widgets/sbitemtile.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/widgets/sbtipbox.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/passerby/passer_by_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modules/passerby/passer_by_main.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/components/leaveanddrop.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/components/leaveanddrop.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/components/tracker.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/components/tracker.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/drop_stack.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/drop_stack.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modmain.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modmain.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +45,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SONARLINT_PRECOMMIT_ANALYSIS": "false",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Volumes/Extends-C/Games/mods self/Collection And Patches",
+    "last_opened_file_path": "/Volumes/Extends-C/Games/mods self/Collection And Patches/scripts/components",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -42,11 +54,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/modules/passerby" />
-      <recent name="$PROJECT_DIR$/scripts" />
-      <recent name="$PROJECT_DIR$/scripts/prefabs" />
       <recent name="$PROJECT_DIR$/scripts/components" />
-      <recent name="$PROJECT_DIR$/cn" />
+      <recent name="$PROJECT_DIR$/scripts" />
+      <recent name="$PROJECT_DIR$/scripts/widgets" />
+      <recent name="$PROJECT_DIR$/modules/bundle" />
+      <recent name="$PROJECT_DIR$/modules" />
     </key>
   </component>
   <component name="RunManager">
@@ -100,7 +112,7 @@
       <workItem from="1672067909192" duration="1217000" />
       <workItem from="1672069588925" duration="478000" />
       <workItem from="1672070210605" duration="54000" />
-      <workItem from="1672070298114" duration="8475000" />
+      <workItem from="1672070298114" duration="15695000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -109,7 +121,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672072121204</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="CAP 7.3.0.0 访客掉落修改">
+      <created>1672082858833</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1672082858833</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -117,6 +136,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="CAP 7.2.0.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="CAP 7.2.0.0" />
+    <MESSAGE value="CAP 7.3.0.0 访客掉落修改" />
+    <option name="LAST_COMMIT_MESSAGE" value="CAP 7.3.0.0 访客掉落修改" />
   </component>
 </project>

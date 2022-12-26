@@ -20,7 +20,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "7.3.0.0"
+version = "7.4.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2655,6 +2655,15 @@ configuration_options = {
     }, { name = "whitemods", description = "白名单列表.", default = {} },
     { name = "blockmods", description = "黑名单名单列表.", default = {} },
 }
+---纯净辅助
+configuration_options[#configuration_options + 1] = AddOptionHeader("微小游戏体验提升")
+configuration_options[#configuration_options + 1] = AddOption("little_modify_for_pure_switch", "总开关", "一些提升纯净档的微小功能", false)
+configuration_options[#configuration_options + 1] = AddOption("show_bundle_content_switch", "显示包裹内的东西", "可以看到打包内的东西，提升一点体验", false)
+configuration_options[#configuration_options + 1] = AddOption("smart_unwrap_bundle_switch", "拆包裹进入物品栏", "拆开包裹会进物品栏或箱子而不是掉落在地上", false)
+configuration_options[#configuration_options + 1] = AddOption("combinable_equipment_switch", "装备耐久合并", "同类装备可以互相合并耐久", false)
+configuration_options[#configuration_options + 1] = AddOption("naming_for_watches_switch", "旺达表可以命名", "旺达的溯源表和裂缝表可以用羽毛笔命名", false)
+configuration_options[#configuration_options + 1] = AddOption("glommer_statue_repairable_switch", "格罗姆雕像可修复", "可以用大理石修复格罗姆雕像", false)
+configuration_options[#configuration_options + 1] = AddOption("block_pooping_switch", "橡胶塞堵住牛屁股", "橡胶塞可以堵住牛屁股使其不拉屎", false)
 
 ---权限/防熊
 configuration_options[#configuration_options + 1] = AddOptionHeader("玩家物品权限/防熊")
@@ -2855,6 +2864,7 @@ configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_u
 configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_container", "容器UI支持", "能力勋章的容器拖拽开启时自动关闭该功能", true)
 configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_remember", "记住UI改动", "能力勋章的容器拖拽开启时自动关闭该功能", false)
 configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_tooltip", "显示提示文本", "能力勋章的容器拖拽开启时自动关闭该功能", true)
+
 
 ---Beta功能
 configuration_options[#configuration_options + 1] = AddOptionHeader("Beta功能(非必要可选择关闭)")

@@ -322,6 +322,27 @@ if GetModConfigData("remove_character_switch") then
     modimport("scripts/remove_character.lua")
 end
 
+-- 微小游戏体验提升
+if GetModConfigData("little_modify_for_pure_switch") then
+    if GetModConfigData("show_bundle_content_switch") then
+        modimport("modules/bundle/show_bundle.lua")
+    end
+    if GetModConfigData("smart_unwrap_bundle_switch") then
+        modimport("modules/bundle/smart_unwrap.lua")
+    end
+    if GetModConfigData("combinable_equipment_switch") then
+        modimport("modules/equipment/repairable_equipment.lua")
+    end
+    if GetModConfigData("naming_for_watches_switch") then
+        modimport("modules/naming/nameable_watches.lua")
+    end
+    if GetModConfigData("glommer_statue_repairable_switch") then
+        modimport("modules/creature/repairable_statueglommer.lua")
+    end
+    if GetModConfigData("block_pooping_switch") then
+        modimport("modules/creature/blockable_pooping.lua")
+    end
+end
 --权限
 if GetModConfigData("player_authority_switch") then
     modimport("modules/authority/authority_main.lua")
