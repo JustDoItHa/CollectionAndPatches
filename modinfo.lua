@@ -13,14 +13,14 @@ description = [[
 --27.额外装备栏plus+ 28.秘玥 29.消失咒 30.浅的工具包 31.反作弊mod
 --32.删除默认人物RemoveDefaultCharacter 33.萝卜冰箱 34.large boats
 --35.发光的瓶子 36.大背包新 37.禁用自定义人物 38.容器不掉路 39.箱子物品自动排序
---40.UI拖拽缩放 41.Heap of Foods 全汉化 42.访客掉落优化版
+--40.UI拖拽缩放 41.Heap of Foods 全汉化 42.访客掉落优化版 43.纯净辅助
 --集合mod：
 --1.常用mod集合
 --2.萌新合集-服务端
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "7.4.0.0"
+version = "7.5.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -480,6 +480,13 @@ configuration_options = {
             { description = "10", data = 10 },
             { description = "20", data = 20 },
             { description = "30", data = 30, hover = "默认" },
+            { description = "40", data = 40 },
+            { description = "50", data = 50 },
+            { description = "60", data = 60 },
+            { description = "70", data = 70 },
+            { description = "80", data = 80 },
+            { description = "90", data = 90 },
+            { description = "100", data = 100 },
         },
         default = 30,
     },
@@ -2864,7 +2871,6 @@ configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_u
 configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_container", "容器UI支持", "能力勋章的容器拖拽开启时自动关闭该功能", true)
 configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_remember", "记住UI改动", "能力勋章的容器拖拽开启时自动关闭该功能", false)
 configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_tooltip", "显示提示文本", "能力勋章的容器拖拽开启时自动关闭该功能", true)
-
 
 ---Beta功能
 configuration_options[#configuration_options + 1] = AddOptionHeader("Beta功能(非必要可选择关闭)")
