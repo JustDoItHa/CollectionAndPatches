@@ -1,8 +1,10 @@
+local _save_data = {}
+
 local function notdrop(self,player)
     if player.Network:IsServerAdmin() then
         return true
     end
-    return  self.drop_info.budiaoluo
+    return  self.budiaoluo
 end
 
 local character_recipes_index = {
@@ -72,10 +74,21 @@ local tianshu = TUNING.VISITOR_TIME
 
 local diaoluo = Class(function(self, inst)
     self.inst = inst
-    if TUNING.MEMBER_LIST[inst.userid] == nil then
-        TUNING.MEMBER_LIST[inst.userid] = {}
-    end
-    self.drop_info = TUNING.MEMBER_LIST[inst.userid]
+    self.budiaoluo = false
+    self.banned = false
+
+    self.inst:ListenForEvent("ms_playerjoined", function(inst, player, cb)
+        if  player and player == self.inst then
+            self:OnLoad(_save_data[player.userid])
+        end
+    end,TheWorld)
+
+    -- 重生（重置用户数据和重生门重生）
+    self.inst:ListenForEvent("ms_playerdespawnanddelete", function(inst, player)
+        if player and player == self.inst then
+            _save_data[player.userid] = self:OnSave()
+        end
+    end, TheWorld)
 
     self.inst:ListenForEvent("ms_playerdespawn", function(inst, player, cb)
         if  player and player == self.inst then
@@ -92,13 +105,14 @@ local diaoluo = Class(function(self, inst)
             return
         end
 
-        if days >= tianshu and not self.banned and not self.drop_info.budiaoluo then
-            self.drop_info.budiaoluo = true
+        if days >= tianshu and not self.banned and not self.budiaoluo then
+            self.budiaoluo = true
             self.inst.components.talker:Say("恭喜你升级为成员")
             self.inst:PushEvent("mem_vis")
         end
     end)
 
+    self.inst:PushEvent("mem_vis")
 end)
 
 
@@ -106,8 +120,8 @@ function diaoluo:TiSheng(doer)
     if self.inst.Network:IsServerAdmin() then
         return
     end
-    self.drop_info.budiaoluo = true
-    self.drop_info.banned = false
+    self.budiaoluo = true
+    self.banned = false
     self.inst.components.talker:Say("恭喜你被提升成为成员")
     self.inst:PushEvent("mem_vis")
     if doer ~= nil and doer.components.talker ~= nil then
@@ -119,20 +133,22 @@ function diaoluo:Ban(doer)
     if self.inst.Network:IsServerAdmin() then
         return
     end
-    self.drop_info.budiaoluo = false
-    self.drop_info.banned = true
+    self.budiaoluo = false
+    self.banned = true
     self.inst.components.talker:Say("很遗憾你被降级为了访客")
     self.inst:PushEvent("mem_vis")
     doer.components.talker:Say("成功将"..self.inst.name.."降级为访客")
 end
 
 function diaoluo:OnSave()
-    return { budiaoluo =  self.drop_info.budiaoluo, banned = self.drop_info.banned}
+    return { budiaoluo =  self.budiaoluo, banned = self.banned}
 end
 
 function diaoluo:OnLoad(data)
     if data then
-        TUNING.MEMBER_LIST[self.inst.userid] = {budiaoluo=data.budiaoluo, banned=data.banned}
+        self.budiaoluo = data.budiaoluo
+        self.banned = data.banned
+        _save_data[self.inst.userid] = nil
     end
 end
 

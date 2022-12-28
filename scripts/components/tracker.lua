@@ -17,10 +17,6 @@ function Tracker:UpdateInfo(userid, username)
 	self.username = username or username
 end
 
-function Tracker:DisplayOwnerInfo()
-	return "所有者：" .. self.username
-end
-
 function Tracker:OnSave()
 	return { userid =  self.userid, username = self.username}
 end

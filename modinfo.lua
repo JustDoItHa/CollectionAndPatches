@@ -20,7 +20,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "7.5.0.0"
+version = "7.6.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2486,7 +2486,7 @@ configuration_options = {
     AddOption("SpyOther", "全能监控", "设置 玩家与生物相关的监控。", true),
     AddOption("remove_boss_taunted", "移除boss间的仇恨", "让boss之间不要相互伤害", false),
     AddOption("boss_prop_more_drop_switch", "boss掉落概率增多", "是否开启boss掉落增多", false),
-    AddOption("reward_for_survival", "玩家存活激励", "是否开启玩家存货天数奖励制度", false),
+    AddOption("reward_for_survival", "玩家存活激励", "是否开启玩家存活天数奖励制度", false),
     AddOption("blackstaff_make", "黑色法杖-开关", "是否可制作黑色法杖\n用于手动清理垃圾", true),
     AddOption("simple_health_bar_switch", "简单血量条-开关", "是否显示简单血量条", true),
     AddOption("baka_lamp", "霓庭灯、虹庭灯", "是否允许制作霓庭灯、虹庭灯\n永亮光源", false),
@@ -2671,6 +2671,7 @@ configuration_options[#configuration_options + 1] = AddOption("combinable_equipm
 configuration_options[#configuration_options + 1] = AddOption("naming_for_watches_switch", "旺达表可以命名", "旺达的溯源表和裂缝表可以用羽毛笔命名", false)
 configuration_options[#configuration_options + 1] = AddOption("glommer_statue_repairable_switch", "格罗姆雕像可修复", "可以用大理石修复格罗姆雕像", false)
 configuration_options[#configuration_options + 1] = AddOption("block_pooping_switch", "橡胶塞堵住牛屁股", "橡胶塞可以堵住牛屁股使其不拉屎", false)
+configuration_options[#configuration_options + 1] = AddOption("faster_trading_switch", "快速交易", "和猪王快速交易", false)
 
 ---权限/防熊
 configuration_options[#configuration_options + 1] = AddOptionHeader("玩家物品权限/防熊")

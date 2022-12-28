@@ -342,6 +342,9 @@ if GetModConfigData("little_modify_for_pure_switch") then
     if GetModConfigData("block_pooping_switch") then
         modimport("modules/creature/blockable_pooping.lua")
     end
+    if GetModConfigData("faster_trading_switch") then
+        modimport("modules/actions/faster_trading_main.lua")
+    end
 end
 --权限
 if GetModConfigData("player_authority_switch") then

@@ -19,7 +19,6 @@ TUNING.VISITOR_TIME = GetModConfigData("visitortime")
 TUNING.LIGHT_TIME = GetModConfigData("lighttime")
 TUNING.SHOW_TITLE = GetModConfigData("showtitle")
 TUNING.SHOW_BUNDLE_OWNER = GetModConfigData("show_bundle_owner")
-TUNING.MEMBER_LIST = {}
 
 AddPrefabPostInit("pigking", function(inst)
     if TUNING.DIAOLUO_TARGET == "pigking" then
@@ -121,9 +120,7 @@ end
 
 AddPlayerPostInit(function(inst)
     if TheWorld.ismastersim then
-        if inst.components.leaveanddrop == nil then
-            inst:AddComponent("leaveanddrop")
-        end
+        inst:AddComponent("leaveanddrop")
         ---------------------------保护牛牛------------------------------
         local hasannounce = false
         inst:ListenForEvent("onhitother", function(inst, data)
@@ -144,7 +141,7 @@ AddPlayerPostInit(function(inst)
         end)
         ------------------------------------------------------------
         inst:DoTaskInTime(5, function()
-            if not inst.components.leaveanddrop.drop_info.budiaoluo and not inst.Network:IsServerAdmin() then
+            if not inst.components.leaveanddrop.budiaoluo and not inst.Network:IsServerAdmin() then
                 -- 白名单用户直接变为成员
                 if _G.TheNet:IsWhiteListed(inst.userid) then
                     print("将白名单用户(" .. inst.userid .. ")设为成员")
@@ -227,7 +224,7 @@ AddPrefabPostInit("treasurechest", function(inst)
     if TheWorld.ismastersim then
         inst:ListenForEvent("onclose", function(inst, data)
             if data.doer and data.doer:HasTag("player") then
-                if data.doer.components.leaveanddrop.drop_info.budiaoluo == false and data.doer.Network:IsServerAdmin() == false and not TUNING.HAS_ANNOUNCE then
+                if data.doer.components.leaveanddrop.budiaoluo == false and data.doer.Network:IsServerAdmin() == false and not TUNING.HAS_ANNOUNCE then
                     for key, value in pairs(preciousitems) do
                         local num = CheckItmeInPlayer(data.doer, value)
                         if num > 0 then
@@ -251,7 +248,7 @@ AddPrefabPostInit("dragonflychest", function(inst)
     if TheWorld.ismastersim then
         inst:ListenForEvent("onclose", function(inst, data)
             if data.doer and data.doer:HasTag("player") then
-                if data.doer.components.leaveanddrop.drop_info.budiaoluo == false and data.doer.Network:IsServerAdmin() == false and not TUNING.HAS_ANNOUNCE then
+                if data.doer.components.leaveanddrop.budiaoluo == false and data.doer.Network:IsServerAdmin() == false and not TUNING.HAS_ANNOUNCE then
                     for key, value in pairs(preciousitems) do
                         local num = CheckItmeInPlayer(data.doer, value)
                         if num > 0 then
@@ -426,7 +423,7 @@ AddPrefabPostInit("yellowstaff", function(inst)
         if original_spell then
             inst.components.spellcaster:SetSpellFn(
                     function(inst_inner, target, pos, doer)
-                        if doer ~= nil and doer.components.leaveanddrop.drop_info.budiaoluo == false and doer.Network:IsServerAdmin() == false then
+                        if doer ~= nil and doer.components.leaveanddrop.budiaoluo == false and doer.Network:IsServerAdmin() == false then
                             doer:DoTaskInTime(0, function()
                                 if doer.components.talker then
                                     doer.components.talker:Say("我是访客,没法使用星杖,防止烧家！")
@@ -478,7 +475,7 @@ AddComponentPostInit("unwrappable", function(Unwrappable, inst)
             end
 
             -- 管理员无视一切规则
-            if (doer.Network:IsServerAdmin() or doer.components.leaveanddrop.drop_info.budiaoluo) then
+            if (doer.Network:IsServerAdmin() or doer.components.leaveanddrop.budiaoluo) then
                 return old_Unwrap(Unwrappable, doer)
             end
 
@@ -486,9 +483,9 @@ AddComponentPostInit("unwrappable", function(Unwrappable, inst)
             if doer.userid ~= userid then
                 doer.components.talker:Say("我做不到")
                 if userid ~= nil then
-                    _G.TheNet:Announce("访客" .. doer.name .. "正尝试打开" .. inst.components.tracker:GetName() .. "的包裹")
+                    _G.TheNet:Announce("访客" .. doer.name .. "正尝试打开" .. inst.components.tracker:GetName() .. "的捆绑包裹")
                 else
-                    _G.TheNet:Announce("访客" .. doer.name .. "正尝试打开包裹")
+                    _G.TheNet:Announce("访客" .. doer.name .. "正尝试打开捆绑包裹")
                 end
                 return false
             end
@@ -544,7 +541,7 @@ if TUNING.SHOW_BUNDLE_OWNER then
                     local str = ""
                     if item.prefab == "bundle" or item.prefab == "gift" then
                         if item.components.tracker ~= nil and item.components.tracker:GetId() ~= nil then
-                            str = str .. "\n" .. item.components.tracker:DisplayOwnerInfo()
+                            str = str .. "\n所有者：" .. item.components.tracker:GetName()
                         end
                     end
                     if str and str ~= "" then
@@ -589,7 +586,7 @@ if _G.TheNet:GetIsServer() or _G.TheNet:IsDedicated() then
                 if inst.Network:IsServerAdmin() then
                     local sstr = "管理员"
                     inst.touxian:Stext(sstr, 3, 25, 3, true)
-                elseif inst.components.leaveanddrop and inst.components.leaveanddrop.drop_info.budiaoluo then
+                elseif inst.components.leaveanddrop and inst.components.leaveanddrop.budiaoluo then
                     local sstr = "成员"
                     inst.touxian:Stext(sstr, 3, 25, 5, true)
                 else
@@ -599,10 +596,10 @@ if _G.TheNet:GetIsServer() or _G.TheNet:IsDedicated() then
             end
 
             if inst.Network:IsServerAdmin() == false then
-                if inst.components.leaveanddrop and inst.components.leaveanddrop.drop_info.budiaoluo then
+                if inst.components.leaveanddrop and inst.components.leaveanddrop.budiaoluo then
                     local sstr = "成员"
                     inst.touxian:Stext(sstr, 3, 25, 5, true)
-                elseif inst.components.leaveanddrop and inst.components.leaveanddrop.drop_info.budiaoluo == false then
+                elseif inst.components.leaveanddrop and inst.components.leaveanddrop.budiaoluo == false then
                     local sstr = "访客"
                     inst.touxian:Stext(sstr, 3, 25, 2, true)
                 end
@@ -632,7 +629,7 @@ if _G.TheNet:GetIsServer() or _G.TheNet:IsDedicated() then
         if act.target and prohibit_list[act.target.prefab] then
             return old_LIGHT(act)
         else
-            if act.doer.Network:IsServerAdmin() or act.doer.components.leaveanddrop.drop_info.budiaoluo or act.doer.components.age:GetDisplayAgeInDays() >= TUNING.LIGHT_TIME or
+            if act.doer.Network:IsServerAdmin() or act.doer.components.leaveanddrop.budiaoluo or act.doer.components.age:GetDisplayAgeInDays() >= TUNING.LIGHT_TIME or
                     TheWorld.state.cycles <= 20 then
                 return old_LIGHT(act)
             else
@@ -664,7 +661,7 @@ if _G.TheNet:GetIsServer() or _G.TheNet:IsDedicated() then
                                 old_WorkedBy(Workable, worker, numworks)
                             else
 
-                                if worker.Network:IsServerAdmin() or worker.components.leaveanddrop.drop_info.budiaoluo or worker.components.age:GetDisplayAgeInDays() >= TUNING.LIGHT_TIME or
+                                if worker.Network:IsServerAdmin() or worker.components.leaveanddrop.budiaoluo or worker.components.age:GetDisplayAgeInDays() >= TUNING.LIGHT_TIME or
                                         TheWorld.state.cycles <= 20 then
                                     old_WorkedBy(Workable, worker, numworks)
                                 else
@@ -683,7 +680,7 @@ if _G.TheNet:GetIsServer() or _G.TheNet:IsDedicated() then
                             if inst.prefab ~= "oceantree" and inst.prefab ~= "oceantree_pillar" then
                                 old_WorkedBy(Workable, worker, numworks)
                             else
-                                if worker.Network:IsServerAdmin() or worker.components.leaveanddrop.drop_info.budiaoluo or worker.components.age:GetDisplayAgeInDays() >= TUNING.LIGHT_TIME then
+                                if worker.Network:IsServerAdmin() or worker.components.leaveanddrop.budiaoluo or worker.components.age:GetDisplayAgeInDays() >= TUNING.LIGHT_TIME then
                                     old_WorkedBy(Workable, worker, numworks)
                                 else
                                     worker.components.talker:Say("我做不到")
@@ -706,7 +703,7 @@ if _G.TheNet:GetIsServer() or _G.TheNet:IsDedicated() then
     _G.ACTIONS.PICK.fn = function(act)
         if act.target and act.target.prefab == "flower" and act.target:HasTag("player_deploy") then
             if act.doer:HasTag("player") then
-                if act.doer.Network:IsServerAdmin() or act.doer.components.leaveanddrop.drop_info.budiaoluo or act.doer.components.age:GetDisplayAgeInDays() >= TUNING.LIGHT_TIME then
+                if act.doer.Network:IsServerAdmin() or act.doer.components.leaveanddrop.budiaoluo or act.doer.components.age:GetDisplayAgeInDays() >= TUNING.LIGHT_TIME then
                     return old_PICK(act)
                 else
                     _G.TheNet:Announce("访客" .. act.doer.name .. "正尝试采摘人工种植花")
@@ -733,7 +730,7 @@ if _G.TheNet:GetIsServer() or _G.TheNet:IsDedicated() then
                     act.target.prefab ~= "multiplayer_portal_moonrock" and act.target.prefab ~= "skeleton_player" and act.target.prefab ~= "skeleton"
                     and act.target.prefab ~= "myth_higanabana_tele" then
 
-                if act.doer.Network:IsServerAdmin() or act.doer.components.leaveanddrop.drop_info.budiaoluo or act.doer.components.age:GetDisplayAgeInDays() >= TUNING.LIGHT_TIME then
+                if act.doer.Network:IsServerAdmin() or act.doer.components.leaveanddrop.budiaoluo or act.doer.components.age:GetDisplayAgeInDays() >= TUNING.LIGHT_TIME then
                     return old_HAUNT(act)
                 else
                     local hauntname = (type(act.target.name) == "string" and act.target.name) or "物品"
@@ -756,7 +753,7 @@ if _G.TheNet:GetIsServer() or _G.TheNet:IsDedicated() then
     local old_PICKUP = _G.ACTIONS.PICKUP.fn
     _G.ACTIONS.PICKUP.fn = function(act)
         if act.doer:HasTag("player") then
-            if act.doer.Network:IsServerAdmin() or act.doer.components.leaveanddrop.drop_info.budiaoluo or act.doer.components.age:GetDisplayAgeInDays() >= TUNING.LIGHT_TIME then
+            if act.doer.Network:IsServerAdmin() or act.doer.components.leaveanddrop.budiaoluo or act.doer.components.age:GetDisplayAgeInDays() >= TUNING.LIGHT_TIME then
                 return old_PICKUP(act)
             else
                 if not TUNING.HAS_ANNOUNCE then
