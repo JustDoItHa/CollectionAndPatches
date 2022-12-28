@@ -20,7 +20,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "7.6.0.0"
+version = "7.7.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -500,10 +500,10 @@ configuration_options = {
             { description = "63", data = 63, hover = "最佳堆叠上限" },
             { description = "99", data = 99, hover = "默认，两位数堆叠上限" },
             { description = "128", data = 128 },
-            { description = "255", data = 200 },
+            { description = "200", data = 200 },
             { description = "255", data = 255 },
-            { description = "255", data = 300 },
-            { description = "255", data = 400 },
+            { description = "300", data = 300 },
+            { description = "400", data = 400 },
             { description = "500", data = 500 },
             { description = "666", data = 666 },
             { description = "888", data = 888 },
@@ -1025,8 +1025,8 @@ configuration_options = {
         label = "ChangeSkin/换肤功能",
         hover = "Minisign can change skin/允许小木牌切换皮肤",
         options = {
-            { description = "Yes(是)", data = true },
-            { description = "No(否)", data = false },
+            { description = "Yes(打开)", data = true },
+            { description = "No(关闭)", data = false },
         },
         default = true,
     },
@@ -1388,9 +1388,9 @@ configuration_options = {
         name = "food_style",
         label = "Food Style(食物信息显示风格)",
         options = {
-            { description = "undefined", data = 0, hover = "Default is \"long\"" },
-            { description = "long", data = 1, hover = "Hunger: +12.5 / Sanity: -10 / Health: +3" },
-            { description = "short", data = 2, hover = "+12.5 / -10 / +3" },
+            { description = "undefined(默认)", data = 0, hover = "Default is \"long\"\n默认是 \"详细\"" },
+            { description = "long(详细)", data = 1, hover = "Hunger: +12.5 / Sanity: -10 / Health: +3\n饥饿: +12.5 / 精神: -10 / 生命: +3" },
+            { description = "short(简洁)", data = 2, hover = "+12.5 / -10 / +3" },
         },
         default = 0,
     },
@@ -1398,9 +1398,9 @@ configuration_options = {
         name = "food_order",
         label = "Food Properties Order(食物属性显示顺序)",
         options = {
-            { description = "Indefined", data = 0, hover = "Default if \"interface\"" },
-            { description = "Interface", data = 1, hover = "Hunger / Sanity / Health" },
-            { description = "Wikia", data = 2, hover = "Health / Hunger / Sanity" },
+            { description = "Indefined(默认)", data = 0, hover = "Default if \"interface\"\n默认是 \"标准\"" },
+            { description = "Interface(标准)", data = 1, hover = "Hunger / Sanity / Health\n饥饿 / 精神 / 生命" },
+            { description = "Wikia(自定)", data = 2, hover = "Health / Hunger / Sanity\n生命 / 饥饿 / 精神" },
         },
         default = 0,
     },
@@ -1409,9 +1409,9 @@ configuration_options = {
         label = "Estimate Stale Status(过期时间)",
         hover = "Should we estimate the stale status?(要不要估算过期时间)",
         options = {
-            { description = "Undefined", data = -1, hover = "Yes, and users may override this option." },
-            { description = "No", data = 0, hover = "No, but users may override this option." },
-            { description = "Yes", data = 1, hover = "Yes, but users may override this option." },
+            { description = "Undefined(默认)", data = -1, hover = "Yes, and users may override this option.(是)" },
+            { description = "No(否)", data = 0, hover = "No, but users may override this option.(否)" },
+            { description = "Yes(是)", data = 1, hover = "Yes, but users may override this option.(是)" },
         },
         default = -1,
     },
@@ -1420,10 +1420,10 @@ configuration_options = {
         label = "Show Food Units(显示食物的食物属性单位)",
         hover = "For example, units of meat, units of veggie etc.\n(例如肉度，菜度)",
         options = {
-            { description = "Undefined", data = -1, hover = "Yes, and users may override this option." },
-            { description = "No", data = 0, hover = "No, but users may override this option." },
-            { description = "Yes", data = 1, hover = "Yes, but users may override this option." },
-            { description = "Forbidden", data = 2, hover = "Server won't send food info to clients and their settings will not matter." },
+            { description = "Undefined(默认)", data = -1, hover = "Yes, and users may override this option.(是)" },
+            { description = "No(否)", data = 0, hover = "No, but users may override this option.(否)" },
+            { description = "Yes(是)", data = 1, hover = "Yes, but users may override this option.(是)" },
+            { description = "Forbidden(禁止)", data = 2, hover = "Server won't send food info to clients and their settings will not matter.\n服务端不会发送属性信息给客户端" },
         },
         default = -1,
     },
@@ -1432,10 +1432,10 @@ configuration_options = {
         label = "Show Tools Uses(显示工具用途)",
         hover = "",
         options = {
-            { description = "Undefined", data = -1, hover = "Yes, and users may override this option." },
-            { description = "No", data = 0, hover = "No, but users may override this option." },
-            { description = "Yes", data = 1, hover = "Yes, but users may override this option." },
-            { description = "Forbidden", data = 2, hover = "Server won't send this info to the clients and their settings will not matter." },
+            { description = "Undefined(默认)", data = -1, hover = "Yes, and users may override this option.(是)" },
+            { description = "No(否)", data = 0, hover = "No, but users may override this option.(否)" },
+            { description = "Yes(是)", data = 1, hover = "Yes, but users may override this option.(是)" },
+            { description = "Forbidden(禁止)", data = 2, hover = "Server won't send this info to the clients and their settings will not matter.\n服务端不会发送属性信息给客户端" },
         },
         default = -1,
     },
@@ -1444,15 +1444,15 @@ configuration_options = {
         label = "Language(语言)",
         --hover = "",
         options = {
-            { description = "Auto", data = "auto", hover = "Detect Language Pack" },
-            { description = "en", data = "en", hover = "English" },
-            { description = "ru", data = "ru", hover = "Russian" },
-            { description = "chs", data = "chs", hover = "Simplified Chinese" },
-            { description = "cht", data = "cht", hover = "Traditional Chinese" },
-            { description = "br", data = "br", hover = "Brazilian Portuguese" },
-            { description = "pl", data = "pl", hover = "Polish" },
-            { description = "kr", data = "kr", hover = "Korean" },
-            { description = "es", data = "es", hover = "Spanish" },
+            { description = "Auto(自动)", data = "auto", hover = "Detect Language Pack(检测语言包)" },
+            { description = "en(英语)", data = "en", hover = "English(英语)" },
+            { description = "ru(俄语)", data = "ru", hover = "Russian(俄语)" },
+            { description = "chs(简体中文)", data = "chs", hover = "Simplified Chinese(简体中文)" },
+            { description = "cht(繁体中文)", data = "cht", hover = "Traditional Chinese(繁体中文)" },
+            { description = "br(葡萄牙语)", data = "br", hover = "Brazilian Portuguese(葡萄牙语)" },
+            { description = "pl(波兰语)", data = "pl", hover = "Polish(波兰语)" },
+            { description = "kr(韩语)", data = "kr", hover = "Korean(韩语)" },
+            { description = "es(西班牙语)", data = "es", hover = "Spanish(西班牙语)" },
         },
         default = "auto",
     },
@@ -1461,31 +1461,73 @@ configuration_options = {
         label = "Display HP(显示血量)",
         --hover = "",
         options = {
-            { description = "Auto", data = -1, hover = "Depends on installed mods." },
-            { description = "No", data = 0, hover = "No, but users may override this option." },
-            { description = "Yes", data = 1, hover = "Yes, but users may override this option." },
-            { description = "Forbidden", data = 2, hover = "Server won't send this info to the clients and their settings will not matter." },
+            { description = "Auto(自动)", data = -1, hover = "Depends on installed mods.(取决于安装的模组)" },
+            { description = "No(否)", data = 0, hover = "No, but users may override this option.(否，但用户可以覆盖此选项。)" },
+            { description = "Yes(是)", data = 1, hover = "Yes, but users may override this option.(是，但用户可以覆盖此选项。)" },
+            { description = "Forbidden(禁止)", data = 2, hover = "Server won't send this info to the clients and their settings will not matter.(服务端将不会发送属性信息给客户端)" },
         },
         default = -1,
     },
     {
+        name = "T_crop",
+        label = "农作物状态显示",
+        hover = "例如缺肥料、水分、家族、有杂草等，成长计时不受影响",
+        options = {
+            {description = "开", data = true},
+            {description = "关", data = false},
+        },
+        default = true,
+    },
+    -- {
+    -- name = "naughtiness",
+    -- label = "顽皮值",
+    -- hover = "",
+    -- options = {
+    -- {description = "禁用", data = 0},
+    -- {description = "", data = 1},
+    -- {description = "", data = 2},
+    -- },
+    -- default = 0,
+    -- },
+    {
+        name = "show_buddle_item",
+        label = "show bundle item(显示捆绑包物品)",
+        options =
+        {
+            {description = "yes(是)", data = 1},
+            {description = "no(否)", data = 0},
+        },
+        default = 1,
+    },
+    {
+        name = "item_info_mod",
+        label = "compatible with item info(兼容item info模组)",
+        hover = "如果打开，Show me将不显示与item info相同的信息",
+        options =
+        {
+            {description = "关", data = 0},
+            {description = "开", data = 1},
+        },
+        default = 0,
+    },
+    {
         name = "chestR",
-        label = "Chest Col--Red(高亮颜色-红)",
-        hover = "This is red component of highlighted chests color.",
+        label = "Chest Col--Red(箱子高亮颜色-红)",
+        hover = "This is red component of highlighted chests color.\n默认绿色，如果红绿蓝都设置为0%或100%，箱子就没有颜色",
         options = color_options,
         default = -1,
     },
     {
         name = "chestG",
-        label = "Chest Col--Green(高亮颜色-绿)",
-        hover = "This is green component of highlighted chests color.",
+        label = "Chest Col--Green(箱子高亮颜色-绿)",
+        hover = "This is green component of highlighted chests color.\n默认绿色，如果红绿蓝都设置为0%或100%，箱子就没有颜色",
         options = color_options,
         default = -1,
     },
     {
         name = "chestB",
-        label = "Chest Col--Blue(高亮颜色-蓝)",
-        hover = "This is blue component of highlighted chests color.",
+        label = "Chest Col--Blue(箱子高亮颜色-蓝)",
+        hover = "This is blue component of highlighted chests color.\n默认绿色，如果红绿蓝都设置为0%或100%，箱子就没有颜色",
         options = color_options,
         default = -1,
     },
@@ -2665,7 +2707,7 @@ configuration_options = {
 ---纯净辅助
 configuration_options[#configuration_options + 1] = AddOptionHeader("微小游戏体验提升")
 configuration_options[#configuration_options + 1] = AddOption("little_modify_for_pure_switch", "总开关", "一些提升纯净档的微小功能", false)
-configuration_options[#configuration_options + 1] = AddOption("show_bundle_content_switch", "显示包裹内的东西", "可以看到打包内的东西，提升一点体验", false)
+configuration_options[#configuration_options + 1] = AddOption("show_bundle_content_switch", "显示包裹内的东西", "可以看到打包内的东西，提升一点体验，只会显示包裹内前四个东西", false)
 configuration_options[#configuration_options + 1] = AddOption("smart_unwrap_bundle_switch", "拆包裹进入物品栏", "拆开包裹会进物品栏或箱子而不是掉落在地上", false)
 configuration_options[#configuration_options + 1] = AddOption("combinable_equipment_switch", "装备耐久合并", "同类装备可以互相合并耐久", false)
 configuration_options[#configuration_options + 1] = AddOption("naming_for_watches_switch", "旺达表可以命名", "旺达的溯源表和裂缝表可以用羽毛笔命名", false)

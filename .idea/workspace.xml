@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/modules/actions/faster_trading_main.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modmain.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modmain.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/passerby/passer_by_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modules/passerby/passer_by_main.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/components/leaveanddrop.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/components/leaveanddrop.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/components/tracker.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/components/tracker.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/show_me/showme_chs.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modules/show_me/showme_chs.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/show_me/showme_cht.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modules/show_me/showme_cht.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/show_me.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/show_me.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +99,7 @@
       <workItem from="1672067909192" duration="1217000" />
       <workItem from="1672069588925" duration="478000" />
       <workItem from="1672070210605" duration="54000" />
-      <workItem from="1672070298114" duration="26058000" />
+      <workItem from="1672070298114" duration="32812000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -131,7 +129,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672119345267</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="与猪王快速交易">
+      <created>1672223416376</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1672223416376</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,6 +147,7 @@
     <MESSAGE value="CAP 7.3.0.0 访客掉落修改" />
     <MESSAGE value="CAP 7.4.0.0 add 纯净辅助的一些功能" />
     <MESSAGE value="掉落堆叠优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="掉落堆叠优化" />
+    <MESSAGE value="与猪王快速交易" />
+    <option name="LAST_COMMIT_MESSAGE" value="与猪王快速交易" />
   </component>
 </project>
