@@ -2,30 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/images/minimap/bigbag.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minimap/bigbag.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minimap/bluebigbag.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minimap/bluebigbag.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minimap/nicebigbag.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minimap/nicebigbag.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minimap/redbigbag.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/minimap/redbigbag.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/anim/big_box.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/anim/big_box_ui_120.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/inventoryimages/_big_box/_big_box.tex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/inventoryimages/_big_box/_big_box.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/inventoryimages/_big_box/big_box.tex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/inventoryimages/_big_box/big_box.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/_big_box_ui.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/big_box_main.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/prefabs/_big_box.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modmain.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modmain.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/extra_equip_slots/main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modules/extra_equip_slots/main.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/bigbag_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/bigbag_main.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/blackstaff_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/blackstaff_main.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/canal_plow_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/canal_plow_main.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/elainaskin.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/elainaskin.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/global_position.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/global_position.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/ice_furnace.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ice_furnace.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/improve_mushroom_planters.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/improve_mushroom_planters.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/light_bottle_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/light_bottle_main.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/mod_assets.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/mod_assets.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/more_produce.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/more_produce.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/strongclean_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/strongclean_main.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/venus_icebox_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/venus_icebox_main.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +39,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SONARLINT_PRECOMMIT_ANALYSIS": "false",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Volumes/Extends-C/Games/mods self/Collection And Patches/images/minimap",
+    "last_opened_file_path": "/Volumes/Extends-C/Games/mods self/Collection And Patches/scripts",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -60,11 +48,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/images/minimap" />
-      <recent name="$PROJECT_DIR$/modules/actions" />
-      <recent name="$PROJECT_DIR$/scripts/components" />
       <recent name="$PROJECT_DIR$/scripts" />
-      <recent name="$PROJECT_DIR$/scripts/widgets" />
+      <recent name="$PROJECT_DIR$/scripts/prefabs" />
+      <recent name="$PROJECT_DIR$/anim" />
+      <recent name="$PROJECT_DIR$/images/inventoryimages" />
+      <recent name="$PROJECT_DIR$/images/minimap" />
     </key>
   </component>
   <component name="RunManager">
@@ -118,7 +106,7 @@
       <workItem from="1672067909192" duration="1217000" />
       <workItem from="1672069588925" duration="478000" />
       <workItem from="1672070210605" duration="54000" />
-      <workItem from="1672070298114" duration="41712000" />
+      <workItem from="1672070298114" duration="52688000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -162,7 +150,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672245653974</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="优化">
+      <created>1672254600120</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1672254600120</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -175,6 +170,7 @@
     <MESSAGE value="掉落堆叠优化" />
     <MESSAGE value="与猪王快速交易" />
     <MESSAGE value="show me 优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="show me 优化" />
+    <MESSAGE value="优化" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化" />
   </component>
 </project>

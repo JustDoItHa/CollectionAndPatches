@@ -215,6 +215,17 @@ if GetModConfigData("simple_health_bar_switch") then
     modimport("scripts/simple_health_bar.lua")
 end
 
+--超大便携箱子
+if GetModConfigData("bigbox_switch") then
+    TUNING.MONITOR_CHESTS = TUNING.MONITOR_CHESTS or {}
+    TUNING.MONITOR_CHESTS._big_box = true
+    TUNING.MONITOR_CHESTS._big_box_chest = true
+
+    TUNING._BIGBOXUILOCATION_V = checknumber(GetModConfigData("_big_box_ui_location_vertical")) and GetModConfigData("_big_box_ui_location_vertical") or 80
+    TUNING._BIGBOXUILOCATION_H = checknumber(GetModConfigData("_big_box_ui_location_horizontal")) and GetModConfigData("_big_box_ui_location_horizontal") or 0
+    TUNING._SET_PRESERVER_BIG_BOX = GetModConfigData("_set_preserver_big_box") or false--超级大箱子保鲜设置
+    modimport("scripts/big_box_main.lua")
+end
 --show me
 if GetModConfigData("show_me_switch") then
     modimport("scripts/show_me.lua")

@@ -14,13 +14,14 @@ description = [[
 --32.删除默认人物RemoveDefaultCharacter 33.萝卜冰箱 34.large boats
 --35.发光的瓶子 36.大背包新 37.禁用自定义人物 38.容器不掉路 39.箱子物品自动排序
 --40.UI拖拽缩放 41.Heap of Foods 全汉化 42.访客掉落优化版 43.纯净辅助
+--44.超级便携大箱子
 --集合mod：
 --1.常用mod集合
 --2.萌新合集-服务端
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "7.8.0.0"
+version = "7.9.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -285,6 +286,17 @@ local options_for_slots_bg = {
     { description = "20", data = 20 },
 }
 
+local mod_restart_cd_options = {
+    { description = "无", data = 0, hover = "无限使用" },
+    { description = "1", data = 1, hover = "1 分钟" },
+    { description = "2", data = 2, hover = "2 分钟" },
+    { description = "4", data = 4, hover = "4 分钟" },
+    { description = "8", data = 8, hover = "8 分钟" },
+    { description = "12", data = 12, hover = "12 分钟(一天半)" },
+    { description = "2天", data = 16, hover = "16 分钟(2天)" },
+    { description = "3天", data = 24, hover = "24 分钟(3天)" },
+    { description = "4天", data = 32, hover = "32 分钟(4天)" },
+}
 ------------------------------------
 ---自定义禁用角色 table start
 ------------------------------------
@@ -419,206 +431,33 @@ end
 
 configuration_options = {
     AddOptionHeader(""),
-    {
-        --TheNet:SetDefaultMaxPlayers(16)
-        name = "max_player_num",
-        label = "服务器人数上限",
-        hover = "设置服务器的最大人数",
-        options = {
-            { description = "不在这里设置", data = 0 },
-            { description = "1", data = 1 },
-            { description = "2", data = 2 },
-            { description = "3", data = 3 },
-            { description = "4", data = 4 },
-            { description = "5", data = 5 },
-            { description = "6", data = 6 },
-            { description = "7", data = 7 },
-            { description = "8", data = 8 },
-            { description = "9", data = 9 },
-            { description = "10", data = 10 },
-            { description = "11", data = 11 },
-            { description = "12", data = 12 },
-            { description = "13", data = 13 },
-            { description = "14", data = 14 },
-            { description = "15", data = 15 },
-            { description = "16", data = 16 },
-            { description = "17", data = 17 },
-            { description = "18", data = 18 },
-            { description = "19", data = 19 },
-            { description = "20", data = 20 },
-            { description = "21", data = 21 },
-            { description = "22", data = 22 },
-            { description = "23", data = 23 },
-            { description = "24", data = 24 },
-            { description = "25", data = 25 },
-            { description = "26", data = 26 },
-            { description = "27", data = 27 },
-            { description = "28", data = 28 },
-            { description = "29", data = 29 },
-            { description = "30", data = 30 },
-            { description = "31", data = 31 },
-            { description = "32", data = 32 },
-            { description = "36", data = 36 },
-            { description = "42", data = 42 },
-            { description = "48", data = 48 },
-            { description = "64", data = 64 },
-            { description = "72", data = 72 },
-            { description = "128", data = 128, hover = "你是认真的么..." },
-            { description = "256", data = 256, hover = "你是认真的么..." },
-            { description = "512", data = 512, hover = "你是认真的么..." },
-            { description = "1024", data = 1024, hover = "你是认真的么..." },
-        },
-        default = 0
-    },
+    --TheNet:SetDefaultMaxPlayers(16)
+    AddConfigOption("max_player_num", "服务器人数上限", "设置服务器的最大人数", {
+        { description = "不在这里设置", data = 0 },
+        { description = "1", data = 1 }, { description = "2", data = 2 }, { description = "3", data = 3 }, { description = "4", data = 4 }, { description = "5", data = 5 }, { description = "6", data = 6 }, { description = "7", data = 7 }, { description = "8", data = 8 }, { description = "9", data = 9 }, { description = "10", data = 10 },
+        { description = "11", data = 11 }, { description = "12", data = 12 }, { description = "13", data = 13 }, { description = "14", data = 14 }, { description = "15", data = 15 }, { description = "16", data = 16 }, { description = "17", data = 17 }, { description = "18", data = 18 }, { description = "19", data = 19 }, { description = "20", data = 20 },
+        { description = "21", data = 21 }, { description = "22", data = 22 }, { description = "23", data = 23 }, { description = "24", data = 24 }, { description = "25", data = 25 }, { description = "26", data = 26 }, { description = "27", data = 27 }, { description = "28", data = 28 }, { description = "29", data = 29 }, { description = "30", data = 30 },
+        { description = "31", data = 31 }, { description = "32", data = 32 }, { description = "36", data = 36 }, { description = "42", data = 42 }, { description = "48", data = 48 }, { description = "64", data = 64 }, { description = "72", data = 72 },
+        { description = "128", data = 128, hover = "你是认真的么..." }, { description = "256", data = 256, hover = "你是认真的么..." }, { description = "512", data = 512, hover = "你是认真的么..." }, { description = "1024", data = 1024, hover = "你是认真的么..." },
+    }, 0),
     AddOption("clean_garbage", "二本垃圾箱", "对二本科技右键会有4个小格子，将不想用的物品放入点击清理可直接删除", true),
-    {
-        name = "auto_stack_range",
-        label = "掉落自动堆叠",
-        hover = "设置掉落物自动堆叠的范围，设为0关闭自动堆叠",
-        options = {
-            { description = "关闭", data = 0 },
-            { description = "10", data = 10 },
-            { description = "20", data = 20 },
-            { description = "30", data = 30, hover = "默认" },
-            { description = "40", data = 40 },
-            { description = "50", data = 50 },
-            { description = "60", data = 60 },
-            { description = "70", data = 70 },
-            { description = "80", data = 80 },
-            { description = "90", data = 90 },
-            { description = "100", data = 100 },
-        },
-        default = 30,
-    },
-    {
-        name = "stack_size",
-        label = "物品堆叠数量",
-        hover = "设置物品堆叠数量",
-        options = {
-            { description = "关闭", data = 0 },
-            { description = "40", data = 40 },
-            { description = "63", data = 63, hover = "最佳堆叠上限" },
-            { description = "99", data = 99, hover = "默认，两位数堆叠上限" },
-            { description = "128", data = 128 },
-            { description = "200", data = 200 },
-            { description = "255", data = 255 },
-            { description = "300", data = 300 },
-            { description = "400", data = 400 },
-            { description = "500", data = 500 },
-            { description = "666", data = 666 },
-            { description = "888", data = 888 },
-            { description = "999", data = 999 },
-        },
-        default = 40
-    },
+    AddConfigOption("auto_stack_range", "掉落自动堆叠", "设置掉落物自动堆叠的范围，设为0关闭自动堆叠", { { description = "关闭", data = 0 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30, hover = "默认" }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "60", data = 60 }, { description = "70", data = 70 }, { description = "80", data = 80 }, { description = "90", data = 90 }, { description = "100", data = 100 }, }, 30),
+    AddConfigOption("stack_size", "物品堆叠数量", "设置物品堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 }, }, 40),
     AddOption("stack_more", "更多可堆叠", "使鸟、兔子、地鼠、鱼等生物变得可堆叠", true),
-    {
-        name = "tent_uses",
-        label = "帐篷耐久",
-        hover = "改帐篷耐久",
-        options = {
-            { description = "关闭", data = 15 },
-            { description = "10", data = 10 },
-            { description = "20", data = 10 },
-            { description = "30", data = 10 },
-            { description = "40", data = 10 },
-            { description = "50", data = 50 },
-            { description = "100", data = 100 },
-            { description = "200", data = 200 },
-            { description = "500", data = 500, hover = "默认" },
-            { description = "9999", data = 9999 },
-        },
-        default = 500
-    },
-    {
-        name = "siesta_canopy_uses",
-        label = "木棚耐久",
-        hover = "改木棚耐久",
-        options = {
-            { description = "关闭", data = 16 },
-            { description = "10", data = 10 },
-            { description = "20", data = 20 },
-            { description = "30", data = 30 },
-            { description = "40", data = 40 },
-            { description = "50", data = 50 },
-            { description = "100", data = 100 },
-            { description = "200", data = 200 },
-            { description = "500", data = 500, hover = "默认" },
-            { description = "9999", data = 9999 },
-        },
-        default = 500
-    },
+    AddConfigOption("tent_uses", "帐篷耐久", "改帐篷耐久", { { description = "关闭", data = 15 }, { description = "10", data = 10 }, { description = "20", data = 10 }, { description = "30", data = 10 }, { description = "40", data = 10 }, { description = "50", data = 50 }, { description = "100", data = 100 }, { description = "200", data = 200 }, { description = "500", data = 500, hover = "默认" }, { description = "9999", data = 9999 }, }, 500),
+    AddConfigOption("siesta_canopy_uses", "木棚耐久", "改木棚耐久", { { description = "关闭", data = 16 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30 }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "100", data = 100 }, { description = "200", data = 200 }, { description = "500", data = 500, hover = "默认" }, { description = "9999", data = 9999 }, }, 500),
+
     AddOptionHeader("死亡不掉落配置"),
     AddOption("dont_drop", "是否开启死亡掉落", "死亡不掉落物品总开关", false),
-    {
-        name = "rendiao",
-        label = "本体掉落最大数量",
-        hover = "角色物品栏最大的掉落数量",
-        options = {
-            { description = "不掉落", data = 0, hover = "" },
-            { description = "1", data = 1, hover = "" },
-            { description = "2", data = 2, hover = "" },
-            { description = "3", data = 3, hover = "" },
-            { description = "4", data = 4, hover = "" },
-            { description = "5", data = 5, hover = "" },
-            { description = "6", data = 6, hover = "" },
-            { description = "7", data = 7, hover = "" },
-            { description = "8", data = 8, hover = "" },
-            { description = "9", data = 9, hover = "" }
-        },
-        default = 0,
-    },
-    {
-        name = "baodiao",
-        label = "背包掉落",
-        hover = "背包掉落的最大数量",
-        options = {
-            { description = "不掉落", data = 0, hover = "" },
-            { description = "1", data = 1, hover = "" },
-            { description = "2", data = 2, hover = "" },
-            { description = "3", data = 3, hover = "" },
-            { description = "4", data = 4, hover = "" },
-            { description = "5", data = 5, hover = "" },
-            { description = "6", data = 6, hover = "" },
-            { description = "7", data = 7, hover = "" },
-            { description = "8", data = 8, hover = "" },
-            { description = "9", data = 9, hover = "" }
-        },
-        default = 0,
-    },
-    {
-        name = "zbdiao",
-        label = "装备掉落",
-        hover = "死亡掉落装备 \n 防止一些未知bug.",
-        options = {
-            { description = "On", data = true, hover = "" },
-            { description = "Off", data = false, hover = "" }
-        },
-        default = false,
-    },
-    {
-        name = "amudiao",
-        label = "生命护符掉落",
-        hover = "死亡掉落生命护符",
-        options = {
-            { description = "On", data = true, hover = "" },
-            { description = "Off", data = false, hover = "" }
-        },
-        default = true,
-    },
-    {
-        name = "nillots",
-        label = "置空一个物品栏",
-        hover = "死亡置空一个物品栏，用于给心脏",
-        options = {
-            { description = "On", data = 0, hover = "" },
-            { description = "Off", data = 1, hover = "" }
-        },
-        default = 0,
-    },
+    AddConfigOption("rendiao", "本体掉落最大数量", "角色物品栏最大的掉落数量", { { description = "不掉落", data = 0, hover = "" }, { description = "1", data = 1, hover = "" }, { description = "2", data = 2, hover = "" }, { description = "3", data = 3, hover = "" }, { description = "4", data = 4, hover = "" }, { description = "5", data = 5, hover = "" }, { description = "6", data = 6, hover = "" }, { description = "7", data = 7, hover = "" }, { description = "8", data = 8, hover = "" }, { description = "9", data = 9, hover = "" } }, 0),
+    AddConfigOption("baodiao", "背包掉落", "背包掉落的最大数量", { { description = "不掉落", data = 0, hover = "" }, { description = "1", data = 1, hover = "" }, { description = "2", data = 2, hover = "" }, { description = "3", data = 3, hover = "" }, { description = "4", data = 4, hover = "" }, { description = "5", data = 5, hover = "" }, { description = "6", data = 6, hover = "" }, { description = "7", data = 7, hover = "" }, { description = "8", data = 8, hover = "" }, { description = "9", data = 9, hover = "" } }, 0),
+    AddOption("zbdiao", "装备掉落", "死亡掉落装备 \n 防止一些未知bug.", false),
+    AddOption("amudiao", "生命护符掉落", "死亡掉落生命护符", true),
+    AddConfigOption("nillots", "置空一个物品栏", "死亡置空一个物品栏，用于给心脏", { { description = "On(开启)", data = 0, hover = "" }, { description = "Off(关闭)", data = 1, hover = "" } }, 0),
     AddOption("drown_drop", "落水掉落", "落水掉落东西", true),
-    AddOptionHeader("五格装备栏设置"),
-    AddOption("extra_equip_slots", "五格装备栏", "五格装备栏总开关", true),
+
+    AddOptionHeader("额外装备栏设置"),
+    AddOption("extra_equip_slots", "额外装备栏设置总开关", "五格装备栏总开关", true),
     -- {
     --     name = "render_strategy",
     --     label = "渲染策略(Render Strategy)",
@@ -630,446 +469,95 @@ configuration_options = {
     --     },
     --     default = "none",
     -- },
-    {
-        name = "slots_num",
-        label = "额外物品栏格子(Extra Item Slots)",
-        hover = "您想要多少额外的物品栏格子？(How many extra item slots do you want?)",
-        options = {
-            { description = "-10", data = -10 },
-            { description = "-5", data = -5 },
-            { description = "-4", data = -4 },
-            { description = "-3", data = -3 },
-            { description = "-2", data = -2 },
-            { description = "-1", data = -1 },
-            { description = "默认(default)", data = 0 },
-            { description = "+1", data = 1 },
-            { description = "+2", data = 2 },
-            { description = "+3", data = 3 },
-            { description = "+4", data = 4 },
-            { description = "+5", data = 5 },
-            { description = "+10", data = 10 },
-            { description = "+15", data = 15, hover = "可能会导致UI溢出(Maybe cause UI overflow)" },
-            { description = "+20", data = 20, hover = "可能会导致UI溢出(Maybe cause UI overflow)" },
-        },
-        default = 0,
-    },
-    {
-        name = "backpack_slot",
-        label = "额外背包格子(Extra Backpack Slot)",
-        hover = "你想要一个额外的背包格子吗？(Do you want an extra backpack slot?)",
-        options = {
-            { description = "否(no)", data = false },
-            { description = "是(yes)", data = true },
-        },
-        default = true,
-    },
-    {
-        name = "amulet_slot",
-        label = "额外护符格子(Extra Amulet Slot)",
-        hover = "你想要一个额外的护符格子吗？(Do you want an extra amulet slot?)",
-        options = {
-            { description = "否(no)", data = false },
-            { description = "是(yes)", data = true },
-        },
-        default = true,
-    },
-    {
-        name = "compass_slot",
-        label = "额外指南针格子(Extra Compass Slot)",
-        hover = "你想要一个额外的指南针格子吗？(Do you want an extra compass slot?)",
-        options = {
-            { description = "否(no)", data = false },
-            { description = "是(yes)", data = true },
-        },
-        default = false,
-    },
-    {
-        name = "drop_hand_item_when_heavy",
-        label = "负重时卸下手部装备(Drop Handitem)",
-        hover = "背起重物时，是否让你的手部装备被卸下？(Remove handitem when you carry heavy?)",
-        options = {
-            { description = "否(no)", data = false },
-            { description = "是(yes)", data = true },
-        },
-        default = true,
-    },
-    {
-        name = "show_compass",
-        label = "显示指南针(Show Compass)",
-        hover = "装备指南针时是否显示贴图(Show compass when equipped?)",
-        options = {
-            { description = "否(no)", data = false },
-            { description = "是(yes)", data = true },
-        },
-        default = true,
-    },
-    {
-        name = "chesspiece_fix",
-        label = "搬雕像渲染修复(Chesspiece Fix)",
-        hover = "修复可能出现的渲染错误(Fix some render problems)",
-        options = {
-            { description = "否(no)", data = false },
-            { description = "是(yes)", data = true },
-        },
-        default = true,
-    },
-    --[[{
-        name = "drop_bp_if_heavy",
-        label = "搬运重物时使用的格子",
-        hover = "搬运重物时，您想使用哪个格子？",
-        options =
-        {
-            {description = "背包格子", data = true},
-            {description = "身体格子", data = false},
-        },
-        default = false,
-    },]]--
-
-    --slots_bg_length_adapter
-    {
-        name = "slots_bg_length_adapter",
-        label = "物品栏背景长度调整",
-        hover = "每大一点就会长一点点，每小一点就会短一点点",
-        options = options_for_slots_bg,
-        default = 0,
-    },
-    {
-        name = "slots_bg_length_adapter_no_bg",
-        label = "去除物品栏背景",
-        hover = "去除物品栏背景",
-        options = {
-            { description = "去除", data = true },
-            { description = "不去除", data = false },
-        },
-        default = false,
-    },
+    AddConfigOption("slots_num", "额外物品栏格子(Extra Item Slots)", "您想要多少额外的物品栏格子？(How many extra item slots do you want?)", {
+        { description = "-10", data = -10 },
+        { description = "-5", data = -5 },
+        { description = "-4", data = -4 },
+        { description = "-3", data = -3 },
+        { description = "-2", data = -2 },
+        { description = "-1", data = -1 },
+        { description = "默认(default)", data = 0 },
+        { description = "+1", data = 1 },
+        { description = "+2", data = 2 },
+        { description = "+3", data = 3 },
+        { description = "+4", data = 4 },
+        { description = "+5", data = 5 },
+        { description = "+10", data = 10 },
+        { description = "+15", data = 15, hover = "可能会导致UI溢出(Maybe cause UI overflow)" },
+        { description = "+20", data = 20, hover = "可能会导致UI溢出(Maybe cause UI overflow)" },
+    }, 0),
+    AddOption("backpack_slot", "额外背包格子(Extra Backpack Slot)", "你想要一个额外的背包格子吗？(Do you want an extra backpack slot?)", true),
+    AddOption("amulet_slot", "额外护符格子(Extra Amulet Slot)", "你想要一个额外的护符格子吗？(Do you want an extra amulet slot?)", true),
+    AddOption("compass_slot", "额外指南针格子(Extra Compass Slot)", "你想要一个额外的指南针格子吗？(Do you want an extra compass slot?)", false),
+    AddOption("drop_hand_item_when_heavy", "负重时卸下手部装备(Drop Handitem)", "背起重物时，是否让你的手部装备被卸下？(Remove handitem when you carry heavy?)", true),
+    AddOption("show_compass", "显示指南针(Show Compass)", "装备指南针时是否显示贴图(Show compass when equipped?)", true),
+    AddOption("chesspiece_fix", "搬雕像渲染修复(Chesspiece Fix)", "修复可能出现的渲染错误(Fix some render problems)", true),
+    --AddConfigOption("drop_bp_if_heavy","搬运重物时使用的格子","搬运重物时，您想使用哪个格子？",{ {description = "背包格子", data = true}, {description = "身体格子", data = false}, },false),
+    AddConfigOption("slots_bg_length_adapter", "物品栏背景长度调整", "每大一点就会长一点点，每小一点就会短一点点", options_for_slots_bg, 0),
+    AddConfigOption("slots_bg_length_adapter_no_bg", "去除物品栏背景", "去除物品栏背景", { { description = "去除", data = true }, { description = "不去除", data = false }, }, false),
 
     AddOptionHeader("木牌传送设置"),
     AddOption("fast_travel", "木牌传送-总开关", "设置是否开启木牌传送", true),
-    {
-        name = "set_wait_second",
-        label = "设置等待时长",
-        hover = "修改传送时等待的时长（秒）",
-        options = {
-            { description = "直接传送", data = 0 },
-            { description = "1秒", data = 1 },
-            { description = "3秒", data = 3 },
-            { description = "5秒", data = 5, hover = "默认" },
-        },
-        default = 0
-    },
-    {
-        name = "Hunger_Cost",
-        label = "饥饿消耗",
-        hover = "修改传送时饥饿消耗倍率",
-        options = {
-            { description = "无消耗", data = 0 },
-            { description = "X0.25", data = 0.25 },
-            { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 },
-            { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 }
-        },
-        default = 1
-    },
-    {
-        name = "Sanity_Cost",
-        label = "精神消耗",
-        hover = "修改传送时精神消耗倍率",
-        options = {
-            { description = "无消耗", data = 0 },
-            { description = "X0.25", data = 0.25 },
-            { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 },
-            { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 }
-        },
-        default = 1
-    },
-    {
-        name = "Ownership",
-        label = "权限修改",
-        hover = "所有权限制?",
-        options = {
-            { description = "启用", data = true },
-            { description = "不可用", data = false }
-        },
-        default = false
-    },
+    AddConfigOption("set_wait_second", "设置等待时长", "修改传送时等待的时长（秒）", { { description = "直接传送", data = 0 }, { description = "1秒", data = 1 }, { description = "3秒", data = 3 }, { description = "5秒", data = 5, hover = "默认" }, }, 0),
+    AddConfigOption("Hunger_Cost", "饥饿消耗", "修改传送时饥饿消耗倍率", { { description = "无消耗", data = 0 }, { description = "X0.25", data = 0.25 }, { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 }, { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 } }, 1),
+    AddConfigOption("Sanity_Cost", "精神消耗", "修改传送时精神消耗倍率", { { description = "无消耗", data = 0 }, { description = "X0.25", data = 0.25 }, { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 }, { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 } }, 1),
+    AddConfigOption("Ownership", "权限修改", "所有权限制?", { { description = "启用", data = true }, { description = "不可用", data = false } }, false),
+
     AddOptionHeader("死亡复活按钮设置"),
     AddOption("death_resurrection_button", "死亡复活按钮-总开关", "设置是否开启死亡复活按钮", true),
-    {
-        name = "CD",
-        label = "设置冷却时间",
-        hover = "",
-        options = {
-            { description = "0分钟", hover = "无CD", data = 0 },
-            { description = "1分钟", hover = "游戏中一天为8分钟", data = 60 },
-            { description = "2分钟", hover = "游戏中一天为8分钟", data = 120 },
-            { description = "4分钟", hover = "游戏中一天为8分钟", data = 240 },
-            { description = "8分钟", hover = "游戏中一天为8分钟", data = 480 },
-            { description = "12分钟", hover = "游戏中一天为8分钟", data = 720 },
-            { description = "2天", hover = "游戏中一天为8分钟", data = 960 },
-            { description = "3天", hover = "游戏中一天为8分钟", data = 1440 },
-            { description = "4天", hover = "游戏中一天为8分钟", data = 1920 }
-        },
-        default = 0
-    },
-    {
-        name = "Health_Penalty",
-        label = "血量上限惩罚设置",
-        hover = "俗称黑血",
-        options = {
-            { description = "0%", hover = "无惩罚", data = 0 },
-            { description = "5%", hover = "5%", data = 0.05 },
-            { description = "15%", hover = "15%", data = 0.15 },
-            { description = "25%", hover = "25%", data = 0.25 },
-            { description = "35%", hover = "35%", data = 0.35 },
-            { description = "45%", hover = "45%", data = 0.45 },
-            { description = "55%", hover = "55%", data = 0.55 },
-            { description = "65%", hover = "65%", data = 0.65 },
-            { description = "75%", hover = "75%", data = 0.75 }
-        },
-        default = 0
-    },
-    {
-        name = "UI",
-        label = "按钮位置",
-        hover = "",
-        options = {
-            { description = "中心点", hover = "中心点", data = "center" },
-            { description = "中心偏下", hover = "中心偏下", data = "center_offset_down" },
-            { description = "正上方", hover = "正上方", data = "right_above" },
-            { description = "左上角", hover = "左上角", data = "upper_left" },
-            { description = "左下角", hover = "左下角", data = "lower_left" }
-        },
-        default = "right_above"
-    },
+    AddConfigOption("CD", "设置冷却时间", "", { { description = "0分钟", hover = "无CD", data = 0 }, { description = "1分钟", hover = "游戏中一天为8分钟", data = 60 }, { description = "2分钟", hover = "游戏中一天为8分钟", data = 120 }, { description = "4分钟", hover = "游戏中一天为8分钟", data = 240 }, { description = "8分钟", hover = "游戏中一天为8分钟", data = 480 }, { description = "12分钟", hover = "游戏中一天为8分钟", data = 720 }, { description = "2天", hover = "游戏中一天为8分钟", data = 960 }, { description = "3天", hover = "游戏中一天为8分钟", data = 1440 }, { description = "4天", hover = "游戏中一天为8分钟", data = 1920 } }, 0),
+    AddConfigOption("Health_Penalty", "血量上限惩罚设置", "俗称黑血", { { description = "0%", hover = "无惩罚", data = 0 }, { description = "5%", hover = "5%", data = 0.05 }, { description = "15%", hover = "15%", data = 0.15 }, { description = "25%", hover = "25%", data = 0.25 }, { description = "35%", hover = "35%", data = 0.35 }, { description = "45%", hover = "45%", data = 0.45 }, { description = "55%", hover = "55%", data = 0.55 }, { description = "65%", hover = "65%", data = 0.65 }, { description = "75%", hover = "75%", data = 0.75 } }, 0),
+    AddConfigOption("UI", "按钮位置", "", { { description = "中心点", hover = "中心点", data = "center" }, { description = "中心偏下", hover = "中心偏下", data = "center_offset_down" }, { description = "正上方", hover = "正上方", data = "right_above" }, { description = "左上角", hover = "左上角", data = "upper_left" }, { description = "左下角", hover = "左下角", data = "lower_left" } }, "center_offset_down"),
+
     AddOptionHeader("重生设置"),
     AddOption("restart_set", "重生-总开关", "设置是否开启重生功能", true),
-    {
-        name = "MOD_RESTART_ALLOW_RESTART",
-        label = "重生",
-        options = {
-            { description = "开", data = true },
-            { description = "关", data = false },
-        },
-        default = true,
-    },
-    {
-        name = "MOD_RESTART_ALLOW_RESURRECT",
-        label = "复活",
-        options = {
-            { description = "开", data = true },
-            { description = "关", data = false },
-        },
-        default = true,
-    },
-    {
-        name = "MOD_RESTART_ALLOW_KILL",
-        label = "自杀",
-        options = {
-            { description = "开", data = true },
-            { description = "关", data = false },
-        },
-        default = true,
-    },
-    {
-        name = "MOD_RESTART_CD_RESTART",
-        label = "重生冷却(分)",
-        hover = "重生的冷却时间.",
-        options = {
-            { description = "无", data = 0, hover = "无限使用" },
-            { description = "1", data = 1, hover = "1 分钟" },
-            { description = "2", data = 2, hover = "2 分钟" },
-            { description = "4", data = 4, hover = "4 分钟" },
-            { description = "8", data = 8, hover = "8 分钟" },
-            { description = "12", data = 12, hover = "12 分钟(一天半)" },
-            { description = "2天", data = 16, hover = "16 分钟(2天)" },
-            { description = "3天", data = 24, hover = "24 分钟(3天)" },
-            { description = "4天", data = 32, hover = "32 分钟(4天)" },
-        },
-        default = 0,
-    },
-    {
-        name = "MOD_RESTART_CD_RESURRECT",
-        label = "复活冷却(分)",
-        hover = "复活的冷却时间.",
-        options = {
-            { description = "无", data = 0, hover = "无限使用" },
-            { description = "1", data = 1, hover = "1 分钟" },
-            { description = "2", data = 2, hover = "2 分钟" },
-            { description = "4", data = 4, hover = "4 分钟" },
-            { description = "8", data = 8, hover = "8 分钟" },
-            { description = "12", data = 12, hover = "12 分钟(一天半)" },
-            { description = "2天", data = 16, hover = "16 分钟(2天)" },
-            { description = "3天", data = 24, hover = "24 分钟(3天)" },
-            { description = "4天", data = 32, hover = "32 分钟(4天)" },
-        },
-        default = 0,
-    },
-    {
-        name = "MOD_RESTART_CD_KILL",
-        label = "自杀冷却(分)",
-        hover = "自杀的冷却时间.",
-        options = {
-            { description = "无", data = 0, hover = "无限使用" },
-            { description = "1", data = 1, hover = "1 分钟" },
-            { description = "2", data = 2, hover = "2 分钟" },
-            { description = "4", data = 4, hover = "4 分钟" },
-            { description = "8", data = 8, hover = "8 分钟" },
-            { description = "12", data = 12, hover = "12 分钟(一天半)" },
-            { description = "2天", data = 16, hover = "16 分钟(2天)" },
-            { description = "3天", data = 24, hover = "24 分钟(3天)" },
-            { description = "4天", data = 32, hover = "32 分钟(4天)" },
-        },
-        default = 0,
-    },
-    {
-        name = "MOD_RESTART_CD_BONUS",
-        label = "冷却调整",
-        hover = "冷却时间随使用次数不断增加.",
-        options = {
-            { description = "关", data = 0, hover = "固定的冷却时间" },
-            { description = "10%", data = 0.1, hover = "每次使用后增加(基础值的)10%" },
-            { description = "20%", data = 0.2, hover = "每次使用后增加(基础值的)20%" },
-            { description = "30%", data = 0.3, hover = "每次使用后增加(基础值的)30%" },
-            { description = "40%", data = 0.4, hover = "每次使用后增加(基础值的)40%" },
-            { description = "50%", data = 0.5, hover = "每次使用后增加(基础值的)50%" },
-            { description = "100%", data = 1, hover = "每次使用后增加(基础值的)100%" },
-            { description = "150%", data = 1.5, hover = "每次使用后增加(基础值的)150%" },
-            { description = "200%", data = 2, hover = "每次使用后增加(基础值的)200%" },
-        },
-        default = 0,
-    },
-    {
-        name = "MOD_RESTART_CD_MAX",
-        label = "最大冷却(分)",
-        hover = "开启冷却调整后累计可达到的最大冷却时间.",
-        options = {
-            { description = "无", data = 0, hover = "冷却无上限" },
-            { description = "10", data = 10, hover = "10 分钟" },
-            { description = "15", data = 15, hover = "15 分钟" },
-            { description = "20", data = 20, hover = "20 分钟" },
-            { description = "25", data = 25, hover = "25 分钟" },
-            { description = "30", data = 30, hover = "30 分钟" },
-            { description = "45", data = 45, hover = "45 分钟" },
-            { description = "60", data = 60, hover = "60 分钟" },
-            { description = "75", data = 75, hover = "75 分钟" },
-            { description = "90", data = 90, hover = "90 分钟" },
-            { description = "105", data = 105, hover = "105 分钟" },
-            { description = "120", data = 120, hover = "120 分钟" },
-            { description = "180", data = 180, hover = "180 分钟" },
-        },
-        default = 0,
-    },
-    {
-        name = "MOD_RESTART_FORCE_DROP_MODE",
-        label = "强制掉落道具",
-        hover = "重生是否强制掉落道具.",
-        options = {
-            { description = "默认", data = 0, hover = "默认" },
-            { description = "掉落", data = 1, hover = "重生强制掉落道具" },
-            { description = "不掉落", data = 2, hover = "重生强制不掉落道具" },
-        },
-        default = 1,
-    },
-    {
-        name = "MOD_RESTART_MAP_SAVE",
-        label = "保留地图",
-        hover = "使用重生指令是否保留探索过的地图.",
-        options = {
-            { description = "开", data = 1, hover = "重生将会记住地图" },
-            { description = "关", data = 2, hover = "重生失去所有地图的记忆" },
-        },
-        default = 1,
-    },
-    {
-        name = "MOD_RESTART_RESURRECT_HEALTH",
-        label = "复活血量",
-        hover = "使用复活指令后恢复的血量.",
-        options = {
-            { description = "默认", data = 0, hover = "游戏默认\n(只剩 50 点血量)" },
-            { description = "递减", data = 1, hover = "每次复活恢复的血量不断减少\n(最少为 40% 的血量)" },
-            { description = "随机", data = 2, hover = "复活随机恢复血量\n(随机血量范围: 10% ~ 100%)" },
-            { description = "100%", data = 100, hover = "固定恢复 100% 的血量" },
-            { description = "90%", data = 90, hover = "固定恢复 90% 的血量" },
-            { description = "80%", data = 80, hover = "固定恢复 80% 的血量" },
-            { description = "70%", data = 70, hover = "固定恢复 70% 的血量" },
-            { description = "60%", data = 60, hover = "固定恢复 60% 的血量" },
-            { description = "50%", data = 50, hover = "固定恢复 50% 的血量" },
-        },
-        default = 80,
-    },
-    {
-        name = "MOD_RESTART_TRIGGER_MODE",
-        label = "触发模式",
-        hover = "公聊或者私聊触发指令.",
-        options = {
-            { description = "公&私聊", data = 1 },
-            { description = "仅公聊", data = 2 },
-            { description = "仅私聊", data = 3 },
-        },
-        default = 1,
-    },
+    AddOption("MOD_RESTART_ALLOW_RESTART", "重生", false),
+    AddOption("MOD_RESTART_ALLOW_RESURRECT", "复活", true),
+    AddOption("MOD_RESTART_ALLOW_KILL", "自杀", false),
+    AddConfigOption("MOD_RESTART_CD_RESTART", "重生冷却(分)", "重生的冷却时间.", mod_restart_cd_options, 0),
+    AddConfigOption("MOD_RESTART_CD_RESURRECT", "复活冷却(分)", "复活的冷却时间.", mod_restart_cd_options, 0),
+    AddConfigOption("MOD_RESTART_CD_KILL", "自杀冷却(分)", "自杀的冷却时间.", mod_restart_cd_options, 0),
+    AddConfigOption("MOD_RESTART_CD_BONUS", "冷却调整", "冷却时间随使用次数不断增加.", { { description = "关", data = 0, hover = "固定的冷却时间" }, { description = "10%", data = 0.1, hover = "每次使用后增加(基础值的)10%" }, { description = "20%", data = 0.2, hover = "每次使用后增加(基础值的)20%" }, { description = "30%", data = 0.3, hover = "每次使用后增加(基础值的)30%" }, { description = "40%", data = 0.4, hover = "每次使用后增加(基础值的)40%" }, { description = "50%", data = 0.5, hover = "每次使用后增加(基础值的)50%" }, { description = "100%", data = 1, hover = "每次使用后增加(基础值的)100%" }, { description = "150%", data = 1.5, hover = "每次使用后增加(基础值的)150%" }, { description = "200%", data = 2, hover = "每次使用后增加(基础值的)200%" }, }, 0),
+    AddConfigOption("MOD_RESTART_CD_MAX", "最大冷却(分)", "开启冷却调整后累计可达到的最大冷却时间.",
+            { { description = "无", data = 0, hover = "冷却无上限" },
+              { description = "10", data = 10, hover = "10 分钟" },
+              { description = "15", data = 15, hover = "15 分钟" },
+              { description = "20", data = 20, hover = "20 分钟" },
+              { description = "25", data = 25, hover = "25 分钟" },
+              { description = "30", data = 30, hover = "30 分钟" },
+              { description = "45", data = 45, hover = "45 分钟" },
+              { description = "60", data = 60, hover = "60 分钟" },
+              { description = "75", data = 75, hover = "75 分钟" },
+              { description = "90", data = 90, hover = "90 分钟" },
+              { description = "105", data = 105, hover = "105 分钟" },
+              { description = "120", data = 120, hover = "120 分钟" },
+              { description = "180", data = 180, hover = "180 分钟" }, }, 0),
+    AddConfigOption("MOD_RESTART_FORCE_DROP_MODE", "强制掉落道具", "重生是否强制掉落道具.", { { description = "默认", data = 0, hover = "默认" }, { description = "掉落", data = 1, hover = "重生强制掉落道具" }, { description = "不掉落", data = 2, hover = "重生强制不掉落道具" }, }, 1),
+    AddConfigOption("MOD_RESTART_MAP_SAVE", "保留地图", "使用重生指令是否保留探索过的地图.", {
+        { description = "开启(On)", data = 1, hover = "重生将会记住地图" },
+        { description = "关闭(Off)", data = 2, hover = "重生失去所有地图的记忆" }, }, 1),
+    AddConfigOption("MOD_RESTART_RESURRECT_HEALTH", "复活血量", "使用复活指令后恢复的血量.",
+            { { description = "默认", data = 0, hover = "游戏默认\n(只剩 50 点血量)" },
+              { description = "递减", data = 1, hover = "每次复活恢复的血量不断减少\n(最少为 40% 的血量)" },
+              { description = "随机", data = 2, hover = "复活随机恢复血量\n(随机血量范围: 10% ~ 100%)" },
+              { description = "100%", data = 100, hover = "固定恢复 100% 的血量" },
+              { description = "90%", data = 90, hover = "固定恢复 90% 的血量" },
+              { description = "80%", data = 80, hover = "固定恢复 80% 的血量" },
+              { description = "70%", data = 70, hover = "固定恢复 70% 的血量" },
+              { description = "60%", data = 60, hover = "固定恢复 60% 的血量" },
+              { description = "50%", data = 50, hover = "固定恢复 50% 的血量" },
+            }, 80),
+    AddConfigOption("MOD_RESTART_TRIGGER_MODE", "触发模式", "公聊或者私聊触发指令.", { { description = "公&私聊", data = 1 }, { description = "仅公聊", data = 2 }, { description = "仅私聊", data = 3 }, }, 1),
+
     AddOptionHeader("智能小木牌"),
     AddOption("smart_minisign_switch", "智能小木牌-总开关", "设置是否开启智能小木牌", true),
-    {
-        name = "Icebox",
-        label = "Icebox/冰箱",
-        hover = "Minisign for icebox/允许冰箱添加小木牌",
-        options = {
-            { description = "No(关闭)", data = false },
-            { description = "Yes(打开)", data = true },
-        },
-        default = false,
-    },
-    {
-        name = "ChangeSkin",
-        label = "ChangeSkin/换肤功能",
-        hover = "Minisign can change skin/允许小木牌切换皮肤",
-        options = {
-            { description = "Yes(打开)", data = true },
-            { description = "No(关闭)", data = false },
-        },
-        default = true,
-    },
-    {
-        name = "DragonflyChest",
-        label = "DragonflyChest/龙鳞宝箱",
-        hover = "Minisign for DragonflyChest/允许龙鳞箱子添加小木牌",
-        options = {
-            { description = "No(关闭)", data = false },
-            { description = "Yes(打开)", data = true },
-        },
-        default = false,
-    },
-    {
-        name = "SaltBox",
-        label = "SaltBox/盐盒",
-        hover = "Minisign for SaltBox/允许盐箱添加小木牌",
-        options = {
-            { description = "No(关闭)", data = false },
-            { description = "Yes(打开)", data = true },
-        },
-        default = false,
-    },
-    {
-        name = "BundleItems",
-        label = "BundleItems/包裹物品显示",
-        hover = "Show the item in bundle/显示包裹里面的物品",
-        options = {
-            { description = "No(关闭)", data = false },
-            { description = "Yes(打开)", data = true },
-        },
-        default = false,
-    },
-    {
-        name = "Digornot",
-        label = "CanbeDug/小木牌挖除",
-        hover = "Can be Dug/是否可以被挖",
-        options = {
-            { description = "No(关闭)", data = false },
-            { description = "Yes(打开)", data = true },
-        },
-        default = false,
-    },
+    AddOption("Icebox", "Icebox/冰箱", "Minisign for icebox/允许冰箱添加小木牌", false),
+    AddOption("ChangeSkin", "ChangeSkin/换肤功能", "Minisign can change skin\n允许小木牌切换皮肤", true),
+    AddOption("DragonflyChest", "DragonflyChest/龙鳞宝箱", "Minisign for DragonflyChest\n允许龙鳞箱子添加小木牌", false),
+    AddOption("SaltBox", "SaltBox/盐盒", "Minisign for SaltBox\n允许盐箱添加小木牌", false),
+    AddOption("BundleItems", "BundleItems/包裹物品显示", "Show the item in bundle/显示包裹里面的物品", false),
+    AddOption("Digornot", "CanbeDug/小木牌挖除", "Can be Dug/是否可以被挖", false),
+
     AddOptionHeader("冰箱返鲜设置"),
     AddOption("better_icebox", "冰箱返鲜-总开关", "设置是否开冰箱返现功能", true),
     {
@@ -1468,16 +956,8 @@ configuration_options = {
         },
         default = -1,
     },
-    {
-        name = "T_crop",
-        label = "农作物状态显示",
-        hover = "例如缺肥料、水分、家族、有杂草等，成长计时不受影响",
-        options = {
-            {description = "开", data = true},
-            {description = "关", data = false},
-        },
-        default = true,
-    },
+    AddOption("T_crop", "农作物状态显示", "例如缺肥料、水分、家族、有杂草等，成长计时不受影响", true),
+
     -- {
     -- name = "naughtiness",
     -- label = "顽皮值",
@@ -1492,10 +972,9 @@ configuration_options = {
     {
         name = "show_buddle_item",
         label = "show bundle item(显示捆绑包物品)",
-        options =
-        {
-            {description = "yes(是)", data = 1},
-            {description = "no(否)", data = 0},
+        options = {
+            { description = "yes(是)", data = 1 },
+            { description = "no(否)", data = 0 },
         },
         default = 1,
     },
@@ -1503,10 +982,9 @@ configuration_options = {
         name = "item_info_mod",
         label = "compatible with item info(兼容item info模组)",
         hover = "如果打开，Show me将不显示与item info相同的信息",
-        options =
-        {
-            {description = "关", data = 0},
-            {description = "开", data = 1},
+        options = {
+            { description = "关", data = 0 },
+            { description = "开", data = 1 },
         },
         default = 0,
     },
@@ -2458,6 +1936,35 @@ configuration_options = {
     --          { description = "F9", data = "KEY_F9", hover = "使用快捷键F9" }, }, "KEY_O"),
     AddOption("BAGINBAG", "Bag in bag(包中包)", "Bag in bag", false),
 
+    AddOptionHeader("超大容量便携箱子"),
+    AddOption("bigbox_switch", "制作超大容量便携箱子开关", "是否可以制作超大容量便携箱子", false),
+    AddConfigOption("_big_box_ui_location_vertical", "UI位置垂直偏移", "",
+            { { description = "上移140", hover = "", data = 140 },
+              { description = "上移120", hover = "", data = 120 },
+              { description = "上移100", hover = "", data = 100 },
+              { description = "上移80", hover = "这个位置感觉刚刚好，不会挡住人物", data = 80 },
+              { description = "0", hover = "", data = 0 },
+              { description = "下移80", hover = "", data = -80 },
+              { description = "下移100", hover = "", data = -100 },
+              { description = "下移200", hover = "", data = -200 }, }, 80),
+    AddConfigOption("_big_box_ui_location_vertical", "UI位置水平偏移", "",
+            { { description = "左移300", hover = "", data = 300 },
+              { description = "左移200", hover = "", data = -200 },
+              { description = "左移100", hover = "", data = -100 },
+              { description = "0", hover = "", data = 0 },
+              { description = "右移100", hover = "", data = 100 },
+              { description = "右移200", hover = "", data = 200 },
+              { description = "右移300", hover = "", data = 300 }, }, 0),
+    AddConfigOption("_set_preserver_big_box", "保鲜效果设置", "",
+            { { description = "关闭", hover = "", data = false },
+              { description = "0.5", hover = "冰箱的保鲜效果", data = 0.5 },
+              { description = "0.25", hover = "盐盒的保鲜效果", data = 0.25 },
+              { description = "0.1", hover = "冰箱保鲜效果的5倍", data = 0.1 },
+              { description = "0", hover = "永久保鲜", data = 0 },
+              { description = "-0.5", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -0.5 },
+              { description = "-4", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -4 },
+              { description = "-16", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -16 } }, false),
+
 
     AddOptionHeader("物品/生物禁用"),
     AddOption("remove_something", "物品禁用", "是否开启物品禁用", false),
@@ -2985,6 +2492,6 @@ configuration_options[#configuration_options + 1] = AddOption("vtf_chs_language_
 configuration_options[#configuration_options + 1] = AddOption("htf_chs_language_switch", "万圣节主题物品汉化(简中)", "万圣节主题物品汉化(简中)", false)
 
 --取消世界同步
-configuration_options[#configuration_options + 1] = AddOptionHeader("")
+configuration_options[#configuration_options + 1] = AddOptionHeader("取消从世界与主世界部分同步")
 configuration_options[#configuration_options + 1] = AddOption("cancel_sync_cycles_with_master_switch", "取消世界季节时间阶段种类同步", "不同世界享有不同季节时钟，日/暮/夜独立", false)
 configuration_options[#configuration_options + 1] = AddOption("time_sync_with_master", "时间同步", "开启:与主世界天数一致\n 关闭:独立的天数计量", true)
