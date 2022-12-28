@@ -4,7 +4,8 @@
 --    Asset("ANIM", "anim/mushroom_farm_moon_build.zip"),
 --    Asset("ATLAS", "images/inventoryimages/spore_moon.xml"),
 --}
-
+table.insert(Assets, Asset("ANIM", "anim/mushroom_farm_moon_build.zip"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/spore_moon.xml"))
 local _G = GLOBAL
 if not _G.TheNet:GetIsServer() then
     return

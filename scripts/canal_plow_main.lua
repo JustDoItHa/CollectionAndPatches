@@ -13,6 +13,10 @@ TUNING.CANAL_PLOW_DEPLOY_RULE = GetModConfigData("DEPLOY_RULE")
 --    Asset("IMAGE", "images/inventoryimages/canal_plow_item.tex")
 --}
 --
+
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/canal_plow_item.xml"))
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/canal_plow_item.tex"))
+
 --PrefabFiles = {"canal_plow"}
 table.insert(PrefabFiles, "canal_plow")
 

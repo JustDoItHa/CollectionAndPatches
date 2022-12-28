@@ -22,6 +22,23 @@ table.insert(PrefabFiles, "furnace_transform_fx")
 --	Asset("IMAGE", "images/minimap/icefurnace.tex"), Asset("ATLAS", "images/minimap/icefurnace.xml"),
 --}
 
+table.insert(Assets, Asset("ANIM", "anim/ui_chest_3x1.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_chest_3x2.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_chest_3x3.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_chester_shadow_3x4.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_tacklecontainer_3x5.zip"))
+
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/icefurnace.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/icefurnace.xml"))
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/icefurnace_antique.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/icefurnace_antique.xml"))
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/icefurnace_crystal.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/icefurnace_crystal.xml"))
+
+table.insert(Assets, Asset("IMAGE", "images/minimap/icefurnace.tex"))
+table.insert(Assets, Asset("ATLAS", "images/minimap/icefurnace.xml"))
+
+
 GLOBAL.setmetatable(env, {__index = function(t, k) return GLOBAL.rawget(GLOBAL, k) end})
 
 GLOBAL.is_english_icefurnace = GetModConfigData("lang")
@@ -33,6 +50,7 @@ GLOBAL.ice_production_icefurnace = GetModConfigData("produce_ice") or 240
 GLOBAL.way_to_obtain_icefurnace = GetModConfigData("way_to_obtain") or 1
 
 --AddMinimapAtlas("images/minimap/icefurnace.xml")
+AddMinimapAtlas("images/minimap/icefurnace.xml")
 
 
 	--Description

@@ -101,10 +101,10 @@ local strongcleanlist = {
 
 local cleanmaxnum = { --世界保留数量最大值 堆叠物判断懒得写了 目前按组判断 所以别加可堆叠和可以拿起来的物品
 
-    tumbleweed = { max = checknumber(tumbleweed_maxnum) and tumbleweed_maxnum or 500 },
-    evergreen = { max = checknumber(evergreen_maxnum) and evergreen_maxnum or 1000 },
-    evergreen_sparse = { max = checknumber(evergreen_sparse_maxnum) and evergreen_sparse_maxnum or 50 },
-    deciduoustree = { max = checknumber(deciduoustree_maxnum) and deciduoustree_maxnum or 1000 },
+    tumbleweed = { max = checknumber(tumbleweed_maxnum) and tumbleweed_maxnum or -1 },
+    evergreen = { max = checknumber(evergreen_maxnum) and evergreen_maxnum or -1 },
+    evergreen_sparse = { max = checknumber(evergreen_sparse_maxnum) and evergreen_sparse_maxnum or -1 },
+    deciduoustree = { max = checknumber(deciduoustree_maxnum) and deciduoustree_maxnum or -1 },
     shyerrytree1 = { max = 3 }, --颤栗树
     shyerrytree2 = { max = 2 }, --
     shyerrytree3 = { max = 2 }, --
@@ -249,14 +249,16 @@ local function WhiteArea(inst)
         local pos = Vector3(inst.Transform:GetWorldPosition())
         entity_list = TheSim:FindEntities(pos.x, pos.y, pos.z, 4)
         for i, entity in pairs(entity_list) do
-            if entity.prefab == "endtable" or  entity.prefab == "pirate_stash" then -- 茶几 猴子宝藏
+            if entity.prefab == "endtable" or entity.prefab == "pirate_stash" then
+                -- 茶几 猴子宝藏
                 return false
             end
         end
         return true
     else
         for i, entity in pairs(entity_list) do
-            if entity.prefab == "pirate_stash" then -- 猴子宝藏
+            if entity.prefab == "pirate_stash" then
+                -- 猴子宝藏
                 return false
             end
         end
@@ -453,7 +455,7 @@ local function AutoDoRemove()
                 countList[v_prefab] = 1
             else
                 countList[v_prefab] = countList[v_prefab] + 1
-                if cleanmaxnum[v_prefab].max < countList[v_prefab] then
+                if cleanmaxnum[v_prefab].max < countList[v_prefab] and cleanmaxnum[v_prefab].max >= 0 then
                     max_clean = true
                 end
             end

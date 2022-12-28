@@ -33,6 +33,12 @@ end
 --    Asset("IMAGE", "modules/extra_equip_slots/images/inv_new.tex"),
 --    Asset("ATLAS", "modules/extra_equip_slots/images/inv_new.xml")
 --}
+table.insert(Assets, Asset("IMAGE", "modules/extra_equip_slots/images/back.tex"))
+table.insert(Assets, Asset("ATLAS", "modules/extra_equip_slots/images/back.xml"))
+table.insert(Assets, Asset("IMAGE", "modules/extra_equip_slots/images/neck.tex"))
+table.insert(Assets, Asset("ATLAS", "modules/extra_equip_slots/images/neck.xml"))
+table.insert(Assets, Asset("IMAGE", "modules/extra_equip_slots/images/inv_new.tex"))
+table.insert(Assets, Asset("ATLAS", "modules/extra_equip_slots/images/inv_new.xml"))
 
 
 if setting_backpack_slot then

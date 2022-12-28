@@ -20,7 +20,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "7.7.0.0"
+version = "7.8.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2609,14 +2609,68 @@ configuration_options = {
         label = "Tumbleweed Clean(风滚草清理)",
         hover = "超过配置数目风滚草被清理",
         options = {
-            -- { description = "No", data = false, hover = "" },
+            { description = "No(不检查数量)", data = false, hover = "" },
             { description = "50", data = 50, hover = "" },
             { description = "100", data = 100, hover = "" },
             { description = "120", data = 120, hover = "" },
             { description = "150", data = 150, hover = "" },
             { description = "200", data = 200, hover = "" },
+            { description = "300", data = 300, hover = "" },
+            { description = "500", data = 500, hover = "" },
+            { description = "1000", data = 1000, hover = "" },
         },
         default = 100,
+    },
+    {
+        name = "evergreen_maxnum",
+        label = "evergreen Clean(常青树清理)",
+        hover = "超过配置数目常青树被清理",
+        options = {
+            { description = "No(不检查数量)", data = false, hover = "" },
+            { description = "50", data = 50, hover = "" },
+            { description = "100", data = 100, hover = "" },
+            { description = "120", data = 120, hover = "" },
+            { description = "150", data = 150, hover = "" },
+            { description = "200", data = 200, hover = "" },
+            { description = "300", data = 300, hover = "" },
+            { description = "500", data = 500, hover = "" },
+            { description = "1000", data = 1000, hover = "" },
+        },
+        default = 1000,
+    },
+    {
+        name = "evergreen_sparse_maxnum",
+        label = "evergreen sparse Clean(无松果常青树清理)",
+        hover = "超过配置数目常青树被清理",
+        options = {
+            { description = "No(不检查数量)", data = false, hover = "" },
+            { description = "50", data = 50, hover = "" },
+            { description = "100", data = 100, hover = "" },
+            { description = "120", data = 120, hover = "" },
+            { description = "150", data = 150, hover = "" },
+            { description = "200", data = 200, hover = "" },
+            { description = "300", data = 300, hover = "" },
+            { description = "500", data = 500, hover = "" },
+            { description = "1000", data = 1000, hover = "" },
+        },
+        default = 1000,
+    },
+    {
+        name = "deciduoustree_maxnum",
+        label = "deciduoustree Clean(桦树清理)",
+        hover = "超过配置数目常青树被清理",
+        options = {
+            { description = "No(不检查数量)", data = false, hover = "" },
+            { description = "50", data = 50, hover = "" },
+            { description = "100", data = 100, hover = "" },
+            { description = "120", data = 120, hover = "" },
+            { description = "150", data = 150, hover = "" },
+            { description = "200", data = 200, hover = "" },
+            { description = "300", data = 300, hover = "" },
+            { description = "500", data = 500, hover = "" },
+            { description = "1000", data = 1000, hover = "" },
+        },
+        default = 1000,
     },
     {
         name = "boat_clean",

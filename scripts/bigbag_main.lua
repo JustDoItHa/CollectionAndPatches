@@ -22,6 +22,62 @@ table.insert(PrefabFiles, "bigbag")
 table.insert(PrefabFiles, "gembigbag")
 table.insert(PrefabFiles, "nicebigbag")
 
+--大背包
+--[[Asset("ANIM", "anim/swap_bigbag.zip"),
+Asset("ANIM", "anim/ui_bigbag_3x8.zip"),
+Asset("ANIM", "anim/ui_bigbag_4x8.zip"),
+--Asset("ANIM", "anim/bigbag_ui_8x6.zip"),
+--Asset("ANIM", "anim/bigbag_ui_8x8.zip"),
+
+Asset("IMAGE", "images/inventoryimages/bigbag.tex"),
+Asset("ATLAS", "images/inventoryimages/bigbag.xml"),
+
+Asset("IMAGE", "minimap/bigbag.tex"),
+Asset("ATLAS", "minimap/bigbag.xml"),
+
+--Asset("IMAGE", "images/bigbagbg.tex"),
+--Asset("ATLAS", "images/bigbagbg.xml"),
+
+Asset("IMAGE", "images/bigbagbg_8x8.tex"),
+Asset("ATLAS", "images/bigbagbg_8x8.xml"),
+
+Asset("IMAGE", "images/bigbagbg_8x6.tex"),
+Asset("ATLAS", "images/bigbagbg_8x6.xml"),]]
+table.insert(Assets, Asset("ANIM", "anim/swap_bigbag.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_bigbag_3x8.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_bigbag_4x8.zip"))
+--table.insert(Assets, Asset("ANIM", "anim/bigbag_ui_8x6.zip"))
+--table.insert(Assets, Asset("ANIM", "anim/bigbag_ui_8x8.zip"))
+
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/bigbag.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/bigbag.xml"))
+
+--table.insert(Assets, Asset("IMAGE", "minimap/bigbag.tex"))
+--table.insert(Assets, Asset("ATLAS", "minimap/bigbag.xml"))
+table.insert(Assets, Asset("IMAGE", "images/minimap/bigbag.tex"))
+table.insert(Assets, Asset("ATLAS", "images/minimap/bigbag.xml"))
+table.insert(Assets, Asset("IMAGE", "images/minimap/bluebigbag.tex"))
+table.insert(Assets, Asset("ATLAS", "images/minimap/bluebigbag.xml"))
+table.insert(Assets, Asset("IMAGE", "images/minimap/redbigbag.tex"))
+table.insert(Assets, Asset("ATLAS", "images/minimap/redbigbag.xml"))
+
+table.insert(Assets, Asset("IMAGE", "images/minimap/nicebigbag.tex"))
+table.insert(Assets, Asset("ATLAS", "images/minimap/nicebigbag.xml"))
+
+--table.insert(Assets, Asset("IMAGE", "images/bigbagbg.tex"))
+--table.insert(Assets, Asset("ATLAS", "images/bigbagbg.xml"))
+
+table.insert(Assets, Asset("IMAGE", "images/bigbagbg_8x8.tex"))
+table.insert(Assets, Asset("ATLAS", "images/bigbagbg_8x8.xml"))
+
+table.insert(Assets, Asset("IMAGE", "images/bigbagbg_8x6.tex"))
+table.insert(Assets, Asset("ATLAS", "images/bigbagbg_8x6.xml"))
+
+-- [Miniap Icon]--------------------
+AddMinimapAtlas("images/minimap/bigbag.xml")
+AddMinimapAtlas("images/minimap/bluebigbag.xml")
+AddMinimapAtlas("images/minimap/redbigbag.xml")
+AddMinimapAtlas("images/minimap/nicebigbag.xml")
 
 --------------------------------------------------------------------------------------------------------------------------
 -- [Global Strings]

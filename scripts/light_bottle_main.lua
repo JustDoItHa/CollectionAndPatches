@@ -9,6 +9,14 @@
 --	Asset("ATLAS", "images/inventoryimages/magiclantern_yellow.xml"),
 --	Asset("ATLAS", "images/inventoryimages/magiclantern_green.xml"),
 --}
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/magiclantern_white.xml"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/magiclantern_red.xml"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/magiclantern_blue.xml"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/magiclantern_pink.xml"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/magiclantern_purple.xml"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/magiclantern_orange.xml"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/magiclantern_yellow.xml"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/magiclantern_green.xml"))
 
 
 --get value in config

@@ -1,3 +1,6 @@
+table.insert(Assets, Asset("ANIM", "anim/elena.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ghost_elena_build.zip"))
+
 AddSimPostInit(function()
     if ElainaAPI then
         ElainaAPI.MakeCharacterSkin("elaina", "elaina_xd", {

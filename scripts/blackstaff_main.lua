@@ -10,6 +10,11 @@ table.insert(PrefabFiles, "blackstaff")
 --	Asset("ANIM", "anim/blackstaff.zip"),
 --	Asset("ANIM", "anim/swap_blackstaff.zip"),
 --}
+table.insert(Assets, Asset("ATLAS", "images/blackstaff.xml" ))
+table.insert(Assets, Asset("IMAGE", "images/blackstaff.tex"))
+table.insert(Assets, Asset("ANIM", "anim/blackstaff.zip"))
+table.insert(Assets, Asset("ANIM", "anim/swap_blackstaff.zip"))
+
 
 local RECIPETABS = GLOBAL.RECIPETABS
 local Recipe = GLOBAL.Recipe

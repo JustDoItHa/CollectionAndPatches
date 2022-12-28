@@ -18,7 +18,13 @@ table.insert(PrefabFiles, "venus_icebox")
 --	Asset( "ATLAS", "images/map_icons/venus_icebox.xml" ),
 --
 --}
+table.insert(Assets, Asset("SOUND", "sound/malibag.fsb"))
+table.insert(Assets, Asset("SOUNDPACKAGE", "sound/malibag.fev"))
 
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/venus_icebox.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/venus_icebox.xml"))
+table.insert(Assets, Asset("IMAGE", "images/map_icons/venus_icebox.tex"))
+table.insert(Assets, Asset("ATLAS", "images/map_icons/venus_icebox.xml"))
 
 local STRINGS = GLOBAL.STRINGS
 local require = GLOBAL.require
@@ -29,7 +35,7 @@ local containers = require("containers")
 local TECH = GLOBAL.TECH
 local TheWorld = GLOBAL.TheWorld--地图
 
-
+AddMinimapAtlas("images/map_icons/venus_icebox.xml")
 
 STRINGS.NAMES.VENUS_ICEBOX = "萝卜冰箱"
 STRINGS.RECIPE_DESC.VENUS_ICEBOX = "16格大小，前4格永久保鲜"

@@ -33,8 +33,9 @@ local function modenable(name)
     return false
 end
 PrefabFiles = {}
-----加载资源
-modimport("scripts/mod_assets.lua")
+Assets = {}
+------加载资源
+--modimport("scripts/mod_assets.lua")
 
 local max_player_num = GetModConfigData("max_player_num") or 0
 

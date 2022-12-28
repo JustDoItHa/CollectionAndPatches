@@ -10,6 +10,14 @@ local Recipe = GLOBAL.Recipe
 if GetModConfigData("baka_lamp") then
     table.insert(PrefabFiles, "baka_lamp_post")
     table.insert(PrefabFiles, "baka_lamp_short")
+
+    --霓庭灯
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/lamp_post.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/lamp_post.xml"))
+    --虹庭灯
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/lamp_short.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/lamp_short.xml"))
+
     -------------霓庭灯--------------------------
     STRINGS.NAMES.BAKA_LAMP_POST = "霓庭灯"
     STRINGS.RECIPE_DESC.BAKA_LAMP_POST = "萤火虫提供能源"
@@ -36,6 +44,10 @@ end
 
 if GetModConfigData("rabbit_house") then
     table.insert(PrefabFiles, "change_fountain")
+    --兔子喷泉
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/change_fountain.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/change_fountain.xml"))
+
     -------------兔子喷泉--------------------------
     STRINGS.NAMES.CHANGE_FOUNTAIN = "兔子喷泉"
     STRINGS.CHARACTERS.GENERIC.DESCRIBE.CHANGE_FOUNTAIN = "多么漂亮的喷泉啊！"
