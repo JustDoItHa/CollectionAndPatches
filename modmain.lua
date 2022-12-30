@@ -358,6 +358,11 @@ if GetModConfigData("little_modify_for_pure_switch") then
         modimport("modules/actions/faster_trading_main.lua")
     end
 end
+
+--权限
+if GetModConfigData("beefalo_status_bar_switch") then
+    modimport("scripts/beefalo_status_bar_main.lua")
+end
 --权限
 if GetModConfigData("player_authority_switch") then
     modimport("modules/authority/authority_main.lua")

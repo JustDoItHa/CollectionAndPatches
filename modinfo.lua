@@ -1,8 +1,8 @@
 name = "Collection And Patches[合集和补丁]"
 description = [[
-请勿订阅
+不推荐订阅
 ]]
----- 本mod是众多mod贡献者的合集和修正,仅用于自用,请勿订阅,感谢mod贡献者的辛勤付出
+---- 本mod是众多mod贡献者的合集和修正,仅用于自用,不推荐订阅,请订阅原版mod,感谢mod贡献者的辛勤付出
 ----------------------------------------------------------------------
 --修改自以下mod:
 --1.黑色法杖（手动清理神器）2.小穹补丁(zymod) 3.全图定位 4.影藏管理员标志
@@ -14,14 +14,14 @@ description = [[
 --32.删除默认人物RemoveDefaultCharacter 33.萝卜冰箱 34.large boats
 --35.发光的瓶子 36.大背包新 37.禁用自定义人物 38.容器不掉路 39.箱子物品自动排序
 --40.UI拖拽缩放 41.Heap of Foods 全汉化 42.访客掉落优化版 43.纯净辅助
---44.超级便携大箱子
+--44.超级便携大箱子 45.beefalo status bar
 --集合mod：
 --1.常用mod集合
 --2.萌新合集-服务端
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "7.9.0.0"
+version = "8.0.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -45,6 +45,9 @@ all_clients_require_mod = true
 -- 仅限客户端
 client_only_mod = false
 api_version = 10
+
+server_filter_tags = { "CAP", "Collection And Patches", "合集和补丁" }
+
 
 -- 通用mod配置的方法
 local function AddOption(name, label, hover, default_setting)
@@ -2275,6 +2278,154 @@ configuration_options[#configuration_options + 1] = AddOption("naming_for_watche
 configuration_options[#configuration_options + 1] = AddOption("glommer_statue_repairable_switch", "格罗姆雕像可修复", "可以用大理石修复格罗姆雕像", false)
 configuration_options[#configuration_options + 1] = AddOption("block_pooping_switch", "橡胶塞堵住牛屁股", "橡胶塞可以堵住牛屁股使其不拉屎", false)
 configuration_options[#configuration_options + 1] = AddOption("faster_trading_switch", "快速交易", "和猪王快速交易", false)
+
+local beefalo_status_bar_colors = {
+    { name = "ORANGE", description = "Orange(橘色)" },
+    { name = "ORANGE_ALT", description = "Orange Alt(橘色高亮)" },
+    { name = "BLUE", description = "Blue(蓝色)" },
+    { name = "BLUE_ALT", description = "Blue Alt(蓝色高亮)" },
+    { name = "PURPLE", description = "Purple(紫色)" },
+    { name = "PURPLE_ALT", description = "Purple Alt(紫色高亮)" },
+    { name = "RED", description = "Red(红色)" },
+    { name = "RED_ALT", description = "Red Alt(红色高亮)" },
+    { name = "GREEN", description = "Green(绿色)" },
+    { name = "GREEN_ALT", description = "Green Alt(绿色高亮)" },
+    { name = "WHITE", description = "White(白色)" },
+    { name = "YELLOW", description = "Yellow(白色高亮)" }
+}
+
+local function GenerateCommonOptions(start, count, step, default, prefix, suffix)
+    local options = {}
+    local current = start
+    local suffix = suffix or ""
+    for i = 1, count do
+        local prefix = prefix and (current > 0 and "+" or "") or ""
+        options[i] = { description = prefix .. current .. suffix, data = current }
+        if current == default then
+            options[i].hover = "Default"
+        end
+        current = current + step
+    end
+    return options
+end
+
+local function GenerateMultiplierOptions()
+    local options = {}
+    for i = 1, 20 do
+        if i ~= 1 then
+            options[i] = { description = "x" .. i, data = i }
+        else
+            options[i] = { description = "None", data = i, hover = "Default" }
+        end
+    end
+    return options
+end
+
+local function GenerateColorOptions(default)
+    local colorOptions = {}
+    for i = 1, #beefalo_status_bar_colors do
+        colorOptions[i] = { description = beefalo_status_bar_colors[i].description, data = beefalo_status_bar_colors[i].name }
+        if default == beefalo_status_bar_colors[i].name then
+            colorOptions[i].hover = "Default"
+        end
+    end
+    return colorOptions
+end
+
+local offsets = GenerateCommonOptions(-200, 81, 5, 0, true)
+local fineOffsets = GenerateCommonOptions(-50, 101, 1, 0, true)
+local offsetMultipliers = GenerateMultiplierOptions()
+configuration_options[#configuration_options + 1] = AddOptionHeader("驯牛状态显示")
+configuration_options[#configuration_options + 1] = AddOption("beefalo_status_bar_switch", "总开关", "是否开启驯牛状态显示", false)
+configuration_options[#configuration_options + 1] = AddOption("ShowByDefault", "驯牛状态自动显示(Show Automatically)", "驯牛状态栏自动显示\nShow the status bar automatically when you mount a beefalo.", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("ToggleKey", "驯牛显示快捷键(Toggle Key)", "Press this key (when mounted) to toggle the status bar.\nToggling will override \"Show Automatically\" for the current shard session.",
+        {
+            { description = "T", data = "KEY_T" },
+            { description = "O", data = "KEY_O" },
+            { description = "P", data = "KEY_P" },
+            { description = "G", data = "KEY_G" },
+            { description = "H", data = "KEY_H" },
+            { description = "Z", data = "KEY_Z" },
+            { description = "X", data = "KEY_X" },
+            { description = "C", data = "KEY_C" },
+            { description = "V", data = "KEY_V", hover = "Default" },
+            { description = "B", data = "KEY_B" }
+        }, "KEY_V")
+configuration_options[#configuration_options + 1] = AddOption("EnableSounds", "声音(Sounds)", "开关显示有声音\nPlay a sound when showing or hiding the status bar.", false)
+
+configuration_options[#configuration_options + 1] = {
+    name = "ClientConfig",
+    label = "客户端偏好设置(Prefer Client Configuration)",
+    hover = "开启的话服务端配置会忽略\nWhen enabled, server configuration will be ignored.\nConfigurations from this screen will be used on every server you join or host.",
+    options = {
+        { description = "关闭(Disabled)", data = false, hover = "Default" },
+        { description = "开启(Enabled)", data = true }
+    },
+    default = false,
+    client = true
+}
+configuration_options[#configuration_options + 1] = AddConfigOption("Theme", "主题(Theme)", "切换状态栏的主题\nChange the theme of the badges.",
+        { { description = "熔炉主题(The Forge)", data = "TheForge", hover = "熔炉主题(The Forge)" },
+          { description = "默认主题(Default Theme)", data = "Default", hover = "默认\nUses the default game theme. Compatible with most HUD reskin mods." }
+        }, "TheForge")
+
+configuration_options[#configuration_options + 1] = AddConfigOption("Scale", "放缩(Scale)", "放缩\nControls the scale (size) of the badges.",
+        {
+            { description = "0.5", data = 0.5 },
+            { description = "0.6", data = 0.6 },
+            { description = "0.7", data = 0.7 },
+            { description = "0.8", data = 0.8 },
+            { description = "0.9", data = 0.9 },
+            { description = "1", data = 1.0, hover = "Default" },
+            { description = "1.1", data = 1.1 },
+            { description = "1.2", data = 1.2 },
+            { description = "1.3", data = 1.3 },
+            { description = "1.4", data = 1.4 },
+            { description = "1.5", data = 1.5 },
+            { description = "1.6", data = 1.6 },
+            { description = "1.7", data = 1.7 },
+            { description = "1.8", data = 1.8 },
+            { description = "1.9", data = 1.9 },
+            { description = "2.0", data = 2.0 }
+        }, 1.0)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("HungerThreshold", "饥饿阈值(Hunger Badge Threshold)", "饥饿触发状态栏\nA beefalo needs to have at least this amount of hunger to activate the badge.",
+        GenerateCommonOptions(5, 30, 5, 10, false), 10)
+configuration_options[#configuration_options + 1] = AddConfigOption("HEALTH_BADGE_CLEAR_BG", "背景(Health Badge Background)", "检测：亮度和透明度设置不生效\n标准：亮度和透明度设置可以生效\nDistinct: Uses a distinct background. Brightness and opacity will not apply.\nStandard: Uses a standard background. Brightness and opacity will apply.",
+        { { description = "检测(Distinct)", data = false, hover = "Default" },
+          { description = "标准(Standard)", data = true } }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("BADGE_BG_BRIGHTNESS", "背景亮度(Background Brightness)", "控制显示亮度\nControls the background brightness of the badges.",
+        GenerateCommonOptions(5, 21, 5, 60, false, "%"), 60)
+configuration_options[#configuration_options + 1] = AddConfigOption("BADGE_BG_OPACITY", "背景透明度(Background Opacity)", "控制透明度\nControls the background opacity (transparency) of the badges.\n100% - No transparency, 0% - Fully transparent.",
+        GenerateCommonOptions(0, 21, 5, 100, false, "%"), 100)
+configuration_options[#configuration_options + 1] = AddConfigOption("GapModifier", "间隙修改(Gap Modifier)", "控制空白间隙\nControls the empty space between the badges.\n Negative values - less space, positive values - more space.",
+        GenerateCommonOptions(-15, 46, 1, 0, true), 0)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("COLOR_DOMESTICATION_ORNERY", "驯养-生气-颜色[Domestication (Ornery)]", "Domestication badge color for Ornery beefalo.",
+        GenerateColorOptions("ORANGE"), "ORANGE")
+configuration_options[#configuration_options + 1] = AddConfigOption("COLOR_DOMESTICATION_RIDER", "驯养-骑-颜色[Domestication (Rider)]", "Domestication badge color for Rider beefalo.",
+        GenerateColorOptions("BLUE"), "BLUE")
+configuration_options[#configuration_options + 1] = AddConfigOption("COLOR_DOMESTICATION_PUDGY", "驯养-肥胖-颜色[Domestication (Pudgy)]", "Domestication badge color for Pudgy beefalo.",
+        GenerateColorOptions("PURPLE"), "PURPLE")
+configuration_options[#configuration_options + 1] = AddConfigOption("COLOR_DOMESTICATION_DEFAULT", "驯养-默认-颜色[Domestication (Default)]", "Domestication badge color for Default beefalo.",
+        GenerateColorOptions("WHITE"), "WHITE")
+configuration_options[#configuration_options + 1] = AddConfigOption("COLOR_OBEDIENCE", "服从-颜色(Obedience)", "Obedience badge color.",
+        GenerateColorOptions("RED"), "RED")
+configuration_options[#configuration_options + 1] = AddConfigOption("COLOR_TIMER", "骑计时器-颜色(Ride Timer)", "Ride Timer badge color.",
+        GenerateColorOptions("GREEN"), "GREEN")
+configuration_options[#configuration_options + 1] = AddConfigOption("OffsetX", "位置偏移X(X Offset (Horizontal))", "负数左移正数右移\nNegative values - move left, positive values - move right.",
+        offsets, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("OffsetXMult", "位置偏移X倍数(X Offset Multiplier)", "X偏移倍数\nMultiplier for the \"X Offset\" setting.\nHas no effect on the \"Fine Tune\" setting.",
+        offsetMultipliers, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("OffsetXFine", "位置偏移X精调(X Offset Fine Tune)", "X精调\nFine tune X Offset",
+        fineOffsets, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("OffsetY", "位置偏移Y(Y Offset (Vertical))", "负数下移正数上移\nNegative values - move down, positive values - move up.",
+        offsets, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("OffsetYMult", "位置偏移Y倍数(Y Offset Multiplier)", "X偏移倍数\nMultiplier for the \"Y Offset\" setting.\nHas no effect on the \"Fine Tune\" setting.",
+        offsetMultipliers, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("OffsetYFine", "位置偏移Y精调(Y Offset Fine Tune)", "X精调\nFine tune Y Offset",
+        fineOffsets, 0)
+
 
 ---权限/防熊
 configuration_options[#configuration_options + 1] = AddOptionHeader("玩家物品权限/防熊")

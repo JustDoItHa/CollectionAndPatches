@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/anim/big_box.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/anim/big_box_ui_120.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/inventoryimages/_big_box/_big_box.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/inventoryimages/_big_box/_big_box.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/inventoryimages/_big_box/big_box.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/inventoryimages/_big_box/big_box.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/_big_box_ui.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/big_box_main.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/prefabs/_big_box.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/beefalo_status_bar_main.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/widgets/beefaloBadge.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/widgets/beefaloStatusBar.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modmain.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modmain.lua" afterDir="false" />
@@ -40,6 +37,10 @@
     "SONARLINT_PRECOMMIT_ANALYSIS": "false",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "/Volumes/Extends-C/Games/mods self/Collection And Patches/scripts",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -49,26 +50,11 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/scripts" />
+      <recent name="$PROJECT_DIR$/scripts/widgets" />
       <recent name="$PROJECT_DIR$/scripts/prefabs" />
       <recent name="$PROJECT_DIR$/anim" />
       <recent name="$PROJECT_DIR$/images/inventoryimages" />
-      <recent name="$PROJECT_DIR$/images/minimap" />
     </key>
-  </component>
-  <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="Collection And Patches" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="Collection And Patches" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -106,7 +92,8 @@
       <workItem from="1672067909192" duration="1217000" />
       <workItem from="1672069588925" duration="478000" />
       <workItem from="1672070210605" duration="54000" />
-      <workItem from="1672070298114" duration="52688000" />
+      <workItem from="1672070298114" duration="53383000" />
+      <workItem from="1672367451809" duration="6069000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -157,7 +144,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672254600120</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="优化">
+      <created>1672267403326</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1672267403326</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
