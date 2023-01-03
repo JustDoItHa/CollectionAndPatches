@@ -21,7 +21,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "8.0.0.0"
+version = "8.1.4.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -514,13 +514,22 @@ configuration_options = {
 
     AddOptionHeader("重生设置"),
     AddOption("restart_set", "重生-总开关", "设置是否开启重生功能", true),
-    AddOption("MOD_RESTART_ALLOW_RESTART", "重生", false),
-    AddOption("MOD_RESTART_ALLOW_RESURRECT", "复活", true),
-    AddOption("MOD_RESTART_ALLOW_KILL", "自杀", false),
+    AddOption("MOD_RESTART_ALLOW_RESTART", "重生","", false),
+    AddOption("MOD_RESTART_ALLOW_RESURRECT", "复活", "",true),
+    AddOption("MOD_RESTART_ALLOW_KILL", "自杀", "",false),
     AddConfigOption("MOD_RESTART_CD_RESTART", "重生冷却(分)", "重生的冷却时间.", mod_restart_cd_options, 0),
     AddConfigOption("MOD_RESTART_CD_RESURRECT", "复活冷却(分)", "复活的冷却时间.", mod_restart_cd_options, 0),
     AddConfigOption("MOD_RESTART_CD_KILL", "自杀冷却(分)", "自杀的冷却时间.", mod_restart_cd_options, 0),
-    AddConfigOption("MOD_RESTART_CD_BONUS", "冷却调整", "冷却时间随使用次数不断增加.", { { description = "关", data = 0, hover = "固定的冷却时间" }, { description = "10%", data = 0.1, hover = "每次使用后增加(基础值的)10%" }, { description = "20%", data = 0.2, hover = "每次使用后增加(基础值的)20%" }, { description = "30%", data = 0.3, hover = "每次使用后增加(基础值的)30%" }, { description = "40%", data = 0.4, hover = "每次使用后增加(基础值的)40%" }, { description = "50%", data = 0.5, hover = "每次使用后增加(基础值的)50%" }, { description = "100%", data = 1, hover = "每次使用后增加(基础值的)100%" }, { description = "150%", data = 1.5, hover = "每次使用后增加(基础值的)150%" }, { description = "200%", data = 2, hover = "每次使用后增加(基础值的)200%" }, }, 0),
+    AddConfigOption("MOD_RESTART_CD_BONUS", "冷却调整", "冷却时间随使用次数不断增加.",
+            { { description = "关", data = 0, hover = "固定的冷却时间" },
+              { description = "10%", data = 0.1, hover = "每次使用后增加(基础值的)10%" },
+              { description = "20%", data = 0.2, hover = "每次使用后增加(基础值的)20%" },
+              { description = "30%", data = 0.3, hover = "每次使用后增加(基础值的)30%" },
+              { description = "40%", data = 0.4, hover = "每次使用后增加(基础值的)40%" },
+              { description = "50%", data = 0.5, hover = "每次使用后增加(基础值的)50%" },
+              { description = "100%", data = 1, hover = "每次使用后增加(基础值的)100%" },
+              { description = "150%", data = 1.5, hover = "每次使用后增加(基础值的)150%" },
+              { description = "200%", data = 2, hover = "每次使用后增加(基础值的)200%" }, }, 0),
     AddConfigOption("MOD_RESTART_CD_MAX", "最大冷却(分)", "开启冷却调整后累计可达到的最大冷却时间.",
             { { description = "无", data = 0, hover = "冷却无上限" },
               { description = "10", data = 10, hover = "10 分钟" },
@@ -2425,7 +2434,6 @@ configuration_options[#configuration_options + 1] = AddConfigOption("OffsetYMult
         offsetMultipliers, 1)
 configuration_options[#configuration_options + 1] = AddConfigOption("OffsetYFine", "位置偏移Y精调(Y Offset Fine Tune)", "X精调\nFine tune Y Offset",
         fineOffsets, 0)
-
 
 ---权限/防熊
 configuration_options[#configuration_options + 1] = AddOptionHeader("玩家物品权限/防熊")
