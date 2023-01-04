@@ -211,15 +211,17 @@ local function cmp(a, b)
 end
 --插入法排序函数
 local function insert_sort(list, comp, inst)
-    if not next(list) then return end
+    if not next(list) then
+        return
+    end
     for i = 2, #list do
         local v = list[i]
         local j = i - 1
-        while (j>0 and (comp(list[j], v) > 0)) do
-            list[j+1]=list[j]
-            j=j-1
+        while (j > 0 and (comp(list[j], v) > 0)) do
+            list[j + 1] = list[j]
+            j = j - 1
         end
-        list[j+1]=v
+        list[j + 1] = v
     end
 
     for i = 1, #list do
@@ -322,8 +324,7 @@ local function slotsSort(inst)
             end
         end
         local items_1, perishable_table = perishable_table_fn(items)
-        local items_2, hand_table, body_armor_table, hat_armor_table, neck_table, medal_table, body_other_table, hat_other_table, other_table
-        = equippable_table_fn(items_1)
+        local items_2, hand_table, body_armor_table, hat_armor_table, neck_table, medal_table, body_other_table, hat_other_table, other_table = equippable_table_fn(items_1)
 
         if #items_2 + #perishable_table +
                 #hand_table + #body_armor_table + #hat_armor_table + #neck_table + #medal_table + #body_other_table + #hat_other_table + #other_table
@@ -357,7 +358,7 @@ local function slotsSortFn(inst, doer)
         end
     elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
         if inst.replica.container ~= nil and not inst.replica.container:IsEmpty() then
-            SendModRPCToServer(MOD_RPC["CAP_BUTTON"]["containers"],inst)
+            SendModRPCToServer(MOD_RPC["CAP_BUTTON"]["containers"], inst)
         end
     end
 end
@@ -366,7 +367,7 @@ end
 --     return inst.replica.container ~= nil and not inst.replica.container:IsEmpty()--容器不为空
 -- end
 
-AddModRPCHandler("CAP_BUTTON","containers",function(player,inst)
+AddModRPCHandler("CAP_BUTTON", "containers", function(player, inst)
     if inst then
         slotsSort(inst)
     end
@@ -377,16 +378,22 @@ AddClassPostConstruct("widgets/containerwidget",
         function(self, owner)
             local ImageButton = require "widgets/imagebutton"
             local old_Open = self.Open
-
-            function self:Open(container, doer, ...)
-                if old_Open then old_Open(self, container, doer, ...) end
-
+            --local old_Open = self.Open or function()
+            --end
+            self.Open = function(self, container, doer, ...)
+                --function self:Open(container, doer, ...)
+                if old_Open then
+                    old_Open(self, container, doer, ...)
+                end
+                --old_Open(self, container, doer, ...)
                 local widget = container.replica.container.widget_2
                 -- if widget then dumptable(widget) end
-                if widget == nil or next(widget) == nil then return end
+                if widget == nil or next(widget) == nil then
+                    return
+                end
                 local slotpos = container.replica.container.widget.slotpos
                 local y
-                for k,v in pairs(slotpos) do
+                for k, v in pairs(slotpos) do
                     if y == nil then
                         y = v.y
                     elseif v.y > y then
@@ -394,7 +401,7 @@ AddClassPostConstruct("widgets/containerwidget",
                     end
                 end
                 y = y + 67
-                local pos  = Vector3(0, y, 0)
+                local pos = Vector3(0, y, 0)
 
                 if widget.buttoninfo ~= nil then
 
@@ -402,9 +409,9 @@ AddClassPostConstruct("widgets/containerwidget",
                         doer.components.playeractionpicker:RegisterContainer(container)
                     end
 
-                    self.button = self:AddChild(ImageButton("images/ui.xml", "button_small.tex", "button_small_over.tex", "button_small_disabled.tex", nil, nil, {1,1}, {0,0}))
+                    self.button = self:AddChild(ImageButton("images/ui.xml", "button_small.tex", "button_small_over.tex", "button_small_disabled.tex", nil, nil, { 1, 1 }, { 0, 0 }))
                     self.button.image:SetScale(1.07)
-                    self.button.text:SetPosition(2,-2)
+                    self.button.text:SetPosition(2, -2)
                     self.button:SetPosition(pos)
                     self.button:SetText(widget.buttoninfo.text)
                     if widget.buttoninfo.fn ~= nil then
@@ -486,15 +493,15 @@ local add_container_table = {
 local buttoninfo = {
     text = "整理",
     -- position = Vector3(0, y, 0),
-    fn=slotsSortFn,
+    fn = slotsSortFn,
     -- validfn=slotsSortValidFn,
 }
-for k,v in pairs(add_container_table) do
+for k, v in pairs(add_container_table) do
     AddPrefabPostInit(v, function(inst)
 
         if TheWorld.ismastersim then
             if inst.replica.container ~= nil then
-                if  inst.replica.container.widget.slotpos ~= nil then
+                if inst.replica.container.widget.slotpos ~= nil then
                     inst.replica.container.widget_2 = {}
                     inst.replica.container.widget_2.buttoninfo = buttoninfo
                 end
@@ -502,7 +509,9 @@ for k,v in pairs(add_container_table) do
         else
             local old_OnEntityReplicated = inst.OnEntityReplicated
             inst.OnEntityReplicated = function(inst, ...)
-                if old_OnEntityReplicated then old_OnEntityReplicated(inst, ...) end
+                if old_OnEntityReplicated then
+                    old_OnEntityReplicated(inst, ...)
+                end
                 -- if inst.replica.container ~= nil and not inst.replica.container:IsBusy() then--
 
                 if inst.replica.container and inst.replica.container.widget and inst.replica.container.widget.slotpos ~= nil then

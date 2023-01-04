@@ -165,6 +165,10 @@ modimport("scripts/blackstaff_main.lua")
 --监控
 modimport("scripts/spy_player_action.lua")
 
+--堆叠指令
+if GetModConfigData("command_stack") == true then
+    modimport("scripts/manager_players.lua")
+end
 --小穹开始自带打包风铃草
 --if GetModConfigData("bellflower_pack_start") then
 --    modimport("scripts/bellflower_pack.lua")
@@ -359,7 +363,7 @@ if GetModConfigData("little_modify_for_pure_switch") then
     end
 end
 
---权限
+--驯牛状态
 if GetModConfigData("beefalo_status_bar_switch") then
     modimport("scripts/beefalo_status_bar_main.lua")
 end
@@ -367,6 +371,10 @@ end
 if GetModConfigData("player_authority_switch") then
     modimport("modules/authority/authority_main.lua")
 end
+if  (not GetModConfigData("player_authority_switch")) and GetModConfigData("authority_hexie_switch") then
+    modimport("modules/authority_hexie/authority_hexie_main.lua")
+end
+
 --访客掉落
 if GetModConfigData("passer_by_switch") then
     modimport("modules/passerby/passer_by_main.lua")

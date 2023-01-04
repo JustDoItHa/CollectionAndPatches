@@ -521,11 +521,12 @@ GLOBAL.Networking_Say = function(guid, userid, name, prefab, message, colour, wh
                     end
                 end
             end
-            if string.lower(message) == "#stack" and GetModConfigData("stack") == true then
-                local pt = master:GetPosition()
-                tool.AutoStack(pt)
-                return OldNetworking_Say(guid, userid, name, prefab, message, colour, whisper, isemote)
-            end
+            --- 移动到通用的工具命令
+            --if string.lower(message) == "#stack" and GetModConfigData("stack") == true then
+            --    local pt = master:GetPosition()
+            --    tool.AutoStack(pt)
+            --    return OldNetworking_Say(guid, userid, name, prefab, message, colour, whisper, isemote)
+            --end
         end
         if message:len() < 5 then return OldNetworking_Say(guid, userid, name, prefab, message, colour, whisper, isemote) end
         -- 是否有字符串

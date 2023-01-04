@@ -21,7 +21,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "8.1.4.0"
+version = "8.2.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -514,9 +514,9 @@ configuration_options = {
 
     AddOptionHeader("重生设置"),
     AddOption("restart_set", "重生-总开关", "设置是否开启重生功能", true),
-    AddOption("MOD_RESTART_ALLOW_RESTART", "重生","", false),
-    AddOption("MOD_RESTART_ALLOW_RESURRECT", "复活", "",true),
-    AddOption("MOD_RESTART_ALLOW_KILL", "自杀", "",false),
+    AddOption("MOD_RESTART_ALLOW_RESTART", "重生", "", false),
+    AddOption("MOD_RESTART_ALLOW_RESURRECT", "复活", "", true),
+    AddOption("MOD_RESTART_ALLOW_KILL", "自杀", "", false),
     AddConfigOption("MOD_RESTART_CD_RESTART", "重生冷却(分)", "重生的冷却时间.", mod_restart_cd_options, 0),
     AddConfigOption("MOD_RESTART_CD_RESURRECT", "复活冷却(分)", "复活的冷却时间.", mod_restart_cd_options, 0),
     AddConfigOption("MOD_RESTART_CD_KILL", "自杀冷却(分)", "自杀的冷却时间.", mod_restart_cd_options, 0),
@@ -2043,8 +2043,9 @@ configuration_options = {
               { description = "10s内", data = 10 },
               { description = "20s内", data = 20 },
             }, 5),
-    AddOption("SpyBundle", "包裹监控", "设置 对包裹相关的监控。", true),
-    AddOption("SpyOther", "全能监控", "设置 玩家与生物相关的监控。", true),
+    AddOption("SpyBundle", "包裹监控", "设置对包裹相关的监控。", true),
+    AddOption("SpyOther", "全能监控", "设置玩家与生物相关的监控。", true),
+    AddOption("command_stack", "堆叠指令", "玩家聊天输入#stack堆叠附近的物品。", true),
     AddOption("remove_boss_taunted", "移除boss间的仇恨", "让boss之间不要相互伤害", false),
     AddOption("boss_prop_more_drop_switch", "boss掉落概率增多", "是否开启boss掉落增多", false),
     AddOption("reward_for_survival", "玩家存活激励", "是否开启玩家存活天数奖励制度", false),
@@ -2461,10 +2462,145 @@ configuration_options[#configuration_options + 1] = AddConfigOption("player_auth
           { description = "270", data = 270 },
           { description = "360", data = 360 },
           { description = "不限制", data = 0 }, }, 180)
-configuration_options[#configuration_options + 1] = AddOption("player_authority_stack", "#stack指令", "输入指令自动堆叠玩家范围内的物品", true)
+--移到公用池
+--configuration_options[#configuration_options + 1] = AddOption("player_authority_stack", "#stack指令", "输入指令自动堆叠玩家范围内的物品", true)
 configuration_options[#configuration_options + 1] = AddOption("player_authority_SaveInfo", "主世界换人保留全部数据", "支持#restart，其它世界换人不保留数据", true)
 configuration_options[#configuration_options + 1] = AddOption("player_authority_adduserid", "装备绑定", "使用暗影之心绑定", true)
 configuration_options[#configuration_options + 1] = AddOption("player_authority_canburnable", "有权限建筑防止一切物品的恶意燃烧", "目前在测试阶段，只有火把能点燃建筑", false)
+
+---河蟹防熊，与上面防熊不可同时开
+configuration_options[#configuration_options + 1] = AddOptionHeader("河蟹防熊锁")
+configuration_options[#configuration_options + 1] = AddOption("authority_hexie_switch", "总开关", "河蟹防熊锁", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("test_mode", "测试模式", "",
+        {
+            { description = "是", data = true, hover = "开启测试模式" },
+            { description = "否", data = false, hover = "关闭测试模式" } }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("permission_mode", "权限保护模式", "",
+        { { description = "是", data = true, hover = "开启防熊相关权限验证功能" },
+          { description = "否", data = false, hover = "关闭防熊相关权限验证功能\n(关闭后所有有权限的物品失去保护)" } }, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("authority_hexie_language", "选择语言风格", "",
+        { { description = "正常版", data = "normal", hover = "正常" },
+          { description = "红猪欢乐版", data = "redpig_fun", hover = "欢乐" } }, "normal")
+--configuration_options[#configuration_options + 1] = AddConfigOption("give_start_item", "是否给玩家初始物品", "", { {description = "是", data = true, hover = "给予玩家一些有利于当前环境生存的初始物品"}, {description = "否", data = false, hover = "否"} }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("door_lock", "木门增强", "",
+        { { description = "有权限控制", data = "111", hover = "木门有权限的玩家才能砸和打开，免疫怪物伤害" },
+          { description = "有权限控制2", data = "101", hover = "木门有权限的玩家才能砸和打开，怪物可摧毁" },
+          { description = "部分权限控制", data = "110", hover = "木门有权限的玩家才能砸，任何玩家都能打开，免疫怪物伤害" },
+          { description = "部分权限控制2", data = "100", hover = "木门有权限的玩家才能砸，任何玩家都能打开，怪物可摧毁" },
+          { description = "无权限控制", data = "010", hover = "木门任何玩家都能砸和打开，免疫怪物伤害" },
+          { description = "关闭", data = "000", hover = "关闭" } }, "000")
+configuration_options[#configuration_options + 1] = AddConfigOption("fence_lock", "木栅栏增强", "",
+        { { description = "有权限控制", data = "111", hover = "木栅栏有权限的玩家才能砸，免疫怪物伤害" },
+          { description = "有权限控制2", data = "101", hover = "木栅栏有权限的玩家才能砸，怪物可摧毁" },
+          { description = "关闭", data = "000", hover = "关闭" } }, "000")
+configuration_options[#configuration_options + 1] = AddConfigOption("wall_hay_lock", "草墙增强", "",
+        { { description = "有权限控制", data = "111", hover = "草墙有权限的玩家才能砸，免疫怪物伤害" },
+          { description = "有权限控制2", data = "101", hover = "草墙有权限的玩家才能砸，怪物可摧毁" },
+          { description = "关闭", data = "000", hover = "关闭" } }, "000")
+configuration_options[#configuration_options + 1] = AddConfigOption("wall_wood_lock", "木墙增强", "",
+        { { description = "有权限控制", data = "111", hover = "木墙有权限的玩家才能砸，免疫怪物伤害" },
+          { description = "有权限控制2", data = "101", hover = "木墙有权限的玩家才能砸，怪物可摧毁" },
+          { description = "关闭", data = "000", hover = "关闭" } }, "000")
+configuration_options[#configuration_options + 1] = AddConfigOption("wall_stone_lock", "石墙增强", "",
+        { { description = "有权限控制", data = "111", hover = "石墙有权限的玩家才能砸，免疫怪物伤害" },
+          { description = "有权限控制2", data = "101", hover = "石墙有权限的玩家才能砸，怪物可摧毁" },
+          { description = "关闭", data = "000", hover = "关闭" } }, "000")
+configuration_options[#configuration_options + 1] = AddConfigOption("wall_ruins_lock", "铥矿墙增强", "",
+        { { description = "有权限控制", data = "111", hover = "铥矿墙有权限的玩家才能砸，免疫怪物伤害" },
+          { description = "有权限控制2", data = "101", hover = "铥矿墙有权限的玩家才能砸，怪物可摧毁" },
+          { description = "关闭", data = "000", hover = "关闭" } }, "000")
+configuration_options[#configuration_options + 1] = AddConfigOption("wall_moonrock_lock", "月石墙增强", "",
+        { { description = "有权限控制", data = "111", hover = "月石墙有权限的玩家才能砸，免疫怪物伤害" },
+          { description = "有权限控制2", data = "101", hover = "月石墙有权限的玩家才能砸，怪物可摧毁" },
+          { description = "关闭", data = "000", hover = "关闭" } }, "000")
+configuration_options[#configuration_options + 1] = AddConfigOption("cant_destroyby_monster", "防止怪物摧毁建筑", "",
+        { { description = "开启", data = true, hover = "开启，门和墙体为单独设置" },
+          { description = "关闭", data = false, hover = "为了更全面的游戏体验，建议关闭，门和墙体为单独设置" } }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("firesuppressor_dig", "防止农作物被挖范围", "",
+        { { description = "50码", data = 50 },
+          { description = "40码", data = 40 },
+          { description = "30码", data = 30, hover = "农作物与自己建筑之间的距离" },
+          { description = "25码", data = 25 },
+          { description = "20码", data = 20 },
+          { description = "15码", data = 15 },
+          { description = "10码", data = 10 },
+          { description = "5码", data = 5 },
+          { description = "关闭", data = -1 } }, 30)
+configuration_options[#configuration_options + 1] = AddConfigOption("near_no_permission", "重要地点附近建造的东西无权限", "",
+        { { description = "开启", data = true, hover = "猪王、出生门等地点附近建造的东西没有权限" },
+          { description = "关闭", data = false } }, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("is_allow_build_near", "防止别人造违规建筑", "",
+        { { description = "开启", data = false, hover = "不允许未授权的玩家在自己家附近造建筑" },
+          { description = "关闭", data = true } }, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("admin_option", "管理员受权限控制", "",
+        { { description = "受", data = false, hover = "服务器管理员受权限控制" },
+          { description = "不受", data = true, hover = "服务器管理员不受权限控制" } }, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("remove_owner_time", "玩家离线自动解锁的时间", "",
+        { { description = "40分钟", data = 2400 },
+          { description = "1小时", data = 3600 },
+          { description = "3小时", data = 10800 },
+          { description = "9小时", data = 32400 },
+          { description = "24小时", data = 86400 },
+          { description = "3天", data = 259200 },
+          { description = "7天", data = 604800 },
+          { description = "14天", data = 1209600 },
+          { description = "永远不解锁", data = "never", hover = "玩家离开游戏后，其所有物的自动解锁时间" } }, "never")
+configuration_options[#configuration_options + 1] = AddConfigOption("spread_fire", "火焰蔓延半径", "",
+        { { description = "不蔓延", data = 0 },
+          { description = "一半半径", data = 1, hover = "游戏中火焰的蔓延范围，防止大火烧山" },
+          { description = "正常半径", data = 2 } }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("beefalo_power", "牛增强", "",
+        { { description = "开启", data = true, hover = "防止服从度大于0的牛抖落鞍或主人，并且当牛有主人时防御增强" },
+          { description = "关闭", data = false } }, false)
+--移入公共指令池
+--configuration_options[#configuration_options + 1] = AddConfigOption("auto_stack", "掉落自动堆叠", "", { {description = "开启", data = true, hover = "猪王/喂鸟/挖矿/砍树等掉落物品自动堆叠"}, {description = "关闭", data = false} }, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("minotaur_regenerate", "远古犀牛刷新时间", "",
+        { { description = "10天", data = 10, hover = "远古犀牛死亡10天后刷新" },
+          { description = "20天", data = 20, hover = "远古犀牛死亡20天后刷新" },
+          { description = "30天", data = 30, hover = "远古犀牛死亡30天后刷新" },
+          { description = "40天", data = 40, hover = "远古犀牛死亡40天后刷新" },
+          { description = "50天", data = 50, hover = "远古犀牛死亡50天后刷新" },
+          { description = "60天", data = 60, hover = "远古犀牛死亡60天后刷新" },
+          { description = "70天", data = 70, hover = "远古犀牛死亡70天后刷新" },
+          { description = "80天", data = 80, hover = "远古犀牛死亡80天后刷新" },
+          { description = "90天", data = 90, hover = "远古犀牛死亡90天后刷新" },
+          { description = "100天", data = 100, hover = "远古犀牛死亡100天后刷新" },
+          { description = "关闭", data = -1 } }, 30)
+configuration_options[#configuration_options + 1] = AddConfigOption("minotaur_destroy", "远古犀牛可拆毁建筑", "",
+        { { description = "开启", data = true, hover = "在开启防止怪物摧毁建筑时允许犀牛拆毁建筑,建筑不包括墙类" },
+          { description = "关闭", data = false } }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("ancient_altar_no_destroy", "远古祭坛防止拆毁", "",
+        { { description = "开启", data = true, hover = "防止远古祭坛被玩家破坏" },
+          { description = "关闭", data = false } }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("house_plain_nodestroy", "野外猪人兔人鱼人房防拆毁", "",
+        { { description = "开启", data = true, hover = "防止野外猪人兔人房被玩家破坏" },
+          { description = "关闭", data = false } }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("zhizhu_cuihui", "地下蜘蛛巢穴防拆毁", "",
+        { { description = "开启", data = true, hover = "防止蜘蛛巢被玩家破坏" },
+          { description = "关闭", data = false } }, false)
+--[[
+configuration_options[#configuration_options + 1] = AddConfigOption("clean_level", "清理级别", "",
+        { {description = "非常高", data = 1, hover = "贫瘠"},
+            {description = "高", data = 2, hover = "略微贫瘠"},
+            {description = "中", data = 3, hover = "普通"},
+            {description = "低", data = 4, hover = "略微富饶"},
+            {description = "非常低", data = 5, hover = "富饶"},
+            {description = "关闭", data = -1} }, -1)
+configuration_options[#configuration_options + 1] = AddConfigOption("clean_period", "清理周期", "此选项只有在开启[清理级别]选项后有效",
+        { {description = "非常短", data = 1, hover = "1天"},
+            {description = "短", data = 5, hover = "5天"},
+            {description = "普通", data = 10, hover = "10天"},
+            {description = "长", data = 15, hover = "15天"},
+            {description = "非常长", data = 20, hover = "20天"} }, 10)
+
+-- 自定义物品清理
+configuration_options[#configuration_options + 1] = {
+    name = "clean_custom",
+    -- 配置为 名称:数量
+    -- 如 bearger:1|deerclops:1
+    default = ""
+}
+]]
 
 ---访客掉落
 configuration_options[#configuration_options + 1] = AddOptionHeader("访客掉落优化版")
