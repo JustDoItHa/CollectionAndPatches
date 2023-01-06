@@ -23,7 +23,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "8.3.0.0"
+version = "8.4.2.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -432,6 +432,30 @@ end
 local choice_lighttime = {}
 for i = 1, 15 do
     choice_lighttime[i] = { description = i * 2, data = i * 2 }
+end
+
+local corlors = {
+    "绿色",
+    "深褐色",
+    "远峰蓝",
+    "玫红",
+    "蓝绿色",
+    "淡紫色",
+    "橙色",
+    "紫色",
+    "番茄红",
+    "棕黄色",
+    "象牙白",
+    "红色",
+    "金色",
+    "黑色",
+    "白色",
+    "黄色",
+    "蓝色",
+}
+local show_info_edge_color_options = {}
+for k = 1, #corlors do
+    show_info_edge_color_options[k] = { description = corlors[k], data = k }
 end
 
 configuration_options = {
@@ -1023,6 +1047,15 @@ configuration_options = {
         options = color_options,
         default = -1,
     },
+
+    AddOptionHeader("信息显示"),
+    AddOption("cap_show_info_switch", "总开关", "物体信息详情显示总开开关，开启此则show me不生效", false),
+    AddConfigOption("showanim", "显示物品动画信息", "",{ { description = "显示", data = true },
+        { description = "不显示", data = false }, }, false),
+    AddConfigOption("showtype","显示边框颜色","",show_info_edge_color_options,1),
+    AddConfigOption("show_info_bg","显示背景","",{ { description = "显示", data = true, hover = "会显示背景及边框" },
+        { description = "不显示", data = false, hover = "不会显示背景及边框" }, },false),
+
     AddOptionHeader("全图定位"),
     AddOption("global_position_switch", "全图定位-开关", "是否开启全图定位", true),
     {

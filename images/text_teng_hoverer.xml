@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Atlas>
+	<Texture filename="text_teng_hoverer.tex" />
+	<Elements>
+		<Element name="11.tex" u1="0.001" u2="0.0536875" v2="0.999" v1="0.90725" variant="" />
+		<Element name="12.tex" u1="0.001" u2="0.40525" v2="0.90525" v1="0.829125" variant="" />
+		<Element name="13.tex" u1="0.0556875" u2="0.1005625" v2="0.999" v1="0.90725" variant="" />
+		<Element name="21.tex" u1="0.001" u2="0.0380625" v2="0.827125" v1="0.391625" variant="" />
+		<Element name="22.tex" u1="0.0400625" u2="0.4443125" v2="0.827125" v1="0.391625" variant="" />
+		<Element name="23.tex" u1="0.4463125" u2="0.483375" v2="0.999" v1="0.5635" variant="" />
+		<Element name="31.tex" u1="0.485375" u2="0.7255625" v2="0.999" v1="0.5635" variant="" />
+		<Element name="32.tex" u1="0.4463125" u2="0.8505625" v2="0.5615" v1="0.126" variant="" />
+		<Element name="33.tex" u1="0.7275625" u2="0.9599375" v2="0.999" v1="0.5635" variant="" />
+	</Elements>
+</Atlas>

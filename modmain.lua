@@ -230,9 +230,13 @@ if GetModConfigData("bigbox_switch") then
     TUNING._SET_PRESERVER_BIG_BOX = GetModConfigData("_set_preserver_big_box") or false--超级大箱子保鲜设置
     modimport("scripts/big_box_main.lua")
 end
---show me
-if GetModConfigData("show_me_switch") then
+--show me 不与信息显示同时开启
+if GetModConfigData("show_me_switch") and (not GetModConfigData("cap_show_info_switch")) then
     modimport("scripts/show_me.lua")
+end
+--信息显示
+if GetModConfigData("cap_show_info_switch") then
+    modimport("scripts/show_info_main.lua")
 end
 
 --神话书说补丁
