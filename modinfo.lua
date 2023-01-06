@@ -2,7 +2,9 @@ name = "Collection And Patches[合集和补丁]"
 description = [[
 不推荐订阅
 ]]
----- 本mod是众多mod贡献者的合集和修正,仅用于自用,不推荐订阅,请订阅原版mod,感谢mod贡献者的辛勤付出
+---- 本mod是众多mod贡献者的合集和修正,仅用于自用,不推荐订阅,
+---- 球球了,本mod只是自己服务器跟几个朋友用
+---- 请订阅原版mod,感谢mod贡献者的辛勤付出
 ----------------------------------------------------------------------
 --修改自以下mod:
 --1.黑色法杖（手动清理神器）2.小穹补丁(zymod) 3.全图定位 4.影藏管理员标志
@@ -14,14 +16,14 @@ description = [[
 --32.删除默认人物RemoveDefaultCharacter 33.萝卜冰箱 34.large boats
 --35.发光的瓶子 36.大背包新 37.禁用自定义人物 38.容器不掉路 39.箱子物品自动排序
 --40.UI拖拽缩放 41.Heap of Foods 全汉化 42.访客掉落优化版 43.纯净辅助
---44.超级便携大箱子 45.beefalo status bar
+--44.超级便携大箱子 45.beefalo status bar 46.疼总的信息显示(就是偷来的,好看)
 --集合mod：
 --1.常用mod集合
 --2.萌新合集-服务端
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "8.2.0.0"
+version = "8.3.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then

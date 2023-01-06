@@ -5,31 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/authority_hexie_main.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/config_item.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/gd_global.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/gd_speech.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/item_show.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/manager_beefalos.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/manager_clean.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/manager_others.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/manager_permission.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/manager_players.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/manager_shelters.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/manager_stacks.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/manager_walls.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/near_no_permission.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/authority_hexie/player_start.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/authority_hexie_config_item.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/brains/beefalobrain.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/components/gd_shard_playerchange.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/components/save_beefalo.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/manager_players.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modmain.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modmain.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/authority/authority_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modules/authority/authority_main.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/container_sort.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/container_sort.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/giveitem_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/giveitem_main.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,23 +28,23 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "false",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Volumes/Extends-C/Games/mods self/Collection And Patches/scripts",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Volumes/Extends-C/Games/mods self/Collection And Patches/scripts&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/scripts" />
@@ -114,6 +92,7 @@
       <workItem from="1672070210605" duration="54000" />
       <workItem from="1672070298114" duration="53383000" />
       <workItem from="1672367451809" duration="6069000" />
+      <workItem from="1672807086344" duration="12820000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -178,7 +157,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672766928418</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="add 河蟹防熊锁">
+      <created>1672805552725</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1672805552725</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -229,6 +215,7 @@
     <MESSAGE value="show me 优化" />
     <MESSAGE value="优化" />
     <MESSAGE value="fix + global position 优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix + global position 优化" />
+    <MESSAGE value="add 河蟹防熊锁" />
+    <option name="LAST_COMMIT_MESSAGE" value="add 河蟹防熊锁" />
   </component>
 </project>

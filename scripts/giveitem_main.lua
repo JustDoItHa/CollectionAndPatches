@@ -3,7 +3,7 @@ GLOBAL.setmetatable(env, { __index = function(_, k)
     return GLOBAL.rawget(GLOBAL, k)
 end })
 
-local function FindBestContainer(self, item, containers)
+local function FindBestContainer(self, item, containers, exclude_containers)
     if item == nil or containers == nil then
         return
     end
@@ -11,7 +11,6 @@ local function FindBestContainer(self, item, containers)
     --Construction containers
     --NOTE: reusing containerwithsameitem variable
     local containerwithsameitem = self.inst ~= nil and self.inst.components.constructionbuilderuidata ~= nil and self.inst.components.constructionbuilderuidata:GetContainer() or nil
-    local containerwithsameinst
     if containerwithsameitem ~= nil then
         if containers[containerwithsameitem] ~= nil then
             local slot = self.inst.components.constructionbuilderuidata:GetSlotForIngredient(item.prefab)
@@ -30,26 +29,25 @@ local function FindBestContainer(self, item, containers)
 
     --local containerwithsameitem = nil --reused with construction containers code above
     local containerwithemptyslot
-    local containerwithemptyinst
     local containerwithnonstackableslot
     local overflowContainer = self:GetOverflowContainer()
-    for k, v in pairs(containers) do
+    local backpack = overflowContainer and overflowContainer.inst
+
+    for k, _ in pairs(containers) do
         local container = k.components.container or k.components.inventory
-        if container ~= nil and container:CanTakeItemInSlot(item) then
+        if container ~= nil and container:CanTakeItemInSlot(item) and (k.persists or k == self.inst) and not (exclude_containers and exclude_containers[k]) then
             local isfull = container:IsFull()
             if container:AcceptsStacks() then
-                if not isfull and (containerwithemptyslot == nil or containerwithemptyinst ~= self.inst and k == (overflowContainer and overflowContainer.inst) or k == self.inst) then
+                if not isfull and (containerwithemptyslot == nil or containerwithemptyslot ~= self.inst and k == backpack or k == self.inst) then
                     containerwithemptyslot = k
-                    containerwithemptyinst = k
                 end
                 if item.components.equippable ~= nil and container == k.components.inventory then
                     local equip = container:GetEquippedItem(item.components.equippable.equipslot)
                     if equip and equip.prefab == item.prefab and equip.skinname == item.skinname then
                         if equip.components.stackable ~= nil and not equip.components.stackable:IsFull() then
                             return k
-                        elseif not isfull and (containerwithsameitem == nil or containerwithsameinst ~= self.inst and k == (overflowContainer and overflowContainer.inst) or k == self.inst) then
+                        elseif not isfull and (containerwithsameitem == nil or containerwithsameitem ~= self.inst and k == backpack or k == self.inst) then
                             containerwithsameitem = k
-                            containerwithsameinst = k
                         end
                     end
                 end
@@ -57,9 +55,8 @@ local function FindBestContainer(self, item, containers)
                     if v1 and v1.prefab == item.prefab and v1.skinname == item.skinname then
                         if v1.components.stackable ~= nil and not v1.components.stackable:IsFull() then
                             return k
-                        elseif not isfull and (containerwithsameitem == nil or containerwithsameinst ~= self.inst and k == (overflowContainer and overflowContainer.inst) or k == self.inst) then
+                        elseif not isfull and (containerwithsameitem == nil or containerwithsameitem ~= self.inst and k == backpack or k == self.inst) then
                             containerwithsameitem = k
-                            containerwithsameinst = k
                         end
                     end
                 end
@@ -69,13 +66,13 @@ local function FindBestContainer(self, item, containers)
         end
     end
 
-    return containerwithsameitem or containerwithnonstackableslot or containerwithemptyslot
+    return containerwithsameitem or containerwithemptyslot or containerwithnonstackableslot
 end
 local function inventory(self)
 
     local OldGiveItem = self.GiveItem
     function self:GiveItem(item, slot, src_pos, drop_on_fail)
-        if item == nil or item.components == nil or item.components.inventoryitem == nil or not item:IsValid() then
+        if item.components.inventoryitem == nil or not item:IsValid() then
             print("Warning: Can't give item because it's not an inventory item.")
             return
         end
@@ -91,7 +88,7 @@ local function inventory(self)
             return
         end
         local result
-        if slot == nil and drop_on_fail == nil then
+        if slot == nil and drop_on_fail == nil and self.inst:HasTag("player") then
             result = self:TradeItem(item, slot, src_pos)
         end
         if not result then
@@ -105,13 +102,21 @@ local function inventory(self)
             if next(opencontainers) == nil then
                 return
             end
+
+            local overflow = self:GetOverflowContainer()
+            local backpack
+            if overflow ~= nil and overflow:IsOpenedBy(self.inst) then
+                backpack = overflow.inst
+            end
+
             opencontainers[self.inst] = true
+            local container_owner = item.components.inventoryitem and item.components.inventoryitem.owner
+            local exclude_containers = container_owner and container_owner ~= self.inst and { [container_owner] = true }
             local dest_inst
-            dest_inst = FindBestContainer(self, item, opencontainers)
+            dest_inst = FindBestContainer(self, item, opencontainers, exclude_containers)
             opencontainers[self.inst] = nil
-            if dest_inst and dest_inst ~= self.inst then
-                dest_inst.components.container:GiveItem(item, slot, src_pos)
-                return true
+            if dest_inst and dest_inst ~= self.inst and dest_inst ~= backpack then
+                return dest_inst.components.container:GiveItem(item, slot, src_pos)
             end
         end
         return false
