@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/images/text_teng_hoverer.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/text_teng_hoverer.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/hoverer_all.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/hoverer_client.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/show_info_main.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/widgets/showhoverui.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modmain.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modmain.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/giveitem_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/giveitem_main.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +92,7 @@
       <workItem from="1672070210605" duration="54000" />
       <workItem from="1672070298114" duration="53383000" />
       <workItem from="1672367451809" duration="6069000" />
-      <workItem from="1672807086344" duration="16674000" />
+      <workItem from="1672807086344" duration="18813000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -177,7 +171,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673000135910</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="信息显示">
+      <created>1673006397180</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1673006397180</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -229,6 +230,7 @@
     <MESSAGE value="fix + global position 优化" />
     <MESSAGE value="add 河蟹防熊锁" />
     <MESSAGE value="优化" />
-    <option name="LAST_COMMIT_MESSAGE" value="优化" />
+    <MESSAGE value="信息显示" />
+    <option name="LAST_COMMIT_MESSAGE" value="信息显示" />
   </component>
 </project>
