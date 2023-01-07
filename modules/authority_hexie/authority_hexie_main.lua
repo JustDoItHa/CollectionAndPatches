@@ -598,7 +598,7 @@ if IsServer then
                         or act.target.prefab == "icebox" 
                         or act.target.prefab == "dragonflychest" 
                         or act.target.prefab == "cellar" 
-                        or act.target.prefab == "researchlab2" 
+                        --or act.target.prefab == "researchlab2"
                         or act.target.prefab == "chesterchest"
                         or act.target.prefab == "venus_icebox"
                     )

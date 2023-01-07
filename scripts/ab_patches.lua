@@ -71,3 +71,13 @@ if  TheNet:GetIsServer() then--抄自浅诗大佬
     --     end)
     -- end)
 end
+
+AddComponentPostInit("moisture", function(self)
+    local oldDoDelta = self.DoDelta
+    function self:DoDelta(...)
+        if not self.inst:IsValid() then
+            return
+        end
+        return oldDoDelta(self,...)
+    end
+end)

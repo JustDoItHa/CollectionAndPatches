@@ -23,7 +23,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "8.4.3.0"
+version = "8.4.5.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -339,6 +339,7 @@ MOD_CHARACTERLIST = {
     "yuanzi", --乃木园子
     "wirlywings", --樱花林-樱桃妹
     "tiddlewade", --黑死病-医生
+    "xxx3",
 }
 --自定义配置请修改：
 --Please modify the custom configuration：
@@ -374,6 +375,7 @@ MOD_CHARACTERNAMES = {
     "乃木园子yuanzi", --乃木园子
     "樱花林-樱桃妹wirlywings", --樱花林-樱桃妹
     "黑死病-医生tiddlewade", --黑死病-医生
+    "芮塔",
 }
 
 DST_CHARACTERLIST = {
