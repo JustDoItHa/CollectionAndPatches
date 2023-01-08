@@ -5,24 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/anim/epichealthbar.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/hud/epichealthbar.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/hud/epichealthbar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/epic_healthbar/epic_healthbar_main.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/epic_healthbar/epicfixes.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/epic_healthbar/epichealthbar.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modules/epic_healthbar/modutil.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/components/shadowtweener.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/prefabs/epichealth_proxy.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/utils/persistentdata.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/widgets/epichealthbar.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modmain.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modmain.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/authority_hexie/gd_global.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modules/authority_hexie/gd_global.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/equipment/repairable_equipment.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modules/equipment/repairable_equipment.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/hoverer_client.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/hoverer_client.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/widgets/showhoverui.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/widgets/showhoverui.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/authority_hexie/manager_others.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modules/authority_hexie/manager_others.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +93,7 @@
       <workItem from="1672070298114" duration="53383000" />
       <workItem from="1672367451809" duration="6069000" />
       <workItem from="1672807086344" duration="19598000" />
-      <workItem from="1673093854140" duration="16278000" />
+      <workItem from="1673093854140" duration="20142000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -215,7 +200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673163025104</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="fix">
+      <created>1673171733266</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1673171733266</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
