@@ -17,13 +17,14 @@ description = [[
 --35.发光的瓶子 36.大背包新 37.禁用自定义人物 38.容器不掉路 39.箱子物品自动排序
 --40.UI拖拽缩放 41.Heap of Foods 全汉化 42.访客掉落优化版 43.纯净辅助
 --44.超级便携大箱子 45.beefalo status bar 46.疼总的信息显示(就是偷来的,好看)
+--47.史诗般血量条
 --集合mod：
 --1.常用mod集合
 --2.萌新合集-服务端
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "8.4.7.0"
+version = "8.4.9.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2087,7 +2088,6 @@ configuration_options = {
     AddOption("boss_prop_more_drop_switch", "boss掉落概率增多", "是否开启boss掉落增多", false),
     AddOption("reward_for_survival", "玩家存活激励", "是否开启玩家存活天数奖励制度", false),
     AddOption("blackstaff_make", "黑色法杖-开关", "是否可制作黑色法杖\n用于手动清理垃圾", true),
-    AddOption("simple_health_bar_switch", "简单血量条-开关", "是否显示简单血量条", true),
     AddOption("baka_lamp", "霓庭灯、虹庭灯", "是否允许制作霓庭灯、虹庭灯\n永亮光源", false),
     AddOption("rabbit_house", "兔子喷泉", "是否允许建造兔子喷泉\n漂亮建筑", false),
     AddOption("venus_icebox_switches", "萝卜冰箱", "是否允许建造萝卜冰箱\n前4格永久保鲜", false),
@@ -2315,6 +2315,213 @@ configuration_options = {
     }, { name = "whitemods", description = "白名单列表.", default = {} },
     { name = "blockmods", description = "黑名单名单列表.", default = {} },
 }
+---血量条
+configuration_options[#configuration_options + 1] = AddOptionHeader("血量条显示")
+configuration_options[#configuration_options + 1] = AddOption("simple_health_bar_switch", "1.简单血量条-开关", "是否显示简单血量条", true)
+configuration_options[#configuration_options + 1] = AddOption("epic_health_bar_switch", "2.史诗级血量条-开关", "是否显示史诗级血量条\n此选项开启简单血量条不生效", false)
+local LOCALE = {
+    EN = {
+        NAME = name,
+        HEADER_SERVER = "(.a)Server",
+        HEADER_CLIENT = "(.b).Client",
+        DISABLED = "Disabled",
+        ENABLED = "Enabled",
+        NOEPIC = "Mob Health",
+        NOEPIC_HOVER = "Displays health of non-boss entities.",
+        NOEPIC_DISABLED = "Show bosses only",
+        NOEPIC_ENABLED = "Show mob health",
+        FRAME_PHASES = "Combat Phases",
+        FRAME_PHASES_HOVER = "Separates bars of applicable bosses by phases.",
+        FRAME_PHASES_DISABLED = "Hide phases",
+        FRAME_PHASES_ENABLED = "Show phases",
+        DAMAGE_NUMBERS = "Damage Numbers",
+        DAMAGE_NUMBERS_HOVER = "Displays received damage or healing with popup numbers.",
+        DAMAGE_NUMBERS_DISABLED = "Hide numbers",
+        DAMAGE_NUMBERS_ENABLED = "Show numbers",
+        DAMAGE_RESISTANCE = "Damage Resistance",
+        DAMAGE_RESISTANCE_HOVER = "Displays a special effect when the boss receives\nless damage due to its defenses.",
+        DAMAGE_RESISTANCE_DISABLED = "Hide resistance",
+        DAMAGE_RESISTANCE_ENABLED = "Show resistance",
+        WETNESS_METER = "Wetness",
+        WETNESS_METER_HOVER = "Displays a special effect when the boss becomes wet.",
+        WETNESS_METER_DISABLED = "Hide wetness",
+        WETNESS_METER_ENABLED = "Show wetness",
+        HORIZONTAL_OFFSET = "Horizontal Offset",
+        HORIZONTAL_OFFSET_HOVER = "Shifts the bar away from the center.",
+        HORIZONTAL_OFFSET_LEFT = "%s units to the left",
+        HORIZONTAL_OFFSET_NONE = "No offset",
+        HORIZONTAL_OFFSET_RIGHT = "%s units to the right",
+        NONOEPIC = "Hide Mob Health",
+        NONOEPIC_HOVER = "Shows only bosses even if mob health is enabled.",
+        NONOEPIC_DISABLED = "Follow server settings",
+        NONOEPIC_ENABLED = "Override server settings",
+    },
+
+    PT = {
+        NAME = "Barra de Vida Épica",
+        HEADER_SERVER = "(.a).Servidor",
+        HEADER_CLIENT = "(.b).Cliente",
+        DISABLED = "Desativado",
+        ENABLED = "Ativado",
+        NOEPIC = "Vida do Mob",
+        NOEPIC_HOVER = "Mostrar vida de entidades não chefes.",
+        NOEPIC_DISABLED = "Mostrar apenas chefes",
+        NOEPIC_ENABLED = "Mostrar vida do mob",
+        FRAME_PHASES = "Fases do Combate",
+        FRAME_PHASES_HOVER = "Separar barras de chefes aplicáveis por fases.",
+        FRAME_PHASES_DISABLED = "Ocultar fases",
+        FRAME_PHASES_ENABLED = "Mostrar fases",
+        DAMAGE_NUMBERS = "Números de dano",
+        DAMAGE_NUMBERS_HOVER = "Mostrar dano recebido ou curado com números.",
+        DAMAGE_NUMBERS_DISABLED = "Esconder números",
+        DAMAGE_NUMBERS_ENABLED = "Mostrar números",
+        DAMAGE_RESISTANCE = "Resistência a Dano",
+        DAMAGE_RESISTANCE_HOVER = "Mostra um efeito especial quando o chefe recebe\nmenos dano de acordo com suas defesas.",
+        DAMAGE_RESISTANCE_DISABLED = "Esconder resistência",
+        DAMAGE_RESISTANCE_ENABLED = "Mostrar resistência",
+        WETNESS_METER = "Quão molhado está",
+        WETNESS_METER_HOVER = "Mostra um efeito especial quando o chefe fica molhado.",
+        WETNESS_METER_DISABLED = "Esconder molhadeira",
+        WETNESS_METER_ENABLED = "Mostrar molhadeira",
+        HORIZONTAL_OFFSET = "Centralização Horizontal",
+        HORIZONTAL_OFFSET_HOVER = "Move a barra para longe do centro.",
+        HORIZONTAL_OFFSET_LEFT = "%s de unidades para a esquerda",
+        HORIZONTAL_OFFSET_NONE = "Sem centralização",
+        HORIZONTAL_OFFSET_RIGHT = "%s de unidades para a direita",
+        NONOEPIC = "Esconder Vida do Mob",
+        NONOEPIC_HOVER = "Mostrar apenas chefes mesmo se a vida de mobs estiver ativada.",
+        NONOEPIC_DISABLED = "Seguir configurações do servidor",
+        NONOEPIC_ENABLED = "Sobrepor configurações do servidor",
+    },
+
+    RU = {
+        NAME = name,
+        HEADER_SERVER = "(.a).Сервер",
+        HEADER_CLIENT = "(.b).Клиент",
+        DISABLED = "Отключено",
+        ENABLED = "Включено",
+        NOEPIC = "Здоровье мобов",
+        NOEPIC_HOVER = "Показывает здоровье существ не являющихся боссами.",
+        NOEPIC_DISABLED = "Показывать только боссов",
+        NOEPIC_ENABLED = "Показывать всех мобов",
+        FRAME_PHASES = "Фазы боя",
+        FRAME_PHASES_HOVER = "Разделяет полоски применимых боссов по фазам.",
+        FRAME_PHASES_DISABLED = "Не показывать фазы",
+        FRAME_PHASES_ENABLED = "Показывать фазы",
+        DAMAGE_NUMBERS = "Цифры урона",
+        DAMAGE_NUMBERS_HOVER = "Показывает полученный урон или исцеление отдельными цифрами.",
+        DAMAGE_NUMBERS_DISABLED = "Не показывать цифры",
+        DAMAGE_NUMBERS_ENABLED = "Показывать цифры",
+        DAMAGE_RESISTANCE = "Сопротивление урону",
+        DAMAGE_RESISTANCE_HOVER = "Показывает специальный эффект когда босс получает\nменьше урона из-за своей защиты.",
+        DAMAGE_RESISTANCE_DISABLED = "Не показывать сопротивление",
+        DAMAGE_RESISTANCE_ENABLED = "Показывать сопротивление",
+        WETNESS_METER = "Влажность",
+        WETNESS_METER_HOVER = "Показывает специальный эффект когда босс становится мокрым.",
+        WETNESS_METER_DISABLED = "Не показывать влажность",
+        WETNESS_METER_ENABLED = "Показывать влажность",
+        HORIZONTAL_OFFSET = "Горизонтальное смещение",
+        HORIZONTAL_OFFSET_HOVER = "Сдвигает полоску от центра экрана.",
+        HORIZONTAL_OFFSET_LEFT = "%s единиц налево",
+        HORIZONTAL_OFFSET_NONE = "Без смещения",
+        HORIZONTAL_OFFSET_RIGHT = "%s единиц направо",
+        NONOEPIC = "Скрывать здоровье мобов",
+        NONOEPIC_HOVER = "Показывает только боссов даже если здоровье мобов включено.",
+        NONOEPIC_DISABLED = "Следовать настройкам сервера",
+        NONOEPIC_ENABLED = "Игнорировать настройки сервера",
+    },
+
+    ZH = {
+        NAME = name,
+        HEADER_SERVER = "(.a)服务器",
+        HEADER_CLIENT = "(.b)客户端",
+        DISABLED = "关闭",
+        ENABLED = "开启",
+        NOEPIC = "所有生物的血量条",
+        NOEPIC_HOVER = "显示非boss的血量条",
+        NOEPIC_DISABLED = "仅显示boss的血量条",
+        NOEPIC_ENABLED = "显示所有生物的血量条",
+        FRAME_PHASES = "战斗机制阶段",
+        FRAME_PHASES_HOVER = "按阶段显示boss血量条",
+        FRAME_PHASES_DISABLED = "隐藏阶段",
+        FRAME_PHASES_ENABLED = "显示阶段",
+        DAMAGE_NUMBERS = "显示伤害&治疗量",
+        DAMAGE_NUMBERS_HOVER = "以弹出数值的方式显示受到的伤害和治疗",
+        DAMAGE_NUMBERS_DISABLED = "隐藏数值",
+        DAMAGE_NUMBERS_ENABLED = "显示数值",
+        DAMAGE_RESISTANCE = "抗损伤性",
+        DAMAGE_RESISTANCE_HOVER = "显示抗损伤效果",
+        DAMAGE_RESISTANCE_DISABLED = "隐藏抵抗",
+        DAMAGE_RESISTANCE_ENABLED = "显示抵抗",
+        WETNESS_METER = "潮湿度",
+        WETNESS_METER_HOVER = "显示湿度效果",
+        WETNESS_METER_DISABLED = "隐藏潮湿度",
+        WETNESS_METER_ENABLED = "显示潮湿度",
+        HORIZONTAL_OFFSET = "血量条X轴偏移",
+        HORIZONTAL_OFFSET_HOVER = "将血量条进行X轴偏移",
+        HORIZONTAL_OFFSET_LEFT = "往左调整 %s",
+        HORIZONTAL_OFFSET_NONE = "无偏移",
+        HORIZONTAL_OFFSET_RIGHT = "往右调整 %s",
+        NONOEPIC = "只显示boss血量",
+        NONOEPIC_HOVER = "即使服务器启用了所有怪物血量，也只显示BOSS",
+        NONOEPIC_DISABLED = "遵循服务器设置",
+        NONOEPIC_ENABLED = "覆盖服务器设置",
+    },
+}
+
+LOCALE.BR = LOCALE.PT
+LOCALE.CH = LOCALE.ZH
+
+local function MakeHeader(label, client)
+    return { name = "", label = label, options = { { description = "", data = "" } }, default = "", client = client }
+end
+local function GetToggleOptions(name)
+    return
+    {
+        { description = STRINGS.DISABLED, data = false, hover = STRINGS[name .. "_DISABLED"] },
+        { description = STRINGS.ENABLED, data = true, hover = STRINGS[name .. "_ENABLED"] },
+    }
+end
+
+local function MakeOption(name, options, default, client)
+    return
+    {
+        name = name,
+        label = STRINGS[name],
+        hover = STRINGS[name .. "_HOVER"],
+        options = options or GetToggleOptions(name),
+        default = default or false,
+        client = client,
+    }
+end
+function SetLocale(locale)
+    STRINGS = locale ~= nil and LOCALE[locale:upper():sub(0, 2)] or LOCALE.EN
+
+    name = STRINGS.NAME or name
+
+    local HORIZONTAL_OFFSET_OPTIONS = {}
+    for i = -200, 200, 25 do
+        if i < 0 then
+            HORIZONTAL_OFFSET_OPTIONS[#HORIZONTAL_OFFSET_OPTIONS + 1] = { description = "" .. i, data = i, hover = STRINGS.HORIZONTAL_OFFSET_LEFT:format(-i) }
+        elseif i == 0 then
+            HORIZONTAL_OFFSET_OPTIONS[#HORIZONTAL_OFFSET_OPTIONS + 1] = { description = STRINGS.DISABLED, data = 0, hover = STRINGS.HORIZONTAL_OFFSET_NONE }
+        else
+            HORIZONTAL_OFFSET_OPTIONS[#HORIZONTAL_OFFSET_OPTIONS + 1] = { description = "" .. i, data = i, hover = STRINGS.HORIZONTAL_OFFSET_RIGHT:format(i) }
+        end
+    end
+    configuration_options[#configuration_options + 1] = MakeHeader(STRINGS.HEADER_SERVER)
+    configuration_options[#configuration_options + 1] = MakeOption("NOEPIC", nil, false)
+    configuration_options[#configuration_options + 1] = MakeHeader(STRINGS.HEADER_CLIENT, true)
+    configuration_options[#configuration_options + 1] = MakeOption("FRAME_PHASES", nil, true, true)
+    configuration_options[#configuration_options + 1] = MakeOption("DAMAGE_NUMBERS", nil, true, true)
+    configuration_options[#configuration_options + 1] = MakeOption("DAMAGE_RESISTANCE", nil, true, true)
+    configuration_options[#configuration_options + 1] = MakeOption("WETNESS_METER", nil, false, true)
+    configuration_options[#configuration_options + 1] = MakeOption("HORIZONTAL_OFFSET", HORIZONTAL_OFFSET_OPTIONS, 0, true)
+    configuration_options[#configuration_options + 1] = MakeOption("NONOEPIC", nil, false, true)
+
+end
+SetLocale(locale)
+
 ---纯净辅助
 configuration_options[#configuration_options + 1] = AddOptionHeader("微小游戏体验提升")
 configuration_options[#configuration_options + 1] = AddOption("little_modify_for_pure_switch", "总开关", "一些提升纯净档的微小功能", false)

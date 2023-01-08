@@ -46,23 +46,23 @@ end
 
 -- 设置所有者名
 function SetOwnerName(inst, master, permission_state)
-    if inst ~= nil and inst:IsValid() then 
+    if inst ~= nil and inst:IsValid() then
 
         if inst.components.named == nil and not inst:HasTag("player") then
-            inst:AddComponent("named")   
+            inst:AddComponent("named")
         end
 
         local userid = inst.ownerlist ~= nil and inst.ownerlist.master or master
         if inst.components.named ~= nil then
             if userid ~= nil then
-                local ownerName = GetPlayerNameByOwnerlist({master = userid})
+                local ownerName = GetPlayerNameByOwnerlist({ master = userid })
                 if ownerName ~= nil then
                     if inst.oldName == nil then
                         inst.oldName = inst.name
-                    end 
-                    if permission_state == false then 
+                    end
+                    if permission_state == false then
                         inst.components.named:SetName((inst.oldName or inst.name or "") .. "\n" .. GetSayMsg("item_master_to", ownerName) .. " --无权限")
-                    elseif permission_state == nil or permission_state then 
+                    elseif permission_state == nil or permission_state then
                         inst.components.named:SetName((inst.oldName or inst.name or "") .. "\n" .. GetSayMsg("item_master_to", ownerName))
                     end
                 end
@@ -74,7 +74,7 @@ function SetOwnerName(inst, master, permission_state)
 end
 
 -- 设置物品名称
-function SetItemAppendName(inst, appendName) 
+function SetItemAppendName(inst, appendName)
     if inst ~= nil and inst:IsValid() then
         if inst.components.named == nil then
             inst:AddComponent("named")
@@ -115,7 +115,7 @@ function SaveAndLoadChanged(inst)
 
     if inst.components.named == nil and not inst:HasTag("player") then
         inst:AddComponent("named")
-        inst.oldName = inst.name   
+        inst.oldName = inst.name
     end
 
     local OldOnSave = inst.OnSave
@@ -156,37 +156,37 @@ end
 function SavePermission(inst)
     local prefab = type(inst) == "string" and inst or inst.prefab
     AddPrefabPostInit(
-        prefab,
-        function(inst)
-            SaveAndLoadChanged(inst)
-        end
+            prefab,
+            function(inst)
+                SaveAndLoadChanged(inst)
+            end
     )
 end
 
 -- 为所有自定义物品加上权限
 AddPrefabPostInitAny(
-    function(inst) 
+        function(inst)
 
-        --筛选出树苗,在树苗变成大树之前推送出事件
-        if string.find(inst.prefab, "_sapling") then 
-            local function OnremoveFn(inst)
-                if inst.ownerlist ~= nil then  
-                    local x,y,z = inst.Transform:GetWorldPosition() 
-                    local master = inst.ownerlist.master 
-                    _G.TheWorld:PushEvent("tree_permission", { x = x, y = y, z = z, master = master}) --推送出树苗的位置和所有者,监听对象设置在manager_permission.lua中 2020.2.6               
+            --筛选出树苗,在树苗变成大树之前推送出事件
+            if string.find(inst.prefab, "_sapling") then
+                local function OnremoveFn(inst)
+                    if inst.ownerlist ~= nil then
+                        local x, y, z = inst.Transform:GetWorldPosition()
+                        local master = inst.ownerlist.master
+                        _G.TheWorld:PushEvent("tree_permission", { x = x, y = y, z = z, master = master }) --推送出树苗的位置和所有者,监听对象设置在manager_permission.lua中 2020.2.6
+                    end
                 end
-            end
-    
-            inst:ListenForEvent("onremove", OnremoveFn)
-        end
 
-        if
+                inst:ListenForEvent("onremove", OnremoveFn)
+            end
+
+            if
             _G.TheWorld.guard_authorization ~= nil and _G.TheWorld.guard_authorization.custom_prefabs ~= nil and
-                _G.TheWorld.guard_authorization.custom_prefabs[inst.prefab]
-         then
-            SaveAndLoadChanged(inst)
+                    _G.TheWorld.guard_authorization.custom_prefabs[inst.prefab]
+            then
+                SaveAndLoadChanged(inst)
+            end
         end
-    end
 )
 
 -- 检查物品是否有进行保存和加载权限
@@ -202,10 +202,10 @@ end
 function PlayerSay(player, msg, delay, duration, noanim, force, nobroadcast, colour)
     if player ~= nil and player.components.talker then
         player:DoTaskInTime(
-            delay or 0.01,
-            function()
-                player.components.talker:Say(msg, duration or 2.5, noanim, force, nobroadcast, colour)
-            end
+                delay or 0.01,
+                function()
+                    player.components.talker:Say(msg, duration or 2.5, noanim, force, nobroadcast, colour)
+                end
         )
     end
 end
@@ -254,18 +254,18 @@ function ItemAnimSetPosition(doer, x, y, z, isDoerNotSetPos, isEndAnim)
         if doX ~= nil and doer.components.colourtweener then
             local colour_r, colour_g, colour_b, alpha = doer.AnimState:GetMultColour()
             doer.components.colourtweener:StartTween(
-                {0, 0, 0, 1},
-                19 * FRAMES,
-                function()
-                    if isEndAnim then
-                        local end_fx = SpawnPrefab("spawn_fx_medium")
-                        if end_fx ~= nil then
-                            end_fx.Transform:SetPosition(x, y, z)
+                    { 0, 0, 0, 1 },
+                    19 * FRAMES,
+                    function()
+                        if isEndAnim then
+                            local end_fx = SpawnPrefab("spawn_fx_medium")
+                            if end_fx ~= nil then
+                                end_fx.Transform:SetPosition(x, y, z)
+                            end
                         end
+                        doer.AnimState:SetMultColour(colour_r, colour_g, colour_b, alpha)
+                        ItemSetPosition(doer, x, y, z, isDoerNotSetPos, true)
                     end
-                    doer.AnimState:SetMultColour(colour_r, colour_g, colour_b, alpha)
-                    ItemSetPosition(doer, x, y, z, isDoerNotSetPos, true)
-                end
             )
         else
             if isEndAnim then
@@ -286,19 +286,24 @@ function GetFanValidPoint(position, minRadiu, maxRadiu, attempts)
     local theta = math.random() * 2 * PI
     local radius = math.random(minRadiu or 8, maxRadiu or 15)
     local attempts = attempts or 30
-    local result_offset =
-        FindValidPositionByFan(
-        theta,
-        radius,
-        attempts,
-        function(offset)
-            local run_point = position + offset
-            local tile = _G.TheWorld.Map:GetTileAtPoint(run_point.x, run_point.y, run_point.z)
-            if tile == GROUND.IMPASSABLE or tile == GROUND.INVALID or tile >= GROUND.UNDERGROUND then
-                return false
+    local result_offset = FindValidPositionByFan(
+            theta,
+            radius,
+            attempts,
+            function(offset)
+                if position == nil or position.x == nil or position.y == nil or position.z == nil then
+                    return false
+                end
+                local run_point = position + offset
+                if run_point == nil or run_point.x == nil or run_point.y == nil or run_point.z == nil then
+                    return false
+                end
+                local tile = _G.TheWorld.Map:GetTileAtPoint(run_point.x, run_point.y, run_point.z)
+                if tile == GROUND.IMPASSABLE or tile == GROUND.INVALID or tile >= GROUND.UNDERGROUND then
+                    return false
+                end
+                return true
             end
-            return true
-        end
     )
     if result_offset ~= nil then
         local pos = position + result_offset
@@ -319,8 +324,8 @@ function CheckFriend(masterId, guestId)
     -- _G.TheWorld.guard_authorization ~= nil and _G.TheWorld.guard_authorization[masterId] ~= nil
     --return _G.TheWorld.guard_authorization[masterId].friends and _G.TheWorld.guard_authorization[masterId].friends[guestId]
     return _G.TheWorld.guard_authorization ~= nil and _G.TheWorld.guard_authorization[masterId] ~= nil and
-        _G.TheWorld.guard_authorization[masterId].friends and
-        _G.TheWorld.guard_authorization[masterId].friends[guestId]
+            _G.TheWorld.guard_authorization[masterId].friends and
+            _G.TheWorld.guard_authorization[masterId].friends[guestId]
 end
 
 -- 设置物体权限
@@ -349,7 +354,7 @@ function SetItemPermission(item, player, forer)
     if player ~= nil or forer == nil then
         item.ownerlist.master = type(player) == "string" and player or (player ~= nil and player.userid or nil)
         SetOwnerName(item)
-        SetItemPermissionDestroy(item) 
+        SetItemPermissionDestroy(item)
         --TheNet:Announce(player.name .. "为" .. item.prefab .."设置了权限")
     end
     if forer ~= nil then
@@ -364,9 +369,9 @@ function GetItemLeader(item)
         return item
     elseif item ~= nil then
         if
-            item.components.follower ~= nil and item.components.follower.leader ~= nil and
+        item.components.follower ~= nil and item.components.follower.leader ~= nil and
                 item.components.follower.leader:HasTag("player")
-         then
+        then
             return item.components.follower.leader
         elseif item.ownerlist ~= nil and item.ownerlist.master ~= nil then
             return GetPlayerById(item.ownerlist.master) or item
@@ -379,7 +384,7 @@ end
 -- 判断权限 
 function CheckPermission(ownerlist, guest, isForer)
     -- 关闭权限验证且是玩家的行为则直接返回true 2020.02.19
-    if permission_mode == false and guest:HasTag("player") then 
+    if permission_mode == false and guest:HasTag("player") then
         return true
     end
     -- 目标没有权限直接返回true
@@ -389,10 +394,10 @@ function CheckPermission(ownerlist, guest, isForer)
     local guestId = type(guest) == "string" and guest or (guest and guest.userid or nil)
     -- 主人为自己时直接返回true
     if
-        guestId and
+    guestId and
             (ownerlist.master == guestId or CheckFriend(ownerlist.master, guestId) or
-                (isForer and ownerlist.forer == guestId))
-     then
+                    (isForer and ownerlist.forer == guestId))
+    then
         return true
     end
 
@@ -428,31 +433,31 @@ function CheckItemPermission(player, target, isNoMaster, isForer)
     end
 
     return false
-end 
+end
 
 -- 检查区域内相同主人的树和树桩的数量，达到4个就返回 2020.02.12 
-function Get_near_tree_num(inst) 
-    local x,y,z = inst:GetPosition():Get() 
-    local tree_num = 0 
-    local ents = TheSim:FindEntities(x, y, z, 12, nil, {"INLIMBO"}, {"tree", "stump"}, {"player"}) 
+function Get_near_tree_num(inst)
+    local x, y, z = inst:GetPosition():Get()
+    local tree_num = 0
+    local ents = TheSim:FindEntities(x, y, z, 12, nil, { "INLIMBO" }, { "tree", "stump" }, { "player" })
     for _, findobj in pairs(ents) do
-        if findobj ~= nil and findobj.ownerlist ~= nil and findobj.ownerlist.master == inst.ownerlist.master then 
-            tree_num = tree_num + 1 
-            if tree_num >= 4 then 
-                return tree_num 
+        if findobj ~= nil and findobj.ownerlist ~= nil and findobj.ownerlist.master == inst.ownerlist.master then
+            tree_num = tree_num + 1
+            if tree_num >= 4 then
+                return tree_num
             end
         end
-    end 
+    end
 
-    return tree_num 
-end 
+    return tree_num
+end
 
 -- 判断周围是否有公共设施
 function IsNearPublicEnt(pos)
     local ents = {}
-    local x, y, z = pos.x, pos.y, pos.z 
-    ents = TheSim:FindEntities(x, y, z, 12, {"public_ent"}) 
-    if #ents >= 1 then 
+    local x, y, z = pos.x, pos.y, pos.z
+    ents = TheSim:FindEntities(x, y, z, 12, { "public_ent" })
+    if #ents >= 1 then
         return true
     end
 
@@ -466,7 +471,7 @@ function CheckBuilderScopePermission(player, item, msg, scopePermission, pos)
         return true
     end
     if scopePermission == nil then
-        scopePermission = firesuppressor_dig 
+        scopePermission = firesuppressor_dig
     end
 
     --主人不为自己时，判断周围有无别人的建筑群，如果有则不可执行，否则可执行
@@ -478,10 +483,10 @@ function CheckBuilderScopePermission(player, item, msg, scopePermission, pos)
         else
             x, y, z = (item and item or player).Transform:GetWorldPosition()
         end
-        ents = TheSim:FindEntities(x, y, z, scopePermission, nil, nil, {"structure", "wall"})
+        ents = TheSim:FindEntities(x, y, z, scopePermission, nil, nil, { "structure", "wall" })
         local mystructure_num = 0
         local structure_num = 0
-        if player and player.userid then 
+        if player and player.userid then
 
             -- 管理员直接返回true
             if admin_option and player.Network and player.Network:IsServerAdmin() and test_mode == false then
@@ -520,9 +525,9 @@ function RemoveEventCallbackEx(inst, event, filepath, source)
 
     -- 移除指定监听方法
     if
-        source.event_listeners ~= nil and source.event_listeners[event] ~= nil and
+    source.event_listeners ~= nil and source.event_listeners[event] ~= nil and
             source.event_listeners[event][inst] ~= nil
-     then
+    then
         --print("find event begin")
         for i, fn in ipairs(source.event_listeners[event][inst]) do
             local info = _G.debug.getinfo(fn, "LnS")
@@ -530,17 +535,17 @@ function RemoveEventCallbackEx(inst, event, filepath, source)
                 old_event_key = i
                 old_event = fn
                 break
-            --print(string.format("      %s = function - %s", i, info.source..":"..tostring(info.linedefined)))
+                --print(string.format("      %s = function - %s", i, info.source..":"..tostring(info.linedefined)))
             end
         end
-    --print("find event end")
+        --print("find event end")
     end
 
     -- 移除指定监听方法
     if
-        old_event ~= nil and source.event_listeners ~= nil and source.event_listeners[event] ~= nil and
+    old_event ~= nil and source.event_listeners ~= nil and source.event_listeners[event] ~= nil and
             source.event_listeners[event][inst] ~= nil
-     then
+    then
         inst:RemoveEventCallback(event, old_event, source)
     end
 
@@ -550,14 +555,14 @@ end
 --移除可燃烧属性 2020.3.30
 function RemoveBurnable(inst)
     -- 移除船的可燃属性 2020.3.20
-    if inst.prefab == "boat" and not inst.gd_lightremoved then 
-        local burnable_locators = inst.burnable_locators 
-        for k,v in pairs(burnable_locators) do 
-            v:RemoveComponent("burnable") 
+    if inst.prefab == "boat" and not inst.gd_lightremoved then
+        local burnable_locators = inst.burnable_locators
+        for k, v in pairs(burnable_locators) do
+            v:RemoveComponent("burnable")
         end
 
-        inst.gd_lightremoved = true 
-    -- 其他东西的可燃性
+        inst.gd_lightremoved = true
+        -- 其他东西的可燃性
     elseif inst and not inst.gd_lightremoved and inst.components.burnable ~= nil then
         inst.gd_lightremoved = true
         if inst:HasTag("canlight") then
@@ -680,25 +685,25 @@ function testActPrint(act, doer, target, actName, actDes)
         end
 
         print(
-            (doer and doer.name .. "(" .. doer.prefab .. ")" or "[未知]") ..
-                "--" ..
-                    actName ..
+                (doer and doer.name .. "(" .. doer.prefab .. ")" or "[未知]") ..
                         "--" ..
-                            (target and
+                        actName ..
+                        "--" ..
+                        (target and
                                 (target.prefab and GetItemOldName(target) .. "(" .. target.prefab .. ")" or "[无效的类名]") ..
-                                    ("--" ..
-                                        actDes ..
-                                            "--ownerlist:" ..
+                                        ("--" ..
+                                                actDes ..
+                                                "--ownerlist:" ..
                                                 tostring(target.ownerlist) ..
-                                                    " ownerlist数量:" ..
-                                                        (target.ownerlist and tablelength(target.ownerlist) or "[无效的对象]")) or
+                                                " ownerlist数量:" ..
+                                                (target.ownerlist and tablelength(target.ownerlist) or "[无效的对象]")) or
                                 "target对象不存在")
         )
         --print("["..(doer and doer.userid and doer.userid or "无效的ID").."]HasTag:"..(doer and doer.userid and target and tostring(target:HasTag("userid_"..doer.userid)) or "false"))
         print(
-            "[" ..
-                (doer and doer.userid and doer.userid or "无效的ID") ..
-                    "]HasTag:" ..
+                "[" ..
+                        (doer and doer.userid and doer.userid or "无效的ID") ..
+                        "]HasTag:" ..
                         (doer and doer.userid and target and tostring(CheckItemPermission(doer, target)) or "false")
         )
         print("IsPlayer:" .. tostring(doer and doer:HasTag("player")))

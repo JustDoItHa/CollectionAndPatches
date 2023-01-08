@@ -215,8 +215,11 @@ if GetModConfigData("improve_mushroom_planters_switch") then
 end
 
 --简单血量条
-if GetModConfigData("simple_health_bar_switch") then
+if GetModConfigData("simple_health_bar_switch") and (not GetModConfigData("epic_health_bar_switch"))then
     modimport("scripts/simple_health_bar.lua")
+end
+if GetModConfigData("epic_health_bar_switch") then
+    modimport("modules/epic_healthbar/epic_healthbar_main.lua")
 end
 
 --超大便携箱子

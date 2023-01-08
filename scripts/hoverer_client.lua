@@ -112,7 +112,7 @@ local function a(N9L, hDc_M)
         end ;
         local hPQ = TD1MADAO_NIL_STR;
         local R1FIoQI = ThePlayer;
-        local NsoTwDs = R1FIoQI[yxjl[28]][yxjl[29]]
+        local NsoTwDs = R1FIoQI["components"][yxjl[29]]
         local HGli = R1FIoQI[yxjl[30]][yxjl[31]]:GetActiveItem()
         if HGli == nil then
             if not (N9L[yxjl[30]][yxjl[32]] ~= nil and N9L[yxjl[30]][yxjl[32]]:IsEquipped()) then
@@ -141,12 +141,12 @@ local function a(N9L, hDc_M)
             if not (N9L[yxjl[30]][yxjl[32]] ~= nil and N9L[yxjl[30]][yxjl[32]]:IsEquipped()) then
                 if HGli[yxjl[30]][yxjl[35]] ~= nil and HGli[yxjl[38]] == N9L[yxjl[38]] and HGli[yxjl[39]]:GetSkinBuild() == N9L[yxjl[39]]:GetSkinBuild() then
                     iD1IUx = true;
-                    hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[40]][yxjl[41]][yxjl[42]]
-                    qW0lRiD1 = qW0lRiD1 .. yxjl[11] .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[40]][yxjl[41]][yxjl[42]]
+                    hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[40]]["HUD"][yxjl[42]]
+                    qW0lRiD1 = qW0lRiD1 .. yxjl[11] .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[40]]["HUD"][yxjl[42]]
                 else
                     iD1IUx = true;
-                    hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[40]][yxjl[41]][yxjl[43]]
-                    qW0lRiD1 = qW0lRiD1 .. yxjl[11] .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[40]][yxjl[41]][yxjl[43]]
+                    hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[40]]["HUD"][yxjl[43]]
+                    qW0lRiD1 = qW0lRiD1 .. yxjl[11] .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[40]]["HUD"][yxjl[43]]
                 end
             end
             local Ch = NsoTwDs:GetUseItemActions(N9L, HGli, true)
@@ -170,9 +170,11 @@ local function LB1Z(hoverer)
     hoverer["othertarget"] = false;
     hoverer["text"]:SetSize(tonumber("24"))
     hoverer["secondarytext"]:SetSize(tonumber("24"))
-    hoverer["inst"]:ListenForEvent("hoverdirtychange", function(t5jzEd9, JZAU2) hoverer["othertarget"] = false end, hoverer["owner"])
+    hoverer["inst"]:ListenForEvent("hoverdirtychange", function(t5jzEd9, JZAU2)
+        hoverer["othertarget"] = false
+    end, hoverer["owner"])
     function hoverer:OnUpdate()
-        if hoverer["owner"][yxjl[28]][yxjl[52]] == nil or not hoverer["owner"][yxjl[28]][yxjl[52]]:UsingMouse() then
+        if hoverer["owner"]["components"]["playercontroller"] == nil or not hoverer["owner"]["components"]["playercontroller"]:UsingMouse() then
             if hoverer[yxjl[53]] then
                 hoverer:Hide()
             end ;
@@ -211,10 +213,10 @@ local function LB1Z(hoverer)
             qX = a(under_mouse, qL)
         else
             if not hoverer[yxjl[58]] then
-                qX = hoverer["owner"][yxjl[41]][yxjl[59]]:GetTooltip() or hoverer["owner"][yxjl[28]][yxjl[52]]:GetHoverTextOverride()
-                hoverer["text"]:SetPosition(hoverer["owner"][yxjl[41]][yxjl[59]]:GetTooltipPos() or hoverer[yxjl[60]])
-                if hoverer["owner"][yxjl[41]][yxjl[59]]:GetTooltip() ~= nil then
-                    h_8 = hoverer["owner"][yxjl[41]][yxjl[59]]:GetTooltipColour()
+                qX = hoverer["owner"]["HUD"]["controls"]:GetTooltip() or hoverer["owner"]["components"]["playercontroller"]:GetHoverTextOverride()
+                hoverer["text"]:SetPosition(hoverer["owner"]["HUD"]["controls"]:GetTooltipPos() or hoverer[yxjl[60]])
+                if hoverer["owner"]["HUD"]["controls"]:GetTooltip() ~= nil then
+                    h_8 = hoverer["owner"]["HUD"]["controls"]:GetTooltipColour()
                 end
             else
                 qX = hoverer["owner"]:GetTooltip()
@@ -224,7 +226,7 @@ local function LB1Z(hoverer)
         local vfIyB = nil;
         local quNsijN = nil
         if qX == nil and not hoverer[yxjl[58]] and hoverer["owner"]:IsActionsVisible() then
-            quNsijN = hoverer["owner"][yxjl[28]][yxjl[52]]:GetLeftMouseAction()
+            quNsijN = hoverer["owner"]["components"]["playercontroller"]:GetLeftMouseAction()
             if quNsijN ~= nil then
                 local u;
                 if quNsijN["target"] and quNsijN["target"][yxjl[30]] and quNsijN["target"][yxjl[30]][yxjl[34]] ~= nil then
@@ -250,14 +252,19 @@ local function LB1Z(hoverer)
                             end
                         end ;
                         qX = qX .. yxjl[10] .. (kFTAh)
-                        if quNsijN["target"][yxjl[28]][yxjl[65]] ~= nil and quNsijN["target"][yxjl[28]][yxjl[65]][yxjl[66]] and quNsijN["target"][yxjl[38]] ~= nil then
+                        if quNsijN["target"]["components"][yxjl[65]] ~= nil and quNsijN["target"]["components"][yxjl[65]][yxjl[66]] and quNsijN["target"][yxjl[38]] ~= nil then
                             ProfileStatsSet(quNsijN["target"][yxjl[38]] .. yxjl[19], true)
                         end
                     end
                 end
             end ;
-            local qboV = hoverer["owner"][yxjl[28]][yxjl[52]]:IsAOETargeting()
-            local nSBOx7 = hoverer["owner"][yxjl[28]][yxjl[52]]:GetRightMouseAction()
+            local qboV = nil
+            local nSBOx7 = nil
+            if hoverer["owner"]["components"]["playercontroller"] ~= nil then
+                qboV = hoverer["owner"]["components"]["playercontroller"]:IsAOETargeting()
+                nSBOx7 = hoverer["owner"]["components"]["playercontroller"]:GetRightMouseAction()
+            end
+
             if nSBOx7 ~= nil then
                 if nSBOx7[yxjl[61]][yxjl[67]] then
                     vfIyB = nSBOx7:GetActionString() .. yxjl[10] .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY)
@@ -269,7 +276,7 @@ local function LB1Z(hoverer)
                 end
             end ;
             if qboV and vfIyB == nil then
-                vfIyB = TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. yxjl[12] .. STRINGS[yxjl[40]][yxjl[41]][yxjl[69]]
+                vfIyB = TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. yxjl[12] .. STRINGS[yxjl[40]]["HUD"][yxjl[69]]
                 xL7OTb = true
             end
         end ;

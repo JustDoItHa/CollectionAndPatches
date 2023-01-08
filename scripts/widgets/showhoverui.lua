@@ -169,20 +169,20 @@ local a = Class(widget_l, function(self, iD1IUx, JLCOx_ak, hPQ)
     self["image13"] = self:AddChild(image_l("images/text_teng_hoverer.xml", ZG[18]))
     self["image13"]:SetTint(unpack(R1FIoQI))
     self["SetSize"] = function(qW0lRiD1, iD1IUx, JLCOx_ak)
-        qW0lRiD1["image31"]:SetPosition(-iD1IUx / tonumber(ZG[19]) - tonumber("1"), JLCOx_ak / tonumber(ZG[19]) - tonumber(ZG[20]))
+        qW0lRiD1["image31"]:SetPosition(-iD1IUx / tonumber("2") - tonumber("1"), JLCOx_ak / tonumber("2") - tonumber(ZG[20]))
         qW0lRiD1["image32"]:SetSize(iD1IUx, -qW0lRiD1["image32"][ZG[83]])
-        qW0lRiD1["image32"]:SetPosition(tonumber(ZG[7]), JLCOx_ak / tonumber(ZG[19]) - tonumber(ZG[21]))
-        qW0lRiD1["image33"]:SetPosition(iD1IUx / tonumber(ZG[19]) - tonumber(ZG[22]), JLCOx_ak / tonumber(ZG[19]) - tonumber(ZG[20]))
-        qW0lRiD1["image11"]:SetPosition(-iD1IUx / tonumber(ZG[19]) - tonumber("1"), -JLCOx_ak / tonumber(ZG[19]) + tonumber(ZG[23]))
+        qW0lRiD1["image32"]:SetPosition(tonumber(ZG[7]), JLCOx_ak / tonumber("2") - tonumber(ZG[21]))
+        qW0lRiD1["image33"]:SetPosition(iD1IUx / tonumber("2") - tonumber(ZG[22]), JLCOx_ak / tonumber("2") - tonumber(ZG[20]))
+        qW0lRiD1["image11"]:SetPosition(-iD1IUx / tonumber("2") - tonumber("1"), -JLCOx_ak / tonumber("2") + tonumber(ZG[23]))
         qW0lRiD1["image12"]:SetSize(iD1IUx, qW0lRiD1["image12"][ZG[83]])
-        qW0lRiD1["image12"]:SetPosition(tonumber(ZG[7]), -JLCOx_ak / tonumber(ZG[19]) + tonumber("1"))
-        qW0lRiD1["image13"]:SetPosition(iD1IUx / tonumber(ZG[19]) - tonumber(ZG[22]), -JLCOx_ak / tonumber(ZG[19]) + tonumber(ZG[24]))
-        qW0lRiD1["image21"]:SetSize(qW0lRiD1["image21"]["origw"], JLCOx_ak - tonumber(ZG[19]))
-        qW0lRiD1["image21"]:SetPosition(-iD1IUx / tonumber(ZG[19]) - tonumber(ZG[19]), tonumber(ZG[7]))
+        qW0lRiD1["image12"]:SetPosition(tonumber(ZG[7]), -JLCOx_ak / tonumber("2") + tonumber("1"))
+        qW0lRiD1["image13"]:SetPosition(iD1IUx / tonumber("2") - tonumber(ZG[22]), -JLCOx_ak / tonumber("2") + tonumber(ZG[24]))
+        qW0lRiD1["image21"]:SetSize(qW0lRiD1["image21"]["origw"], JLCOx_ak - tonumber("2"))
+        qW0lRiD1["image21"]:SetPosition(-iD1IUx / tonumber("2") - tonumber("2"), tonumber(ZG[7]))
         qW0lRiD1["image22"]:SetSize(iD1IUx, -JLCOx_ak)
         qW0lRiD1["image22"]:SetPosition(tonumber(ZG[7]), tonumber(ZG[7]) - tonumber("1"))
-        qW0lRiD1["image23"]:SetSize(qW0lRiD1["image23"]["origw"], JLCOx_ak - tonumber(ZG[19]))
-        qW0lRiD1["image23"]:SetPosition(iD1IUx / tonumber(ZG[19]), tonumber(ZG[7]))
+        qW0lRiD1["image23"]:SetSize(qW0lRiD1["image23"]["origw"], JLCOx_ak - tonumber("2"))
+        qW0lRiD1["image23"]:SetPosition(iD1IUx / tonumber("2"), tonumber(ZG[7]))
     end;
     self:SetSize(iD1IUx, JLCOx_ak)
 end)
@@ -219,10 +219,10 @@ local function N9L(Hv, Ch, urkh)
 end;
 local hDc_M = tonumber(ZG[57])
 function wqU76o:Setonumberew(zhzpBSx, rHSjalVy, TjhsnP)
-    local t5jzEd9 = zhzpBSx[ZG[99]] or {}
-    local JZAU2 = zhzpBSx[ZG[100]] or {}
+    local t5jzEd9 = zhzpBSx["str"] or {}
+    local JZAU2 = zhzpBSx["im"] or {}
     if next(JZAU2) ~= nil then
-        self[ZG[93]]:SetTexture(JZAU2[tonumber("1")], JZAU2[tonumber(ZG[19])])
+        self[ZG[93]]:SetTexture(JZAU2[tonumber("1")], JZAU2[tonumber("2")])
         self[ZG[93]]:ScaleToSize(hDc_M, hDc_M)
         self[ZG[93]]:Show()
         if rHSjalVy and rHSjalVy[ZG[101]] and rHSjalVy[ZG[101]][ZG[102]] and rHSjalVy[ZG[101]][ZG[103]] then
@@ -241,13 +241,13 @@ function wqU76o:Setonumberew(zhzpBSx, rHSjalVy, TjhsnP)
         local w8T3f = t5jzEd9[xL7OTb]
         local K = self[ZG[92]][xL7OTb]
         if w8T3f ~= nil then
-            K:SetString(w8T3f[tonumber(ZG[19])] ~= nil and w8T3f[tonumber("1")] .. ZG[58] or w8T3f[tonumber("1")])
+            K:SetString(w8T3f[tonumber("2")] ~= nil and w8T3f[tonumber("1")] .. ZG[58] or w8T3f[tonumber("1")])
             if xL7OTb == tonumber("1") then
                 K:SetColour(PLAYERCOLOURS["TOMATO"])
             else
                 K:SetColour(tonumber(ZG[8]) / tonumber(ZG[8]), tonumber(ZG[8]) / tonumber(ZG[8]), tonumber(ZG[8]) / tonumber(ZG[8]), tonumber("1"))
             end ;
-            self["textsty"]:SetString(w8T3f[tonumber(ZG[19])] ~= nil and w8T3f[tonumber("1")] .. ZG[58] or w8T3f[tonumber("1")])
+            self["textsty"]:SetString(w8T3f[tonumber("2")] ~= nil and w8T3f[tonumber("1")] .. ZG[58] or w8T3f[tonumber("1")])
             if xL7OTb == tonumber("1") then
                 self["textsty"]:SetSize(tonumber(ZG[59]))
             else
@@ -262,13 +262,13 @@ function wqU76o:Setonumberew(zhzpBSx, rHSjalVy, TjhsnP)
             self[ZG[91]] = math[ZG[106]](self[ZG[91]], qL)
             self[ZG[90]] = self[ZG[90]] + vfIyB;
             K[ZG[107]] = vfIyB;
-            if w8T3f[tonumber(ZG[19])] ~= nil then
+            if w8T3f[tonumber("2")] ~= nil then
                 self["textsty"]:SetSize(tonumber(ZG[27]))
-                K[ZG[95]]:SetString(w8T3f[tonumber(ZG[19])])
-                self["textsty"]:SetString(w8T3f[tonumber(ZG[19])])
+                K[ZG[95]]:SetString(w8T3f[tonumber("2")])
+                self["textsty"]:SetString(w8T3f[tonumber("2")])
                 if LB1Z[w8T3f[tonumber("1")]] ~= nil then
                     if type(LB1Z[w8T3f[tonumber("1")]]) == ZG[60] then
-                        LB1Z[w8T3f[tonumber("1")]](K, K[ZG[95]], w8T3f[tonumber(ZG[19])])
+                        LB1Z[w8T3f[tonumber("1")]](K, K[ZG[95]], w8T3f[tonumber("2")])
                     else
                         K[ZG[95]]:SetColour(unpack(LB1Z[w8T3f[tonumber("1")]]))
                     end
@@ -299,13 +299,13 @@ function wqU76o:Setonumberew(zhzpBSx, rHSjalVy, TjhsnP)
             nSBOx7:SetRegionSize(self[ZG[91]], u)
             if qboV == tonumber("1") then
                 if self[ZG[93]][ZG[105]] then
-                    self[ZG[93]]:SetPosition(self[ZG[91]] / tonumber(ZG[19]) - hDc_M / tonumber(ZG[19]) - tonumber(ZG[43]), self[ZG[90]] * tonumber(ZG[22]) - hDc_M * tonumber(ZG[22]))
-                    nSBOx7:SetPosition((self[ZG[91]] - hDc_M) / tonumber(ZG[19]) - nSBOx7[ZG[104]] / tonumber(ZG[19]), self[ZG[90]] * tonumber(ZG[22]) - qX - u / tonumber(ZG[19]))
+                    self[ZG[93]]:SetPosition(self[ZG[91]] / tonumber("2") - hDc_M / tonumber("2") - tonumber(ZG[43]), self[ZG[90]] * tonumber(ZG[22]) - hDc_M * tonumber(ZG[22]))
+                    nSBOx7:SetPosition((self[ZG[91]] - hDc_M) / tonumber("2") - nSBOx7[ZG[104]] / tonumber("2"), self[ZG[90]] * tonumber(ZG[22]) - qX - u / tonumber("2"))
                 else
-                    nSBOx7:SetPosition(self[ZG[91]] / tonumber(ZG[19]) - nSBOx7[ZG[104]] / tonumber(ZG[19]), self[ZG[90]] * tonumber(ZG[22]) - qX - u / tonumber(ZG[19]))
+                    nSBOx7:SetPosition(self[ZG[91]] / tonumber("2") - nSBOx7[ZG[104]] / tonumber("2"), self[ZG[90]] * tonumber(ZG[22]) - qX - u / tonumber("2"))
                 end
             else
-                nSBOx7:SetPosition(tonumber(ZG[7]), self[ZG[90]] * tonumber(ZG[22]) - qX - u / tonumber(ZG[19]))
+                nSBOx7:SetPosition(tonumber(ZG[7]), self[ZG[90]] * tonumber(ZG[22]) - qX - u / tonumber("2"))
             end ;
             if nSBOx7[ZG[95]][ZG[105]] then
                 nSBOx7[ZG[95]]:SetRegionSize(self[ZG[91]], u)
