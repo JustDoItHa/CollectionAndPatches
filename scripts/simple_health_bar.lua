@@ -881,40 +881,42 @@ local function _467R(_puY0)
     _puY0.GetAttacked = _Wuk4
 end
 local function _0Ow7(_FnMW)
-    local _K7d8 = _FnMW.DoDelta
-    local function _Pomy(_tWkV, _SJ2n, _NR8K, _fUmO, _lPd3, _TcxI, _K9in, ...)
-        if _tWkV.inst:IsValid() and _SJ2n <= -TUNING.DYC_HEALTHBAR_DDTHRESHOLD or (_SJ2n >= 0.9 and _tWkV.maxhealth - _tWkV.currenthealth >= 0.9) then
-            _d9xM(_tWkV.inst)
+    local old_DoDelta = _FnMW.DoDelta
+    local function new_DoDelta(self, _SJ2n, _NR8K, _fUmO, _lPd3, _TcxI, _K9in, ...)
+        if self.inst.replica.health then
+            if self.inst:IsValid() and _SJ2n <= -TUNING.DYC_HEALTHBAR_DDTHRESHOLD or (_SJ2n >= 0.9 and self.maxhealth - self.currenthealth >= 0.9) then
+                _d9xM(self.inst)
+            end
+            if not _Qeim() and TUNING.DYC_HEALTHBAR_DDON and _Ouvd(self.inst) then
+                local _DvdG = SpawnPrefab("dyc_damagedisplay")
+                _DvdG:DamageDisplay(self.inst)
+            end
         end
-        if not _Qeim() and TUNING.DYC_HEALTHBAR_DDON and _Ouvd(_tWkV.inst) then
-            local _DvdG = SpawnPrefab("dyc_damagedisplay")
-            _DvdG:DamageDisplay(_tWkV.inst)
-        end
-        local _s8Q1 = _K7d8(_tWkV, _SJ2n, _NR8K, _fUmO, _lPd3, _TcxI, _K9in, ...)
-        if _Qeim() and _tWkV.inst.dychealthbar then
-            local _6xVq = _tWkV.inst.dychealthbar
+        local _s8Q1 = old_DoDelta(self, _SJ2n, _NR8K, _fUmO, _lPd3, _TcxI, _K9in, ...)
+        if _Qeim() and self.inst.dychealthbar then
+            local _6xVq = self.inst.dychealthbar
             if _6xVq.dycHbIgnoreFirstDoDelta == true then
                 _6xVq.dycHbIgnoreFirstDoDelta = false
-                _tWkV.inst:DoTaskInTime(0.01, function()
+                self.inst:DoTaskInTime(0.01, function()
                     _6xVq.dychp_net:set_local(0x0)
-                    _6xVq.dychp_net:set(_tWkV.currenthealth)
-                    if _6xVq.dychpmax ~= _tWkV.maxhealth then
+                    _6xVq.dychp_net:set(self.currenthealth)
+                    if _6xVq.dychpmax ~= self.maxhealth then
                         _6xVq.dychpmax_net:set_local(0x0)
-                        _6xVq.dychpmax_net:set(_tWkV.maxhealth)
+                        _6xVq.dychpmax_net:set(self.maxhealth)
                     end
                 end)
             else
                 _6xVq.dychp_net:set_local(0x0)
-                _6xVq.dychp_net:set(_tWkV.currenthealth)
-                if _6xVq.dychpmax ~= _tWkV.maxhealth then
+                _6xVq.dychp_net:set(self.currenthealth)
+                if _6xVq.dychpmax ~= self.maxhealth then
                     _6xVq.dychpmax_net:set_local(0x0)
-                    _6xVq.dychpmax_net:set(_tWkV.maxhealth)
+                    _6xVq.dychpmax_net:set(self.maxhealth)
                 end
             end
         end
         return _s8Q1
     end
-    _FnMW.DoDelta = _Pomy
+    _FnMW.DoDelta = new_DoDelta
 end
 local function _WjtY(_ocQZ)
 end

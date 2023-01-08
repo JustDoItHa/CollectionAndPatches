@@ -23,7 +23,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "8.4.5.0"
+version = "8.4.7.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1052,11 +1052,11 @@ configuration_options = {
 
     AddOptionHeader("信息显示"),
     AddOption("cap_show_info_switch", "总开关", "物体信息详情显示总开开关，开启此则show me不生效", false),
-    AddConfigOption("showanim", "显示物品动画信息", "",{ { description = "显示", data = true },
-        { description = "不显示", data = false }, }, false),
-    AddConfigOption("showtype","显示边框颜色","",show_info_edge_color_options,1),
-    AddConfigOption("show_info_bg","显示背景","",{ { description = "显示", data = true, hover = "会显示背景及边框" },
-        { description = "不显示", data = false, hover = "不会显示背景及边框" }, },false),
+    AddConfigOption("showanim", "显示物品动画信息", "", { { description = "显示", data = true },
+                                                          { description = "不显示", data = false }, }, false),
+    AddConfigOption("showtype", "显示边框颜色", "", show_info_edge_color_options, 1),
+    AddConfigOption("show_info_bg", "显示背景", "", { { description = "显示", data = true, hover = "会显示背景及边框" },
+                                                      { description = "不显示", data = false, hover = "不会显示背景及边框" }, }, false),
 
     AddOptionHeader("全图定位"),
     AddOption("global_position_switch", "全图定位-开关", "是否开启全图定位", true),

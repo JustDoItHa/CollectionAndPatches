@@ -629,8 +629,8 @@ if NsoTwDs then
         R1FIoQI = true
     end
 end ;
-AddPrefabPostInit(a[126], function(Vd)
-    if not TheWorld[a[304]] then
+AddPrefabPostInit("world", function(Vd)
+    if not TheWorld["ismastersim"] then
         return
     end ;
     if not R1FIoQI then

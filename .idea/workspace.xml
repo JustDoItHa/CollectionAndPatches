@@ -7,8 +7,9 @@
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/authority_hexie/authority_hexie_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modules/authority_hexie/authority_hexie_main.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/ab_patches.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ab_patches.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/hoverer_all.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/hoverer_all.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/simple_health_bar.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/simple_health_bar.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +95,7 @@
       <workItem from="1672070298114" duration="53383000" />
       <workItem from="1672367451809" duration="6069000" />
       <workItem from="1672807086344" duration="19598000" />
-      <workItem from="1673093854140" duration="3622000" />
+      <workItem from="1673093854140" duration="9663000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -187,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673089146134</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="fix">
+      <created>1673104731190</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1673104731190</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
