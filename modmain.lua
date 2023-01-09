@@ -345,6 +345,14 @@ if GetModConfigData("remove_character_switch") then
     modimport("scripts/remove_character.lua")
 end
 
+--权限
+if GetModConfigData("player_authority_switch") then
+    modimport("modules/authority/authority_main.lua")
+end
+if  (not GetModConfigData("player_authority_switch")) and GetModConfigData("authority_hexie_switch") then
+    modimport("modules/authority_hexie/authority_hexie_main.lua")
+end
+
 -- 微小游戏体验提升
 if GetModConfigData("little_modify_for_pure_switch") then
     if GetModConfigData("show_bundle_content_switch") then
@@ -373,13 +381,6 @@ end
 --驯牛状态
 if GetModConfigData("beefalo_status_bar_switch") then
     modimport("scripts/beefalo_status_bar_main.lua")
-end
---权限
-if GetModConfigData("player_authority_switch") then
-    modimport("modules/authority/authority_main.lua")
-end
-if  (not GetModConfigData("player_authority_switch")) and GetModConfigData("authority_hexie_switch") then
-    modimport("modules/authority_hexie/authority_hexie_main.lua")
 end
 
 --访客掉落

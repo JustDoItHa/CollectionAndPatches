@@ -16,10 +16,9 @@ local METER_HEIGHT = 20
 local SCISSOR_WIDTH = METER_WIDTH + 10
 local SCISSOR_HEIGHT = METER_HEIGHT + 10
 local MOVE_TIME = 0.4
-local METER_UVSCALE = 1.5
 local METER_TINT_TIME = 0.5
 local METER_BURST_TIME = 2
-local BURST_ATTACK_WINDOW = 0.3
+local BURST_ATTACK_WINDOW = 0.4
 local OUT_OF_DATE_COLOUR = { 243 / 255, 95 / 255, 121 / 255, 1 }
 local OUT_OF_DATE_DURATION = 10
 local TINY_DAMAGE = 10
@@ -42,9 +41,6 @@ local FRUSTUM_LIMIT = 80
 local DANGER_DURATION = 10
 local DANGER_FADEOUT = 0.2
 local DANGER_COOLDOWN = 1.5
-
-local COMBAT_RANGE = 10
-local COMBAT_TAGS = { "_combat" }
 
 local function RGBA(tint, alpha)
 	return { r = tint[1] or 1, g = tint[2] or 1, b = tint[3] or 1, a = alpha or tint[4] or 1 }
@@ -100,8 +96,14 @@ end
 
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-local MeterOverlay = Class(Image, function(self)
+local MeterOverlay = Class(Image, function(self, blendmode, percent)
 	Image._ctor(self, "images/global.xml", "square.tex")
+
+	self:SetBlendMode(blendmode)
+	self:SetUVScale(1.5, 1.5)
+	if percent ~= nil then
+		self:SetPercent(percent)
+	end
 end)
 
 function MeterOverlay:TintTo(start, dest, duration, whendone, delay)
@@ -158,10 +160,9 @@ local MeterResist = Class(Widget, function(self)
 	self.speed = 0
 	self._speed = 1
 
-	self.img = self:AddChild(MeterOverlay())
+	self.img = self:AddChild(MeterOverlay(BLENDMODE.AlphaAdditive))
 	self.img:SetSize(METER_WIDTH, METER_WIDTH)
 	self.img:SetRotation(45)
-	self.img:SetBlendMode(BLENDMODE.AlphaAdditive)
 	self.img:SetEffect("shaders/overheat.ksh")
 	self.img:SetEffectParams(self.time, self.intensity, self.frequency, self._speed)
 
@@ -190,35 +191,39 @@ end
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 local MeterDamage = Class(MeterOverlay, function(self)
-	MeterOverlay._ctor(self)
+	MeterOverlay._ctor(self, BLENDMODE.AlphaBlended)
 
 	self.alpha = 0.8
 	self.time = 0
-	self.delay = 0.75
-	self.minduration = 0.25
+	self.delay = 0.2
+	self.minduration = 0.3
 	self.maxduration = 1
 	self.duration = 0
-
-	self:SetUVScale(METER_UVSCALE, METER_UVSCALE)
-	self:SetBlendMode(BLENDMODE.AlphaBlended)
 
 	self:Hide()
 end)
 
 MeterDamage.OnShow = MeterDamage.StartUpdating
-MeterDamage.OnHide = MeterDamage.StopUpdating
+
+function MeterDamage:OnHide()
+	self.target = nil
+	self:StopUpdating()
+end
 
 function MeterDamage:SetTint(r, g, b)
 	Image.SetTint(self, r, g, b, self.alpha)
 end
 
-function MeterDamage:ShowBurst(start, dest, reset)
-	reset = reset or not self.shown
+function MeterDamage:ShowBurst(start, dest, target)
+	local reset = not self.shown or not target
+	if target ~= nil then
+		self.target = target
+	end
 	if reset then
 		self.start = start
 	end
 	if reset or self.time <= 0 then
-		self.time = easing.inCubic(self.start - dest, -self.delay, self.delay, 1)
+		self.time = -self.delay
 	end
 	self:Show()
 	self:SetPercent(dest)
@@ -246,13 +251,16 @@ function MeterDamage:Refresh()
 end
 
 function MeterDamage:OnUpdate(dt)
+	if self.time <= 0 and self.target ~= nil and self.target.epichealth:IsBeingAttacked() then
+		return
+	end
 	self.time = self.time + dt
 	if self.time <= 0 then
 		return
 	elseif self.time < self.duration then
 		self:Refresh()
 	elseif self.dest > self.percent then
-		self:ShowBurst(self.dest, self.percent, true)
+		self:ShowBurst(self.dest, self.percent)
 	else
 		self:Hide()
 	end
@@ -522,76 +530,6 @@ local function timeclamp(root, key, dt)
 	return false
 end
 
-local function hasmusic(inst)
-	return inst._playingmusic ~= nil or inst._musictask ~= nil
-end
-
-local function istargetedby(inst, attacker)
-	return attacker ~= inst
-		and (attacker.replica.combat ~= nil and attacker.replica.combat:GetTarget() == inst)
-		and (attacker.replica.health ~= nil and not attacker.replica.health:IsDead())
-end
-
-local function isincombat(inst)
-	local time = inst.epichealth.lastwasdamagedtime
-	if time ~= nil then
-		if hasmusic(inst) then
-			time = time + 1
-		end
-		if time >= GetTime() then
-			return true
-		end
-	end
-
-	local target = inst.replica.combat:GetTarget()
-	if inst.replica.combat:IsValidTarget(target) then
-		return true
-	end
-
-	for i, v in ipairs(AllPlayers) do
-		if istargetedby(inst, v) then
-			return true
-		end
-	end
-
-	local pos = inst:GetPosition()
-	for i, v in ipairs(TheSim:FindEntities(pos.x, 0, pos.z, COMBAT_RANGE, COMBAT_TAGS, Tykvesh.InLimbo)) do
-		if istargetedby(inst, v) then
-			return true
-		end
-	end
-
-	return false
-end
-
-local function isattackedby(inst, attacker)
-	if not istargetedby(inst, attacker) then
-		return false
-	elseif attacker:HasTag("attack") then
-		return true
-	elseif attacker:HasTag("sleeping") or attacker.AnimState:IsCurrentAnimation("frozen") then
-		return false
-	else
-		local rad = inst:GetPhysicsRadius(0)
-		local range = attacker.replica.combat:GetAttackRangeWithWeapon() + rad + TARGET_BIAS
-		return attacker:IsNear(inst, range)
-	end
-end
-
-local function isattackedbygroup(inst)
-	local pos = inst:GetPosition()
-	local num_attackers = 0
-	for i, v in ipairs(TheSim:FindEntities(pos.x, 0, pos.z, COMBAT_RANGE, COMBAT_TAGS, Tykvesh.InLimbo)) do
-		if isattackedby(inst, v) then
-			num_attackers = num_attackers + 1
-			if num_attackers > 1 then
-				return true
-			end
-		end
-	end
-	return false
-end
-
 local function ondanger(self, danger, olddanger)
 	if danger ~= olddanger then
 		if danger ~= nil and olddanger ~= nil then
@@ -703,7 +641,7 @@ local function onlastwasdamagedtime(self, lastwasdamagedtime, oldlastwasdamagedt
 		self.burst = lastwasdamagedtime ~= nil
 			and oldlastwasdamagedtime ~= nil
 			and lastwasdamagedtime - oldlastwasdamagedtime <= BURST_ATTACK_WINDOW
-			or isattackedbygroup(self.target)
+			or self.target.epichealth:IsGroupAttacked()
 	end
 end
 
@@ -717,7 +655,7 @@ local function onpercent(self, percent, oldpercent)
 			self.meter_damage:Hide()
 			self.meter_burst:Hide()
 		elseif oldpercent > percent then
-			self.meter_damage:ShowBurst(oldpercent, percent)
+			self.meter_damage:ShowBurst(oldpercent, percent, self.target)
 		else
 			self.meter_damage:SetPercent(percent)
 			self:ShowBurst(oldpercent, percent)
@@ -746,7 +684,7 @@ local function oncurrenthealth(self, currenthealth, oldcurrenthealth)
 		self.currenthealth_text:SetString(numberformat(currenthealth))
 
 		if oldcurrenthealth ~= nil and TUNING.EPICHEALTHBAR.DAMAGE_NUMBERS then
-			if currenthealth > 0 then
+			if currenthealth ~= 0 then
 				local delta = currenthealth - oldcurrenthealth
 				self:ShowPopupNumber(math.abs(delta), delta < 0)
 			elseif oldcurrenthealth > 0 then
@@ -808,8 +746,8 @@ local function OnEpicTargetResisted(self, data)
 	end
 end
 
-local function OnEnableDynamicMusic(self, enabled)
-	self.dangerdisabled = not enabled
+local function OnEnableDynamicMusic(self, enable)
+	self.dangerdisabled = not enable
 end
 
 local EpicHealthbar = Class(Widget, function(self, owner, version)
@@ -842,23 +780,16 @@ local EpicHealthbar = Class(Widget, function(self, owner, version)
 
 	self.meter_drops = self.barroot:AddChild(MeterDrops())
 
-	self.meter_burst = self.barroot:AddChild(MeterOverlay())
-	self.meter_burst:SetUVScale(METER_UVSCALE, METER_UVSCALE)
-	self.meter_burst:SetBlendMode(BLENDMODE.AlphaBlended)
+	self.meter_burst = self.barroot:AddChild(MeterOverlay(BLENDMODE.AlphaBlended))
 	self.meter_burst:Hide()
 
-	self.meter_bg = self.barroot:AddChild(MeterOverlay())
-	self.meter_bg:SetSize(0, METER_HEIGHT)
-	self.meter_bg:SetBlendMode(BLENDMODE.Disabled)
+	self.meter_bg = self.barroot:AddChild(MeterOverlay(BLENDMODE.Disabled, 1))
 
 	self.meter_bg_drops = self.barroot:AddChild(MeterDrops())
 
 	self.meter_damage = self.barroot:AddChild(MeterDamage())
 
-	self.meter_highlight = self.barroot:AddChild(MeterOverlay())
-	self.meter_highlight:SetUVScale(METER_UVSCALE, METER_UVSCALE)
-	self.meter_highlight:SetSize(METER_WIDTH, METER_HEIGHT)
-	self.meter_highlight:SetBlendMode(BLENDMODE.Additive)
+	self.meter_highlight = self.barroot:AddChild(MeterOverlay(BLENDMODE.Additive, 0))
 	self.meter_highlight:SetTint(1, 1, 1, 0.15)
 	self.meter_highlight:Hide()
 
@@ -896,7 +827,7 @@ local EpicHealthbar = Class(Widget, function(self, owner, version)
 	self.inst:ListenForEvent("newepictarget", function(owner, target) self:StartUpdating() end, owner)
 	self.inst:ListenForEvent("triggeredevent", function(owner, data) OnTriggeredEvent(self, data) end, owner)
 	self.inst:ListenForEvent("epictargetresisted", function(owner, data) OnEpicTargetResisted(self, data) end, owner)
-	self.inst:ListenForEvent("enabledynamicmusic", function(world, enabled) OnEnableDynamicMusic(self, enabled) end, TheWorld)
+	self.inst:ListenForEvent("enabledynamicmusic", function(world, enable) OnEnableDynamicMusic(self, enable) end, TheWorld)
 
 	if self:HasTargets() then
 		self:StartUpdating()
@@ -1050,7 +981,7 @@ end
 
 function EpicHealthbar:Appear()
 	if not self.active then
-		self.active = true		
+		self.active = true
 		self.root:MoveTo(self.root:GetPosition(), Vector3(0, SHOWN_Y), MOVE_TIME)
 		self:Show()
 	end
@@ -1113,7 +1044,7 @@ function EpicHealthbar:IsEventSource(target, name)
 end
 
 function EpicHealthbar:GetMusicTimeLeft(target, ignoretest)
-	if hasmusic(target) and (ignoretest or not self.dangerdisabled) then
+	if target.epichealth:IsPlayingMusic() and (ignoretest or not self.dangerdisabled) then
 		for name, time in pairs(self.triggeredevents) do
 			if self:IsEventSource(target, name) then
 				return time
@@ -1126,7 +1057,7 @@ function EpicHealthbar:PushMusic(target)
 	if self.dangercooldown == nil and not self.dangerdisabled and not TUNING.EPICHEALTHBAR.NOEPIC then
 		self.dangercooldown = FRAMES
 
-		if not hasmusic(target) then
+		if not target.epichealth:IsPlayingMusic() then
 			if self._startdanger ~= false and (self.danger or self:IsNear(target, DISENGAGED_DIST)) then
 				if self._startdanger == nil then
 					local listeners = Tykvesh.Browse(TheWorld, "event_listening", "attacked", self.owner)
@@ -1140,7 +1071,7 @@ function EpicHealthbar:PushMusic(target)
 					end
 				end
 
-				self._startdanger = self._startdanger ~= nil and pcall(self._startdanger, self.owner, { attacker = target }) and self._startdanger
+				self._startdanger = pcall(self._startdanger, self.owner, { attacker = target }) and self._startdanger
 			end
 		elseif self._eventtriggers[target.prefab] ~= false and not (target._playingmusic and self:GetMusicTimeLeft(target, true)) then
 			self.trigger = target
@@ -1148,11 +1079,7 @@ function EpicHealthbar:PushMusic(target)
 			target._playingmusic = true
 
 			if target._musictask ~= nil then
-				if target._musictask.arg ~= nil then
-					self._eventtriggers[target.prefab] = pcall(target._musictask.fn, unpack(target._musictask.arg))
-				else
-					self._eventtriggers[target.prefab] = pcall(target._musictask.fn)
-				end
+				self._eventtriggers[target.prefab] = pcall(target._musictask.fn, unpack(target._musictask.arg or {}))
 			elseif self._eventtriggers[target.prefab] ~= true then
 				local fn = self._eventtriggers[target.prefab]
 
@@ -1167,7 +1094,7 @@ function EpicHealthbar:PushMusic(target)
 					end
 				end
 
-				self._eventtriggers[target.prefab] = fn ~= nil and pcall(fn, target) and fn
+				self._eventtriggers[target.prefab] = pcall(fn, target) and fn
 			end
 
 			self.trigger = nil
@@ -1221,7 +1148,7 @@ end
 function EpicHealthbar:ProximityCheck(target)
 	return self.highlight == target
 		or target.entity:FrustumCheck()
-		or (not hasmusic(target) and self:TargetIs(target) and self:IsNear(target, DISENGAGED_DIST))
+		or (not target.epichealth:IsPlayingMusic() and self:TargetIs(target) and self:IsNear(target, DISENGAGED_DIST))
 		or (target.epichealth.maxfrustumdist ~= nil and self:IsNear(target, target.epichealth.maxfrustumdist))
 end
 
@@ -1235,7 +1162,7 @@ function EpicHealthbar:IsEngagedTarget(target)
 	end
 	return self:ProximityCheck(target)
 		and (self.danger or CanEntitySeeTarget(self.owner, target))
-		and isincombat(target)
+		and target.epichealth:TestForCombat()
 end
 
 function EpicHealthbar:GetNextTarget()
@@ -1269,7 +1196,7 @@ function EpicHealthbar:GetNextTarget()
 			local dist = self:GetDistance(target)
 			local physdist = dist - target:GetPhysicsRadius(0)
 			if physdist <= mindist or closest == nil
-				and (hasmusic(target) and not self.dangerdisabled
+				and (target.epichealth:IsPlayingMusic() and not self.dangerdisabled
 				or dist <= DISENGAGED_DIST and target.entity:FrustumCheck()) then
 
 				mindist = physdist - TARGET_BIAS
@@ -1321,7 +1248,7 @@ function EpicHealthbar:OnUpdate(dt)
 			self.wet = self.target:GetIsWet()
 			self.stimuli = epichealth.stimuli
 			self.lastwasdamagedtime = epichealth.lastwasdamagedtime
-			self.percent = epichealth.currenthealth / epichealth.maxhealth
+			self.percent = math.max(0, epichealth.currenthealth / epichealth.maxhealth)
 			self.maxhealth = epichealth.maxhealth
 			self.currenthealth = epichealth.currenthealth
 			if not self.paused then

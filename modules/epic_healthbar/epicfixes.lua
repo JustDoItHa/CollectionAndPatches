@@ -15,14 +15,9 @@ end
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 if not TheNet:IsDedicated() then
-	local function UsePointFiltering(inst)
+	AddPrefabPostInit("shadow_bishop_fx", function(inst)
 		inst.AnimState:UsePointFiltering(true)
-	end
-
-	AddPrefabPostInit("shadow_rook", UsePointFiltering)
-	AddPrefabPostInit("shadow_knight", UsePointFiltering)
-	AddPrefabPostInit("shadow_bishop", UsePointFiltering)
-	AddPrefabPostInit("shadow_bishop_fx", UsePointFiltering)
+	end)
 end
 
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
