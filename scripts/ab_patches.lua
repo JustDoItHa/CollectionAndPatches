@@ -119,7 +119,13 @@ AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, is
         if inst.components.inventory:Has("abigail_williams_black_gold", 1) then
             local new = SpawnPrefab(isproduct)
             local pt = inst:GetPosition()
-            if new and new.name ~= "一大袋金币" and new.name ~= "coin_bundle_big" then
+            if new and new.name ~= "一大袋金币"
+                    and new.name ~= "coin_bundle_big"
+                    and new.name ~= "_big_box"
+                    and new.name ~= "bigbag"
+                    and new.name ~= "bluebigbag"
+                    and new.name ~= "redbigbag"
+                    and new.name ~= "nicebigbag" then
                 if new.components.inventoryitem then
                     inst.components.inventory:GiveItem(new, nil, pt)
                 elseif new.Transform then

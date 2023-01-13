@@ -998,3 +998,90 @@ end
 for _, prefab in pairs(GLOBAL.DST_CHARACTERLIST) do
     GLOBAL._GLOBALPOSITIONS_MAP_ICONS[prefab] = prefab .. ".png"
 end
+
+
+
+if GetModConfigData("map_on_Cartography") and (not SHAREMINIMAPPROGRESS) then
+
+    GLOBAL.STRINGS.ACTIONS.ACTIVATE.GANDER = "瞧一眼"
+    GLOBAL.STRINGS.ACTIONS.ACTIVATE.GLANCE = "看一眼"
+    GLOBAL.STRINGS.ACTIONS.ACTIVATE.GAZE = "看一看"
+    GLOBAL.STRINGS.ACTIONS.ACTIVATE.GLIMPSE = "瞥一眼"
+
+    ----------------------Setup---------------------------
+    local function GetMapExplorer(target) -- Needed for SpecialTeachMap
+        --Only supports players
+        return target ~= nil and target.player_classified ~= nil and target.player_classified.MapExplorer or nil
+    end
+
+    -- Fix to account for this not being a consumable item.
+    local function SpecialTeachMap(self, target)
+        if not self:HasData() then
+            -- self.inst:Remove()
+            return false, "BLANK"
+        elseif not self:IsCurrentWorld() then
+            return false, "WRONGWORLD"
+        end
+
+        local MapExplorer = GetMapExplorer(target)
+        if MapExplorer == nil then
+            -- return false, "NOEXPLORER"
+        end
+
+        if not MapExplorer:LearnRecordedMap(self.mapdata) then
+            return false
+        end
+
+        if self.onteachfn ~= nil then
+            self.onteachfn(self.inst, target)
+        end
+        -- self.inst:Remove()
+        return true
+    end
+    ------------------------------------------------------
+
+    local function OnActivate(inst, doer)
+        inst.components.activatable.inactive = true
+
+        local maprecorder = inst.components.maprecorder
+        if maprecorder:HasData() ~= nil then
+            maprecorder:TeachMap(doer)
+        end
+
+        doer:PushEvent("learnmap", { map = inst })
+
+        maprecorder:RecordMap(doer)
+    end
+
+    local ActivateVerbs = {
+        "Gander",
+        "Glance",
+        "Gaze",
+        "Glimpse",
+    }
+
+    local function GetActivateVerb(inst)
+        local t = GLOBAL.GetTime()
+
+        if inst.verbtimestamp == nil or t - inst.verbtimestamp > 0.1 or inst.verb == nil then
+            inst.verb = ActivateVerbs[math.random(#ActivateVerbs)]
+        end
+
+        inst.verbtimestamp = t
+
+        return inst.verb or "Gander" -- Default to Gander just in case
+    end
+
+    AddPrefabPostInit("cartographydesk", function(inst)
+        inst:AddComponent("maprecorder")
+        inst.components.maprecorder.TeachMap = SpecialTeachMap
+        -- inst.components.maprecorder:SetOnTeachFn(OnTeachFn)
+
+        inst.GetActivateVerb = GetActivateVerb
+
+        inst:AddComponent("activatable")
+        inst.components.activatable.OnActivate = OnActivate
+        inst.components.activatable.inactive = true
+
+    end)
+end

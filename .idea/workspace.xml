@@ -7,10 +7,10 @@
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modmain.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modmain.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/epic_healthbar/epicfixes.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modules/epic_healthbar/epicfixes.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/prefabs/epichealth_proxy.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/prefabs/epichealth_proxy.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/widgets/epichealthbar.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/widgets/epichealthbar.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/ab_patches.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ab_patches.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/giveitem_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/giveitem_main.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/global_position.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/global_position.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/simple_health_bar.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/simple_health_bar.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,23 +31,23 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "false",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Volumes/Extends-C/Games/mods self/Collection And Patches/scripts/widgets",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Volumes/Extends-C/Games/mods self/Collection And Patches/scripts/widgets&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/scripts/widgets" />
@@ -100,7 +100,9 @@
       <workItem from="1672367451809" duration="6069000" />
       <workItem from="1672807086344" duration="19598000" />
       <workItem from="1673093854140" duration="20757000" />
-      <workItem from="1673231773463" duration="8279000" />
+      <workItem from="1673231773463" duration="8503000" />
+      <workItem from="1673500817896" duration="5595000" />
+      <workItem from="1673523410660" duration="2790000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -221,7 +223,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673196666261</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="fix">
+      <created>1673274177842</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1673274177842</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

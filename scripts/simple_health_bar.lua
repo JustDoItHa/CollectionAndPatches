@@ -883,7 +883,7 @@ end
 local function _0Ow7(_FnMW)
     local old_DoDelta = _FnMW.DoDelta
     local function new_DoDelta(self, _SJ2n, _NR8K, _fUmO, _lPd3, _TcxI, _K9in, ...)
-        if self.inst.replica.health then
+        if self ~= nil and self.inst ~= nil and self.inst.replica.health then
             if self.inst:IsValid() and _SJ2n <= -TUNING.DYC_HEALTHBAR_DDTHRESHOLD or (_SJ2n >= 0.9 and self.maxhealth - self.currenthealth >= 0.9) then
                 _d9xM(self.inst)
             end

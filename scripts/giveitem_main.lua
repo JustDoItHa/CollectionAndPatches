@@ -72,7 +72,10 @@ local function inventory(self)
 
     local OldGiveItem = self.GiveItem
     function self:GiveItem(item, slot, src_pos, drop_on_fail)
-        if item == nil or item.components ==nil or item.components.inventoryitem == nil or not item:IsValid() then
+        if item == nil
+                or item.components ==nil
+                or item.components.inventoryitem == nil
+                or not item:IsValid() then
             print("Warning: Can't give item because it's not an inventory item.")
             return
         end
