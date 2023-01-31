@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "8.8.2.0"
+version = "8.10.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1137,7 +1137,19 @@ configuration_options = {
         },
         default = true,
     },
-    AddOption("map_on_Cartography","在制图桌上共享地图","",false),
+    AddOption("map_on_Cartography", "在制图桌上共享地图", "", false),
+    AddOptionHeader("指南针"),
+    AddOption("compass_switch", "总开关", "建议全图定位只开ping,然后开启本功能,优化全图定位的后期卡顿", false),
+    AddConfigOption("compass_refresh_interval", "刷新间隔", "",
+            { { description = "0", data = 0 },
+              { description = "0.1", data = 0.1 },
+              { description = "0.2", data = 0.2 },
+              { description = "0.5", data = 0.5 },
+              { description = "1", data = 1 },
+              { description = "2", data = 2 },
+              { description = "5", data = 5 } }, 0.2),
+
+
     AddOptionHeader("蘑菇农场"),
     AddOption("improve_mushroom_planters_switch", "蘑菇农场增强-开关", "是否开启蘑菇农场增强", true),
     {
@@ -2035,6 +2047,7 @@ configuration_options = {
     AddConfigOption("remove_abigail_williams_sword", "阿比盖尔威廉姆斯的侠客剑I", "让阿比盖尔威廉姆斯的疯狂的侠客剑I消失！", disappear_magic, -1),
     AddConfigOption("remove_abigail_williams_sword_a", "阿比盖尔威廉姆斯的疯狂的侠客剑II", "让阿比盖尔威廉姆斯的疯狂的侠客剑II消失！", disappear_magic, -1),
     AddConfigOption("remove_abigail_williams_sword_b", "阿比盖尔威廉姆斯的疯狂的侠客剑III", "让阿比盖尔威廉姆斯的疯狂的侠客剑III消失！", disappear_magic, -1),
+    AddConfigOption("remove_abigail_williams_psionic_bobbin_2_3_4", "阿比盖尔威廉姆斯的编织：多重", "让阿比盖尔威廉姆斯的编织：多重(二、三、四)消失！", disappear_magic, -1),
     AddConfigOption("remove_nilxin_fox", "夜雨心空的金团子", "让夜雨心空的金团子消失！(防止召唤很多卡服)！", disappear_magic, 0),
     AddConfigOption("remove_nilxin_yyxk1", "夜雨心空的红尾巴", "让夜雨心空的红尾巴消失！", disappear_magic, 0),
     AddConfigOption("remove_yyxk_auto_recipe", "夜雨心空的聚合之仪", "让夜雨心空的聚合之仪消失！", disappear_magic, 0),

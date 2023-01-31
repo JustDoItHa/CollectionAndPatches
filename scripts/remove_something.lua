@@ -22,6 +22,7 @@ local remove_table = {
     remove_abigail_williams_sword = { "traveler_sword" },
     remove_abigail_williams_sword_a = { "traveler_sword_a" },
     remove_abigail_williams_sword_b = { "traveler_sword_b" },
+    remove_abigail_williams_psionic_bobbin_2_3_4 = { "abigail_williams_psionic_bobbin_2","abigail_williams_psionic_bobbin_3","abigail_williams_psionic_bobbin_4" },
     --夜雨空心
     remove_nilxin_fox = { "nilxin_fox" },
     remove_nilxin_yyxk1 = { "yyxk1" },
@@ -34,7 +35,7 @@ local remove_table = {
     --勋章
     remove_monster_book = { "monster_book" },
     --怠惰科技
-    remove_hclr_kjk = { "remove_hclr_kjk" },
+    remove_hclr_kjk = { "hclr_kjk" },
     --永不妥协
     ["老鼠"] = { "uncompromising_rat", "uncompromising_packrat", "uncompromising_junkrat" },
     ["恐怖剧钳"] = { "creepingfear" },

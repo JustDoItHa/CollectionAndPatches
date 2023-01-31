@@ -204,6 +204,10 @@ end
 if GetModConfigData("global_position_switch") then
     modimport("scripts/global_position.lua")
 end
+--全图定位
+if GetModConfigData("compass_switch") then
+    modimport("scripts/compass_main.lua")
+end
 --隐藏管理员
 if GetModConfigData("hide_admin_switch") then
     modimport("scripts/hide_admin.lua")

@@ -43,12 +43,6 @@ if GetModConfigData("easy_fert") then
     end
 end
 
-local AUTOSTACK = _G.KnownModIndex:IsModEnabled("workshop-1803285852") or
-        _G.KnownModIndex:IsModTempEnabled("workshop-1803285852")
-if AUTOSTACK then
-    modprint("Detected mod \"Auto Stack and Pick Up\"")
-end
-
 -------------------------------------------
 ------ Planter: Find Existing Stuff -------
 -------------------------------------------
@@ -384,11 +378,6 @@ AddPrefabPostInit("spore_moon", function(inst)
 
         if MOON_SPORE then
             inst.components.workable:SetOnFinishCallback(onworked) --collect instead of explode
-        end
-
-        if AUTOSTACK then --prevent autostacking on drop
-            inst:AddComponent("locomotor")
-            inst.components.locomotor:SetTriggersCreep(false)
         end
 
         inst.components.perishable:SetOnPerishFn(depleted) --drop from inventory and explode
