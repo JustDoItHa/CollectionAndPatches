@@ -32,6 +32,19 @@ local function modenable(name)
 
     return false
 end
+--- 抄的
+function keepNDecimalPlaces(decimal, n) -----------------------四舍五入保留n位小数的代码
+if type(decimal) ~= "number" then
+    print('四舍五入错误',decimal)
+    return
+end
+    n = n or 0
+    local h = math.pow(10, n)
+    decimal = math.floor((decimal * h) + 0.5) / h
+    return decimal
+end
+GLOBAL.keepNDecimalPlaces = keepNDecimalPlaces
+
 PrefabFiles = {}
 Assets = {}
 ------加载资源
@@ -71,6 +84,8 @@ TUNING.ELAINA_ENABLE = modenable("2578692071", "魔女之旅")
 TUNING.ARIA_CRYSTAL_ENABLE = modenable("2418617371", "Aria Crystal", "Aria Crystal", "Aria", "艾丽娅", "艾丽娅·克莉丝塔露")
 TUNING.UI_DRAGGABLE_ENABLE = modenable("2885137047", "UI拖拽缩放")
 TUNING.QIHUANJIANGLIN_ENABLE = modenable("2867435690", "2790273347", "奇幻降临：永恒终焉", "永恒终焉") or modenable("2898657309", "奇幻降临：第四人称", "第四人称")
+TUNING.HEAP_OF_FOOD_ENABLE = modenable("2334209327", "Heap of Foods")
+TUNING.INTERESTING_TUMBLEWEED_ENABLE = modenable("1944492666", "Interesting Tumbleweed")
 
 
 --修复标签问题
@@ -418,9 +433,9 @@ if GetModConfigData("beta_function_switch") then
     if GetModConfigData("give_item_optimize_switch") then
         modimport("scripts/giveitem_main.lua")
     end
-    if GetModConfigData("fix_heap_of_food_switch") then
-        modimport("scripts/heap_of_food_fix.lua")
-    end
+    --if GetModConfigData("fix_heap_of_food_switch") then
+    --    modimport("scripts/heap_of_food_fix.lua")
+    --end
     if GetModConfigData("cancel_sync_cycles_with_master_switch") then
         modimport("scripts/sync_cycles_with_master_main.lua")
     end
@@ -437,5 +452,5 @@ if GetModConfigData("beta_function_switch") then
     end
 end
 
-
+modimport("scripts/mod_conflict_fix.lua")
 
