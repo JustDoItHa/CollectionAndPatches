@@ -1,17 +1,6 @@
 ----花样风滚草 和 heap of foods冲突
 if TUNING.HEAP_OF_FOOD_ENABLE and TUNING.INTERESTING_TUMBLEWEED_ENABLE then
-    local easing = require("easing")
 
-    local AVERAGE_WALK_SPEED = 4
-    local WALK_SPEED_VARIATION = 2
-    local SPEED_VAR_INTERVAL = .5
-    local ANGLE_VARIANCE = 10
-
-    local assets =
-    {
-        Asset("ANIM", "anim/tumbleweed.zip"),
-        Asset("ATLAS", "images/tumbleweed.xml"),
-    }
 
     local prefabs =
     {
@@ -275,8 +264,9 @@ if TUNING.HEAP_OF_FOOD_ENABLE and TUNING.INTERESTING_TUMBLEWEED_ENABLE then
             inst:Remove()
             return true --This makes the inventoryitem component not actually give the tumbleweed to the player
         end
-
-        inst.components.pickable.onpickedfn = onpickup
+        if inst.components and inst.components.pickable then
+            inst.components.pickable.onpickedfn = onpickup
+        end
     end
 
     AddPrefabPostInit("tumbleweed", tumbleweedPostInit)
