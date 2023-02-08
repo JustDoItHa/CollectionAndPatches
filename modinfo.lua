@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "8.12.0.0"
+version = "8.13.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1481,6 +1481,19 @@ configuration_options = {
         name = "ab_patches_switch",
         label = "奇幻降临补丁",
         hover = "限制奇幻降临扭结碎片的掉落最大值及自动堆叠",
+        options = {
+            { description = "是", data = true },
+            { description = "否", data = false },
+        },
+        default = false,
+    },
+    AddOptionHeader("乃木园子补丁"),
+    AddOption("yuanzi_patches_switch", "总开关", "是否开启乃木园子补丁", false),
+
+    {
+        name = "divinetree_no_health",
+        label = "神树真无敌",
+        hover = "神树无敌啦，再也不担心被狗咬啦",
         options = {
             { description = "是", data = true },
             { description = "否", data = false },

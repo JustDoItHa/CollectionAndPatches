@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
+    <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="add yuanzi patch">
+      <change afterPath="$PROJECT_DIR$/scripts/yuanzi_patches.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/ab_patches.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ab_patches.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modmain.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modmain.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/yuanzi_pathes.lua" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +114,7 @@
       <workItem from="1675556826897" duration="748000" />
       <workItem from="1675658927156" duration="7055000" />
       <workItem from="1675739090932" duration="2532000" />
-      <workItem from="1675818828877" duration="587000" />
+      <workItem from="1675818828877" duration="2172000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -268,7 +270,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675739131466</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="add forbid item for &quot;T&quot;">
+      <created>1675819563154</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1675819563154</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -322,6 +331,7 @@
     <MESSAGE value="优化" />
     <MESSAGE value="信息显示" />
     <MESSAGE value="fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix" />
+    <MESSAGE value="add forbid item for &quot;T&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="add forbid item for &quot;T&quot;" />
   </component>
 </project>

@@ -215,6 +215,12 @@ if GetModConfigData("ab_patches_switch") and TUNING.QIHUANJIANGLIN_ENABLE then
     modimport("scripts/ab_patches.lua")
 end
 
+--奇幻降临
+if GetModConfigData("yuanzi_patches_switch") then
+    modimport("scripts/yuanzi_patches.lua")
+end
+
+
 --全图定位
 if GetModConfigData("global_position_switch") then
     modimport("scripts/global_position.lua")
