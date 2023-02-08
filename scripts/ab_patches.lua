@@ -125,7 +125,10 @@ AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, is
                     and new.name ~= "bigbag"
                     and new.name ~= "bluebigbag"
                     and new.name ~= "redbigbag"
-                    and new.name ~= "nicebigbag" then
+                    and new.name ~= "nicebigbag"
+                    and new.name ~= "cherryruins_resonator_item"
+                    and new.name ~= "cherryruins_resonator_item_completed"
+                    and new.name ~= "cherryruins_resonator"then
                 if new.components.inventoryitem then
                     inst.components.inventory:GiveItem(new, nil, pt)
                 elseif new.Transform then

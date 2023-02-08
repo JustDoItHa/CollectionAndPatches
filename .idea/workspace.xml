@@ -7,7 +7,7 @@
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/mod_conflict_fix.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/mod_conflict_fix.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/ab_patches.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ab_patches.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +39,7 @@
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -110,6 +111,8 @@
       <workItem from="1675430529581" duration="642000" />
       <workItem from="1675556826897" duration="748000" />
       <workItem from="1675658927156" duration="7055000" />
+      <workItem from="1675739090932" duration="2532000" />
+      <workItem from="1675818828877" duration="587000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -258,7 +261,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675665485705</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="fix">
+      <created>1675739131466</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1675739131466</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
