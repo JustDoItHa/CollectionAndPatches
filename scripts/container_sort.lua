@@ -489,6 +489,14 @@ local add_container_table = {
 
     "hclr_supermu1",
     "hclr_supermu2",
+
+    --肉仓
+    "zx_granary_meat",
+    --菜仓
+    "zx_granary_veggie",
+
+    --神话谷仓
+    "myth_granary",
 }
 local buttoninfo = {
     text = "整理",
