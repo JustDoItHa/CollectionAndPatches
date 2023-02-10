@@ -5,9 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/anim/water_chest.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/DLC0002/inventoryimages.tex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/DLC0002/inventoryimages.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/inventoryimages/huge_box/close.tex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/inventoryimages/huge_box/close.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/inventoryimages/huge_box/open.tex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/inventoryimages/huge_box/open.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modmain/huge_box/AUXmods/chests_arrangement.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modmain/huge_box/AUXmods/container_removable.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modmain/huge_box/AUXmods/current_date.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modmain/huge_box/AUXmods/looktietu.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/components/huge_box_cmp.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/huge_box/API.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/huge_box_main.lua" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/prefabs/huge_box.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/inventoryimages/_big_box/_big_box.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/inventoryimages/_big_box/_big_box.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/inventoryimages/_big_box/big_box.tex" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/inventoryimages/_big_box/big_box.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/container_sort.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/container_sort.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modmain.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modmain.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/_big_box_ui.lua" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/ab_patches.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ab_patches.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/big_box_main.lua" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/prefabs/_big_box.lua" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/smart_minisign_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/smart_minisign_main.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +61,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;false&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Volumes/Extends-C/Games/mods self/Collection And Patches/scripts&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Volumes/Extends-C/Games/mods self/Collection And Patches&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -52,11 +76,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/scripts" />
-      <recent name="$PROJECT_DIR$/scripts/widgets" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/scripts/prefabs" />
+      <recent name="$PROJECT_DIR$/scripts" />
       <recent name="$PROJECT_DIR$/scripts/components" />
-      <recent name="$PROJECT_DIR$/modules/epic_healthbar" />
+      <recent name="$PROJECT_DIR$/images/inventoryimages" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/modules/epic_healthbar" />
@@ -116,7 +140,8 @@
       <workItem from="1675658927156" duration="7055000" />
       <workItem from="1675739090932" duration="2532000" />
       <workItem from="1675818828877" duration="3816000" />
-      <workItem from="1675919226465" duration="795000" />
+      <workItem from="1675919226465" duration="7422000" />
+      <workItem from="1676034415266" duration="1324000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -286,7 +311,21 @@
       <option name="project" value="LOCAL" />
       <updated>1675821066669</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="add item for container sort">
+      <created>1675920067197</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1675920067197</updated>
+    </task>
+    <task id="LOCAL-00026" summary="remove smart mini sign for big_box and medal krampus chest">
+      <created>1676031800101</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1676031800102</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -342,6 +381,8 @@
     <MESSAGE value="fix" />
     <MESSAGE value="add forbid item for &quot;T&quot;" />
     <MESSAGE value="add yuanzi patch" />
-    <option name="LAST_COMMIT_MESSAGE" value="add yuanzi patch" />
+    <MESSAGE value="add item for container sort" />
+    <MESSAGE value="remove smart mini sign for big_box and medal krampus chest" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove smart mini sign for big_box and medal krampus chest" />
   </component>
 </project>

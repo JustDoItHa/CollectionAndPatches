@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "8.14.0.0"
+version = "8.15.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -247,6 +247,50 @@ else
     Light_heal_label = "Tincture Heal 󰀍"
     Light_heal_label = "Tincture Heal 󰀍"
 end
+
+local L = (locale == "zh" or locale == "zht" or locale == "zhr") and true or false;
+local config = {
+    template = function()
+        return {
+            name = "",
+            label = "",
+            hover = "",
+            options = {
+                {
+                    description = "",
+                    hover = "",
+                    data = "0"
+                }
+            },
+            default = "0"
+        }
+    end,
+    addBlockLabel = function(label)
+        return {
+            name = "",
+            label = label or "",
+            hover = "",
+            options = {
+                {
+                    description = "",
+                    hover = "",
+                    data = "0"
+                }
+            },
+            default = "0"
+        }
+    end,
+    option = function(description, data, hover)
+        return {
+            description = description or "",
+            data = data,
+            hover = hover or ""
+        };
+    end,
+    OPEN = L and "开启" or "Open",
+    CLOSE = L and "关闭" or "Close",
+}
+local option = config.option;
 
 local options_for_slots_bg = {
     { description = "-20", data = -20 },
@@ -2014,32 +2058,47 @@ configuration_options = {
 
     AddOptionHeader("超大容量便携箱子"),
     AddOption("bigbox_switch", "制作超大容量便携箱子开关", "是否可以制作超大容量便携箱子", false),
-    AddConfigOption("_big_box_ui_location_vertical", "UI位置垂直偏移", "",
-            { { description = "上移140", hover = "", data = 140 },
-              { description = "上移120", hover = "", data = 120 },
-              { description = "上移100", hover = "", data = 100 },
-              { description = "上移80", hover = "这个位置感觉刚刚好，不会挡住人物", data = 80 },
-              { description = "0", hover = "", data = 0 },
-              { description = "下移80", hover = "", data = -80 },
-              { description = "下移100", hover = "", data = -100 },
-              { description = "下移200", hover = "", data = -200 }, }, 80),
-    AddConfigOption("_big_box_ui_location_vertical", "UI位置水平偏移", "",
-            { { description = "左移300", hover = "", data = 300 },
-              { description = "左移200", hover = "", data = -200 },
-              { description = "左移100", hover = "", data = -100 },
-              { description = "0", hover = "", data = 0 },
-              { description = "右移100", hover = "", data = 100 },
-              { description = "右移200", hover = "", data = 200 },
-              { description = "右移300", hover = "", data = 300 }, }, 0),
-    AddConfigOption("_set_preserver_big_box", "保鲜效果设置", "",
-            { { description = "关闭", hover = "", data = false },
-              { description = "0.5", hover = "冰箱的保鲜效果", data = 0.5 },
-              { description = "0.25", hover = "盐盒的保鲜效果", data = 0.25 },
-              { description = "0.1", hover = "冰箱保鲜效果的5倍", data = 0.1 },
-              { description = "0", hover = "永久保鲜", data = 0 },
-              { description = "-0.5", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -0.5 },
-              { description = "-4", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -4 },
-              { description = "-16", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -16 } }, false),
+    --AddConfigOption("_big_box_ui_location_vertical", "UI位置垂直偏移", "",
+    --        { { description = "上移140", hover = "", data = 140 },
+    --          { description = "上移120", hover = "", data = 120 },
+    --          { description = "上移100", hover = "", data = 100 },
+    --          { description = "上移80", hover = "这个位置感觉刚刚好，不会挡住人物", data = 80 },
+    --          { description = "0", hover = "", data = 0 },
+    --          { description = "下移80", hover = "", data = -80 },
+    --          { description = "下移100", hover = "", data = -100 },
+    --          { description = "下移200", hover = "", data = -200 }, }, 80),
+    --AddConfigOption("_big_box_ui_location_vertical", "UI位置水平偏移", "",
+    --        { { description = "左移300", hover = "", data = 300 },
+    --          { description = "左移200", hover = "", data = -200 },
+    --          { description = "左移100", hover = "", data = -100 },
+    --          { description = "0", hover = "", data = 0 },
+    --          { description = "右移100", hover = "", data = 100 },
+    --          { description = "右移200", hover = "", data = 200 },
+    --          { description = "右移300", hover = "", data = 300 }, }, 0),
+
+    AddConfigOption("container_removable", L and "容器 UI 可以移动" or "The container UI can be moved", "警告：万万不可和同类功能的模组一起开启！！！\n如果有同类模组请关闭该选项。",
+            { option(L and "开启" or "Open", true, ""),
+                option(L and "关闭" or "Close", false, ""),
+            }, false),
+    --AddConfigOption("_set_preserver_big_box", "保鲜效果设置", "",
+    --        { { description = "关闭", hover = "", data = false },
+    --          { description = "0.5", hover = "冰箱的保鲜效果", data = 0.5 },
+    --          { description = "0.25", hover = "盐盒的保鲜效果", data = 0.25 },
+    --          { description = "0.1", hover = "冰箱保鲜效果的5倍", data = 0.1 },
+    --          { description = "0", hover = "永久保鲜", data = 0 },
+    --          { description = "-0.5", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -0.5 },
+    --          { description = "-4", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -4 },
+    --          { description = "-16", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -16 } }, false),
+    AddConfigOption("SET_PRESERVER_VALUE", L and "设置保鲜效果" or "Set fresh-keeping effect", "",
+            { option(L and "关闭" or "Close", -1, ""),
+                option("0.5", 0.5, L and "冰箱的保鲜效果" or "The preservation effect of refrigerator"),
+                option("0.25", 0.25, L and "盐盒的保鲜效果" or "The preservation effect of salt box"),
+                option("0.1", 0.1, L and "冰箱保鲜效果的5倍" or "Five times as effective as a refrigerator"),
+                option("0", 0, L and "永久保鲜" or "Permanent preservation"),
+                option("-0.5", -0.5, L and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
+                option("-4", -4, L and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
+                option("-16", -16, L and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
+            }, -1),
 
 
     AddOptionHeader("物品/生物禁用"),

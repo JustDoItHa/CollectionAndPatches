@@ -122,6 +122,8 @@ AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, is
             if new and new.name ~= "一大袋金币"
                     and new.name ~= "coin_bundle_big"
                     and new.name ~= "_big_box"
+                    and new.name ~= "_big_box_chest"
+                    and new.name ~= "huge_box"
                     and new.name ~= "bigbag"
                     and new.name ~= "bluebigbag"
                     and new.name ~= "redbigbag"
