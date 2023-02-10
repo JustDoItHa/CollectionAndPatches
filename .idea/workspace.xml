@@ -7,7 +7,7 @@
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/smart_minisign_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/smart_minisign_main.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/huge_box_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/huge_box_main.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +118,8 @@
       <workItem from="1675818828877" duration="3816000" />
       <workItem from="1675919226465" duration="7422000" />
       <workItem from="1676034415266" duration="2121000" />
-      <workItem from="1676038206663" duration="18000" />
+      <workItem from="1676038206663" duration="392000" />
+      <workItem from="1676043053758" duration="394000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -309,7 +310,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676036472386</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="fix bug">
+      <created>1676038310555</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1676038310555</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -368,6 +376,7 @@
     <MESSAGE value="add item for container sort" />
     <MESSAGE value="remove smart mini sign for big_box and medal krampus chest" />
     <MESSAGE value="huge box refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="huge box refactor" />
+    <MESSAGE value="fix bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug" />
   </component>
 </project>

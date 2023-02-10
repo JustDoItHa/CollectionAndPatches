@@ -86,7 +86,15 @@ Recipes[#Recipes + 1] = {
     CanMake = true,
     name = "_big_box_chest",
     ingredients = {
-        Ingredient("boards", 20), Ingredient("cutstone", 20), Ingredient("goldnugget", 20)
+        Ingredient("opalpreciousgem", 1),
+        Ingredient("goldnugget", 80),
+        Ingredient("pigskin", 40),
+        Ingredient("nightmarefuel", 80),
+        Ingredient("silk", 80),
+        Ingredient("bearger_fur", 5),
+        Ingredient("dragon_scales", 5),
+        Ingredient("goose_feather", 20),
+        Ingredient("minotaurhorn", 2)
     },
     tech = TECH.NONE,
     config = {
