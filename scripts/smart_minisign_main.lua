@@ -63,13 +63,6 @@ local function draw(inst)
 	if not GLOBAL.TheWorld.ismastersim then
 		return inst
 	end
-
-	if inst.prefab == "_big_box" or inst.prefab == "medal_krampus_chest"
-			or inst.prefab.name == "_big_box"
-			or inst.prefab.name == "medal_krampus_chest"then
-		return inst
-	end
-
 	inst:AddComponent("smart_minisign")
 end
 

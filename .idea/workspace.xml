@@ -5,32 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/anim/water_chest.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/DLC0002/inventoryimages.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/DLC0002/inventoryimages.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/inventoryimages/huge_box/close.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/inventoryimages/huge_box/close.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/inventoryimages/huge_box/open.tex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/inventoryimages/huge_box/open.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modmain/huge_box/AUXmods/chests_arrangement.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modmain/huge_box/AUXmods/container_removable.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modmain/huge_box/AUXmods/current_date.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modmain/huge_box/AUXmods/looktietu.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/components/huge_box_cmp.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/huge_box/API.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/huge_box_main.lua" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/prefabs/huge_box.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/inventoryimages/_big_box/_big_box.tex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/inventoryimages/_big_box/_big_box.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/inventoryimages/_big_box/big_box.tex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/inventoryimages/_big_box/big_box.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modmain.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modmain.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/_big_box_ui.lua" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/ab_patches.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ab_patches.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/big_box_main.lua" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/prefabs/_big_box.lua" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/smart_minisign_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/smart_minisign_main.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -141,7 +117,8 @@
       <workItem from="1675739090932" duration="2532000" />
       <workItem from="1675818828877" duration="3816000" />
       <workItem from="1675919226465" duration="7422000" />
-      <workItem from="1676034415266" duration="1324000" />
+      <workItem from="1676034415266" duration="2121000" />
+      <workItem from="1676038206663" duration="18000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -325,7 +302,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676031800102</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="huge box refactor">
+      <created>1676036472386</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1676036472386</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -383,6 +367,7 @@
     <MESSAGE value="add yuanzi patch" />
     <MESSAGE value="add item for container sort" />
     <MESSAGE value="remove smart mini sign for big_box and medal krampus chest" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove smart mini sign for big_box and medal krampus chest" />
+    <MESSAGE value="huge box refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="huge box refactor" />
   </component>
 </project>
