@@ -8,6 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/huge_box_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/huge_box_main.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/prefabs/huge_box.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/prefabs/huge_box.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

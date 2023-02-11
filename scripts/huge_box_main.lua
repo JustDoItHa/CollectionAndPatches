@@ -64,7 +64,7 @@ for _, v in ipairs(minimap) do
 end
 
 TUNING.HUGE_BOX = {
-    SET_PRESERVER_VALUE = env.GetModConfigData("SET_PRESERVER_VALUE");
+    SET_HUGE_BOX_PRESERVER_VALUE = env.GetModConfigData("SET_HUGE_BOX_PRESERVER_VALUE");
 };
 
 local locale = LOC.GetLocaleCode();

@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "8.18.0.0"
+version = "8.19.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2089,7 +2089,7 @@ configuration_options = {
     --          { description = "-0.5", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -0.5 },
     --          { description = "-4", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -4 },
     --          { description = "-16", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -16 } }, false),
-    AddConfigOption("SET_PRESERVER_VALUE", L and "设置保鲜效果" or "Set fresh-keeping effect", "",
+    AddConfigOption("SET_HUGE_BOX_PRESERVER_VALUE", L and "设置保鲜效果" or "Set fresh-keeping effect", "",
             { option(L and "关闭" or "Close", -1, ""),
                 option("0.5", 0.5, L and "冰箱的保鲜效果" or "The preservation effect of refrigerator"),
                 option("0.25", 0.25, L and "盐盒的保鲜效果" or "The preservation effect of salt box"),

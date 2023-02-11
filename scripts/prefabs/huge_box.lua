@@ -146,9 +146,9 @@ local function commonfn()
     inst:AddComponent("container")
     inst.components.container:WidgetSetup("hb_huge_box");
 
-    if TUNING.HUGE_BOX.SET_PRESERVER_VALUE ~= -1 then
+    if TUNING.HUGE_BOX.SET_HUGE_BOX_PRESERVER_VALUE ~= -1 then
         inst:AddComponent("preserver")
-        inst.components.preserver:SetPerishRateMultiplier(TUNING.HUGE_BOX.SET_PRESERVER_VALUE)
+        inst.components.preserver:SetPerishRateMultiplier(TUNING.HUGE_BOX.SET_HUGE_BOX_PRESERVER_VALUE)
     end
 
     return inst;
