@@ -3,6 +3,39 @@
 -- mod更新时间：2022.04.02 下午 4:45
 -- mod作者：今晚早点睡
 
+-- 堆叠上线修改
+local stack_size = GetModConfigData("stack_size")
+TUNING.STACK_SIZE_LARGEITEM = stack_size
+TUNING.STACK_SIZE_MEDITEM = stack_size
+TUNING.STACK_SIZE_SMALLITEM = stack_size
+TUNING.STACK_SIZE_TINYITEM = stack_size
+
+package.loaded["components/stackable_replica"] = nil --修复其他mod提前修改了堆叠报错
+local stackable_replica = require("components/stackable_replica")
+stackable_replica._ctor = function(self, inst)
+    self.inst = inst
+    self._stacksize = GLOBAL.net_shortint(inst.GUID, "stackable._stacksize", "stacksizedirty")
+    self._maxsize = GLOBAL.net_tinybyte(inst.GUID, "stackable._maxsize")
+end
+
+
+-- local function stack(self)
+--     function self.inst.replica.stackable:SetMaxSize(maxsize)
+--         self._maxsize:set(1)
+--     end
+-- end
+
+-- AddComponentPostInit("stackable", stack)
+-- if stack_size > 63 then
+--     local stackable_replica = GLOBAL.require("components/stackable_replica")
+--     stackable_replica._ctor = function(self, inst)
+--         self.inst = inst
+--         self._stacksize = GLOBAL.net_shortint(inst.GUID, "stackable._stacksize", "stacksizedirty")
+--         self._maxsize = GLOBAL.net_tinybyte(inst.GUID, "stackable._maxsize")
+--     end
+-- end
+
+
 if GetModConfigData("stack_more") then
     local creatures = {
         ["rabbit"] = {ondropfn = nil}, --兔子
@@ -96,24 +129,4 @@ if GetModConfigData("stack_more") then
     end
 end
 
--- 堆叠上线修改
-local stack_size = GetModConfigData("stack_size")
-TUNING.STACK_SIZE_LARGEITEM = stack_size
-TUNING.STACK_SIZE_MEDITEM = stack_size
-TUNING.STACK_SIZE_SMALLITEM = stack_size
 
-local function stack(self)
-    function self.inst.replica.stackable:SetMaxSize(maxsize)
-        self._maxsize:set(1)
-    end
-end
-
-AddComponentPostInit("stackable", stack)
-if stack_size > 63 then
-    local stackable_replica = GLOBAL.require "components/stackable_replica"
-    stackable_replica._ctor = function(self, inst)
-    self.inst = inst
-        self._stacksize = GLOBAL.net_shortint(inst.GUID, "stackable._stacksize", "stacksizedirty")
-        self._maxsize = GLOBAL.net_tinybyte(inst.GUID, "stackable._maxsize")
-    end
-end

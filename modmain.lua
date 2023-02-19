@@ -80,12 +80,13 @@ TUNING.OPTIMISE_ANNOUNCEMENT = GetModConfigData("optimiseAnnouncement")
 TUNING.FUNCTIONAL_MEDAL_ENABLE = modenable({ "1909182187", "能力勋章", "Functional Medal" })
 TUNING.YEYU_NILXIN_ENABLE = modenable({ "2736985627", "2626800998", "夜雨心空" })
 TUNING.YEYU_NILXIN_XIUXIAN_ENABLE = modenable({ "2736985627", "2626800998", "夜雨心空" }) and modenable("修仙世界额外")
-TUNING.ELAINA_ENABLE = modenable("2578692071", "魔女之旅")
-TUNING.ARIA_CRYSTAL_ENABLE = modenable("2418617371", "Aria Crystal", "Aria Crystal", "Aria", "艾丽娅", "艾丽娅·克莉丝塔露")
-TUNING.UI_DRAGGABLE_ENABLE = modenable("2885137047", "UI拖拽缩放")
-TUNING.QIHUANJIANGLIN_ENABLE = modenable("2867435690", "2790273347", "奇幻降临：永恒终焉", "永恒终焉") or modenable("2898657309", "奇幻降临：第四人称", "第四人称")
-TUNING.HEAP_OF_FOOD_ENABLE = modenable("2334209327", "Heap of Foods")
-TUNING.INTERESTING_TUMBLEWEED_ENABLE = modenable("1944492666", "Interesting Tumbleweed")
+TUNING.ELAINA_ENABLE = modenable({"2578692071", "魔女之旅"})
+TUNING.SORA_ENABLE = modenable("1638724235")
+TUNING.ARIA_CRYSTAL_ENABLE = modenable({"2418617371", "Aria Crystal", "Aria Crystal", "Aria", "艾丽娅", "艾丽娅·克莉丝塔露"})
+TUNING.UI_DRAGGABLE_ENABLE = modenable({"2885137047", "UI拖拽缩放"})
+TUNING.QIHUANJIANGLIN_ENABLE = modenable({"2867435690", "2790273347", "奇幻降临：永恒终焉", "永恒终焉"}) or modenable({"2898657309", "奇幻降临：第四人称", "第四人称"})
+TUNING.HEAP_OF_FOOD_ENABLE = modenable({"2334209327", "Heap of Foods"})
+TUNING.INTERESTING_TUMBLEWEED_ENABLE = modenable({"1944492666", "Interesting Tumbleweed"})
 
 
 --修复标签问题
@@ -259,7 +260,7 @@ if GetModConfigData("bigbox_switch") then
     modimport("scripts/huge_box_main.lua")
 end
 --show me 不与信息显示同时开启
-if GetModConfigData("show_me_switch") and (not GetModConfigData("cap_show_info_switch")) then
+if GetModConfigData("show_me_switch") and (not ( GetModConfigData("cap_show_info_switch") or modenable("666155465") )) then
     modimport("scripts/show_me.lua")
 end
 --信息显示
@@ -459,4 +460,4 @@ if GetModConfigData("beta_function_switch") then
 end
 
 modimport("scripts/mod_conflict_fix.lua")
-
+modimport("scripts/blance_bug_fix.lua")

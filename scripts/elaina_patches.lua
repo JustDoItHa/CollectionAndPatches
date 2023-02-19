@@ -1,15 +1,24 @@
-local upvaluehelper = require "utils/upvaluehelp"
+local upvaluehelper = require "utils/upvaluehelp_cap"
 if GetModConfigData("ban_brooch") then
     -- table.insert(PrefabFiles, "star_monv")
 
     for i, k in pairs(ModManager.mods) do
         if k.modname == "workshop-2578692071" then
             for i = #k.PrefabFiles, 1, -1 do
-                if string.find(k.PrefabFiles[i], "brooch") and k.PrefabFiles[i] ~= "star_brooch" and k.PrefabFiles[i] ~= "elaina_most_brooch" then
+                if (string.find(k.PrefabFiles[i], "brooch") and k.PrefabFiles[i] ~= "star_brooch" and k.PrefabFiles[i] ~= "elaina_most_brooch") 
+                    or k.PrefabFiles[i] == "elaina_yin_tiger"
+                    then
                     table.remove(k.PrefabFiles, i)
                 end
             end
         end
+    end
+
+    local ban_recipes = { --清除制作配方
+        "elaina_yin_tiger",
+    }
+    for k,v in pairs(ban_recipes) do
+        if AllRecipes[v] then AllRecipes[v] = nil end
     end
 
     AddComponentPostInit("inventory", function(self)
@@ -283,7 +292,6 @@ if GetModConfigData("ban_brooch") then
                     jiluzj:DoDeltajilu(1)
                 elseif dqhgd >= 1000 and jilu == 8 then
                     --1000好感度赠送装备星辰胸针
-                    print("------------bbbbbr")
                     -- if jiluzj.zsjilu == 0 then      --如果专属记录为0，那么才送，避免获取2个胸针
                     wp:GiveItem(SpawnPrefab("star_brooch"))
                     -- end
@@ -455,26 +463,7 @@ if GetModConfigData("ban_brooch") then
     end
 end
 
-AddComponentPostInit("unwrappable", function(self) -- 伊蕾娜 打包纸 临时修复
-    local old_Unwrap = self.Unwrap
-    function self:Unwrap(doer)  
-        if self.inst:HasTag("elaina_bundle") then
-            if self.itemdata ~= nil then
-                local cache = self.itemdata
-                if not checkentity(cache) then print("-itemdata == nil -") return old_Unwrap(self,doer) end
-                self.itemdata = {}
-                for i, v in ipairs(cache) do
-                    local item = SpawnPrefab(v.prefab)
-                    if item.components and item.components.edible ~= nil then
-                        table.insert(self.itemdata,v)
-                    end
-                    item:Remove()
-                end
-            end
-        end
-        return old_Unwrap(self,doer)
-    end
-end)
+
 
 local elaina_valid2 = require "components/elaina_valid2" --伊蕾娜 开局礼包 修改
 local zslist = upvaluehelper.Get(elaina_valid2.InIt,"zslist")
