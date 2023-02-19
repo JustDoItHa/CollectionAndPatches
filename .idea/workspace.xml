@@ -7,8 +7,7 @@
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/huge_box_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/huge_box_main.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/prefabs/huge_box.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/prefabs/huge_box.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/ab_patches.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ab_patches.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,6 +120,8 @@
       <workItem from="1676034415266" duration="2121000" />
       <workItem from="1676038206663" duration="392000" />
       <workItem from="1676043053758" duration="394000" />
+      <workItem from="1676257986145" duration="95000" />
+      <workItem from="1676801854916" duration="4148000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -318,7 +319,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676038310555</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="change variable for huge box preserve value">
+      <created>1676093830414</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1676093830414</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -378,6 +386,7 @@
     <MESSAGE value="remove smart mini sign for big_box and medal krampus chest" />
     <MESSAGE value="huge box refactor" />
     <MESSAGE value="fix bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix bug" />
+    <MESSAGE value="change variable for huge box preserve value" />
+    <option name="LAST_COMMIT_MESSAGE" value="change variable for huge box preserve value" />
   </component>
 </project>

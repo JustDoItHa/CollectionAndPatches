@@ -95,6 +95,55 @@ AddComponentPostInit("moisture", function(self)
     end
 end)
 
+local forbidItem = {
+    "一大袋金币",
+    "coin_bundle_big",
+    "_big_box",
+    "_big_box_chest",
+    "huge_box",
+    "bigbag",
+    "bluebigbag",
+    "redbigbag",
+    "nicebigbag",
+    "cherryruins_resonator_item",
+    "cherryruins_resonator_item_completed",
+    "cherryruins_resonator",
+    "wb_strengthen_bindpaper",
+    "wb_strengthen_bindpaper_bundle",
+    "wb_strengthen_bindpaper_container",
+    "wb_strengthen_bindpaper_container",
+    "wb_strengthen_cleanpaer",
+    "wb_strengthen_increase_1_levelpaper",
+    "wb_strengthen_increase_2_levelpaper",
+    "wb_strengthen_increase_3_levelpaper",
+    "wb_strengthen_increase_4_levelpaper",
+    "wb_strengthen_increase_5_levelpaper",
+    "wb_strengthen_increase_6_levelpaper",
+    "wb_strengthen_increase_7_levelpaper",
+    "wb_strengthen_increase_8_levelpaper",
+    "wb_strengthen_increase_9_levelpaper",
+    "wb_strengthen_increase_10_levelpaper",
+    "wb_strengthen_increase_11_levelpaper",
+    "wb_strengthen_increase_12_levelpaper",
+    "wb_strengthen_strengthen_1_levelpaper",
+    "wb_strengthen_strengthen_2_levelpaper",
+    "wb_strengthen_strengthen_3_levelpaper",
+    "wb_strengthen_strengthen_4_levelpaper",
+    "wb_strengthen_strengthen_5_levelpaper",
+    "wb_strengthen_strengthen_6_levelpaper",
+    "wb_strengthen_strengthen_7_levelpaper",
+    "wb_strengthen_strengthen_8_levelpaper",
+    "wb_strengthen_strengthen_9_levelpaper",
+    "wb_strengthen_strengthen_10_levelpaper",
+    "wb_strengthen_strengthen_11_levelpaper",
+    "wb_strengthen_strengthen_12_levelpaper",
+    "wb_strengthen_increase_next_levelpaper",
+    "wb_strengthen_increase_protectpaper",
+    "wb_strengthen_strengthen_protectpaper",
+    "wb_strengthen_strengthen_food",
+    "wb_strengthen_increase_food",
+}
+
 AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, isproduct, id)
     if IsEntityDeadOrGhost(inst, true) then
         return
@@ -104,13 +153,25 @@ AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, is
                 inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] and inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] > 0 then
             local new = SpawnPrefab(isproduct)
             local pt = inst:GetPosition()
-            if new and new.name ~= "一大袋金币" and new.name ~= "coin_bundle_big" then
-                if new.components.inventoryitem then
-                    inst.components.inventory:GiveItem(new, nil, pt)
-                elseif new.Transform then
-                    new.Transform:SetPosition(pt:Get())
+            if new then
+                local itemForbidden = false
+                for k, v in pairs(forbidItem) do
+                    if new.name and new.name == v then
+                        itemForbidden = true
+                        break
+                    end
                 end
-                inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] = inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] - 1
+
+                if ~itemForbidden then
+                    if new.components.inventoryitem then
+                        inst.components.inventory:GiveItem(new, nil, pt)
+                    elseif new.Transform then
+                        new.Transform:SetPosition(pt:Get())
+                    end
+                    inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] = inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] - 1
+                else
+                    inst.components.talker:Say("这东西不能用这个方式获得哦！")
+                end
             else
                 inst.components.talker:Say("无效得物品")
             end
@@ -119,24 +180,25 @@ AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, is
         if inst.components.inventory:Has("abigail_williams_black_gold", 1) then
             local new = SpawnPrefab(isproduct)
             local pt = inst:GetPosition()
-            if new and new.name ~= "一大袋金币"
-                    and new.name ~= "coin_bundle_big"
-                    and new.name ~= "_big_box"
-                    and new.name ~= "_big_box_chest"
-                    and new.name ~= "huge_box"
-                    and new.name ~= "bigbag"
-                    and new.name ~= "bluebigbag"
-                    and new.name ~= "redbigbag"
-                    and new.name ~= "nicebigbag"
-                    and new.name ~= "cherryruins_resonator_item"
-                    and new.name ~= "cherryruins_resonator_item_completed"
-                    and new.name ~= "cherryruins_resonator"then
-                if new.components.inventoryitem then
-                    inst.components.inventory:GiveItem(new, nil, pt)
-                elseif new.Transform then
-                    new.Transform:SetPosition(pt:Get())
+            if new then
+                local itemForbidden = false
+                for k, v in pairs(forbidItem) do
+                    if new.name and new.name == v then
+                        itemForbidden = true
+                        break
+                    end
                 end
-                inst.components.inventory:ConsumeByName("abigail_williams_black_gold", 1)
+
+                if ~itemForbidden then
+                    if new.components.inventoryitem then
+                        inst.components.inventory:GiveItem(new, nil, pt)
+                    elseif new.Transform then
+                        new.Transform:SetPosition(pt:Get())
+                    end
+                    inst.components.inventory:ConsumeByName("abigail_williams_black_gold", 1)
+                else
+                    inst.components.talker:Say("这东西不能用这个方式获得哦！")
+                end
             else
                 inst.components.talker:Say("无效得物品")
             end
