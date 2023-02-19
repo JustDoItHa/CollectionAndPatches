@@ -162,7 +162,7 @@ AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, is
                     end
                 end
 
-                if ~itemForbidden then
+                if not itemForbidden then
                     if new.components.inventoryitem then
                         inst.components.inventory:GiveItem(new, nil, pt)
                     elseif new.Transform then
@@ -189,7 +189,7 @@ AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, is
                     end
                 end
 
-                if ~itemForbidden then
+                if not itemForbidden then
                     if new.components.inventoryitem then
                         inst.components.inventory:GiveItem(new, nil, pt)
                     elseif new.Transform then

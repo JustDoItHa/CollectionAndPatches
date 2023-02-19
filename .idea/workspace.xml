@@ -121,7 +121,7 @@
       <workItem from="1676038206663" duration="392000" />
       <workItem from="1676043053758" duration="394000" />
       <workItem from="1676257986145" duration="95000" />
-      <workItem from="1676801854916" duration="4148000" />
+      <workItem from="1676801854916" duration="5583000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -326,7 +326,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676093830414</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="forbid T for strengthen">
+      <created>1676809298538</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1676809298538</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -387,6 +394,7 @@
     <MESSAGE value="huge box refactor" />
     <MESSAGE value="fix bug" />
     <MESSAGE value="change variable for huge box preserve value" />
-    <option name="LAST_COMMIT_MESSAGE" value="change variable for huge box preserve value" />
+    <MESSAGE value="forbid T for strengthen" />
+    <option name="LAST_COMMIT_MESSAGE" value="forbid T for strengthen" />
   </component>
 </project>
