@@ -249,12 +249,13 @@ if TUNING.YEYU_NILXIN_ENABLE then
         if inst.components.spellcaster then
             local old_spell = inst.components.spellcaster.spell
             inst.components.spellcaster.spell = function(inst, target, pos, doer)
-                for k,_ in pairs(target.components) do
-                    if type(k) == "string" and string.find(k, "teleporter") then
-                        return
+                if target then
+                    for k,_ in pairs(target.components) do
+                        if type(k) == "string" and string.find(k, "teleporter") then
+                            return
+                        end
                     end
                 end
-
                 return old_spell and old_spell(inst, target, pos, doer)
             end
         end
