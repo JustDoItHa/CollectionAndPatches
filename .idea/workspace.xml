@@ -7,7 +7,7 @@
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/ab_patches.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ab_patches.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/strongclean_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/strongclean_main.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +121,9 @@
       <workItem from="1676038206663" duration="392000" />
       <workItem from="1676043053758" duration="394000" />
       <workItem from="1676257986145" duration="95000" />
-      <workItem from="1676801854916" duration="5583000" />
+      <workItem from="1676801854916" duration="5911000" />
+      <workItem from="1676933224535" duration="3112000" />
+      <workItem from="1677114589560" duration="176000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -333,7 +335,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676809298538</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="forbid T for strengthen and fix">
+      <created>1676811019070</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1676811019070</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -342,6 +351,31 @@
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
+        <entry key="20de8bfb-39e4-4a16-a269-2e12afd2f8e3">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
         <entry key="6d6734db-7bb6-489f-97ac-9c171362f6d1">
           <value>
             <State>
@@ -371,7 +405,7 @@
     </option>
     <option name="OPEN_GENERIC_TABS">
       <map>
-        <entry key="6d6734db-7bb6-489f-97ac-9c171362f6d1" value="TOOL_WINDOW" />
+        <entry key="20de8bfb-39e4-4a16-a269-2e12afd2f8e3" value="TOOL_WINDOW" />
       </map>
     </option>
   </component>
@@ -395,6 +429,7 @@
     <MESSAGE value="fix bug" />
     <MESSAGE value="change variable for huge box preserve value" />
     <MESSAGE value="forbid T for strengthen" />
-    <option name="LAST_COMMIT_MESSAGE" value="forbid T for strengthen" />
+    <MESSAGE value="forbid T for strengthen and fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="forbid T for strengthen and fix" />
   </component>
 </project>

@@ -63,6 +63,7 @@ local blacklist = {
     "shyerrytree3",
     "shyerrytree4",
     "redpouch_yot_catcoon",
+    "dummytarget",
 }
 
 local whitetag = {
