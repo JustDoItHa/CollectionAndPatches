@@ -159,7 +159,6 @@ AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, is
                 for k, v in pairs(forbidItem) do
                     if new == v or (new.name and new.name == v) then
                         itemForbidden = true
-                        break
                     end
                 end
 
@@ -186,7 +185,6 @@ AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, is
                 for k, v in pairs(forbidItem) do
                     if new == v or (new.name and new.name == v) then
                         itemForbidden = true
-                        break
                     end
                 end
 

@@ -124,7 +124,7 @@
       <workItem from="1676801854916" duration="5911000" />
       <workItem from="1676933224535" duration="3112000" />
       <workItem from="1677114589560" duration="1065000" />
-      <workItem from="1677376346420" duration="6553000" />
+      <workItem from="1677376346420" duration="7518000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -371,7 +371,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677379082387</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="forbid item fot black gold">
+      <created>1677418366812</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1677418366812</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -462,6 +469,7 @@
     <MESSAGE value="clean dummy target" />
     <MESSAGE value="limit ab black gold" />
     <MESSAGE value="add strong clean list item" />
-    <option name="LAST_COMMIT_MESSAGE" value="add strong clean list item" />
+    <MESSAGE value="forbid item fot black gold" />
+    <option name="LAST_COMMIT_MESSAGE" value="forbid item fot black gold" />
   </component>
 </project>
