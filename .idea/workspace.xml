@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/strongclean_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/strongclean_main.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/ab_patches.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ab_patches.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +124,7 @@
       <workItem from="1676801854916" duration="5911000" />
       <workItem from="1676933224535" duration="3112000" />
       <workItem from="1677114589560" duration="1065000" />
-      <workItem from="1677376346420" duration="2577000" />
+      <workItem from="1677376346420" duration="6553000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -363,7 +364,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677377502250</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="add strong clean list item">
+      <created>1677379082387</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1677379082387</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -453,6 +461,7 @@
     <MESSAGE value="forbid T for strengthen and fix" />
     <MESSAGE value="clean dummy target" />
     <MESSAGE value="limit ab black gold" />
-    <option name="LAST_COMMIT_MESSAGE" value="limit ab black gold" />
+    <MESSAGE value="add strong clean list item" />
+    <option name="LAST_COMMIT_MESSAGE" value="add strong clean list item" />
   </component>
 </project>
