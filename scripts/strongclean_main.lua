@@ -119,6 +119,7 @@ if GetModConfigData("use_for_tumbleweed") then
     table.insert(strongcleanlist, "alterguardian_phase3")--天体英雄形态3
     table.insert(strongcleanlist, "alterguardian_phase3dead")--被击败的天体英雄
     table.insert(strongcleanlist, "dustmothde")--尘蛾的窝
+    table.insert(strongcleanlist, "dustmoth")--尘蛾的窝
     table.insert(strongcleanlist, "malbatross")--邪天翁
     table.insert(strongcleanlist, "rocky")--石虾
     table.insert(strongcleanlist, "minotaurchest") --华丽的箱子
@@ -129,6 +130,36 @@ if GetModConfigData("use_for_tumbleweed") then
     table.insert(strongcleanlist, "moon_altar_crown") --天体贡品
     table.insert(strongcleanlist, "moon_altar_icon") --天体圣殿象征
     table.insert(strongcleanlist, "moon_altar_ward") --天体圣殿卫戍
+
+    table.insert(strongcleanlist, "asparagus_oversized")
+    table.insert(strongcleanlist, "carrot_oversized")
+    table.insert(strongcleanlist, "corn_oversized")
+    table.insert(strongcleanlist, "eggplant_oversized")
+    table.insert(strongcleanlist, "garlic_oversized")
+    table.insert(strongcleanlist, "onion_oversized")
+    table.insert(strongcleanlist, "pepper_oversized")
+    table.insert(strongcleanlist, "potato_oversized")
+    table.insert(strongcleanlist, "pumpkin_oversized")
+    table.insert(strongcleanlist, "tomato_oversized")
+    table.insert(strongcleanlist, "dragonfruit_oversized")
+    table.insert(strongcleanlist, "durian_oversized")
+    table.insert(strongcleanlist, "pomegranate_oversized")
+    table.insert(strongcleanlist, "watermelon_oversized")
+
+    table.insert(strongcleanlist, "asparagus_oversized_rotten")
+    table.insert(strongcleanlist, "carrot_oversized_rotten")
+    table.insert(strongcleanlist, "corn_oversized_rotten")
+    table.insert(strongcleanlist, "eggplant_oversized_rotten")
+    table.insert(strongcleanlist, "garlic_oversized_rotten")
+    table.insert(strongcleanlist, "onion_oversized_rotten")
+    table.insert(strongcleanlist, "pepper_oversized_rotten")
+    table.insert(strongcleanlist, "potato_oversized_rotten")
+    table.insert(strongcleanlist, "pumpkin_oversized_rotten")
+    table.insert(strongcleanlist, "tomato_oversized_rotten")
+    table.insert(strongcleanlist, "dragonfruit_oversized_rotten")
+    table.insert(strongcleanlist, "durian_oversized_rotten")
+    table.insert(strongcleanlist, "pomegranate_oversized_rotten")
+    table.insert(strongcleanlist, "watermelon_oversized_rotten")
 
 end
 
