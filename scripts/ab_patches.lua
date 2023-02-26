@@ -154,14 +154,16 @@ AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, is
                 inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] and inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] > 0 then
             local new = SpawnPrefab(isproduct)
             local pt = inst:GetPosition()
-            if new then
-                local itemForbidden = false
-                for k, v in pairs(forbidItem) do
-                    if new == v or (new.name and new.name == v) then
-                        itemForbidden = true
-                    end
-                end
 
+            local itemForbidden = false
+            for k, v in pairs(forbidItem) do
+                if isproduct == v then
+                    itemForbidden = true
+                    break
+                end
+            end
+
+            if new then
                 if not itemForbidden then
                     if new.components.inventoryitem then
                         inst.components.inventory:GiveItem(new, nil, pt)
@@ -180,14 +182,16 @@ AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, is
         if inst.components.inventory:Has("abigail_williams_black_gold", 1) then
             local new = SpawnPrefab(isproduct)
             local pt = inst:GetPosition()
-            if new then
-                local itemForbidden = false
-                for k, v in pairs(forbidItem) do
-                    if new == v or (new.name and new.name == v) then
-                        itemForbidden = true
-                    end
-                end
 
+            local itemForbidden = false
+            for k, v in pairs(forbidItem) do
+                if isproduct == v then
+                    itemForbidden = true
+                    break
+                end
+            end
+
+            if new then
                 if not itemForbidden then
                     if new.components.inventoryitem then
                         inst.components.inventory:GiveItem(new, nil, pt)
