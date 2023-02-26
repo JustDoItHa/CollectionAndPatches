@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/strongclean_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/strongclean_main.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/ab_patches.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ab_patches.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +122,8 @@
       <workItem from="1676257986145" duration="95000" />
       <workItem from="1676801854916" duration="5911000" />
       <workItem from="1676933224535" duration="3112000" />
-      <workItem from="1677114589560" duration="176000" />
+      <workItem from="1677114589560" duration="1065000" />
+      <workItem from="1677376346420" duration="1072000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -342,7 +342,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676811019070</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="clean dummy target">
+      <created>1677114790643</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1677114790643</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -430,6 +437,7 @@
     <MESSAGE value="change variable for huge box preserve value" />
     <MESSAGE value="forbid T for strengthen" />
     <MESSAGE value="forbid T for strengthen and fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="forbid T for strengthen and fix" />
+    <MESSAGE value="clean dummy target" />
+    <option name="LAST_COMMIT_MESSAGE" value="clean dummy target" />
   </component>
 </project>

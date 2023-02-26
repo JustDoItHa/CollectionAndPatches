@@ -142,6 +142,7 @@ local forbidItem = {
     "wb_strengthen_strengthen_protectpaper",
     "wb_strengthen_strengthen_food",
     "wb_strengthen_increase_food",
+    "myth_plant_infantree_trunk",
 }
 
 AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, isproduct, id)
