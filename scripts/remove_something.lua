@@ -14,6 +14,7 @@ local remove_table = {
     --奇幻降临阿比
     remove_abigail_williams_atrium_light_moon = { "atrium_light_moon" },
     remove_abigail_williams_black_gold = { "abigail_williams_black_gold" },
+    remove_abigail_williams_ab_lnhx = { "ab_lnhx" },
     remove_abigail_williams_bonestew = { "abigail_williams_bonestew" },
     remove_abigail_williams_ab_wilsontorch = { "ab_wilsontorch" },
     remove_abigail_williams_traveler_armor = { "traveler_armor" },

@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "8.24.2.2"
+version = "8.25.2.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2110,6 +2110,7 @@ configuration_options = {
     AddConfigOption("remove_aria_transfer", "aria的晶能转换站", "让aria的晶能转换站消失！", disappear_magic, 0),
     AddConfigOption("remove_aria_blackhole", "aria的深空黑点", "让aria的深空黑点消失！", disappear_magic, 0),
     AddConfigOption("remove_abigail_williams_black_gold", "阿比盖尔威廉姆斯的暗金", "让阿比盖尔威廉姆斯的暗金消失！", disappear_magic, -1),
+    AddConfigOption("remove_abigail_williams_ab_lnhx", "阿比盖尔威廉姆斯的灵能核心", "让阿比盖尔威廉姆斯的灵能核心消失！", disappear_magic, -1),
     AddConfigOption("remove_abigail_williams_atrium_light_moon", "阿比盖尔威廉姆斯的月之灯柱", "让阿比盖尔威廉姆斯的月之灯柱消失！", disappear_magic, 0),
     AddConfigOption("remove_abigail_williams_bonestew", "阿比盖尔威廉姆斯的无限炖肉汤", "让阿比盖尔威廉姆斯的无限炖肉汤消失！", disappear_magic, 0),
     AddConfigOption("remove_abigail_williams_ab_wilsontorch", "阿比盖尔威廉姆斯的疯狂的科学家火炬", "让阿比盖尔威廉姆斯的疯狂的科学家火炬消失！", disappear_magic, 0),

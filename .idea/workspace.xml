@@ -7,7 +7,7 @@
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/ab_patches.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ab_patches.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/remove_something.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/remove_something.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +37,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;false&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Volumes/Extends-C/Games/mods self/Collection And Patches&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Volumes/Extends-C/Games/mods self/Collection And Patches/scripts&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -52,9 +52,9 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/scripts" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/scripts/prefabs" />
-      <recent name="$PROJECT_DIR$/scripts" />
       <recent name="$PROJECT_DIR$/scripts/components" />
       <recent name="$PROJECT_DIR$/images/inventoryimages" />
     </key>
@@ -125,7 +125,9 @@
       <workItem from="1676933224535" duration="3112000" />
       <workItem from="1677114589560" duration="1065000" />
       <workItem from="1677376346420" duration="8450000" />
-      <workItem from="1677453631040" duration="341000" />
+      <workItem from="1677453631040" duration="2575000" />
+      <workItem from="1677567351130" duration="616000" />
+      <workItem from="1677815566305" duration="737000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -386,7 +388,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677420983979</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="forbid item fot black gold">
+      <created>1677453984487</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1677453984487</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
