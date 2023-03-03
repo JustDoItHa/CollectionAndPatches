@@ -127,7 +127,7 @@
       <workItem from="1677376346420" duration="8450000" />
       <workItem from="1677453631040" duration="2575000" />
       <workItem from="1677567351130" duration="616000" />
-      <workItem from="1677815566305" duration="737000" />
+      <workItem from="1677815566305" duration="1197000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -395,7 +395,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677453984487</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="disable lnhx">
+      <created>1677816337468</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1677816337468</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -487,6 +494,7 @@
     <MESSAGE value="limit ab black gold" />
     <MESSAGE value="add strong clean list item" />
     <MESSAGE value="forbid item fot black gold" />
-    <option name="LAST_COMMIT_MESSAGE" value="forbid item fot black gold" />
+    <MESSAGE value="disable lnhx" />
+    <option name="LAST_COMMIT_MESSAGE" value="disable lnhx" />
   </component>
 </project>
