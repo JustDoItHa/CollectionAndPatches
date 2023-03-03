@@ -30,6 +30,7 @@ local remove_table = {
     remove_nilxin_yyxk1 = { "yyxk1" },
     remove_yyxk_auto_recipe = { "yyxk_auto_recipe" },
     remove_yyxk_auto_destroystructure = { "yyxk_auto_destroystructure" },
+    remove_yyxk_item_togetherup0 = { "yyxk_item_togetherup0" },
     --小狐狸
     remove_kemomimi_book_fs = { "kemomimi_book_fs" },
     remove_kemomimi_magic_coin_colour = { "magic_coin_colour" },
