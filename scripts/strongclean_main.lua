@@ -118,7 +118,7 @@ if GetModConfigData("use_for_tumbleweed") then
     table.insert(strongcleanlist, "alterguardian_phase2")--天体英雄形态2
     table.insert(strongcleanlist, "alterguardian_phase3")--天体英雄形态3
     table.insert(strongcleanlist, "alterguardian_phase3dead")--被击败的天体英雄
-    table.insert(strongcleanlist, "dustmothde")--尘蛾的窝
+    table.insert(strongcleanlist, "dustmothden")--尘蛾的窝
     table.insert(strongcleanlist, "dustmoth")--尘蛾的窝
     table.insert(strongcleanlist, "malbatross")--邪天翁
     table.insert(strongcleanlist, "rocky")--石虾
@@ -130,6 +130,9 @@ if GetModConfigData("use_for_tumbleweed") then
     table.insert(strongcleanlist, "moon_altar_crown") --天体贡品
     table.insert(strongcleanlist, "moon_altar_icon") --天体圣殿象征
     table.insert(strongcleanlist, "moon_altar_ward") --天体圣殿卫戍
+    table.insert(strongcleanlist, "resurrectionstone") --复活台
+    table.insert(strongcleanlist, "gift")
+    table.insert(strongcleanlist, "mokuangshi")
 
     table.insert(strongcleanlist, "asparagus_oversized")
     table.insert(strongcleanlist, "carrot_oversized")
