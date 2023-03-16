@@ -145,75 +145,114 @@ local forbidItem = {
     "myth_plant_infantree_trunk",
 }
 
-AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, isproduct, id)
-    if IsEntityDeadOrGhost(inst, true) then
-        return
-    end
-    if checknumber(recipename) and recipename == 1 and checkstring(isproduct) and TUNING.AB_CHAONENGQUANXIAN then
-        if inst.using_traveler_log and inst.using_traveler_log:IsValid() and inst.using_traveler_log.components.ab_recipelist and
-                inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] and inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] > 0 then
-            local new = SpawnPrefab(isproduct)
-            local pt = inst:GetPosition()
+if MOD_RPC_HANDLERS["ab_recipelist"] and MOD_RPC["ab_recipelist"] and MOD_RPC["ab_recipelist"]["ab_recipelist"] and MOD_RPC["ab_recipelist"]["ab_recipelist"].id then
+    local old_ab_recipelist = MOD_RPC_HANDLERS["ab_recipelist"][MOD_RPC["ab_recipelist"]["ab_recipelist"].id];
+    MOD_RPC_HANDLERS["ab_recipelist"][MOD_RPC["ab_recipelist"]["ab_recipelist"].id] = function(inst, recipename, isproduct, ...)
 
-            local itemForbidden = false
+        if recipename == 1 and TUNING.AB_CHAONENGQUANXIAN then
             for k, v in pairs(forbidItem) do
                 if isproduct == v then
-                    itemForbidden = true
-                    break
-                end
-            end
-
-            if new then
-                if not itemForbidden then
-                    if new.components.inventoryitem then
-                        inst.components.inventory:GiveItem(new, nil, pt)
-                    elseif new.Transform then
-                        new.Transform:SetPosition(pt:Get())
-                    end
-                    inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] = inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] - 1
-                else
                     inst.components.talker:Say("这东西不能用这个方式获得哦！")
+                    return
                 end
-            else
-                inst.components.talker:Say("无效得物品")
             end
-            return
         end
-        if inst.components.inventory:Has("abigail_williams_black_gold", 1) then
-            local new = SpawnPrefab(isproduct)
-            local pt = inst:GetPosition()
 
-            local itemForbidden = false
-            for k, v in pairs(forbidItem) do
-                if isproduct == v then
-                    itemForbidden = true
-                    break
-                end
-            end
-
-            if new then
-                if not itemForbidden then
-                    if new.components.inventoryitem then
-                        inst.components.inventory:GiveItem(new, nil, pt)
-                    elseif new.Transform then
-                        new.Transform:SetPosition(pt:Get())
-                    end
-                    inst.components.inventory:ConsumeByName("abigail_williams_black_gold", 1)
-                else
-                    inst.components.talker:Say("这东西不能用这个方式获得哦！")
-                end
-            else
-                inst.components.talker:Say("无效得物品")
-            end
-            return
-        end
-        inst.components.talker:Say("缺少材料暗金")
-    elseif checknumber(recipename) and recipename == 2 and checkstring(isproduct) and checknumber(id) then
-        if inst.using_traveler_log and inst.using_traveler_log:IsValid() then
-            inst.using_traveler_log.components.ab_recipelist:ty(isproduct, id == 1, inst)
-        end
-    elseif inst.using_traveler_log and inst.using_traveler_log:IsValid() and checkstring(recipename)
-            and checkbool(isproduct) and inst.using_traveler_log.components.ab_recipelist then
-        inst.using_traveler_log.components.ab_recipelist:Build(recipename, inst, isproduct)
+        if old_ab_recipelist then old_ab_recipelist(inst, recipename, isproduct, ...) end
     end
-end)
+end
+
+-- AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, isproduct, id)
+--     if IsEntityDeadOrGhost(inst, true) then
+--         return
+--     end
+--     if checknumber(recipename) and recipename == 1 and checkstring(isproduct) and TUNING.AB_CHAONENGQUANXIAN then
+--         if inst.using_traveler_log and inst.using_traveler_log:IsValid() and inst.using_traveler_log.components.ab_recipelist and
+--                 inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] and inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] > 0 then
+--             local new = SpawnPrefab(isproduct)
+--             local pt = inst:GetPosition()
+
+--             local itemForbidden = false
+--             for k, v in pairs(forbidItem) do
+--                 if isproduct == v then
+--                     itemForbidden = true
+--                     break
+--                 end
+--             end
+
+--             if new then
+--                 if not itemForbidden then
+--                     if new.components.inventoryitem then
+--                         inst.components.inventory:GiveItem(new, nil, pt)
+--                     elseif new.Transform then
+--                         new.Transform:SetPosition(pt:Get())
+--                     end
+--                     inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] = inst.using_traveler_log.components.ab_recipelist.inventoryitems["abigail_williams_black_gold"] - 1
+--                 else
+--                     inst.components.talker:Say("这东西不能用这个方式获得哦！")
+--                 end
+--             else
+--                 inst.components.talker:Say("无效得物品")
+--             end
+--             return
+--         end
+--         if inst.components.inventory:Has("abigail_williams_black_gold", 1) then
+--             local new = SpawnPrefab(isproduct)
+--             local pt = inst:GetPosition()
+
+--             local itemForbidden = false
+--             for k, v in pairs(forbidItem) do
+--                 if isproduct == v then
+--                     itemForbidden = true
+--                     break
+--                 end
+--             end
+
+--             if new then
+--                 if not itemForbidden then
+--                     if new.components.inventoryitem then
+--                         inst.components.inventory:GiveItem(new, nil, pt)
+--                     elseif new.Transform then
+--                         new.Transform:SetPosition(pt:Get())
+--                     end
+--                     inst.components.inventory:ConsumeByName("abigail_williams_black_gold", 1)
+--                 else
+--                     inst.components.talker:Say("这东西不能用这个方式获得哦！")
+--                 end
+--             else
+--                 inst.components.talker:Say("无效得物品")
+--             end
+--             return
+--         end
+--         inst.components.talker:Say("缺少材料暗金")
+--     elseif checknumber(recipename) and recipename == 2 and checkstring(isproduct) and checknumber(id) then
+--         if inst.using_traveler_log and inst.using_traveler_log:IsValid() then
+--             inst.using_traveler_log.components.ab_recipelist:ty(isproduct, id == 1, inst)
+--         end
+--     elseif inst.using_traveler_log and inst.using_traveler_log:IsValid() and checkstring(recipename)
+--             and checkbool(isproduct) and inst.using_traveler_log.components.ab_recipelist then
+--         inst.using_traveler_log.components.ab_recipelist:Build(recipename, inst, isproduct)
+--     end
+-- end)
+
+local upvaluehelper = require "utils/upvaluehelp_cap"
+local ab_wg = require "components/ab_wg" --阿比第四 开局礼包 修改
+local zslist = upvaluehelper.Get(ab_wg.InIt,"zslist")
+if zslist then
+    for k,v in pairs(zslist) do
+        if v.id and v.item then
+           v.item = {"pyrite"}--黄铁
+        end
+    end
+end
+
+-- local upvaluehelper = require "utils/upvaluehelp_cap"
+-- local lei = require "prefabs/player_common_extensions" --怜 开局礼包 修改
+-- local vips = upvaluehelper.Get(lei.GivePlayerStartingItems,"vips")
+-- if vips then
+--     for k,v in pairs(vips) do
+--         if v.items then
+--            v.items = {"rei_start_stone"} ----星光石
+--         end
+--     end
+-- end

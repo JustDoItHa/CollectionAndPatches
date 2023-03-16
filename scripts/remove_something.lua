@@ -69,19 +69,29 @@ local remove_table = {
 }
 -- local remove_item  = {}
 -- for k, v in pairs(remove_table) do
--- 	for j ,s in pairs(v) do
--- 		table.insert(remove_item,v)
--- 	end
+--  for j ,s in pairs(v) do
+--      table.insert(remove_item,v)
+--  end
 -- end
-
-local function SpawnLootPrefab(player, name, sum)
+local function recall_something(owner, sp, pos)
+    if owner then
+        if owner.components.inventory then
+            owner.components.inventory:GiveItem(sp)
+        elseif owner.components.container then
+            owner.components.container:GiveItem(sp)
+        end
+    elseif pos then
+        sp.Transform:SetPosition(pos.x, 0, pos.z)
+    end
+end
+local function SpawnLootPrefab(owner, name, sum, pos)
     local sp = SpawnPrefab(name)
     if sp then
         if sp.components.stackable then
             local m = sp.components.stackable.maxsize
             local c = sum - m
             sp.components.stackable:SetStackSize(c > 0 and m or sum)
-            player.components.inventory:GiveItem(sp)
+            recall_something(owner, sp, pos)
             while (c > 0) do
                 local loot1 = SpawnPrefab(name)
                 if c > m then
@@ -89,34 +99,16 @@ local function SpawnLootPrefab(player, name, sum)
                 else
                     loot1.components.stackable:SetStackSize(c)
                 end
-                if player.components.inventory == nil then
-                    --inventory为nil 不知道怎么触发的 放一个公告 提供一点信息
-                    TheNet:Announce("物品消失返还材料过程中 触发inventory为nil。")
-                    if player.prefab then
-                        TheNet:Announce("触发实体：" .. player.prefab)
-                    end
-                    if player.userid then
-                        TheNet:Announce("触发实体id：" .. player.userid)
-                    end
-                end
-                player.components.inventory:GiveItem(loot1)
+
+                recall_something(owner, loot1, pos)
                 c = c - m
             end
         else
-            if player.components.inventory == nil then
-                --inventory为nil 不知道怎么触发的 放一个公告 提供一点信息
-                TheNet:Announce("物品消失返还材料过程中 触发inventory为nil。")
-                if player.prefab then
-                    TheNet:Announce("触发实体：" .. player.prefab)
-                end
-                if player.userid then
-                    TheNet:Announce("触发实体id：" .. player.userid)
-                end
-            end
-            player.components.inventory:GiveItem(sp)
+            recall_something(owner, sp, pos)
             if sum > 1 then
                 for i = 2, sum do
-                    player.components.inventory:GiveItem(SpawnPrefab(name))
+                    local loot2 = SpawnPrefab(name)
+                    recall_something(owner, loot2, pos)
                 end
             end
         end
@@ -124,14 +116,14 @@ local function SpawnLootPrefab(player, name, sum)
 end
 
 -- local ablog = {
--- 	abigail_williams_black_gold = {pyrite = 64,ab_lunhuiitem = 8,abigail_williams_crystal = 8},
--- 	abigail_williams_bonestew = {ab_lizi = 256,},
--- 	ab_wilsontorch = {ab_lizi = 128},
--- 	traveler_armor = {ab_lizi = 128,},
--- 	traveler_armor_2 = {ab_lizi = 1024,ab_lunhuiitem = 1,},
--- 	traveler_armor_3 = {ab_lizi = 1024,ab_lunhuiitem = 2,},
--- 	traveler_sword_a = {ab_lizi = 512,},
--- 	traveler_sword_b = {ab_lizi = 2048,ab_lunhuiitem = 2,},
+--  abigail_williams_black_gold = {pyrite = 64,ab_lunhuiitem = 8,abigail_williams_crystal = 8},
+--  abigail_williams_bonestew = {ab_lizi = 256,},
+--  ab_wilsontorch = {ab_lizi = 128},
+--  traveler_armor = {ab_lizi = 128,},
+--  traveler_armor_2 = {ab_lizi = 1024,ab_lunhuiitem = 1,},
+--  traveler_armor_3 = {ab_lizi = 1024,ab_lunhuiitem = 2,},
+--  traveler_sword_a = {ab_lizi = 512,},
+--  traveler_sword_b = {ab_lizi = 2048,ab_lunhuiitem = 2,},
 -- }
 
 local function resomething(item)
@@ -170,40 +162,44 @@ local function resomething(item)
         return false
     end
 end
-local function findplayer(inst)
-    local dis = 20
-    local x, y, z = inst.Transform:GetWorldPosition()
-    for i, v in ipairs(TheSim:FindEntities(x, y, z, 10, { "player" }, nil)) do
-        if inst:GetDistanceSqToInst(v) < dis then
-            dis = inst:GetDistanceSqToInst(v)
-            player = v
-        end
-    end
-    return player
-end
-local function reinfo(inst)
-    local player = inst.components.inventoryitem and inst.components.inventoryitem.owner or findplayer(inst)
-    local ingredientmod = player and player.components and player.components.builder and player.components.builder.ingredientmod or 1
-    if player and player:HasTag("player") then
-        local x, y, z = player.Transform:GetWorldPosition()
-        local x1, y1, z1 = inst.Transform:GetWorldPosition()
-        if checknumber(x) and checknumber(z) and checknumber(x1) and checknumber(z1) and distsq(x, z, x1, z1) < 100 then
-            return player, ingredientmod
-        else
-            return false
-        end
-    else
-        return false
-    end
-end
+-- local function findplayer(inst)
+--     local dis = 20
+--     local x, y, z = inst.Transform:GetWorldPosition()
+--     for i, v in ipairs(TheSim:FindEntities(x, y, z, 10, { "player" }, nil)) do
+--         if inst:GetDistanceSqToInst(v) < dis then
+--             dis = inst:GetDistanceSqToInst(v)
+--             player = v
+--         end
+--     end
+--     return player
+-- end
+-- local function reinfo(inst)
+--     local player = inst.components.inventoryitem and inst.components.inventoryitem.owner or findplayer(inst)
+--     local ingredientmod = player and player.components and player.components.builder and player.components.builder.ingredientmod or 1
+--     if player and player:HasTag("player") then
+--         local x, y, z = player.Transform:GetWorldPosition()
+--         local x1, y1, z1 = inst.Transform:GetWorldPosition()
+--         if checknumber(x) and checknumber(z) and checknumber(x1) and checknumber(z1) and distsq(x, z, x1, z1) < 100 then
+--             return player, ingredientmod
+--         else
+--             return false
+--         end
+--     else
+--         return false
+--     end
+-- end
 
 local function remoe_gai(inst)
     local re_table, type = resomething(inst.prefab)
     if re_table then
-        local player, ingredientmod = reinfo(inst)
-        if player then
+        -- local player, ingredientmod = reinfo(inst)
+        local owner = inst.components.inventoryitem and inst.components.inventoryitem.owner
+        local ingredientmod = owner and owner.components and owner.components.builder and owner.components.builder.ingredientmod or 1
+        local pos = inst:GetPosition()
+        -- if player then
+            inst:Remove()
             if type == "abtravel_log" then
-                local ab_traveler_log = player.components.inventory:GetCraftingIngredient("traveler_log", 1)
+                local ab_traveler_log = owner and owner:HasTag("player") and owner.components.inventory:GetCraftingIngredient("traveler_log", 1) or {}
                 for k, v in pairs(re_table) do
                     if k == "ab_lizi" and next(ab_traveler_log) then
                         for j, s in pairs(ab_traveler_log) do
@@ -213,23 +209,24 @@ local function remoe_gai(inst)
                             end
                         end
                     elseif k == "ab_lizi" then
-                        SpawnLootPrefab(player, "log", v)
+                        SpawnLootPrefab(owner, "log", v, pos)
                     else
-                        SpawnLootPrefab(player, k, v)
+                        SpawnLootPrefab(owner, k, v, pos)
                     end
                 end
             else
                 for k, v in pairs(re_table) do
-                    SpawnLootPrefab(player, v.type, RoundBiasedUp(v.amount * ingredientmod))
+                    SpawnLootPrefab(owner, v.type, RoundBiasedUp(v.amount * ingredientmod), pos)
                     -- if inst:HasTag("structure") then
-                    -- 	SpawnLootPrefab(player, v.type, RoundBiasedUp(v.amount*0.5))
+                    --  SpawnLootPrefab(player, v.type, RoundBiasedUp(v.amount*0.5))
                     -- else
-                    -- 	SpawnLootPrefab(player, v.type, RoundBiasedUp(v.amount*ingredientmod))
+                    --  SpawnLootPrefab(player, v.type, RoundBiasedUp(v.amount*ingredientmod))
                     -- end
                 end
             end
-            inst:Remove()
-        end
+            
+
+        -- end
     else
         inst:Remove()
     end
@@ -238,10 +235,12 @@ end
 if TheNet:GetIsServer() then
     for k, v in pairs(remove_table) do
         local remove_day = GetModConfigData(k) or 0
+        -- if k == "remove_abigail_williams_atrium_light_moon" and TheShard:GetShardId() == "1" then remove_day=0 end
         for j, s in pairs(v) do
             AddPrefabPostInit(s, function(inst)
                 if remove_day < 0 or TheWorld.state.cycles + 1 < remove_day then
-                    inst:DoPeriodicTask(0.5, function()
+                    inst:DoPeriodicTask(0.05, function()
+                    -- inst:DoTaskInTime(0, function()
                         if inst.components and inst.components.container then
                             --and not inst.components.container:IsEmpty()
                             if inst.components.container:IsEmpty() then
@@ -252,7 +251,7 @@ if TheNet:GetIsServer() then
                         else
                             remoe_gai(inst)
                         end
-                    end)
+                    end,0)
                 end
             end)
         end
@@ -348,10 +347,22 @@ if MOD_RPC_HANDLERS["ab_recipelist"] and MOD_RPC["ab_recipelist"] and MOD_RPC["a
                 end
             end
         end
+        local black_gold = GetModConfigData("remove_abigail_williams_black_gold")
+        if recipename == 1 and TUNING.AB_CHAONENGQUANXIAN and TheWorld.state.cycles + 1 < black_gold then
+            inst.components.talker:Say("随暗金天数解锁")
+            return
+        end
         if old_ab_recipelist then old_ab_recipelist(inst, recipename, isproduct, ...) end
     end
 end
 
+-- local newtable = {}
+-- for k,v in pairs(zslist) do
+--     if v.id and v.item then
+--        newtable[k] = {id = v.id ,item = {"elaina_blue_rose2"}} 
+--     end
+-- end
+-- local params = upvaluehelper.Set(elaina_valid2.InIt,"zslist",newtable)
 
 -- AddModRPCHandler("ab_recipelist", "ab_recipelist", function(inst, recipename, isproduct)
 --     if checkstring(recipename) then
