@@ -8,23 +8,25 @@
 --    end
 --end
 
-local function tumbleweedPostInit(inst)
-    local function onpickup(inst, picker)
-        local x, y, z = inst.Transform:GetWorldPosition()
+--local function tumbleweedPostInit(inst)
+--    local function onpickup(inst, picker)
+--        local x, y, z = inst.Transform:GetWorldPosition()
+--
+--        inst:PushEvent("detachchild")
+--
+--
+--        SpawnPrefab("tumbleweedbreakfx").Transform:SetPosition(x, y, z)
+--        return true
+--    end
+--
+--    if not _G.TheWorld.ismastersim then
+--        return inst
+--    end
+--
+--    inst.components.pickable.onpickedfn = onpickup
+--end
+--
+--AddPrefabPostInit("tumbleweed", tumbleweedPostInit)
 
-        inst:PushEvent("detachchild")
-
-
-        SpawnPrefab("tumbleweedbreakfx").Transform:SetPosition(x, y, z)
-        return true
-    end
-
-    if not _G.TheWorld.ismastersim then
-        return inst
-    end
-
-    inst.components.pickable.onpickedfn = onpickup
-end
-
-AddPrefabPostInit("tumbleweed", tumbleweedPostInit)
+TUNING.KYNO_BREWINGRECIPECARD_CHANCE = 0
 
