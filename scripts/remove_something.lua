@@ -35,6 +35,7 @@ local remove_table = {
     remove_kemomimi_book_fs = { "kemomimi_book_fs" },
     remove_kemomimi_magic_coin_colour = { "magic_coin_colour" },
     remove_kemomimi_build_pig = { "kemomimi_build_pig" },
+    remove_kemomimi_boss_ds_zh = { "kemomimi_boss_ds_zh" },
     --勋章
     remove_monster_book = { "monster_book" },
     --怠惰科技

@@ -143,6 +143,7 @@ local forbidItem = {
     "wb_strengthen_strengthen_food",
     "wb_strengthen_increase_food",
     "myth_plant_infantree_trunk",
+    "kemomimi_boss_ds",
 }
 
 if MOD_RPC_HANDLERS["ab_recipelist"] and MOD_RPC["ab_recipelist"] and MOD_RPC["ab_recipelist"]["ab_recipelist"] and MOD_RPC["ab_recipelist"]["ab_recipelist"].id then

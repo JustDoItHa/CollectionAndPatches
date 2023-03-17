@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "8.28.2.4"
+version = "9.0.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2130,6 +2130,7 @@ configuration_options = {
     AddConfigOption("remove_kemomimi_book_fs", "小狐狸的丰收书", "让小狐狸的丰收书消失！(防止刷资源卡服)！", disappear_magic, 0),
     AddConfigOption("remove_kemomimi_magic_coin_colour", "小狐狸的彩虹召唤币", "让小狐狸的彩虹召唤币！(防止召唤很多卡服)！", disappear_magic, 0),
     AddConfigOption("remove_kemomimi_build_pig", "小狐狸的战斗大师", "让小狐狸的战斗大师消失", disappear_magic, 0),
+    AddConfigOption("remove_kemomimi_boss_ds_zh", "小狐狸的蛇莓", "让小狐狸的蛇莓消失", disappear_magic, -1),
     AddConfigOption("remove_monster_book", "能力勋章的怪物图鉴", "让怪物图鉴消失！(大量刷boss卡服)", disappear_magic, 0),
     AddConfigOption("remove_hclr_kjk", "怠惰科技的锟斤拷", "让怠惰科技的锟斤拷消失", disappear_magic, -1),
     AddConfigOption("老鼠", "不妥协的老鼠", "让不妥协的老鼠消失", disappear_magic, -1),
