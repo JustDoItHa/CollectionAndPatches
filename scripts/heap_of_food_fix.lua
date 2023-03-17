@@ -28,5 +28,4 @@
 --
 --AddPrefabPostInit("tumbleweed", tumbleweedPostInit)
 
-TUNING.KYNO_BREWINGRECIPECARD_CHANCE = 0
-
+modimport("hof_init/word/blance_bug_fix.lua")
