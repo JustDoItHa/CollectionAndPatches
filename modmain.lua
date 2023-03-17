@@ -440,9 +440,10 @@ if GetModConfigData("beta_function_switch") then
     if GetModConfigData("give_item_optimize_switch") then
         modimport("scripts/giveitem_main.lua")
     end
-    --if GetModConfigData("fix_heap_of_food_switch") then
-    --    modimport("scripts/heap_of_food_fix.lua")
-    --end
+    if GetModConfigData("fix_heap_of_food_switch") then
+        TUNING.KYNO_BREWINGRECIPECARD_CHANCE = -1
+        modimport("scripts/heap_of_food_fix.lua")
+    end
     if GetModConfigData("cancel_sync_cycles_with_master_switch") then
         modimport("scripts/sync_cycles_with_master_main.lua")
     end
