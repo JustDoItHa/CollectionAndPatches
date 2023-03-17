@@ -28,4 +28,3 @@
 --
 --AddPrefabPostInit("tumbleweed", tumbleweedPostInit)
 
-modimport("hof_init/word/blance_bug_fix.lua")
