@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "9.0.0.1"
+version = "9.0.0.2"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1510,15 +1510,27 @@ configuration_options = {
         options = {
             { description = "不限制", data = -1, },
             { description = "原地跳(哈哈)", data = 0, },
+            { description = "20码", data = 20, },
+            { description = "50码", data = 50, },
+            { description = "70码", data = 70, },
             { description = "100码", data = 100, },
             { description = "500码", data = 500, },
             { description = "1000码", data = 1000, },
             { description = "2000码", data = 2000, },
-            { description = "3000码", data = 3000, },
-            { description = "4000码", data = 4000, },
-            { description = "5000码", data = 5000, },
+
         },
         default = -1,
+    },
+    {
+        name = "yeyu_nilxin_sea",
+        label = "夜雨心空填海造海",
+        hover = "夜雨心空填海造海",
+        options = {
+            { description = "不限制", data = -1, },
+            { description = "大门洞穴附近无法造海", data = 0, },
+            { description = "大门洞穴和有structure标签附近无法造海", data = 1, }
+        },
+        default = 0,
     },
     AddOptionHeader("奇幻降临补丁"),
     {

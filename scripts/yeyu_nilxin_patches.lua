@@ -135,3 +135,37 @@ if distance_limit >= 0 and TUNING.YEYU_NILXIN_ENABLE then
         end
     end)
 end
+
+
+
+local blacklist = {
+    multiplayer_portal_moonrock = true, --天体门
+    multiplayer_portal_moonrock_constr = true,
+    multiplayer_portal = true,
+    cave_entrance_open = true,--洞穴
+    cave_entrance_ruins = true,
+    cave_entrance = true,
+    cave_exit = true, --楼梯
+}
+local sea = GetModConfigData("yeyu_nilxin_sea")
+if sea ~= -1 then 
+    AddPrefabPostInit("nilxin_scepter", function(inst)
+        if inst.magic then
+            local old_PITCHFORK = inst.magic.PITCHFORK
+            inst.magic.PITCHFORK = function(inst, caster, target, pos)
+                if TUNING.NILXIN.N_S_PITCHFORK == 3 then caster.components.talker:Say("设置关闭") return end
+                local item = inst.components.container:GetItemInSlot(1)
+                if item == nil or item.components.deployable == nil or item:HasTag("groundtile") then
+                    local ent = TheSim:FindEntities(pos.x, 0, pos.z, 12, nil, {"FX", "NOCLICK", "DECOR", "INLIMBO"}, nil)
+                    for _,v in pairs(ent) do
+                        if blacklist[v.prefab] or (sea == 1 and v:HasTag("structure")) then
+                            caster.components.talker:Say("某些建筑附近无法挖陆造海")
+                            return
+                        end
+                    end
+                end
+                if old_PITCHFORK then old_PITCHFORK(inst, caster, target, pos) end
+            end
+        end
+    end)
+end
