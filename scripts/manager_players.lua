@@ -78,7 +78,7 @@ if IsServer then
                 isemote, ...)
         local talker = GetPlayerById(userid)
         if string.lower(message) == "#stack" then
-            if command_stack then
+            if command_stack and talker then
                 PlayerSay(talker, "堆叠!")
                 local pos = talker:GetPosition()
                 ToPut(talker, 0.5)
