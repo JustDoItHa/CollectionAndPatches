@@ -7,7 +7,8 @@
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/manager_players.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/manager_players.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/container_sort.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/container_sort.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/huge_box_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/huge_box_main.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +138,9 @@
       <workItem from="1679920383162" duration="814000" />
       <workItem from="1679926913239" duration="19000" />
       <workItem from="1679927547097" duration="684000" />
-      <workItem from="1680018909629" duration="112000" />
+      <workItem from="1680018909629" duration="401000" />
+      <workItem from="1680060344910" duration="9000" />
+      <workItem from="1680195641484" duration="1707000" />
     </task>
     <task id="LOCAL-00001" summary="CAP 7.2.0.0">
       <created>1672072121204</created>
@@ -468,7 +471,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679023696482</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="fix #stack">
+      <created>1680019053896</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1680019053896</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -536,7 +546,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="与猪王快速交易" />
     <MESSAGE value="show me 优化" />
     <MESSAGE value="fix + global position 优化" />
     <MESSAGE value="add 河蟹防熊锁" />
@@ -561,6 +570,7 @@
     <MESSAGE value="strong clean" />
     <MESSAGE value="fix heap of food" />
     <MESSAGE value="fix heap of food and kemomimi" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix heap of food and kemomimi" />
+    <MESSAGE value="fix #stack" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix #stack" />
   </component>
 </project>

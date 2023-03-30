@@ -161,3 +161,139 @@ API.modifyOldActions(env, old_actions);
 if env.GetModConfigData("container_removable") then
     modimport("modmain/huge_box/AUXmods/container_removable.lua");
 end
+
+-----------------------------------------------------------------------------------------采集
+
+local PICKUP_MUST_TAGS = { "_inventoryitem" }
+local PICKUP_CANT_TAGS = { "INLIMBO", "NOCLICK", "knockbackdelayinteraction", "catchable", "fire", "minesprung", "mineactive" }
+local function pick(inst)
+    local x, y, z = inst.Transform:GetWorldPosition()
+    local ents = TheSim:FindEntities(x, y, z, 20, PICKUP_MUST_TAGS, PICKUP_CANT_TAGS)
+    for i, v in ipairs(ents) do
+        if v.components.inventoryitem.owner then return end
+        if v.components.inventoryitem ~= nil and v.components.inventoryitem.canbepickedup and v.components.inventoryitem.cangoincontainer
+                and not v.components.inventoryitem:IsHeld() and not v.components.inventoryitem.canonlygoinpocket then
+            SpawnPrefab("sand_puff").Transform:SetPosition(v.Transform:GetWorldPosition())
+            local v_pos = v:GetPosition()
+            inst.components.container:GiveItem(v, nil, v_pos)
+        end
+    end
+end
+
+local function ptask(inst)
+    if inst and inst.prefab == "_big_box" then
+        if not inst.picktask then
+            inst.picktask = inst:DoPeriodicTask(1, pick)
+        else
+            inst.picktask:Cancel()
+            inst.picktask = nil
+        end
+        -- pick(inst)
+        -- API.AutoSorter.pickObjectOnFloor(inst)
+    end
+end
+AddModRPCHandler("CAP_BUTTON", "pick", function(player, inst)
+    ptask(inst)
+    -- pick(inst)
+    -- API.AutoSorter.pickObjectOnFloor(inst)
+end)
+
+local function huge_box_pick(inst, doer)
+    if not inst.cap_pick then
+        inst.cap_pick = true
+        if inst.components.container ~= nil then
+            if inst.components.container ~= nil and not inst.components.container:IsEmpty() then
+                ptask(inst)
+                -- pick(inst)
+                -- API.AutoSorter.pickObjectOnFloor(inst)
+            end
+        elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
+            if inst.replica.container ~= nil and not inst.replica.container:IsEmpty() then
+                SendModRPCToServer(MOD_RPC["CAP_BUTTON"]["pick"], inst)
+            end
+        end
+        inst:DoTaskInTime(0.5 ,function() inst.cap_pick = false end)
+    end
+end
+
+AddClassPostConstruct("widgets/containerwidget",function(self, owner)
+    local ImageButton = require "widgets/imagebutton"
+    local old_Open = self.Open
+
+    self.Open = function(self, container, doer, ...)
+
+        if old_Open then
+            old_Open(self, container, doer, ...)
+        end
+
+        if container.prefab == "_big_box" then
+
+            local pos = Vector3(100, 193, 0)
+
+            if doer ~= nil and doer.components.playeractionpicker ~= nil then
+                doer.components.playeractionpicker:RegisterContainer(container)
+            end
+
+            self.cap_pick = self:AddChild(ImageButton("images/ui.xml", "button_small.tex", "button_small_over.tex", "button_small_disabled.tex", nil, nil, { 1, 1 }, { 0, 0 }))
+            self.cap_pick.image:SetScale(1.07)
+            self.cap_pick.text:SetPosition(2, -2)
+            self.cap_pick:SetPosition(pos)
+            self.cap_pick:SetText("拾取")
+
+            self.cap_pick:SetOnClick(function()
+                if doer ~= nil then
+                    if doer:HasTag("busy") then
+                        --Ignore button click when doer is busy
+                        return
+                    elseif doer.components.playercontroller ~= nil then
+                        local iscontrolsenabled, ishudblocking = doer.components.playercontroller:IsEnabled()
+                        if not (iscontrolsenabled or ishudblocking) then
+                            --Ignore button click when controls are disabled
+                            --but not just because of the HUD blocking input
+                            return
+                        end
+                    end
+                end
+                huge_box_pick(container, doer)
+            end)
+
+            self.cap_pick:SetFont(BUTTONFONT)
+            self.cap_pick:SetDisabledFont(BUTTONFONT)
+            self.cap_pick:SetTextSize(33)
+            self.cap_pick.text:SetVAlign(ANCHOR_MIDDLE)
+            self.cap_pick.text:SetColour(0, 0, 0, 1)
+
+            -- if widget.buttoninfo.validfn ~= nil then
+            --     if widget.buttoninfo.validfn(container) then
+            --         self.button:Enable()
+            --     else
+            --         self.button:Disable()
+            --     end
+            -- end
+
+            -- if TheInput:ControllerAttached() then
+            --     self.cap_sort:Hide()
+            -- end
+
+            -- self.cap_sort.inst:ListenForEvent("continuefrompause", function()
+            --     if TheInput:ControllerAttached() then
+            --         self.cap_sort:Hide()
+            --     else
+            --         self.cap_sort:Show()
+            --     end
+            -- end, TheWorld)
+        end
+
+    end
+
+    local old_Close = self.Close
+    self.Close = function(self, ...)
+        if self.isopen then
+            if self.cap_pick ~= nil then
+                self.cap_pick:Kill()
+                self.cap_pick = nil
+            end
+        end
+        if old_Close then old_Close(self, ...) end
+    end
+end)

@@ -352,14 +352,18 @@ end
 -----------------------------------------------------------------------------------------
 --整理按钮点击函数
 local function slotsSortFn(inst, doer)
-    if inst.components.container ~= nil then
-        if inst.components.container ~= nil and not inst.components.container:IsEmpty() then
-            slotsSort(inst)
+    if not inst.cap_sort then
+        inst.cap_sort = true
+        if inst.components.container ~= nil then
+            if inst.components.container ~= nil and not inst.components.container:IsEmpty() then
+                slotsSort(inst)
+            end
+        elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
+            if inst.replica.container ~= nil and not inst.replica.container:IsEmpty() then
+                SendModRPCToServer(MOD_RPC["CAP_BUTTON"]["containers"], inst)
+            end
         end
-    elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
-        if inst.replica.container ~= nil and not inst.replica.container:IsEmpty() then
-            SendModRPCToServer(MOD_RPC["CAP_BUTTON"]["containers"], inst)
-        end
+        inst:DoTaskInTime(0.5 ,function() inst.cap_sort = false end)
     end
 end
 --整理按钮亮起规则
@@ -373,161 +377,135 @@ AddModRPCHandler("CAP_BUTTON", "containers", function(player, inst)
     end
 end)
 
------------------写的很乱 我也不知道是啥 问就是菜 但是勉强应该可以用了-------------
-AddClassPostConstruct("widgets/containerwidget",
-        function(self, owner)
-            local ImageButton = require "widgets/imagebutton"
-            local old_Open = self.Open
-            --local old_Open = self.Open or function()
-            --end
-            self.Open = function(self, container, doer, ...)
-                --function self:Open(container, doer, ...)
-                if old_Open then
-                    old_Open(self, container, doer, ...)
-                end
-                --old_Open(self, container, doer, ...)
-                local widget = container.replica.container.widget_2
-                -- if widget then dumptable(widget) end
-                if widget == nil or next(widget) == nil then
-                    return
-                end
-                local slotpos = container.replica.container.widget.slotpos
-                local y
-                for k, v in pairs(slotpos) do
-                    if y == nil then
-                        y = v.y
-                    elseif v.y > y then
-                        y = v.y
-                    end
-                end
-                y = y + 67
-                local pos = Vector3(0, y, 0)
-
-                if widget.buttoninfo ~= nil then
-
-                    if doer ~= nil and doer.components.playeractionpicker ~= nil then
-                        doer.components.playeractionpicker:RegisterContainer(container)
-                    end
-
-                    self.button = self:AddChild(ImageButton("images/ui.xml", "button_small.tex", "button_small_over.tex", "button_small_disabled.tex", nil, nil, { 1, 1 }, { 0, 0 }))
-                    self.button.image:SetScale(1.07)
-                    self.button.text:SetPosition(2, -2)
-                    self.button:SetPosition(pos)
-                    self.button:SetText(widget.buttoninfo.text)
-                    if widget.buttoninfo.fn ~= nil then
-                        self.button:SetOnClick(function()
-                            if doer ~= nil then
-                                if doer:HasTag("busy") then
-                                    --Ignore button click when doer is busy
-                                    return
-                                elseif doer.components.playercontroller ~= nil then
-                                    local iscontrolsenabled, ishudblocking = doer.components.playercontroller:IsEnabled()
-                                    if not (iscontrolsenabled or ishudblocking) then
-                                        --Ignore button click when controls are disabled
-                                        --but not just because of the HUD blocking input
-                                        return
-                                    end
-                                end
-                            end
-                            widget.buttoninfo.fn(container, doer)
-                        end)
-                    end
-                    self.button:SetFont(BUTTONFONT)
-                    self.button:SetDisabledFont(BUTTONFONT)
-                    self.button:SetTextSize(33)
-                    self.button.text:SetVAlign(ANCHOR_MIDDLE)
-                    self.button.text:SetColour(0, 0, 0, 1)
-
-                    if widget.buttoninfo.validfn ~= nil then
-                        if widget.buttoninfo.validfn(container) then
-                            self.button:Enable()
-                        else
-                            self.button:Disable()
-                        end
-                    end
-
-                    if TheInput:ControllerAttached() then
-                        self.button:Hide()
-                    end
-
-                    self.button.inst:ListenForEvent("continuefrompause", function()
-                        if TheInput:ControllerAttached() then
-                            self.button:Hide()
-                        else
-                            self.button:Show()
-                        end
-                    end, TheWorld)
-                end
-
-                self.container = container
-
-                self:Refresh()
-            end
-
-        end
-)
-
 local add_container_table = {
-    "treasurechest",
-    "dragonflychest",
-    "saltbox",
-    "icebox",
+    treasurechest = true,
+    dragonflychest = true,
+    saltbox = true,
+    icebox = true,
 
-    "storeroom",
-    "cellar",
+    storeroom = true,
+    cellar = true,
 
-    "abigail_williams_starbox",
-    "atrium_light_moon",
+    abigail_williams_starbox = true,
+    atrium_light_moon = true,
 
-    "strange_lunar_chest",
-    "strange_lunar_chest2",
+    strange_lunar_chest = true,
+    strange_lunar_chest2 = true,
 
-    "yyxk_bukas",
-    "yyxk_buka",
+    yyxk_bukas = true,
+    yyxk_buka = true,
 
-    "sora2ice",
+    sora2ice = true,
 
-    "hclr_supermu1",
-    "hclr_supermu2",
+    hclr_supermu1 = true,
+    hclr_supermu2 = true,
 
     --肉仓
-    "zx_granary_meat",
+    zx_granary_meat = true,
     --菜仓
-    "zx_granary_veggie",
+    zx_granary_veggie = true,
 
     --神话谷仓
-    "myth_granary",
+    myth_granary = true,
 }
-local buttoninfo = {
-    text = "整理",
-    -- position = Vector3(0, y, 0),
-    fn = slotsSortFn,
-    -- validfn=slotsSortValidFn,
-}
-for k, v in pairs(add_container_table) do
-    AddPrefabPostInit(v, function(inst)
+AddClassPostConstruct("widgets/containerwidget",function(self, owner)
+    local ImageButton = require "widgets/imagebutton"
+    local old_Open = self.Open
 
-        if TheWorld.ismastersim then
-            if inst.replica.container ~= nil then
-                if inst.replica.container.widget.slotpos ~= nil then
-                    inst.replica.container.widget_2 = {}
-                    inst.replica.container.widget_2.buttoninfo = buttoninfo
-                end
-            end
-        else
-            local old_OnEntityReplicated = inst.OnEntityReplicated
-            inst.OnEntityReplicated = function(inst, ...)
-                if old_OnEntityReplicated then
-                    old_OnEntityReplicated(inst, ...)
-                end
-                -- if inst.replica.container ~= nil and not inst.replica.container:IsBusy() then--
+    self.Open = function(self, container, doer, ...)
 
-                if inst.replica.container and inst.replica.container.widget and inst.replica.container.widget.slotpos ~= nil then
-                    inst.replica.container.widget_2 = {}
-                    inst.replica.container.widget_2.buttoninfo = buttoninfo
-                end
-            end
+        if old_Open then
+            old_Open(self, container, doer, ...)
         end
 
-    end)
-end
+        if add_container_table[container.prefab] then
+
+            local slotpos = container.replica.container.widget.slotpos
+            local x = {min=nil, max=nil}
+            local y
+            for k, v in pairs(slotpos) do
+                if y == nil then
+                    y = v.y
+                else
+                    y = math.max(y,v.y)
+                end
+
+                if x.min == nil then
+                    x.min = v.x
+                    x.max = v.x
+                else
+                    x.min = math.min(x.min,v.x)
+                    x.max = math.max(x.min,v.x)
+                end
+            end
+            y = y + 67
+            local pos = Vector3((x.min+x.max)/2, y, 0)
+
+            if doer ~= nil and doer.components.playeractionpicker ~= nil then
+                doer.components.playeractionpicker:RegisterContainer(container)
+            end
+
+            self.cap_sort = self:AddChild(ImageButton("images/ui.xml", "button_small.tex", "button_small_over.tex", "button_small_disabled.tex", nil, nil, { 1, 1 }, { 0, 0 }))
+            self.cap_sort.image:SetScale(1.07)
+            self.cap_sort.text:SetPosition(2, -2)
+            self.cap_sort:SetPosition(pos)
+            self.cap_sort:SetText("整理")
+
+            self.cap_sort:SetOnClick(function()
+                if doer ~= nil then
+                    if doer:HasTag("busy") then
+                        --Ignore button click when doer is busy
+                        return
+                    elseif doer.components.playercontroller ~= nil then
+                        local iscontrolsenabled, ishudblocking = doer.components.playercontroller:IsEnabled()
+                        if not (iscontrolsenabled or ishudblocking) then
+                            --Ignore button click when controls are disabled
+                            --but not just because of the HUD blocking input
+                            return
+                        end
+                    end
+                end
+                slotsSortFn(container, doer)
+            end)
+
+            self.cap_sort:SetFont(BUTTONFONT)
+            self.cap_sort:SetDisabledFont(BUTTONFONT)
+            self.cap_sort:SetTextSize(33)
+            self.cap_sort.text:SetVAlign(ANCHOR_MIDDLE)
+            self.cap_sort.text:SetColour(0, 0, 0, 1)
+
+            -- if widget.buttoninfo.validfn ~= nil then
+            --     if widget.buttoninfo.validfn(container) then
+            --         self.button:Enable()
+            --     else
+            --         self.button:Disable()
+            --     end
+            -- end
+
+            -- if TheInput:ControllerAttached() then
+            --     self.cap_sort:Hide()
+            -- end
+
+            -- self.cap_sort.inst:ListenForEvent("continuefrompause", function()
+            --     if TheInput:ControllerAttached() then
+            --         self.cap_sort:Hide()
+            --     else
+            --         self.cap_sort:Show()
+            --     end
+            -- end, TheWorld)
+        end
+
+    end
+
+    local old_Close = self.Close
+    self.Close = function(self, ...)
+        if self.isopen then
+            if self.cap_sort ~= nil then
+                self.cap_sort:Kill()
+                self.cap_sort = nil
+            end
+        end
+        if old_Close then old_Close(self, ...) end
+    end
+end)
+
