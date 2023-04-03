@@ -12,33 +12,59 @@ local soraPackLimit = GetModConfigData("soraPackLimit") or false;
 local soraPackFL = GetModConfigData("soraPackFL") or false;
 local sorafl_select = GetModConfigData("sorafl_select") or false;
 
+
+local soraconfig = require "config/config"
 if soraRemoveDeathExpByLevel > 0 then
-    -- 穹一定等级后死亡不掉落经验
-    AddPrefabPostInit('sora', function(inst)
-        if not __DeathExp and GLOBAL.DeathExp then
-            __DeathExp = GLOBAL.DeathExp
-            GLOBAL.DeathExp = function(a)
-                if a >= soraRemoveDeathExpByLevel then
-                    return 0
-                end
-                return __DeathExp(a)
-            end
+    local old_DeathExp = soraconfig.level.DeathExp
+    soraconfig.level.DeathExp = function(a)
+        -- 穹一定等级后死亡不掉落经验
+        if a < soraRemoveDeathExpByLevel then
+            if old_DeathExp then return old_DeathExp(a) end
+        else
+            return 0
+        end
+    end
+end
+
+if soraRemoveRollExpByLevel > 0 then
+    -- 穹换人不掉落经验
+    AddComponentPostInit("soraexpsave", function(self)
+        function self:GetExp(userid)
+            local exptolev = soraconfig.level.exptolev
+            local level = exptolev(self.exps[userid] or 0);
+            local loseExp = level >= soraRemoveRollExpByLevel and 0 or 1000;
+            return userid and self.exps[userid] and math.max(0, self.exps[userid] - loseExp) or -1
         end
     end)
 end
 
-if soraRemoveRollExpByLevel > 0 then
-    -- 穹2换人不掉落经验
-    AddComponentPostInit("soraexpsave",
-            function(self)
-                function self:GetExp(userid)
-                    local level = GLOBAL.exptolev(self.exps[userid] or 0);
-                    local loseExp = level >= soraRemoveRollExpByLevel and 0 or 1000;
-                    return userid and self.exps[userid] and math.max(0, self.exps[userid] - loseExp) or -1
-                end
-            end
-    )
-end
+-- if soraRemoveDeathExpByLevel > 0 then
+--     -- 穹一定等级后死亡不掉落经验
+--     AddPrefabPostInit('sora', function(inst)
+--         if not __DeathExp and GLOBAL.DeathExp then
+--             __DeathExp = GLOBAL.DeathExp
+--             GLOBAL.DeathExp = function(a)
+--                 if a >= soraRemoveDeathExpByLevel then
+--                     return 0
+--                 end
+--                 return __DeathExp(a)
+--             end
+--         end
+--     end)
+-- end
+
+-- if soraRemoveRollExpByLevel > 0 then
+--     -- 穹2换人不掉落经验
+--     AddComponentPostInit("soraexpsave",
+--             function(self)
+--                 function self:GetExp(userid)
+--                     local level = GLOBAL.exptolev(self.exps[userid] or 0);
+--                     local loseExp = level >= soraRemoveRollExpByLevel and 0 or 1000;
+--                     return userid and self.exps[userid] and math.max(0, self.exps[userid] - loseExp) or -1
+--                 end
+--             end
+--     )
+-- end
 
 if soraHealDeath then
     local heal = function(inst)

@@ -423,6 +423,7 @@ local function DoStrongRemove()
     for k, v in pairs(GLOBAL.Ents) do
         -- 下面是修改部分，添加了风滚草的清理，同样加标志定时清理
         if isStrongcleanlist(v.prefab) then
+            if v.components and v.components.inventoryitem and v.components.inventoryitem.owner then return end
             if v:HasTag("RemoveCountOne") then
                 v:Remove()
                 local numm = list[v.name .. "  " .. v.prefab]
@@ -496,7 +497,7 @@ local function AutoDoRemove()
             end
         end
         local strong_clean = isStrongcleanlist(v.prefab)
-
+        if v.components and v.components.inventoryitem and v.components.inventoryitem.owner then return end
         if v and v:IsValid() and ((v.components and v.components.inventoryitem and v.components.inventoryitem.owner == nil) or strong_clean or max_clean) then
             if (clean_mode == 0 and not isWhitelist(v.prefab) and not isWhiteTag(v))
                     or (clean_mode == 1 and isBlacklist(v.prefab))
