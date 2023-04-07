@@ -36,6 +36,9 @@ local remove_table = {
     remove_kemomimi_magic_coin_colour = { "magic_coin_colour" },
     remove_kemomimi_build_pig = { "kemomimi_build_pig" },
     remove_kemomimi_boss_ds_zh = { "kemomimi_boss_ds_zh" },
+    -- 时崎狂三
+    remove_krm_broom = { "krm_broom" },
+    remove_krm_bullet10 = { "krm_bullet10" },
     --勋章
     remove_monster_book = { "monster_book" },
     --怠惰科技
@@ -45,6 +48,8 @@ local remove_table = {
     ["恐怖剧钳"] = { "creepingfear" },
     --黑死病
     remove_tiddle_decay = { "tiddle_decay" },
+    remove_krm_broom = {"krm_broom"},
+    remove_krm_bullet10 = {"krm_bullet10"},
     --原版
     ["青蛙"] = { "frog" },
     ["鸟粪"] = { "guano" },

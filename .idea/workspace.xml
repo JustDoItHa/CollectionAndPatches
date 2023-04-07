@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9373a1fa-9153-40a8-846d-bad4114cd59c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/scripts/kurumi_patches.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modinfo.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modinfo.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modmain.lua" beforeDir="false" afterPath="$PROJECT_DIR$/modmain.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/ab_patches.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ab_patches.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/elaina_patches.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/elaina_patches.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/remove_something.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/remove_something.lua" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/strongclean_main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/strongclean_main.lua" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,29 +36,29 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;false&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Volumes/Extends-C/Games/mods self/Collection And Patches&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "false",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/Volumes/Extends-C/Games/mods self/Collection And Patches/scripts",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/scripts" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/scripts/prefabs" />
       <recent name="$PROJECT_DIR$/scripts/components" />
       <recent name="$PROJECT_DIR$/images/inventoryimages" />
@@ -140,14 +146,7 @@
       <workItem from="1680060344910" duration="9000" />
       <workItem from="1680195641484" duration="2016000" />
       <workItem from="1680626800831" duration="236000" />
-      <workItem from="1680841881925" duration="1457000" />
-    </task>
-    <task id="LOCAL-00001" summary="CAP 7.2.0.0">
-      <created>1672072121204</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1672072121204</updated>
+      <workItem from="1680841881925" duration="3592000" />
     </task>
     <task id="LOCAL-00002" summary="CAP 7.3.0.0 访客掉落修改">
       <created>1672082858833</created>
@@ -485,7 +484,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680198090585</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="update character forbid list">
+      <created>1680845852571</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1680845852572</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -553,7 +559,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix + global position 优化" />
     <MESSAGE value="add 河蟹防熊锁" />
     <MESSAGE value="优化" />
     <MESSAGE value="信息显示" />
@@ -578,6 +583,7 @@
     <MESSAGE value="fix heap of food and kemomimi" />
     <MESSAGE value="fix #stack" />
     <MESSAGE value="add pick up for huge box" />
-    <option name="LAST_COMMIT_MESSAGE" value="add pick up for huge box" />
+    <MESSAGE value="update character forbid list" />
+    <option name="LAST_COMMIT_MESSAGE" value="update character forbid list" />
   </component>
 </project>

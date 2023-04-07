@@ -11,79 +11,166 @@ AddComponentPostInit("stackable", function(self)
     end
 end)
 
-if TheNet:GetIsServer() then
-    --抄自浅诗大佬
-    local STACK_RADIUS = 15
-    local function FindEntities(x, y, z)
-        return TheSim:FindEntities(x, y, z, STACK_RADIUS, { "_stackable" },
-                { "INLIMBO", "NOCLICK", "lootpump_oncatch", "lootpump_onflight" })
-    end
-    local function Put(inst, item)
-        if item ~= inst and item.prefab == inst.prefab and item.skinname == inst.skinname then
-            SpawnPrefab("sand_puff").Transform:SetPosition(item.Transform:GetWorldPosition())
-            inst.components.stackable:Put(item)
+if GetModConfigData("ab_knot_drop_limit") then
+    if TheNet:GetIsServer() then
+        --抄自浅诗大佬
+        local STACK_RADIUS = 15
+        local function FindEntities(x, y, z)
+            return TheSim:FindEntities(x, y, z, STACK_RADIUS, { "_stackable" },
+                    { "INLIMBO", "NOCLICK", "lootpump_oncatch", "lootpump_onflight" })
         end
-    end
-    AddComponentPostInit("stackable", function(Stackable)
-        local Get = Stackable.Get
-        function Stackable:Get(...)
-            local instance = Get(self, ...)
-            if instance.xt_stack_task then
-                instance.xt_stack_task:Cancel()
-                instance.xt_stack_task = nil
+        local function Put(inst, item)
+            if item ~= inst and item.prefab == inst.prefab and item.skinname == inst.skinname then
+                SpawnPrefab("sand_puff").Transform:SetPosition(item.Transform:GetWorldPosition())
+                inst.components.stackable:Put(item)
             end
-            return instance
         end
-    end)
-    AddPrefabPostInit("abigail_williams_psionic_fragments", function(inst)
-        if inst.components.stackable == nil then
-            return
-        end
-        inst.xt_stack_task = inst:DoTaskInTime(.5, function()
-            if inst.components.stackable == nil or inst:IsInLimbo() or inst:HasTag("NOCLICK") then
+        AddComponentPostInit("stackable", function(Stackable)
+            local Get = Stackable.Get
+            function Stackable:Get(...)
+                local instance = Get(self, ...)
+                if instance.xt_stack_task then
+                    instance.xt_stack_task:Cancel()
+                    instance.xt_stack_task = nil
+                end
+                return instance
+            end
+        end)
+        AddPrefabPostInit("abigail_williams_psionic_fragments", function(inst)
+            if inst.components.stackable == nil then
                 return
             end
-            if inst:IsValid() and not inst.components.stackable:IsFull() then
-                for _, item in ipairs(FindEntities(inst.Transform:GetWorldPosition())) do
-                    if item:IsValid() and not item.components.stackable:IsFull() then
-                        Put(inst, item)
+            inst.xt_stack_task = inst:DoTaskInTime(.5, function()
+                if inst.components.stackable == nil or inst:IsInLimbo() or inst:HasTag("NOCLICK") then
+                    return
+                end
+                if inst:IsValid() and not inst.components.stackable:IsFull() then
+                    for _, item in ipairs(FindEntities(inst.Transform:GetWorldPosition())) do
+                        if item:IsValid() and not item.components.stackable:IsFull() then
+                            Put(inst, item)
+                        end
                     end
+                end
+            end)
+        end)
+        AddPrefabPostInit("abigail_williams_bowknot_wavepoint", function(inst)
+            if inst.components.stackable == nil then
+                return
+            end
+            inst.xt_stack_task = inst:DoTaskInTime(.5, function()
+                if inst.components.stackable == nil or inst:IsInLimbo() or inst:HasTag("NOCLICK") then
+                    return
+                end
+                if inst:IsValid() and not inst.components.stackable:IsFull() then
+                    for _, item in ipairs(FindEntities(inst.Transform:GetWorldPosition())) do
+                        if item:IsValid() and not item.components.stackable:IsFull() then
+                            Put(inst, item)
+                        end
+                    end
+                end
+            end)
+        end)
+        -- AddPrefabPostInitAny(function(inst)
+        --     if inst:HasTag("smallcreature") or inst:HasTag("heavy") or inst:HasTag("trap") or inst:HasTag("NET_workable") then
+        --         return
+        --     end
+        --     if inst.components.stackable == nil or inst:IsInLimbo() or inst:HasTag("NOCLICK") or inst.prefab == "bird_egg" or inst.prefab == "poop" then return end
+        --     inst.xt_stack_task = inst:DoTaskInTime(.5, function()
+        --         if inst.components.stackable == nil or inst:IsInLimbo() or inst:HasTag("NOCLICK") then return end
+        --         if inst:IsValid() and not inst.components.stackable:IsFull() then
+        --             for _, item in ipairs(FindEntities(inst.Transform:GetWorldPosition())) do
+        --                 if item:IsValid() and not item.components.stackable:IsFull() then Put(inst, item) end
+        --             end
+        --         end
+        --     end)
+        -- end)
+
+        AddPrefabPostInit("abigail_williams_psionic_fragments", function(inst)
+            inst.components.trader.onaccept = function(inst,giver,...)
+                giver.components.talker:Say("为什么呢？")
+            end
+        end)
+
+        local function setname(inst,resetname)
+            inst.components.weapon:SetDamage(math.min(basedamage + damagerate*inst.damagelevel ,maxdamage))
+            local range = math.min(baserange+rangerate*inst.zhanshanum,maxrange)
+            inst.components.weapon:SetRange(range, range)
+            if resetname then
+                local maxhealth = math.min(basehealth+healthrate*inst.zhanshalevel,maxhealth) *100
+                inst.components.named:SetName(STRINGS.NAMES.AB_YZJXQ.."\n斩杀："..maxhealth.."%")
+            end
+        end
+        AddPrefabPostInit("abigail_williams_psionic_fragments", function(inst)
+            inst.components.trader.onaccept = function(inst, giver, item,...)
+                if item.prefab == "abigail_williams_psionic_fragments" then
+                    inst.damagelevel = inst.damagelevel + 1
+                    setname(inst)
+                elseif item.prefab == "abigail_williams_bowknot_wavepoint" then
+                    inst.zhanshalevel = inst.zhanshalevel + 1
+                    setname(inst,true)
                 end
             end
         end)
-    end)
-    AddPrefabPostInit("abigail_williams_bowknot_wavepoint", function(inst)
-        if inst.components.stackable == nil then
-            return
-        end
-        inst.xt_stack_task = inst:DoTaskInTime(.5, function()
-            if inst.components.stackable == nil or inst:IsInLimbo() or inst:HasTag("NOCLICK") then
-                return
-            end
-            if inst:IsValid() and not inst.components.stackable:IsFull() then
-                for _, item in ipairs(FindEntities(inst.Transform:GetWorldPosition())) do
-                    if item:IsValid() and not item.components.stackable:IsFull() then
-                        Put(inst, item)
-                    end
-                end
-            end
-        end)
-    end)
-    -- AddPrefabPostInitAny(function(inst)
-    --     if inst:HasTag("smallcreature") or inst:HasTag("heavy") or inst:HasTag("trap") or inst:HasTag("NET_workable") then
-    --         return
-    --     end
-    --     if inst.components.stackable == nil or inst:IsInLimbo() or inst:HasTag("NOCLICK") or inst.prefab == "bird_egg" or inst.prefab == "poop" then return end
-    --     inst.xt_stack_task = inst:DoTaskInTime(.5, function()
-    --         if inst.components.stackable == nil or inst:IsInLimbo() or inst:HasTag("NOCLICK") then return end
-    --         if inst:IsValid() and not inst.components.stackable:IsFull() then
-    --             for _, item in ipairs(FindEntities(inst.Transform:GetWorldPosition())) do
-    --                 if item:IsValid() and not item.components.stackable:IsFull() then Put(inst, item) end
-    --             end
-    --         end
-    --     end)
-    -- end)
+    end
 end
+
+if GetModConfigData("ab_packer_limit") then
+    AddComponentPostInit("ab_packer", function(self)
+        local oldCanPack = self.CanPack
+        function self:CanPack(target, ...)
+            if target:HasTag("multiplayer_portal") --天体门
+                    or target.components.health
+                    or target.prefab == "pigking" --猪王
+                    or target.prefab == "antlion" --蚁狮
+                    or target.prefab == "crabking" --帝王蟹
+                    or target.prefab == "beequeenhivegrown" --蜂王窝-底座
+                    or target.prefab == "statueglommer" --格罗姆雕像
+                    or target.prefab == "oasislake" --绿洲
+                    or target.prefab == "archive_switch"--档案馆华丽的基座
+                    or target.prefab == "archive_portal"--档案馆传送门
+                    or target.prefab == "archive_lockbox_dispencer"--知识饮水器
+                    or target.prefab == "archive_centipede"--远古哨兵蜈蚣
+                    or target.prefab == "archive_centipede_husk"--远古哨兵壳
+                    or target.prefab == "atrium_gate"--远古大门
+                    or target.prefab == "monkeyqueen"--月亮码头女王
+                    or target.prefab == "monkeyisland_portal"--非自然传送门
+
+
+                    or target.prefab == "toadstool_cap"--毒菌蟾蜍蘑菇
+
+                    or target.prefab == "elecourmaline" --电器台
+                    or target.prefab == "elecourmaline_keystone" --
+                    or target.prefab == "moondungeon" --月的地下城
+
+
+                    or target.prefab == "myth_rhino_desk"--三犀牛台
+                    or target.prefab == "myth_chang_e"--嫦娥
+                    or target.prefab == "myth_store"--小店
+                    or target.prefab == "myth_store_construction"--未完成的小店
+                    or target.prefab == "myth_shop"--小店
+                    or target.prefab == "myth_shop_animals"
+                    or target.prefab == "myth_shop_foods"
+                    or target.prefab == "myth_shop_ingredient"
+                    or target.prefab == "myth_shop_numerology"
+                    or target.prefab == "myth_shop_plants"
+                    or target.prefab == "myth_shop_rareitem"
+                    or target.prefab == "myth_shop_weapons"
+
+                    or target.prefab == "medal_spacetime_devourer"--时空吞噬者
+
+                    or target.prefab == "star_monv"--星辰魔女
+                    or target.prefab == "elaina_npc_qp" --星辰魔女对话框
+
+                    or target.prefab == "ntex_other_lz" --逆天而行修仙龙柱
+            then
+                return false
+            end
+
+            return oldCanPack(self, target, ...)
+        end
+    end)
+end
+
 
 AddComponentPostInit("moisture", function(self)
     local oldDoDelta = self.DoDelta

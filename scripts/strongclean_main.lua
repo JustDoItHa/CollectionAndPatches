@@ -423,18 +423,19 @@ local function DoStrongRemove()
     for k, v in pairs(GLOBAL.Ents) do
         -- 下面是修改部分，添加了风滚草的清理，同样加标志定时清理
         if isStrongcleanlist(v.prefab) then
-            if v.components and v.components.inventoryitem and v.components.inventoryitem.owner then break end
-            if v:HasTag("RemoveCountOne") then
-                v:Remove()
-                local numm = list[v.name .. "  " .. v.prefab]
-                if numm == nil then
-                    list[v.name .. "  " .. v.prefab] = 1
+            if v.components.inventoryitem == nil or (v.components.inventoryitem and v.components.inventoryitem.owner == nil) then
+                if v:HasTag("RemoveCountOne") then
+                    v:Remove()
+                    local numm = list[v.name .. "  " .. v.prefab]
+                    if numm == nil then
+                        list[v.name .. "  " .. v.prefab] = 1
+                    else
+                        numm = numm + 1
+                        list[v.name .. "  " .. v.prefab] = numm
+                    end
                 else
-                    numm = numm + 1
-                    list[v.name .. "  " .. v.prefab] = numm
+                    v:AddTag("RemoveCountOne")
                 end
-            else
-                v:AddTag("RemoveCountOne")
             end
         end
     end
@@ -497,8 +498,8 @@ local function AutoDoRemove()
             end
         end
         local strong_clean = isStrongcleanlist(v.prefab)
-        if v.components and v.components.inventoryitem and v.components.inventoryitem.owner then break end
-        if v and v:IsValid() and ((v.components and v.components.inventoryitem and v.components.inventoryitem.owner == nil) or strong_clean or max_clean) then
+        local inventoryitem_v = v.components.inventoryitem and v.components.inventoryitem.owner == nil
+        if v and v:IsValid() and ( inventoryitem_v or strong_clean or max_clean ) then
             if (clean_mode == 0 and not isWhitelist(v.prefab) and not isWhiteTag(v))
                     or (clean_mode == 1 and isBlacklist(v.prefab))
                     or isHalfWhitelist(v) or isFloat(v) or strong_clean or max_clean then

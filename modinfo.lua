@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "9.2.0.2"
+version = "9.3.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1541,16 +1541,10 @@ configuration_options = {
         default = 0,
     },
     AddOptionHeader("奇幻降临补丁"),
-    {
-        name = "ab_patches_switch",
-        label = "奇幻降临补丁",
-        hover = "限制奇幻降临扭结碎片的掉落最大值及自动堆叠",
-        options = {
-            { description = "是", data = true },
-            { description = "否", data = false },
-        },
-        default = false,
-    },
+    AddOption("ab_patches_switch", "总开关", "是否开启奇幻降临补丁", false),
+    AddOption("ab_knot_drop_limit", "纽结：降临-掉落数量限制", "限制奇幻降临扭结碎片的掉落最大值及自动堆叠", false),
+    AddOption("ab_packer_limit", "阿比打包限制", "禁止打包一些公用物品", true),
+
     AddOptionHeader("乃木园子补丁"),
     AddOption("yuanzi_patches_switch", "总开关", "是否开启乃木园子补丁", false),
 
@@ -1576,6 +1570,23 @@ configuration_options = {
     --     },
     --     default = true,
     -- },
+    AddOptionHeader("时崎狂三补丁"),
+    AddOption("kurumi_patches_switch", "总开关", "是否开启时崎狂三补丁", false),
+    AddOption("kurumi_packer_limit_switch", "狂三打包限制", "禁止打包一些公用物品", true),
+
+    -- {
+    --     name = "xuaner_patch",
+    --     label = "璇儿补丁",
+    --     hover = "无死亡惩罚",
+    --     options =
+    --     {
+    --         {description = "是", data = true},
+    --         {description = "否", data = false},
+    --     },
+    --     default = true,
+    -- },
+
+
     AddOptionHeader("神话书说补丁"),
     AddOption("myth_patches_switch", "神话书说补丁-总开关", "是否开启神话书说补丁", true),
     {
@@ -2163,6 +2174,8 @@ configuration_options = {
     AddConfigOption("远古蜈蚣", "远古蜈蚣", "让地下档案室远古蜈蚣消失", disappear_magic, 0),
     AddConfigOption("remove_tiddle_decay", "黑死病的鼠疫球", "让黑死病的鼠疫球消失", disappear_magic, -1),
     --AddConfigOption("remove_heap_of_food_bird", "Heap Of food的鸟", "Heap Of food的鸟消失(防崩溃)", disappear_magic, -1),
+    AddConfigOption("remove_krm_broom", "时崎狂三的赝造魔女(复制)", "平衡", disappear_magic, -1),
+    AddConfigOption("remove_krm_bullet10", "时崎狂三的十之弹:解锁科技", "十之弹:解锁科技解锁伊蕾娜科技", disappear_magic, 200),
 
     AddOptionHeader("内容PLUS"),
     AddOption("hide_admin_switch", "隐藏管理员-开关", "是否隐藏管理员标志", false),

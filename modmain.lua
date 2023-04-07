@@ -216,9 +216,14 @@ if GetModConfigData("ab_patches_switch") and TUNING.QIHUANJIANGLIN_ENABLE then
     modimport("scripts/ab_patches.lua")
 end
 
---奇幻降临
+--乃木园子
 if GetModConfigData("yuanzi_patches_switch") then
     modimport("scripts/yuanzi_patches.lua")
+end
+
+--时崎狂三
+if GetModConfigData("kurumi_patches_switch") then
+    modimport("scripts/kurumi_patches.lua")
 end
 
 
