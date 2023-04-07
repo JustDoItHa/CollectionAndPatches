@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "9.1.0.2"
+version = "9.2.0.2"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -385,6 +385,10 @@ MOD_CHARACTERLIST = {
     "wirlywings", --樱花林-樱桃妹
     "tiddlewade", --黑死病-医生
     "xxx3",
+    "kurumi", --时崎狂三
+    "kochosei", --蝴蝶精阴阳师
+    "xxx_wuma", --雾码
+    "yuki", --傲雪
 }
 --自定义配置请修改：
 --Please modify the custom configuration：
@@ -420,7 +424,11 @@ MOD_CHARACTERNAMES = {
     "乃木园子yuanzi", --乃木园子
     "樱花林-樱桃妹wirlywings", --樱花林-樱桃妹
     "黑死病-医生tiddlewade", --黑死病-医生
-    "芮塔",
+    "芮塔-xxx3",
+    "时岐狂三-kurumi",
+    "蝴蝶精-阴阳师kochosei",
+    "雾码-xxx_wuma",
+    "傲雪-yuki",
 }
 
 DST_CHARACTERLIST = {
