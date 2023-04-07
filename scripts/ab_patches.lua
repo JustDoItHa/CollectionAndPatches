@@ -333,14 +333,3 @@ if zslist then
         end
     end
 end
-
--- local upvaluehelper = require "utils/upvaluehelp_cap"
--- local lei = require "prefabs/player_common_extensions" --怜 开局礼包 修改
--- local vips = upvaluehelper.Get(lei.GivePlayerStartingItems,"vips")
--- if vips then
---     for k,v in pairs(vips) do
---         if v.items then
---            v.items = {"rei_start_stone"} ----星光石
---         end
---     end
--- end

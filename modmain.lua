@@ -225,7 +225,10 @@ end
 if GetModConfigData("kurumi_patches_switch") then
     modimport("scripts/kurumi_patches.lua")
 end
-
+-- 士条怜
+if modenable("士条怜") then
+    modimport("scripts/rei_patches.lua")
+end
 
 --全图定位
 if GetModConfigData("global_position_switch") then
