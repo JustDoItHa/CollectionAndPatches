@@ -85,7 +85,7 @@ if GetModConfigData("ab_knot_drop_limit") then
         --     end)
         -- end)
 
-        AddPrefabPostInit("abigail_williams_psionic_fragments", function(inst)
+        AddPrefabPostInit("ab_sword", function(inst)
             inst.components.trader.onaccept = function(inst,giver,...)
                 giver.components.talker:Say("为什么呢？")
             end
@@ -100,7 +100,7 @@ if GetModConfigData("ab_knot_drop_limit") then
                 inst.components.named:SetName(STRINGS.NAMES.AB_YZJXQ.."\n斩杀："..maxhealth.."%")
             end
         end
-        AddPrefabPostInit("abigail_williams_psionic_fragments", function(inst)
+        AddPrefabPostInit("ab_yzjxq", function(inst)
             inst.components.trader.onaccept = function(inst, giver, item,...)
                 if item.prefab == "abigail_williams_psionic_fragments" then
                     inst.damagelevel = inst.damagelevel + 1
