@@ -109,7 +109,7 @@ if GetModConfigData("ab_knot_drop_limit") then
         end
         AddPrefabPostInit("ab_yzjxq", function(inst)
             if inst.components.trader == nil then return end
-            inst.components.trader.test == ShouldAcceptItem
+            inst.components.trader.test = ShouldAcceptItem
             inst.components.trader.onaccept = function(inst, giver, item,...)
                 if item.prefab == "abigail_williams_psionic_fragments" then
                     inst.damagelevel = inst.damagelevel + 1
