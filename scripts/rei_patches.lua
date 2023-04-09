@@ -11,8 +11,11 @@
 -- end
 
 AddPrefabPostInit("rei_start_stone", function(inst)
-    if not TheWorld.ismastersim then return end
+    if not TheWorld.ismastersim or inst.components.trader == nil then return end
     inst.components.trader.onaccept = function(inst,giver,...)
         giver.components.talker:Say("为什么呢？")
+        if inst.components.trader.deleteitemonaccept == false then
+            giver.components.GiveItem(item)
+        end
     end
 end)

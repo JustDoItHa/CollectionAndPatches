@@ -86,11 +86,18 @@ if GetModConfigData("ab_knot_drop_limit") then
         -- end)
 
         AddPrefabPostInit("ab_sword", function(inst)
-            inst.components.trader.onaccept = function(inst,giver,...)
+            if inst.components.trader == nil then return end
+            inst.components.trader.onaccept = function(inst,giver,item,...)
                 giver.components.talker:Say("为什么呢？")
+                if inst.components.trader.deleteitemonaccept == false then
+                    giver.components.GiveItem(item)
+                end
             end
         end)
 
+        local function ShouldAcceptItem(inst, item)
+            return (item.prefab == "abigail_williams_bowknot_wavepoint" or item.prefab == "abigail_williams_psionic_fragments")
+        end
         local function setname(inst,resetname)
             inst.components.weapon:SetDamage(math.min(basedamage + damagerate*inst.damagelevel ,maxdamage))
             local range = math.min(baserange+rangerate*inst.zhanshanum,maxrange)
@@ -101,6 +108,8 @@ if GetModConfigData("ab_knot_drop_limit") then
             end
         end
         AddPrefabPostInit("ab_yzjxq", function(inst)
+            if inst.components.trader == nil then return end
+            inst.components.trader.test == ShouldAcceptItem
             inst.components.trader.onaccept = function(inst, giver, item,...)
                 if item.prefab == "abigail_williams_psionic_fragments" then
                     inst.damagelevel = inst.damagelevel + 1

@@ -6,7 +6,7 @@ if GetModConfigData("ban_brooch") then
         if k.modname == "workshop-2578692071" then
             for i = #k.PrefabFiles, 1, -1 do
                 if (string.find(k.PrefabFiles[i], "brooch") and k.PrefabFiles[i] ~= "star_brooch" and k.PrefabFiles[i] ~= "elaina_most_brooch")
-                        or k.PrefabFiles[i] == "elaina_yin_tiger"
+                        -- or k.PrefabFiles[i] == "elaina_yin_tiger"
                 then
                     table.remove(k.PrefabFiles, i)
                 end
@@ -14,27 +14,26 @@ if GetModConfigData("ban_brooch") then
         end
     end
 
-    local ban_recipes = { --清除制作配方
-        "elaina_yin_tiger",
-    }
-    for k,v in pairs(ban_recipes) do
-        if AllRecipes[v] then AllRecipes[v] = nil end
-    end
+    -- local ban_recipes = { --清除制作配方
+    --     "elaina_yin_tiger",
+    -- }
+    -- for k,v in pairs(ban_recipes) do
+    --     if AllRecipes[v] then AllRecipes[v] = nil end
+    -- end
 
-
-
-    AddComponentPostInit("inventory", function(self)
-        local old_GiveItem = self.GiveItem
-        self.GiveItem = function(self, inst, slot, src_pos, ...)
-            if inst == nil then
-                return
-            end
-            return old_GiveItem and old_GiveItem(self, inst, slot, src_pos, ...)
-        end
-    end)
 
 
     if TheNet:GetIsServer() then
+
+        AddComponentPostInit("inventory", function(self)
+            local old_GiveItem = self.GiveItem
+            self.GiveItem = function(self, inst, slot, src_pos, ...)
+                if inst == nil then
+                    return
+                end
+                return old_GiveItem and old_GiveItem(self, inst, slot, src_pos, ...)
+            end
+        end)
         --只在服务器运行
         STRINGS.NAMES.STAR_MONV_BROOCHTAB1 = {}
         STRINGS.NAMES.STAR_MONV_BROOCHTAB2 = {}
@@ -53,11 +52,10 @@ if GetModConfigData("ban_brooch") then
         AddComponentPostInit("npcfavorability", function(self)
             local old_DoDelta = self.DoDelta
             self.DoDelta = function(self, delta, ...)
-                if delta > 11 then
-                    return
+                delta = tonumber(delta)
+                if delta and delta < 12 then
+                    if old_DoDelta then old_DoDelta(self, delta, ...) end
                 end
-
-                if old_DoDelta then old_DoDelta(self, delta, ...) end
 
                 -- if self.jilu < 8 and self.hgd >= items[self.jilu+1].hgd then
                 --     local blueprint = SpawnPrefab("turfcraftingstation_blueprint")
@@ -72,7 +70,7 @@ if GetModConfigData("ban_brooch") then
             local AcceptTest = inst.components.trader.test
             if AcceptTest then
                 local ts = upvaluehelper.Get(AcceptTest,"ts")
-                if ts then ts = {} end
+                if ts then  local params = upvaluehelper.Set(AcceptTest,"ts",{})  end
             end
         end)
 
