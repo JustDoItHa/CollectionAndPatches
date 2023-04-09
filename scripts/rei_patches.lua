@@ -15,7 +15,7 @@ AddPrefabPostInit("rei_start_stone", function(inst)
     inst.components.trader.onaccept = function(inst,giver,...)
         giver.components.talker:Say("为什么呢？")
         if inst.components.trader.deleteitemonaccept == false then
-            giver.components.GiveItem(item)
+            giver.components.inventory.GiveItem(item)
         end
     end
 end)

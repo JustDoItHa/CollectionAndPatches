@@ -90,35 +90,41 @@ if GetModConfigData("ab_knot_drop_limit") then
             inst.components.trader.onaccept = function(inst,giver,item,...)
                 giver.components.talker:Say("为什么呢？")
                 if inst.components.trader.deleteitemonaccept == false then
-                    giver.components.GiveItem(item)
+                    giver.components.inventory.GiveItem(item)
                 end
             end
         end)
 
-        local function ShouldAcceptItem(inst, item)
-            return (item.prefab == "abigail_williams_bowknot_wavepoint" or item.prefab == "abigail_williams_psionic_fragments")
-        end
-        local function setname(inst,resetname)
-            inst.components.weapon:SetDamage(math.min(basedamage + damagerate*inst.damagelevel ,maxdamage))
-            local range = math.min(baserange+rangerate*inst.zhanshanum,maxrange)
-            inst.components.weapon:SetRange(range, range)
-            if resetname then
-                local maxhealth = math.min(basehealth+healthrate*inst.zhanshalevel,maxhealth) *100
-                inst.components.named:SetName(STRINGS.NAMES.AB_YZJXQ.."\n斩杀："..maxhealth.."%")
-            end
-        end
+        -- local function ShouldAcceptItem(inst, item)
+        --     return (item.prefab == "abigail_williams_bowknot_wavepoint" or item.prefab == "abigail_williams_psionic_fragments")
+        -- end
+        -- local function setname(inst,resetname)
+        --     inst.components.weapon:SetDamage(math.min(basedamage + damagerate*inst.damagelevel ,maxdamage))
+        --     local range = math.min(baserange+rangerate*inst.zhanshanum,maxrange)
+        --     inst.components.weapon:SetRange(range, range)
+        --     if resetname then
+        --         local maxhealth = math.min(basehealth+healthrate*inst.zhanshalevel,maxhealth) *100
+        --         inst.components.named:SetName(STRINGS.NAMES.AB_YZJXQ.."\n斩杀："..maxhealth.."%")
+        --     end
+        -- end
         AddPrefabPostInit("ab_yzjxq", function(inst)
             if inst.components.trader == nil then return end
-            inst.components.trader.test = ShouldAcceptItem
-            inst.components.trader.onaccept = function(inst, giver, item,...)
-                if item.prefab == "abigail_williams_psionic_fragments" then
-                    inst.damagelevel = inst.damagelevel + 1
-                    setname(inst)
-                elseif item.prefab == "abigail_williams_bowknot_wavepoint" then
-                    inst.zhanshalevel = inst.zhanshalevel + 1
-                    setname(inst,true)
+            inst.components.trader.onaccept = function(inst,giver,item,...)
+                giver.components.talker:Say("为什么呢？")
+                if inst.components.trader.deleteitemonaccept == false then
+                    giver.components.inventory.GiveItem(item)
                 end
             end
+            -- inst.components.trader.test = ShouldAcceptItem
+            -- inst.components.trader.onaccept = function(inst, giver, item,...)
+            --     if item.prefab == "abigail_williams_psionic_fragments" then
+            --         inst.damagelevel = inst.damagelevel + 1
+            --         setname(inst)
+            --     elseif item.prefab == "abigail_williams_bowknot_wavepoint" then
+            --         inst.zhanshalevel = inst.zhanshalevel + 1
+            --         setname(inst,true)
+            --     end
+            -- end
         end)
     end
 end
