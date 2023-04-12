@@ -425,6 +425,13 @@ end
 if not TUNING.UI_DRAGGABLE_ENABLE and GetModConfigData("ui_button_badge_draggable_switch") then
     modimport("scripts/ui_button_badge_drag_main.lua")
 end
+--98K补丁
+if GetModConfigData("m_98K_patches_switch") then
+    GLOBAL.MAUSER_PARAMS.RIFLE_DMG_R = GetModConfigData("m_98k_RIFLE_DMG_R_multi") or 1
+    GLOBAL.MAUSER_PARAMS.RIFLE_DMG_M = GetModConfigData("m_98k_RIFLE_DMG_M_multi") or 1
+    GLOBAL.MAUSER_PARAMS.BAYONET_DMG_2 = GetModConfigData("m_98k_BAYONET_DMG_2_multi") or 1
+    GLOBAL.MAUSER_PARAMS.BAYONET_DMG_1 = GetModConfigData("m_98k_BAYONET_DMG_1_multi") or 1
+end
 
 --- beta功能
 if GetModConfigData("beta_function_switch") then
