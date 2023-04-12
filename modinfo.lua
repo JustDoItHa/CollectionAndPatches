@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "9.4.0.1"
+version = "9.4.0.2"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -679,7 +679,7 @@ configuration_options = {
     AddOptionHeader("陷阱增强"),
     AddOption("trap_enhance", "陷阱增强-总开关", "设置是否开启陷阱增强功能", false),
     AddOption("stack", "狗牙陷阱可堆叠", "狗牙陷阱可堆叠", true),
-    AddConfigOption("trap_uses", "狗牙陷阱耐久修改", { { description = "无修改(默认10次)", data = 0, hover = "默认" },
+    AddConfigOption("trap_uses", "狗牙陷阱耐久修改", "",{ { description = "无修改(默认10次)", data = 0, hover = "默认" },
                                                        { description = "2倍", data = 16 },
                                                        { description = "8倍", data = 64 },
                                                        { description = "32倍", data = 256 },
