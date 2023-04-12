@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "9.4.0.0"
+version = "9.4.0.1"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -640,7 +640,7 @@ configuration_options = {
                                                             { description = "关闭", data = false }, }, false),
     AddConfigOption("backpack_ice", "背包保鲜", "", { { description = "开启", data = true, hover = "背包包保鲜,保鲜度同冰箱" },
                                                       { description = "关闭", data = false }, }, false),
-    AddConfigOption("piggyback_ice", "小猪包保鲜", { { description = "开启", data = true, hover = "小猪包保鲜,保鲜度同冰箱" },
+    AddConfigOption("piggyback_ice", "小猪包保鲜", "",{ { description = "开启", data = true, hover = "小猪包保鲜,保鲜度同冰箱" },
                                                      { description = "关闭", data = false }, }, false),
     AddConfigOption("saltlicker", "盐盒", "", { { description = "正常腐烂", data = 0.25 },
                                                 { description = "保鲜", data = 0 },
