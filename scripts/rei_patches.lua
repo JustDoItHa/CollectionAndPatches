@@ -11,8 +11,21 @@
 -- end
 
 AddPrefabPostInit("rei_start_stone", function(inst)
-    if not TheWorld.ismastersim or inst.components.trader == nil then return end
+    if not TheWorld.ismastersim or inst.components.trader == nil or inst.components.trader.onaccept == nil then return end
     inst.components.trader.onaccept = function(inst,giver,...)
+        giver.components.talker:Say("为什么呢？")
+        if inst.components.trader.deleteitemonaccept == false then
+            giver.components.inventory.GiveItem(item)
+        end
+    end
+end)
+
+AddPrefabPostInit("rei_weapon_sword4", function(inst)
+    if not TheWorld.ismastersim then
+        return
+    end
+    if inst.components.trader == nil or inst.components.trader.onaccept == nil then return end
+    inst.components.trader.onaccept = function(inst,giver,item,...)
         giver.components.talker:Say("为什么呢？")
         if inst.components.trader.deleteitemonaccept == false then
             giver.components.inventory.GiveItem(item)

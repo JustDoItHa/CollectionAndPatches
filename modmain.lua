@@ -477,3 +477,19 @@ end
 
 modimport("scripts/mod_conflict_fix.lua")
 modimport("scripts/blance_bug_fix.lua")
+
+
+----处理下重复加组件的问题 不知道放哪里 先写这里
+AddGlobalClassPostConstruct("entityscript", "EntityScript", function(self)
+    local old_add = self.AddComponent
+    function self:AddComponent(name, ...)
+        local lower_name = string.lower(name)
+        if self.lower_components_shadow[lower_name] ~= nil then
+            return
+        end
+        
+        local cmp = old_add(self, name, ...)
+
+        return cmp
+    end
+end)

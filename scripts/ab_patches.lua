@@ -86,7 +86,7 @@ if GetModConfigData("ab_knot_drop_limit") then
         -- end)
 
         AddPrefabPostInit("ab_sword", function(inst)
-            if inst.components.trader == nil then return end
+            if inst.components.trader == nil or inst.components.trader.onaccept == nil then return end
             inst.components.trader.onaccept = function(inst,giver,item,...)
                 giver.components.talker:Say("为什么呢？")
                 if inst.components.trader.deleteitemonaccept == false then
@@ -108,7 +108,7 @@ if GetModConfigData("ab_knot_drop_limit") then
         --     end
         -- end
         AddPrefabPostInit("ab_yzjxq", function(inst)
-            if inst.components.trader == nil then return end
+            if inst.components.trader == nil or inst.components.trader.onaccept == nil then return end
             inst.components.trader.onaccept = function(inst,giver,item,...)
                 giver.components.talker:Say("为什么呢？")
                 if inst.components.trader.deleteitemonaccept == false then

@@ -110,6 +110,13 @@ if GetModConfigData("ban_most_brooch") then
     end)
 end
 
+local Elaina_rpc = {"Eaina_YinTiger_Copy","Eaina_YinTiger_Infiniteuse"}
+
+for _,v in pairs(Elaina_rpc) do
+    if MOD_RPC_HANDLERS["Elaina"] and MOD_RPC["Elaina"] and MOD_RPC["Elaina"][v] and MOD_RPC["Elaina"][v].id then
+        MOD_RPC_HANDLERS["Elaina"][MOD_RPC["Elaina"][v].id] = function(...) end
+    end
+end
 
 
 ----------------------------------修改星辰魔女 ban胸针太长废弃
