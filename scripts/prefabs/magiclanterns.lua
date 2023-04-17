@@ -53,7 +53,7 @@ end
 local function AreaHeal(inst)--Purple Effect
 	local pt = inst:GetPosition()
   	--healing
-	local ents = TheSim:FindEntities(pt.x,pt.y,pt.z, 6, {"_combat"}, {"ghost", "shadow","wall"}, nil)
+	local ents = TheSim:FindEntities(pt.x,pt.y,pt.z, 6, {"_combat", "player"}, {"ghost", "shadow","wall"}, nil)
 	
 	for i,v in ipairs(ents) do
 		if v.components.health then

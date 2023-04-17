@@ -11,6 +11,8 @@ local remove_table = {
     remove_aria_tower = { "aria_tower" },
     remove_aria_transfer = { "aria_transfer" },
     remove_aria_meteor = { "aria_meteor" },
+    --伊蕾娜
+    remove_elaina_bq = { "elaina_bq" },
     --奇幻降临阿比
     remove_abigail_williams_atrium_light_moon = { "atrium_light_moon" },
     remove_abigail_williams_black_gold = { "abigail_williams_black_gold" },
@@ -39,6 +41,7 @@ local remove_table = {
     -- 时崎狂三
     remove_krm_broom = { "krm_broom" },
     remove_krm_bullet10 = { "krm_bullet10" },
+    remove_krm_spirit_crystal = { "krm_spirit_crystal" },
     --勋章
     remove_monster_book = { "monster_book" },
     --怠惰科技

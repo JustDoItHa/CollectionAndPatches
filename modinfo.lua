@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "9.4.0.3"
+version = "9.4.0.4"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1999,6 +1999,7 @@ configuration_options = {
     AddConfigOption("remove_aria_tower", "aria的领主之怒", "让aria的领主之怒消失！", disappear_magic, 0),
     AddConfigOption("remove_aria_transfer", "aria的晶能转换站", "让aria的晶能转换站消失！", disappear_magic, 0),
     AddConfigOption("remove_aria_blackhole", "aria的深空黑点", "让aria的深空黑点消失！", disappear_magic, 0),
+    AddConfigOption("remove_elaina_bq", "伊蕾娜的释槐留仙裙", "让伊蕾娜的释槐留仙裙消失！", disappear_magic, -1),
     AddConfigOption("remove_abigail_williams_black_gold", "阿比盖尔威廉姆斯的暗金", "让阿比盖尔威廉姆斯的暗金消失！", disappear_magic, -1),
     AddConfigOption("remove_abigail_williams_ab_lnhx", "阿比盖尔威廉姆斯的灵能核心", "让阿比盖尔威廉姆斯的灵能核心消失！", disappear_magic, -1),
     AddConfigOption("remove_abigail_williams_starry_bush", "阿比盖尔威廉姆斯的星空矿从", "让阿比盖尔威廉姆斯的星空矿从消失！", disappear_magic, -1),
@@ -2035,6 +2036,7 @@ configuration_options = {
     --AddConfigOption("remove_heap_of_food_bird", "Heap Of food的鸟", "Heap Of food的鸟消失(防崩溃)", disappear_magic, -1),
     AddConfigOption("remove_krm_broom", "时崎狂三的赝造魔女(复制)", "平衡", disappear_magic, -1),
     AddConfigOption("remove_krm_bullet10", "时崎狂三的十之弹:解锁科技", "十之弹:解锁科技解锁伊蕾娜科技", disappear_magic, 200),
+    AddConfigOption("remove_krm_spirit_crystal", "时崎狂三的二亚的灵结晶", "可开启创造模式", disappear_magic, 300),
 
     AddOptionHeader("内容PLUS"),
     AddOption("hide_admin_switch", "隐藏管理员-开关", "是否隐藏管理员标志", false),
