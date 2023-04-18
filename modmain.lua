@@ -452,6 +452,9 @@ if GetModConfigData("beta_function_switch") then
     if GetModConfigData("container_sort_switch") then
         modimport("scripts/container_sort.lua")
     end
+    if GetModConfigData("container_organize_preference") then
+        modimport("scripts/container_organize.lua")
+    end
     if GetModConfigData("give_item_optimize_switch") then
         modimport("scripts/giveitem_main.lua")
     end
