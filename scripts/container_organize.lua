@@ -965,27 +965,31 @@ local function addbuttoninfoforcontainerparams(prefab, container)
             position3 = Vector3(finalslotpos.x, finalslotpos.y - 143, finalslotpos.z)
         end
         container.widget.sortbtninfo2hm = {
-            text = TUNING.MODHappyPatch.isCh and "整理" or "Sort",
+            --text = TUNING.MODHappyPatch.isCh and "整理" or "Sort",
+            text = "整理",
             position = position1,
             fn = sortcontainerbuttoninfofn,
             validfn = sortcontainerbuttoninfovalidfn
         }
         if hasmultisort then
             container.widget.multisortbtninfo2hm = {
-                text = TUNING.MODHappyPatch.isCh and "跨整" or "MSort",
+                --text = TUNING.MODHappyPatch.isCh and "跨整" or "MSort",
+                text = "跨整",
                 position = position2,
                 fn = sortcontainerbuttonmultiinfofn,
                 validfn = sortcontainerbuttoninfovalidfn
             }
         end
         container.widget.collectbtninfo2hm = {
-            text = TUNING.MODHappyPatch.isCh and "收纳" or "Collect",
+            --text = TUNING.MODHappyPatch.isCh and "收纳" or "Collect",
+            text = "收纳",
             position = hasmultisort and position3 or position2,
             fn = collectfn,
             validfn = collectvalidfn
         }
         container.widget.exchangebtninfo2hm = {
-            text = TUNING.MODHappyPatch.isCh and "穿越" or "PassW",
+            --text = TUNING.MODHappyPatch.isCh and "穿越" or "PassW",
+            text = "穿越",
             position = position2,
             fn = sendscontainerproxyotherworldfn,
             validfn = sendscontainerproxyotherworldvalidfn
@@ -993,7 +997,8 @@ local function addbuttoninfoforcontainerparams(prefab, container)
         if prefab == "wardrobe" then
             local endslotpos = container.widget.slotpos[#container.widget.slotpos - 3]
             container.widget.reskinbtninfo2hm = {
-                text = TUNING.MODHappyPatch.isCh and "换衣" or "Skin",
+                --text = TUNING.MODHappyPatch.isCh and "换衣" or "Skin",
+                text = "换衣",
                 position = hasmultisort and Vector3(endslotpos.x, endslotpos.y - 57, endslotpos.z) or position3,
                 fn = reskinfn,
                 validfn = reskinvalidfn
