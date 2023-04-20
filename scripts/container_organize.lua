@@ -1122,16 +1122,16 @@ AddClassPostConstruct(
                         -- 换装
                         addbutton(self, container, doer, "reskinbutton2hm", widget.reskinbtninfo2hm)
                     end
-                    --if container:HasTag("pocketdimension_container") and widget.exchangebtninfo2hm then
-                    --    -- 穿越
-                    --    addbutton(self, container, doer, "exchangebutton2hm", widget.exchangebtninfo2hm)
-                    --else
-                    --    -- 跨整和跨收
-                    --    if hasmultisort and widget.multisortbtninfo2hm then
-                    --        addbutton(self, container, doer, "multisortbutton2hm", widget.multisortbtninfo2hm)
-                    --    end
-                    --    addbutton(self, container, doer, "collectbutton2hm", widget.collectbtninfo2hm)
-                    --end
+                    if container:HasTag("pocketdimension_container") and widget.exchangebtninfo2hm then
+                        -- 穿越
+                        addbutton(self, container, doer, "exchangebutton2hm", widget.exchangebtninfo2hm)
+                    else
+                        -- 跨整和跨收
+                        if hasmultisort and widget.multisortbtninfo2hm then
+                            addbutton(self, container, doer, "multisortbutton2hm", widget.multisortbtninfo2hm)
+                        end
+                        addbutton(self, container, doer, "collectbutton2hm", widget.collectbtninfo2hm)
+                    end
                 end
                 -- if morefar then
                 --     self:MoveToFront()
