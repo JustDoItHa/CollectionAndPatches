@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "9.5.0.3"
+version = "9.6.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -3024,3 +3024,5 @@ configuration_options[#configuration_options + 1] = AddOption("htf_chs_language_
 configuration_options[#configuration_options + 1] = AddOptionHeader("取消从世界与主世界部分同步")
 configuration_options[#configuration_options + 1] = AddOption("cancel_sync_cycles_with_master_switch", "取消世界季节时间阶段种类同步", "不同世界享有不同季节时钟，日/暮/夜独立", false)
 configuration_options[#configuration_options + 1] = AddOption("time_sync_with_master", "时间同步", "开启:与主世界天数一致\n 关闭:独立的天数计量", true)
+configuration_options[#configuration_options + 1] = AddOptionHeader("单世界特殊设置")
+configuration_options[#configuration_options + 1] = AddOption("word_migrate_drop_sync_switch", "世界物品不可带出", "开启后，世界种的物品只能带进不能带出", false)

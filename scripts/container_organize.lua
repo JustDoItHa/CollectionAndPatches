@@ -721,6 +721,10 @@ local function sendscontainerproxyotherworldfn(inst, doer)
     end
 end
 
+local function doNothingF(inst, doer)
+
+end
+
 local function sendscontainerproxyotherworldvalidfn(inst)
     return inst.components.container ~= nil or inst.replica.container ~= nil
 end
@@ -971,29 +975,32 @@ local function addbuttoninfoforcontainerparams(prefab, container)
             fn = sortcontainerbuttoninfofn,
             validfn = sortcontainerbuttoninfovalidfn
         }
-        --if hasmultisort then
-        --    container.widget.multisortbtninfo2hm = {
-        --        --text = TUNING.MODHappyPatch.isCh and "跨整" or "MSort",
-        --        text = "跨整",
-        --        position = position2,
-        --        fn = sortcontainerbuttonmultiinfofn,
-        --        validfn = sortcontainerbuttoninfovalidfn
-        --    }
-        --end
-        --container.widget.collectbtninfo2hm = {
-        --    --text = TUNING.MODHappyPatch.isCh and "收纳" or "Collect",
-        --    text = "收纳",
-        --    position = hasmultisort and position3 or position2,
-        --    fn = collectfn,
-        --    validfn = collectvalidfn
-        --}
-        --container.widget.exchangebtninfo2hm = {
-        --    --text = TUNING.MODHappyPatch.isCh and "穿越" or "PassW",
-        --    text = "穿越",
-        --    position = position2,
-        --    fn = sendscontainerproxyotherworldfn,
-        --    validfn = sendscontainerproxyotherworldvalidfn
-        --}
+        if hasmultisort then
+            container.widget.multisortbtninfo2hm = {
+                --text = TUNING.MODHappyPatch.isCh and "跨整" or "MSort",
+                text = "跨整",
+                position = position2,
+                --fn = sortcontainerbuttonmultiinfofn,
+                fn = doNothingF,
+                validfn = sortcontainerbuttoninfovalidfn
+            }
+        end
+        container.widget.collectbtninfo2hm = {
+            --text = TUNING.MODHappyPatch.isCh and "收纳" or "Collect",
+            text = "收纳",
+            position = hasmultisort and position3 or position2,
+            --fn = collectfn,
+            fn = doNothingF,
+            validfn = collectvalidfn
+        }
+        container.widget.exchangebtninfo2hm = {
+            --text = TUNING.MODHappyPatch.isCh and "穿越" or "PassW",
+            text = "穿越",
+            position = position2,
+            --fn = sendscontainerproxyotherworldfn,
+            fn = doNothingF,
+            validfn = sendscontainerproxyotherworldvalidfn
+        }
         if prefab == "wardrobe" then
             local endslotpos = container.widget.slotpos[#container.widget.slotpos - 3]
             container.widget.reskinbtninfo2hm = {

@@ -481,6 +481,9 @@ end
 modimport("scripts/mod_conflict_fix.lua")
 modimport("scripts/blance_bug_fix.lua")
 
+if GetModConfigData("word_migrate_drop_sync_switch") then
+    modimport("scripts/word_migrate_drop.lua")
+end
 
 ----处理下重复加组件的问题 不知道放哪里 先写这里
 AddGlobalClassPostConstruct("entityscript", "EntityScript", function(self)
