@@ -971,29 +971,29 @@ local function addbuttoninfoforcontainerparams(prefab, container)
             fn = sortcontainerbuttoninfofn,
             validfn = sortcontainerbuttoninfovalidfn
         }
-        if hasmultisort then
-            container.widget.multisortbtninfo2hm = {
-                --text = TUNING.MODHappyPatch.isCh and "跨整" or "MSort",
-                text = "跨整",
-                position = position2,
-                fn = sortcontainerbuttonmultiinfofn,
-                validfn = sortcontainerbuttoninfovalidfn
-            }
-        end
-        container.widget.collectbtninfo2hm = {
-            --text = TUNING.MODHappyPatch.isCh and "收纳" or "Collect",
-            text = "收纳",
-            position = hasmultisort and position3 or position2,
-            fn = collectfn,
-            validfn = collectvalidfn
-        }
-        container.widget.exchangebtninfo2hm = {
-            --text = TUNING.MODHappyPatch.isCh and "穿越" or "PassW",
-            text = "穿越",
-            position = position2,
-            fn = sendscontainerproxyotherworldfn,
-            validfn = sendscontainerproxyotherworldvalidfn
-        }
+        --if hasmultisort then
+        --    container.widget.multisortbtninfo2hm = {
+        --        --text = TUNING.MODHappyPatch.isCh and "跨整" or "MSort",
+        --        text = "跨整",
+        --        position = position2,
+        --        fn = sortcontainerbuttonmultiinfofn,
+        --        validfn = sortcontainerbuttoninfovalidfn
+        --    }
+        --end
+        --container.widget.collectbtninfo2hm = {
+        --    --text = TUNING.MODHappyPatch.isCh and "收纳" or "Collect",
+        --    text = "收纳",
+        --    position = hasmultisort and position3 or position2,
+        --    fn = collectfn,
+        --    validfn = collectvalidfn
+        --}
+        --container.widget.exchangebtninfo2hm = {
+        --    --text = TUNING.MODHappyPatch.isCh and "穿越" or "PassW",
+        --    text = "穿越",
+        --    position = position2,
+        --    fn = sendscontainerproxyotherworldfn,
+        --    validfn = sendscontainerproxyotherworldvalidfn
+        --}
         if prefab == "wardrobe" then
             local endslotpos = container.widget.slotpos[#container.widget.slotpos - 3]
             container.widget.reskinbtninfo2hm = {
@@ -1122,16 +1122,16 @@ AddClassPostConstruct(
                         -- 换装
                         addbutton(self, container, doer, "reskinbutton2hm", widget.reskinbtninfo2hm)
                     end
-                    if container:HasTag("pocketdimension_container") and widget.exchangebtninfo2hm then
-                        -- 穿越
-                        addbutton(self, container, doer, "exchangebutton2hm", widget.exchangebtninfo2hm)
-                    else
-                        -- 跨整和跨收
-                        if hasmultisort and widget.multisortbtninfo2hm then
-                            addbutton(self, container, doer, "multisortbutton2hm", widget.multisortbtninfo2hm)
-                        end
-                        addbutton(self, container, doer, "collectbutton2hm", widget.collectbtninfo2hm)
-                    end
+                    --if container:HasTag("pocketdimension_container") and widget.exchangebtninfo2hm then
+                    --    -- 穿越
+                    --    addbutton(self, container, doer, "exchangebutton2hm", widget.exchangebtninfo2hm)
+                    --else
+                    --    -- 跨整和跨收
+                    --    if hasmultisort and widget.multisortbtninfo2hm then
+                    --        addbutton(self, container, doer, "multisortbutton2hm", widget.multisortbtninfo2hm)
+                    --    end
+                    --    addbutton(self, container, doer, "collectbutton2hm", widget.collectbtninfo2hm)
+                    --end
                 end
                 -- if morefar then
                 --     self:MoveToFront()
