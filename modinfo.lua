@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "9.6.0.2"
+version = "9.7.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -937,6 +937,9 @@ configuration_options = {
         },
         default = 0,
     },
+
+    AddOptionHeader("容器拥有物品高亮显示"),
+    AddOption("container_high_light_switch", "总开关", "容器拥有物品高亮显示总开关", false),
     {
         name = "chestR",
         label = "Chest Col--Red(箱子高亮颜色-红)",
@@ -960,7 +963,7 @@ configuration_options = {
     },
 
     AddOptionHeader("信息显示"),
-    AddOption("cap_show_info_switch", "总开关", "物体信息详情显示总开开关，开启此则show me不生效", false),
+    AddOption("cap_show_info_switch", "总开关", "物体信息详情显示总开关，开启此则show me不生效", false),
     AddConfigOption("showanim", "显示物品动画信息", "", { { description = "显示", data = true },
                                                           { description = "不显示", data = false }, }, false),
     AddConfigOption("showtype", "显示边框颜色", "", show_info_edge_color_options, 1),

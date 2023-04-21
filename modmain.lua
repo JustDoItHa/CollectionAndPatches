@@ -79,6 +79,7 @@ TUNING.OPTIMISE_ANNOUNCEMENT = GetModConfigData("optimiseAnnouncement")
 -- [TUNING -- big bag end]--------------------
 TUNING.FUNCTIONAL_MEDAL_ENABLE = modenable({ "1909182187", "能力勋章", "Functional Medal" })
 TUNING.YEYU_NILXIN_ENABLE = modenable({ "2736985627", "2626800998", "夜雨心空" })
+TUNING.QIONG_ENABLE = modenable({ "1638724235", "小穹" })
 TUNING.YEYU_NILXIN_XIUXIAN_ENABLE = modenable({ "2736985627", "2626800998", "夜雨心空" }) and modenable("修仙世界额外")
 TUNING.ELAINA_ENABLE = modenable({"2578692071", "魔女之旅"})
 TUNING.SORA_ENABLE = modenable("1638724235")
@@ -87,6 +88,7 @@ TUNING.UI_DRAGGABLE_ENABLE = modenable({"2885137047", "UI拖拽缩放"})
 TUNING.QIHUANJIANGLIN_ENABLE = modenable({"2867435690", "2790273347", "奇幻降临：永恒终焉", "永恒终焉"}) or modenable({"2898657309", "奇幻降临：第四人称", "第四人称"})
 TUNING.HEAP_OF_FOOD_ENABLE = modenable({"2334209327", "Heap of Foods"})
 TUNING.INTERESTING_TUMBLEWEED_ENABLE = modenable({"1944492666", "Interesting Tumbleweed"})
+TUNING.MAUSER_RIFLE_BAYONET_ENABLE = modenable({"955048205", "Mauser Rifle & Bayonet"})
 
 
 --修复标签问题
@@ -194,11 +196,11 @@ end
 --    modimport("scripts/limit_sorapacker.lua")
 --end
 --小穹补丁
-if GetModConfigData("sora_patches_switch") then
+if GetModConfigData("sora_patches_switch") and TUNING.QIONG_ENABLE then
     modimport("scripts/sora_patches.lua")
 end
 --夜雨心空补丁
-if GetModConfigData("yeyu_nilxin_patches_switch") then
+if GetModConfigData("yeyu_nilxin_patches_switch") and TUNING.YEYU_NILXIN_ENABLE then
     modimport("scripts/yeyu_nilxin_patches.lua")
 end
 
@@ -275,6 +277,13 @@ end
 if GetModConfigData("show_me_switch") and (not ( GetModConfigData("cap_show_info_switch") or modenable("666155465") )) then
     modimport("scripts/show_me.lua")
 end
+
+
+--容器内容显示
+if GetModConfigData("container_high_light_switch") then
+    modimport("scripts/container_high_light.lua")
+end
+
 --信息显示
 if GetModConfigData("cap_show_info_switch") then
     modimport("scripts/show_info_main.lua")
@@ -430,7 +439,7 @@ if not TUNING.UI_DRAGGABLE_ENABLE and GetModConfigData("ui_button_badge_draggabl
     modimport("scripts/ui_button_badge_drag_main.lua")
 end
 --98K补丁
-if GetModConfigData("m_98K_patches_switch") then
+if GetModConfigData("m_98K_patches_switch") and TUNING.MAUSER_RIFLE_BAYONET_ENABLE then
     GLOBAL.MAUSER_PARAMS.RIFLE_DMG_R = GetModConfigData("m_98k_RIFLE_DMG_R_multi") or 1
     GLOBAL.MAUSER_PARAMS.RIFLE_DMG_M = GetModConfigData("m_98k_RIFLE_DMG_M_multi") or 1
     GLOBAL.MAUSER_PARAMS.BAYONET_DMG_2 = GetModConfigData("m_98k_BAYONET_DMG_2_multi") or 1

@@ -15,6 +15,24 @@ if GetModConfigData("xiuxian_patches") and TUNING.YEYU_NILXIN_XIUXIAN_ENABLE the
         return old_widgetsetup(container, prefab, data, ...)
     end
 end
+
+--地图岛资源不生成
+--AddPrefabPostInit("yyxk_san_base_layout",function (inst)
+--    inst:Remove()
+--end)
+
+--聚合仪器 和 结构仪器 接口 可以禁止一些东西
+--AddPrefabPostInit("yyxk_auto_destroystructure",function (inst)
+--    inst.replica.container.yyxkitemtestfn = function(container, item, slot)
+--        return true
+--    end
+--end)
+--AddPrefabPostInit("yyxk_auto_recipe",function (inst)
+--    inst.replica.container.yyxkitemtestfn = function(container, item, slot)
+--        return true
+--    end
+--end)
+
 --夜雨空心入侵修改
 if GetModConfigData("yeyu_ruqin") and TUNING.YEYU_NILXIN_ENABLE then
     if TheNet:GetIsServer() then
