@@ -70,7 +70,7 @@ if GetModConfigData("yeyu_nilxin_pack_limit") and TUNING.YEYU_NILXIN_ENABLE then
         "elecourmaline", --电器台
         "elecourmaline_keystone", --
         "moondungeon", --月的地下城
-        "siving_thetree" --子圭神木岩
+        "siving_thetree", --子圭神木岩
         "myth_rhino_desk", --三犀牛台
         "myth_chang_e", --嫦娥
         "myth_store", --小店
