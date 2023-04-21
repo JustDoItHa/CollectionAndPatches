@@ -2,7 +2,8 @@ local function migrate_drop(inst)
     inst:ListenForEvent("ms_playerdespawnandmigrate", function(inst, data)
         if data.player then
             if data.player.prefab == "yeyu" then
-                data.player.components.inventory.DropItem = data.player.components.inventory.nil_DropItem
+                data.player.nilxin_unique = nil
+                -- data.player.components.inventory.DropItem = data.player.components.inventory.nil_DropItem
             end
             data.player.components.inventory:DropEverything()
             if data.player.components.leader ~= nil then
@@ -20,3 +21,9 @@ local function migrate_drop(inst)
 
 end
 AddPrefabPostInit("world", migrate_drop)
+
+AddComponentPostInit("yyxk", function(self)
+    self.additem = function(self, inst, n, ...)
+        self.inst.components.talker:Say("该世界禁用")
+    end
+end)

@@ -536,7 +536,7 @@ local function sortmulticontainer2hm(player, inst)
     end
 end
 
-AddModRPCHandler("MOD_HARDMODE", "sortmulticontainer2hm", sortmulticontainer2hm)
+-- AddModRPCHandler("MOD_HARDMODE", "sortmulticontainer2hm", sortmulticontainer2hm)
 
 local function sortcontainerbuttonmultiinfofn(inst, doer)
     if inst.components.container ~= nil then
@@ -711,7 +711,7 @@ local function sendscontainerproxyotherworld(player, inst)
     end
 end
 
-AddModRPCHandler("MOD_HARDMODE", "sendcontainerproxyworld2hm", sendscontainerproxyotherworld)
+-- AddModRPCHandler("MOD_HARDMODE", "sendcontainerproxyworld2hm", sendscontainerproxyotherworld)
 
 local function sendscontainerproxyotherworldfn(inst, doer)
     if inst.components.container and TheWorld.ismastersim then
@@ -929,7 +929,7 @@ local function collectcontainerready(player, inst)
     end
 end
 
-AddModRPCHandler("MOD_HARDMODE", "collectbtn2hm", collectcontainerready)
+-- AddModRPCHandler("MOD_HARDMODE", "collectbtn2hm", collectcontainerready)
 
 local function collectfn(inst, doer)
     if inst.components.container ~= nil then
@@ -1001,16 +1001,16 @@ local function addbuttoninfoforcontainerparams(prefab, container)
             fn = doNothingF,
             validfn = sendscontainerproxyotherworldvalidfn
         }
-        if prefab == "wardrobe" then
-            local endslotpos = container.widget.slotpos[#container.widget.slotpos - 3]
-            container.widget.reskinbtninfo2hm = {
-                --text = TUNING.MODHappyPatch.isCh and "换衣" or "Skin",
-                text = "换衣",
-                position = hasmultisort and Vector3(endslotpos.x, endslotpos.y - 57, endslotpos.z) or position3,
-                fn = reskinfn,
-                validfn = reskinvalidfn
-            }
-        end
+        -- if prefab == "wardrobe" then
+        --     local endslotpos = container.widget.slotpos[#container.widget.slotpos - 3]
+        --     container.widget.reskinbtninfo2hm = {
+        --         --text = TUNING.MODHappyPatch.isCh and "换衣" or "Skin",
+        --         text = "换衣",
+        --         position = hasmultisort and Vector3(endslotpos.x, endslotpos.y - 57, endslotpos.z) or position3,
+        --         fn = reskinfn,
+        --         validfn = reskinvalidfn
+        --     }
+        -- end
     end
 end
 
@@ -1088,24 +1088,24 @@ AddClassPostConstruct(
                                 widget.sortbtninfo2hm,
                                 Vector3(pos.x + 98, pos.y, pos.z)
                         )
-                        if hasmultisort then
-                            addbutton(
-                                    self.bottomrow,
-                                    overflow.inst,
-                                    self.owner,
-                                    "multisortbutton2hm",
-                                    widget.multisortbtninfo2hm,
-                                    Vector3(pos.x + 168, pos.y, pos.z)
-                            )
-                        end
-                        addbutton(
-                                self.bottomrow,
-                                overflow.inst,
-                                self.owner,
-                                "collectbutton2hm",
-                                widget.collectbtninfo2hm,
-                                hasmultisort and Vector3(pos.x + 238, pos.y, pos.z) or Vector3(pos.x + 168, pos.y, pos.z)
-                        )
+                        -- if hasmultisort then
+                        --     addbutton(
+                        --             self.bottomrow,
+                        --             overflow.inst,
+                        --             self.owner,
+                        --             "multisortbutton2hm",
+                        --             widget.multisortbtninfo2hm,
+                        --             Vector3(pos.x + 168, pos.y, pos.z)
+                        --     )
+                        -- end
+                        -- addbutton(
+                        --         self.bottomrow,
+                        --         overflow.inst,
+                        --         self.owner,
+                        --         "collectbutton2hm",
+                        --         widget.collectbtninfo2hm,
+                        --         hasmultisort and Vector3(pos.x + 238, pos.y, pos.z) or Vector3(pos.x + 168, pos.y, pos.z)
+                        -- )
                     end
                 end
             end
@@ -1122,23 +1122,23 @@ AddClassPostConstruct(
                 if not self.button and not widget.buttoninfo and widget.sortbtninfo2hm and widget.collectbtninfo2hm then
                     -- 整理
                     addbutton(self, container, doer, "sortbutton2hm", widget.sortbtninfo2hm)
-                    if
-                    container.prefab == "wardrobe" and widget.reskinbtninfo2hm and
-                            container:HasTag("wardrobecontainer2hm")
-                    then
-                        -- 换装
-                        addbutton(self, container, doer, "reskinbutton2hm", widget.reskinbtninfo2hm)
-                    end
-                    if container:HasTag("pocketdimension_container") and widget.exchangebtninfo2hm then
-                        -- 穿越
-                        addbutton(self, container, doer, "exchangebutton2hm", widget.exchangebtninfo2hm)
-                    else
-                        -- 跨整和跨收
-                        if hasmultisort and widget.multisortbtninfo2hm then
-                            addbutton(self, container, doer, "multisortbutton2hm", widget.multisortbtninfo2hm)
-                        end
-                        addbutton(self, container, doer, "collectbutton2hm", widget.collectbtninfo2hm)
-                    end
+                    -- if
+                    -- container.prefab == "wardrobe" and widget.reskinbtninfo2hm and
+                    --         container:HasTag("wardrobecontainer2hm")
+                    -- then
+                    --     -- 换装
+                    --     addbutton(self, container, doer, "reskinbutton2hm", widget.reskinbtninfo2hm)
+                    -- end
+                    -- if container:HasTag("pocketdimension_container") and widget.exchangebtninfo2hm then
+                    --     -- 穿越
+                    --     addbutton(self, container, doer, "exchangebutton2hm", widget.exchangebtninfo2hm)
+                    -- else
+                    --     -- 跨整和跨收
+                    --     if hasmultisort and widget.multisortbtninfo2hm then
+                    --         addbutton(self, container, doer, "multisortbutton2hm", widget.multisortbtninfo2hm)
+                    --     end
+                    --     addbutton(self, container, doer, "collectbutton2hm", widget.collectbtninfo2hm)
+                    -- end
                 end
                 -- if morefar then
                 --     self:MoveToFront()
@@ -1174,46 +1174,46 @@ AddClassPostConstruct(
         end
 )
 
-local function onopenwardrobe(inst)
-    if inst.components.wardrobe then
-        inst.components.wardrobe:SetCanUseAction(true)
-    end
-end
+-- local function onopenwardrobe(inst)
+--     if inst.components.wardrobe then
+--         inst.components.wardrobe:SetCanUseAction(true)
+--     end
+-- end
 
-local function onclosewardrobe(inst)
-    if inst.components.wardrobe then
-        inst.components.wardrobe:SetCanUseAction(false)
-    end
-end
+-- local function onclosewardrobe(inst)
+--     if inst.components.wardrobe then
+--         inst.components.wardrobe:SetCanUseAction(false)
+--     end
+-- end
 
 -- 妥协衣柜处理
-AddPrefabPostInit(
-        "wardrobe",
-        function(inst)
-            if not TheWorld.ismastersim then
-                return
-            end
-            if inst.components.container and inst.components.wardrobe and inst.components.channelable then
-                inst:AddTag("wardrobecontainer2hm")
-                inst.components.wardrobe:SetCanUseAction(false)
-                inst.components.channelable:SetEnabled(false)
-                local oldonopen = inst.components.container.onopenfn
-                inst.components.container.onopenfn = function(inst, ...)
-                    if oldonopen then
-                        oldonopen(inst, ...)
-                    end
-                    onopenwardrobe(inst)
-                end
-                local oldonclose = inst.components.container.onclosefn
-                inst.components.container.onclosefn = function(inst, ...)
-                    if oldonclose then
-                        oldonclose(inst, ...)
-                    end
-                    onclosewardrobe(inst)
-                end
-            end
-        end
-)
+-- AddPrefabPostInit(
+--         "wardrobe",
+--         function(inst)
+--             if not TheWorld.ismastersim then
+--                 return
+--             end
+--             if inst.components.container and inst.components.wardrobe and inst.components.channelable then
+--                 inst:AddTag("wardrobecontainer2hm")
+--                 inst.components.wardrobe:SetCanUseAction(false)
+--                 inst.components.channelable:SetEnabled(false)
+--                 local oldonopen = inst.components.container.onopenfn
+--                 inst.components.container.onopenfn = function(inst, ...)
+--                     if oldonopen then
+--                         oldonopen(inst, ...)
+--                     end
+--                     onopenwardrobe(inst)
+--                 end
+--                 local oldonclose = inst.components.container.onclosefn
+--                 inst.components.container.onclosefn = function(inst, ...)
+--                     if oldonclose then
+--                         oldonclose(inst, ...)
+--                     end
+--                     onclosewardrobe(inst)
+--                 end
+--             end
+--         end
+-- )
 
 -- if morefar then
 --     local disableClose = false

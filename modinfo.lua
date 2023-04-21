@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "9.6.0.0"
+version = "9.6.0.1"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1414,7 +1414,9 @@ configuration_options = {
         },
         default = false,
     },
-    -- AddOptionHeader("璇儿补丁"),
+    AddOptionHeader("璇儿补丁"),
+    AddOption("xuaner_patches_switch", "总开关", "是否开启璇儿补丁", false),
+    AddOption("xuaner_packer_limit_switch", "璇儿打包限制", "禁止打包一些公用物品", true),
     -- {
     --     name = "xuaner_patch",
     --     label = "璇儿补丁",

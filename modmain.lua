@@ -225,6 +225,10 @@ end
 if GetModConfigData("kurumi_patches_switch") then
     modimport("scripts/kurumi_patches.lua")
 end
+-- 璇儿
+if GetModConfigData("xuaner_patches_switch") then
+    modimport("scripts/xuaner_patches.lua")
+end
 -- 士条怜
 if modenable("士条怜") then
     modimport("scripts/rei_patches.lua")

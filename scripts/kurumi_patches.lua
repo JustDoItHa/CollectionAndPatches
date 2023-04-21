@@ -24,6 +24,7 @@ if GetModConfigData("kurumi_packer_limit_switch") then
                     or target.prefab == "elecourmaline" --电器台
                     or target.prefab == "elecourmaline_keystone" --
                     or target.prefab == "moondungeon" --月的地下城
+                    or target.prefab == "siving_thetree" --子圭神木岩
 
                     or target.prefab == "myth_rhino_desk"--三犀牛台
                     or target.prefab == "myth_chang_e"--嫦娥
@@ -46,9 +47,9 @@ if GetModConfigData("kurumi_packer_limit_switch") then
                     or target.prefab == "ntex_other_lz" --逆天而行修仙龙柱
             then
                 return false;
-            else
-                return oldCanPackFn(inst, target);
             end
+            return oldCanPackFn(inst, target);
+
         end
 
     end
