@@ -2011,6 +2011,7 @@ configuration_options = {
     AddConfigOption("remove_aria_blackhole", "aria的深空黑点", "让aria的深空黑点消失！", disappear_magic, 0),
     AddConfigOption("remove_elaina_bq", "伊蕾娜的释槐留仙裙", "让伊蕾娜的释槐留仙裙消失！", disappear_magic, -1),
     AddConfigOption("remove_abigail_williams_black_gold", "阿比盖尔威廉姆斯的暗金", "让阿比盖尔威廉姆斯的暗金消失！", disappear_magic, -1),
+    AddConfigOption("remove_abigail_williams_psionic_bobbin_c", "阿比盖尔威廉姆斯的彩虹线轴", "让阿比盖尔威廉姆斯的彩虹线轴消失！", disappear_magic, 0),
     AddConfigOption("remove_abigail_williams_ab_lnhx", "阿比盖尔威廉姆斯的灵能核心", "让阿比盖尔威廉姆斯的灵能核心消失！", disappear_magic, -1),
     AddConfigOption("remove_abigail_williams_starry_bush", "阿比盖尔威廉姆斯的星空矿从", "让阿比盖尔威廉姆斯的星空矿从消失！", disappear_magic, -1),
     AddConfigOption("remove_abigail_williams_atrium_light_moon", "阿比盖尔威廉姆斯的月之灯柱", "让阿比盖尔威廉姆斯的月之灯柱消失！", disappear_magic, 0),
