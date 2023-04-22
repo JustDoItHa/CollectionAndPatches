@@ -85,6 +85,15 @@ if GetModConfigData("ab_knot_drop_limit") then
         --     end)
         -- end)
 
+        AddPrefabPostInit("ab_portablespicer_item", function(inst)
+            if inst.components.trader == nil or inst.components.trader.onaccept == nil then return end
+            inst.components.trader.onaccept = function(inst,giver,item,...)
+                giver.components.talker:Say("为什么呢？")
+                if inst.components.trader.deleteitemonaccept == false then
+                    giver.components.inventory.GiveItem(item)
+                end
+            end
+        end)
         AddPrefabPostInit("ab_sword", function(inst)
             if inst.components.trader == nil or inst.components.trader.onaccept == nil then return end
             inst.components.trader.onaccept = function(inst,giver,item,...)
@@ -247,17 +256,29 @@ local forbidItem = {
     "myth_plant_infantree_trunk",
     "kemomimi_boss_ds",
 }
-
+local ab_t = GetModConfigData("ab_t")
+local ab_ty = GetModConfigData("ab_ty")
 if MOD_RPC_HANDLERS["ab_recipelist"] and MOD_RPC["ab_recipelist"] and MOD_RPC["ab_recipelist"]["ab_recipelist"] and MOD_RPC["ab_recipelist"]["ab_recipelist"].id then
     local old_ab_recipelist = MOD_RPC_HANDLERS["ab_recipelist"][MOD_RPC["ab_recipelist"]["ab_recipelist"].id];
     MOD_RPC_HANDLERS["ab_recipelist"][MOD_RPC["ab_recipelist"]["ab_recipelist"].id] = function(inst, recipename, isproduct, ...)
 
         if recipename == 1 and TUNING.AB_CHAONENGQUANXIAN then
+            if TheWorld.state.cycles + 1 < ab_t then 
+                if ab_t == -1 then inst.components.talker:Say("永久封禁") return end
+                inst.components.talker:Say("桃源"..ab_t.."天后解锁") 
+                return
+            end
             for k, v in pairs(forbidItem) do
                 if isproduct == v then
                     inst.components.talker:Say("这东西不能用这个方式获得哦！")
                     return
                 end
+            end
+        elseif recipename == 2 then
+            if TheWorld.state.cycles + 1 < ab_ty then 
+                if ab_ty == -1 then inst.components.talker:Say("永久封禁") return end
+                inst.components.talker:Say("桃源"..ab_ty.."天后解锁")
+                return
             end
         end
 

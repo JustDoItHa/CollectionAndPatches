@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "9.7.0.3"
+version = "9.7.0.4"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1406,6 +1406,8 @@ configuration_options = {
     },
     AddOptionHeader("奇幻降临补丁"),
     AddOption("ab_patches_switch", "总开关", "是否开启奇幻降临补丁", false),
+    AddConfigOption("ab_t", "限制阿比日记超能权限", "限制世界多少天后可以使用", disappear_magic, 0),
+    AddConfigOption("ab_ty", "限制阿比桃源", "限制世界多少天后可以使用", disappear_magic, 0),
     AddOption("ab_knot_drop_limit", "纽结：降临-掉落数量限制", "限制奇幻降临扭结碎片的掉落最大值及自动堆叠", false),
     AddOption("ab_packer_limit", "阿比打包限制", "禁止打包一些公用物品", true),
 

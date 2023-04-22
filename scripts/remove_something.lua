@@ -357,11 +357,11 @@ if MOD_RPC_HANDLERS["ab_recipelist"] and MOD_RPC["ab_recipelist"] and MOD_RPC["a
                 end
             end
         end
-        local black_gold = GetModConfigData("remove_abigail_williams_black_gold")
-        if recipename == 1 and TUNING.AB_CHAONENGQUANXIAN and TheWorld.state.cycles + 1 < black_gold then
-            inst.components.talker:Say("随暗金天数解锁")
-            return
-        end
+        -- local black_gold = GetModConfigData("remove_abigail_williams_black_gold")
+        -- if recipename == 1 and TUNING.AB_CHAONENGQUANXIAN and TheWorld.state.cycles + 1 < black_gold then
+        --     inst.components.talker:Say("随暗金天数解锁")
+        --     return
+        -- end
         if old_ab_recipelist then old_ab_recipelist(inst, recipename, isproduct, ...) end
     end
 end
