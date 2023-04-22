@@ -33,11 +33,12 @@ local function modenable(name)
     return false
 end
 --- 抄的
-function keepNDecimalPlaces(decimal, n) -----------------------四舍五入保留n位小数的代码
-if type(decimal) ~= "number" then
-    print('四舍五入错误',decimal)
-    return
-end
+function keepNDecimalPlaces(decimal, n)
+    -----------------------四舍五入保留n位小数的代码
+    if type(decimal) ~= "number" then
+        print('四舍五入错误', decimal)
+        return
+    end
     n = n or 0
     local h = math.pow(10, n)
     decimal = math.floor((decimal * h) + 0.5) / h
@@ -81,14 +82,14 @@ TUNING.FUNCTIONAL_MEDAL_ENABLE = modenable({ "1909182187", "能力勋章", "Func
 TUNING.YEYU_NILXIN_ENABLE = modenable({ "2736985627", "2626800998", "夜雨心空" })
 TUNING.QIONG_ENABLE = modenable({ "1638724235", "小穹" })
 TUNING.YEYU_NILXIN_XIUXIAN_ENABLE = modenable({ "2736985627", "2626800998", "夜雨心空" }) and modenable("修仙世界额外")
-TUNING.ELAINA_ENABLE = modenable({"2578692071", "魔女之旅"})
+TUNING.ELAINA_ENABLE = modenable({ "2578692071", "魔女之旅" })
 TUNING.SORA_ENABLE = modenable("1638724235")
-TUNING.ARIA_CRYSTAL_ENABLE = modenable({"2418617371", "Aria Crystal", "Aria Crystal", "Aria", "艾丽娅", "艾丽娅·克莉丝塔露"})
-TUNING.UI_DRAGGABLE_ENABLE = modenable({"2885137047", "UI拖拽缩放"})
-TUNING.QIHUANJIANGLIN_ENABLE = modenable({"2867435690", "2790273347", "奇幻降临：永恒终焉", "永恒终焉"}) or modenable({"2898657309", "奇幻降临：第四人称", "第四人称"}) or modenable({"2965155245", "第四人称：主线重载", "第四人称"})
-TUNING.HEAP_OF_FOOD_ENABLE = modenable({"2334209327", "Heap of Foods"})
-TUNING.INTERESTING_TUMBLEWEED_ENABLE = modenable({"1944492666", "Interesting Tumbleweed"})
-TUNING.MAUSER_RIFLE_BAYONET_ENABLE = modenable({"955048205", "Mauser Rifle & Bayonet"})
+TUNING.ARIA_CRYSTAL_ENABLE = modenable({ "2418617371", "Aria Crystal", "Aria Crystal", "Aria", "艾丽娅", "艾丽娅·克莉丝塔露" })
+TUNING.UI_DRAGGABLE_ENABLE = modenable({ "2885137047", "UI拖拽缩放" })
+TUNING.QIHUANJIANGLIN_ENABLE = modenable({ "2867435690", "2790273347", "奇幻降临：永恒终焉", "永恒终焉" }) or modenable({ "2898657309", "2958351483", "奇幻降临：第四人称", "第四人称" }) or modenable({ "2965155245", "第四人称：主线重载", "第四人称" })
+TUNING.HEAP_OF_FOOD_ENABLE = modenable({ "2334209327", "Heap of Foods" })
+TUNING.INTERESTING_TUMBLEWEED_ENABLE = modenable({ "1944492666", "Interesting Tumbleweed" })
+TUNING.MAUSER_RIFLE_BAYONET_ENABLE = modenable({ "955048205", "Mauser Rifle & Bayonet" })
 
 
 --修复标签问题
@@ -96,7 +97,7 @@ if GetModConfigData("beta_function_switch") and GetModConfigData("fix_tags_overf
     modimport("scripts/tags_for_additional.lua")
     --引用风铃code
     modimport("scripts/moretags.lua")
-    for k,v in pairs(additional_tags_to_fix) do
+    for k, v in pairs(additional_tags_to_fix) do
         RegTag(v)
     end
 end
@@ -255,7 +256,7 @@ if GetModConfigData("improve_mushroom_planters_switch") then
 end
 
 --简单血量条
-if GetModConfigData("simple_health_bar_switch") and (not GetModConfigData("epic_health_bar_switch"))then
+if GetModConfigData("simple_health_bar_switch") and (not GetModConfigData("epic_health_bar_switch")) then
     modimport("scripts/simple_health_bar.lua")
 end
 if GetModConfigData("epic_health_bar_switch") then
@@ -274,7 +275,7 @@ if GetModConfigData("bigbox_switch") then
     modimport("scripts/huge_box_main.lua")
 end
 --show me 不与信息显示同时开启
-if GetModConfigData("show_me_switch") and (not ( GetModConfigData("cap_show_info_switch") or modenable("666155465") )) then
+if GetModConfigData("show_me_switch") and (not (GetModConfigData("cap_show_info_switch") or modenable("666155465"))) then
     modimport("scripts/show_me.lua")
 end
 
@@ -396,7 +397,7 @@ end
 if GetModConfigData("player_authority_switch") then
     modimport("modules/authority/authority_main.lua")
 end
-if  (not GetModConfigData("player_authority_switch")) and GetModConfigData("authority_hexie_switch") then
+if (not GetModConfigData("player_authority_switch")) and GetModConfigData("authority_hexie_switch") then
     modimport("modules/authority_hexie/authority_hexie_main.lua")
 end
 
@@ -498,7 +499,6 @@ if GetModConfigData("word_migrate_drop_sync_switch") or GetModConfigData("charac
     modimport("scripts/word_migrate_drop.lua")
 end
 
-
 ----处理下重复加组件的问题 不知道放哪里 先写这里
 AddGlobalClassPostConstruct("entityscript", "EntityScript", function(self)
     local old_add = self.AddComponent
@@ -507,7 +507,7 @@ AddGlobalClassPostConstruct("entityscript", "EntityScript", function(self)
         if self.lower_components_shadow[lower_name] ~= nil then
             return
         end
-        
+
         local cmp = old_add(self, name, ...)
 
         return cmp
