@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "9.7.0.1"
+version = "9.7.0.2"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -496,7 +496,7 @@ for k = 1, #corlors do
     show_info_edge_color_options[k] = { description = corlors[k], data = k }
 end
 
-character_word_forbidden = {
+local character_word_forbidden = {
     ["210101"] = {"aria","elaina","yuki","kurumi","xxx3","xxx_wuma",},
     ["210102"] = {"aria","elaina","yuki","kurumi","xxx3","xxx_wuma",},
 }
