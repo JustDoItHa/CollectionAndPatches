@@ -496,6 +496,11 @@ for k = 1, #corlors do
     show_info_edge_color_options[k] = { description = corlors[k], data = k }
 end
 
+character_word_forbidden = {
+    ["210101"] = {"aria","elaina","yuki","kurumi","xxx3","xxx_wuma",},
+    ["210102"] = {"aria","elaina","yuki","kurumi","xxx3","xxx_wuma",},
+}
+
 configuration_options = {
     AddOptionHeader(""),
     --TheNet:SetDefaultMaxPlayers(16)
@@ -640,8 +645,8 @@ configuration_options = {
                                                             { description = "关闭", data = false }, }, false),
     AddConfigOption("backpack_ice", "背包保鲜", "", { { description = "开启", data = true, hover = "背包包保鲜,保鲜度同冰箱" },
                                                       { description = "关闭", data = false }, }, false),
-    AddConfigOption("piggyback_ice", "小猪包保鲜", "",{ { description = "开启", data = true, hover = "小猪包保鲜,保鲜度同冰箱" },
-                                                     { description = "关闭", data = false }, }, false),
+    AddConfigOption("piggyback_ice", "小猪包保鲜", "", { { description = "开启", data = true, hover = "小猪包保鲜,保鲜度同冰箱" },
+                                                         { description = "关闭", data = false }, }, false),
     AddConfigOption("saltlicker", "盐盒", "", { { description = "正常腐烂", data = 0.25 },
                                                 { description = "保鲜", data = 0 },
                                                 { description = "反鲜", data = -5 }, }, 0.25),
@@ -679,11 +684,11 @@ configuration_options = {
     AddOptionHeader("陷阱增强"),
     AddOption("trap_enhance", "陷阱增强-总开关", "设置是否开启陷阱增强功能", false),
     AddOption("stack", "狗牙陷阱可堆叠", "狗牙陷阱可堆叠", true),
-    AddConfigOption("trap_uses", "狗牙陷阱耐久修改", "",{ { description = "无修改(默认10次)", data = 0, hover = "默认" },
-                                                       { description = "2倍", data = 16 },
-                                                       { description = "8倍", data = 64 },
-                                                       { description = "32倍", data = 256 },
-                                                       { description = "无限", data = 9999999 }, }, 0),
+    AddConfigOption("trap_uses", "狗牙陷阱耐久修改", "", { { description = "无修改(默认10次)", data = 0, hover = "默认" },
+                                                           { description = "2倍", data = 16 },
+                                                           { description = "8倍", data = 64 },
+                                                           { description = "32倍", data = 256 },
+                                                           { description = "无限", data = 9999999 }, }, 0),
     AddConfigOption("trap_teeth_damage", "狗牙陷阱伤害修改", "尽量不要修改哦，小心丧失游戏乐趣~", { { description = "无修改(默认60)", data = 0, hover = "默认" },
                                                                                                    { description = "2倍(120)", data = 120 },
                                                                                                    { description = "4倍(240)", data = 240 },
@@ -3017,7 +3022,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("container_o
     { description = "禁用", data = false },
     { description = "部分", data = -1 },
     { description = "全部开启", data = -2 },
-},true)
+}, true)
 configuration_options[#configuration_options + 1] = AddOption("fix_tags_overflow_switch", "标签溢出问题", "修复标签溢出问题", true)
 configuration_options[#configuration_options + 1] = AddOption("give_item_optimize_switch", "拾取优化", "自动寻找打开的容器进行放入", false)
 configuration_options[#configuration_options + 1] = AddOption("fix_heap_of_food_switch", "修复HeapOfFood问题", "修复HeapOfFood问题", false)
@@ -3031,3 +3036,7 @@ configuration_options[#configuration_options + 1] = AddOption("cancel_sync_cycle
 configuration_options[#configuration_options + 1] = AddOption("time_sync_with_master", "时间同步", "开启:与主世界天数一致\n 关闭:独立的天数计量", true)
 configuration_options[#configuration_options + 1] = AddOptionHeader("单世界特殊设置")
 configuration_options[#configuration_options + 1] = AddOption("word_migrate_drop_sync_switch", "世界物品不可带出", "开启后，世界种的物品只能带进不能带出", false)
+--character_word_forbidden
+configuration_options[#configuration_options + 1] = AddConfigOption("character_word_forbidden_option", "禁止一些角色进入某个世界", "防止重选角色发生\n特殊服务器使用，一般选择关闭",
+        { { description = "关闭", data = false },
+          { description = "自由配置", data = character_word_forbidden } }, false)
