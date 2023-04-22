@@ -57,6 +57,940 @@ end
 --Если алиас начинается с маленькой буквы, то он обязан быть длиной в 1 букву. Если с большой, то 2 (вторая буква может быть любого регистра).
 
 
+--Основная функция получения описания.
+local function GetTestString(item,viewer) --Отныне форкуемся от Tell Me, ибо всё сложно.
+	--line_cnt = 0
+	desc_table = {} --старый desc отменяется
+
+	is_admin = nil
+	local prefab = item.prefab
+	local c=item.components
+	local has_owner = false --Выводим инфу о владельце лишь ОДИН раз!
+	if (prefab=="rock1" or prefab=="rock2") and not viewer.has_AlwaysOnStatus then
+		--if not is_AlwaysOnStatus then --TODO: Do not check! NB!
+		local w=_G.TheWorld.state
+		local tt=round2(w.temperature,1)
+		if w.iswinter then cn("S1")
+		elseif w.issummer then cn("S2")
+		elseif w.isspring then cn("S3")
+		elseif w.isautumn then cn("S4")
+		end
+		cn("remaining_days",w.remainingdaysinseason)
+		cn("temperature",tt)
+		--..MY_STRINGS["remaining_days"][2]..": "..w.remainingdaysinseason.."\n"
+		--.."t "..(tt>=0 and "+" or "")..tt
+		--end
+	elseif c.health and not item.grow_stage then --Health, Hunger, Sanity Bar
+		local h=c.health
+		--cheat
+		if item.is_admin then
+			cn("is_admin")
+			return desc_table[1]
+		end
+
+		if need_send_hp then --c.health
+			local mx=math.ceil(h.maxhealth-h.minhealth)
+			local cur=math.ceil(h.currenthealth-h.minhealth)
+			if cur>mx then cur=mx end
+			cn("hp",cur,mx)
+		end
+
+		if c.hunger then
+			local val = c.hunger:GetPercent()
+			--Либо голода мало, либо это вообще не игрок.
+			if (c.grogginess and val <= 0.5) or (not c.grogginess and (val > 0 or prefab ~= "beefalo")) then
+				cn("hunger",round2(c.hunger.current,0))
+			end
+		elseif item_info_mod == 0 and c.perishable ~= nil and c.perishable.updatetask ~= nil then --Here "Perishable" means "Hunger".
+			local time = GetPerishTime(item, c)
+			if time ~= nil then
+				cn("will_die",round2(time/TUNING.TOTAL_DAY_TIME,1))
+			end
+		end
+		if c.sanity and c.sanity:GetPercent()<=0.5 then
+			local sanity = round2(math.floor(c.sanity:GetPercent()*100+0.5),1)
+			cn("sanity_character",sanity)
+		end
+		if c.follower then
+			if c.follower.leader and c.follower.leader:IsValid() and c.follower.leader:HasTag("player")
+					and c.follower.leader.name and c.follower.leader.name ~= ""
+			then
+				cn("owner",c.follower.leader.name)
+				has_owner = true
+			end
+			if c.follower.maxfollowtime then
+				mx = c.follower.maxfollowtime
+				cur = math.floor(c.follower:GetLoyaltyPercent()*mx+0.5)
+				if cur>0 then
+					cn("loyal",cur,mx)
+				end
+			end
+		end
+		--[[if c.locomotor and type(c.locomotor.walkspeed)=="number" then
+            local speed = (c.locomotor.walkspeed + (type(c.locomotor.bonusspeed)=="number" and c.locomotor.bonusspeed or 0))
+                / TUNING.WILSON_WALK_SPEED
+            if speed>1.01 or speed<0.99 then
+                desc = cn(desc,"x"..round2(speed,2),"speed")
+            end
+        end --]]
+		if item.kills and item.kills>0 then
+			cn(item.kills==1 and "kill" or "kills",item.kills)
+		end
+		if item.aggro and item.aggro>0 then
+			cn("aggro",item.aggro)
+		end
+		--Процент увеличения урона. Например, у Вигфрид +25%
+		if c.combat and c.combat.damagemultiplier and c.combat.damagemultiplier ~= 1 then
+			local perc = c.combat.damagemultiplier - 1
+			cn("dmg_character",round2(perc*100,0))
+		end
+		--Урон
+		if c.combat and c.combat.defaultdamage and c.combat.defaultdamage > 0 then
+			--Игнорируем всех, чья сила равна 10 или меньше.
+			local com = c.combat
+			local dmg = com.defaultdamage
+			local pvp_perc = tonumber(com.playerdamagepercent) --modifier for NPC dmg on players, only works with NO WEAPON
+			if pvp_perc then
+				if pvp_perc == 1 or not is_PvP and prefab == "abigail" then
+					pvp_perc = nil
+				else
+					pvp_perc = round2((pvp_perc - 1)*100);
+				end
+			end
+			cn("strength", math.floor( dmg + 0.5), pvp_perc)
+			if com.areahitdamagepercent then --AoE
+				cn("aoe", math.floor( dmg * com.areahitdamagepercent + 0.5))
+			end
+		end
+		if h.absorb~=0 or h.playerabsorb~=0 then
+			local perc = 1-(1-h.absorb)*(1-h.playerabsorb)
+			cn("armor_character",round2(perc*100,0))
+		end
+		if item.asunaheal_score and prefab == "asuna" and TUNING.ASUNA_HEAL_SCORE_SWORD
+				and item.asunaheal_score < TUNING.ASUNA_HEAL_SCORE_SWORD
+		then
+			local asuna_proof = round2(math.floor((item.asunaheal_score/TUNING.ASUNA_HEAL_SCORE_SWORD)*100+0.5),0)
+			if asuna_proof > 99 then
+				asuna_proof = 99
+			end
+			table.insert(desc_table, "@Asuna Proof: "..asuna_proof.."%")
+		end
+		--inst.components.domesticatable:GetObedience()
+		if c.domesticatable ~= nil then
+			if c.domesticatable.GetObedience ~= nil then
+				local obedience = c.domesticatable:GetObedience()
+				if obedience ~= 0 then
+					cn("obedience",round2(obedience*100,0))
+				end
+			end
+			if c.domesticatable.GetDomestication ~= nil then
+				local domest = c.domesticatable:GetDomestication()
+				if domest ~= 0 then
+					cn("domest",round2(domest*100,0))
+				end
+			end
+		end
+		if c.growable and c.growable.GetStage then
+			local g = c.growable
+			local t = (g.pausedremaining ~= nil and math.max(0, math.floor(g.pausedremaining)))
+					or (g.targettime ~= nil and math.floor(g.targettime - _G.GetTime()))
+					or nil
+			if t then
+				local stage = g.stage ~= 1 and tonumber(g.stage) or 1;
+				local data = g.stages and g.stages[stage];
+				cn("growable",data and data.name or stage,round2(t),g.pausedremaining ~= nil and 1 or 0);
+			end
+		end
+		if c.sanityaura then
+			local s = c.sanityaura;
+			local aura_val = s.aurafn and s.aurafn(item, viewer) or s.aura
+			if aura_val then
+				if s.fallofffn then -- fallofffn but not distance
+					local fall = s.fallofffn(item, viewer, 99)
+					if fall and fall ~= 0 and (fall < 0.98 or fall > 1.02) then
+						aura_val = aura_val / fall;
+					end
+				end
+				aura_val = round2(aura_val * TUNING.TOTAL_DAY_TIME * 0.125,1) --240 hardcoded. I'm not sure what it is
+				if aura_val ~= 0 then
+					cn("sanityaura",aura_val)
+				end
+			end
+		end
+	else --elseif prefab~="rocks" and prefab~="flint" then --No rocks and flint
+		--Part 1: primary info
+		if c.stewer and c.stewer.product and c.stewer.IsCooking and c.stewer:IsCooking() then
+			local tm=round2(c.stewer.targettime-_G.GetTime(),0)
+			if tm<0 then tm=0 end
+			cn("cookpot", c.stewer.product)
+			cn("sec",tm)
+		end
+		if c.cooldown and c.cooldown.GetTimeToCharged and not c.cooldown.charged then
+			local timer = round2(c.cooldown:GetTimeToCharged(),0)
+			cn("cooldown", timer)
+		end
+		if c.growable and c.growable.GetStage then
+			local g = c.growable
+			local t = (g.pausedremaining ~= nil and math.max(0, math.floor(g.pausedremaining)))
+					or (g.targettime ~= nil and math.floor(g.targettime - _G.GetTime()))
+					or nil
+			if t then
+				local stage = g.stage ~= 1 and tonumber(g.stage) or 1;
+				local data = g.stages and g.stages[stage];
+				cn("growable",data and data.name or stage,round2(t),g.pausedremaining ~= nil and 1 or 0);
+			end
+		end
+		--Part 2: secondary info
+		if item_info_mod == 0 and c.armor and c.armor.absorb_percent and type(c.armor.absorb_percent)=="number" then
+			local r=c.armor.absorb_percent --0.8
+			local tm_buff = GetDebuffTime(viewer, 'buff_playerabsorption')
+			if tm_buff then
+				local power = TUNING[KNOWN_BUFFS.buff_playerabsorption.power]
+				if power then
+					r = r + (1 - r) * power
+				end
+			end
+			cn("armor",round2(r*100,0),tm_buff and round2(tm_buff))
+			--Support of absorption mod.
+			if item.phys and (item.phys.blunt or item.phys.pierc or item.phys.slash) then
+				local p = item.phys
+				cn("absorb",(p.blunt or 0).." / "..(p.pierc or 0).." / "..(p.slash or 0))
+			end
+			if c.armor.condition and c.armor.condition > 0 and c.armor.maxcondition then
+				cn("durability", math.floor(c.armor.condition + 0.5), math.floor(c.armor.maxcondition + 0.5))
+			end
+		end
+		if item_info_mod == 0 then
+			if item.damage and type(item.damage)=="number" and item.damage>0 then
+				cn("dmg",round2(item.damage,1))
+			elseif c.weapon ~= nil and c.weapon.damage and type(c.weapon.damage)=="number" and c.weapon.damage>0 then
+				local r = c.weapon.damage
+				local tm_buff = GetDebuffTime(viewer, 'buff_attack')
+				if tm_buff then
+					local power = TUNING[KNOWN_BUFFS.buff_attack.power]
+					if power then
+						r = r * power
+					end
+				end
+				cn("dmg",round2(r,1),tm_buff and round2(tm_buff))
+				--Support of absobtion mod.
+				if item.phys_dmg then
+					local p = item.phys_dmg == "blunt" and "Blunt" or (
+							item.phys_dmg == "pierc" and "Piercing" or (
+									item.phys_dmg == "slash" and "Slashing" or nil
+							)
+					)
+					if p ~= nil then
+						table.insert(desc_table, "@Type: "..p)
+					end
+				end
+			elseif c.zupalexsrangedweapons ~= nil
+					and c.zupalexsrangedweapons.GetArrowBaseDamage ~= nil
+					and type(c.zupalexsrangedweapons.GetArrowBaseDamage) == "function"
+			then
+				local dmg = c.zupalexsrangedweapons:GetArrowBaseDamage()
+				if dmg ~= nil and type(dmg) == "number" and dmg > 0 then
+					cn("dmg",round2(dmg,1))
+				end
+			end
+		end
+		if item_info_mod == 0 then
+			if c.weapon and c.weapon.damage and type(c.weapon.attackrange)=="number" and c.weapon.attackrange>0.3 then
+				cn("range",round2(c.weapon.attackrange,1))
+			elseif c.projectile and c.projectile.damage and type(c.projectile.range)=="number" and c.projectile.range>0.3 then
+				cn("range",round2(c.projectile.range,1))
+			elseif c.combat and c.combat.damage and type(c.combat.attackrange)=="number" and c.combat.attackrange>2.5 then
+				cn("range",round2(c.combat.attackrange,1))
+			end
+		end
+		if c.tool then
+			local found = nil
+			for k,v in pairs(c.tool.actions) do
+				if k == _G.ACTIONS.HAMMER or k == _G.ACTIONS.CHOP or k == _G.ACTIONS.MINE then
+					found = true
+					break
+				end
+			end
+			if found then
+				local tm_buff = GetDebuffTime(viewer, 'buff_workeffectiveness')
+				if tm_buff then
+					local power = TUNING[KNOWN_BUFFS.buff_workeffectiveness.power]
+					if power then
+						cn("effectiveness", round2(power*100), round2(tm_buff))
+					end
+				end
+			end
+		end
+		if item_info_mod == 0 and c.insulator and c.insulator.insulation and type(c.insulator.insulation)=="number" and c.insulator.insulation~=0 then
+			if c.insulator.SetInsulationEx then --ServerMod
+				local winter,summer = c.insulator:GetInsulationEx()
+				if winter~=0 then
+					cn("warm",round2(winter,0))
+				end
+				if summer~=0 then
+					cn("summer",round2(summer,0))
+				end
+			elseif c.insulator.GetInsulation then
+				local insul,typ = c.insulator:GetInsulation()
+				if insul ~= 0 then
+					if typ == _G.SEASONS.WINTER then
+						cn("warm",round2(insul,0))
+					elseif typ == _G.SEASONS.SUMMER then
+						cn("summer",round2(insul,0))
+					end
+				end
+			end
+		end
+		if item_info_mod == 0 then
+			if c.dapperness and c.dapperness.dapperness and type(c.dapperness.dapperness)=="number" and c.dapperness.dapperness~=0 then
+				local sanity = round2(c.dapperness.dapperness*54,1)
+				cn("sanity",sanity)
+			elseif c.equippable and c.equippable.dapperness and type(c.equippable.dapperness)=="number" and c.equippable.dapperness~=0 then
+				local sanity = round2(c.equippable.dapperness*54,1)
+				cn("sanity",sanity)
+			elseif prefab == "flower_evil" then
+				cn("sanity",-_G.TUNING.SANITY_TINY,1)
+			end
+		end
+		if c.sanityaura then
+			local s = c.sanityaura;
+			local aura_val = s.aurafn and s.aurafn(item, viewer) or s.aura
+			if aura_val then
+				if s.fallofffn then -- fallofffn but not distance
+					local fall = s.fallofffn(item, viewer, 99)
+					if fall and fall ~= 0 and (fall < 0.98 or fall > 1.02) then
+						aura_val = aura_val / fall;
+					end
+				end
+				aura_val = round2(aura_val * TUNING.TOTAL_DAY_TIME * 0.125,1)
+				if aura_val ~= 0 then
+					cn("sanityaura",aura_val)
+				end
+			end
+		end
+		if c.equippable and c.equippable.walkspeedmult and c.equippable.walkspeedmult ~= 1 then
+			local added_speed = math.floor((c.equippable.walkspeedmult - 1)*100+0.5)
+			cn("speed",added_speed)
+		end
+		if item_info_mod == 0 then
+			if c.dapperness and c.dapperness.mitigates_rain and prefab ~= "umbrella" then
+				cn("waterproof","90")
+			elseif item.protect_from_rain then
+				cn("waterproof",round2((item.protect_from_rain)*100,0))
+			elseif c.waterproofer then
+				local effectiveness = _G.tonumber(c.waterproofer.effectiveness) or 0
+				if effectiveness ~= 0 then
+					cn("waterproof",round2((effectiveness)*100,0))
+				else
+					--desc = (desc=="" and "" or (desc.."\n")).."Waterproofer"
+				end
+			end
+		end
+		if c.oar and c.oar.force and tonumber(c.oar.force) then
+			cn('force',round2(c.oar.force*100))
+		end
+		--if c.striker and c.striker.chance and type(c.striker.chance) == "number" then
+		--	desc = cn(desc,round2((c.striker.chance)*100,0).."%","striker")
+		--end
+		--if c.tinder and c.tinder.tinder and c.tinder.GetTinder then
+		--	local power = c.tinder:GetTinder()
+		--	if power >= 0.005 then
+		--		desc = cn(desc,round2(power*100,0).."%","tinder")
+		--	end
+		--end
+		if item_info_mod == 0 and c.edible and not is_DisplayFoodValues then
+			local can_eat = false
+			if viewer and viewer.components.eater then
+				can_eat = viewer.components.eater:CanEat(item)
+			end
+			if can_eat then
+				local ed = c.edible
+				local should_Estimate_Stale = viewer and viewer.should_Estimate_Stale --client priority
+				if not should_Estimate_Stale then
+					should_Estimate_Stale = food_estimation ~= 0
+				end
+				local hp,hg,sn
+				if should_Estimate_Stale and ed.GetSanity then
+					--print("Estimate")
+					hp=round2(ed:GetHealth(viewer),1)
+					hg=round2(ed:GetHunger(viewer),1)
+					sn=round2(ed:GetSanity(viewer),1)
+				else
+					--print("Not Estimate")
+					hp=round2(ed.healthvalue,1)
+					hg=round2(ed.hungervalue,1)
+					sn=round2(ed.sanityvalue,1)
+				end
+				if viewer ~= nil and viewer.FoodValuesChanger ~= nil then --Особая функция, призвание которой - менять еду при съедании.
+					--print("+")
+					--Правда, здесь мы можешь слегка подсмотреть ее результаты до поедания.
+					local hp2, hg2, sn2 = viewer:FoodValuesChanger(item)
+					if sn2 ~= nil then
+						--print("++")
+						hp=round2(hp2,1)
+						hg=round2(hg2,1)
+						sn=round2(sn2,1)
+					end
+				end
+				local base_mult = viewer ~= nil and viewer.components.foodmemory ~= nil and viewer.components.foodmemory:GetFoodMultiplier(prefab) or 1
+				do --check multiplier
+					local hp_mult = (ed.healthabsorption or 1) * base_mult
+					local hg_mult = (ed.hungerabsorption or 1) * base_mult
+					local sn_mult = (ed.sanityabsorption or 1) * base_mult
+					hp = hp * hp_mult
+					hg = hg * hg_mult
+					sn = sn * sn_mult
+				end
+				if prefab == "petals_evil" then
+					sn = round2(sn - _G.TUNING.SANITY_TINY,1)
+				end
+				if hp > 0 then
+					hp = "+" .. tostring(hp)
+				end
+				if hg > 0 then
+					hg = "+" .. tostring(hg)
+				end
+				if sn > 0 then
+					sn = "+" .. tostring(sn)
+				end
+				cn("food",hg,sn,hp)
+				if ed.temperaturedelta ~= 0 then -- food has temperature
+					if ed.temperatureduration ~= 0 and ed.chill < 1 and viewer ~= nil and viewer.components.temperature ~= nil then
+						local delta_multiplier = 1
+						local duration_multiplier = 1
+						if ed.spice and _G.TUNING.SPICE_MULTIPLIERS[ed.spice] then
+							if _G.TUNING.SPICE_MULTIPLIERS[ed.spice].TEMPERATUREDELTA then
+								delta_multiplier = delta_multiplier + _G.TUNING.SPICE_MULTIPLIERS[ed.spice].TEMPERATUREDELTA
+							end
+							if _G.TUNING.SPICE_MULTIPLIERS[ed.spice].TEMPERATUREDURATION then
+								duration_multiplier = duration_multiplier + _G.TUNING.SPICE_MULTIPLIERS[ed.spice].TEMPERATUREDURATION
+							end
+						end
+						local delta, duration = ed.temperaturedelta * (1 - ed.chill) * delta_multiplier, ed.temperatureduration * duration_multiplier
+						cn('food_temperature',round2(delta), round2(duration))
+					end
+				end
+				if base_mult ~= 1 then --foodmemory
+					local fm = viewer.components.foodmemory
+					if fm.GetBaseFood and fm.foods then
+						local rec = fm.foods[fm:GetBaseFood(prefab)]
+						if rec then
+							local t = _G.GetTaskRemaining(rec.task)
+							cn('food_memory',round2(base_mult,2),round2(t))
+						end
+					end
+				end
+				--Spice effect
+				if ed.spice and false then
+					if ed.spice == 'SPICE_SUGAR' then --spice_sugar
+						cn("buff","Work",round2(TUNING.BUFF_WORKEFFECTIVENESS_MODIFIER,1),round2(TUNING.BUFF_WORKEFFECTIVENESS_DURATION/TUNING.TOTAL_DAY_TIME))
+					elseif ed.spice == 'SPICE_GARLIC' then --spice_garlic
+						cn("buff","Absorb",round2(TUNING.BUFF_PLAYERABSORPTION_MODIFIER + 1,1),round2(TUNING.BUFF_PLAYERABSORPTION_DURATION/TUNING.TOTAL_DAY_TIME))
+					elseif ed.spice == 'SPICE_CHILI' then --spice_chili
+						cn("buff","Attack",round2(TUNING.BUFF_ATTACK_MULTIPLIER,1),round2(TUNING.BUFF_ATTACK_DURATION/TUNING.TOTAL_DAY_TIME))
+					end
+				end
+				--Warly effects
+				for _,struct in pairs(cooking.recipes) do
+					for food,v in pairs(struct) do
+						if food == prefab then
+							if not v.prefabs then
+								break
+							end
+							for i,buff_name in ipairs(v.prefabs) do
+								local duration = nil
+								local power = nil
+								local data = KNOWN_BUFFS[buff_name]
+								if data then
+									if type(data.duration) == 'function' then
+										duration = data.duration()
+									else
+										duration=TUNING[data.duration]
+									end
+									if data.power then
+										power=TUNING[data.power]
+									end
+									if data.shift and data.power then
+										power = power + 1
+									end
+									buff_name = data.name
+								else
+									local up = buff_name:upper();
+									duration = TUNING[up .. '_DURATION']
+									power = TUNING[up .. '_MULTIPLIER'] or TUNING[up .. '_MODIFIER']
+									if buff_name:find("buff_",1,true) == 1 then
+										buff_name = buff_name:sub(6)
+									end
+									if buff_name:find("buff",#buff_name-3,true) then
+										buff_name = buff_name:sub(1,#buff_name-4)
+									end
+								end
+								if duration then
+									duration = round2(duration / TUNING.TOTAL_DAY_TIME,1)
+									cn("buff",buff_name,duration,power)
+								end
+							end
+						end
+					end
+				end
+
+
+			end
+		end
+		if item_info_mod == 0 and c.perishable ~= nil and c.perishable.updatetask ~= nil then
+			local time, fresh = GetPerishTime(item, c)
+			if time ~= nil then
+				if time < 0 then
+					if fresh then
+						if fresh < 0 then
+							--fresh = 0
+						end
+						cn("fresh",round2(fresh/TUNING.TOTAL_DAY_TIME,1))
+					end
+				elseif time ~= math.huge and time ~= -math.huge then
+					cn("perish",round2(time/TUNING.TOTAL_DAY_TIME,1))
+				end
+			end
+		end
+		if ing[prefab] and show_food_units ~= 2 then -- ==2 means that food info is forbidden on the server.
+			for k,v in pairs(ing[prefab].tags) do
+				if k~="precook" and k~="dried" then
+					cn("units_of",v,k)
+				end
+			end
+		end
+		if item_info_mod == 0 and c.healer then
+			local heal = round2(c.healer.health,1)
+			if heal == 0 then
+				if prefab == 'spider_healer_item' then
+					heal = TUNING.HEALING_MEDSMALL
+				end
+			end
+			if heal and heal ~= 0 then
+				cn("heal",heal)
+			end
+		end
+		--[[if item.grow_stage and type(item.grow_stage) == "number" then --Support Clan System mod
+            local val = math.floor(item.grow_stage+0.5)
+            desc = cn(desc,tostring(val).."%","power")
+            if IsAdmin(viewer) then
+                desc = cn(desc,item.show_stage,"show_stage",true)
+                desc = cn(desc,item.grow_stage,"grow_stage",true)
+                desc = cn(desc,item.active,"active",true)
+                desc = cn(desc,item.fuel,"fuel",true)
+            end
+        else--]]
+		if item_info_mod == 0 and c.finiteuses then
+			local mult = C_FINITEUSES_PREFAB[prefab]
+			if c.finiteuses.consumption then
+				for k,v in pairs(c.finiteuses.consumption) do
+					local new_mult = 1/v
+					if mult == nil or new_mult > mult then
+						mult = new_mult
+					end
+				end
+			end
+			if mult == nil then
+				mult = 1
+			end
+			local cur = math.floor(c.finiteuses.current * mult + 0.5)
+			if c.finiteuses.current*mult > cur then
+				cur = cur + 1
+			end
+			cn("uses_of",cur,math.floor(c.finiteuses.total * mult + 0.5))
+			--desc = (desc=="" and "" or (desc.."\n"))..cur.." use"..(cur~=1 and "s" or "").." of "..c.finiteuses.total
+		end
+		if c.temperature and c.temperature.current and type(c.temperature.current) == "number" then
+			cn("temperature",round2(c.temperature.current,1))
+		end
+		if c.fueled and c.fueled:GetPercent()>0 and (SPICIAL_STRUCTURES[prefab] or item:HasTag("structure")) then
+			cn("fuel",round2(c.fueled:GetPercent()*100,0))
+		end
+		if c.instrument and type(c.instrument.range)=="number" and c.instrument.range>0.4 then
+			cn("range",round2(c.instrument.range,0))
+		end
+		if c.crystallizable and c.crystallizable.formation --support of Krizor's mod
+				and c.crystallizable.formation.thickness
+				and type(c.crystallizable.formation.thickness)=="table"
+				and c.crystallizable.formation.thickness.current
+				and c.crystallizable.formation.thickness.current>0
+		then
+			cn("thickness",round2(c.crystallizable.formation.thickness.current,1))
+		end
+		if c.mine then
+			if c.mine.nick then
+				cn("owner",c.mine.nick)
+				has_owner = true
+			end
+			--[[if c.mine.pret and viewer and viewer.userid then
+                for k,v in pairs(c.mine.pret) do
+                    if k==viewer.userid then
+                        --desc = (desc=="" and "" or (desc.."\n")).."I can see it!"
+                        desc = cn(desc,v,"known",true)
+                        break
+                    end
+                end
+            end--]]
+		end
+		if not has_owner then
+			if item.stealable and item.stealable.owner and item.stealable.owner ~= "_?\1" then
+				cn("owner",item.stealable.owner)
+				has_owner = true
+			elseif item.owner and type(item.owner)=="string" and string.sub(item.owner,1,3) ~= "KU_" then
+				--Мы не знаем, что за имя. Но это "владелец". Так что надо вывести. И это точно не user_id.
+				cn("owner",item.owner)
+				has_owner = true
+			end
+		end
+		if c.occupiable then
+			local item = c.occupiable:GetOccupant()
+			if item then
+				local c = item.components
+				if c.perishable ~= nil and c.perishable.updatetask ~= nil then --Here "Perishable" means "Hunger".
+					local time = GetPerishTime(item, c)
+					if time ~= nil then
+						cn("will_die",round2(time/TUNING.TOTAL_DAY_TIME,1))
+					end
+				end
+			end
+		end
+		if c.dryer and c.dryer.IsDrying then
+			if c.dryer:IsDrying() and c.dryer.GetTimeToDry then
+				cn("will_dry",round2(c.dryer:GetTimeToDry()/TUNING.TOTAL_DAY_TIME,1))
+				--if c.dryer:IsPaused() then
+				--end
+			elseif c.dryer.IsDone and c.dryer:IsDone() and c.dryer.GetTimeToSpoil then
+				cn("perish",round2(c.dryer:GetTimeToSpoil()/TUNING.TOTAL_DAY_TIME,1))
+			end
+		end
+		if c.saddler then --Седло и его параметры.
+			if c.saddler.speedmult and c.saddler.speedmult ~= 0 then
+				local added_speed = math.floor((c.saddler.speedmult - 1)*100 + 0.5) -- (1.4 - 1) == 0.4
+				cn("speed",added_speed)
+			end
+			if c.saddler.bonusdamage and c.saddler.bonusdamage ~= 0 then
+				cn("dmg_bonus",round2(c.saddler.bonusdamage,1))
+			end
+		end
+		if c.tradable then
+			if c.tradable.goldvalue and c.tradable.goldvalue > 1 then
+				cn("trade_gold", c.tradable.goldvalue)
+			end
+			if c.tradable.rocktribute and c.tradable.rocktribute > 0 and _G.TheWorld.state.issummer then
+				cn("trade_rock", c.tradable.rocktribute)
+			end
+		end
+		if TUNING.PERISH_FRIDGE_MULT ~= 0.5 and item:HasTag("fridge") then --icebox etc
+			local fridge = tonumber(TUNING.PERISH_FRIDGE_MULT);
+			if fridge then
+				cn("frigde",round2(fridge,1))
+			end
+		end
+		if viewer.boat_status_task and c.repairer and c.repairer.healthrepairvalue and c.repairer.healthrepairvalue ~= 0 then
+			cn("repairer",round2(c.repairer.healthrepairvalue,2))
+		end
+		if c.harvestable then
+			local h = c.harvestable
+			if h.product and h.produce and h.maxproduce and type(h.produce)=='number' and type(h.maxproduce)=='number' then
+				local tt = tonumber(h.targettime)
+				local pt = tonumber(h.pausetime)
+				local paused = not (h.enabled and tt)
+				if tt then
+					local tm = round2(tt - GetTime(),0)
+					if tm >= 0 then
+						cn("harvest",h.product,h.produce,h.maxproduce,tm,paused and 0 or nil)
+					end
+				elseif pt then
+					cn("harvest",h.product,h.produce,h.maxproduce,round2(pt,0),0)
+				else
+					cn("harvest",h.product,h.produce,h.maxproduce)
+				end
+			end
+		end
+
+		------------------Check prefabs?----------------------
+		if prefab=="panflute" then
+			--desc = cn("power","10")
+		elseif prefab=="blowdart_sleep" then
+			--desc = cn(desc,"1","power")
+			--[[elseif prefab=="pond" and item.targettime then
+                local tm = item.targettime - _G.GetTime()
+                if tm>0 then
+                    desc = "Broken "..cn(desc,tm,"sec")
+                elseif item.broken then
+                    desc = (desc=="" and "" or (desc.."\n")).."Broken"
+                end--]]
+		elseif prefab=="pond" or prefab=="pond_mos" or prefab=="pond_cave" or prefab=="oasislake" then
+			if c.fishable and c.fishable.fishleft then
+				cn(c.fishable.fishleft==1 and "fish" or "fishes",c.fishable.fishleft)
+			end
+		elseif prefab=="aqvarium" and item.data then
+			if item.data.seeds and item.data.seeds>0 then
+				table.insert(desc_table, "@Seeds: "..tostring(item.data.seeds))
+			end
+			if item.data.meat and item.data.meat>0 then
+				table.insert(desc_table, "@Meat: "..tostring(item.data.meat))
+				--desc = cn(desc,item.data.meat,"Meat:",true)
+			end
+			local need_wet= item.data.need_wet or 60
+			if item.data.wet and item.data.wet>0 and item.data.wet<need_wet then
+				table.insert(desc_table, "@Water: "..tostring(round2(100*item.data.wet/need_wet).."%"))
+				--desc = cn(desc,round2(100*item.data.wet/need_wet).."%","Water:",true)
+			end
+			if item.total_heat then
+				local temp = item.total_heat/10 --+ _G.TheWorld.state.temperature
+				if temp>40 then temp = 40 end
+				if temp>=0 then
+					cn("temperature",tostring(round2(temp,1)))
+				end
+			end
+		elseif prefab=="rainometer" then
+			local function inSine(t, b, c, d)
+				return -c * math.cos(t / d * (math.pi / 2)) + c + b
+			end
+			cn("precipitationrate",round2(inSine(_G.TheWorld.state.precipitationrate, 0, 0.75, 1),3).."/s")
+			cn("wetness",round2(_G.TheWorld.state.wetness,1))
+		elseif prefab=="winterometer" then
+			local w=_G.TheWorld.state
+			local tt=round2(w.temperature,1)
+			cn("temperature",tt)
+		elseif prefab=="spice_garlic" then
+			local data = KNOWN_BUFFS.buff_playerabsorption
+			cn("buff",data.name,0,TUNING[data.power]+1)
+		elseif prefab=="spice_chili" then
+			local data = KNOWN_BUFFS.buff_attack
+			cn("buff",data.name,0,TUNING[data.power])
+		elseif prefab=="spice_sugar" then
+			local data = KNOWN_BUFFS.buff_workeffectiveness
+			cn("buff",data.name,0,TUNING[data.power])
+		elseif prefab=="moon_fissure" and c.sanityaura and c.sanityaura.aurafn then
+			local current_sanity = c.sanityaura.aurafn(item, viewer)
+			local max_sanity = 100/(TUNING.SEG_TIME*2) -- hardcoded!
+			local effectiveness = current_sanity / max_sanity
+			cn("effectiveness",round2(effectiveness * 100))
+		elseif prefab=='boat' or prefab=='anchor' or prefab=='mast' or prefab=='boat_leak' or prefab=='mast_malbatross' or prefab=='steeringwheel' then
+			--no info but boat status
+			AddBoatStatus(viewer)
+		end
+		--Charges: lightning rod / lamp
+		if item.chargeleft and item.chargeleft > 0 then
+			table.insert(desc_table, "@Days left: "..tostring(math.floor(item.chargeleft+0.5)))
+		end
+		--Mod support:
+		if item.GetShowItemInfo then
+			local custom1, custom2, custom3 = item:GetShowItemInfo(viewer)
+			if custom1 then table.insert(desc_table, "@"..tostring(custom1)) end
+			if custom2 then table.insert(desc_table, "@"..tostring(custom2)) end
+			if custom3 then table.insert(desc_table, "@"..tostring(custom3)) end
+		end
+		if c.pickable and c.pickable.task then --Трава и ветки.
+			local targettime = c.pickable.targettime
+			if targettime then
+				local delta = targettime - GetTime()
+				if delta > 0 then
+					cn("grow_in",round2(delta/TUNING.TOTAL_DAY_TIME,1)) --days
+				end
+			end
+		end
+		--[[if c.witherable then
+            local time = GetTime()
+            table.insert(desc_table, "@witherable: "
+                ..tostring(c.delay_to_time and (time-c.delay_to_time)) .. ", "
+                ..tostring(c.task_to_time and (time-c.task_to_time)) .. ", "
+                ..tostring(c.protect_to_time and (time-c.protect_to_time)) .. ", "
+                ..tostring(c.is_watching_rain)
+            )
+        end
+        if c.diseaseable then
+            local time = GetTime()
+            table.insert(desc_table, "@diseaseable: "
+                --..tostring(c._spreadtask and (time-c.delay_to_time)) .. ", "
+                --..tostring(c.task_to_time and (time-c.task_to_time)) .. ", "
+                --..tostring(c.protect_to_time and (time-c.protect_to_time)) .. ", "
+                --..tostring(c.is_watching_rain)
+            )
+        end--]]
+		--Грядки - это на самом деле высаженные всходы (мышка наводится на них поверх грядок).
+		if c.crop and c.crop.product_prefab and c.crop.product_prefab and c.crop.growthpercent
+				and type(c.crop.growthpercent) == 'number' and c.crop.growthpercent < 1
+		then
+			--Передаем названием продукта и процент созревания (до целых).
+			cn("crop",c.crop.product_prefab,round2(c.crop.growthpercent*100,0))
+		end
+		--c.unwrappable.itemdata[1].prefab
+		--c.unwrappable.itemdata[1].data.perishable.time - оставшееся время порчи в секундах.
+		--	   .stackable.stack - количество
+		if show_buddle_item == 1 and c.unwrappable and c.unwrappable.itemdata and type(c.unwrappable.itemdata) == 'table' then
+			--По одной строке на каждый предмет.
+			for i,v in ipairs(c.unwrappable.itemdata) do
+				if v.prefab then
+					--Пересылаем название префаба и количество дней.
+					local delta = v.data and v.data.perishable and v.data.perishable.time
+					local count = v.data and v.data.stackable and v.data.stackable.stack
+					cn('perish_product', v.prefab, count or 0, delta and round2(delta/TUNING.TOTAL_DAY_TIME,1))
+				end
+			end
+		end
+		--Боченок рассола из мода "Pickle It!"
+		if c.pickler and c.pickler.targettime then
+			local delta = c.pickler.targettime - GetTime()
+			cn('just_time', round2(delta/TUNING.TOTAL_DAY_TIME,1))
+		end
+		--Для мода "Thirst" проверяем компонент "cwater"
+		if c.cwater then
+			local w = c.cwater
+			--Особо не заморачиваемся. Просто выводим то, что в нём есть.
+			if w.current and w.max then
+				cn('water',round2(w.current,0),round2(w.max,0))
+			end
+			if w.waterperdrink and type(w.waterperdrink)=="number" and w.waterperdrink ~= 0 then
+				cn("sip",round2(w.waterperdrink,0))
+			end
+			if w.watergainspeed and type(w.watergainspeed)=="number" and w.watergainspeed ~= 0 then
+				cn("watergainspeed",round2(w.watergainspeed,0))
+			end
+			if w.poisoned then
+				cn("water_poisoned")
+			end
+		end
+		--Stress points
+		local TS_crop = GetModConfigData("T_crop")
+		if TS_crop then
+			if c.farmplantstress and c.farmplantstress.stress_points then
+				cn("stress",c.farmplantstress.stress_points)
+				if c.farmplantstress.stressors_testfns then
+					for k,fn in pairs(c.farmplantstress.stressors_testfns) do
+						if k == 'happiness' then
+							if c.farmplantstress.stressors and c.farmplantstress.stressors.happiness then
+								cn("stress_tag",k)
+							end
+						else
+							local bool = fn(item,k,false)
+							if bool then
+								cn("stress_tag",k)
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+	--Additional info for ALL prefabs (with health and without health)
+	if c.childspawner then
+		--local outside = tonumber(c.childspawner.numchildrenoutside) -- buggy (often +1 more)
+		--local extra = tonumber(c.childspawner.maxemergencycommit) -- extra guards
+		local inside = tonumber(c.childspawner.childreninside)
+		local maximum = tonumber(c.childspawner.maxchildren)
+		--print(inside, outside, maximum, extra)
+		if inside and maximum then
+			--if outside then
+			--	outside = round2(outside,0)
+			--end
+			--cn("children",round2(inside,0),round2(maximum+(extra or 0),0),outside > 0.5 and outside or nil)
+			cn("children",round2(inside,0),round2(maximum,0))
+		end
+	end
+	--Depending from weapon info:
+	if viewer and type(viewer)=="table" and viewer.components and viewer.components.inventory then
+		local weapon = viewer.components.inventory:GetEquippedItem(_G.EQUIPSLOTS.HANDS)
+		if weapon then
+			local resist = nil --base resist
+			local total_resist = nil --base + bonus resist
+			local now = nil --amount of current resist
+			if weapon.prefab=="icestaff" and c.freezable then
+				resist = c.freezable.resistance
+				total_resist = c.freezable.ResolveResistance and c.freezable:ResolveResistance() or resist
+				if c.freezable.coldness and c.freezable.coldness ~= 0 then
+					now = round2(total_resist - c.freezable.coldness,1)
+				end
+				--cn("resist",c.freezable.resistance)
+			elseif (weapon.prefab=="blowdart_sleep" or weapon.prefab=="panflute") and c.sleeper then
+				resist = c.sleeper.resistance
+				total_resist = resist -- there is sleep time bonus but not sleep armor bonus
+				if c.sleeper.sleepiness and c.sleeper.sleepiness ~= 0 then
+					now = round2(total_resist - c.sleeper.sleepiness,1)
+				end
+				--cn("resist",c.sleeper.resistance)
+			end
+			if resist then
+				if total_resist ~= resist then
+					resist = resist .. '+' .. round2(math.abs(total_resist-resist),1)
+				end
+				if now then
+					resist = now .. ' / ' .. resist
+				end
+				cn("resist",resist)
+			end
+		end
+	end
+	if item.inlove and item.inlove>0 then
+		if prefab=="chester" then
+			cn("love",item.inlove/10)
+		else
+			cn("love",item.inlove)
+		end
+	end
+	--Additional
+	if c.timer and c.timer.timers then
+		local get_time = GetTime()
+		local t = c.timer
+		for name, data in pairs(t.timers) do
+			if not IsUselessTimer(prefab,name) then
+				--GetTimeLeft(name) IsPaused
+				local tm = t:GetTimeLeft(name)
+				local paused = t:IsPaused(name)
+				if tm then
+					cn('timer', round2(tm,0), name, paused and 1 or nil)
+				else
+					cn('timer', "-", name)
+				end
+			end
+		end
+	end
+	if c.worldsettingstimer and c.worldsettingstimer.timers then --and c.GetTimeLeft and c.IsPaused then
+		local get_time = GetTime()
+		local t = c.worldsettingstimer
+		for name, data in pairs(t.timers) do
+			if not IsUselessTimer(prefab,name) then
+				--IsPaused GetMaxTime TimerEnabled GetTimeLeft
+				local tm = t:GetTimeLeft(name)
+				local paused = t:IsPaused(name)
+				if tm then
+					cn('timer', round2(tm,0), name, paused and 1 or nil)
+				elseif t.GetMaxTime then
+					local max_tm = t:GetMaxTime(name)
+					if max_tm then
+						cn('timer', round2(data.maxtime,0), name, 2)
+					end
+				else
+					cn('timer', "-", name)
+				end
+			end
+		end
+	end
+	--[[
+    if prefab=="chester" then
+        local name = name_by_id(self.inst.userid)
+        desc = (desc=="" and "" or (desc.."\n")).."Owner: "..name
+            .."\nuserid="..tostring(self.inst.userid)
+            .."\nLeader: "..tostring(c.follower.leader)
+        has_owner = true
+    end
+    if prefab=="chester_eyebone" then
+        local name = name_by_id(self.inst.userid)
+        desc = (desc=="" and "" or (desc.."\n")).."Owner: "..name
+            .."\nuserid="..tostring(self.inst.userid)
+        has_owner = true
+    end
+    --]]
+	--print("GetTestString: "..tostring(item)..", "..tostring(viewer)..", "..tostring(desc))
+	--for i=1,line_cnt do
+	--	desc = desc .. "\n" --Поднимаем описание предмета, чтобы оно было НАД предметом. Но лучше это сделать на клиенте.
+	--end
+
+	return table.concat(desc_table,"\2") --an error with no info
+end
+
 
 ----------------------------傳說覺悟 翻译，请勿搬运WeGame，为避免出现多个相同模组----------------------------
 ------------------------------------------- HOST & CLIENT AGAIN ---------------------------------------------
