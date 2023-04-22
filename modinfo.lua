@@ -140,13 +140,13 @@ local disappear_magic = {
 }
 
 local optionsYesNo = {
-    { description = "是/Yes", data = true },
-    { description = "否/No", data = false },
+    { description = "是(Yes)", data = true },
+    { description = "否(No)", data = false },
 }
 
 local optionsEnableDisable = {
-    { description = "禁用/disable", data = true },
-    { description = "不禁用/enable", data = false },
+    { description = "禁用(disable)", data = true },
+    { description = "不禁用(enable)", data = false },
 }
 local KEY_F1 = 282
 local KEY_F2 = 283
@@ -180,7 +180,7 @@ local INPUTS = {
     [1006] = "\238\132\132" --"Mouse Button 5",
 }
 
-local MOD_name, author_name, description_text, Enable, Disable
+local Enable, Disable
 local Cookpots_label, Cookpots_hover, Other_item_label, Other_item_hover, Professionalchef_label, Professionalchef_hover
 local CookingSpeed_label, CookingSpeed_hove, SpeedNormal, SpeedFast, SpeedFaster, SpeedFastest, AutoCook_label, AutoCook_hover
 local Light_area_label, Light_heal_label, Light_sunshine_label, Light_menacing_label, Light_poison_label, Light_Ember_label, Light_Icy_label
@@ -497,8 +497,8 @@ for k = 1, #corlors do
 end
 
 local character_word_forbidden = {
-    ["210101"] = {"aria","elaina","yuki","kurumi","xxx3","xxx_wuma",},
-    ["210102"] = {"aria","elaina","yuki","kurumi","xxx3","xxx_wuma",},
+    ["210101"] = { "aria", "elaina", "yuki", "kurumi", "xxx3", "xxx_wuma", },
+    ["210102"] = { "aria", "elaina", "yuki", "kurumi", "xxx3", "xxx_wuma", },
 }
 
 configuration_options = {
@@ -977,82 +977,34 @@ configuration_options = {
 
     AddOptionHeader("全图定位"),
     AddOption("global_position_switch", "全图定位-开关", "是否开启全图定位", true),
-    {
-        name = "SHOWPLAYERSOPTIONS",
-        label = "Player Indicators(玩家指示器)",
-        hover = "The arrow things that show players past the edge of the screen.",
-        options = {
-            { description = "Always", data = 3 },
-            { description = "Scoreboard", data = 2 },
-            { description = "Never", data = 1 },
-        },
-        default = 2,
-    },
-    {
-        name = "SHOWPLAYERICONS",
-        label = "Player Icons(玩家图标)",
-        hover = "The player icons on the map.",
-        options = {
-            { description = "Show", data = true },
-            { description = "Hide", data = false },
-        },
-        default = true,
-    },
-    {
-        name = "FIREOPTIONS",
-        label = "Show Fires(火堆指示器)",
-        hover = "Show fires with indicators like players." ..
-                "\nThey will smoke when they are visible this way.",
-        options = {
-            { description = "Always", data = 1 },
-            { description = "Charcoal", data = 2 },
-            { description = "Disabled", data = 3 },
-        },
-        default = 2,
-    },
-    {
-        name = "SHOWFIREICONS",
-        label = "Fire Icons(火堆图标)",
-        hover = "Show fires globally on the map (this will only work if fires are set to show)." ..
-                "\nThey will smoke when they are visible this way.",
-        options = {
-            { description = "Show", data = true },
-            { description = "Hide", data = false },
-        },
-        default = true,
-    },
-    {
-        name = "SHAREMINIMAPPROGRESS",
-        label = "Share Map(共享地图)",
-        hover = "Share map exploration between players. This will only work if" ..
-                "\n'Player Indicators' and 'Player Icons' are not both disabled.",
-        options = {
-            { description = "Enabled", data = true },
-            { description = "Disabled", data = false },
-        },
-        default = true,
-    },
-    {
-        name = "OVERRIDEMODE",
-        label = "Wilderness Override(荒野覆盖)",
-        hover = "If enabled, it will use the other options you set in Wilderness mode." ..
-                "\nOtherwise, it will not show players, but all fires will smoke and be visible.",
-        options = {
-            { description = "Enabled", data = true },
-            { description = "Disabled", data = false },
-        },
-        default = false,
-    },
-    {
-        name = "ENABLEPINGS",
-        label = "Pings(点位标记)",
-        hover = "Whether to allow players to ping (alt+click) the map.",
-        options = {
-            { description = "Enabled", data = true },
-            { description = "Disabled", data = false },
-        },
-        default = true,
-    },
+    AddConfigOption("SHOWPLAYERSOPTIONS", "玩家指示器(Player Indicators)", "The arrow things that show players past the edge of the screen.", {
+        { description = "Always", data = 3 },
+        { description = "Scoreboard", data = 2 },
+        { description = "Never", data = 1 }, }, 2),
+    AddConfigOption("SHOWPLAYERICONS", "玩家图标(Player Icons)", "The player icons on the map.", { { description = "Show", data = true },
+                                                                                                   { description = "Hide", data = false }, }, true),
+    AddConfigOption("FIREOPTIONS", "火堆指示器(Show Fires)", "Show fires with indicators like players." ..
+            "\nThey will smoke when they are visible this way.", {
+        { description = "Always", data = 1 },
+        { description = "Charcoal", data = 2 },
+        { description = "Disabled", data = 3 }, }, 2),
+    AddConfigOption("SHOWFIREICONS", "火堆图标(Fire Icons)", "Show fires globally on the map (this will only work if fires are set to show)." ..
+            "\nThey will smoke when they are visible this way.", {
+        { description = "显示(Show)", data = true },
+        { description = "隐藏(Hide)", data = false }, }, true),
+    AddConfigOption("SHAREMINIMAPPROGRESS", "共享地图(Share Map)", "Share map exploration between players. This will only work if" ..
+            "\n'Player Indicators' and 'Player Icons' are not both disabled.", {
+        { description = "开启(Enabled)", data = true },
+        { description = "禁用(Disabled)", data = false }, }, true),
+    AddConfigOption("OVERRIDEMODE", "荒野覆盖(Wilderness Override)", "If enabled, it will use the other options you set in Wilderness mode." ..
+            "\nOtherwise, it will not show players, but all fires will smoke and be visible.", {
+        { description = "开启(Enabled)", data = true },
+        { description = "禁用(Disabled)", data = false }, }, false),
+
+    AddConfigOption("ENABLEPINGS", "点位标记(Pings)", "Whether to allow players to ping (alt+click) the map.", {
+        { description = "开启(Enabled)", data = true },
+        { description = "禁用(Disabled)", data = false }, }, true),
+
     AddOption("map_on_Cartography", "在制图桌上共享地图", "", false),
     AddOptionHeader("指南针"),
     AddOption("compass_switch", "总开关", "建议全图定位只开ping,然后开启本功能,优化全图定位的后期卡顿", false),
@@ -1460,264 +1412,65 @@ configuration_options = {
 
     AddOptionHeader("神话书说补丁"),
     AddOption("myth_patches_switch", "神话书说补丁-总开关", "是否开启神话书说补丁", true),
-    {
-        name = "timeleft_tips",
-        label = "BOSS刷新提醒",
-        hover = "",
-        options = { {
-                        description = "不提醒",
-                        data = 1
-                    }, {
-                        description = "自动提醒",
-                        data = 2
-                    }, {
-                        description = "热键提醒",
-                        data = 3
-                    } },
-        default = 2
-    },
-    {
-        name = "tip_key",
-        label = "提醒热键",
-        hover = "",
-        options = { {
-                        description = "F1",
-                        data = KEY_F1
-                    }, {
-                        description = "F2",
-                        data = KEY_F2
-                    }, {
-                        description = "F3",
-                        data = KEY_F3
-                    }, {
-                        description = "F4",
-                        data = KEY_F4
-                    }, {
-                        description = "F5",
-                        data = KEY_F5
-                    }, {
-                        description = "F6",
-                        data = KEY_F6
-                    }, {
-                        description = "F7",
-                        data = KEY_F7
-                    }, {
-                        description = "F8",
-                        data = KEY_F8
-                    }, {
-                        description = "F9",
-                        data = KEY_F9
-                    }, {
-                        description = "F10",
-                        data = KEY_F10
-                    }, {
-                        description = "F11",
-                        data = KEY_F11
-                    } },
-        default = KEY_F8
-    },
-    {
-        name = "blackbear_respawn",
-        label = "黑熊重生时间",
-        hover = "",
-        options = { {
-                        description = "默认",
-                        data = 20
-                    }, {
-                        description = "较多",
-                        data = 10
-                    }, {
-                        description = "大量",
-                        data = 5
-                    }, {
-                        description = "小强",
-                        data = 1
-                    } },
-        default = 20
-    },
-    {
-        name = "rhino_respawn",
-        label = "犀牛三大王重生时间",
-        hover = "",
-        options = { {
-                        description = "默认",
-                        data = 50
-                    }, {
-                        description = "较多",
-                        data = 10
-                    }, {
-                        description = "大量",
-                        data = 5
-                    }, {
-                        description = "小强",
-                        data = 1
-                    } },
-        default = 50
-    },
-    {
-        name = "regen_myth_forg_respawn",
-        label = "金蛤蟆重生时间",
-        hover = "",
-        options = { {
-                        description = "默认",
-                        data = 20
-                    }, {
-                        description = "较多",
-                        data = 10
-                    }, {
-                        description = "大量",
-                        data = 5
-                    }, {
-                        description = "小强",
-                        data = 1
-                    } },
-        default = 20
-    },
-    {
-        name = "laozi_trade_num",
-        label = "太上老君单人可交易次数",
-        hover = "",
-        options = { {
-                        description = "1次(默认)",
-                        data = 1
-                    }, {
-                        description = "2次",
-                        data = 2
-                    }, {
-                        description = "3次",
-                        data = 3
-                    }, {
-                        description = "4次",
-                        data = 4
-                    }, {
-                        description = "5次",
-                        data = 5
-                    }, {
-                        description = "6次",
-                        data = 6
-                    } },
-        default = 1
-    },
-    {
-        name = "granary_not_rot",
-        label = "谷仓保鲜",
-        hover = "",
-        options = { {
-                        description = "OFF",
-                        data = false
-                    }, {
-                        description = "ON",
-                        data = true
-                    } },
-        default = true
-    },
-    {
-        name = "granary_save_fruit",
-        label = "谷仓可放水果",
-        hover = "",
-        options = { {
-                        description = "OFF",
-                        data = false
-                    }, {
-                        description = "ON",
-                        data = true
-                    } },
-        default = true
-    },
-    {
-        name = "mythBlackBearRockClearTime",
-        label = "黑熊岩石清理",
-        hover = "一定时间后清理黑熊出来的岩石",
-        options = {
-            { description = "不清理", data = -1 },
-            { description = "4分后清理", data = 4 * 60 },
-            { description = "8分后清理", data = 8 * 60 },
-            { description = "16分后清理", data = 16 * 60 },
-            { description = "32分后清理", data = 32 * 60 },
-        },
-        default = 4 * 60,
-    },
-    {
-        name = "mythFlyingSpeedMultiplier",
-        label = "腾云术附带移动加成",
-        hover = "腾云术附带部分移动速度加成",
-        options = {
-            { description = "不附带", data = 0 },
-            { description = "附带25%", data = 0.25 },
-            { description = "附带50%", data = 0.5 },
-            { description = "附带75%", data = 0.75 },
-            { description = "附带100%", data = 1 },
-            { description = "附带150%", data = 1.5 },
-            { description = "附带200%", data = 2 },
-        },
-        default = 1,
-    },
+    AddConfigOption("timeleft_tips", "BOSS刷新提醒", "", { { description = "不提醒", data = 1 },
+                                                           { description = "自动提醒", data = 2 },
+                                                           { description = "热键提醒", data = 3 } }, 2),
+    AddConfigOption("tip_key", "提醒热键", "", { { description = "F1", data = KEY_F1 }, { description = "F2", data = KEY_F2 }, { description = "F3", data = KEY_F3 }, { description = "F4", data = KEY_F4 }, { description = "F5", data = KEY_F5 }, { description = "F6", data = KEY_F6 }, { description = "F7", data = KEY_F7 }, { description = "F8", data = KEY_F8 }, { description = "F9", data = KEY_F9 }, { description = "F10", data = KEY_F10 }, { description = "F11", data = KEY_F11 }, { description = "F12", data = KEY_F12 } }, KEY_F8),
+    AddConfigOption("blackbear_respawn", "黑熊重生时间", "", { { description = "默认", data = 20 }, { description = "较多", data = 10 }, { description = "大量", data = 5 }, { description = "小强", data = 1 } }, 20),
+    AddConfigOption("rhino_respawn", "犀牛三大王重生时间", "", { { description = "默认", data = 50 }, { description = "较多", data = 10 }, { description = "大量", data = 5 }, { description = "小强", data = 1 } }, 50),
+    AddConfigOption("regen_myth_forg_respawn", "金蛤蟆重生时间", "", { { description = "默认", data = 20 }, { description = "较多", data = 10 }, { description = "大量", data = 5 }, { description = "小强", data = 1 } }, 20),
+    AddConfigOption("laozi_trade_num", "太上老君单人可交易次数", "", { { description = "1次(默认)", data = 1 }, { description = "2次", data = 2 }, { description = "3次", data = 3 }, { description = "4次", data = 4 }, { description = "5次", data = 5 }, { description = "6次", data = 6 } }, 1),
+    AddConfigOption("granary_not_rot", "谷仓保鲜", "", { { description = "关闭(OFF)", data = false }, { description = "开启(ON)", data = true } }, true),
+    AddConfigOption("granary_save_fruit", "谷仓可放水果", "", { { description = "关闭(OFF)", data = false }, { description = "开启(ON)", data = true } }, true),
+    AddConfigOption("mythBlackBearRockClearTime", "黑熊岩石清理", "一定时间后清理黑熊出来的岩石", { { description = "不清理", data = -1 },
+                                                                                                    { description = "4分后清理", data = 4 * 60 },
+                                                                                                    { description = "8分后清理", data = 8 * 60 },
+                                                                                                    { description = "16分后清理", data = 16 * 60 },
+                                                                                                    { description = "32分后清理", data = 32 * 60 }, }, 4 * 60),
+    AddConfigOption("mythFlyingSpeedMultiplier", "腾云术附带移动加成", "腾云术附带部分移动速度加成", { { description = "不附带", data = 0 },
+                                                                                                       { description = "附带25%", data = 0.25 },
+                                                                                                       { description = "附带50%", data = 0.5 },
+                                                                                                       { description = "附带75%", data = 0.75 },
+                                                                                                       { description = "附带100%", data = 1 },
+                                                                                                       { description = "附带150%", data = 1.5 },
+                                                                                                       { description = "附带200%", data = 2 }, }, 1),
+
     AddOptionHeader("怠惰科技补丁"),
     AddOption("lazy_technology_patches_switch", "怠惰科技补丁-开关", "怠惰科技补丁", false),
-    {
-        name = "lazyTechKJKLimit",
-        label = "锟斤拷限制",
-        hover = "进行进一步限制",
-        options = {
-            { description = "不限制", data = false },
-            { description = "仅对可装备的物品有效", data = "equipment" },
-            { description = "仅对武器和衣物有效", data = "weaponAndClothing" },
-            { description = "仅对衣物有效", data = "clothing" },
-            { description = "仅对武器有效", data = "weapon" },
-            { description = "全部禁止", data = "null" },
-        },
-        default = "weaponAndClothing"
-    },
-    {
-        name = "lazyTechHDSelectOptimize",
-        label = "火堆检测优化",
-        hover = "现在会检查是否有怠惰火堆改装的箱子烧可燃物",
-        options = {
-            { description = "不优化", data = false },
-            { description = "优化", data = true },
-        },
-        default = true
-    },
+    AddConfigOption("lazyTechKJKLimit", "锟斤拷限制", "进行进一步限制", { { description = "不限制", data = false },
+                                                                          { description = "仅对可装备的物品有效", data = "equipment" },
+                                                                          { description = "仅对武器和衣物有效", data = "weaponAndClothing" },
+                                                                          { description = "仅对衣物有效", data = "clothing" },
+                                                                          { description = "仅对武器有效", data = "weapon" },
+                                                                          { description = "全部禁止", data = "null" }, }, "weaponAndClothing"),
+
+    AddConfigOption("lazyTechHDSelectOptimize", "火堆检测优化", "现在会检查是否有怠惰火堆改装的箱子烧可燃物", { { description = "不优化", data = false }, { description = "优化", data = true }, }, true),
+
     AddOptionHeader("小房子补丁"),
     AddOption("sweet_house_patches_switch", "小房子可种植", "是否允许小房子可种植", false),
-
 
     AddOptionHeader("红锅补丁"),
     AddOption("red_pot_for_everyone_switch", "烹饪锅补丁开关", "任何人都可以使用烹饪锅？", false),
     AddOption("Cookpots", Cookpots_label, Cookpots_hover, Switch, true),
     AddOption("Other_item", Other_item_label, Other_item_hover, Switch, false),
     AddOption("Professionalchef", Professionalchef_label, Professionalchef_hover, Switch, false),
-    {
-        name = "CookingSpeed",
-        label = CookingSpeed_label,
-        hover = CookingSpeed_hove,
-        options = {
-            { description = SpeedNormal, data = false },
-            { description = SpeedFast, data = 0.5 },
-            { description = SpeedFaster, data = 0.25 },
-            { description = SpeedFastest, data = 0.01 }
-        },
-        default = false
-    },
+    AddConfigOption("CookingSpeed", CookingSpeed_label, CookingSpeed_hove, { { description = SpeedNormal, data = false },
+                                                                             { description = SpeedFast, data = 0.5 },
+                                                                             { description = SpeedFaster, data = 0.25 },
+                                                                             { description = SpeedFastest, data = 0.01 } }, false),
+
     AddOption("AutoCook", AutoCook_label, AutoCook_hover, Switch, false),
     AddOptionHeader("码头套装增强"),
     AddOption("dock_kit_enhance_switch", "码头套装增强开关", "码头套装增强", true),
-    {
-        name = "DockKitNum",
-        label = "码头套装制作数",
-        hover = "设置 制作码头套装时会得到的数量。",
-        options = {
-            { description = "2个", data = 2 },
-            { description = "4个(官方)", data = 4 },
-            { description = "6个", data = 6 },
-            { description = "8个", data = 8 },
-            { description = "10个", data = 10 },
-            { description = "12个", data = 12 },
-            { description = "16个(默认)", data = 16 },
-            { description = "20个", data = 20 }
-        },
-        default = 16
-    },
+    AddConfigOption("DockKitNum", "码头套装制作数", "设置 制作码头套装时会得到的数量。", { { description = "2个", data = 2 },
+                                                                                          { description = "4个(官方)", data = 4 },
+                                                                                          { description = "6个", data = 6 },
+                                                                                          { description = "8个", data = 8 },
+                                                                                          { description = "10个", data = 10 },
+                                                                                          { description = "12个", data = 12 },
+                                                                                          { description = "16个(默认)", data = 16 },
+                                                                                          { description = "20个", data = 20 } }, 16),
+
     AddOption("DockTileBreak", "码头地皮不连环崩坏", "设置 码头地皮不会连环崩坏。", true),
     AddOption("DockKitAreaSea", "码头套装放置不限浅海", "设置 码头套装能在任何水域放置。", true),
     AddOption("DockKitAreaCave", "码头套装放置洞穴深渊", "设置 码头套装能在洞穴深渊放置。", true),
@@ -2053,31 +1806,15 @@ configuration_options = {
 
     AddOptionHeader("内容PLUS"),
     AddOption("hide_admin_switch", "隐藏管理员-开关", "是否隐藏管理员标志", false),
-    {
-        name = "no_rollback",
-        label = "禁止『发起投票->回滚世界』",
-        options = {
-            { description = "禁止投票回滚", data = true, hover = "不能发起投票回滚世界" },
-            { description = "不禁止投票回滚", data = false, hover = "可以发起投票回滚世界" },
-        },
-        default = true,
-    },
-    {
-        name = "no_regenerate",
-        label = "禁止『发起投票->重置世界』",
-        options = {
-            { description = "禁止投票重置", data = true, hover = "不可以发起投票重置世界" },
-            { description = "不禁止投票重置", data = false, hover = "可以发起投票重置世界" },
-        },
-        default = true,
-    },
-    AddConfigOption("optimiseAnnouncement", "优化重复宣告导致的刷屏", "统一文本宣告只会在设定值内显示一次",
-            { { description = "关闭", data = 0 },
-              { description = "1s内", data = 1 },
-              { description = "5s内", data = 5 },
-              { description = "10s内", data = 10 },
-              { description = "20s内", data = 20 },
-            }, 5),
+    AddConfigOption("no_rollback", "禁止『发起投票->回滚世界』", "",{ { description = "禁止投票回滚", data = true, hover = "不能发起投票回滚世界" },
+                                                                 { description = "不禁止投票回滚", data = false, hover = "可以发起投票回滚世界" }, }, true),
+    AddConfigOption("no_regenerate", "禁止『发起投票->重置世界』", "",{ { description = "禁止投票重置", data = true, hover = "不可以发起投票重置世界" },
+                                                                   { description = "不禁止投票重置", data = false, hover = "可以发起投票重置世界" }, }, true),
+    AddConfigOption("optimiseAnnouncement", "优化重复宣告导致的刷屏", "统一文本宣告只会在设定值内显示一次", { { description = "关闭", data = 0 },
+                                                                                                              { description = "1s内", data = 1 },
+                                                                                                              { description = "5s内", data = 5 },
+                                                                                                              { description = "10s内", data = 10 },
+                                                                                                              { description = "20s内", data = 20 }, }, 5),
     AddOption("SpyBundle", "包裹监控", "设置对包裹相关的监控。", true),
     AddOption("SpyOther", "全能监控", "设置玩家与生物相关的监控。", true),
     AddOption("command_stack", "堆叠指令", "玩家聊天输入#stack堆叠附近的物品。", true),
@@ -2090,22 +1827,9 @@ configuration_options = {
     AddOption("venus_icebox_switches", "萝卜冰箱", "是否允许建造萝卜冰箱\n前4格永久保鲜", false),
     AddOptionHeader(""),
     AddOption("canal_plow", "填海造海道具", "是否可以使用填海造海道具", false),
-    {
-        name = "DEPLOY_RULE",
-        label = "使用位置限制(Deployment location restrictions)",
-        hover = [[填海造海道具是否只能放于海岸线
-        Canal plow can only be placed on only the coastline or anywhere reachable]],
-        options = {
-            {
-                description = "只能放于海岸线 Coastline",
-                data = true
-            }, {
-                description = "任何地方 Anywhere",
-                data = false
-            }
-        },
-        default = true
-    },
+    AddConfigOption("DEPLOY_RULE", "使用位置限制(Deployment location restrictions)", [[填海造海道具是否只能放于海岸线
+        Canal plow can only be placed on only the coastline or anywhere reachable]], { { description = "只能放于海岸线 Coastline", data = true }, { description = "任何地方 Anywhere", data = false } }, true),
+
     AddOptionHeader(""),
     AddOption("random_blueprint_drop", "随机蓝图掉落开关", "是否开启随机蓝图掉落", false),
     AddConfigOption("drop_multiplying", "蓝图掉落倍率", "",
@@ -2548,10 +2272,10 @@ local beefalo_status_bar_colors = {
 local function GenerateCommonOptions(start, count, step, default, prefix, suffix)
     local options = {}
     local current = start
-    local suffix = suffix or ""
+    local suffix_l = suffix or ""
     for i = 1, count do
-        local prefix = prefix and (current > 0 and "+" or "") or ""
-        options[i] = { description = prefix .. current .. suffix, data = current }
+        local prefix_l = prefix and (current > 0 and "+" or "") or ""
+        options[i] = { description = prefix_l .. current .. suffix_l, data = current }
         if current == default then
             options[i].hover = "Default"
         end
