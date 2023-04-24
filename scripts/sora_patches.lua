@@ -13,7 +13,7 @@ local soraPackFL = GetModConfigData("soraPackFL") or false;
 local sorafl_select = GetModConfigData("sorafl_select") or false;
 
 
-local soraconfig = require "config/config"
+local soraconfig = require "soraconfig/config"
 if soraRemoveDeathExpByLevel > 0 then
     local old_DeathExp = soraconfig.level.DeathExp
     soraconfig.level.DeathExp = function(a)
