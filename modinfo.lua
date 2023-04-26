@@ -24,7 +24,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "9.7.0.7"
+version = "9.8.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1327,35 +1327,23 @@ configuration_options = {
     },
     AddOption("yeyu_nilxin_pack_limit", "夜雨空心打包", "限制", false),
     AddOption("xiuxian_patches", "夜雨空心 修仙额外", "限制了一些修仙武器可以放入魔杖", false),
-    {
-        name = "yeyu_nilxin_jump_distance_limit",
-        label = "夜雨心空跳跃限制",
-        hover = "限制夜雨心空的跳跃距离",
-        options = {
-            { description = "不限制", data = -1, },
-            { description = "原地跳(哈哈)", data = 0, },
-            { description = "20码", data = 20, },
-            { description = "50码", data = 50, },
-            { description = "70码", data = 70, },
-            { description = "100码", data = 100, },
-            { description = "500码", data = 500, },
-            { description = "1000码", data = 1000, },
-            { description = "2000码", data = 2000, },
+    AddConfigOption("yeyu_nilxin_jump_distance_limit", "夜雨心空跳跃限制", "限制夜雨心空的跳跃距离", { { description = "不限制", data = -1, },
+                                                                                                       { description = "原地跳(哈哈)", data = 0, },
+                                                                                                       { description = "20码", data = 20, },
+                                                                                                       { description = "50码", data = 50, },
+                                                                                                       { description = "70码", data = 70, },
+                                                                                                       { description = "100码", data = 100, },
+                                                                                                       { description = "500码", data = 500, },
+                                                                                                       { description = "1000码", data = 1000, },
+                                                                                                       { description = "2000码", data = 2000, }, }, -1),
 
-        },
-        default = -1,
-    },
-    {
-        name = "yeyu_nilxin_sea",
-        label = "夜雨心空填海造海",
-        hover = "夜雨心空填海造海",
-        options = {
-            { description = "不限制", data = -1, },
-            { description = "大门洞穴附近无法造海", data = 0, },
-            { description = "大门洞穴和有structure标签附近无法造海", data = 1, }
-        },
-        default = 0,
-    },
+    AddConfigOption("yeyu_nilxin_sea", "夜雨心空填海造海", "夜雨心空填海造海", { { description = "不限制", data = -1, },
+                                                                                 { description = "大门洞穴附近无法造海", data = 0, },
+                                                                                 { description = "大门洞穴和有structure标签附近无法造海", data = 1, } }, 0),
+
+    AddOption("everyone_is_yeyu_nilxin", "人人都是夜雨", "每个角色都可以使用当夜雨", false),
+
+
     AddOptionHeader("奇幻降临补丁"),
     AddOption("ab_patches_switch", "总开关", "是否开启奇幻降临补丁", false),
     AddConfigOption("ab_t", "限制阿比日记超能权限", "限制世界多少天后可以使用", disappear_magic, 0),
@@ -1806,10 +1794,10 @@ configuration_options = {
 
     AddOptionHeader("内容PLUS"),
     AddOption("hide_admin_switch", "隐藏管理员-开关", "是否隐藏管理员标志", false),
-    AddConfigOption("no_rollback", "禁止『发起投票->回滚世界』", "",{ { description = "禁止投票回滚", data = true, hover = "不能发起投票回滚世界" },
-                                                                 { description = "不禁止投票回滚", data = false, hover = "可以发起投票回滚世界" }, }, true),
-    AddConfigOption("no_regenerate", "禁止『发起投票->重置世界』", "",{ { description = "禁止投票重置", data = true, hover = "不可以发起投票重置世界" },
-                                                                   { description = "不禁止投票重置", data = false, hover = "可以发起投票重置世界" }, }, true),
+    AddConfigOption("no_rollback", "禁止『发起投票->回滚世界』", "", { { description = "禁止投票回滚", data = true, hover = "不能发起投票回滚世界" },
+                                                                     { description = "不禁止投票回滚", data = false, hover = "可以发起投票回滚世界" }, }, true),
+    AddConfigOption("no_regenerate", "禁止『发起投票->重置世界』", "", { { description = "禁止投票重置", data = true, hover = "不可以发起投票重置世界" },
+                                                                       { description = "不禁止投票重置", data = false, hover = "可以发起投票重置世界" }, }, true),
     AddConfigOption("optimiseAnnouncement", "优化重复宣告导致的刷屏", "统一文本宣告只会在设定值内显示一次", { { description = "关闭", data = 0 },
                                                                                                               { description = "1s内", data = 1 },
                                                                                                               { description = "5s内", data = 5 },
