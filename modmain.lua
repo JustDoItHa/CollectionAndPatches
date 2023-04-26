@@ -102,6 +102,11 @@ if GetModConfigData("beta_function_switch") and GetModConfigData("fix_tags_overf
     end
 end
 
+-- 鼠标滚轮控制拿起的物品的数量
+if GetModConfigData("change_stack_num_by_mousewheel_switch") then
+    modimport("scripts/change_stack_num_by_mousewheel.lua")
+end
+
 -- 死亡不掉落
 if GetModConfigData("dont_drop") == true then
     modimport("scripts/dont_drop.lua")

@@ -17,14 +17,14 @@ description = [[
 --35.发光的瓶子 36.大背包新 37.禁用自定义人物 38.容器不掉路 39.箱子物品自动排序
 --40.UI拖拽缩放 41.Heap of Foods 全汉化 42.访客掉落优化版 43.纯净辅助
 --44.超级便携大箱子 45.beefalo status bar 46.疼总的信息显示(就是偷来的,好看)
---47.史诗般血量条 48.为爽而虐-容器排序
+--47.史诗般血量条 48.为爽而虐-容器排序 49.鼠标滚轮调节堆叠
 --集合mod：
 --1.常用mod集合
 --2.萌新合集-服务端
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "9.8.0.0"
+version = "9.9.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -512,6 +512,7 @@ configuration_options = {
         { description = "31", data = 31 }, { description = "32", data = 32 }, { description = "36", data = 36 }, { description = "42", data = 42 }, { description = "48", data = 48 }, { description = "64", data = 64 }, { description = "72", data = 72 },
         { description = "128", data = 128, hover = "你是认真的么..." }, { description = "256", data = 256, hover = "你是认真的么..." }, { description = "512", data = 512, hover = "你是认真的么..." }, { description = "1024", data = 1024, hover = "你是认真的么..." },
     }, 0),
+    AddOption("change_stack_num_by_mousewheel_switch", "物品数量鼠标滚轮控制", "可以通过滚轮调整拿起的可堆叠物品的数量", true),
     AddOption("clean_garbage", "二本垃圾箱", "对二本科技右键会有4个小格子，将不想用的物品放入点击清理可直接删除", true),
     AddConfigOption("auto_stack_range", "掉落自动堆叠", "设置掉落物自动堆叠的范围，设为0关闭自动堆叠", { { description = "关闭", data = 0 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30, hover = "默认" }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "60", data = 60 }, { description = "70", data = 70 }, { description = "80", data = 80 }, { description = "90", data = 90 }, { description = "100", data = 100 }, }, 30),
     AddConfigOption("stack_size", "物品堆叠数量", "设置物品堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 }, }, 40),
