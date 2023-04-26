@@ -16,7 +16,7 @@ local ADJUST_REPEAT_COOLDOWN = FRAMES
 -- 滚轮上下滑动功能颠倒
 local MOUSEWHEEL_DIRECTION_INVERSE = false
 
-local modname = name
+local modname = "CAP"
 
 -- 别看写了那么多，全tm复制粘贴改个数
 -- these codes base on COPY
