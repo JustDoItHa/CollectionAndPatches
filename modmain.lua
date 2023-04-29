@@ -94,12 +94,12 @@ TUNING.MAUSER_RIFLE_BAYONET_ENABLE = modenable({ "955048205", "Mauser Rifle & Ba
 
 --修复标签问题
 if GetModConfigData("beta_function_switch") and GetModConfigData("fix_tags_overflow_switch") then
-    modimport("scripts/tags_for_additional.lua")
+    -- modimport("scripts/tags_for_additional.lua")
     --引用风铃code
     modimport("scripts/moretags.lua")
-    for k, v in pairs(additional_tags_to_fix) do
-        RegTag(v)
-    end
+    -- for k, v in pairs(additional_tags_to_fix) do
+    --     RegTag(v)
+    -- end
 end
 
 -- 鼠标滚轮控制拿起的物品的数量
