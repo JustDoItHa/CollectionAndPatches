@@ -251,9 +251,19 @@ local key = modname .. "fixtag" -- 默认用modname 做key 防止冲突
 
 local function AddTag(inst, stag, ...)
     if not inst or not stag then return end
-    local fninfo = debug.getinfo(2)
     -- print("--------:"..stag)
-    -- dumptable(fninfo)
+    -- inst[key].test[stag] = true --临时测试用下
+    
+    local fninfo
+    for i=2,8 do
+        fninfo = debug.getinfo(i)
+        -- print("------:"..i)
+        -- dumptable(fninfo)
+        if fninfo and fninfo.source == "=(tail call)" then 
+        else
+            break
+        end
+    end
 
     if (not tagslist[stag] and (fninfo.source and fninfo.source:match("mods/workshop-") or inst[key].Tags[stag])) and not inst[key].HasTag(inst, stag, ...) then
         inst[key].Tags[stag] = 1
@@ -289,6 +299,7 @@ local function FixTag(inst) -- 传入实体 主客机一起调用
         HasTag = inst.HasTag,
         RemoveTag = inst.RemoveTag,
         Tags = {},
+        -- test = {}, --临时测试用下
     }
     inst[key].fixTag = net_string(inst.GUID, key .. "." .. "fixtag",key .. "." .. "fixtag" .. "dirty")
     inst.AddTag = AddTag
@@ -305,6 +316,21 @@ local function FixTag(inst) -- 传入实体 主客机一起调用
 end
 
 
-AddPlayerPostInit(function(inst) -- 默认只扩展人物的
-    FixTag(inst)
-end)
+-- AddPlayerPostInit(function(inst) -- 默认只扩展人物的
+--     FixTag(inst)
+-- end)
+local upvaluehelper = require "utils/upvaluehelp_cap"
+local runmodfn = upvaluehelper.Get(ModManager.GetPostInitFns,"runmodfn")
+if runmodfn then
+    local old_GetPostInitFns = ModManager.GetPostInitFns
+
+    ModManager.GetPostInitFns = function(self, type, id, ...)
+        if type == "PrefabPostInitAny" then
+            local mod = self:GetMod(modname)
+            local retfns = old_GetPostInitFns(self, type, id, ...)
+            table.insert(retfns, 1, runmodfn(FixTag, mod, id and type..": "..id or type))
+            return retfns
+        end
+        return old_GetPostInitFns(self, type, id, ...)
+    end
+end
