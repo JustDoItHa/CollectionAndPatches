@@ -253,7 +253,7 @@ local function AddTag(inst, stag, ...)
     if not inst or not stag then return end
     -- print("--------:"..stag)
     -- inst[key].test[stag] = true --临时测试用下
-    
+
     local fninfo
     for i=2,8 do
         fninfo = debug.getinfo(i)
@@ -289,29 +289,32 @@ end
 
 local function HasTag(inst, stag, ...)
     if not inst or not stag then return end
+    if inst[key].Tags[stag] == 1 then return true end
 
-    return inst[key].Tags[stag] == 1 or inst[key].HasTag(inst, stag, ...) 
+    return inst[key].HasTag(inst, stag, ...) 
 end
 
 local function FixTag(inst) -- 传入实体 主客机一起调用
-    inst[key] = {
-        AddTag = inst.AddTag,
-        HasTag = inst.HasTag,
-        RemoveTag = inst.RemoveTag,
-        Tags = {},
-        -- test = {}, --临时测试用下
-    }
-    inst[key].fixTag = net_string(inst.GUID, key .. "." .. "fixtag",key .. "." .. "fixtag" .. "dirty")
-    inst.AddTag = AddTag
-    inst.HasTag = HasTag
-    inst.RemoveTag = RemoveTag
-    if not TheWorld.ismastersim then
-        inst:ListenForEvent(key .. "." .. "fixtag" .. "dirty", function(inst)
-            local tagstb = json.decode(inst[key].fixTag:value())
-            for i,v in pairs(tagstb) do
-                inst[key].Tags[i] = v
-            end
-        end)
+    if inst and inst:HasTag("player") and not debug.getinfo(inst.AddTag).source:match("mods/"..modname) then
+        inst[key] = {
+            AddTag = inst.AddTag,
+            HasTag = inst.HasTag,
+            RemoveTag = inst.RemoveTag,
+            Tags = {},
+            -- test = {}, --临时测试用下
+        }
+        inst[key].fixTag = net_string(inst.GUID, key .. "." .. "fixtag",key .. "." .. "fixtag" .. "dirty")
+        inst.AddTag = AddTag
+        inst.HasTag = HasTag
+        inst.RemoveTag = RemoveTag
+        if not TheWorld.ismastersim then
+            inst:ListenForEvent(key .. "." .. "fixtag" .. "dirty", function(inst)
+                local tagstb = json.decode(inst[key].fixTag:value())
+                for i,v in pairs(tagstb) do
+                    inst[key].Tags[i] = v
+                end
+            end)
+        end
     end
 end
 
