@@ -9,6 +9,7 @@ local default_pos_bigbag={
 	redbigbag = Vector3(-180,-75,0),
 	bluebigbag = Vector3(-180,-75,0),
 	nicebigbag = Vector3(-150, -120, 0),
+	catbigbag = Vector3(-150, -120, 0),
 }
 --大背包
 local params = {}
@@ -301,7 +302,7 @@ end
 
 -- 放入时检测设定
 function params.bigbag.itemtestfn(container, item, slot)
-		if item.prefab == "nicebigbag" then
+		if item.prefab == "nicebigbag" or item.prefab == "catbigbag" then
 			return false
 		elseif item:HasTag("bigbag") then
 			if TUNING.ROOMCAR_BIGBAG_BAGINBAG then
@@ -533,7 +534,7 @@ end
 
 -- 放入时检测设定
 function params.redbigbag.itemtestfn(container, item, slot)
-		if item.prefab == "nicebigbag" then
+		if item.prefab == "nicebigbag" or item.prefab == "catbigbag" then
 			return false
 		elseif item:HasTag("bigbag") then
 			if TUNING.ROOMCAR_BIGBAG_BAGINBAG then
@@ -681,7 +682,7 @@ end
 
 -- 放入时检测设定
 function params.bluebigbag.itemtestfn(container, item, slot)
-		if item.prefab == "nicebigbag" then
+		if item.prefab == "nicebigbag" or item.prefab == "catbigbag" then
 			return false
 		elseif item:HasTag("bigbag") then
 			if TUNING.ROOMCAR_BIGBAG_BAGINBAG then
@@ -693,6 +694,182 @@ function params.bluebigbag.itemtestfn(container, item, slot)
 			return true
 		end
 end
+
+
+
+if TUNING.CATBACK_BIGBAGSIZE == 1 then
+	params.catbigbag = {
+		widget =
+		{
+			slotpos = {},
+			animbank = "ui_krampusbag_2x8",
+			animbuild = "ui_bigbag_3x8",
+			--bgatlas = "images/catback.xml",
+			--bgimage = "catback.tex",
+			--side_align_tip = 160,
+			pos = default_pos_bigbag.catbigbag,
+			dragtyp = "nicebigbag",--拖拽标签，有则可拖拽
+			-- buttoninfo =
+			-- {
+			-- text = STRINGS.bigbag_BUTTON,
+			-- position = Vector3(-130, -320, 0),
+			-- }
+		},
+		issidewidget = true,
+		type = "pack",
+		openlimit = 1,
+	}
+	-- 格子设定
+	for y = 0, 7 do
+		table.insert(params.catbigbag.widget.slotpos, Vector3(-131 - 75, -75 * y + 264, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(-131, -75 * y + 264, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(-131 + 75, -75 * y + 264, 0))
+	end
+elseif TUNING.CATBACK_BIGBAGSIZE == 2 then
+	params.catbigbag = {
+		widget =
+		{
+			slotpos = {},
+			animbank = "ui_krampusbag_2x8",
+			animbuild = "ui_bigbag_4x8",
+			--bgatlas = "images/bigbagbg.xml",
+			--bgimage = "bigbagbg.tex",
+			--side_align_tip = 160,
+			pos = default_pos_bigbag.catbigbag,
+			dragtyp = "catbigbag",--拖拽标签，有则可拖拽
+			-- buttoninfo =
+			-- {
+			-- text = STRINGS.bigbag_BUTTON,
+			-- position = Vector3(-130, -320, 0),
+			-- }
+		},
+		issidewidget = true,
+		type = "pack",
+		openlimit = 1,
+	}
+	-- 格子设定
+	for y = 0, 7 do
+		table.insert(params.catbigbag.widget.slotpos, Vector3(-168 - 75, -75 * y + 266, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(-168, -75 * y + 266, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(-168 + 75, -75 * y + 266, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(-168 + 150, -75 * y + 266, 0))
+	end
+elseif TUNING.CATBACK_BIGBAGSIZE == 3 then
+	params.catbigbag = {
+		widget =
+		{
+			slotpos = {},
+			animbank = nil,
+			animbuild = nil,
+			bgatlas = "images/bigbagbg_8x6.xml",
+			bgimage = "bigbagbg_8x6.tex",
+			pos = default_pos_bigbag.catbigbag,
+			dragtyp="catbigbag",--拖拽标签，有则可拖拽
+			-- buttoninfo =
+			-- {
+			-- text = STRINGS.bigbag_BUTTON,
+			-- position = Vector3(0, 285, 0),
+			-- }
+		},
+		issidewidget = true,
+		type = "pack",
+		openlimit = 1,
+	}
+	-- 格子设定
+	for n = 0, 7 do
+		table.insert(params.catbigbag.widget.slotpos, Vector3(1*gridsize - mis, 462 - mis - n*gridsize, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(2*gridsize - mis, 462 - mis - n*gridsize, 0))  --(-3.5*66,7*66-3.5*66)
+		table.insert(params.catbigbag.widget.slotpos, Vector3(3*gridsize - mis, 462 - mis - n*gridsize, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(4*gridsize - mis, 462 - mis - n*gridsize, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(5*gridsize - mis, 462 - mis - n*gridsize, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(6*gridsize - mis, 462 - mis - n*gridsize, 0))
+	end
+
+elseif TUNING.CATBACK_BIGBAGSIZE == 4 then
+	params.catbigbag = {
+		widget =
+		{
+			slotpos = {},
+			animbank = nil,
+			animbuild = nil,
+			bgatlas = "images/bigbagbg_8x8.xml",
+			bgimage = "bigbagbg_8x8.tex",
+			pos = default_pos_bigbag.catbigbag,
+			dragtyp="catbigbag",--拖拽标签，有则可拖拽
+			-- buttoninfo =
+			-- {
+			-- text = STRINGS.bigbag_BUTTON,
+			-- position = Vector3(0, 285, 0),
+			-- }
+		},
+		issidewidget = true,
+		type = "pack",
+		openlimit = 1,
+	}
+	-- 格子设定
+	for n = 0, 7 do
+		table.insert(params.catbigbag.widget.slotpos, Vector3(0*gridsize - mis, 462 - mis - n*gridsize, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(1*gridsize - mis, 462 - mis - n*gridsize, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(2*gridsize - mis, 462 - mis - n*gridsize, 0))  --(-3.5*66,7*66-3.5*66)
+		table.insert(params.catbigbag.widget.slotpos, Vector3(3*gridsize - mis, 462 - mis - n*gridsize, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(4*gridsize - mis, 462 - mis - n*gridsize, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(5*gridsize - mis, 462 - mis - n*gridsize, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(6*gridsize - mis, 462 - mis - n*gridsize, 0))
+		table.insert(params.catbigbag.widget.slotpos, Vector3(7*gridsize - mis, 462 - mis - n*gridsize, 0))
+	end
+end
+
+-- function params.nicebigbag.widget.buttoninfo.fn(inst)
+-- if inst.components.container ~= nil then
+-- if inst.components.container and not inst.components.container:IsEmpty() then
+-- slotsSort_bigbag(inst)
+-- end
+-- elseif inst.replica.container ~= nil and not inst.replica.container:IsBusy() then
+-- SendRPCToServer(RPC.DoWidgetButtonAction, nil, inst, nil)
+-- end
+-- end
+
+-- function params.nicebigbag.widget.buttoninfo.validfn(inst)
+-- return inst.replica.container ~= nil and not inst.replica.container:IsEmpty()--容器不为空
+-- end
+
+-- 放入时检测设定
+function params.nicebigbag.itemtestfn(container, item, slot)
+	if item.prefab == "catbigbag" then
+		return false
+	else
+		return true
+	end
+end
+
+params.catback =
+{
+	widget =
+	{
+		slotpos = {},
+		animbank = "ui_krampusbag_2x8",
+		animbuild = "ui_krampusbag_2x8",
+		pos = Vector3(-5, -120, 0),
+	},
+	issidewidget = true,
+	type = "pack",
+	openlimit = 1,
+}
+
+for y = 0, 6 do
+	table.insert(params.catback.widget.slotpos, Vector3(-162, -75 * y + 240, 0))
+	table.insert(params.catback.widget.slotpos, Vector3(-162 + 75, -75 * y + 240, 0))
+end
+
+function params.catback.itemtestfn(container, item, slot)
+	if item.prefab == "catback" then
+		return false
+	else
+		return true
+	end
+end
+
+
 
 
 --加入容器

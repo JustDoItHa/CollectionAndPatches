@@ -324,6 +324,8 @@ local function fn()
 	
     inst:AddComponent("container")
     inst.components.container:WidgetSetup("bigbag")
+    inst.components.container.skipclosesnd = true
+    inst.components.container.skipopensnd = true
     inst.components.container.onopenfn = onopen
     inst.components.container.onclosefn = onclose
 	inst:ListenForEvent("itemget", getitem_bigbag)

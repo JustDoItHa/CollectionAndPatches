@@ -195,3 +195,15 @@ end
 if GetModConfigData("everyone_is_yeyu_nilxin") then
     TUNING.YYXK.X3RV9ANX = true
 end
+
+---防止箱子升级炸服的修复
+local old_YYXKTOGETHERUP = ACTIONS.YYXKTOGETHERUP.fn
+if old_YYXKTOGETHERUP then
+    ACTIONS.YYXKTOGETHERUP.fn = function(act)
+        if act.doer and act.target and act.target.components.container and #act.target.components.container.widget.slotpos > 25 then
+            act.doer.components.talker:Say("箱子大于25格无法升级")
+            return
+        end
+        return old_YYXKTOGETHERUP(act)
+    end
+end

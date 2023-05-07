@@ -21,6 +21,9 @@ end })
 table.insert(PrefabFiles, "bigbag")
 table.insert(PrefabFiles, "gembigbag")
 table.insert(PrefabFiles, "nicebigbag")
+table.insert(PrefabFiles, "catbigbag")
+table.insert(PrefabFiles, "catback")
+table.insert(PrefabFiles, "lifelight")
 
 --大背包
 --[[Asset("ANIM", "anim/swap_bigbag.zip"),
@@ -52,6 +55,9 @@ table.insert(Assets, Asset("ANIM", "anim/ui_bigbag_4x8.zip"))
 table.insert(Assets, Asset("IMAGE", "images/inventoryimages/bigbag.tex"))
 table.insert(Assets, Asset("ATLAS", "images/inventoryimages/bigbag.xml"))
 
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/catback.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/catback.xml"))
+
 --table.insert(Assets, Asset("IMAGE", "minimap/bigbag.tex"))
 --table.insert(Assets, Asset("ATLAS", "minimap/bigbag.xml"))
 table.insert(Assets, Asset("IMAGE", "images/minimap/bigbag.tex"))
@@ -64,6 +70,9 @@ table.insert(Assets, Asset("ATLAS", "images/minimap/redbigbag.xml"))
 table.insert(Assets, Asset("IMAGE", "images/minimap/nicebigbag.tex"))
 table.insert(Assets, Asset("ATLAS", "images/minimap/nicebigbag.xml"))
 
+table.insert(Assets, Asset("IMAGE", "images/minimap/catback.tex"))
+table.insert(Assets, Asset("ATLAS", "images/minimap/catback.xml"))
+
 --table.insert(Assets, Asset("IMAGE", "images/bigbagbg.tex"))
 --table.insert(Assets, Asset("ATLAS", "images/bigbagbg.xml"))
 
@@ -73,11 +82,13 @@ table.insert(Assets, Asset("ATLAS", "images/bigbagbg_8x8.xml"))
 table.insert(Assets, Asset("IMAGE", "images/bigbagbg_8x6.tex"))
 table.insert(Assets, Asset("ATLAS", "images/bigbagbg_8x6.xml"))
 
+
 -- [Miniap Icon]--------------------
 AddMinimapAtlas("images/minimap/bigbag.xml")
 AddMinimapAtlas("images/minimap/bluebigbag.xml")
 AddMinimapAtlas("images/minimap/redbigbag.xml")
 AddMinimapAtlas("images/minimap/nicebigbag.xml")
+AddMinimapAtlas("images/minimap/catback.xml")
 
 --------------------------------------------------------------------------------------------------------------------------
 -- [Global Strings]
@@ -172,6 +183,35 @@ local nicebigbag = AddRecipe2("nicebigbag",
         tec,
         { atlas = "images/inventoryimages/nicebigbag.xml", image = "nicebigbag.tex" },
         { "CONTAINERS" })
+
+local catbigbag = AddRecipe2("catbigbag", -- name
+        { Ingredient("goldnugget", 80),
+          Ingredient("pigskin", 40),
+          Ingredient("nightmarefuel", 80),
+          Ingredient("silk", 80),
+          Ingredient("bearger_fur", 10),
+          Ingredient("dragon_scales", 10),
+          Ingredient("goose_feather", 20),
+          Ingredient("minotaurhorn", 2) },
+        tec,
+        { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
+        { "CONTAINERS" })
+
+local catback = AddRecipe2("catback", -- name
+        { Ingredient("goldnugget", 20),
+          Ingredient("pigskin", 10),
+          Ingredient("nightmarefuel", 20),
+          Ingredient("silk", 20),
+          Ingredient("bearger_fur", 2),
+          Ingredient("dragon_scales", 2),
+          Ingredient("goose_feather", 3),
+          Ingredient("minotaurhorn", 1) },
+        tec,
+        { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
+        { "CONTAINERS" })
+
+
+
 --------------------------------------------------------------------------------------------------------------------------
 modimport("scripts/strings_bigbag.lua")
 modimport("scripts/bigbag_rpc.lua")

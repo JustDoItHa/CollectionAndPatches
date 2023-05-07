@@ -95,7 +95,7 @@ local ac_fns = {
         return false
     end,
     genericResult = function(...)
-        local args = {...}
+        local args = { ... }
         local result = {}
         if #args > 0 then
             for _, tab in ipairs(args) do
@@ -112,9 +112,9 @@ local ac_fns = {
 ---@param slots table[] Prefab
 local function preciseClassification(slots)
     local canonlygoinpocket = {}
-    local equippable = {perishable = {}, non_percentage = {}, hands = {}, head = {}, body = {}, rest = {}}
-    local non_stackable = {perishable = {}, rest = {}}
-    local stackable = {perishable = {}, rest = {}} -- 由于扩充表的存在，perishable 算是 rest。
+    local equippable = { perishable = {}, non_percentage = {}, hands = {}, head = {}, body = {}, rest = {} }
+    local non_stackable = { perishable = {}, rest = {} }
+    local stackable = { perishable = {}, rest = {} } -- 由于扩充表的存在，perishable 算是 rest。
     -- 扩充表内容。注意此处请提前初始化完毕，不然会弄混！
     local stackable_perishable = {
         deployedfarmplant = {},
@@ -355,7 +355,7 @@ end
 local containers = require("containers")
 local samecontainers = {
     -- {"inventory", "backpack", "piggyback", "icepack", "spicepack", "krampus_sack"},
-    {"treasurechest", "dragonflychest"}
+    { "treasurechest", "dragonflychest" }
     -- {"tacklecontainer", "supertacklecontainer"}
 }
 
@@ -407,8 +407,7 @@ local function API_arrangeMultiContainers2(inst, player)
     then
         -- 钓具箱类只处理自己和所处容器内的同类容器
         local hasothercontainers = false
-        local container =
-        (inst.components.inventoryitem.owner.components.inventory or
+        local container = (inst.components.inventoryitem.owner.components.inventory or
                 inst.components.inventoryitem.owner.components.container)
         for k, v in pairs(container.itemslots or container.slots) do
             if
@@ -700,8 +699,7 @@ local function sendscontainerproxyotherworld(player, inst)
     TheWorld.ismastersim and inst.components ~= nil and inst.components.container ~= nil and
             not inst.containerprocesstask2hm
     then
-        inst.containerprocesstask2hm =
-        inst:DoTaskInTime(
+        inst.containerprocesstask2hm = inst:DoTaskInTime(
                 3,
                 function()
                     inst.containerprocesstask2hm = nil
@@ -788,8 +786,7 @@ local function collectcontaineritem(inst, container, item, entcontainer, i, data
             if data.itemlackstackables[item.prefab] >= item.components.stackable.stacksize then
                 -- 需求比供给多,直接给
                 local giveitem = entcontainer:RemoveItemBySlot(i)
-                data.itemlackstackables[giveitem.prefab] =
-                data.itemlackstackables[giveitem.prefab] - giveitem.components.stackable.stacksize
+                data.itemlackstackables[giveitem.prefab] = data.itemlackstackables[giveitem.prefab] - giveitem.components.stackable.stacksize
                 if data.itemlackstackables[giveitem.prefab] == 0 and data.extranumslots == 0 then
                     data.itemlackstackables[giveitem.prefab] = nil
                 end
@@ -798,8 +795,7 @@ local function collectcontaineritem(inst, container, item, entcontainer, i, data
                 -- 需求比供给少,但有空间,直接给
                 data.extranumslots = data.extranumslots - 1
                 local giveitem = entcontainer:RemoveItemBySlot(i)
-                data.itemlackstackables[giveitem.prefab] =
-                data.itemlackstackables[giveitem.prefab] + giveitem.components.stackable.maxsize -
+                data.itemlackstackables[giveitem.prefab] = data.itemlackstackables[giveitem.prefab] + giveitem.components.stackable.maxsize -
                         giveitem.components.stackable.stacksize
                 if data.itemlackstackables[giveitem.prefab] == 0 and data.extranumslots == 0 then
                     data.itemlackstackables[giveitem.prefab] = nil
@@ -818,8 +814,7 @@ local function collectcontaineritem(inst, container, item, entcontainer, i, data
             giveitem.components and giveitem.components.stackable and
                     giveitem.components.stackable.stacksize < giveitem.components.stackable.maxsize
             then
-                data.itemlackstackables[giveitem.prefab] =
-                (data.itemlackstackables[giveitem.prefab] or 0) + giveitem.components.stackable.maxsize -
+                data.itemlackstackables[giveitem.prefab] = (data.itemlackstackables[giveitem.prefab] or 0) + giveitem.components.stackable.maxsize -
                         giveitem.components.stackable.stacksize
             end
             container:GiveItem(giveitem)
@@ -847,8 +842,7 @@ local function collectcontainers(inst, player)
             item.components and item.components.stackable and
                     item.components.stackable.stacksize < item.components.stackable.maxsize
             then
-                data.itemlackstackables[item.prefab] =
-                (data.itemlackstackables[item.prefab] or 0) + item.components.stackable.maxsize -
+                data.itemlackstackables[item.prefab] = (data.itemlackstackables[item.prefab] or 0) + item.components.stackable.maxsize -
                         item.components.stackable.stacksize
             end
         end
@@ -1029,8 +1023,7 @@ end
 
 local ImageButton = require "widgets/imagebutton"
 local function addbutton(self, container, doer, btnname, btninfo, position)
-    local btn =
-    self:AddChild(
+    local btn = self:AddChild(
             ImageButton(
                     "images/ui.xml",
                     "button_small.tex",
@@ -1038,8 +1031,8 @@ local function addbutton(self, container, doer, btnname, btninfo, position)
                     "button_small_disabled.tex",
                     nil,
                     nil,
-                    {1, 1},
-                    {0, 0}
+                    { 1, 1 },
+                    { 0, 0 }
             )
     )
     btn.image:SetScale(0.77, 1.07, 1.07)
@@ -1074,20 +1067,41 @@ AddClassPostConstruct(
                 if do_integrated_backpack and self.bottomrow and overflow and overflow.inst then
                     local widget = overflow:GetWidget()
                     local num = overflow:GetNumSlots()
-                    if
-                    self.backpackinv and self.backpackinv[num] and not widget.buttoninfo and widget.sortbtninfo2hm and
+                    if self.backpackinv and self.backpackinv[num] and not widget.buttoninfo and widget.sortbtninfo2hm and
                             widget.multisortbtninfo2hm and
-                            widget.collectbtninfo2hm
-                    then
-                        local pos = self.backpackinv[num]:GetPosition()
-                        addbutton(
-                                self.bottomrow,
-                                overflow.inst,
-                                self.owner,
-                                "sortbutton2hm",
-                                widget.sortbtninfo2hm,
-                                Vector3(pos.x + 98, pos.y, pos.z)
-                        )
+                            widget.collectbtninfo2hm then
+                        local showguide = GetModConfigData("SHOWGUIDE", true) or 0
+                        if showguide then
+                            local tmp_num = ((num / 2 + 7) < num) and (num / 2 + 7) or num
+                            local pos = self.backpackinv[tmp_num]:GetPosition()
+                            addbutton(
+                                    self.bottomrow,
+                                    overflow.inst,
+                                    self.owner,
+                                    "sortbutton2hm",
+                                    widget.sortbtninfo2hm,
+                                    Vector3(pos.x + 98, pos.y, pos.z)
+                            )
+                        else
+                            local pos = self.backpackinv[1]:GetPosition()
+                            addbutton(
+                                    self.bottomrow,
+                                    overflow.inst,
+                                    self.owner,
+                                    "sortbutton2hm",
+                                    widget.sortbtninfo2hm,
+                                    Vector3(pos.x + 98, pos.y, pos.z)
+                            )
+                        end
+                        --local pos = self.backpackinv[num]:GetPosition()
+                        --addbutton(
+                        --        self.bottomrow,
+                        --        overflow.inst,
+                        --        self.owner,
+                        --        "sortbutton2hm",
+                        --        widget.sortbtninfo2hm,
+                        --        Vector3(pos.x + 98, pos.y, pos.z)
+                        --)
                         -- if hasmultisort then
                         --     addbutton(
                         --             self.bottomrow,

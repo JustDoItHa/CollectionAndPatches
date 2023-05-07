@@ -216,6 +216,7 @@ local forbidItem = {
     "bluebigbag",
     "redbigbag",
     "nicebigbag",
+    "catbigbag",
     "cherryruins_resonator_item",
     "cherryruins_resonator_item_completed",
     "cherryruins_resonator",

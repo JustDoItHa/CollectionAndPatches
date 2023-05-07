@@ -25,35 +25,35 @@ if TUNING.ELAINA_ENABLE then
 end
 
 
-if TUNING.SORA_ENABLE then
+-- if TUNING.SORA_ENABLE then
 
-    local containers = require "containers"
-    local params = upvaluehelper.Get(containers.widgetsetup,"params","scripts/containers")
-    if params and params.sorapack_container then
-        local old_sorapack_itemtestfn = params.sorapack_container.itemtestfn
-        function params.sorapack_container.itemtestfn(container, item, slot, ...)
-            if item.components.follower or item.components.leader or item.components.inventory then
-                return false
-            end
-            if type(old_sorapack_itemtestfn) == "function" then return old_sorapack_itemtestfn(container, item, slot, ...) end
-        end
-    end
+--     local containers = require "containers"
+--     local params = upvaluehelper.Get(containers.widgetsetup,"params","scripts/containers")
+--     if params and params.sorapack_container then
+--         local old_sorapack_itemtestfn = params.sorapack_container.itemtestfn
+--         function params.sorapack_container.itemtestfn(container, item, slot, ...)
+--             if item.components.follower or item.components.leader or item.components.inventory then
+--                 return false
+--             end
+--             if type(old_sorapack_itemtestfn) == "function" then return old_sorapack_itemtestfn(container, item, slot, ...) end
+--         end
+--     end
 
-    AddComponentPostInit("sorapacker", function(self)
-        local old_CanPack = self.CanPack
-        self.CanPack = function(self, target, ...)
-            if target == nil or target.components.follower or target.components.leader or target.components.inventory then
-                return false
-            end
-            for k,_ in pairs(target.components) do
-                if type(k) == "string" and string.find(k, "teleporter") then
-                    return false
-                end
-            end
-            return old_CanPack and old_CanPack(self, target, ...)
-        end
-    end)
-end
+--     AddComponentPostInit("sorapacker", function(self)
+--         local old_CanPack = self.CanPack
+--         self.CanPack = function(self, target, ...)
+--             if target == nil or target.components.follower or target.components.leader or target.components.inventory then
+--                 return false
+--             end
+--             for k,_ in pairs(target.components) do
+--                 if type(k) == "string" and string.find(k, "teleporter") then
+--                     return false
+--                 end
+--             end
+--             return old_CanPack and old_CanPack(self, target, ...)
+--         end
+--     end)
+-- end
 
 
 if TUNING.YEYU_NILXIN_ENABLE then
@@ -154,79 +154,25 @@ if TUNING.YEYU_NILXIN_ENABLE then
             return old_additem and old_additem(self, inst, n, ...)
         end
 
-        local function spawn(inst,p,data)
-            local sp = data == nil and SpawnPrefab(p) or SpawnPrefab(p, data.skinname, data.skin_id)
-            if sp ~= nil then
-                sp.Transform:SetPosition(inst.Transform:GetWorldPosition())
-                if data ~= nil then
-                    sp:SetPersistData(data.data)
-                end 
-                return sp
-            end
-        end
-        function self:giveitem(p,sum)
-            if self.items[p] ~= nil and self.items[p] > 0 then
-                if sum >= self.items[p] then
-                    sum = self.items[p]
-                    self.items[p] = nil
-                else
-                    self.items[p] = self.items[p] - sum
-                end
-                local data = nil 
-                if self.iteminfos[p] ~= nil then
-                    data = table.remove(self.iteminfos[p])
-                end
-                
-                local sp = spawn(self.inst,p,data)
-                if sp ~= nil then
-                    if sp.components.stackable ~= nil then
-                        local smax = sp.components.stackable.maxsize
-                        local curr = sum - smax
-                        sp.components.stackable:SetStackSize(curr > 0 and smax or sum)
-                        while(curr > 0) do
-                            local sp1 = spawn(self.inst,p,data)
-                            if curr > smax then
-                                sp1.components.stackable:SetStackSize(smax)
-                            else
-                                sp1.components.stackable:SetStackSize(curr)
-                            end
-                            if sp1.components.inventoryitem ~= nil then
-                                self.inst.components.inventory:GiveItem(sp1, nil, self.inst:GetPosition())
-                            end
-                            curr = curr - smax
-                        end
-                    elseif sum > 1 then
-                        for i = 2, sum do
-                            local sp1 = spawn(self.inst,p,table.remove(self.iteminfos[p]))
-                            if sp1.components.inventoryitem ~= nil then
-                                self.inst.components.inventory:GiveItem(sp1, nil, self.inst:GetPosition())
-                            end
-                        end
-                    end 
-                    if sp.components.inventoryitem ~= nil then
-                        self.inst.components.inventory:GiveItem(sp, nil, self.inst:GetPosition())
-                    end
-                end
-            end
-        end
+
 
     end)
 
-    AddPrefabPostInit("yyxk_gift", function(inst)
-        if not TheWorld.ismastersim then return end
-        local old_canfn = inst.components.yyxkaction.canfn
-        inst.components.yyxkaction.canfn = function(inst, target, doer, ...)
-            if target == nil or target.components.follower or target.components.leader or target.components.inventory then
-                return false
-            end
-            for k,_ in pairs(target.components) do
-                if type(k) == "string" and string.find(k, "teleporter") then
-                    return false
-                end
-            end
-            return old_canfn and old_canfn(inst, target, doer, ...)
-        end
-    end)
+    -- AddPrefabPostInit("yyxk_gift", function(inst)
+    --     if not TheWorld.ismastersim then return end
+    --     local old_canfn = inst.components.yyxkaction.canfn
+    --     inst.components.yyxkaction.canfn = function(inst, target, doer, ...)
+    --         if target == nil or target.components.follower or target.components.leader or target.components.inventory then
+    --             return false
+    --         end
+    --         for k,_ in pairs(target.components) do
+    --             if type(k) == "string" and string.find(k, "teleporter") then
+    --                 return false
+    --             end
+    --         end
+    --         return old_canfn and old_canfn(inst, target, doer, ...)
+    --     end
+    -- end)
 
     local function foxball_xg(inst)
         if not TheWorld.ismastersim then return end
@@ -268,3 +214,16 @@ if TUNING.YEYU_NILXIN_ENABLE then
     end)
 
 end
+
+
+
+
+AddPrefabPostInit("beef_bell", function(inst)
+    local old_OnSave = inst.OnSave
+    inst.OnSave = function(inst, data)
+        if old_OnSave then old_OnSave(inst, data)
+        for beef, _ in pairs(inst.components.leader.followers) do
+            if beef and beef:IsValid() then beef:Remove() end
+        end
+    end
+end)

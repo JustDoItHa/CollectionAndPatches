@@ -8,38 +8,44 @@ local cooking = require("cooking")
 --------------------
 
 local assets = {
-    Asset("ANIM", "anim/elaina_bag.zip"),
-    Asset("IMAGE", "images/inventoryimages/nicebigbag_open.tex"), --物品栏贴图
-    Asset("ATLAS", "images/inventoryimages/nicebigbag_open.xml"),
-    Asset("IMAGE", "images/inventoryimages/nicebigbag.tex"), --物品栏贴图
-    Asset("ATLAS", "images/inventoryimages/nicebigbag.xml"),
+    Asset("ANIM", "anim/catback.zip"),
+    Asset("ANIM", "anim/swap_catback.zip"),
+    Asset("IMAGE", "images/inventoryimages/catback.tex"), --物品栏贴图
+    Asset("ATLAS", "images/inventoryimages/catback.xml"),
 }
 
 --------------------------------------------------------------------------
-local function getitem_nicebigbag(inst, data)
+local function getitem_catbigbag(inst, data)
     if data and data.item ~= nil then
-        -- if data.item:HasTag("spoiled") and data.item.components.perishable:GetPercent() < 1 then
-        -- data.item.components.perishable:SetPercent(1)
-        -- inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_finish")
-        -- elseif data.item:HasTag("stale") and data.item.components.perishable:GetPercent() < 1 then
-        -- data.item.components.perishable:SetPercent(1)
-        -- inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_finish")
-        -- elseif data.item:HasTag("fresh") and data.item.components.perishable:GetPercent() < 1 then
-        -- data.item.components.perishable:SetPercent(1)
-        -- inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_finish")
-        -- end
-        -- if data.item.components.finiteuses and data.item.components.finiteuses:GetPercent() < 1 then
-        -- data.item.components.finiteuses:SetPercent(1)
-        -- inst.SoundEmitter:PlaySound("dontstarve/common/telebase_gemplace")
-        -- end
-        -- if data.item.components.fueled and data.item.components.fueled:GetPercent() < 1 then
-        -- data.item.components.fueled:SetPercent(1)
-        -- inst.SoundEmitter:PlaySound("dontstarve/common/telebase_gemplace")
-        -- end
-        -- if data.item.components.armor and data.item.components.armor:GetPercent() < 1 then
-        -- data.item.components.armor:SetPercent(1)
-        -- inst.SoundEmitter:PlaySound("dontstarve/common/telebase_gemplace")
-        -- end
+        if TUNING.ROOMCAR_BIGBAG_FRESH then
+            if data.item:HasTag("spoiled") and data.item.components.perishable:GetPercent() < 1 then
+                data.item.components.perishable:SetPercent(1)
+                inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_finish")
+            elseif data.item:HasTag("stale") and data.item.components.perishable:GetPercent() < 1 then
+                data.item.components.perishable:SetPercent(1)
+                inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_finish")
+            elseif data.item:HasTag("fresh") and data.item.components.perishable:GetPercent() < 1 then
+                data.item.components.perishable:SetPercent(1)
+                inst.SoundEmitter:PlaySound("dontstarve/common/cookingpot_finish")
+            end
+            if data.item.components.finiteuses and data.item.components.finiteuses:GetPercent() < 1 then
+                data.item.components.finiteuses:SetPercent(1)
+                inst.SoundEmitter:PlaySound("dontstarve/common/telebase_gemplace")
+            end
+            if data.item.components.fueled and data.item.components.fueled:GetPercent() < 1 then
+                data.item.components.fueled:SetPercent(1)
+                inst.SoundEmitter:PlaySound("dontstarve/common/telebase_gemplace")
+            end
+            if data.item.components.armor and data.item.components.armor:GetPercent() < 1 then
+                data.item.components.armor:SetPercent(1)
+                inst.SoundEmitter:PlaySound("dontstarve/common/telebase_gemplace")
+            end
+        end
+
+        if data.item.components.stackable and not data.item.components.stackable:IsFull() and TUNING.ROOMCAR_BIGBAG_STACK and inst:HasTag("catbigbag") then
+            inst.SoundEmitter:PlaySound("dontstarve/wilson/plant_seeds")
+            data.item.components.stackable:SetStackSize(data.item.components.stackable.maxsize)
+        end
 
         if data.item.prefab == "heatrock" then
             local currenttemp = data.item.components.temperature:GetCurrent()
@@ -52,6 +58,10 @@ local function getitem_nicebigbag(inst, data)
             end
         end
 
+    end
+    if inst.components.inventoryitem then
+        inst.components.inventoryitem.imagename = "catback"
+        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
     end
 end
 
@@ -68,6 +78,10 @@ local function insulatorstate(inst)
         inst.components.insulator:SetSummer()
         inst.components.insulator:SetInsulation(500)
     end
+    if inst.components.inventoryitem then
+        inst.components.inventoryitem.imagename = "catback"
+        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
+    end
 
 end
 
@@ -75,7 +89,7 @@ end
 ---月圆时间 有概率
 --- 大背包中的物品，回满耐久值/回满新鲜度
 --- 有堆叠的物品变成两倍但不能超过最大堆叠数
-local function DoBenefit_nicebigbag(inst)
+local function DoBenefit_catbigbag(inst)
     if not TheWorld.state.isfullmoon then
         return
     end
@@ -158,8 +172,8 @@ local function onopen(inst)
     inst.AnimState:PlayAnimation("open")
     inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_open")
     if inst.components.inventoryitem then
-        inst.components.inventoryitem.imagename = "nicebigbag_open"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/nicebigbag_open.xml"
+        inst.components.inventoryitem.imagename = "catback"
+        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
     end
 end
 
@@ -167,8 +181,8 @@ local function onclose(inst)
     inst.AnimState:PlayAnimation("closed")
     inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_close")
     if inst.components.inventoryitem then
-        inst.components.inventoryitem.imagename = "nicebigbag"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/nicebigbag.xml"
+        inst.components.inventoryitem.imagename = "catback"
+        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
     end
 end
 
@@ -176,9 +190,13 @@ local function ondropped(inst)
     if inst.components.container ~= nil then
         inst.components.container:Close()
     end
-    inst.AnimState:SetBank("elaina_bag")
-    inst.AnimState:SetBuild("elaina_bag")
+    inst.AnimState:SetBank("catback")
+    inst.AnimState:SetBuild("catback")
     inst.AnimState:PlayAnimation("idle")
+    if inst.components.inventoryitem then
+        inst.components.inventoryitem.imagename = "catback"
+        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
+    end
 end
 --------------------
 
@@ -186,23 +204,21 @@ end
 local function onequip(inst, owner)
     inst.Light:Enable(true)
 
-    owner.AnimState:OverrideSymbol("backpack", "elaina_bag", "backpack")
-    owner.AnimState:OverrideSymbol("swap_body", "elaina_bag", "swap_body")
+    owner.AnimState:OverrideSymbol("backpack", "swap_catback", "backpack")
+    owner.AnimState:OverrideSymbol("swap_body", "swap_catback", "swap_body")
     owner:AddTag("fastpicker")  --蜘蛛快采
     owner:AddTag("fastpick")    --成就快采
     if inst.components.container ~= nil then
         inst.components.container:Open(owner)
     end
-    if inst.components.container and inst.components.container:IsOpen() then
-        inst.components.inventoryitem.imagename = "nicebigbag_open"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/nicebigbag_open.xml"
-    else
-        inst.components.inventoryitem.imagename = "nicebigbag"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/nicebigbag.xml"
-    end
+
+    inst.components.inventoryitem.imagename = "catback"
+    inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
     --insulatorstate(inst)
 end
-
+local function onequiptomodel(inst, owner)
+    inst.components.container:Close(owner)
+end
 local function onunequip(inst, owner)
     -- light
     inst.Light:Enable(false)
@@ -213,13 +229,9 @@ local function onunequip(inst, owner)
     end
     owner:RemoveTag("fastpick")
     owner:RemoveTag("fastpicker")
-    if inst.components.container and inst.components.container:IsOpen() then
-        inst.components.inventoryitem.imagename = "nicebigbag_open"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/nicebigbag_open.xml"
-    else
-        inst.components.inventoryitem.imagename = "nicebigbag"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/nicebigbag.xml"
-    end
+
+    inst.components.inventoryitem.imagename = "catback"
+    inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
 end
 
 local function fn()
@@ -239,7 +251,7 @@ local function fn()
     --------------------
     MakeInventoryPhysics(inst)
 
-    inst.MiniMapEntity:SetIcon("nicebigbag.tex")
+    inst.MiniMapEntity:SetIcon("catback.tex")
 
     inst.entity:AddLight()
     inst.Light:Enable(false)
@@ -248,19 +260,21 @@ local function fn()
     inst.Light:SetIntensity(0.25)
     inst.Light:SetColour(255 / 255, 255 / 255, 255 / 255)
 
-    inst.AnimState:SetBank("backpack1")
-    inst.AnimState:SetBuild("elaina_bag")
+    inst.AnimState:SetBank("catback")
+    inst.AnimState:SetBuild("catback")
     inst.AnimState:PlayAnimation("idle")
 
     inst:AddTag("backpack")
     inst:AddTag("fridge")
     inst:AddTag("nocool")
     inst:AddTag("umbrella")
-    inst:AddTag("nicebigbag")
+    inst:AddTag("catbigbag")
     inst:AddTag("keepfresh")
 
     inst.foleysound = "dontstarve/movement/foley/krampuspack"
-    MakeInventoryFloatable(inst, "med", 0.1, 0.65)
+    local swap_data = {bank = "backpack1", anim = "anim"}
+    MakeInventoryFloatable(inst, "med", 0.1, 0.65, nil, nil, swap_data)
+
 
     --------------------
     inst.entity:SetPristine()
@@ -275,7 +289,7 @@ local function fn()
     --------------------
     if not TheWorld.ismastersim then
         inst.OnEntityReplicated = function(inst)
-            inst.replica.container:WidgetSetup("nicebigbag")
+            inst.replica.container:WidgetSetup("catbigbag")
             inst.replica.container.onopenfn = onopen
             inst.replica.container.onclosefn = onclose
         end
@@ -299,25 +313,28 @@ local function fn()
     inst.components.equippable:SetOnEquip(onequip)
     inst.components.equippable:SetOnUnequip(onunequip)
     inst.components.equippable.walkspeedmult = 1.2
+    inst.components.equippable:SetOnEquipToModel(onequiptomodel)
 
     inst:AddComponent("inspectable")
     inst:AddComponent("inventoryitem")
-    inst.components.inventoryitem.atlasname = "images/inventoryimages/nicebigbag.xml"
+    inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
     inst.components.inventoryitem:SetOnDroppedFn(ondropped)
     inst.components.inventoryitem.cangoincontainer = true -- [[can be carried]]!!!!!!!!!!!!!!!!!!!!
     inst.components.inventoryitem.foleysound = "dontstarve/movement/foley/marblearmour"
 
     inst:AddComponent("waterproofer")
-    inst.components.waterproofer:SetEffectiveness(1)
+    inst.components.waterproofer:SetEffectiveness(0)
 
     insulatorstate(inst)
 
     inst:AddComponent("container")
-    inst.components.container:WidgetSetup("nicebigbag")
+    inst.components.container:WidgetSetup("catbigbag")
+    inst.components.container.skipclosesnd = true
+    inst.components.container.skipopensnd = true
     inst.components.container.onopenfn = onopen
     inst.components.container.onclosefn = onclose
-    inst:ListenForEvent("itemget", getitem_nicebigbag)
-    inst:WatchWorldState("isfullmoon", DoBenefit_nicebigbag)
+    inst:ListenForEvent("itemget", getitem_catbigbag)
+    inst:WatchWorldState("isfullmoon", DoBenefit_catbigbag)
     inst:WatchWorldState("isday", insulatorstate)
 
     return inst
@@ -326,4 +343,4 @@ end
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 
-return Prefab("nicebigbag", fn, assets)
+return Prefab("catbigbag", fn, assets)

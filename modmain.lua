@@ -76,6 +76,7 @@ TUNING.ROOMCAR_BIGBAG_HEATROCKTEMPERATURE = GetModConfigData("HEATROCKTEMPERATUR
 TUNING.ROOMCAR_BIGBAG_WATER = GetModConfigData("BIGBAGWATER")
 TUNING.ROOMCAR_BIGBAG_PICK = GetModConfigData("BIGBAGPICK")
 TUNING.NICE_BIGBAGSIZE = GetModConfigData("NICEBIGBAGSIZE")
+TUNING.CATBACK_BIGBAGSIZE = GetModConfigData("CATBIGBAGSIZE")
 TUNING.OPTIMISE_ANNOUNCEMENT = GetModConfigData("optimiseAnnouncement")
 -- [TUNING -- big bag end]--------------------
 TUNING.FUNCTIONAL_MEDAL_ENABLE = modenable({ "1909182187", "能力勋章", "Functional Medal" })
@@ -503,6 +504,13 @@ modimport("scripts/blance_bug_fix.lua")
 if GetModConfigData("word_migrate_drop_sync_switch") or GetModConfigData("character_word_forbidden_option") then
     modimport("scripts/word_migrate_drop.lua")
 end
+
+if GetModConfigData("upgrade_container_switch") then
+    modimport("scripts/upgrade_container_main.lua")
+end
+
+
+
 
 ----处理下重复加组件的问题 不知道放哪里 先写这里
 AddGlobalClassPostConstruct("entityscript", "EntityScript", function(self)

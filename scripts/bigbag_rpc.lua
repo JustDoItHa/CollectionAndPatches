@@ -19,10 +19,11 @@ AddModRPCHandler(
 
 -- --特有容器列表(封装在表里方便做兼容)
 local special_bigbag_box={
-	bigbag=true,--大背包
-	nicebigbag=true,--便携箱
-	redbigbag=true,
-	bluebigbag=true,
+	--bigbag=true,--大背包
+	--nicebigbag=true,--便携箱
+	--catbigbag=true,--猫包
+	--redbigbag=true,
+	--bluebigbag=true,
 }
 
 --代码来自恒子大佬的能力勋章
