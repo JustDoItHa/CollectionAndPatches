@@ -221,7 +221,7 @@ end
 AddPrefabPostInit("beef_bell", function(inst)
     local old_OnSave = inst.OnSave
     inst.OnSave = function(inst, data)
-        if old_OnSave then old_OnSave(inst, data)
+        if old_OnSave then old_OnSave(inst, data) end
         for beef, _ in pairs(inst.components.leader.followers) do
             if beef and beef:IsValid() then beef:Remove() end
         end
