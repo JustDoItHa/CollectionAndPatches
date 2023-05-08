@@ -4,8 +4,8 @@ local assets =
     Asset("ANIM", "anim/swap_dragonfly_wings.zip"),
     Asset("ANIM", "anim/ui_backpack_2x4.zip"),
 	
-	Asset("ATLAS", "images/inventoryimages/dragonfly_wings.xml"),
-    Asset("IMAGE", "images/inventoryimages/dragonfly_wings.tex"),
+	Asset("ATLAS", "images/inventoryimages/wingpack/dragonfly_wings.xml"),
+    Asset("IMAGE", "images/inventoryimages/wingpack/dragonfly_wings.tex"),
 }
 --drognfly (fairy) wings will have
 --	summer insulation 
@@ -86,7 +86,7 @@ local function fn()
 
     inst:AddComponent("inventoryitem")
     inst.components.inventoryitem.cangoincontainer = false
-	inst.components.inventoryitem.atlasname = "images/inventoryimages/dragonfly_wings.xml"
+	inst.components.inventoryitem.atlasname = "images/inventoryimages/wingpack/dragonfly_wings.xml"
 	inst.components.inventoryitem.imagename = "dragonfly_wings"
     inst.components.inventoryitem.cangoincontainer = true -- [[can be carried]]!!!!!!!!!!!!!!!!!!!!
 

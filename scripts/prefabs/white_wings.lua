@@ -4,8 +4,8 @@ local assets =
     Asset("ANIM", "anim/swap_white_wings.zip"),
     Asset("ANIM", "anim/ui_backpack_2x4.zip"),
 	
-	Asset("ATLAS", "images/inventoryimages/white_wings.xml"),
-    Asset("IMAGE", "images/inventoryimages/white_wings.tex"),
+	Asset("ATLAS", "images/inventoryimages/wingpack/white_wings.xml"),
+    Asset("IMAGE", "images/inventoryimages/wingpack/white_wings.tex"),
 }
 
 
@@ -103,7 +103,7 @@ local function fn()
 
     inst:AddComponent("inventoryitem")
     inst.components.inventoryitem.cangoincontainer = false
-	inst.components.inventoryitem.atlasname = "images/inventoryimages/white_wings.xml"
+	inst.components.inventoryitem.atlasname = "images/inventoryimages/wingpack/white_wings.xml"
 	inst.components.inventoryitem.imagename = "white_wings"
     inst.components.inventoryitem.cangoincontainer = true -- [[can be carried]]!!!!!!!!!!!!!!!!!!!!
 
