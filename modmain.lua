@@ -513,7 +513,9 @@ if GetModConfigData("upgrade_container_switch") then
     modimport("scripts/upgrade_container_main.lua")
 end
 
-
+if GetModConfigData("wb_strengthen_switch") then
+    modimport("scripts/wb_strengthenstove.lua")
+end
 
 
 ----处理下重复加组件的问题 不知道放哪里 先写这里

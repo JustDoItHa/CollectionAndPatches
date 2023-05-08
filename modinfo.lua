@@ -18,7 +18,7 @@ description = [[
 --40.UI拖拽缩放 41.Heap of Foods 全汉化 42.访客掉落优化版 43.纯净辅助
 --44.超级便携大箱子 45.beefalo status bar 46.疼总的信息显示(就是偷来的,好看)
 --47.史诗般血量条 48.为爽而虐-容器排序 49.鼠标滚轮调节堆叠 50.可升级箱子(已经抄过来用了)
---51.cat bag
+--51.cat bag 52.wing pack 53.神秘强化炉
 --集合mod：
 --1.常用mod集合
 --2.萌新合集-服务端
@@ -3330,3 +3330,17 @@ for i = 1, #allConfigs do
     end
     AddNewConfig(name, label, hover, options, v.default, v.client)
 end
+
+----------------------------
+--------------------------- 神秘强化炉-----------------------------
+configuration_options[#configuration_options + 1] = AddOptionHeader("可升级容器")
+configuration_options[#configuration_options + 1] = AddOption("wb_strengthen_switch", "总开关", "是否开启神秘强化炉", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("wb_strengthen_weapon_base", "强化武器伤害强度", "",
+        { { description = "拾之无味", hover = "附魔13级近战武器伤害大约为181.01", data = 2 },
+          { description = "意气风发", hover = "附魔13级近战武器伤害大约为452.54", data = 5 },
+          { description = "傲视群雄", hover = "附魔13级近战武器伤害大约为724.07", data = 8 },
+          { description = "天下第一", hover = "附魔13级近战武器伤害大约为995.60", data = 11 },
+          { description = "神挡杀神", hover = "附魔13级近战武器伤害大约为1267.13", data = 14 },
+          { description = "天亦可灭", hover = "附魔13级近战武器伤害大约为1538.66", data = 17 } }, 8)
+
+configuration_options[#configuration_options + 1] = AddOption("wb_strengthen_increase", "启用附魔", "是否开启附魔功能", true)
