@@ -612,19 +612,12 @@ STRINGS.NAMES.WB_STRENGTHENSTOVE_BUILD = STRINGS.NAMES.WB_STRENGTHENSTOVE
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.WB_STRENGTHENSTOVE = "神秘的强化炉"
 STRINGS.RECIPE_DESC.WB_STRENGTHENSTOVE = "神秘的强化炉"
 
-AddRecipe(
-  'wb_strengthenstove',
-  {Ingredient('marble', 20), Ingredient('nightmarefuel', 20), Ingredient('redgem', 20), Ingredient('purplegem', 20),},
-  RECIPETABS.SCIENCE,
-  TECH.SCIENCE_TWO,
-  'wb_strengthenstove_placer',
-  1,
-  nil,
-  nil,
-  nil,
-  "images/inventoryimages2.xml",
-  'wintersfeastoven.tex'
-)
+AddRecipe2("wb_strengthenstove", -- name
+        {Ingredient('marble', 20), Ingredient('nightmarefuel', 20), Ingredient('redgem', 20), Ingredient('purplegem', 20),},
+        GLOBAL.TECH.SCIENCE_TWO,
+        { atlas = "images/inventoryimages2.xml", image = "wintersfeastoven.tex" },
+        { "MAGIC" })
+
 
 -- 科技栏===============================================================================
 
