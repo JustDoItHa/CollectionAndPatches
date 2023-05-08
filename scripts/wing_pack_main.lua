@@ -73,7 +73,7 @@ function backpackpostinit(inst)
    if not GLOBAL.TheWorld.ismastersim then
 		return inst
 	end  
-	if GetModConfigData("equip_slot") == true then	
+	if GetModConfigData("wingpack_equip_slot") == true then
 		inst.components.equippable.equipslot = GLOBAL.EQUIPSLOTS.BACK
 	end
 	
