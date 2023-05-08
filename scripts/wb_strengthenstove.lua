@@ -612,11 +612,25 @@ STRINGS.NAMES.WB_STRENGTHENSTOVE_BUILD = STRINGS.NAMES.WB_STRENGTHENSTOVE
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.WB_STRENGTHENSTOVE = "神秘的强化炉"
 STRINGS.RECIPE_DESC.WB_STRENGTHENSTOVE = "神秘的强化炉"
 
+
+--AddRecipe(
+--        'wb_strengthenstove',
+--        {Ingredient('marble', 20), Ingredient('nightmarefuel', 20), Ingredient('redgem', 20), Ingredient('purplegem', 20),},
+--        RECIPETABS.SCIENCE,
+--        TECH.SCIENCE_TWO,
+--        'wb_strengthenstove_placer',
+--        1,
+--        nil,
+--        nil,
+--        nil,
+--        "images/inventoryimages2.xml",
+--        'wintersfeastoven.tex'
+--)
 AddRecipe2("wb_strengthenstove", -- name
         {Ingredient('marble', 20), Ingredient('nightmarefuel', 20), Ingredient('redgem', 20), Ingredient('purplegem', 20),},
         GLOBAL.TECH.SCIENCE_TWO,
-        { atlas = "images/inventoryimages2.xml", image = "wintersfeastoven.tex" },
-        { "MAGIC" })
+        { placer = "wb_strengthenstove_placer", min_spacing = 3, atlas = "images/inventoryimages2.xml", image = "wintersfeastoven.tex" },
+        { "MAGIC", "STRUCTURES" })
 
 
 -- 科技栏===============================================================================
@@ -671,7 +685,8 @@ for name, config in pairs(STRINGS_CONFIGS) do
   STRINGS.RECIPE_DESC[string.upper(name)] = config[3]
 end
 
-local WB_STRENGTHENSTOVE_TAB = AddRecipeTab('神秘的强化炉', 200, "images/inventoryimages2.xml", 'wintersfeastoven.tex', nil, true)
+--local WB_STRENGTHENSTOVE_TAB = AddRecipeTab('神秘的强化炉', 200, "images/inventoryimages2.xml", 'wintersfeastoven.tex', nil, true)
+local WB_STRENGTHENSTOVE_TAB = AddRecipeTab('神秘的强化炉' or "", 200, "images/inventoryimages2.xml", "wintersfeastoven.tex", nil, true)
 
 AddRecipe("wb_strengthen_clearpaper", { Ingredient('papyrus', 1), Ingredient('nightmarefuel', 10) }, WB_STRENGTHENSTOVE_TAB, TECH.WB_STRENGTHENSTOVE_ONE, nil, 1, true, nil, nil, "images/inventoryimages2.xml", "sketch.tex")
 AddRecipe("wb_strengthen_bindpaper", { Ingredient('papyrus', 1), Ingredient('nightmarefuel', 10), Ingredient('atrium_key', 1) }, WB_STRENGTHENSTOVE_TAB, TECH.WB_STRENGTHENSTOVE_ONE, nil, 1, true, nil, nil, "images/inventoryimages2.xml", "sketch.tex")
