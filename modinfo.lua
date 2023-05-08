@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "10.2.0.7"
+version = "10.3.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1707,6 +1707,10 @@ configuration_options = {
     --          { description = "F8", data = "KEY_F8", hover = "使用快捷键F8" },
     --          { description = "F9", data = "KEY_F9", hover = "使用快捷键F9" }, }, "KEY_O"),
     AddOption("BAGINBAG", "Bag in bag(包中包)", "Bag in bag", false),
+
+    AddOptionHeader("翅膀背包"),
+    AddOption("wingpack_switch", "制作翅膀背包开关", "是否可以制作翅膀背包", false),
+    AddOption("wingpack_equip_slot", "放在额外背包栏", "开始则放在额外背包栏\n关闭放在身体栏", false),
 
     AddOptionHeader("超大容量便携箱子"),
     AddOption("bigbox_switch", "制作超大容量便携箱子开关", "是否可以制作超大容量便携箱子", false),

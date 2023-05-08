@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<Atlas>
+
+<Texture filename="dragonfly_wings.tex"/>
+
+
+<Elements>
+
+<Element v2="0.9921875" v1="0.0078125" u2="0.9921875" u1="0.0078125" name="dragonfly_wings.tex"/>
+
+</Elements>
+
+</Atlas>

@@ -388,6 +388,10 @@ end
 if GetModConfigData("bigbag_switch") then
     modimport("scripts/bigbag_main.lua")
 end
+--翅膀背包
+if GetModConfigData("wingpack_switch") then
+    modimport("scripts/wing_pack_main.lua")
+end
 
 --自定义禁用角色
 --旧的方式
