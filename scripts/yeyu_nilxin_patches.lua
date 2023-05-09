@@ -194,6 +194,8 @@ end
 
 if GetModConfigData("everyone_is_yeyu_nilxin") then
     TUNING.YYXK.X3RV9ANX = true
+else
+    TUNING.YYXK.X3RV9ANX = false
 end
 
 ---防止箱子升级炸服的修复
@@ -206,4 +208,45 @@ if old_YYXKTOGETHERUP then
         end
         return old_YYXKTOGETHERUP(act)
     end
+end
+
+
+local function findSpawnPoint()
+    for i=1,10000 do
+        local x = math.random(-600,600)
+        local y = math.random(-600,600)
+        local yes = true
+        local ents = TheSim:FindEntities(x,0,y,2,nil,{"FX","NOCLICK","NOBLOCK"})
+        yes = yes and #ents < 1
+        for ix = -2,2,1 do
+            for iy = -2,2,1 do
+                yes = yes and TheWorld.Map:CanPlantAtPoint(x+ix*4,0,y+iy*4)
+                yes = yes and TheWorld.Map:IsPassableAtPoint(x+ix*4,0,y+iy*4,false,true)
+            end
+        end
+
+        if yes then
+            local ix = math.random()
+            local iy = math.random()
+            x = x + ix
+            y = y + iy
+            print(i,x,y,ix,math.random())
+            return Vector3(x,0,y)
+        end
+    end
+    return Vector3(math.random()*20,0,math.random()*20)
+end
+
+
+---不生成资源岛
+if GetModConfigData("yeyu_nilxin_island_generate_no") then
+    AddPrefabPostInit("yyxk_san_base_layout",function (inst)
+        inst:Remove()
+        --地图随机生成魔力花(nilxin_lifeplant)星光之石(yyxk_san_layout) 任务中心(yyxk_homesign)
+        SpawnAt("nilxin_lifeplant",findSpawnPoint())
+        SpawnAt("yyxk_san_layout",findSpawnPoint())
+        SpawnAt("yyxk_homesign",findSpawnPoint())
+
+    end)
+
 end
