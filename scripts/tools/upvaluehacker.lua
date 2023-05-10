@@ -67,7 +67,7 @@ Example 3: Local variables in components
 Good luck and happy upvalue hacking!
 ]]
 --Upvalue hacker by Rezecib
---Copied from https://github.com/rezecib/Rezecib-s-Rebalance/blob/d4a41b0c28a117c1a4efadf220347a6db7164bb3/scripts/tools/upvaluehacker.lua
+--Copied from https://github.com/rezecib/Rezecib-s-Rebalance/blob/ff70ceded9b64e9bd757dce1e29182915f754b67/scripts/tools/upvaluehacker.lua
 
 UpvalueHacker = {}
 local function GetUpvalueHelper(fn, name)
@@ -81,10 +81,10 @@ end
 
 function UpvalueHacker.GetUpvalue(fn, ...)
     local prv, i, prv_var = nil, nil, "(the starting point)"
-    for j, var in ipairs({ ... }) do
-        assert(type(fn) == "function", "We were looking for " .. var .. ", but the value before it, "
-                .. prv_var .. ", wasn't a function (it was a " .. type(fn)
-                .. "). Here's the full chain: " .. table.concat({ "(the starting point)", ... }, ", "))
+    for j,var in ipairs({...}) do
+        assert(type(fn) == "function", "We were looking for "..var..", but the value before it, "
+                ..prv_var..", wasn't a function (it was a "..type(fn)
+                .."). Here's the full chain: "..table.concat({"(the starting point)", ...}, ", "))
         prv = fn
         prv_var = var
         fn, i = GetUpvalueHelper(fn, var)

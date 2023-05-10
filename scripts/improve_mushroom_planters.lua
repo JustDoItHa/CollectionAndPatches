@@ -62,7 +62,14 @@ local function find_mfarm_upvalues(inst)
     end
 
     modprint("Upvalue hacking old \"onacceptitem\" for StartGrowing...")
-    my_StartGrowing = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "StartGrowing")
+    local onAccept_old
+    --兼容棱镜
+    if TUNING.LEGION_ENABLE then
+        onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
+        my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
+    else
+        my_StartGrowing = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "StartGrowing")
+    end
 
     if not my_StartGrowing then
         modprint("StartGrowing not found in old \"onacceptitem\"!")
@@ -182,16 +189,17 @@ local function onharvest(inst, picker) --support unlimited harvests
 end
 
 local function accepttest(inst, item) --accept items in fert_values, accept moonmushroom if MOON_OK
+    local AbleToAcceptTest_old = inst.components.trader.abletoaccepttest
     if item == nil then
-        return false
+        return AbleToAcceptTest_old(inst, item)
     elseif inst.remainingharvests == 0 and not fert_values[item.prefab] then
-        return false, "MUSHROOMFARM_NEEDSLOG"
+        return AbleToAcceptTest_old(inst, item)
     elseif inst.remainingharvests < TUNING.MUSHROOMFARM_MAX_HARVESTS and fert_values[item.prefab] then
         return true
     elseif not (item:HasTag("mushroom") or item:HasTag("spore")) then
-        return false, "MUSHROOMFARM_NEEDSSHROOM"
+        return AbleToAcceptTest_old(inst, item)
     elseif not MOON_OK and item:HasTag("moonmushroom") then
-        return false, "MUSHROOMFARM_NOMOONALLOWED"
+        return AbleToAcceptTest_old(inst, item)
     end
     return true
 end
