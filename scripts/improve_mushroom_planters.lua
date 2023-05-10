@@ -62,18 +62,77 @@ local function find_mfarm_upvalues(inst)
     end
 
     modprint("Upvalue hacking old \"onacceptitem\" for StartGrowing...")
-    local onAccept_old
-    --兼容棱镜
-    if TUNING.LEGION_ENABLE then
-        onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
-        if not onAccept_old then
-            modprint("OnAccept_old not found in legion!")
+    local onAccept_old,onAccept_old2,ndnrOnAccept_old
+    if TUNING.NDNR_ENABLE then
+        ndnrOnAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "old_onacceptitem")
+        if not ndnrOnAccept_old then
+            modprint("OnAccept_old not found in ndnr!")
             return false
         end
-        my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
+        --兼容棱镜 --多肉植物
+        if TUNING.LEGION_ENABLE and TUNING.SUCCULENT_PLANT_ENABLE then
+            onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+            if not onAccept_old then
+                modprint("OnAccept_old not found in legion and succulent plant 1 !")
+                return false
+            end
+            onAccept_old2 = UpvalueHacker.GetUpvalue(onAccept_old, "OnAccept_old")
+            if not onAccept_old2 then
+                modprint("OnAccept_old not found in legion and succulent plant 2 !")
+                return false
+            end
+            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old2, "StartGrowing")
+        elseif TUNING.LEGION_ENABLE then
+            onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+            if not onAccept_old then
+                modprint("OnAccept_old not found in legion!")
+                return false
+            end
+            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
+        elseif TUNING.SUCCULENT_PLANT_ENABLE then
+            onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+            if not onAccept_old then
+                modprint("OnAccept_old not found in succulent plant!")
+                return false
+            end
+            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
+        else
+            my_StartGrowing = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "StartGrowing")
+        end
     else
-        my_StartGrowing = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "StartGrowing")
+        --兼容棱镜 --多肉植物
+        if TUNING.LEGION_ENABLE and TUNING.SUCCULENT_PLANT_ENABLE then
+            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
+            if not onAccept_old then
+                modprint("OnAccept_old not found in legion and succulent plant 1 !")
+                return false
+            end
+            onAccept_old2 = UpvalueHacker.GetUpvalue(onAccept_old, "OnAccept_old")
+            if not onAccept_old2 then
+                modprint("OnAccept_old not found in legion and succulent plant 2 !")
+                return false
+            end
+            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old2, "StartGrowing")
+        elseif TUNING.LEGION_ENABLE then
+            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
+            if not onAccept_old then
+                modprint("OnAccept_old not found in legion!")
+                return false
+            end
+            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
+        elseif TUNING.SUCCULENT_PLANT_ENABLE then
+            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
+            if not onAccept_old then
+                modprint("OnAccept_old not found in succulent plant!")
+                return false
+            end
+            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
+        else
+            my_StartGrowing = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "StartGrowing")
+        end
     end
+
+
 
     if not my_StartGrowing then
         modprint("StartGrowing not found in old \"onacceptitem\"!")

@@ -91,7 +91,9 @@ TUNING.QIHUANJIANGLIN_ENABLE = modenable({ "2867435690", "2790273347", "奇幻�
 TUNING.HEAP_OF_FOOD_ENABLE = modenable({ "2334209327", "Heap of Foods" })
 TUNING.INTERESTING_TUMBLEWEED_ENABLE = modenable({ "1944492666", "Interesting Tumbleweed" })
 TUNING.MAUSER_RIFLE_BAYONET_ENABLE = modenable({ "955048205", "Mauser Rifle & Bayonet" })
-TUNING.LEGION_ENABLE = modenable({ "1392778117", "legion" })
+TUNING.LEGION_ENABLE = modenable({ "1392778117", "legion", "Legion-棱镜" })
+TUNING.SUCCULENT_PLANT_ENABLE = modenable({ "2441790846", "Succulent plant", "多肉植物" })
+TUNING.NDNR_ENABLE = modenable({ "2823458540", "富贵险中求", "ndnr", "富贵险中求(No Danger No Rich)" })
 
 
 --修复标签问题
@@ -517,7 +519,6 @@ end
 if GetModConfigData("wb_strengthen_switch") then
     modimport("scripts/wb_strengthenstove.lua")
 end
-
 
 ----处理下重复加组件的问题 不知道放哪里 先写这里
 AddGlobalClassPostConstruct("entityscript", "EntityScript", function(self)
