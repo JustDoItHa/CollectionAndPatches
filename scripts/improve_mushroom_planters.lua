@@ -66,6 +66,10 @@ local function find_mfarm_upvalues(inst)
     --兼容棱镜
     if TUNING.LEGION_ENABLE then
         onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
+        if not onAccept_old then
+            modprint("OnAccept_old not found in legion!")
+            return false
+        end
         my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
     else
         my_StartGrowing = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "StartGrowing")
