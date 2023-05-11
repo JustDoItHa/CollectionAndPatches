@@ -264,7 +264,7 @@ local function accepttest(inst, item) --accept items in fert_values, accept moon
     elseif not MOON_OK and item:HasTag("moonmushroom") then
         return AbleToAcceptTest_old(inst, item)
     end
-    return true
+    return AbleToAcceptTest_old(inst, item)
 end
 
 local FULLY_REPAIRED_WORKLEFT = 3
