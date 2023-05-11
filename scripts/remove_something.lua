@@ -27,7 +27,7 @@ local remove_table = {
     remove_abigail_williams_sword = { "traveler_sword" },
     remove_abigail_williams_sword_a = { "traveler_sword_a" },
     remove_abigail_williams_sword_b = { "traveler_sword_b" },
-    remove_abigail_williams_psionic_bobbin_2_3_4 = { "abigail_williams_psionic_bobbin_2","abigail_williams_psionic_bobbin_3","abigail_williams_psionic_bobbin_4" },
+    remove_abigail_williams_psionic_bobbin_2_3_4 = { "abigail_williams_psionic_bobbin_2", "abigail_williams_psionic_bobbin_3", "abigail_williams_psionic_bobbin_4" },
     --夜雨空心
     remove_nilxin_fox = { "nilxin_fox" },
     remove_nilxin_yyxk1 = { "yyxk1" },
@@ -52,8 +52,8 @@ local remove_table = {
     ["恐怖剧钳"] = { "creepingfear" },
     --黑死病
     remove_tiddle_decay = { "tiddle_decay" },
-    remove_krm_broom = {"krm_broom"},
-    remove_krm_bullet10 = {"krm_bullet10"},
+    remove_krm_broom = { "krm_broom" },
+    remove_krm_bullet10 = { "krm_bullet10" },
     --原版
     ["青蛙"] = { "frog" },
     ["鸟粪"] = { "guano" },
@@ -75,6 +75,27 @@ local remove_table = {
                                "halloweencandy_12",
                                "halloweencandy_13",
                                "halloweencandy_14", },
+
+    remove_taizhen_personal_fanhao = { "tz_fhzc",
+                                       "tz_fhgx",
+                                       "tz_fhft",
+                                       "tz_fhdx",
+                                       "tz_fhym",
+                                       "tz_fhzlz",
+                                       "tz_fhspts",
+                                       "tz_fh_ym",
+                                       "tz_fh_ml",
+                                       "tz_fh_you",
+                                       "tz_fh_ns",
+                                       "tz_fh_ly",
+                                       "tz_fh_jhz",
+                                       "tz_fh_xhws",
+                                       "tz_fh_fl",
+                                       "tz_fh_ht",
+                                       "tz_fh_hf",
+                                       "tz_fh_fishgirl" },
+
+
     --remove_heap_of_food_bird = { "quagmire_pigeon", "toucan", "kingfisher" },
 }
 -- local remove_item  = {}
@@ -207,34 +228,34 @@ local function remoe_gai(inst)
         local ingredientmod = owner and owner.components and owner.components.builder and owner.components.builder.ingredientmod or 1
         local pos = inst:GetPosition()
         -- if player then
-            inst:Remove()
-            if type == "abtravel_log" then
-                local ab_traveler_log = owner and owner:HasTag("player") and owner.components.inventory:GetCraftingIngredient("traveler_log", 1) or {}
-                for k, v in pairs(re_table) do
-                    if k == "ab_lizi" and next(ab_traveler_log) then
-                        for j, s in pairs(ab_traveler_log) do
-                            if j.prefab == "traveler_log" then
-                                j.components.ab_recipelist.inventoryitems.ab_lizi = j.components.ab_recipelist.inventoryitems.ab_lizi + v
-                                break
-                            end
+        inst:Remove()
+        if type == "abtravel_log" then
+            local ab_traveler_log = owner and owner:HasTag("player") and owner.components.inventory:GetCraftingIngredient("traveler_log", 1) or {}
+            for k, v in pairs(re_table) do
+                if k == "ab_lizi" and next(ab_traveler_log) then
+                    for j, s in pairs(ab_traveler_log) do
+                        if j.prefab == "traveler_log" then
+                            j.components.ab_recipelist.inventoryitems.ab_lizi = j.components.ab_recipelist.inventoryitems.ab_lizi + v
+                            break
                         end
-                    elseif k == "ab_lizi" then
-                        SpawnLootPrefab(owner, "log", v, pos)
-                    else
-                        SpawnLootPrefab(owner, k, v, pos)
                     end
-                end
-            else
-                for k, v in pairs(re_table) do
-                    SpawnLootPrefab(owner, v.type, RoundBiasedUp(v.amount * ingredientmod), pos)
-                    -- if inst:HasTag("structure") then
-                    --  SpawnLootPrefab(player, v.type, RoundBiasedUp(v.amount*0.5))
-                    -- else
-                    --  SpawnLootPrefab(player, v.type, RoundBiasedUp(v.amount*ingredientmod))
-                    -- end
+                elseif k == "ab_lizi" then
+                    SpawnLootPrefab(owner, "log", v, pos)
+                else
+                    SpawnLootPrefab(owner, k, v, pos)
                 end
             end
-            
+        else
+            for k, v in pairs(re_table) do
+                SpawnLootPrefab(owner, v.type, RoundBiasedUp(v.amount * ingredientmod), pos)
+                -- if inst:HasTag("structure") then
+                --  SpawnLootPrefab(player, v.type, RoundBiasedUp(v.amount*0.5))
+                -- else
+                --  SpawnLootPrefab(player, v.type, RoundBiasedUp(v.amount*ingredientmod))
+                -- end
+            end
+        end
+
 
         -- end
     else
@@ -250,7 +271,7 @@ if TheNet:GetIsServer() then
             AddPrefabPostInit(s, function(inst)
                 if remove_day < 0 or TheWorld.state.cycles + 1 < remove_day then
                     inst:DoPeriodicTask(0.05, function()
-                    -- inst:DoTaskInTime(0, function()
+                        -- inst:DoTaskInTime(0, function()
                         if inst.components and inst.components.container then
                             --and not inst.components.container:IsEmpty()
                             if inst.components.container:IsEmpty() then
@@ -261,7 +282,7 @@ if TheNet:GetIsServer() then
                         else
                             remoe_gai(inst)
                         end
-                    end,0)
+                    end, 0)
                 end
             end)
         end
@@ -362,7 +383,9 @@ if MOD_RPC_HANDLERS["ab_recipelist"] and MOD_RPC["ab_recipelist"] and MOD_RPC["a
         --     inst.components.talker:Say("随暗金天数解锁")
         --     return
         -- end
-        if old_ab_recipelist then old_ab_recipelist(inst, recipename, isproduct, ...) end
+        if old_ab_recipelist then
+            old_ab_recipelist(inst, recipename, isproduct, ...)
+        end
     end
 end
 

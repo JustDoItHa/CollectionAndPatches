@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "10.8.0.4"
+version = "10.9.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1826,6 +1826,7 @@ configuration_options = {
     AddConfigOption("remove_krm_broom", "时崎狂三的赝造魔女(复制)", "平衡", disappear_magic, -1),
     AddConfigOption("remove_krm_bullet10", "时崎狂三的十之弹:解锁科技", "十之弹:解锁科技解锁伊蕾娜科技", disappear_magic, 200),
     AddConfigOption("remove_krm_spirit_crystal", "时崎狂三的二亚的灵结晶", "可开启创造模式", disappear_magic, 300),
+    AddConfigOption("remove_taizhen_personal_fanhao", "太真专属番号", "限制太真的专属番号", disappear_magic, -1),
 
     AddOptionHeader("内容PLUS"),
     AddOption("hide_admin_switch", "隐藏管理员-开关", "是否隐藏管理员标志", false),
