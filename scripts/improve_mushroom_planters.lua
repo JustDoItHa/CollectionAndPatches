@@ -1,10 +1,8 @@
-
 --Assets =
 --{
 --    Asset("ANIM", "anim/mushroom_farm_moon_build.zip"),
 --    Asset("ATLAS", "images/inventoryimages/spore_moon.xml"),
 --}
-table.insert(Assets, Asset("ANIM", "anim/mushroom_farm_moon_build.zip"))
 table.insert(Assets, Asset("ATLAS", "images/inventoryimages/spore_moon.xml"))
 local _G = GLOBAL
 if not _G.TheNet:GetIsServer() then
@@ -14,7 +12,7 @@ end
 local UpvalueHacker = require("tools/upvaluehacker") --Rezecib's upvalue hacker
 
 local function modprint(s)
-    print("[Improved Mushroom Planters] "..s)
+    print("[Improved Mushroom Planters] " .. s)
 end
 
 -------------------------------------------
@@ -30,16 +28,16 @@ local SNOW_GROW = GetModConfigData("snow_grow") --grow or pause in snow
 local MOON_OK = GetModConfigData("moon_ok") --allow growing moon shrooms
 local MOON_SPORE = GetModConfigData("moon_spore") --allow catching and planting lunar spores
 
-local fert_values =
-{
+local fert_values = {
     livinglog = TUNING.MUSHROOMFARM_MAX_HARVESTS,
 }
 
 if GetModConfigData("easy_fert") then
     local fd = require("prefabs/fertilizer_nutrient_defs").FERTILIZER_DEFS
-    for k, v in pairs(fd) do --fertilizers restore harvests by 1/8 of total nutrients
+    for k, v in pairs(fd) do
+        --fertilizers restore harvests by 1/8 of total nutrients
         local sum = v.nutrients[1] + v.nutrients[2] + v.nutrients[3]
-        fert_values[k] = math.max(1, sum/8)
+        fert_values[k] = math.max(1, sum / 8)
     end
 end
 
@@ -57,12 +55,12 @@ local function find_mfarm_upvalues(inst)
     end
 
     if not inst.components.trader.onaccept then
-        modprint("inst.components.trader.onaccept not defined for (".._G.tostring(inst)..")!")
+        modprint("inst.components.trader.onaccept not defined for (" .. _G.tostring(inst) .. ")!")
         return false
     end
 
     modprint("Upvalue hacking old \"onacceptitem\" for StartGrowing...")
-    local onAccept_old,onAccept_old2,ndnrOnAccept_old
+    local onAccept_old, onAccept_old2, ndnrOnAccept_old
     if TUNING.NDNR_ENABLE then
         ndnrOnAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "old_onacceptitem")
         if not ndnrOnAccept_old then
@@ -132,8 +130,6 @@ local function find_mfarm_upvalues(inst)
         end
     end
 
-
-
     if not my_StartGrowing then
         modprint("StartGrowing not found in old \"onacceptitem\"!")
         return false
@@ -143,13 +139,12 @@ local function find_mfarm_upvalues(inst)
     my_levels = UpvalueHacker.GetUpvalue(my_StartGrowing, "levels")
     if not my_levels then
         modprint("\"levels\" not found in StartGrowing! Using default.")
-        my_levels =
-        {
-            { amount=6, grow="mushroom_4", idle="mushroom_4_idle", hit="hit_mushroom_4" },
-            { amount=4, grow="mushroom_3", idle="mushroom_3_idle", hit="hit_mushroom_3" },
-            { amount=2, grow="mushroom_2", idle="mushroom_2_idle", hit="hit_mushroom_2" },
-            { amount=1, grow="mushroom_1", idle="mushroom_1_idle", hit="hit_mushroom_1" },
-            { amount=0, idle="idle", hit="hit_idle" },
+        my_levels = {
+            { amount = 6, grow = "mushroom_4", idle = "mushroom_4_idle", hit = "hit_mushroom_4" },
+            { amount = 4, grow = "mushroom_3", idle = "mushroom_3_idle", hit = "hit_mushroom_3" },
+            { amount = 2, grow = "mushroom_2", idle = "mushroom_2_idle", hit = "hit_mushroom_2" },
+            { amount = 1, grow = "mushroom_1", idle = "mushroom_1_idle", hit = "hit_mushroom_1" },
+            { amount = 0, idle = "idle", hit = "hit_idle" },
         }
     end
 
@@ -160,8 +155,7 @@ local function find_mfarm_upvalues(inst)
         modprint("Paired key \"spore_moon\" with \"moon_cap\" in existing \"spore_to_cap\".")
     else
         modprint("\"spore_to_cap\" not found in StartGrowing! Using default.")
-        my_spore_to_cap =
-        {
+        my_spore_to_cap = {
             spore_tall = "blue_cap",
             spore_medium = "red_cap",
             spore_small = "green_cap",
@@ -176,7 +170,8 @@ end
 ------------- Changed Stuff ---------------
 -------------------------------------------
 
-local function setlevel(inst, level, dotransition) --accept items when snowy if SNOW_GROW
+local function setlevel(inst, level, dotransition)
+    --accept items when snowy if SNOW_GROW
     if inst:HasTag("burnt") then
         return
     end
@@ -214,7 +209,8 @@ local function setlevel(inst, level, dotransition) --accept items when snowy if 
     end
 end
 
-local function updatelevel(inst, dotransition) --keep growing when snowy if SNOW_GROW, else pause
+local function updatelevel(inst, dotransition)
+    --keep growing when snowy if SNOW_GROW, else pause
     if inst:HasTag("burnt") then
         return
     end
@@ -242,7 +238,8 @@ local function updatelevel(inst, dotransition) --keep growing when snowy if SNOW
     end
 end
 
-local function onharvest(inst, picker) --support unlimited harvests
+local function onharvest(inst, picker)
+    --support unlimited harvests
     if inst:HasTag("burnt") then
         return
     elseif MAX_HARVESTS >= 0 then
@@ -251,7 +248,8 @@ local function onharvest(inst, picker) --support unlimited harvests
     updatelevel(inst)
 end
 
-local function accepttest(inst, item) --accept items in fert_values, accept moonmushroom if MOON_OK
+local function accepttest(inst, item)
+    --accept items in fert_values, accept moonmushroom if MOON_OK
     local AbleToAcceptTest_old = inst.components.trader.abletoaccepttest
     if item == nil then
         return false
@@ -268,7 +266,8 @@ local function accepttest(inst, item) --accept items in fert_values, accept moon
 end
 
 local FULLY_REPAIRED_WORKLEFT = 3
-local function onacceptitem(inst, giver, item) --apply fert value; handle item removal
+local function onacceptitem(inst, giver, item)
+    --apply fert value; handle item removal
     if fert_values[item.prefab] then
         inst.remainingharvests = math.min(inst.remainingharvests + fert_values[item.prefab], TUNING.MUSHROOMFARM_MAX_HARVESTS)
         inst.components.workable:SetWorkLeft(FULLY_REPAIRED_WORKLEFT)
@@ -293,20 +292,88 @@ local function onacceptitem(inst, giver, item) --apply fert value; handle item r
     end
 end
 
+local function set_new_onacceptitem(inst)
+    local onAccept_old, onAccept_old2, ndnrOnAccept_old
+    if TUNING.NDNR_ENABLE then
+        ndnrOnAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "old_onacceptitem")
+        if ndnrOnAccept_old then
+            --兼容棱镜 --多肉植物
+            if TUNING.LEGION_ENABLE and TUNING.SUCCULENT_PLANT_ENABLE then
+                onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+                if onAccept_old then
+                    onAccept_old2 = UpvalueHacker.GetUpvalue(onAccept_old, "OnAccept_old")
+                    if onAccept_old2 then
+                        UpvalueHacker.SetUpvalue(onAccept_old2, onacceptitem, "onacceptitem")
+                        return
+                    end
+                end
+            elseif TUNING.LEGION_ENABLE then
+                onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+                if onAccept_old then
+                    UpvalueHacker.SetUpvalue(onAccept_old, onacceptitem, "onacceptitem")
+                    return
+                end
+            elseif TUNING.SUCCULENT_PLANT_ENABLE then
+                onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+                if onAccept_old then
+                    UpvalueHacker.SetUpvalue(onAccept_old, onacceptitem, "onacceptitem")
+                    return
+                end
+            else
+                UpvalueHacker.SetUpvalue(ndnrOnAccept_old, onacceptitem, "onacceptitem")
+                return
+            end
+        end
+
+    else
+        --兼容棱镜 --多肉植物
+        if TUNING.LEGION_ENABLE and TUNING.SUCCULENT_PLANT_ENABLE then
+            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
+            if onAccept_old then
+                onAccept_old2 = UpvalueHacker.GetUpvalue(onAccept_old, "OnAccept_old")
+                if onAccept_old2 then
+                    UpvalueHacker.SetUpvalue(onAccept_old2, onacceptitem, "onacceptitem")
+                    return
+                end
+            end
+        elseif TUNING.LEGION_ENABLE then
+            onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+            if onAccept_old then
+                UpvalueHacker.SetUpvalue(onAccept_old, onacceptitem, "onacceptitem")
+                return
+            end
+        elseif TUNING.SUCCULENT_PLANT_ENABLE then
+            onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+            if onAccept_old then
+                UpvalueHacker.SetUpvalue(onAccept_old, onacceptitem, "onacceptitem")
+                return
+            end
+        else
+            UpvalueHacker.SetUpvalue(inst.components.trader.onaccept, onacceptitem, "onacceptitem")
+            return
+        end
+    end
+    inst.components.trader.onaccept = onacceptitem
+end
+
+
+
+
 -------------------------------------------
 ---------------- Finally ------------------
 -------------------------------------------
 
 AddPrefabPostInit("mushroom_farm", function(inst)
     if find_mfarm_upvalues(inst) then
-        modprint("Replacing \"updatelevel\" in (".._G.tostring(inst)..")")
+        modprint("Replacing \"updatelevel\" in (" .. _G.tostring(inst) .. ")")
         UpvalueHacker.SetUpvalue(inst.components.trader.onaccept, updatelevel, "updatelevel")
 
         inst.components.harvestable:SetOnHarvestFn(onharvest)
 
         inst.components.trader.deleteitemonaccept = false --handled in onacceptitem
         inst.components.trader:SetAbleToAcceptTest(accepttest)
-        inst.components.trader.onaccept = onacceptitem
+        --inst.components.trader.onaccept = onacceptitem
+        set_new_onacceptitem(inst)
     else
         _G.TheNet:SystemMessage("[Improved Mushroom Planters] Failed to modify Mushroom Planter!")
     end
@@ -332,7 +399,7 @@ local function find_spore_upvalues(inst)
         modprint("\"checkforcrowding\" not found in Prefabs.spore_moon.fn!")
         return false
     elseif not inst.OnEntityWake then
-        modprint("inst.OnEntityWake not defined for (".._G.tostring(inst)..")!")
+        modprint("inst.OnEntityWake not defined for (" .. _G.tostring(inst) .. ")!")
         return false
     end
 
@@ -359,9 +426,11 @@ end
 ------------- Changed Stuff ---------------
 -------------------------------------------
 
-local function depleted(inst) --explode in inventory
+local function depleted(inst)
+    --explode in inventory
     local holder = inst.components.inventoryitem and inst.components.inventoryitem:GetContainer()
-    if holder then --need to drop before exploding
+    if holder then
+        --need to drop before exploding
         --holder:DropItem(inst, true) --NOTE: doesn't work for container, need to do ourself!
         --    klei-bug-tracker/dont-starve-together/containerdropitem-lacks-pairity-with-inventorydropitem-r34255/
         local item = holder:RemoveItem(inst, true)
@@ -371,7 +440,7 @@ local function depleted(inst) --explode in inventory
 
             item.prevcontainer = nil
             item.prevslot = nil
-            holder.inst:PushEvent("dropitem", {item = item})
+            holder.inst:PushEvent("dropitem", { item = item })
         else
             inst.Remove() --just in case
         end
@@ -387,15 +456,17 @@ local function depleted(inst) --explode in inventory
     end
 end
 
-local function onworked(inst, worker) --give item instead of popping
+local function onworked(inst, worker)
+    --give item instead of popping
     if worker.components.inventory then
         worker.components.inventory:GiveItem(inst, nil, inst:GetPosition())
         worker.SoundEmitter:PlaySound("dontstarve/common/butterfly_trap")
     end
 end
 
-local function onpickup(inst) --same as regular spores, but need to stop testing
-    inst.components.perishable:SetLocalMultiplier( TUNING.SEG_TIME*3 / TUNING.PERISH_SLOW )
+local function onpickup(inst)
+    --same as regular spores, but need to stop testing
+    inst.components.perishable:SetLocalMultiplier(TUNING.SEG_TIME * 3 / TUNING.PERISH_SLOW)
     my_stop_testing(inst) --stop looking for targets
     if inst.crowdingtask then
         inst.crowdingtask:Cancel()
@@ -403,7 +474,8 @@ local function onpickup(inst) --same as regular spores, but need to stop testing
     end
 end
 
-local function ondropped(inst) --same as regular spores, but we need to resume targeting and use transform
+local function ondropped(inst)
+    --same as regular spores, but we need to resume targeting and use transform
     inst.components.perishable:SetLocalMultiplier(1)
 
     if inst.components.workable then
@@ -415,8 +487,8 @@ local function ondropped(inst) --same as regular spores, but we need to resume t
             local item = inst.components.stackable:Get()
             if item then
                 local x, y, z = inst.Transform:GetWorldPosition() --lunar spore doesn't have physics, need to handle spread ourselves
-                x = x + math.random()*2 - 1
-                z = z + math.random()*2 - 1
+                x = x + math.random() * 2 - 1
+                z = z + math.random() * 2 - 1
                 item.Transform:SetPosition(x, y, z)
 
                 item.components.inventoryitem:OnDropped()
@@ -428,7 +500,7 @@ local function ondropped(inst) --same as regular spores, but we need to resume t
         depleted(inst) --explode immediately
         return
     elseif not inst.crowdingtask then
-        inst.crowdingtask = inst:DoTaskInTime(TUNING.MUSHSPORE_DENSITY_CHECK_TIME + math.random()*TUNING.MUSHSPORE_DENSITY_CHECK_VAR, my_checkforcrowding)
+        inst.crowdingtask = inst:DoTaskInTime(TUNING.MUSHSPORE_DENSITY_CHECK_TIME + math.random() * TUNING.MUSHSPORE_DENSITY_CHECK_VAR, my_checkforcrowding)
     end
     inst.sg:GoToState("takeoff") --give player time to get away
     my_schedule_testing(inst) --start looking for targets

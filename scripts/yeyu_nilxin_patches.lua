@@ -68,44 +68,7 @@ end
 
 if GetModConfigData("yeyu_nilxin_pack_limit") and TUNING.YEYU_NILXIN_ENABLE then
     --【设置不能打包的物品】
-    local yyxkcantbundles = {
-        "multiplayer_portal", --天体门
-        "pigking", --猪王
-        "antlion", --蚁狮
-        "crabking", --帝王蟹
-        "beequeenhivegrown", --蜂王窝-底座
-        "statueglommer", --格罗姆雕像
-        "oasislake", --绿洲
-        "archive_switch", --档案馆华丽的基座
-        "archive_portal", --档案馆传送门
-        "archive_lockbox_dispencer", --知识饮水器
-        "archive_centipede", --远古哨兵蜈蚣
-        "archive_centipede_husk", --远古哨兵壳
-        "atrium_gate", --远古大门
-        "monkeyqueen", --月亮码头女王
-        "monkeyisland_portal", --非自然传送门
-        "toadstool_cap", --毒菌蟾蜍蘑菇
-        "elecourmaline", --电器台
-        "elecourmaline_keystone", --
-        "moondungeon", --月的地下城
-        "siving_thetree", --子圭神木岩
-        "myth_rhino_desk", --三犀牛台
-        "myth_chang_e", --嫦娥
-        "myth_store", --小店
-        "myth_store_construction", --未完成的小店
-        "myth_shop", --小店
-        "myth_shop_animals",
-        "myth_shop_foods",
-        "myth_shop_ingredient",
-        "myth_shop_numerology",
-        "myth_shop_plants",
-        "myth_shop_rareitem",
-        "myth_shop_weapons",
-        "medal_spacetime_devourer", --时空吞噬者
-        "star_monv", --星辰魔女
-        "elaina_npc_qp", --星辰魔女对话框
-        "ntex_other_lz", --逆天而行修仙龙柱
-    }
+    local yyxkcantbundles = TUNING.CANT_PACK_ITEMS
     for i, v in ipairs(yyxkcantbundles) do
         AddPrefabPostInit(v, function(inst)
             inst:AddTag("yyxkcantbundle") --给物品添加此标签即可

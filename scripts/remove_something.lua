@@ -93,6 +93,7 @@ local remove_table = {
                                        "tz_fh_fl",
                                        "tz_fh_ht",
                                        "tz_fh_hf",
+                                       "tz_fh_nx",
                                        "tz_fh_fishgirl" },
 
 
