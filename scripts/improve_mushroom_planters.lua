@@ -254,9 +254,9 @@ end
 local function accepttest(inst, item) --accept items in fert_values, accept moonmushroom if MOON_OK
     local AbleToAcceptTest_old = inst.components.trader.abletoaccepttest
     if item == nil then
-        return AbleToAcceptTest_old(inst, item)
+        return false
     elseif inst.remainingharvests == 0 and not fert_values[item.prefab] then
-        return AbleToAcceptTest_old(inst, item)
+        return false
     elseif inst.remainingharvests < TUNING.MUSHROOMFARM_MAX_HARVESTS and fert_values[item.prefab] then
         return true
     elseif not (item:HasTag("mushroom") or item:HasTag("spore")) then
@@ -264,7 +264,7 @@ local function accepttest(inst, item) --accept items in fert_values, accept moon
     elseif not MOON_OK and item:HasTag("moonmushroom") then
         return AbleToAcceptTest_old(inst, item)
     end
-    return AbleToAcceptTest_old(inst, item)
+    return true
 end
 
 local FULLY_REPAIRED_WORKLEFT = 3
