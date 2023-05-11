@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "10.6.0.0"
+version = "10.8.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1367,6 +1367,11 @@ configuration_options = {
         },
         default = false,
     },
+    AddOptionHeader("水晶领主(aria)补丁"),
+    AddOption("aria_patches_switch", "总开关", "是否开启水晶领主", false),
+    AddOption("turn_off_aria_transfer_replicate_function", "转换站复制功能关闭", "移除制作站复制功能", true),
+    AddOption("aria_magiccore_can_make", "魔法核心制作", "可以在制作栏制作魔法核心\n需要研究所五级", true),
+
     AddOptionHeader("璇儿补丁"),
     AddOption("xuaner_patches_switch", "总开关", "是否开启璇儿补丁", false),
     AddOption("xuaner_packer_limit_switch", "璇儿打包限制", "禁止打包一些公用物品", true),

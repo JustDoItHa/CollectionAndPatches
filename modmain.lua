@@ -94,6 +94,7 @@ TUNING.MAUSER_RIFLE_BAYONET_ENABLE = modenable({ "955048205", "Mauser Rifle & Ba
 TUNING.LEGION_ENABLE = modenable({ "1392778117", "legion", "Legion-棱镜" })
 TUNING.SUCCULENT_PLANT_ENABLE = modenable({ "2441790846", "Succulent plant", "多肉植物" })
 TUNING.NDNR_ENABLE = modenable({ "2823458540", "富贵险中求", "ndnr", "富贵险中求(No Danger No Rich)" })
+TUNING.ARIA_ENABLE = modenable({ "2418617371", "艾丽娅·克莉丝塔露（重置版）"})
 
 
 --修复标签问题
@@ -226,6 +227,11 @@ end
 --奇幻降临
 if GetModConfigData("ab_patches_switch") and TUNING.QIHUANJIANGLIN_ENABLE then
     modimport("scripts/ab_patches.lua")
+end
+
+--水晶领主
+if GetModConfigData("aria_patches_switch") and TUNING.ARIA_ENABLE then
+    modimport("scripts/aria_patches.lua")
 end
 
 --乃木园子
