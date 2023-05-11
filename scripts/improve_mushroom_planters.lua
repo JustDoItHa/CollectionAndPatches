@@ -260,9 +260,9 @@ local function accepttest(inst, item) --accept items in fert_values, accept moon
     elseif inst.remainingharvests < TUNING.MUSHROOMFARM_MAX_HARVESTS and fert_values[item.prefab] then
         return true
     elseif not (item:HasTag("mushroom") or item:HasTag("spore")) then
-        return AbleToAcceptTest_old(inst, item)
+        return false
     elseif not MOON_OK and item:HasTag("moonmushroom") then
-        return AbleToAcceptTest_old(inst, item)
+        return false
     end
     return true
 end
