@@ -338,13 +338,13 @@ local function set_new_onacceptitem(inst)
                 end
             end
         elseif TUNING.LEGION_ENABLE then
-            onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
             if onAccept_old then
                 UpvalueHacker.SetUpvalue(onAccept_old, onacceptitem, "onacceptitem")
                 return
             end
         elseif TUNING.SUCCULENT_PLANT_ENABLE then
-            onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
             if onAccept_old then
                 UpvalueHacker.SetUpvalue(onAccept_old, onacceptitem, "onacceptitem")
                 return
