@@ -127,7 +127,7 @@ end)
 AddComponentPostInit("inventory", function(self)
     --有容器装备 死亡 冰冻 催眠等 等不自动关闭
     local oldHide = self.Hide
-    self.Hide = function(self)
+    self.Hide = function(self, ...)
         local equ_loot = {}
         for k, v in pairs(self.opencontainers) do
             if table.contains(self.equipslots, k) then
@@ -138,7 +138,7 @@ AddComponentPostInit("inventory", function(self)
         end
 
         if oldHide then
-            oldHide(self)
+            oldHide(self, ...)
         end
 
         if #equ_loot > 0 then
@@ -152,7 +152,7 @@ AddComponentPostInit("inventory", function(self)
     end
 
     local oldClose = self.Close
-    self.Close = function(self)
+    self.Close = function(self, ...)
         local equ_loot = {}
         for k, v in pairs(self.opencontainers) do
             if table.contains(self.equipslots, k) then
@@ -163,7 +163,7 @@ AddComponentPostInit("inventory", function(self)
         end
 
         if oldClose then
-            oldClose(self)
+            oldClose(self, ...)
         end
 
         if #equ_loot > 0 then

@@ -185,9 +185,7 @@ if soraPackLimit then
         if inst and inst.components and inst.components.sorapacker then
             local oldCanPackFn = inst.components.sorapacker.canpackfn
             inst.components.sorapacker:SetCanPackFn(function(target, inst2)
-                if target:HasTag("multiplayer_portal") --天体门
-                        or testCantPackItem(target.prefab,TUNING.CANT_PACK_ITEMS)
-                then
+                if testCantPackItem(target,TUNING.CANT_PACK_ITEMS) then
                     return false;
                 else
                     return oldCanPackFn(target, inst2);

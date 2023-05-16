@@ -68,12 +68,24 @@ end
 
 if GetModConfigData("yeyu_nilxin_pack_limit") and TUNING.YEYU_NILXIN_ENABLE then
     --【设置不能打包的物品】
-    local yyxkcantbundles = TUNING.CANT_PACK_ITEMS
-    for i, v in ipairs(yyxkcantbundles) do
-        AddPrefabPostInit(v, function(inst)
-            inst:AddTag("yyxkcantbundle") --给物品添加此标签即可
-        end)
-    end
+    -- local yyxkcantbundles = TUNING.CANT_PACK_ITEMS
+    -- for i, v in ipairs(yyxkcantbundles) do
+    --     AddPrefabPostInit(v, function(inst)
+    --         inst:AddTag("yyxkcantbundle") --给物品添加此标签即可
+    --     end)
+    -- end
+    AddPrefabPostInit("yyxk_gift", function(inst)
+        if not TheWorld.ismastersim then return inst end
+        if inst.components.yyxkaction and inst.components.yyxkaction.canfn then
+            local old_can = inst.components.yyxkaction.canfn
+            inst.components.yyxkaction.canfn = function(inst, target, ...)
+                if testCantPackItem(target,TUNING.CANT_PACK_ITEMS) then
+                    return false;
+                end
+                return old_can and old_can(inst, target, ...) 
+            end
+        end
+    end)
 end
 
 local distance_limit = GetModConfigData("yeyu_nilxin_jump_distance_limit")

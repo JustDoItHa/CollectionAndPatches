@@ -142,10 +142,7 @@ if GetModConfigData("ab_packer_limit") then
     AddComponentPostInit("ab_packer", function(self)
         local oldCanPack = self.CanPack
         function self:CanPack(target, ...)
-            if target:HasTag("multiplayer_portal") --天体门
-                    or target.components.health
-                    or testCantPackItem(target.prefab,TUNING.CANT_PACK_ITEMS)
-            then
+            if testCantPackItem(target,TUNING.CANT_PACK_ITEMS) then
                 return false
             end
 

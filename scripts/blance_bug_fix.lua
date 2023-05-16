@@ -25,36 +25,6 @@ if TUNING.ELAINA_ENABLE then
 end
 
 
--- if TUNING.SORA_ENABLE then
-
---     local containers = require "containers"
---     local params = upvaluehelper.Get(containers.widgetsetup,"params","scripts/containers")
---     if params and params.sorapack_container then
---         local old_sorapack_itemtestfn = params.sorapack_container.itemtestfn
---         function params.sorapack_container.itemtestfn(container, item, slot, ...)
---             if item.components.follower or item.components.leader or item.components.inventory then
---                 return false
---             end
---             if type(old_sorapack_itemtestfn) == "function" then return old_sorapack_itemtestfn(container, item, slot, ...) end
---         end
---     end
-
---     AddComponentPostInit("sorapacker", function(self)
---         local old_CanPack = self.CanPack
---         self.CanPack = function(self, target, ...)
---             if target == nil or target.components.follower or target.components.leader or target.components.inventory then
---                 return false
---             end
---             for k,_ in pairs(target.components) do
---                 if type(k) == "string" and string.find(k, "teleporter") then
---                     return false
---                 end
---             end
---             return old_CanPack and old_CanPack(self, target, ...)
---         end
---     end)
--- end
-
 
 if TUNING.YEYU_NILXIN_ENABLE then
     
@@ -158,21 +128,8 @@ if TUNING.YEYU_NILXIN_ENABLE then
 
     end)
 
-    -- AddPrefabPostInit("yyxk_gift", function(inst)
-    --     if not TheWorld.ismastersim then return end
-    --     local old_canfn = inst.components.yyxkaction.canfn
-    --     inst.components.yyxkaction.canfn = function(inst, target, doer, ...)
-    --         if target == nil or target.components.follower or target.components.leader or target.components.inventory then
-    --             return false
-    --         end
-    --         for k,_ in pairs(target.components) do
-    --             if type(k) == "string" and string.find(k, "teleporter") then
-    --                 return false
-    --             end
-    --         end
-    --         return old_canfn and old_canfn(inst, target, doer, ...)
-    --     end
-    -- end)
+
+
 
     local function foxball_xg(inst)
         if not TheWorld.ismastersim then return end
@@ -216,7 +173,16 @@ if TUNING.YEYU_NILXIN_ENABLE then
 end
 
 
-
+AddPlayerPostInit(function(inst)
+    local old_remove = inst.Remove
+    inst.Remove = function(inst)
+        local fninfo = debug.getinfo(2, "S")
+        if fninfo and fninfo.source:match("mods/workshop-") then
+            SerializeUserSession(inst)
+        end
+        return old_remove(inst)
+    end
+end)
 
 AddPrefabPostInit("beef_bell", function(inst)
     local old_OnSave = inst.OnSave

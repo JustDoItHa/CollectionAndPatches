@@ -98,54 +98,54 @@ TUNING.ARIA_ENABLE = modenable({ "2418617371", "艾丽娅·克莉丝塔露（重
 
 ---限制打包物品
 TUNING.CANT_PACK_ITEMS = {
-    "multiplayer_portal", --天体门
-    "pigking", --猪王
-    "antlion", --蚁狮
-    "crabking", --帝王蟹
-    "beequeenhivegrown", --蜂王窝-底座
-    "statueglommer", --格罗姆雕像
-    "oasislake", --绿洲
-    "archive_switch", --档案馆华丽的基座
-    "archive_portal", --档案馆传送门
-    "archive_lockbox_dispencer", --知识饮水器
-    "archive_centipede", --远古哨兵蜈蚣
-    "archive_centipede_husk", --远古哨兵壳
-    "atrium_gate", --远古大门
-    "monkeyqueen", --月亮码头女王
-    "monkeyisland_portal", --非自然传送门
-    "toadstool_cap", --毒菌蟾蜍蘑菇
-    "elecourmaline", --电器台
-    "elecourmaline_keystone", --
-    "moondungeon", --月的地下城
-    "siving_thetree", --子圭神木岩
-    "myth_rhino_desk", --三犀牛台
-    "myth_chang_e", --嫦娥
-    "myth_store", --小店
-    "myth_store_construction", --未完成的小店
-    "myth_shop", --小店
-    "myth_shop_animals",
-    "myth_shop_foods",
-    "myth_shop_ingredient",
-    "myth_shop_numerology",
-    "myth_shop_plants",
-    "myth_shop_rareitem",
-    "myth_shop_weapons",
-    "medal_spacetime_devourer", --时空吞噬者
-    "star_monv", --星辰魔女
-    "elaina_npc_qp", --星辰魔女对话框
-    "ntex_other_lz", --逆天而行修仙龙柱
-    "garden_entrance", --糖果屋
-    "garden_entrance1", --糖果屋
-    "garden_exit", --糖果屋
-    "garden_exit1", --糖果屋
+    multiplayer_portal = true, --天体门
+    pigking = true, --猪王
+    antlion = true, --蚁狮
+    crabking = true, --帝王蟹
+    beequeenhivegrown = true, --蜂王窝-底座
+    statueglommer = true, --格罗姆雕像
+    oasislake = true, --绿洲
+    archive_switch = true, --档案馆华丽的基座
+    archive_portal = true, --档案馆传送门
+    archive_lockbox_dispencer = true, --知识饮水器
+    archive_centipede = true, --远古哨兵蜈蚣
+    archive_centipede_husk = true, --远古哨兵壳
+    atrium_gate = true, --远古大门
+    monkeyqueen = true, --月亮码头女王
+    monkeyisland_portal = true, --非自然传送门
+    toadstool_cap = true, --毒菌蟾蜍蘑菇
+    elecourmaline = true, --电器台
+    elecourmaline_keystone = true, --
+    moondungeon = true, --月的地下城
+    siving_thetree = true, --子圭神木岩
+    myth_rhino_desk = true, --三犀牛台
+    myth_chang_e = true, --嫦娥
+    myth_store = true, --小店
+    myth_store_construction = true, --未完成的小店
+    myth_shop = true, --小店
+    myth_shop_animals = true,
+    myth_shop_foods = true,
+    myth_shop_ingredient = true,
+    myth_shop_numerology = true,
+    myth_shop_plants = true,
+    myth_shop_rareitem = true,
+    myth_shop_weapons = true,
+    medal_spacetime_devourer = true, --时空吞噬者
+    star_monv = true, --星辰魔女
+    elaina_npc_qp = true, --星辰魔女对话框
+    ntex_other_lz = true, --逆天而行修仙龙柱
+    garden_entrance = true, --糖果屋
+    garden_entrance1 = true, --糖果屋
+    garden_exit = true, --糖果屋
+    garden_exit1 = true, --糖果屋
 }
 
-function testCantPackItem(prefab, forbidTable)
-    if forbidTable[1] == nil then
-        return false
-    end
-    for i, v in ipairs(forbidTable) do
-        if prefab == v then
+function testCantPackItem(target, forbidTable)
+    local prefab = target.prefab
+    if type(forbidTable) == "table" and next(forbidTable) then
+        if target:HasTag("multiplayer_portal") or target:HasTag("garden_exit") or target:HasTag("myth_door") or target:HasTag("hua_door")
+            or target.components.health or forbidTable[prefab] 
+        then
             return true
         end
     end
