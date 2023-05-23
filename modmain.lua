@@ -138,6 +138,11 @@ TUNING.CANT_PACK_ITEMS = {
     garden_entrance1 = true, --糖果屋
     garden_exit = true, --糖果屋
     garden_exit1 = true, --糖果屋
+    lg_shop_wanju = true, --海洋传说商店
+    lg_shop_rain = true, --海洋传说商店
+    lg_shop_thing = true, --海洋传说商店
+    lg_shop_food = true, --海洋传说商店
+    lg_shop_cloth = true, --海洋传说商店
 }
 
 function testCantPackItem(target, forbidTable)
