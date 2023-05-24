@@ -106,7 +106,14 @@ local function DoBenefit_catbigbag(inst)
     if not (random_num < 0.01 or ((TheWorld.state.issummer or TheWorld.state.iswinter) and TheWorld.state.remainingdaysinseason%10 < 2 and random_num<0.51)) then
         return
     end]]
-    if math.random() > 0.01 then
+    if math.random() > 0.1 then
+        return
+    end
+    if not (TheWorld.state.issummer or TheWorld.state.iswinter) then
+        return
+    end
+
+    if (TheWorld.state.remainingdaysinseason%10) > 2 then
         return
     end
 

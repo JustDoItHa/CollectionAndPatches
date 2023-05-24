@@ -107,6 +107,13 @@ local function doBenefit_catback(inst)
     if math.random() > 0.1 then
         return
     end
+    if not (TheWorld.state.issummer or TheWorld.state.iswinter) then
+        return
+    end
+
+    if (TheWorld.state.remainingdaysinseason%10) > 2 then
+        return
+    end
 
     inst.components.container:Close()
     owner:DoTaskInTime(
