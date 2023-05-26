@@ -623,7 +623,7 @@ AddClassPostConstruct("widgets/inventorybar", function(self)
 
 	local OLD_UpdateCursorText = self.UpdateCursorText
 	function self:UpdateCursorText(...)
-		if self.active_slot.notslot then
+		if self.active_slot and self.active_slot.notslot then
 			return
 		end
 		return OLD_UpdateCursorText(self, ...)
