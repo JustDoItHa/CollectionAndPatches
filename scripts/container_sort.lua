@@ -253,6 +253,7 @@ local function equippable_table_fn(items)
     local body_other_table = {}
     local hat_other_table = {}
     local other_table = {}
+    local gemstone_table = {}
 
     local item_2 = {}
     for i = #items, 1, -1 do
@@ -279,11 +280,25 @@ local function equippable_table_fn(items)
             else
                 table.insert(other_table, v)
             end
+        elseif v.prefabname=="redgem"
+                or v.prefabname=="bluegem"
+                or v.prefabname=="purplegem"
+                or v.prefabname=="greengem"
+                or v.prefabname=="orangegem"
+                or v.prefabname=="yellowgem"
+                or v.prefabname=="opalpreciousgem"
+                or v.prefabname=="nilxin_cyangem"
+                or v.prefabname=="nilxin_greygem"
+                or v.prefabname=="lucky_gem"
+                or v.prefabname=="cheerfulgem"
+                or v.prefabname=="cherrygem"
+                or v.prefabname=="emeraldgem" then
+            table.insert(gemstone_table, v)
         else
             table.insert(item_2, v)
         end
     end
-    return item_2, hand_table, body_armor_table, hat_armor_table, neck_table, medal_table, body_other_table, hat_other_table, other_table
+    return item_2, hand_table, body_armor_table, hat_armor_table, neck_table, medal_table, body_other_table, hat_other_table, other_table,gemstone_table
 end
 
 -- local function table_fn(items, sign, type) --暂时没用
@@ -324,10 +339,10 @@ local function slotsSort(inst)
             end
         end
         local items_1, perishable_table = perishable_table_fn(items)
-        local items_2, hand_table, body_armor_table, hat_armor_table, neck_table, medal_table, body_other_table, hat_other_table, other_table = equippable_table_fn(items_1)
+        local items_2, hand_table, body_armor_table, hat_armor_table, neck_table, medal_table, body_other_table, hat_other_table, other_table,gemstone_table = equippable_table_fn(items_1)
 
         if #items_2 + #perishable_table +
-                #hand_table + #body_armor_table + #hat_armor_table + #neck_table + #medal_table + #body_other_table + #hat_other_table + #other_table
+                #hand_table + #body_armor_table + #hat_armor_table + #neck_table + #medal_table + #body_other_table + #hat_other_table + #other_table + #gemstone_table
                 == #items
         then
             insert_sort(perishable_table, cmp, inst)
@@ -340,6 +355,7 @@ local function slotsSort(inst)
             insert_sort(body_other_table, cmp, inst)
             insert_sort(hat_other_table, cmp, inst)
             insert_sort(other_table, cmp, inst)
+            insert_sort(gemstone_table, cmp, inst)
 
             insert_sort(items_2, cmp, inst)
         else
@@ -363,7 +379,9 @@ local function slotsSortFn(inst, doer)
                 SendModRPCToServer(MOD_RPC["CAP_BUTTON"]["containers"], inst)
             end
         end
-        inst:DoTaskInTime(0.5 ,function() inst.cap_sort = false end)
+        inst:DoTaskInTime(0.5, function()
+            inst.cap_sort = false
+        end)
     end
 end
 --整理按钮亮起规则
@@ -408,7 +426,7 @@ local add_container_table = {
     --神话谷仓
     myth_granary = true,
 }
-AddClassPostConstruct("widgets/containerwidget",function(self, owner)
+AddClassPostConstruct("widgets/containerwidget", function(self, owner)
     local ImageButton = require "widgets/imagebutton"
     local old_Open = self.Open
 
@@ -421,25 +439,25 @@ AddClassPostConstruct("widgets/containerwidget",function(self, owner)
         if add_container_table[container.prefab] then
 
             local slotpos = container.replica.container.widget.slotpos
-            local x = {min=nil, max=nil}
+            local x = { min = nil, max = nil }
             local y
             for k, v in pairs(slotpos) do
                 if y == nil then
                     y = v.y
                 else
-                    y = math.max(y,v.y)
+                    y = math.max(y, v.y)
                 end
 
                 if x.min == nil then
                     x.min = v.x
                     x.max = v.x
                 else
-                    x.min = math.min(x.min,v.x)
-                    x.max = math.max(x.min,v.x)
+                    x.min = math.min(x.min, v.x)
+                    x.max = math.max(x.min, v.x)
                 end
             end
             y = y + 67
-            local pos = Vector3((x.min+x.max)/2, y, 0)
+            local pos = Vector3((x.min + x.max) / 2, y, 0)
 
             if doer ~= nil and doer.components.playeractionpicker ~= nil then
                 doer.components.playeractionpicker:RegisterContainer(container)
@@ -505,7 +523,9 @@ AddClassPostConstruct("widgets/containerwidget",function(self, owner)
                 self.cap_sort = nil
             end
         end
-        if old_Close then old_Close(self, ...) end
+        if old_Close then
+            old_Close(self, ...)
+        end
     end
 end)
 
