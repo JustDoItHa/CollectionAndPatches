@@ -111,6 +111,9 @@ local cleanmaxnum = { --世界保留数量最大值 堆叠物判断懒得写了 
     shyerrytree2 = { max = 2 }, --
     shyerrytree3 = { max = 2 }, --
     shyerrytree4 = { max = 3 }, --
+    kyno_adai_spider_monkey = { max = 10 }, --
+    kyno_adai_wargfant = { max = 10 }, --
+    kyno_adai_merm = { max = 20 }, --
 
 }
 if GetModConfigData("use_for_tumbleweed") then
