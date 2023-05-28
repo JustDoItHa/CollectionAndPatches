@@ -129,6 +129,7 @@ local function equippable_table_fn(items)
     local body_other_table = {}
     local hat_other_table = {}
     local other_table = {}
+    local gemstone_table = {}
 
     local item_2 = {}
     for i = #items, 1, -1 do
@@ -155,11 +156,25 @@ local function equippable_table_fn(items)
             else
                 table.insert(other_table, v)
             end
+        elseif v.prefabname=="redgem"
+                or v.prefabname=="bluegem"
+                or v.prefabname=="purplegem"
+                or v.prefabname=="greengem"
+                or v.prefabname=="orangegem"
+                or v.prefabname=="yellowgem"
+                or v.prefabname=="opalpreciousgem"
+                or v.prefabname=="nilxin_cyangem"
+                or v.prefabname=="nilxin_greygem"
+                or v.prefabname=="lucky_gem"
+                or v.prefabname=="cheerfulgem"
+                or v.prefabname=="cherrygem"
+                or v.prefabname=="emeraldgem" then
+            table.insert(gemstone_table, v)
         else
             table.insert(item_2, v)
         end
     end
-    return item_2, hand_table, body_armor_table, hat_armor_table, neck_table, medal_table, body_other_table, hat_other_table, other_table
+    return item_2, hand_table, body_armor_table, hat_armor_table, neck_table, medal_table, body_other_table, hat_other_table, other_table,gemstone_table
 end
 
 -- local function table_fn(items, sign, type) --暂时没用
@@ -189,6 +204,7 @@ end
 -----------------------------------------------------------------------------------------------------------------------------------
 
 --容器排序
+--容器排序
 local function slotsSort(inst)
     if inst and inst.components.container then
         --取出容器中的所有物品
@@ -200,11 +216,10 @@ local function slotsSort(inst)
             end
         end
         local items_1, perishable_table = perishable_table_fn(items)
-        local items_2, hand_table, body_armor_table, hat_armor_table, neck_table, medal_table, body_other_table, hat_other_table, other_table
-        = equippable_table_fn(items_1)
+        local items_2, hand_table, body_armor_table, hat_armor_table, neck_table, medal_table, body_other_table, hat_other_table, other_table,gemstone_table = equippable_table_fn(items_1)
 
         if #items_2 + #perishable_table +
-                #hand_table + #body_armor_table + #hat_armor_table + #neck_table + #medal_table + #body_other_table + #hat_other_table + #other_table
+                #hand_table + #body_armor_table + #hat_armor_table + #neck_table + #medal_table + #body_other_table + #hat_other_table + #other_table + #gemstone_table
                 == #items
         then
             insert_sort(perishable_table, cmp, inst)
@@ -217,6 +232,7 @@ local function slotsSort(inst)
             insert_sort(body_other_table, cmp, inst)
             insert_sort(hat_other_table, cmp, inst)
             insert_sort(other_table, cmp, inst)
+            insert_sort(gemstone_table, cmp, inst)
 
             insert_sort(items_2, cmp, inst)
         else
@@ -225,7 +241,6 @@ local function slotsSort(inst)
 
     end
 end
-
 
 ---@type fun(inst:table):void
 ---@param inst table
@@ -243,11 +258,10 @@ function API.arrangeContainer(inst)
         end
     end
     local items_1, perishable_table = perishable_table_fn(items)
-    local items_2, hand_table, body_armor_table, hat_armor_table, neck_table, medal_table, body_other_table, hat_other_table, other_table
-    = equippable_table_fn(items_1)
+    local items_2, hand_table, body_armor_table, hat_armor_table, neck_table, medal_table, body_other_table, hat_other_table, other_table,gemstone_table = equippable_table_fn(items_1)
 
     if #items_2 + #perishable_table +
-            #hand_table + #body_armor_table + #hat_armor_table + #neck_table + #medal_table + #body_other_table + #hat_other_table + #other_table
+            #hand_table + #body_armor_table + #hat_armor_table + #neck_table + #medal_table + #body_other_table + #hat_other_table + #other_table + #gemstone_table
             == #items
     then
         insert_sort(perishable_table, cmp, inst)
@@ -260,6 +274,7 @@ function API.arrangeContainer(inst)
         insert_sort(body_other_table, cmp, inst)
         insert_sort(hat_other_table, cmp, inst)
         insert_sort(other_table, cmp, inst)
+        insert_sort(gemstone_table, cmp, inst)
 
         insert_sort(items_2, cmp, inst)
     else
