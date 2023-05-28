@@ -156,19 +156,19 @@ local function equippable_table_fn(items)
             else
                 table.insert(other_table, v)
             end
-        elseif v.prefabname=="redgem"
-                or v.prefabname=="bluegem"
-                or v.prefabname=="purplegem"
-                or v.prefabname=="greengem"
-                or v.prefabname=="orangegem"
-                or v.prefabname=="yellowgem"
-                or v.prefabname=="opalpreciousgem"
-                or v.prefabname=="nilxin_cyangem"
-                or v.prefabname=="nilxin_greygem"
-                or v.prefabname=="lucky_gem"
-                or v.prefabname=="cheerfulgem"
-                or v.prefabname=="cherrygem"
-                or v.prefabname=="emeraldgem" then
+        elseif v.prefab=="redgem"
+                or v.prefab=="bluegem"
+                or v.prefab=="purplegem"
+                or v.prefab=="greengem"
+                or v.prefab=="orangegem"
+                or v.prefab=="yellowgem"
+                or v.prefab=="opalpreciousgem"
+                or v.prefab=="nilxin_cyangem"
+                or v.prefab=="nilxin_greygem"
+                or v.prefab=="lucky_gem"
+                or v.prefab=="cheerfulgem"
+                or v.prefab=="cherrygem"
+                or v.prefab=="emeraldgem" then
             table.insert(gemstone_table, v)
         else
             table.insert(item_2, v)
