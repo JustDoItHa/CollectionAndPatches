@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "10.14.0.2"
+version = "10.15.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2279,6 +2279,7 @@ configuration_options[#configuration_options + 1] = AddOption("naming_for_watche
 configuration_options[#configuration_options + 1] = AddOption("glommer_statue_repairable_switch", "格罗姆雕像可修复", "可以用大理石修复格罗姆雕像", false)
 configuration_options[#configuration_options + 1] = AddOption("block_pooping_switch", "橡胶塞堵住牛屁股", "橡胶塞可以堵住牛屁股使其不拉屎", false)
 configuration_options[#configuration_options + 1] = AddOption("faster_trading_switch", "快速交易", "和猪王快速交易", false)
+configuration_options[#configuration_options + 1] = AddOption("limit_ripening_plant_switch", "限制催熟频率", "放置催熟过快导致的刷卡服务器", true)
 
 local beefalo_status_bar_colors = {
     { name = "ORANGE", description = "Orange(橘色)" },
@@ -2779,6 +2780,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("container_o
 configuration_options[#configuration_options + 1] = AddOption("fix_tags_overflow_switch", "标签溢出问题", "修复标签溢出问题", true)
 configuration_options[#configuration_options + 1] = AddOption("give_item_optimize_switch", "拾取优化", "自动寻找打开的容器进行放入", false)
 configuration_options[#configuration_options + 1] = AddOption("fix_heap_of_food_switch", "修复HeapOfFood问题", "修复HeapOfFood问题", false)
+configuration_options[#configuration_options + 1] = AddOption("fix_migration_data_lost_switch", "修复跳世界数据丢失问题", "修复跳世界数据丢失导致重选人物问题", true)
 configuration_options[#configuration_options + 1] = AddOption("heap_of_food_chs_language_switch", "HeapOfFood汉化(简中)", "HeapOfFood汉化(简中)", false)
 configuration_options[#configuration_options + 1] = AddOption("vtf_chs_language_switch", "情人节主题物品汉化(简中)", "情人节主题物品汉化(简中)", false)
 configuration_options[#configuration_options + 1] = AddOption("htf_chs_language_switch", "万圣节主题物品汉化(简中)", "万圣节主题物品汉化(简中)", false)

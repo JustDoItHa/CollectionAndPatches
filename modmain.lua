@@ -503,6 +503,9 @@ if GetModConfigData("little_modify_for_pure_switch") then
     if GetModConfigData("faster_trading_switch") then
         modimport("modules/actions/faster_trading_main.lua")
     end
+    if GetModConfigData("limit_ripening_plant_switch") then
+        modimport("scripts/limit_ripening_plant.lua")
+    end
 end
 
 --驯牛状态
@@ -558,6 +561,11 @@ if GetModConfigData("beta_function_switch") then
     if GetModConfigData("cancel_sync_cycles_with_master_switch") then
         modimport("scripts/sync_cycles_with_master_main.lua")
     end
+
+    if GetModConfigData("fix_migration_data_lost_switch") then
+        modimport("scripts/fix_migration_data_lost.lua")
+    end
+
     --Heap Of food 汉化
     if GetModConfigData("heap_of_food_chs_language_switch") then
         modimport("cn/hof_strings")
