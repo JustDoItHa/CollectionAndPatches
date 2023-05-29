@@ -2280,7 +2280,19 @@ configuration_options[#configuration_options + 1] = AddOption("glommer_statue_re
 configuration_options[#configuration_options + 1] = AddOption("block_pooping_switch", "橡胶塞堵住牛屁股", "橡胶塞可以堵住牛屁股使其不拉屎", false)
 configuration_options[#configuration_options + 1] = AddOption("faster_trading_switch", "快速交易", "和猪王快速交易", false)
 configuration_options[#configuration_options + 1] = AddOption("limit_ripening_plant_switch", "限制催熟频率", "放置催熟过快导致的刷卡服务器", true)
-
+configuration_options[#configuration_options + 1] = AddConfigOption("ripening_plant_frequency", "催熟频率", "设置催熟的频率\n每阶段都限制",
+        {
+            { description = "不限制", data = 0 },
+            { description = "10秒", data = 10 },
+            { description = "20秒", data = 20 },
+            { description = "30秒", data = 30 },
+            { description = "1分钟", data = 60 },
+            { description = "2分钟", data = 120 },
+            { description = "4分钟", data = 240 },
+            { description = "1天", data = 480 },
+            { description = "2天", data = 960 },
+            { description = "不允许催熟", data = 999999 }
+        }, 60)
 local beefalo_status_bar_colors = {
     { name = "ORANGE", description = "Orange(橘色)" },
     { name = "ORANGE_ALT", description = "Orange Alt(橘色高亮)" },

@@ -529,6 +529,8 @@ if GetModConfigData("m_98K_patches_switch") and TUNING.MAUSER_RIFLE_BAYONET_ENAB
     GLOBAL.MAUSER_PARAMS.BAYONET_DMG_1 = GetModConfigData("m_98k_BAYONET_DMG_1_multi") or 1
 end
 
+
+TUNING.RIPENING_PLANT_FREQUENCY = GetModConfigData("ripening_plant_frequency") or 60
 --- beta功能
 if GetModConfigData("beta_function_switch") then
     modimport("scripts/sgdeath.lua")
