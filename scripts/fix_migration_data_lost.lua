@@ -11,7 +11,7 @@ AddShardModRPCHandler("null_migration", "session", function(worldid, userid)
                 if success and str ~= nil and #str > 0 then
                     TheSim:SetPersistentString(string.sub(user_session,1,start)..string.format("%0"..#num.."d",num-1), str, false)
                     local user = {}
-                    TheSim:GetPersistentString(TheWorld.meta.session_identifier , function(get, user_table)
+                    TheSim:GetPersistentString("session/"..TheWorld.meta.session_identifier.."/userdata" , function(get, user_table)
                         if get and user_table then
                             local status, user_table = RunInSandbox(user_table)
                             if status and user_table ~= nil and GetTableSize(user_table) > 0 then user = user_table end
@@ -48,23 +48,34 @@ getmetatable(TheNet).__index["TruncateSnapshots"] = function(self, ...)
     if user[TheNet:GetCurrentSnapshot()] then
         local userdata
         local userdatastr
+        local pstr
         for _,v in pairs(user[TheNet:GetCurrentSnapshot()]) do
-            TheSim:GetPersistentString(TheNet:GetUserSessionFile(TheWorld.meta.session_identifier, v) , function(get, user_datastr)
-                if get and user_datastr then
-                    local status, user_data = RunInSandbox(user_datastr)
-                    if status and user_data ~= nil and GetTableSize(user_data) > 0 and user_data.prefab then
-                        userdatastr = user_datastr userdata = user_data
-                    end
+            TheNet:DeserializeUserSession(user_session, function(success, str)
+                if success and str ~= nil and #str > 0 and string.find(str, "KLEI") < 10 then
+                    pstr = true
                 end
             end)
-            if userdatastr then
-                TheNet:SerializeUserSession(v, userdatastr, false, nil, DataDumper({character = userdata.prefab,}, nil, BRANCH ~= "dev"))
-                userdatastr = nil userdata = nil
+            if pstr then
+                print("fix :"..TheNet:GetUserSessionFile(TheWorld.meta.session_identifier, v))
+                pstr = nil
+                TheSim:GetPersistentString(TheNet:GetUserSessionFile(TheWorld.meta.session_identifier, v) , function(get, user_datastr)
+                    if get and user_datastr then
+                        local status, user_data = RunInSandbox(user_datastr)
+                        if status and user_data ~= nil and GetTableSize(user_data) > 0 and user_data.prefab then
+                            userdatastr = user_datastr userdata = user_data
+                        end
+                    end
+                end)
+                if userdatastr then
+                    TheNet:SerializeUserSession(v, userdatastr, false, nil, DataDumper({character = userdata.prefab,}, nil, BRANCH ~= "dev"))
+                    userdatastr = nil userdata = nil
+                end
+                print("fix :2"..TheNet:GetUserSessionFile(TheWorld.meta.session_identifier, v))
             end
         end
     end
     print("-----fixuser_session:"..TheNet:GetCurrentSnapshot())
-    dumptable(userdata)
+    dumptable(user)
 
 end
 
