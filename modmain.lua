@@ -350,7 +350,7 @@ if GetModConfigData("bigbox_switch") then
     modimport("scripts/huge_box_main.lua")
 end
 --show me 不与信息显示同时开启
-if GetModConfigData("show_me_switch") and (not (GetModConfigData("cap_show_info_switch") or modenable("666155465"))) then
+if GetModConfigData("show_me_switch") and ((not (GetModConfigData("cap_show_info_switch")) and (not modenable("666155465")))) then
     modimport("scripts/show_me.lua")
 end
 
