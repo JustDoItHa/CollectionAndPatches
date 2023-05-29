@@ -6,7 +6,7 @@ local ripening_frequency_local = 60
 
 local specie_plant_ripening_frequency ={
     --["草"] = 10,
-    grass = 60,
+    grass = 10,
 }
 
 if TUNING.RIPENING_PLANT_FREQUENCY == nil then
