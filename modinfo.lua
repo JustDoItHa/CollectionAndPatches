@@ -2279,7 +2279,7 @@ configuration_options[#configuration_options + 1] = AddOption("naming_for_watche
 configuration_options[#configuration_options + 1] = AddOption("glommer_statue_repairable_switch", "格罗姆雕像可修复", "可以用大理石修复格罗姆雕像", false)
 configuration_options[#configuration_options + 1] = AddOption("block_pooping_switch", "橡胶塞堵住牛屁股", "橡胶塞可以堵住牛屁股使其不拉屎", false)
 configuration_options[#configuration_options + 1] = AddOption("faster_trading_switch", "快速交易", "和猪王快速交易", false)
-configuration_options[#configuration_options + 1] = AddOption("limit_ripening_plant_switch", "限制催熟频率", "放置催熟过快导致的刷卡服务器", true)
+configuration_options[#configuration_options + 1] = AddOption("limit_ripening_plant_switch", "限制催熟频率", "放置催熟过快导致的刷卡服务器", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("ripening_plant_frequency", "催熟频率", "设置催熟的频率\n每阶段都限制",
         {
             { description = "不限制", data = 0 },
