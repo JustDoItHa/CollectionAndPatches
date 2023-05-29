@@ -4,6 +4,10 @@ end })
 ------------------------------------------------------------------------------------------------以下是催熟修改
 local ripening_frequency_local = 60
 
+if TUNING.RIPENING_PLANT_FREQUENCY == nil then
+    TUNING.RIPENING_PLANT_FREQUENCY = 60
+end
+
 if TUNING.RIPENING_PLANT_FREQUENCY <= 0 then
     return
 else
