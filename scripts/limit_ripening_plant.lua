@@ -22,7 +22,7 @@ end
 AddComponentPostInit("pickable", function(self, inst)
     local Old_FinishGrowing = self.FinishGrowing
     self.FinishGrowing = function(...)
-        if not self.inst.cap_grow then
+        if self.inst.cap_grow then
             return
         end
         local grow = Old_FinishGrowing(...)
