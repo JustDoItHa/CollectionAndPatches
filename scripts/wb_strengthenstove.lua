@@ -130,6 +130,7 @@ if IsServer then
     { "wb_strengthen_strengthen_10_levelpaper", 0.001 },
     { "wb_strengthen_strengthen_11_levelpaper", 0.0001 },
     { "wb_strengthen_strengthen_12_levelpaper", 0.00001 },
+    { "wb_strengthen_increase_next_levelpaper", 0.0000001 },
     { "wb_strengthen_increase_7_levelpaper", 0.02 },
     { "wb_strengthen_increase_8_levelpaper", 0.01 },
     { "wb_strengthen_increase_9_levelpaper", 0.005 },

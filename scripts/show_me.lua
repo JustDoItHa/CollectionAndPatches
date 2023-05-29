@@ -1030,9 +1030,9 @@ do --Пытаемся определить язык и загрузить соо
 	local support_languages = { ru = true, chs = true, cht = true, br = true, pl = true,
 								tw="cht", zh_cn="chs", ch="chs", kr=true, ko="kr", es = true,}
 	--For override: name=file. Example: ,cht="chs",
-	local lang = GetModConfigData("lang", true) or "auto"
+	local lang = GetModConfigData("show_me_lang", true) or "auto"
 	if lang == "auto" then
-		lang = GetModConfigData("lang") or "auto"
+		lang = GetModConfigData("show_me_lang") or "auto"
 	end
 	print("Detected language for ShowMe: ", lang, lang == "auto" and _G.LanguageTranslator.defaultlang or "")
 
@@ -1052,7 +1052,7 @@ do --Пытаемся определить язык и загрузить соо
 			if support_languages[lang] ~= true then --алиас
 				lang = support_languages[lang]
 			end
-			modimport("showme_"..lang..".lua")
+			modimport("modules/show_me/showme_"..lang..".lua")
 		end
 		UpdateNewLanguage()
 	end)
@@ -2629,317 +2629,317 @@ end
 --
 ------------------------------傳說覺悟 翻译，请勿搬运WeGame，为避免出现多个相同模组----------------------------
 --------------------------------------------- HOST & CLIENT AGAIN ---------------------------------------------
---
---
---local FindUpvalue = function(fn, upvalue_name, member_check, no_print, newval)
---	local info = _G.debug.getinfo(fn, "u")
---	local nups = info and info.nups
---	if not nups then return end
---	local getupvalue = _G.debug.getupvalue
---	local s = ''
---	--print("FIND "..upvalue_name.."; nups = "..nups)
---	for i = 1, nups do
---		local name, val = getupvalue(fn, i)
---		s = s .. "\t" .. name .. ": " .. type(val) .. "\n"
---		if (name == upvalue_name)
---				and ((not member_check) or (type(val)=="table" and val[member_check] ~= nil)) --Надежная проверка
---		then
---			--print(s.."FOUND "..tostring(val))
---			if newval ~= nil then
---				_G.debug.setupvalue(fn, i, newval)
---			end
---			return val, true
---		end
---	end
---	if no_print == nil then
---		print("CRITICAL ERROR: Can't find variable "..tostring(upvalue_name).."!")
---		print(s)
---	end
---end
---
---
+
+
+local FindUpvalue = function(fn, upvalue_name, member_check, no_print, newval)
+	local info = _G.debug.getinfo(fn, "u")
+	local nups = info and info.nups
+	if not nups then return end
+	local getupvalue = _G.debug.getupvalue
+	local s = ''
+	--print("FIND "..upvalue_name.."; nups = "..nups)
+	for i = 1, nups do
+		local name, val = getupvalue(fn, i)
+		s = s .. "\t" .. name .. ": " .. type(val) .. "\n"
+		if (name == upvalue_name)
+				and ((not member_check) or (type(val)=="table" and val[member_check] ~= nil)) --Надежная проверка
+		then
+			--print(s.."FOUND "..tostring(val))
+			if newval ~= nil then
+				_G.debug.setupvalue(fn, i, newval)
+			end
+			return val, true
+		end
+	end
+	if no_print == nil then
+		print("CRITICAL ERROR: Can't find variable "..tostring(upvalue_name).."!")
+		print(s)
+	end
+end
+
+
 ----Добавляем подсказку для игрока, через которую будем пересылать данные (всплывающий текст с инфой под именем предмета)
---do
---	--Функция возвращает подсказку, если она в точности совпадает с присланной информацией (в player_classified).
---	--И возвращает подсказку, либо "".
---	local function CheckUserHint(inst)
---		local c = _G.ThePlayer and _G.ThePlayer.player_classified
---		if c == nil then --Нет локального игрока или classified
---			return ""
---		end
---		--c.showme_hint
---		local i = string.find(c.showme_hint2,';',1,true)
---		if i == nil then --Строка имеет неправильный формат.
---			return ""
---		end
---		local guid = _G.tonumber(c.showme_hint2:sub(1,i-1))
---		if guid ~= inst.GUID then --guid не совпадает (либо вообще nil)
---			return ""
---		end
---		return c.showme_hint2:sub(i+1)
---	end
---	if CLIENT_SIDE then
---		--patching Get Display Name. Нужно только клиенту.
---		--[[local old_GetDisplayName = _G.EntityScript.GetDisplayName
---		_G.EntityScript.GetDisplayName = function(self)
---			local old_name = old_GetDisplayName(self)
---			if type(old_name) ~= "string" then
---				return old_name
---			end
---			local str2 = CheckUserHint(self)
---			return old_name .. str2
---		end--]]
---
---		--Разбираем случаи, когда нужно отправить guid об объекте под мышью.
---		local old_inst --Запоминаем, чтобы не спамить один и тот же inst по несколько раз.
---		--[[AddWorldPostInit(function(w)
---			w:DoPeriodicTask(0.1,function(w)
---				if _G.ThePlayer == nil then
---					return
---				end
---				local inst = _G.TheInput:GetWorldEntityUnderMouse()
---				if inst ~= nil then
---					if inst == old_inst then
---						return
---					end
---					old_inst = inst
---					--Посылаем желаемую подсказку.
---					SendModRPCToServer(MOD_RPC.ShowMeSHint.Hint, inst.GUID, inst)
---				end
---			end)
---		end)--]]
---
---		local function UnpackData(str,div)
---			local pos,arr = 0,{}
---			-- for each divider found
---			for st,sp in function() return string.find(str,div,pos,true) end do
---				table.insert(arr,string.sub(str,pos,st-1)) -- Attach chars left of current divider
---				pos = sp + 1 -- Jump past current divider
---			end
---			table.insert(arr,string.sub(str,pos)) -- Attach chars right of last divider
---			return arr
---		end
---
---		local save_target
---		local last_check_time = 0 --последнее время проверки. Будет устаревать каждые 2 сек.
---		local LOCAL_STRING_CACHE = {} --База данных строк, чтобы не обсчитывать замены каждый раз (правда, будет потихоньку пожирать память)
---		AddClassPostConstruct("widgets/hoverer",function(hoverer) --hoverer=self
---			local old_SetString = hoverer.text.SetString
---			local _debug_info = ''
---			local NEWLINES_SHIFT = {
---				'', --без инфы
---				'', -- 1 инфо строка
---				'', -- 2 инфо строки
---				'\n ',
---			}
---			local function InitNewLinesShift(idx)
---				local str = NEWLINES_SHIFT[idx]
---				if str then
---					return str
---				end
---				str = '\n' .. InitNewLinesShift(idx-1)
---				NEWLINES_SHIFT[idx] = str
---				return str
---			end
---			hoverer.text.SetString = function(text,str) --text=self
---				--print(tostring(str))
---				text.cnt_lines = nil
---				local target = _G.TheInput:GetHUDEntityUnderMouse()
---				if target ~= nil then
---					--target.widget.parent - это ItemTile
---					target = target.widget ~= nil and target.widget.parent ~= nil and target.widget.parent.item --реальный итем (на клиенте)
---				else
---					target = _G.TheInput:GetWorldEntityUnderMouse()
---				end
---				--local lmb = hoverer.owner.components.playercontroller:GetLeftMouseAction()
---				if target ~= nil then
---					--print(tostring(target))
---					--Проверяем совпадение с данными.
---					local str2 = CheckUserHint(target)
---					if str2 ~= "" then
---						--Так, сначала чистим старую строку от переходов на новую строку. Мало ли какие там моды чего добавили.
---						local cnt_newlines, _ = 0 --Считаем переходы строк в конце строки (совместимость с DFV)
---						while cnt_newlines < #str do
---							local ch = str:sub(#str-cnt_newlines,#str-cnt_newlines)
---							if ch ~= "\n" and ch ~= " " then
---								break
---							end
---							cnt_newlines = cnt_newlines + 1
---						end
---						--Очищаем строку от этого мусора
---						if cnt_newlines > 0 then
---							str = str:sub(1,#str-cnt_newlines)
---						end
---						--print(#str,"clear")
---						--Очищаем строку от промежуточного мусора
---						if string.find(str,"\n\n",1,true) ~= nil then
---							str = str:gsub("[\n]+","\n")
---						end
---
---						if string.find(str,"\n",1,true) ~= nil then
---							_,cnt_newlines = str:gsub("\n","\n") --Подсчитываем количество переходов внутри (если есть).
---						else
---							cnt_newlines = 0
---						end
---
---
---						--Извлекаем данные из полученной упакованной строки.
---						str2 = UnpackData(str2,"\2")
---						local arr2 = {} --Формируем массив данных в удобоваримом виде.
---						for i,v in ipairs(str2) do
---							if v ~= "" then
---								local param_str = v:sub(2)
---								local data = { param = UnpackData(param_str,","), param_str=param_str }
---								local my_s = MY_STRINGS[decodeFirstSymbol(v:sub(1,1))]; -- if "@", must pass nil
---								if my_s ~= nil then
---									data.data = MY_DATA[my_s.key]
---								end
---								table.insert(arr2,data)
---							end
---						end
---						arr2.str2= str2
---						--_G.rawset(_G,"arr2",arr2) --Для теста.
---						--Формируем строку
---						for i=#arr2,1,-1 do
---							local v = arr2[i]
---							if v.data ~= nil then
---								if v.data.hidden == nil then
---									if v.data.fn ~= nil then
---										arr2[i] = v.data.fn(v)
---									else
---										arr2[i] = DefaultDisplayFn(v)
---									end
---								else
---									table.remove(arr2,i)
---								end
---							else
---								arr2[i] = DefaultDisplayFn(v)
---							end
---						end
---						--table.insert(arr2,"xxxxx")
---						--table.insert(arr2,"xyz")
---						--table.insert(arr2,"aaabbbccc")
---						--table.insert(arr2,"dddddd123")
---						str2 = table.concat(arr2,'\n')
---
---						--_G.arr({inst=text.inst,hover=text.parent},5)
---						--print("-----"..str.."-----")
---						--local sss=""
---						--for i=#str,#str-10,-1 do
---						--	sss=sss..string.byte(str:sub(i,i))..", "
---						--end
---						--print("Chars: "..sss)
---						--[[print(#str,"cut str")
---						--В конце тоже убираем переход, если есть.
---						if str:sub(#str,#str) == "\n" then
---							str = str:sub(1,#str-1)
---						end--]]
---						--print(#str,"test cache")
---						--print("count new cache")
---						--print("newlines",#str2)
---
---						--str2 = str2 .. _debug_info
---						--local scale = text:GetScale()
---						--str2 = str2 .. 'scale = ' .. scale.x .. ';' .. scale.y .. '\n'
---						--local scr_w, scr_h = TheSim:GetScreenSize()
---						--str2 = str2 .. scr_w .. 'x' .. scr_h .. '\n'
---
---						text.cnt_lines = cnt_newlines + #arr2 + 1
---
---
---						str = str .. '\n' .. str2 .. (NEWLINES_SHIFT[text.cnt_lines] or InitNewLinesShift(text.cnt_lines))
---					end
---					--print("Check User Hint: "..str2)
---					--Если первый раз, то отправляем запрос.
---					if target ~= save_target or last_check_time + 1 < GetTime() then
---						save_target = target
---						last_check_time = GetTime()
---						SendModRPCToServer(MOD_RPC.ShowMeSHint.Hint, save_target.GUID, save_target)
---					end
---				else
---					--print("target nil")
---				end
---				return old_SetString(text,str)
---			end
---			--FindUpvalue(hoverer.UpdatePosition, "YOFFSETUP", 150)
---			--FindUpvalue(hoverer.UpdatePosition, "YOFFSETDOWN", 120)
---
---			local XOFFSET = 10
---
---			hoverer.UpdatePosition = function(self,x,y)
---				local YOFFSETDOWN = 10
---				local cnt_lines = self.text and self.text.cnt_lines
---				if cnt_lines then
---					local extra = cnt_lines - 3
---					if extra > 0 then
---						YOFFSETDOWN = YOFFSETDOWN - extra * 30
---					end
---				end
---
---
---				local scale = self:GetScale()
---				local scr_w, scr_h = _G.TheSim:GetScreenSize()
---				local w = 0
---				local h = 0
---
---				--_debug_info='x='..x..'; y='..y..'\n' .. 'YOFFSETDOWN = ' .. YOFFSETDOWN .. ';' ..tostring(self.text.cnt_lines) .. '\n';
---
---				if self.text ~= nil and self.str ~= nil then
---					local w0, h0 = self.text:GetRegionSize()
---					w = math.max(w, w0)
---					h = math.max(h, h0)
---					--_debug_info=_debug_info..'w0='..w0..'; h0='..h0..'\n'
---				end
---				if self.secondarytext ~= nil and self.secondarystr ~= nil then
---					local w1, h1 = self.secondarytext:GetRegionSize()
---					w = math.max(w, w1)
---					h = math.max(h, h1)
---					--_debug_info=_debug_info..'w1='..w1..'; h1='..h1..'\n'
---				end
---
---				w = w * scale.x * .5
---				h = h * scale.y * .5
---				--_debug_info=_debug_info..'w='..w..'; h='..h..'\n'
---				--y=y+h
---
---				--_debug_info=_debug_info..'cx='..math.clamp(x, w + XOFFSET, scr_w - w - XOFFSET)..'; cy='..math.clamp(y, h + YOFFSETDOWN * scale.y, scr_h - h - (-80) * scale.y)..'\n'
---				self:SetPosition(
---						math.clamp(x, XOFFSET + w, scr_w - w - XOFFSET),
---						math.clamp(y, YOFFSETDOWN + h, scr_h + 9999),
---						0)
---			end
---
---
---		end)
---	end
---
---	--Обработчик на сервере
---	AddModRPCHandler("ShowMeSHint", "Hint", function(player, guid, item)
---		if player.player_classified == nil then
---			print("ERROR: player_classified not found!")
---			return
---		end
---		if item ~= nil and item.components ~= nil then
---			local s = GetTestString(item,player) --Формируем строку на сервере.
---			if s ~= "" then
---				player.player_classified.net_showme_hint2:set(guid..";"..s) --Пакуем в строку и отсылаем обратно тому же игроку.
---			end
---		end
---	end)
---
---	--networking
---	-- showme_hint2 => "showme_hintbua." -- hash value: 78865, Ratio: 0.000078865
---	AddPrefabPostInit("player_classified",function(inst)
---		inst.showme_hint2 = ""
---		inst.net_showme_hint2 = _G.net_string(inst.GUID, "showme_hintbua.", "showme_hint_dirty2")
---		if CLIENT_SIDE then
---			inst:ListenForEvent("showme_hint_dirty2",function(inst)
---				inst.showme_hint2 = inst.net_showme_hint2:value()
---			end)
---		end
---	end)
---end
---
+do
+	--Функция возвращает подсказку, если она в точности совпадает с присланной информацией (в player_classified).
+	--И возвращает подсказку, либо "".
+	local function CheckUserHint(inst)
+		local c = _G.ThePlayer and _G.ThePlayer.player_classified
+		if c == nil then --Нет локального игрока или classified
+			return ""
+		end
+		--c.showme_hint
+		local i = string.find(c.showme_hint2,';',1,true)
+		if i == nil then --Строка имеет неправильный формат.
+			return ""
+		end
+		local guid = _G.tonumber(c.showme_hint2:sub(1,i-1))
+		if guid ~= inst.GUID then --guid не совпадает (либо вообще nil)
+			return ""
+		end
+		return c.showme_hint2:sub(i+1)
+	end
+	if CLIENT_SIDE then
+		--patching Get Display Name. Нужно только клиенту.
+		--[[local old_GetDisplayName = _G.EntityScript.GetDisplayName
+		_G.EntityScript.GetDisplayName = function(self)
+			local old_name = old_GetDisplayName(self)
+			if type(old_name) ~= "string" then
+				return old_name
+			end
+			local str2 = CheckUserHint(self)
+			return old_name .. str2
+		end--]]
+
+		--Разбираем случаи, когда нужно отправить guid об объекте под мышью.
+		local old_inst --Запоминаем, чтобы не спамить один и тот же inst по несколько раз.
+		--[[AddWorldPostInit(function(w)
+			w:DoPeriodicTask(0.1,function(w)
+				if _G.ThePlayer == nil then
+					return
+				end
+				local inst = _G.TheInput:GetWorldEntityUnderMouse()
+				if inst ~= nil then
+					if inst == old_inst then
+						return
+					end
+					old_inst = inst
+					--Посылаем желаемую подсказку.
+					SendModRPCToServer(MOD_RPC.ShowMeSHint.Hint, inst.GUID, inst)
+				end
+			end)
+		end)--]]
+
+		local function UnpackData(str,div)
+			local pos,arr = 0,{}
+			-- for each divider found
+			for st,sp in function() return string.find(str,div,pos,true) end do
+				table.insert(arr,string.sub(str,pos,st-1)) -- Attach chars left of current divider
+				pos = sp + 1 -- Jump past current divider
+			end
+			table.insert(arr,string.sub(str,pos)) -- Attach chars right of last divider
+			return arr
+		end
+
+		local save_target
+		local last_check_time = 0 --последнее время проверки. Будет устаревать каждые 2 сек.
+		local LOCAL_STRING_CACHE = {} --База данных строк, чтобы не обсчитывать замены каждый раз (правда, будет потихоньку пожирать память)
+		AddClassPostConstruct("widgets/hoverer",function(hoverer) --hoverer=self
+			local old_SetString = hoverer.text.SetString
+			local _debug_info = ''
+			local NEWLINES_SHIFT = {
+				'', --без инфы
+				'', -- 1 инфо строка
+				'', -- 2 инфо строки
+				'\n ',
+			}
+			local function InitNewLinesShift(idx)
+				local str = NEWLINES_SHIFT[idx]
+				if str then
+					return str
+				end
+				str = '\n' .. InitNewLinesShift(idx-1)
+				NEWLINES_SHIFT[idx] = str
+				return str
+			end
+			hoverer.text.SetString = function(text,str) --text=self
+				--print(tostring(str))
+				text.cnt_lines = nil
+				local target = _G.TheInput:GetHUDEntityUnderMouse()
+				if target ~= nil then
+					--target.widget.parent - это ItemTile
+					target = target.widget ~= nil and target.widget.parent ~= nil and target.widget.parent.item --реальный итем (на клиенте)
+				else
+					target = _G.TheInput:GetWorldEntityUnderMouse()
+				end
+				--local lmb = hoverer.owner.components.playercontroller:GetLeftMouseAction()
+				if target ~= nil then
+					--print(tostring(target))
+					--Проверяем совпадение с данными.
+					local str2 = CheckUserHint(target)
+					if str2 ~= "" then
+						--Так, сначала чистим старую строку от переходов на новую строку. Мало ли какие там моды чего добавили.
+						local cnt_newlines, _ = 0 --Считаем переходы строк в конце строки (совместимость с DFV)
+						while cnt_newlines < #str do
+							local ch = str:sub(#str-cnt_newlines,#str-cnt_newlines)
+							if ch ~= "\n" and ch ~= " " then
+								break
+							end
+							cnt_newlines = cnt_newlines + 1
+						end
+						--Очищаем строку от этого мусора
+						if cnt_newlines > 0 then
+							str = str:sub(1,#str-cnt_newlines)
+						end
+						--print(#str,"clear")
+						--Очищаем строку от промежуточного мусора
+						if string.find(str,"\n\n",1,true) ~= nil then
+							str = str:gsub("[\n]+","\n")
+						end
+
+						if string.find(str,"\n",1,true) ~= nil then
+							_,cnt_newlines = str:gsub("\n","\n") --Подсчитываем количество переходов внутри (если есть).
+						else
+							cnt_newlines = 0
+						end
+
+
+						--Извлекаем данные из полученной упакованной строки.
+						str2 = UnpackData(str2,"\2")
+						local arr2 = {} --Формируем массив данных в удобоваримом виде.
+						for i,v in ipairs(str2) do
+							if v ~= "" then
+								local param_str = v:sub(2)
+								local data = { param = UnpackData(param_str,","), param_str=param_str }
+								local my_s = MY_STRINGS[decodeFirstSymbol(v:sub(1,1))]; -- if "@", must pass nil
+								if my_s ~= nil then
+									data.data = MY_DATA[my_s.key]
+								end
+								table.insert(arr2,data)
+							end
+						end
+						arr2.str2= str2
+						--_G.rawset(_G,"arr2",arr2) --Для теста.
+						--Формируем строку
+						for i=#arr2,1,-1 do
+							local v = arr2[i]
+							if v.data ~= nil then
+								if v.data.hidden == nil then
+									if v.data.fn ~= nil then
+										arr2[i] = v.data.fn(v)
+									else
+										arr2[i] = DefaultDisplayFn(v)
+									end
+								else
+									table.remove(arr2,i)
+								end
+							else
+								arr2[i] = DefaultDisplayFn(v)
+							end
+						end
+						--table.insert(arr2,"xxxxx")
+						--table.insert(arr2,"xyz")
+						--table.insert(arr2,"aaabbbccc")
+						--table.insert(arr2,"dddddd123")
+						str2 = table.concat(arr2,'\n')
+
+						--_G.arr({inst=text.inst,hover=text.parent},5)
+						--print("-----"..str.."-----")
+						--local sss=""
+						--for i=#str,#str-10,-1 do
+						--	sss=sss..string.byte(str:sub(i,i))..", "
+						--end
+						--print("Chars: "..sss)
+						--[[print(#str,"cut str")
+						--В конце тоже убираем переход, если есть.
+						if str:sub(#str,#str) == "\n" then
+							str = str:sub(1,#str-1)
+						end--]]
+						--print(#str,"test cache")
+						--print("count new cache")
+						--print("newlines",#str2)
+
+						--str2 = str2 .. _debug_info
+						--local scale = text:GetScale()
+						--str2 = str2 .. 'scale = ' .. scale.x .. ';' .. scale.y .. '\n'
+						--local scr_w, scr_h = TheSim:GetScreenSize()
+						--str2 = str2 .. scr_w .. 'x' .. scr_h .. '\n'
+
+						text.cnt_lines = cnt_newlines + #arr2 + 1
+
+
+						str = str .. '\n' .. str2 .. (NEWLINES_SHIFT[text.cnt_lines] or InitNewLinesShift(text.cnt_lines))
+					end
+					--print("Check User Hint: "..str2)
+					--Если первый раз, то отправляем запрос.
+					if target ~= save_target or last_check_time + 1 < GetTime() then
+						save_target = target
+						last_check_time = GetTime()
+						SendModRPCToServer(MOD_RPC.ShowMeSHint.Hint, save_target.GUID, save_target)
+					end
+				else
+					--print("target nil")
+				end
+				return old_SetString(text,str)
+			end
+			--FindUpvalue(hoverer.UpdatePosition, "YOFFSETUP", 150)
+			--FindUpvalue(hoverer.UpdatePosition, "YOFFSETDOWN", 120)
+
+			local XOFFSET = 10
+
+			hoverer.UpdatePosition = function(self,x,y)
+				local YOFFSETDOWN = 10
+				local cnt_lines = self.text and self.text.cnt_lines
+				if cnt_lines then
+					local extra = cnt_lines - 3
+					if extra > 0 then
+						YOFFSETDOWN = YOFFSETDOWN - extra * 30
+					end
+				end
+
+
+				local scale = self:GetScale()
+				local scr_w, scr_h = _G.TheSim:GetScreenSize()
+				local w = 0
+				local h = 0
+
+				--_debug_info='x='..x..'; y='..y..'\n' .. 'YOFFSETDOWN = ' .. YOFFSETDOWN .. ';' ..tostring(self.text.cnt_lines) .. '\n';
+
+				if self.text ~= nil and self.str ~= nil then
+					local w0, h0 = self.text:GetRegionSize()
+					w = math.max(w, w0)
+					h = math.max(h, h0)
+					--_debug_info=_debug_info..'w0='..w0..'; h0='..h0..'\n'
+				end
+				if self.secondarytext ~= nil and self.secondarystr ~= nil then
+					local w1, h1 = self.secondarytext:GetRegionSize()
+					w = math.max(w, w1)
+					h = math.max(h, h1)
+					--_debug_info=_debug_info..'w1='..w1..'; h1='..h1..'\n'
+				end
+
+				w = w * scale.x * .5
+				h = h * scale.y * .5
+				--_debug_info=_debug_info..'w='..w..'; h='..h..'\n'
+				--y=y+h
+
+				--_debug_info=_debug_info..'cx='..math.clamp(x, w + XOFFSET, scr_w - w - XOFFSET)..'; cy='..math.clamp(y, h + YOFFSETDOWN * scale.y, scr_h - h - (-80) * scale.y)..'\n'
+				self:SetPosition(
+						math.clamp(x, XOFFSET + w, scr_w - w - XOFFSET),
+						math.clamp(y, YOFFSETDOWN + h, scr_h + 9999),
+						0)
+			end
+
+
+		end)
+	end
+
+	--Обработчик на сервере
+	AddModRPCHandler("ShowMeSHint", "Hint", function(player, guid, item)
+		if player.player_classified == nil then
+			print("ERROR: player_classified not found!")
+			return
+		end
+		if item ~= nil and item.components ~= nil then
+			local s = GetTestString(item,player) --Формируем строку на сервере.
+			if s ~= "" then
+				player.player_classified.net_showme_hint2:set(guid..";"..s) --Пакуем в строку и отсылаем обратно тому же игроку.
+			end
+		end
+	end)
+
+	--networking
+	-- showme_hint2 => "showme_hintbua." -- hash value: 78865, Ratio: 0.000078865
+	AddPrefabPostInit("player_classified",function(inst)
+		inst.showme_hint2 = ""
+		inst.net_showme_hint2 = _G.net_string(inst.GUID, "showme_hintbua.", "showme_hint_dirty2")
+		if CLIENT_SIDE then
+			inst:ListenForEvent("showme_hint_dirty2",function(inst)
+				inst.showme_hint2 = inst.net_showme_hint2:value()
+			end)
+		end
+	end)
+end
+
 ----Обработка сундуков
 --do
 --	local MAIN_VAR_NAME = 'net_ShowMe_chest';
