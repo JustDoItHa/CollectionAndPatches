@@ -50,7 +50,7 @@ getmetatable(TheNet).__index["TruncateSnapshots"] = function(self, ...)
         local userdatastr
         local pstr
         for _,v in pairs(user[TheNet:GetCurrentSnapshot()]) do
-            TheNet:DeserializeUserSession(user_session, function(success, str)
+            TheNet:DeserializeUserSession(TheNet:GetUserSessionFile(TheWorld.meta.session_identifier, v), function(success, str)
                 if success and str ~= nil and #str > 0 and string.find(str, "KLEI") < 10 then
                     pstr = true
                 end
