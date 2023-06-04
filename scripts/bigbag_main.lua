@@ -123,6 +123,16 @@ local RcpVVE = { Ingredient("goldnugget", 80),
                  Ingredient("goose_feather", 20),
                  Ingredient("minotaurhorn", 2) }
 
+local RcpVVE_S = { Ingredient("sorahat", 1),
+                   Ingredient("sorahealing", 1),
+                   Ingredient("soramagic", 1),
+                   Ingredient("soratele", 1),
+                   Ingredient("sorapick", 1),
+                   Ingredient("soracloths", 1),
+                   Ingredient("sorabowknot", 1),
+                   Ingredient("sora2pack", 10),
+                   Ingredient("minotaurhorn", 1) }
+
 local rcp = RcpN
 
 if RcpType == 1 then
@@ -153,64 +163,122 @@ if TUNING.ROOMCAR_BIGBAG_FRESH and TUNING.ROOMCAR_BIGBAG_STACK then
         table.insert(rcp, v)
     end
 end
+if TUNING.QIONG_ENABLE then
+    local bigbag = AddRecipe2("bigbag", RcpVVE_S,
+            tec,
+            { atlas = "images/inventoryimages/bigbag.xml", image = "bigbag.tex" },
+            { "CONTAINERS" })
 
-local bigbag = AddRecipe2("bigbag", rcp,
-        tec,
-        { atlas = "images/inventoryimages/bigbag.xml", image = "bigbag.tex" },
-        { "CONTAINERS" })
+    local redbigbag = AddRecipe2("redbigbag", -- name
+            { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("redgem", 10) }, -- ingredients Add more like so ,
+            tec,
+            { atlas = "images/inventoryimages/redbigbag.xml", image = "redbigbag.tex" },
+            { "CONTAINERS" })
 
-local redbigbag = AddRecipe2("redbigbag", -- name
-        { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("redgem", 10) }, -- ingredients Add more like so ,
-        tec,
-        { atlas = "images/inventoryimages/redbigbag.xml", image = "redbigbag.tex" },
-        { "CONTAINERS" })
+    local bluebigbag = AddRecipe2("bluebigbag", -- name
+            { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("bluegem", 10) }, -- ingredients Add more like so ,
+            tec,
+            { atlas = "images/inventoryimages/bluebigbag.xml", image = "bluebigbag.tex" },
+            { "CONTAINERS" })
 
-local bluebigbag = AddRecipe2("bluebigbag", -- name
-        { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("bluegem", 10) }, -- ingredients Add more like so ,
-        tec,
-        { atlas = "images/inventoryimages/bluebigbag.xml", image = "bluebigbag.tex" },
-        { "CONTAINERS" })
+    local nicebigbag = AddRecipe2("nicebigbag",
+            { Ingredient("sorahat", 1),
+              Ingredient("sorahealing", 1),
+              Ingredient("soramagic", 1),
+              Ingredient("soratele", 1),
+              Ingredient("sorapick", 1),
+              Ingredient("soracloths", 1),
+              Ingredient("sorabowknot", 1),
+              Ingredient("sora2pack", 10),
+              Ingredient("minotaurhorn", 1) },
+            tec,
+            { atlas = "images/inventoryimages/nicebigbag.xml", image = "nicebigbag.tex" },
+            { "CONTAINERS" })
 
-local nicebigbag = AddRecipe2("nicebigbag",
-        { Ingredient("goldnugget", 40),
-          Ingredient("pigskin", 20),
-          Ingredient("nightmarefuel", 40),
-          Ingredient("silk", 40),
-          Ingredient("bearger_fur", 2),
-          Ingredient("dragon_scales", 2),
-          Ingredient("goose_feather", 10),
-          Ingredient("minotaurhorn", 1) },
-        tec,
-        { atlas = "images/inventoryimages/nicebigbag.xml", image = "nicebigbag.tex" },
-        { "CONTAINERS" })
+    local catbigbag = AddRecipe2("catbigbag", -- name
+            { Ingredient("sorahat", 1),
+              Ingredient("sorahealing", 1),
+              Ingredient("soramagic", 1),
+              Ingredient("soratele", 1),
+              Ingredient("sorapick", 1),
+              Ingredient("soracloths", 1),
+              Ingredient("sorabowknot", 1),
+              Ingredient("sora2pack", 10),
+              Ingredient("minotaurhorn", 1) },
+            tec,
+            { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
+            { "CONTAINERS" })
 
-local catbigbag = AddRecipe2("catbigbag", -- name
-        { Ingredient("goldnugget", 80),
-          Ingredient("pigskin", 40),
-          Ingredient("nightmarefuel", 80),
-          Ingredient("silk", 80),
-          Ingredient("bearger_fur", 10),
-          Ingredient("dragon_scales", 10),
-          Ingredient("goose_feather", 20),
-          Ingredient("minotaurhorn", 2) },
-        tec,
-        { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
-        { "CONTAINERS" })
+    local catback = AddRecipe2("catback", -- name
+            { Ingredient("sorahat", 1),
+              Ingredient("sorahealing", 1),
+              Ingredient("soramagic", 1),
+              Ingredient("soratele", 1),
+              Ingredient("sorapick", 1),
+              Ingredient("soracloths", 1),
+              Ingredient("sorabowknot", 1),
+              Ingredient("sora2pack", 10),
+              Ingredient("minotaurhorn", 1) },
+            tec,
+            { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
+            { "CONTAINERS" })
+else
+    local bigbag = AddRecipe2("bigbag", rcp,
+            tec,
+            { atlas = "images/inventoryimages/bigbag.xml", image = "bigbag.tex" },
+            { "CONTAINERS" })
 
-local catback = AddRecipe2("catback", -- name
-        { Ingredient("goldnugget", 20),
-          Ingredient("pigskin", 10),
-          Ingredient("nightmarefuel", 20),
-          Ingredient("silk", 20),
-          Ingredient("bearger_fur", 2),
-          Ingredient("dragon_scales", 2),
-          Ingredient("goose_feather", 3),
-          Ingredient("minotaurhorn", 1) },
-        tec,
-        { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
-        { "CONTAINERS" })
+    local redbigbag = AddRecipe2("redbigbag", -- name
+            { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("redgem", 10) }, -- ingredients Add more like so ,
+            tec,
+            { atlas = "images/inventoryimages/redbigbag.xml", image = "redbigbag.tex" },
+            { "CONTAINERS" })
 
+    local bluebigbag = AddRecipe2("bluebigbag", -- name
+            { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("bluegem", 10) }, -- ingredients Add more like so ,
+            tec,
+            { atlas = "images/inventoryimages/bluebigbag.xml", image = "bluebigbag.tex" },
+            { "CONTAINERS" })
 
+    local nicebigbag = AddRecipe2("nicebigbag",
+            { Ingredient("goldnugget", 40),
+              Ingredient("pigskin", 20),
+              Ingredient("nightmarefuel", 40),
+              Ingredient("silk", 40),
+              Ingredient("bearger_fur", 2),
+              Ingredient("dragon_scales", 2),
+              Ingredient("goose_feather", 10),
+              Ingredient("minotaurhorn", 1) },
+            tec,
+            { atlas = "images/inventoryimages/nicebigbag.xml", image = "nicebigbag.tex" },
+            { "CONTAINERS" })
+
+    local catbigbag = AddRecipe2("catbigbag", -- name
+            { Ingredient("goldnugget", 80),
+              Ingredient("pigskin", 40),
+              Ingredient("nightmarefuel", 80),
+              Ingredient("silk", 80),
+              Ingredient("bearger_fur", 10),
+              Ingredient("dragon_scales", 10),
+              Ingredient("goose_feather", 20),
+              Ingredient("minotaurhorn", 2) },
+            tec,
+            { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
+            { "CONTAINERS" })
+
+    local catback = AddRecipe2("catback", -- name
+            { Ingredient("goldnugget", 20),
+              Ingredient("pigskin", 10),
+              Ingredient("nightmarefuel", 20),
+              Ingredient("silk", 20),
+              Ingredient("bearger_fur", 2),
+              Ingredient("dragon_scales", 2),
+              Ingredient("goose_feather", 3),
+              Ingredient("minotaurhorn", 1) },
+            tec,
+            { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
+            { "CONTAINERS" })
+end
 
 --------------------------------------------------------------------------------------------------------------------------
 modimport("scripts/strings_bigbag.lua")
