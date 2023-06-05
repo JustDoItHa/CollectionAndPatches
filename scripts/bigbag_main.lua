@@ -189,8 +189,7 @@ if TUNING.QIONG_ENABLE then
               Ingredient("sorapick", 1),
               Ingredient("soracloths", 1),
               Ingredient("sorabowknot", 1),
-              Ingredient("sora2pack", 10),
-              Ingredient("minotaurhorn", 1) },
+              Ingredient("sora2pack", 10) },
             tec,
             { atlas = "images/inventoryimages/nicebigbag.xml", image = "nicebigbag.tex" },
             { "CONTAINERS" })
@@ -203,8 +202,7 @@ if TUNING.QIONG_ENABLE then
               Ingredient("sorapick", 1),
               Ingredient("soracloths", 1),
               Ingredient("sorabowknot", 1),
-              Ingredient("sora2pack", 10),
-              Ingredient("minotaurhorn", 1) },
+              Ingredient("sora2pack", 10)},
             tec,
             { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
             { "CONTAINERS" })
@@ -217,8 +215,7 @@ if TUNING.QIONG_ENABLE then
               Ingredient("sorapick", 1),
               Ingredient("soracloths", 1),
               Ingredient("sorabowknot", 1),
-              Ingredient("sora2pack", 10),
-              Ingredient("minotaurhorn", 1) },
+              Ingredient("sora2pack", 10) },
             tec,
             { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
             { "CONTAINERS" })
