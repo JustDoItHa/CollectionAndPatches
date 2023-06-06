@@ -534,6 +534,7 @@ local function AutoDoRemove()
                     end
                 end
             end
+        end
 
     end
     Removesign = Removesign_c
