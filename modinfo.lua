@@ -18,7 +18,7 @@ description = [[
 --40.UI拖拽缩放 41.Heap of Foods 全汉化 42.访客掉落优化版 43.纯净辅助
 --44.超级便携大箱子 45.beefalo status bar 46.疼总的信息显示(就是偷来的,好看)
 --47.史诗般血量条 48.为爽而虐-容器排序 49.鼠标滚轮调节堆叠 50.可升级箱子(已经抄过来用了)
---51.cat bag 52.wing pack 53.神秘强化炉
+--51.cat bag 52.wing pack 53.神秘强化炉 54.死亡累计升级版
 --集合mod：
 --1.常用mod集合
 --2.萌新合集-服务端
@@ -545,6 +545,7 @@ configuration_options = {
     AddOption("stack_more", "更多可堆叠", "使鸟、兔子、地鼠、鱼等生物变得可堆叠", true),
     AddConfigOption("tent_uses", "帐篷耐久", "改帐篷耐久", { { description = "关闭", data = 15 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30 }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "100", data = 100 }, { description = "200", data = 200 }, { description = "500", data = 500, hover = "默认" }, { description = "9999", data = 9999 }, }, 500),
     AddConfigOption("siesta_canopy_uses", "木棚耐久", "改木棚耐久", { { description = "关闭", data = 16 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30 }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "100", data = 100 }, { description = "200", data = 200 }, { description = "500", data = 500, hover = "默认" }, { description = "9999", data = 9999 }, }, 500),
+    AddOption("death_counter_switch", "死亡次数累计", "显示死亡次数累计", false),
 
     AddOptionHeader("死亡不掉落配置"),
     AddOption("dont_drop", "是否开启死亡掉落", "死亡不掉落物品总开关", false),

@@ -206,6 +206,10 @@ end
 if GetModConfigData("siesta_canopy_uses") > 0 then
     TUNING.SIESTA_CANOPY_USES = GetModConfigData("siesta_canopy_uses")
 end
+-- 死亡次数累计
+if GetModConfigData("death_counter_switch") then
+    modimport("scripts/death_counter_main.lua")
+end
 
 -- 生存天数奖励
 if GetModConfigData('reward_for_survival') then
