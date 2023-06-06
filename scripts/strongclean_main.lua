@@ -200,9 +200,6 @@ if not err2 then
 end
 
 local function isWhitelist(name)
-    if name == nil then
-        return false
-    end
     for k, v in pairs(whitelist) do
         if string.find(name, v) then
             return true
@@ -331,14 +328,16 @@ local function DoRemoveX(X)
     end
     for k, v in pairs(GLOBAL.Ents) do
         -- 下面是修改部分，添加了风滚草的清理，同样加标志定时清理
-        if isX(v.prefab, X) then
-            v:Remove()
-            local numm = list[v.name .. "  " .. v.prefab]
-            if numm == nil then
-                list[v.name .. "  " .. v.prefab] = 1
-            else
-                numm = numm + 1
-                list[v.name .. "  " .. v.prefab] = numm
+        if type(v.prefab) == "string" then
+            if isX(v.prefab, X) then
+                v:Remove()
+                local numm = list[v.name .. "  " .. v.prefab]
+                if numm == nil then
+                    list[v.name .. "  " .. v.prefab] = 1
+                else
+                    numm = numm + 1
+                    list[v.name .. "  " .. v.prefab] = numm
+                end
             end
         end
     end
@@ -377,25 +376,26 @@ local function DoRemove()
         end
     end
     for k, v in pairs(GLOBAL.Ents) do
-
-        if v.components and v.components.inventoryitem and v.components.inventoryitem.owner == nil then
-            if (clean_mode == 0 and not isWhitelist(v.prefab) and not isWhiteTag(v))
-                    or (clean_mode == 1 and isBlacklist(v.prefab))
-                    or isHalfWhitelist(v) or isFloat(v) then
-                if WhiteArea(v) then
-                    if v:HasTag("RemoveCountOne") and Positioncheck(v) then
-                        v:Remove()
-                        local numm = list[v.name .. "  " .. v.prefab]
-                        if numm == nil then
-                            list[v.name .. "  " .. v.prefab] = 1
+        if type(v.prefab) == "string" then
+            if v.components and v.components.inventoryitem and v.components.inventoryitem.owner == nil then
+                if (clean_mode == 0 and not isWhitelist(v.prefab) and not isWhiteTag(v))
+                        or (clean_mode == 1 and isBlacklist(v.prefab))
+                        or isHalfWhitelist(v) or isFloat(v) then
+                    if WhiteArea(v) then
+                        if v:HasTag("RemoveCountOne") and Positioncheck(v) then
+                            v:Remove()
+                            local numm = list[v.name .. "  " .. v.prefab]
+                            if numm == nil then
+                                list[v.name .. "  " .. v.prefab] = 1
+                            else
+                                numm = numm + 1
+                                list[v.name .. "  " .. v.prefab] = numm
+                            end
                         else
-                            numm = numm + 1
-                            list[v.name .. "  " .. v.prefab] = numm
+                            v:AddTag("RemoveCountOne")
+                            local x, y, z = v.Transform:GetWorldPosition()
+                            Removesign_c[v] = { x = math.floor(x), y = math.floor(y) }
                         end
-                    else
-                        v:AddTag("RemoveCountOne")
-                        local x, y, z = v.Transform:GetWorldPosition()
-                        Removesign_c[v] = { x = math.floor(x), y = math.floor(y) }
                     end
                 end
             end
@@ -429,19 +429,21 @@ local function DoStrongRemove()
     local list = {}
     for k, v in pairs(GLOBAL.Ents) do
         -- 下面是修改部分，添加了风滚草的清理，同样加标志定时清理
-        if isStrongcleanlist(v.prefab) then
-            if v.components.inventoryitem == nil or (v.components.inventoryitem and v.components.inventoryitem.owner == nil) then
-                if v:HasTag("RemoveCountOne") then
-                    v:Remove()
-                    local numm = list[v.name .. "  " .. v.prefab]
-                    if numm == nil then
-                        list[v.name .. "  " .. v.prefab] = 1
+        if type(v.prefab) == "string" then
+            if isStrongcleanlist(v.prefab) then
+                if v.components.inventoryitem == nil or (v.components.inventoryitem and v.components.inventoryitem.owner == nil) then
+                    if v:HasTag("RemoveCountOne") then
+                        v:Remove()
+                        local numm = list[v.name .. "  " .. v.prefab]
+                        if numm == nil then
+                            list[v.name .. "  " .. v.prefab] = 1
+                        else
+                            numm = numm + 1
+                            list[v.name .. "  " .. v.prefab] = numm
+                        end
                     else
-                        numm = numm + 1
-                        list[v.name .. "  " .. v.prefab] = numm
+                        v:AddTag("RemoveCountOne")
                     end
-                else
-                    v:AddTag("RemoveCountOne")
                 end
             end
         end
@@ -494,43 +496,44 @@ local function AutoDoRemove()
 
         local max_clean = false
         local v_prefab = v.prefab
-        if v_prefab and cleanmaxnum[v_prefab] then
-            if countList[v_prefab] == nil then
-                countList[v_prefab] = 1
-            else
-                countList[v_prefab] = countList[v_prefab] + 1
-                if cleanmaxnum[v_prefab].max < countList[v_prefab] and cleanmaxnum[v_prefab].max >= 0 then
-                    max_clean = true
+        if type(v_prefab) == "string" then
+            if v_prefab and cleanmaxnum[v_prefab] then
+                if countList[v_prefab] == nil then
+                    countList[v_prefab] = 1
+                else
+                    countList[v_prefab] = countList[v_prefab] + 1
+                    if cleanmaxnum[v_prefab].max < countList[v_prefab] and cleanmaxnum[v_prefab].max >= 0 then
+                        max_clean = true
+                    end
                 end
             end
-        end
-        local strong_clean = isStrongcleanlist(v.prefab)
-        local inventoryitem_v = v.components.inventoryitem and v.components.inventoryitem.owner == nil
-        if v and v:IsValid() and (inventoryitem_v or strong_clean or max_clean) then
-            if (clean_mode == 0 and not isWhitelist(v.prefab) and not isWhiteTag(v))
-                    or (clean_mode == 1 and isBlacklist(v.prefab))
-                    or isHalfWhitelist(v) or isFloat(v) or strong_clean or max_clean then
-                if v and v:IsValid() and WhiteArea(v) then
-                    if v and v:IsValid() and ((v:HasTag("RemoveCountOne") and (Positioncheck(v) or strong_clean)) or max_clean) then
-                        v:Remove()
-                        local numm = list[v.name .. "  " .. v.prefab]
-                        if numm == nil then
-                            list[v.name .. "  " .. v.prefab] = 1
+            local strong_clean = isStrongcleanlist(v_prefab)
+            local inventoryitem_v = v.components.inventoryitem and v.components.inventoryitem.owner == nil
+            if v and v:IsValid() and ( inventoryitem_v or strong_clean or max_clean ) then
+                if (clean_mode == 0 and not isWhitelist(v_prefab) and not isWhiteTag(v))
+                        or (clean_mode == 1 and isBlacklist(v_prefab))
+                        or isHalfWhitelist(v) or isFloat(v) or strong_clean or max_clean then
+                    if v and v:IsValid() and WhiteArea(v) then
+                        if v and v:IsValid() and ((v:HasTag("RemoveCountOne") and (Positioncheck(v) or strong_clean)) or max_clean) then
+                            v:Remove()
+                            local numm = list[v.name .. "  " .. v_prefab]
+                            if numm == nil then
+                                list[v.name .. "  " .. v_prefab] = 1
+                            else
+                                numm = numm + 1
+                                list[v.name .. "  " .. v_prefab] = numm
+                            end
+                            Sleep(math.min(0.01, 60 / ents_num))
                         else
-                            numm = numm + 1
-                            list[v.name .. "  " .. v.prefab] = numm
-                        end
-                        Sleep(math.min(0.01, 60 / ents_num))
-                    else
-                        v:AddTag("RemoveCountOne")
-                        if not strong_clean then
-                            local x, y, z = v.Transform:GetWorldPosition()
-                            Removesign_c[v] = { x = math.floor(x), y = math.floor(y) }
+                            v:AddTag("RemoveCountOne")
+                            if not strong_clean then
+                                local x, y, z = v.Transform:GetWorldPosition()
+                                Removesign_c[v] = { x = math.floor(x), y = math.floor(y) }
+                            end
                         end
                     end
                 end
             end
-        end
 
     end
     Removesign = Removesign_c
