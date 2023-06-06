@@ -409,7 +409,7 @@ if heisewuhui_optimize > 0 then
                             return
                         end
                         --改成概率获得持续流血debuff直到死亡
-                        if math.random() > 0.1 then
+                        if math.random() > 0.2 then
                             return
                         end
                         if not self.ab_lx_task then
