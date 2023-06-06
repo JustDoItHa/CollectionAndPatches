@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "10.17.0.2"
+version = "10.18.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1229,6 +1229,11 @@ configuration_options = {
     AddConfigOption("ab_ty", "限制阿比桃源", "限制世界多少天后可以使用", disappear_magic, 0),
     AddOption("ab_knot_drop_limit", "纽结：降临-掉落数量限制", "限制奇幻降临扭结碎片的掉落最大值及自动堆叠", false),
     AddOption("ab_packer_limit", "阿比打包限制", "禁止打包一些公用物品", true),
+    AddConfigOption("ab_heisewuhui_optimize", "黑色舞会优化版", "稍微修改黑色舞会机制", {
+        { description = "默", data = 0, hover = "『事件禁止』：休闲模式" },
+        { description = "启", data = 1, hover = "『事件开始』：一阶段" },
+        { description = "中", data = 2, hover = "『事件扩展』：一*二阶段" },
+        { description = "终", data = 3, hover = "『事件全满』：一*二*三阶段" }, }, 0),
 
     AddOptionHeader("乃木园子补丁"),
     AddOption("yuanzi_patches_switch", "总开关", "是否开启乃木园子补丁", false),
@@ -1385,12 +1390,12 @@ configuration_options = {
     AddConfigOption("BAGSIZE", "Size of bag(背包大小)", "Size of bag", { { description = "8x3", data = 4, }, { description = "8x4", data = 1, }, { description = "8x6", data = 2, }, { description = "8x8", data = 3, }, }, 1),
     AddConfigOption("NICEBIGBAGSIZE", "Size of haversack(挎包大小)", "Choose your size of haversack.",
             { { description = "8x3", data = 1, },
-                { description = "8x4", data = 2, }, }, 2),
+              { description = "8x4", data = 2, }, }, 2),
     AddConfigOption("CATBIGBAGSIZE", "Size of catback(猫包大小)", "Choose your size of catback.",
             { { description = "8x3", data = 1, },
-                { description = "8x4", data = 2, },
-                { description = "8x6", data = 3, },
-                { description = "8x8", data = 4, }, }, 2),
+              { description = "8x4", data = 2, },
+              { description = "8x6", data = 3, },
+              { description = "8x8", data = 4, }, }, 2),
     AddOption("KEEPFRESH", "KeepFresh (保鲜)", "Keep the food fresh.", false),
     AddOption("LIGHT", "Light (保命微光)", "Let the bag give off light.", false),
     AddOption("BIGBAGWATER", "Rainproof(防雨)", "Protect you from the rain.", false),

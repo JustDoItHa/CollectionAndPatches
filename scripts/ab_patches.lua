@@ -86,8 +86,10 @@ if GetModConfigData("ab_knot_drop_limit") then
         -- end)
 
         AddPrefabPostInit("ab_portablespicer_item", function(inst)
-            if inst.components.trader == nil or inst.components.trader.onaccept == nil then return end
-            inst.components.trader.onaccept = function(inst,giver,item,...)
+            if inst.components.trader == nil or inst.components.trader.onaccept == nil then
+                return
+            end
+            inst.components.trader.onaccept = function(inst, giver, item, ...)
                 giver.components.talker:Say("为什么呢？")
                 if inst.components.trader.deleteitemonaccept == false then
                     giver.components.inventory.GiveItem(item)
@@ -95,8 +97,10 @@ if GetModConfigData("ab_knot_drop_limit") then
             end
         end)
         AddPrefabPostInit("ab_sword", function(inst)
-            if inst.components.trader == nil or inst.components.trader.onaccept == nil then return end
-            inst.components.trader.onaccept = function(inst,giver,item,...)
+            if inst.components.trader == nil or inst.components.trader.onaccept == nil then
+                return
+            end
+            inst.components.trader.onaccept = function(inst, giver, item, ...)
                 giver.components.talker:Say("为什么呢？")
                 if inst.components.trader.deleteitemonaccept == false then
                     giver.components.inventory.GiveItem(item)
@@ -117,8 +121,10 @@ if GetModConfigData("ab_knot_drop_limit") then
         --     end
         -- end
         AddPrefabPostInit("ab_yzjxq", function(inst)
-            if inst.components.trader == nil or inst.components.trader.onaccept == nil then return end
-            inst.components.trader.onaccept = function(inst,giver,item,...)
+            if inst.components.trader == nil or inst.components.trader.onaccept == nil then
+                return
+            end
+            inst.components.trader.onaccept = function(inst, giver, item, ...)
                 giver.components.talker:Say("为什么呢？")
                 if inst.components.trader.deleteitemonaccept == false then
                     giver.components.inventory.GiveItem(item)
@@ -142,7 +148,7 @@ if GetModConfigData("ab_packer_limit") then
     AddComponentPostInit("ab_packer", function(self)
         local oldCanPack = self.CanPack
         function self:CanPack(target, ...)
-            if testCantPackItem(target,TUNING.CANT_PACK_ITEMS) then
+            if testCantPackItem(target, TUNING.CANT_PACK_ITEMS) then
                 return false
             end
 
@@ -150,7 +156,6 @@ if GetModConfigData("ab_packer_limit") then
         end
     end)
 end
-
 
 AddComponentPostInit("moisture", function(self)
     local oldDoDelta = self.DoDelta
@@ -220,9 +225,12 @@ if MOD_RPC_HANDLERS["ab_recipelist"] and MOD_RPC["ab_recipelist"] and MOD_RPC["a
     MOD_RPC_HANDLERS["ab_recipelist"][MOD_RPC["ab_recipelist"]["ab_recipelist"].id] = function(inst, recipename, isproduct, ...)
 
         if recipename == 1 and TUNING.AB_CHAONENGQUANXIAN then
-            if TheWorld.state.cycles + 1 < ab_t then 
-                if ab_t == -1 then inst.components.talker:Say("永久封禁") return end
-                inst.components.talker:Say("桃源"..ab_t.."天后解锁") 
+            if TheWorld.state.cycles + 1 < ab_t then
+                if ab_t == -1 then
+                    inst.components.talker:Say("永久封禁")
+                    return
+                end
+                inst.components.talker:Say("桃源" .. ab_t .. "天后解锁")
                 return
             end
             for k, v in pairs(forbidItem) do
@@ -232,14 +240,19 @@ if MOD_RPC_HANDLERS["ab_recipelist"] and MOD_RPC["ab_recipelist"] and MOD_RPC["a
                 end
             end
         elseif recipename == 2 then
-            if TheWorld.state.cycles + 1 < ab_ty then 
-                if ab_ty == -1 then inst.components.talker:Say("永久封禁") return end
-                inst.components.talker:Say("桃源"..ab_ty.."天后解锁")
+            if TheWorld.state.cycles + 1 < ab_ty then
+                if ab_ty == -1 then
+                    inst.components.talker:Say("永久封禁")
+                    return
+                end
+                inst.components.talker:Say("桃源" .. ab_ty .. "天后解锁")
                 return
             end
         end
 
-        if old_ab_recipelist then old_ab_recipelist(inst, recipename, isproduct, ...) end
+        if old_ab_recipelist then
+            old_ab_recipelist(inst, recipename, isproduct, ...)
+        end
     end
 end
 
@@ -318,11 +331,139 @@ end
 
 local upvaluehelper = require "utils/upvaluehelp_cap"
 local ab_wg = require "components/ab_wg" --阿比第四 开局礼包 修改
-local zslist = upvaluehelper.Get(ab_wg.InIt,"zslist")
+local zslist = upvaluehelper.Get(ab_wg.InIt, "zslist")
 if zslist then
-    for k,v in pairs(zslist) do
+    for k, v in pairs(zslist) do
         if v.id and v.item then
-           v.item = {"pyrite"}--黄铁
+            v.item = { "pyrite" }--黄铁
         end
+    end
+end
+
+
+--黑色舞会机制修改
+
+local heisewuhui_optimize = GetModConfigData("ab_heisewuhui_optimize") or 0
+
+if heisewuhui_optimize > 0 then
+    local function pickyishang(inst)
+        inst.ab_yishang_world = math.random(100)
+        for i, v in ipairs(AllPlayers) do
+            if v:IsValid() and v.components.talker then
+                v.components.talker:Say("当前世界黑色舞会骰子点数:" .. inst.ab_yishang_world)
+            end
+        end
+    end
+    AddPrefabPostInit("world", function(inst)
+        if not TheWorld.ismastersim then
+            return inst
+        end
+        inst:WatchWorldState("cycles", function()
+            pickyishang(inst)
+        end)
+        pickyishang(inst)
+    end)
+    AddComponentPostInit("combat", function(self)
+        local oldGetAttacked = self.GetAttacked
+        function self:GetAttacked(attacker, damage, weapon, stimuli)
+            local old = oldGetAttacked(self, attacker, damage, weapon, stimuli)
+            if self.inst:HasTag("player") and TheWorld.ab_yishang_world ~= nil and self.inst.components.health then
+                if self.inst.components.health and not self.inst.components.health:IsDead() then
+                    local cause = attacker == self.inst and weapon or attacker
+                    local exdamage = math.min(22 * heisewuhui_optimize, damage * (TheWorld.ab_yishang_world + (self.inst.components.health.ab_yishang_health or 0)) * 0.01)
+                    self.inst.components.health:DoDelta(-exdamage, nil, cause ~= nil and (cause.nameoverride or cause.prefab) or "NIL", nil, cause)
+                end
+            end
+            return old
+        end
+    end)
+
+    STRINGS.NAMES.AB_LX_BUFF = "流血"
+    local function DoRegen(inst, self)
+        if not self:IsDead() then
+            self:DoDelta(-1, nil, "ab_lx_buff")
+        end
+    end
+    AddComponentPostInit("health", function(self)
+        local old_sava = self.OnSave
+        function self:OnSave()
+            local old = old_sava(self)
+            if old then
+                old.ab_yishang_health = self.ab_yishang_health
+            end
+            return old
+        end
+        local old_load = self.OnLoad
+        function self:OnLoad(data)
+            if data and data.ab_yishang_health then
+                self.ab_yishang_health = data.ab_yishang_health
+            end
+            old_load(self, data)
+        end
+        if self.inst:HasTag("player") then
+            self.ab_yishang_health = 0
+            if heisewuhui_optimize > 1 then
+                self.inst:ListenForEvent("healthdelta", function(_inst, data)
+                    if data and data.amount and data.amount < 0 then
+                        if self:IsDead() then
+                            return
+                        end
+                        --改成概率获得持续流血debuff直到死亡
+                        if math.random() > 0.1 then
+                            return
+                        end
+                        if not self.ab_lx_task then
+                            self.ab_lx_task = self.inst:DoPeriodicTask(5, DoRegen, nil, self)
+                        end
+                        if heisewuhui_optimize > 2 then
+                            if data.amount < -2 then
+                                --小于-2 的才会计数
+                                if not self.lastab_yishangtime then
+                                    self.lastab_yishangtime = GetTime()
+                                elseif (GetTime() - self.lastab_yishangtime) < 1 then
+                                    --间隔1秒
+                                    return
+                                end
+                                self.lastab_yishangtime = GetTime()
+                                self.ab_yishang_health = self.ab_yishang_health + 1
+                            end
+                        end
+                    end
+                end)
+                self.inst:ListenForEvent("oneat", function(_inst, data)
+                    if data and data.food and data.food.prefab == "garlic" then
+                        if self.ab_yishang_health > 1 then
+                            self.ab_yishang_health = self.ab_yishang_health - 1
+                        end
+                    end
+                end)
+                self.inst:ListenForEvent("death", function(_inst, data)
+                    self.ab_yishang_health = 0
+                    if self.ab_lx_task then
+                        self.ab_lx_task:Cancel()
+                        self.ab_lx_task = nil
+                    end
+                end)
+            end
+        end
+    end)
+
+    if heisewuhui_optimize > 1 then
+        local canheal = {
+            healingsalve = true,
+            tillweedsalve = true,
+            bandage = true,
+        }
+        AddComponentPostInit("healer", function(self)
+            local old_Heal = self.Heal
+            function self:Heal(target, ...)
+                local old = old_Heal(self, target, ...)
+                if old and canheal[self.inst.prefab] and target and target.components.health and target.components.health.ab_lx_task then
+                    target.components.health.ab_lx_task:Cancel()
+                    target.components.health.ab_lx_task = nil
+                end
+                return old
+            end
+        end)
     end
 end
