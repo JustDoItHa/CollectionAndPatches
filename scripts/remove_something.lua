@@ -34,6 +34,8 @@ local remove_table = {
     remove_yyxk_auto_recipe = { "yyxk_auto_recipe" },
     remove_yyxk_auto_destroystructure = { "yyxk_auto_destroystructure" },
     remove_yyxk_item_togetherup0 = { "yyxk_item_togetherup0" },
+    remove_yyxk_shadowflower_alterguardian = { "yyxk_shadowflower_alterguardian" },
+    remove_yyxk_lunarthrall_plant = { "yyxk_lunarthrall_plant" },
     --小狐狸
     remove_kemomimi_book_fs = { "kemomimi_book_fs" },
     remove_kemomimi_magic_coin_colour = { "magic_coin_colour" },
@@ -45,6 +47,7 @@ local remove_table = {
     remove_krm_spirit_crystal = { "krm_spirit_crystal" },
     --勋章
     remove_monster_book = { "monster_book" },
+    remove_medal_spacetime_devourer = { "medal_spacetime_devourer" },
     --怠惰科技
     remove_hclr_kjk = { "hclr_kjk" },
     --永不妥协

@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "10.18.0.3"
+version = "10.19.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1519,11 +1519,14 @@ configuration_options = {
     AddConfigOption("remove_yyxk_auto_recipe", "夜雨心空的聚合之仪", "让夜雨心空的聚合之仪消失！", disappear_magic, 0),
     AddConfigOption("remove_yyxk_auto_destroystructure", "夜雨心空的解构之仪", "让夜雨心空的解构之仪消失！", disappear_magic, 0),
     AddConfigOption("remove_yyxk_item_togetherup0", "夜雨心空的采集箱子", "让夜雨心空的采集箱子消失！", disappear_magic, -1),
+    AddConfigOption("remove_yyxk_shadowflower_alterguardian", "夜雨心空的影天体", "让夜雨心空的影天体消失！", disappear_magic, 0),
+    AddConfigOption("remove_yyxk_lunarthrall_plant", "夜雨心空的影花A型", "让夜雨心空的影花A型消失！", disappear_magic, 0),
     AddConfigOption("remove_kemomimi_book_fs", "小狐狸的丰收书", "让小狐狸的丰收书消失！(防止刷资源卡服)！", disappear_magic, 0),
     AddConfigOption("remove_kemomimi_magic_coin_colour", "小狐狸的彩虹召唤币", "让小狐狸的彩虹召唤币！(防止召唤很多卡服)！", disappear_magic, 0),
     AddConfigOption("remove_kemomimi_build_pig", "小狐狸的战斗大师", "让小狐狸的战斗大师消失", disappear_magic, 0),
     AddConfigOption("remove_kemomimi_boss_ds_zh", "小狐狸的蛇莓", "让小狐狸的蛇莓消失", disappear_magic, -1),
     AddConfigOption("remove_monster_book", "能力勋章的怪物图鉴", "让怪物图鉴消失！(大量刷boss卡服)", disappear_magic, 0),
+    AddConfigOption("remove_medal_spacetime_devourer", "能力勋章的时空吞噬者", "让时空吞噬者消失！", disappear_magic, 0),
     AddConfigOption("remove_hclr_kjk", "怠惰科技的锟斤拷", "让怠惰科技的锟斤拷消失", disappear_magic, -1),
     AddConfigOption("老鼠", "不妥协的老鼠", "让不妥协的老鼠消失", disappear_magic, -1),
     AddConfigOption("恐怖剧钳", "不妥协的恐怖剧钳", "让不妥协的恐怖剧钳消失", disappear_magic, -1),
