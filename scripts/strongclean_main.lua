@@ -200,6 +200,9 @@ if not err2 then
 end
 
 local function isWhitelist(name)
+    if name == nil then
+        return false
+    end
     for k, v in pairs(whitelist) do
         if string.find(name, v) then
             return true
@@ -503,7 +506,7 @@ local function AutoDoRemove()
         end
         local strong_clean = isStrongcleanlist(v.prefab)
         local inventoryitem_v = v.components.inventoryitem and v.components.inventoryitem.owner == nil
-        if v and v:IsValid() and ( inventoryitem_v or strong_clean or max_clean ) then
+        if v and v:IsValid() and (inventoryitem_v or strong_clean or max_clean) then
             if (clean_mode == 0 and not isWhitelist(v.prefab) and not isWhiteTag(v))
                     or (clean_mode == 1 and isBlacklist(v.prefab))
                     or isHalfWhitelist(v) or isFloat(v) or strong_clean or max_clean then
