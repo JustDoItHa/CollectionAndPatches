@@ -76,15 +76,10 @@ end
 --- 大背包中的物品，回满耐久值/回满新鲜度
 --- 有堆叠的物品变成两倍但不能超过最大堆叠数
 local function DoBenefit_nicebigbag(inst)
-    if not TheWorld.state.isfullmoon then
-        return
-    end
-    if inst.components.container == nil or inst.components.container:IsEmpty() then
-        return
-    end
-
-    local owner = inst.components.inventoryitem.owner
-    if owner == nil or owner.components == nil or owner.components.inventory == nil then
+    --if not TheWorld.state.isfullmoon then
+    --    return
+    --end
+    if TheWorld.state.moonphase ~= "half" then
         return
     end
 
@@ -92,7 +87,19 @@ local function DoBenefit_nicebigbag(inst)
     if not (random_num < 0.01 or ((TheWorld.state.issummer or TheWorld.state.iswinter) and TheWorld.state.remainingdaysinseason%10 < 2 and random_num<0.51)) then
         return
     end]]
-    if math.random() > 0.01 then
+    if math.random() > 0.1 then
+        return
+    end
+    if not (TheWorld.state.issummer or TheWorld.state.iswinter) then
+        return
+    end
+
+    if inst.components.container == nil or inst.components.container:IsEmpty() then
+        return
+    end
+
+    local owner = inst.components.inventoryitem.owner
+    if owner == nil or owner.components == nil or owner.components.inventory == nil then
         return
     end
 
@@ -317,7 +324,8 @@ local function fn()
     inst.components.container.onopenfn = onopen
     inst.components.container.onclosefn = onclose
     inst:ListenForEvent("itemget", getitem_nicebigbag)
-    inst:WatchWorldState("isfullmoon", DoBenefit_nicebigbag)
+    --inst:WatchWorldState("isfullmoon", DoBenefit_catbigbag)
+    inst:WatchWorldState("moonphase",DoBenefit_nicebigbag)
     inst:WatchWorldState("isday", insulatorstate)
 
     return inst

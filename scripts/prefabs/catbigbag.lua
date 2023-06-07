@@ -90,7 +90,22 @@ end
 --- 大背包中的物品，回满耐久值/回满新鲜度
 --- 有堆叠的物品变成两倍但不能超过最大堆叠数
 local function DoBenefit_catbigbag(inst)
-    if not TheWorld.state.isfullmoon then
+    if TheWorld.state.moonphase ~= "half" then
+        return
+    end
+
+    --[[local random_num = math.random()
+    if not (random_num < 0.01 or ((TheWorld.state.issummer or TheWorld.state.iswinter) and TheWorld.state.remainingdaysinseason%10 < 2 and random_num<0.51)) then
+        return
+    end]]
+    --if math.random() > 0.1 then
+    --    return
+    --end
+    if not (TheWorld.state.issummer or TheWorld.state.iswinter) then
+        return
+    end
+
+    if (TheWorld.state.remainingdaysinseason%10) > 5 then
         return
     end
     if inst.components.container == nil or inst.components.container:IsEmpty() then
@@ -102,20 +117,6 @@ local function DoBenefit_catbigbag(inst)
         return
     end
 
-    --[[local random_num = math.random()
-    if not (random_num < 0.01 or ((TheWorld.state.issummer or TheWorld.state.iswinter) and TheWorld.state.remainingdaysinseason%10 < 2 and random_num<0.51)) then
-        return
-    end]]
-    if math.random() > 0.1 then
-        return
-    end
-    if not (TheWorld.state.issummer or TheWorld.state.iswinter) then
-        return
-    end
-
-    if (TheWorld.state.remainingdaysinseason%10) > 2 then
-        return
-    end
 
     inst.components.container:Close()
     owner:DoTaskInTime(
@@ -341,7 +342,8 @@ local function fn()
     inst.components.container.onopenfn = onopen
     inst.components.container.onclosefn = onclose
     inst:ListenForEvent("itemget", getitem_catbigbag)
-    inst:WatchWorldState("isfullmoon", DoBenefit_catbigbag)
+    --inst:WatchWorldState("isfullmoon", DoBenefit_catbigbag)
+    inst:WatchWorldState("moonphase",DoBenefit_catbigbag)
     inst:WatchWorldState("isday", insulatorstate)
 
     return inst
