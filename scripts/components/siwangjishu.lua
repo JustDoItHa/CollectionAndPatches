@@ -20,7 +20,7 @@ local siwangjishu = Class(function(self, inst)
 end)
 
 function siwangjishu:OnUpdate(dt)
-      print("开始刷新")
+      --print("开始刷新")
     if self.inst.deathed_num == nil or (self.inst._deathed_num and not self.inst.deathed_num:IsValid()) then
 	      self.inst.deathed_num = SpawnPrefab("deathed_num") 
 	      self.inst.deathed_num.entity:SetParent(self.inst.entity) 
