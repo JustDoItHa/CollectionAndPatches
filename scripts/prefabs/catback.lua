@@ -88,15 +88,7 @@ end
 --- 大背包中的物品，回满耐久值/回满新鲜度
 --- 有堆叠的物品变成两倍但不能超过最大堆叠数
 local function doBenefit_catback(inst)
-    if not TheWorld.state.isfullmoon then
-        return
-    end
-    if inst.components.container == nil or inst.components.container:IsEmpty() then
-        return
-    end
-
-    local owner = inst.components.inventoryitem.owner
-    if owner == nil or owner.components == nil or owner.components.inventory == nil then
+    if TheWorld.state.moonphase ~= "half" then
         return
     end
 
@@ -104,14 +96,23 @@ local function doBenefit_catback(inst)
     if not (random_num < 0.01 or ((TheWorld.state.issummer or TheWorld.state.iswinter) and TheWorld.state.remainingdaysinseason%10 < 2 and random_num<0.51)) then
         return
     end]]
-    if math.random() > 0.1 then
-        return
-    end
+    --if math.random() > 0.1 then
+    --    return
+    --end
     if not (TheWorld.state.issummer or TheWorld.state.iswinter) then
         return
     end
 
-    if (TheWorld.state.remainingdaysinseason%10) > 2 then
+    if (TheWorld.state.remainingdaysinseason%10) > 5 then
+        return
+    end
+
+    if inst.components.container == nil or inst.components.container:IsEmpty() then
+        return
+    end
+
+    local owner = inst.components.inventoryitem.owner
+    if owner == nil or owner.components == nil or owner.components.inventory == nil then
         return
     end
 
@@ -336,7 +337,8 @@ local function fn()
     inst.components.hauntable:SetOnHauntFn(OnHaunt)
 
     inst:ListenForEvent("itemget", getitem_catback)
-    inst:WatchWorldState("isfullmoon", doBenefit_catback)
+    --inst:WatchWorldState("isfullmoon", doBenefit_catback)
+    inst:WatchWorldState("moonphase",doBenefit_catback)
     inst:WatchWorldState("isday", insulatorstate)
 
     return inst
