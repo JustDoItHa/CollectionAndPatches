@@ -76,10 +76,18 @@ end
 --- 大背包中的物品，回满耐久值/回满新鲜度
 --- 有堆叠的物品变成两倍但不能超过最大堆叠数
 local function DoBenefit_nicebigbag(inst)
-    --if not TheWorld.state.isfullmoon then
+    if inst.last_do_cycle_day == nil then
+        inst.last_do_cycle_day = 1
+    end
+
+    if TheWorld.state.cycles <= inst.last_do_cycle_day then
+        return
+    end
+
+    --if TheWorld.state.moonphase ~= "half" then
     --    return
     --end
-    if TheWorld.state.moonphase ~= "half" then
+    if not TheWorld.state.isfullmoon then
         return
     end
 
@@ -112,6 +120,7 @@ local function DoBenefit_nicebigbag(inst)
     )
 
     inst:DoTaskInTime(3, function()
+        inst.last_do_cycle_day = TheWorld.state.cycles
         for i = 1, inst.components.container.numslots do
             local item = inst.components.container.slots[i]
             if item ~= nil then

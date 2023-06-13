@@ -90,7 +90,19 @@ end
 --- 大背包中的物品，回满耐久值/回满新鲜度
 --- 有堆叠的物品变成两倍但不能超过最大堆叠数
 local function DoBenefit_catbigbag(inst)
-    if TheWorld.state.moonphase ~= "half" then
+
+    if inst.last_do_cycle_day == nil then
+        inst.last_do_cycle_day = 1
+    end
+
+    if TheWorld.state.cycles <= inst.last_do_cycle_day then
+        return
+    end
+
+    --if TheWorld.state.moonphase ~= "half" then
+    --    return
+    --end
+    if not TheWorld.state.isfullmoon then
         return
     end
 
@@ -105,7 +117,7 @@ local function DoBenefit_catbigbag(inst)
         return
     end
 
-    if (TheWorld.state.remainingdaysinseason%10) > 5 then
+    if TheWorld.state.remainingdaysinseason > 2 then
         return
     end
     if inst.components.container == nil or inst.components.container:IsEmpty() then
@@ -117,7 +129,6 @@ local function DoBenefit_catbigbag(inst)
         return
     end
 
-
     inst.components.container:Close()
     owner:DoTaskInTime(
             0.5,
@@ -127,6 +138,7 @@ local function DoBenefit_catbigbag(inst)
     )
 
     inst:DoTaskInTime(3, function()
+        inst.last_do_cycle_day = TheWorld.state.cycles
         for i = 1, inst.components.container.numslots do
             local item = inst.components.container.slots[i]
             if item ~= nil then
@@ -280,9 +292,8 @@ local function fn()
     inst:AddTag("keepfresh")
 
     inst.foleysound = "dontstarve/movement/foley/krampuspack"
-    local swap_data = {bank = "backpack1", anim = "anim"}
+    local swap_data = { bank = "backpack1", anim = "anim" }
     MakeInventoryFloatable(inst, "med", 0.1, 0.65, nil, nil, swap_data)
-
 
     --------------------
     inst.entity:SetPristine()
@@ -342,8 +353,8 @@ local function fn()
     inst.components.container.onopenfn = onopen
     inst.components.container.onclosefn = onclose
     inst:ListenForEvent("itemget", getitem_catbigbag)
-    --inst:WatchWorldState("isfullmoon", DoBenefit_catbigbag)
-    inst:WatchWorldState("moonphase",DoBenefit_catbigbag)
+    inst:WatchWorldState("isfullmoon", DoBenefit_catbigbag)
+    --inst:WatchWorldState("moonphase",DoBenefit_catbigbag)
     inst:WatchWorldState("isday", insulatorstate)
 
     return inst
