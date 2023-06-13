@@ -39,6 +39,16 @@ params.hb_huge_box = {
     type = "chest"
 }
 
+
+ --放入时检测设定
+function params.hb_huge_box.itemtestfn(container, item, slot)
+    if item.prefab == "_big_box_chest" or item.prefab == "_big_box" or item:HasTag("huge_box")then
+        return false
+    else
+        return true
+    end
+end
+
 local spacer = 30 --间距
 local posX = nil --x
 local posY = nil --y

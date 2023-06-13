@@ -333,7 +333,7 @@ local function fn()
     inst.components.container.onopenfn = onopen
     inst.components.container.onclosefn = onclose
     inst:ListenForEvent("itemget", getitem_nicebigbag)
-    inst:WatchWorldState("isfullmoon", DoBenefit_catbigbag)
+    inst:WatchWorldState("isfullmoon", DoBenefit_nicebigbag)
     --inst:WatchWorldState("moonphase",DoBenefit_nicebigbag)
     inst:WatchWorldState("isday", insulatorstate)
 
