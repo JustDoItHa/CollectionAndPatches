@@ -587,6 +587,7 @@ end
 
 modimport("scripts/mod_conflict_fix.lua")
 modimport("scripts/blance_bug_fix.lua")
+modimport("scripts/fix_pond_error.lua")
 
 if GetModConfigData("word_migrate_drop_sync_switch") or GetModConfigData("character_word_forbidden_option") then
     modimport("scripts/word_migrate_drop.lua")
