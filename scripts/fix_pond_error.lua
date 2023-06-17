@@ -16,6 +16,20 @@ end })
 
 local UpvalueHacker = require("tools/upvaluehacker") --Rezecib's upvalue hacker
 
+local function DespawnNitreFormations(inst)
+    if inst.nitreformation_ents ~= nil then
+        for i, v in ipairs(inst.nitreformation_ents) do
+            if v:IsValid() then
+                v:Remove()
+            end
+        end
+
+        inst.nitreformation_ents = nil
+    end
+
+    inst.nitreformations = nil
+end
+
 local function SetBackToNormal_Cave_fix(inst)
     inst.AnimState:PushAnimation("splash_cave", true)
     inst.AnimState:PushAnimation("idle_cave", true)
