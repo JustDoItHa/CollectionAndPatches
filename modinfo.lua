@@ -18,7 +18,7 @@ description = [[
 --40.UI拖拽缩放 41.Heap of Foods 全汉化 42.访客掉落优化版 43.纯净辅助
 --44.超级便携大箱子 45.beefalo status bar 46.疼总的信息显示(就是偷来的,好看)
 --47.史诗般血量条 48.为爽而虐-容器排序 49.鼠标滚轮调节堆叠 50.可升级箱子(已经抄过来用了)
---51.cat bag 52.wing pack 53.神秘强化炉 54.死亡累计升级版
+--51.cat bag 52.wing pack 53.神秘强化炉 54.死亡累计升级版 55.More Crafting Details
 --集合mod：
 --1.常用mod集合
 --2.萌新合集-服务端
@@ -2007,6 +2007,8 @@ configuration_options[#configuration_options + 1] = AddConfigOption("ripening_pl
             { description = "2天", data = 960 },
             { description = "不允许催熟", data = 999999 }
         }, 60)
+configuration_options[#configuration_options + 1] = AddOption("more_crafting_details_switch", "制作栏显示更多信息", "制作前就能显示部分信息", false)
+
 local beefalo_status_bar_colors = {
     { name = "ORANGE", description = "Orange(橘色)" },
     { name = "ORANGE_ALT", description = "Orange Alt(橘色高亮)" },

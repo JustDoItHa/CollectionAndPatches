@@ -510,6 +510,9 @@ if GetModConfigData("little_modify_for_pure_switch") then
     if GetModConfigData("limit_ripening_plant_switch") then
         modimport("scripts/limit_ripening_plant.lua")
     end
+    if GetModConfigData("more_crafting_details_switch") then
+        modimport("scripts/more_crafting_details_main.lua")
+    end
 end
 
 --驯牛状态
