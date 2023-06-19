@@ -391,7 +391,6 @@ local function NewRegisterPrefabs(...)
         if my_StartGrowing then
             my_levels = upvaluehelper.Get(GLOBAL.Prefabs["mushroom_farm"].fn, "levels")
             if not my_levels then
-                print("-------------------1")
                 my_levels = {
                     { amount = 6, grow = "mushroom_4", idle = "mushroom_4_idle", hit = "hit_mushroom_4" },
                     { amount = 4, grow = "mushroom_3", idle = "mushroom_3_idle", hit = "hit_mushroom_3" },
@@ -402,11 +401,9 @@ local function NewRegisterPrefabs(...)
             end
 
             my_spore_to_cap = upvaluehelper.Get(GLOBAL.Prefabs["mushroom_farm"].fn, "spore_to_cap")
-            if  my_spore_to_cap then
-                print("-------------------2")
+            if my_spore_to_cap then
                 my_spore_to_cap.spore_moon = "moon_cap" --allow lunar spores to be planted
             else
-                print("-------------------3")
                 my_spore_to_cap = {
                     spore_tall = "blue_cap",
                     spore_medium = "red_cap",
