@@ -7,21 +7,13 @@ TUNING.DRAGZOOMUIMOD_IS_OPEN = true
 local function MakeUIListDynamic(UIList, async)
     for widget, uiList in pairs(UIList) do
         if isModuleAvailable(widget) then
-            AddClassPostConstruct(
-                    widget,
-                    function(self)
-                        if async then
-                            self.inst:DoTaskInTime(
-                                    0,
-                                    function()
-                                        processUIList(self, uiList)
-                                    end
-                            )
-                        else
-                            processUIList(self, uiList)
-                        end
-                    end
-            )
+            AddClassPostConstruct(widget, function(self)
+                if async then
+                    self.inst:DoTaskInTime(0, function() processUIList(self, uiList) end)
+                else
+                    processUIList(self, uiList)
+                end
+            end)
         end
     end
 end
@@ -153,17 +145,13 @@ local mainUIList = {
         nightmarephaseindicator = "nightmarephaseindicator"
     },
 }
--- -- 制作栏UI支持
--- if GetModConfigData("ui_button_badge_craftingmenu") then
---     mainUIList["widgets/controls"].craftingmenu = {
---         self = {
---             key = "ui_button_badge_craftingmenu",
---             mirrorflip = true,
---             need_root = true,
---             notip = true
---         }
---     }
--- end
+
+-- 制作栏UI支持
+if GetModConfigData("ui_button_badge_craftingmenu") then
+    mainUIList["widgets/controls"].craftingmenu = {
+        self = {key = "ui_button_badge_craftingmenu", mirrorflip = true, need_root = true, disablezoom = true, notip = true, allowscale = true, allowpostion = true}
+    }
+end
 MakeUIListDynamic(mainUIList)
 --Eirudy 艾露迪的单个页面返回多个值因此解构出来处理
 if isModuleAvailable("widgets/erd_mainwidgets") then

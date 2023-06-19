@@ -2488,8 +2488,9 @@ configuration_options[#configuration_options + 1] = AddConfigOption("ui_button_b
 configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_mirrorflip", "镜像UI支持", "使用复原按键，目前仅支持WX-78电表，每次复原时切换一次镜像", false)
 configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_ui_more", "更多UI支持", "在右上角UI白名单基础上，动态识别更多右上角UI进行支持", true)
 configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_container", "容器UI支持", "能力勋章的容器拖拽开启时自动关闭该功能", true)
-configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_remember", "记住UI改动", "能力勋章的容器拖拽开启时自动关闭该功能", false)
-configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_tooltip", "显示提示文本", "能力勋章的容器拖拽开启时自动关闭该功能", true)
+configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_craftmenu", "制作栏支持", "制作栏可以拖拽镜像", true)
+configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_remember", "记住UI改动", "", false)
+configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_tooltip", "显示提示文本", "", true)
 
 ---Beta功能
 configuration_options[#configuration_options + 1] = AddOptionHeader("Beta功能(非必要可选择关闭)")
