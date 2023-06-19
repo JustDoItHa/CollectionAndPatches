@@ -60,10 +60,12 @@ local function eliminatingFn(player, inst)
             end
         end
     end
-    if eliminated then
-        player.components.talker:Say("真爽鸭！")
-    else
-        player.components.talker:Say("你在干神魔？")
+    if player then
+        if eliminated then
+            player.components.talker:Say("真爽鸭！")
+        else
+            player.components.talker:Say("你在干神魔？")
+        end
     end
 end
 
