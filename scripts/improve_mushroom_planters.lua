@@ -1,3 +1,7 @@
+GLOBAL.setmetatable(env, { __index = function(t, k)
+    return GLOBAL.rawget(GLOBAL, k)
+end })
+
 --Assets =
 --{
 --    Asset("ANIM", "anim/mushroom_farm_moon_build.zip"),
@@ -50,122 +54,122 @@ local my_levels
 local my_spore_to_cap
 local my_StartGrowing
 
-local function find_mfarm_upvalues(inst)
-    if my_spore_to_cap then
-        return true
-    end
-
-    if not inst.components.trader.onaccept then
-        modprint("inst.components.trader.onaccept not defined for (" .. _G.tostring(inst) .. ")!")
-        return false
-    end
-
-    modprint("Upvalue hacking old \"onacceptitem\" for StartGrowing...")
-    local onAccept_old, onAccept_old2, ndnrOnAccept_old
-    if TUNING.NDNR_ENABLE then
-        ndnrOnAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "old_onacceptitem")
-        if not ndnrOnAccept_old then
-            modprint("OnAccept_old not found in ndnr!")
-            return false
-        end
-        --兼容棱镜 --多肉植物
-        if TUNING.LEGION_ENABLE and TUNING.SUCCULENT_PLANT_ENABLE then
-            onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
-            if not onAccept_old then
-                modprint("OnAccept_old not found in legion and succulent plant 1 !")
-                return false
-            end
-            onAccept_old2 = UpvalueHacker.GetUpvalue(onAccept_old, "OnAccept_old")
-            if not onAccept_old2 then
-                modprint("OnAccept_old not found in legion and succulent plant 2 !")
-                return false
-            end
-            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old2, "StartGrowing")
-        elseif TUNING.LEGION_ENABLE then
-            onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
-            if not onAccept_old then
-                modprint("OnAccept_old not found in legion!")
-                return false
-            end
-            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
-        elseif TUNING.SUCCULENT_PLANT_ENABLE then
-            onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
-            if not onAccept_old then
-                modprint("OnAccept_old not found in succulent plant!")
-                return false
-            end
-            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
-        else
-            my_StartGrowing = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "StartGrowing")
-        end
-    else
-        --兼容棱镜 --多肉植物
-        if TUNING.LEGION_ENABLE and TUNING.SUCCULENT_PLANT_ENABLE then
-            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
-            if not onAccept_old then
-                modprint("OnAccept_old not found in legion and succulent plant 1 !")
-                return false
-            end
-            onAccept_old2 = UpvalueHacker.GetUpvalue(onAccept_old, "OnAccept_old")
-            if not onAccept_old2 then
-                modprint("OnAccept_old not found in legion and succulent plant 2 !")
-                return false
-            end
-            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old2, "StartGrowing")
-        elseif TUNING.LEGION_ENABLE then
-            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
-            if not onAccept_old then
-                modprint("OnAccept_old not found in legion!")
-                return false
-            end
-            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
-        elseif TUNING.SUCCULENT_PLANT_ENABLE then
-            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
-            if not onAccept_old then
-                modprint("OnAccept_old not found in succulent plant!")
-                return false
-            end
-            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
-        else
-            my_StartGrowing = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "StartGrowing")
-        end
-    end
-
-    if not my_StartGrowing then
-        modprint("StartGrowing not found in old \"onacceptitem\"!")
-        return false
-    end
-
-    modprint("Upvalue hacking StartGrowing for \"levels\"...")
-    my_levels = UpvalueHacker.GetUpvalue(my_StartGrowing, "levels")
-    if not my_levels then
-        modprint("\"levels\" not found in StartGrowing! Using default.")
-        my_levels = {
-            { amount = 6, grow = "mushroom_4", idle = "mushroom_4_idle", hit = "hit_mushroom_4" },
-            { amount = 4, grow = "mushroom_3", idle = "mushroom_3_idle", hit = "hit_mushroom_3" },
-            { amount = 2, grow = "mushroom_2", idle = "mushroom_2_idle", hit = "hit_mushroom_2" },
-            { amount = 1, grow = "mushroom_1", idle = "mushroom_1_idle", hit = "hit_mushroom_1" },
-            { amount = 0, idle = "idle", hit = "hit_idle" },
-        }
-    end
-
-    modprint("Upvalue hacking StartGrowing for \"spore_to_cap\"...")
-    my_spore_to_cap = UpvalueHacker.GetUpvalue(my_StartGrowing, "spore_to_cap")
-    if my_spore_to_cap then
-        my_spore_to_cap.spore_moon = "moon_cap" --allow lunar spores to be planted
-        modprint("Paired key \"spore_moon\" with \"moon_cap\" in existing \"spore_to_cap\".")
-    else
-        modprint("\"spore_to_cap\" not found in StartGrowing! Using default.")
-        my_spore_to_cap = {
-            spore_tall = "blue_cap",
-            spore_medium = "red_cap",
-            spore_small = "green_cap",
-            spore_moon = "moon_cap", --allow lunar spores to be planted
-        }
-    end
-
-    return true
-end
+--local function find_mfarm_upvalues(inst)
+--    if my_spore_to_cap then
+--        return true
+--    end
+--
+--    if not inst.components.trader.onaccept then
+--        modprint("inst.components.trader.onaccept not defined for (" .. _G.tostring(inst) .. ")!")
+--        return false
+--    end
+--
+--    modprint("Upvalue hacking old \"onacceptitem\" for StartGrowing...")
+--    local onAccept_old, onAccept_old2, ndnrOnAccept_old
+--    if TUNING.NDNR_ENABLE then
+--        ndnrOnAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "old_onacceptitem")
+--        if not ndnrOnAccept_old then
+--            modprint("OnAccept_old not found in ndnr!")
+--            return false
+--        end
+--        --兼容棱镜 --多肉植物
+--        if TUNING.LEGION_ENABLE and TUNING.SUCCULENT_PLANT_ENABLE then
+--            onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+--            if not onAccept_old then
+--                modprint("OnAccept_old not found in legion and succulent plant 1 !")
+--                return false
+--            end
+--            onAccept_old2 = UpvalueHacker.GetUpvalue(onAccept_old, "OnAccept_old")
+--            if not onAccept_old2 then
+--                modprint("OnAccept_old not found in legion and succulent plant 2 !")
+--                return false
+--            end
+--            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old2, "StartGrowing")
+--        elseif TUNING.LEGION_ENABLE then
+--            onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+--            if not onAccept_old then
+--                modprint("OnAccept_old not found in legion!")
+--                return false
+--            end
+--            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
+--        elseif TUNING.SUCCULENT_PLANT_ENABLE then
+--            onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+--            if not onAccept_old then
+--                modprint("OnAccept_old not found in succulent plant!")
+--                return false
+--            end
+--            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
+--        else
+--            my_StartGrowing = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "StartGrowing")
+--        end
+--    else
+--        --兼容棱镜 --多肉植物
+--        if TUNING.LEGION_ENABLE and TUNING.SUCCULENT_PLANT_ENABLE then
+--            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
+--            if not onAccept_old then
+--                modprint("OnAccept_old not found in legion and succulent plant 1 !")
+--                return false
+--            end
+--            onAccept_old2 = UpvalueHacker.GetUpvalue(onAccept_old, "OnAccept_old")
+--            if not onAccept_old2 then
+--                modprint("OnAccept_old not found in legion and succulent plant 2 !")
+--                return false
+--            end
+--            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old2, "StartGrowing")
+--        elseif TUNING.LEGION_ENABLE then
+--            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
+--            if not onAccept_old then
+--                modprint("OnAccept_old not found in legion!")
+--                return false
+--            end
+--            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
+--        elseif TUNING.SUCCULENT_PLANT_ENABLE then
+--            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
+--            if not onAccept_old then
+--                modprint("OnAccept_old not found in succulent plant!")
+--                return false
+--            end
+--            my_StartGrowing = UpvalueHacker.GetUpvalue(onAccept_old, "StartGrowing")
+--        else
+--            my_StartGrowing = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "StartGrowing")
+--        end
+--    end
+--
+--    if not my_StartGrowing then
+--        modprint("StartGrowing not found in old \"onacceptitem\"!")
+--        return false
+--    end
+--
+--    modprint("Upvalue hacking StartGrowing for \"levels\"...")
+--    my_levels = UpvalueHacker.GetUpvalue(my_StartGrowing, "levels")
+--    if not my_levels then
+--        modprint("\"levels\" not found in StartGrowing! Using default.")
+--        my_levels = {
+--            { amount = 6, grow = "mushroom_4", idle = "mushroom_4_idle", hit = "hit_mushroom_4" },
+--            { amount = 4, grow = "mushroom_3", idle = "mushroom_3_idle", hit = "hit_mushroom_3" },
+--            { amount = 2, grow = "mushroom_2", idle = "mushroom_2_idle", hit = "hit_mushroom_2" },
+--            { amount = 1, grow = "mushroom_1", idle = "mushroom_1_idle", hit = "hit_mushroom_1" },
+--            { amount = 0, idle = "idle", hit = "hit_idle" },
+--        }
+--    end
+--
+--    modprint("Upvalue hacking StartGrowing for \"spore_to_cap\"...")
+--    my_spore_to_cap = UpvalueHacker.GetUpvalue(my_StartGrowing, "spore_to_cap")
+--    if my_spore_to_cap then
+--        my_spore_to_cap.spore_moon = "moon_cap" --allow lunar spores to be planted
+--        modprint("Paired key \"spore_moon\" with \"moon_cap\" in existing \"spore_to_cap\".")
+--    else
+--        modprint("\"spore_to_cap\" not found in StartGrowing! Using default.")
+--        my_spore_to_cap = {
+--            spore_tall = "blue_cap",
+--            spore_medium = "red_cap",
+--            spore_small = "green_cap",
+--            spore_moon = "moon_cap", --allow lunar spores to be planted
+--        }
+--    end
+--
+--    return true
+--end
 
 -------------------------------------------
 ------------- Changed Stuff ---------------
@@ -293,92 +297,159 @@ local function onacceptitem(inst, giver, item)
     end
 end
 
-local function set_new_onacceptitem(inst)
-    local onAccept_old, onAccept_old2, ndnrOnAccept_old
-    if TUNING.NDNR_ENABLE then
-        ndnrOnAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "old_onacceptitem")
-        if ndnrOnAccept_old then
-            --兼容棱镜 --多肉植物
-            if TUNING.LEGION_ENABLE and TUNING.SUCCULENT_PLANT_ENABLE then
-                onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
-                if onAccept_old then
-                    onAccept_old2 = UpvalueHacker.GetUpvalue(onAccept_old, "OnAccept_old")
-                    if onAccept_old2 then
-                        UpvalueHacker.SetUpvalue(onAccept_old2, onacceptitem, "onacceptitem")
-                        return
-                    end
-                end
-            elseif TUNING.LEGION_ENABLE then
-                onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
-                if onAccept_old then
-                    UpvalueHacker.SetUpvalue(onAccept_old, onacceptitem, "onacceptitem")
-                    return
-                end
-            elseif TUNING.SUCCULENT_PLANT_ENABLE then
-                onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
-                if onAccept_old then
-                    UpvalueHacker.SetUpvalue(onAccept_old, onacceptitem, "onacceptitem")
-                    return
-                end
-            else
-                UpvalueHacker.SetUpvalue(ndnrOnAccept_old, onacceptitem, "onacceptitem")
-                return
-            end
-        end
-
-    else
-        --兼容棱镜 --多肉植物
-        if TUNING.LEGION_ENABLE and TUNING.SUCCULENT_PLANT_ENABLE then
-            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
-            if onAccept_old then
-                onAccept_old2 = UpvalueHacker.GetUpvalue(onAccept_old, "OnAccept_old")
-                if onAccept_old2 then
-                    UpvalueHacker.SetUpvalue(onAccept_old2, onacceptitem, "onacceptitem")
-                    return
-                end
-            end
-        elseif TUNING.LEGION_ENABLE then
-            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
-            if onAccept_old then
-                UpvalueHacker.SetUpvalue(onAccept_old, onacceptitem, "onacceptitem")
-                return
-            end
-        elseif TUNING.SUCCULENT_PLANT_ENABLE then
-            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
-            if onAccept_old then
-                UpvalueHacker.SetUpvalue(onAccept_old, onacceptitem, "onacceptitem")
-                return
-            end
-        else
-            UpvalueHacker.SetUpvalue(inst.components.trader.onaccept, onacceptitem, "onacceptitem")
-            return
-        end
-    end
-    inst.components.trader.onaccept = onacceptitem
-end
-
-
-
+--local function set_new_onacceptitem(inst)
+--    local onAccept_old, onAccept_old2, ndnrOnAccept_old
+--    if TUNING.NDNR_ENABLE then
+--        ndnrOnAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "old_onacceptitem")
+--        if ndnrOnAccept_old then
+--            --兼容棱镜 --多肉植物
+--            if TUNING.LEGION_ENABLE and TUNING.SUCCULENT_PLANT_ENABLE then
+--                onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+--                if onAccept_old then
+--                    onAccept_old2 = UpvalueHacker.GetUpvalue(onAccept_old, "OnAccept_old")
+--                    if onAccept_old2 then
+--                        UpvalueHacker.SetUpvalue(onAccept_old2, onacceptitem, "onacceptitem")
+--                        return
+--                    end
+--                end
+--            elseif TUNING.LEGION_ENABLE then
+--                onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+--                if onAccept_old then
+--                    UpvalueHacker.SetUpvalue(onAccept_old, onacceptitem, "onacceptitem")
+--                    return
+--                end
+--            elseif TUNING.SUCCULENT_PLANT_ENABLE then
+--                onAccept_old = UpvalueHacker.GetUpvalue(ndnrOnAccept_old, "OnAccept_old")
+--                if onAccept_old then
+--                    UpvalueHacker.SetUpvalue(onAccept_old, onacceptitem, "onacceptitem")
+--                    return
+--                end
+--            else
+--                UpvalueHacker.SetUpvalue(ndnrOnAccept_old, onacceptitem, "onacceptitem")
+--                return
+--            end
+--        end
+--
+--    else
+--        --兼容棱镜 --多肉植物
+--        if TUNING.LEGION_ENABLE and TUNING.SUCCULENT_PLANT_ENABLE then
+--            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
+--            if onAccept_old then
+--                onAccept_old2 = UpvalueHacker.GetUpvalue(onAccept_old, "OnAccept_old")
+--                if onAccept_old2 then
+--                    UpvalueHacker.SetUpvalue(onAccept_old2, onacceptitem, "onacceptitem")
+--                    return
+--                end
+--            end
+--        elseif TUNING.LEGION_ENABLE then
+--            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
+--            if onAccept_old then
+--                UpvalueHacker.SetUpvalue(onAccept_old, onacceptitem, "onacceptitem")
+--                return
+--            end
+--        elseif TUNING.SUCCULENT_PLANT_ENABLE then
+--            onAccept_old = UpvalueHacker.GetUpvalue(inst.components.trader.onaccept, "OnAccept_old")
+--            if onAccept_old then
+--                UpvalueHacker.SetUpvalue(onAccept_old, onacceptitem, "onacceptitem")
+--                return
+--            end
+--        else
+--            UpvalueHacker.SetUpvalue(inst.components.trader.onaccept, onacceptitem, "onacceptitem")
+--            return
+--        end
+--    end
+--    inst.components.trader.onaccept = onacceptitem
+--end
 
 -------------------------------------------
 ---------------- Finally ------------------
 -------------------------------------------
 
-AddPrefabPostInit("mushroom_farm", function(inst)
-    if find_mfarm_upvalues(inst) then
-        modprint("Replacing \"updatelevel\" in (" .. _G.tostring(inst) .. ")")
-        UpvalueHacker.SetUpvalue(inst.components.trader.onaccept, updatelevel, "updatelevel")
+--AddPrefabPostInit("mushroom_farm", function(inst)
+--    if find_mfarm_upvalues(inst) then
+--        modprint("Replacing \"updatelevel\" in (" .. _G.tostring(inst) .. ")")
+--        UpvalueHacker.SetUpvalue(inst.components.trader.onaccept, updatelevel, "updatelevel")
+--
+--        inst.components.harvestable:SetOnHarvestFn(onharvest)
+--
+--        inst.components.trader.deleteitemonaccept = false --handled in onacceptitem
+--        inst.components.trader:SetAbleToAcceptTest(accepttest)
+--        --inst.components.trader.onaccept = onacceptitem
+--        set_new_onacceptitem(inst)
+--    else
+--        _G.TheNet:SystemMessage("[Improved Mushroom Planters] Failed to modify Mushroom Planter!")
+--    end
+--end)
+--------------------------------------------------------------------------------------------
 
-        inst.components.harvestable:SetOnHarvestFn(onharvest)
+local upvaluehelper = require "utils/upvaluehelp_cap"
 
-        inst.components.trader.deleteitemonaccept = false --handled in onacceptitem
-        inst.components.trader:SetAbleToAcceptTest(accepttest)
-        --inst.components.trader.onaccept = onacceptitem
-        set_new_onacceptitem(inst)
-    else
-        _G.TheNet:SystemMessage("[Improved Mushroom Planters] Failed to modify Mushroom Planter!")
+local Old_RegisterPrefabs = ModManager.RegisterPrefabs
+local function NewRegisterPrefabs(...)
+    if GLOBAL.Prefabs["mushroom_farm"] then
+        my_StartGrowing = upvaluehelper.Get(GLOBAL.Prefabs["mushroom_farm"].fn, "StartGrowing")
+        if my_StartGrowing then
+            my_levels = upvaluehelper.Get(GLOBAL.Prefabs["mushroom_farm"].fn, "levels")
+            if not my_levels then
+                print("-------------------1")
+                my_levels = {
+                    { amount = 6, grow = "mushroom_4", idle = "mushroom_4_idle", hit = "hit_mushroom_4" },
+                    { amount = 4, grow = "mushroom_3", idle = "mushroom_3_idle", hit = "hit_mushroom_3" },
+                    { amount = 2, grow = "mushroom_2", idle = "mushroom_2_idle", hit = "hit_mushroom_2" },
+                    { amount = 1, grow = "mushroom_1", idle = "mushroom_1_idle", hit = "hit_mushroom_1" },
+                    { amount = 0, idle = "idle", hit = "hit_idle" },
+                }
+            end
+
+            my_spore_to_cap = upvaluehelper.Get(GLOBAL.Prefabs["mushroom_farm"].fn, "spore_to_cap")
+            if  my_spore_to_cap then
+                print("-------------------2")
+                my_spore_to_cap.spore_moon = "moon_cap" --allow lunar spores to be planted
+            else
+                print("-------------------3")
+                my_spore_to_cap = {
+                    spore_tall = "blue_cap",
+                    spore_medium = "red_cap",
+                    spore_small = "green_cap",
+                    spore_moon = "moon_cap", --allow lunar spores to be planted
+                }
+            end
+
+            local setlevel_old_tmp = upvaluehelper.Get(GLOBAL.Prefabs["mushroom_farm"].fn, "setlevel")
+            if setlevel_old_tmp then
+                local params = upvaluehelper.Set(GLOBAL.Prefabs["mushroom_farm"].fn, "setlevel", setlevel)
+            end
+
+            local updatelevel_old_tmp = upvaluehelper.Get(GLOBAL.Prefabs["mushroom_farm"].fn, "updatelevel")
+            if updatelevel_old_tmp then
+                local params = upvaluehelper.Set(GLOBAL.Prefabs["mushroom_farm"].fn, "updatelevel", updatelevel)
+            end
+
+            local onharvest_old_tmp = upvaluehelper.Get(GLOBAL.Prefabs["mushroom_farm"].fn, "onharvest")
+            if onharvest_old_tmp then
+                local params = upvaluehelper.Set(GLOBAL.Prefabs["mushroom_farm"].fn, "onharvest", onharvest)
+            end
+
+            local accepttest_old_tmp = upvaluehelper.Get(GLOBAL.Prefabs["mushroom_farm"].fn, "accepttest")
+            if accepttest_old_tmp then
+                local params = upvaluehelper.Set(GLOBAL.Prefabs["mushroom_farm"].fn, "accepttest", accepttest)
+            end
+
+            local onacceptitem_old_tmp = upvaluehelper.Get(GLOBAL.Prefabs["mushroom_farm"].fn, "onacceptitem")
+            if onacceptitem_old_tmp then
+                local params = upvaluehelper.Set(GLOBAL.Prefabs["mushroom_farm"].fn, "onacceptitem", onacceptitem)
+            end
+        end
     end
-end)
+
+    Old_RegisterPrefabs(...)
+end
+ModManager.RegisterPrefabs = NewRegisterPrefabs
+
+if not my_StartGrowing then
+    modprint("[Error] StartGrowing not found !")
+    return
+end
 
 -------------------------------------------
 ------- Spore: Find Existing Stuff --------
