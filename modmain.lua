@@ -197,15 +197,21 @@ if GetModConfigData("stack_size") > 0 then
     modimport("scripts/stack_size.lua")
 end
 
--- 帐篷耐久
-if GetModConfigData("tent_uses") > 0 then
-    TUNING.TENT_USES = GetModConfigData("tent_uses")
+---- 帐篷耐久
+--if GetModConfigData("tent_uses") > 0 then
+--    TUNING.TENT_USES = GetModConfigData("tent_uses")
+--end
+--
+---- 木棚耐久
+--if GetModConfigData("siesta_canopy_uses") > 0 then
+--    TUNING.SIESTA_CANOPY_USES = GetModConfigData("siesta_canopy_uses")
+--end
+-- 木棚耐久
+if GetModConfigData("sleeping_buff_switch") then
+    modimport("scripts/sleeping_buff_main.lua")
 end
 
--- 木棚耐久
-if GetModConfigData("siesta_canopy_uses") > 0 then
-    TUNING.SIESTA_CANOPY_USES = GetModConfigData("siesta_canopy_uses")
-end
+
 -- 死亡次数累计
 if GetModConfigData("death_counter_switch") then
     modimport("scripts/death_counter_main.lua")

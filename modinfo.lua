@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "10.27.0.0"
+version = "11.0.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -527,6 +527,36 @@ local character_word_forbidden = {
     ["210102"] = { "aria", "elaina", "yuki", "kurumi", "xxx3", "xxx_wuma", },
 }
 
+local sleeping_buff_hp_options = {
+    { description = "-50%", data = 0.5 },
+    { description = "系统默认", data = false },
+    { description = "2x", data = 2 },
+    { description = "3x", data = 3 },
+    { description = "4x", data = 4 },
+    { description = "5x", data = 5 },
+    { description = "6x", data = 6 },
+    { description = "8x", data = 8 },
+    { description = "10x", data = 10 },
+    { description = "20x", data = 20 },
+    { description = "30x", data = 30 },
+    { description = "50x", data = 50 },
+    { description = "80x", data = 80 },
+    { description = "100x", data = 100 },
+    { description = "无限", data = "Infinite", hover = "无限耐久" },
+    --{description = "系统默认", data = false},
+}
+local clean_num_options = {
+    { description = "No(不检查数量)", data = false, hover = "" },
+    { description = "50", data = 50, hover = "" },
+    { description = "100", data = 100, hover = "" },
+    { description = "120", data = 120, hover = "" },
+    { description = "150", data = 150, hover = "" },
+    { description = "200", data = 200, hover = "" },
+    { description = "300", data = 300, hover = "" },
+    { description = "500", data = 500, hover = "" },
+    { description = "1000", data = 1000, hover = "" },
+}
+
 configuration_options = {
     AddOptionHeader(""),
     --TheNet:SetDefaultMaxPlayers(16)
@@ -543,9 +573,32 @@ configuration_options = {
     AddConfigOption("auto_stack_range", "掉落自动堆叠", "设置掉落物自动堆叠的范围，设为0关闭自动堆叠", { { description = "关闭", data = 0 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30, hover = "默认" }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "60", data = 60 }, { description = "70", data = 70 }, { description = "80", data = 80 }, { description = "90", data = 90 }, { description = "100", data = 100 }, }, 30),
     AddConfigOption("stack_size", "物品堆叠数量", "设置物品堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 }, }, 40),
     AddOption("stack_more", "更多可堆叠", "使鸟、兔子、地鼠、鱼等生物变得可堆叠", true),
-    AddConfigOption("tent_uses", "帐篷耐久", "改帐篷耐久", { { description = "关闭", data = 15 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30 }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "100", data = 100 }, { description = "200", data = 200 }, { description = "500", data = 500, hover = "默认" }, { description = "9999", data = 9999 }, }, 500),
-    AddConfigOption("siesta_canopy_uses", "木棚耐久", "改木棚耐久", { { description = "关闭", data = 16 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30 }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "100", data = 100 }, { description = "200", data = 200 }, { description = "500", data = 500, hover = "默认" }, { description = "9999", data = 9999 }, }, 500),
     AddOption("death_counter_switch", "死亡次数累计", "显示死亡次数累计", false),
+
+    AddOptionHeader("睡眠设备调整"),
+    AddOption("sleeping_buff_switch", "总开关", "是否开启睡眠设备相关的调整", false),
+    --AddConfigOption("tent_uses", "帐篷耐久", "改帐篷耐久", { { description = "关闭", data = 15 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30 }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "100", data = 100 }, { description = "200", data = 200 }, { description = "500", data = 500, hover = "默认" }, { description = "9999", data = 9999 }, }, 500),
+    --AddConfigOption("siesta_canopy_uses", "木棚耐久", "改木棚耐久", { { description = "关闭", data = 16 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30 }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "100", data = 100 }, { description = "200", data = 200 }, { description = "500", data = 500, hover = "默认" }, { description = "9999", data = 9999 }, }, 500),
+    AddConfigOption("sleeping_buff_uses", "帐篷耐久", "改帐篷耐久", sleeping_buff_hp_options, false),
+    AddConfigOption("sleeping_buff_uses2", "木棚耐久", "改木棚耐久", sleeping_buff_hp_options, false),
+    AddConfigOption("sleeping_buff_uses3", "便携帐篷耐久", "便携帐篷耐久", sleeping_buff_hp_options, false),
+    AddConfigOption("sleeping_buff_uses4", "毛皮铺盖耐久", "毛皮铺盖耐久", sleeping_buff_hp_options, false),
+    AddConfigOption("sleeping_buff_t_smup", "黑血恢复", "睡觉是否可以黑血恢复", optionsEnableDisable, true),
+    AddConfigOption("sleeping_buff_t_smhf", "恢复速度", "睡觉是黑血恢复速度", {
+        { description = "-2", data = 0.1 },
+        { description = "-1.5", data = 0.5 },
+        { description = "关闭", data = false },
+        { description = "1.25", data = 1.25 },
+        { description = "1.5", data = 1.5 },
+        { description = "1.75", data = 1.75 },
+        { description = "2", data = 2 },
+        { description = "2.5", data = 2.5 },
+        { description = "3", data = 3 },
+        { description = "3.5", data = 3.5 },
+        { description = "4", data = 4 },
+        { description = "5", data = 5 },
+        { description = "6", data = 6 }, }, 3),
+
 
     AddOptionHeader("死亡不掉落配置"),
     AddOption("dont_drop", "是否开启死亡掉落", "死亡不掉落物品总开关", false),
@@ -1047,174 +1100,78 @@ configuration_options = {
         default = 1,
     },
     AddOptionHeader("小穹补丁"),
-    --AddOption("bellflower_pack_start", "打包风铃草-开关", "小穹是否自带打包风铃草", true),
-    --AddOption("limit_sorapacker", "小穹打包纸限制-开关", "小穹禁止打包一些公共物品", true),
     AddOption("sora_patches_switch", "小穹补丁-总开关", "是否开启小穹补丁", false),
-    {
-        name = "soraRemoveDeathExpByLevel",
-        label = "减免死亡惩罚",
-        hover = "穹一定等级后死亡不掉落经验",
-        options = {
-            { description = "不改变", data = -1 },
-            { description = "1级", data = 1 },
-            { description = "5级", data = 5 },
-            { description = "10级", data = 10 },
-            { description = "15级", data = 15 },
-            { description = "20级", data = 20 },
-            { description = "25级", data = 25 },
-            { description = "30级", data = 30 },
-        },
-        default = 20
-    },
-    {
-        name = "soraRemoveRollExpByLevel",
-        label = "减免换人惩罚",
-        hover = "穹一定等级后换人不掉落经验",
-        options = {
-            { description = "不改变", data = -1 },
-            { description = "1级", data = 1 },
-            { description = "5级", data = 5 },
-            { description = "10级", data = 10 },
-            { description = "15级", data = 15 },
-            { description = "20级", data = 20 },
-            { description = "25级", data = 25 },
-            { description = "30级", data = 30 },
-        },
-        default = 20
-    },
-    {
-        name = "soraHealDeath",
-        label = "愈还原",
-        hover = "鞭尸",
-        options = {
-            { description = "不改变", data = false },
-            { description = "还原", data = true },
-        },
-        default = false
-    },
-    {
-        name = "soraRepairerToPhilosopherStoneLimit",
-        label = "限制缝纫包修贤者宝石",
-        hover = "",
-        options = {
-            { description = "不改变", data = 0 },
-            { description = "修0.5%", data = 0.005 },
-            { description = "修1%", data = 0.01 },
-            { description = "修2%", data = 0.02 },
-            { description = "修5%", data = 0.05 },
-            { description = "修10%", data = 0.1 },
-            { description = "修20%", data = 0.2 },
-        },
-        default = 0.01
-    },
-    {
-        name = "soraFastMaker",
-        label = "制作速度更快！",
-        hover = "装备荣誉勋章或穹与巧手勋章可以提高制作速度！穹30级进一步提高。",
-        options = {
-            { description = "不改变", data = false },
-            { description = "提高", data = true },
-        },
-        default = true
-    },
-    {
-        name = "soraDoubleMaker",
-        label = "一定等级解锁双倍制作",
-        hover = "平行世界里偷不算偷！",
-        options = {
-            { description = "不改变", data = -1 },
-            { description = "一开始", data = 0 },
-            { description = "5级", data = 5 },
-            { description = "10级", data = 10 },
-            { description = "15级", data = 15 },
-            { description = "20级", data = 20 },
-            { description = "25级", data = 25 },
-            { description = "30级", data = 30 },
-        },
-        default = 30
-    },
-    {
-        name = "soraPackLimit",
-        label = "限制打包",
-        hover = "禁止穹打包一些独有的东西，比如猪王等。",
-        options = {
-            { description = "限制", data = true },
-            { description = "不限制", data = false },
-        },
-        default = true
-    },
-    {
-        name = "soraPackFL",
-        label = "打包风铃草",
-        hover = "初始自动打包风铃",
-        options = {
-            { description = "打包", data = true },
-            { description = "不打包", data = false },
-        },
-        default = true
-    },
-    {
-        name = "sorafl_select",
-        label = "风铃草自选",
-        hover = "绑定风铃草时可以自选装备(小穹mod)",
-        options = {
-            { description = "是", data = true },
-            { description = "否", data = false },
-        },
-        default = false,
-    },
+    AddConfigOption("soraRemoveDeathExpByLevel", "减免死亡惩罚", "穹一定等级后死亡不掉落经验",
+            { { description = "不改变", data = -1 },
+              { description = "1级", data = 1 },
+              { description = "5级", data = 5 },
+              { description = "10级", data = 10 },
+              { description = "15级", data = 15 },
+              { description = "20级", data = 20 },
+              { description = "25级", data = 25 },
+              { description = "30级", data = 30 }, }, 20),
+
+    AddConfigOption("soraRemoveRollExpByLevel", "减免换人惩罚", "穹一定等级后换人不掉落经验",
+            { { description = "不改变", data = -1 },
+              { description = "1级", data = 1 },
+              { description = "5级", data = 5 },
+              { description = "10级", data = 10 },
+              { description = "15级", data = 15 },
+              { description = "20级", data = 20 },
+              { description = "25级", data = 25 },
+              { description = "30级", data = 30 }, }, 20),
+    AddConfigOption("soraHealDeath", "愈还原", "鞭尸\n是：还原 否：不改变", optionsYesNo, false),
+
+    AddConfigOption("soraRepairerToPhilosopherStoneLimit", "限制缝纫包修贤者宝石", "",
+            { { description = "不改变", data = 0 },
+              { description = "修0.5%", data = 0.005 },
+              { description = "修1%", data = 0.01 },
+              { description = "修2%", data = 0.02 },
+              { description = "修5%", data = 0.05 },
+              { description = "修10%", data = 0.1 },
+              { description = "修20%", data = 0.2 }, }, 0.01),
+    AddConfigOption("soraFastMaker", "制作速度更快", "装备荣誉勋章或穹与巧手勋章可以提高制作速度！穹30级进一步提高。\n是：提高 否：不提高", optionsYesNo, true),
+    AddConfigOption("soraDoubleMaker", "一定等级解锁双倍制作", "平行世界里偷不算偷！",
+            { { description = "不改变", data = -1 },
+              { description = "一开始", data = 0 },
+              { description = "5级", data = 5 },
+              { description = "10级", data = 10 },
+              { description = "15级", data = 15 },
+              { description = "20级", data = 20 },
+              { description = "25级", data = 25 },
+              { description = "30级", data = 30 }, }, 30),
+    AddConfigOption("soraPackLimit", "限制打包", "禁止穹打包一些独有的东西，比如猪王等", optionsYesNo, true),
+    AddConfigOption("soraPackFL", "打包风铃草", "初始自动打包风铃\n是：打包 否：不打包，全图找", optionsYesNo, true),
+    AddConfigOption("sorafl_select", "风铃草自选", "绑定风铃草时可以自选装备(小穹mod)", optionsYesNo, false),
+
     AddOptionHeader("魔女之旅补丁"),
     AddOption("elaina_patches_switch", "魔女补丁总开关", "是否开启魔女补丁", false),
     AddOption("elaina_additional_skin_switch", "魔女额外皮肤", "是否开启魔女额外皮肤", false),
-    {
-        name = "ban_brooch",
-        label = "禁用专属胸针",
-        hover = "禁用伊蕾娜专属胸针(都乖乖舔老师去)",
-        options = {
-            { description = "是", data = true },
-            { description = "否", data = false },
-        },
-        default = false,
-    },
-    {
-        name = "ban_most_brooch",
-        label = "禁用最强胸针",
-        hover = "禁用伊蕾娜的最强胸针",
-        options = {
-            { description = "是", data = true },
-            { description = "否", data = false },
-        },
-        default = false,
-    },
+    AddConfigOption("ban_brooch", "禁用专属胸针", "禁用伊蕾娜专属胸针(都乖乖舔老师去)", optionsYesNo, false),
+    AddConfigOption("ban_most_brooch", "禁用最强胸针", "禁用伊蕾娜的最强胸针", optionsYesNo, false),
 
     AddOptionHeader("夜雨空心补丁"),
     AddOption("yeyu_nilxin_patches_switch", "夜雨空心补丁总开关", "是否开启夜雨空心补丁", false),
-    {
-        name = "yeyu_ruqin",
-        label = "夜雨空心入侵",
-        hover = "入侵生物一段时间消失 地图范围外消失 防止小房子周围刷",
-        options = {
-            { description = "否", data = false },
-            { description = "不消失", data = -1, hover = "地图范围外仍然消失" },
-            { description = "马上消失 主世界可用", data = 0, hover = "建议主世界设置" },
-            { description = "1天", data = 1 },
-            { description = "1.5天", data = 1.5 },
-            { description = "2天", data = 2, },
-            { description = "3天", data = 3, },
-        },
-        default = -1,
-    },
-    AddOption("yeyu_nilxin_pack_limit", "夜雨空心打包", "限制", false),
+    AddConfigOption("yeyu_ruqin", "夜雨空心入侵调整", "入侵生物一段时间消失 地图范围外消失 防止小房子周围刷",
+            { { description = "否", data = false },
+              { description = "不消失", data = -1, hover = "地图范围外仍然消失" },
+              { description = "马上消失 主世界可用", data = 0, hover = "建议主世界设置" },
+              { description = "1天", data = 1 },
+              { description = "1.5天", data = 1.5 },
+              { description = "2天", data = 2, },
+              { description = "3天", data = 3, }, }, -1),
+    AddOption("yeyu_nilxin_pack_limit", "夜雨空心打包限制", "是否限制打包物品(共物品不允许打包)", false),
     AddOption("xiuxian_patches", "夜雨空心 修仙额外", "限制了一些修仙武器可以放入魔杖", false),
-    AddConfigOption("yeyu_nilxin_jump_distance_limit", "夜雨心空跳跃限制", "限制夜雨心空的跳跃距离", { { description = "不限制", data = -1, },
-                                                                                                       { description = "原地跳(哈哈)", data = 0, },
-                                                                                                       { description = "20码", data = 20, },
-                                                                                                       { description = "50码", data = 50, },
-                                                                                                       { description = "70码", data = 70, },
-                                                                                                       { description = "100码", data = 100, },
-                                                                                                       { description = "500码", data = 500, },
-                                                                                                       { description = "1000码", data = 1000, },
-                                                                                                       { description = "2000码", data = 2000, }, }, -1),
+    AddConfigOption("yeyu_nilxin_jump_distance_limit", "夜雨心空跳跃限制", "限制夜雨心空的跳跃距离",
+            { { description = "不限制", data = -1, },
+              { description = "原地跳(哈哈)", data = 0, },
+              { description = "20码", data = 20, },
+              { description = "50码", data = 50, },
+              { description = "70码", data = 70, },
+              { description = "100码", data = 100, },
+              { description = "500码", data = 500, },
+              { description = "1000码", data = 1000, },
+              { description = "2000码", data = 2000, }, }, -1),
 
     AddConfigOption("yeyu_nilxin_sea", "夜雨心空填海造海", "夜雨心空填海造海", { { description = "不限制", data = -1, },
                                                                                  { description = "大门洞穴附近无法造海", data = 0, },
@@ -1570,212 +1527,65 @@ configuration_options = {
     AddConfigOption("DEPLOY_RULE", "使用位置限制(Deployment location restrictions)", [[填海造海道具是否只能放于海岸线
         Canal plow can only be placed on only the coastline or anywhere reachable]], { { description = "只能放于海岸线 Coastline", data = true }, { description = "任何地方 Anywhere", data = false } }, true),
 
-    AddOptionHeader(""),
-    AddOption("random_blueprint_drop", "随机蓝图掉落开关", "是否开启随机蓝图掉落", false),
-    AddConfigOption("drop_multiplying", "蓝图掉落倍率", "",
-            { { description = "极低(0.1)", data = 0.1 },
-              { description = "很低(0.25)", data = 0.25 },
-              { description = "低(0.5)", data = 0.5 },
-              { description = "较低(0.75)", data = 75 },
-              { description = "默认(1.0)", data = 1 },
-              { description = "较高(1.25)", data = 1.25 },
-              { description = "高(1.5)", data = 1.5 },
-              { description = "很高(2)", data = 2 },
-              { description = "极高(3)", data = 3 }, }, 1),
-
-    AddOptionHeader("强力清理"),
-    AddOption("strong_leaner_switch", "强力清理", "是否开强力清理", false),
-    {
-        name = "checking_days",
-        label = "Checking Days(清理间隔)",
-        hover = "Checking Period(清理时间间隔)",
-        options = {
-            { description = "1", data = 1, hover = "" },
-            { description = "2", data = 2, hover = "" },
-            { description = "3", data = 3, hover = "" },
-            { description = "5", data = 5, hover = "" },
-            { description = "10", data = 10, hover = "" },
-            { description = "20", data = 20, hover = "" },
-            { description = "30", data = 30, hover = "" },
-            { description = "40", data = 40, hover = "" },
-            { description = "50", data = 50, hover = "" },
-        },
-        default = 2,
-    },
-    {
-        name = "clean_mode",
-        label = "Clean Mode(清理模式)",
-        hover = "Whitelist mode or Blacklist mode(白名单模式或者黑名单模式)",
-        options = {
-            { description = "Whitelist", data = 0, hover = "" },
-            { description = "Blacklist", data = 1, hover = "" },
-        },
-        default = 0,
-    },
-    {
-        name = "white_area",
-        label = "White Area(清理白名单区域)",
-        hover = "Things near the tables will not be removed(茶几附近的物品不清理)",
-        options = {
-            { description = "Yes", data = true, hover = "" },
-            { description = "No", data = false, hover = "" },
-        },
-        default = true,
-    },
-    {
-        name = "tumbleweed_maxnum",
-        label = "Tumbleweed Clean(风滚草清理)",
-        hover = "超过配置数目风滚草被清理",
-        options = {
-            { description = "No(不检查数量)", data = false, hover = "" },
-            { description = "50", data = 50, hover = "" },
-            { description = "100", data = 100, hover = "" },
-            { description = "120", data = 120, hover = "" },
-            { description = "150", data = 150, hover = "" },
-            { description = "200", data = 200, hover = "" },
-            { description = "300", data = 300, hover = "" },
-            { description = "500", data = 500, hover = "" },
-            { description = "1000", data = 1000, hover = "" },
-        },
-        default = 100,
-    },
-    {
-        name = "evergreen_maxnum",
-        label = "evergreen Clean(常青树清理)",
-        hover = "超过配置数目常青树被清理",
-        options = {
-            { description = "No(不检查数量)", data = false, hover = "" },
-            { description = "50", data = 50, hover = "" },
-            { description = "100", data = 100, hover = "" },
-            { description = "120", data = 120, hover = "" },
-            { description = "150", data = 150, hover = "" },
-            { description = "200", data = 200, hover = "" },
-            { description = "300", data = 300, hover = "" },
-            { description = "500", data = 500, hover = "" },
-            { description = "1000", data = 1000, hover = "" },
-        },
-        default = 1000,
-    },
-    {
-        name = "evergreen_sparse_maxnum",
-        label = "evergreen sparse Clean(无松果常青树清理)",
-        hover = "超过配置数目常青树被清理",
-        options = {
-            { description = "No(不检查数量)", data = false, hover = "" },
-            { description = "50", data = 50, hover = "" },
-            { description = "100", data = 100, hover = "" },
-            { description = "120", data = 120, hover = "" },
-            { description = "150", data = 150, hover = "" },
-            { description = "200", data = 200, hover = "" },
-            { description = "300", data = 300, hover = "" },
-            { description = "500", data = 500, hover = "" },
-            { description = "1000", data = 1000, hover = "" },
-        },
-        default = 1000,
-    },
-    {
-        name = "deciduoustree_maxnum",
-        label = "deciduoustree Clean(桦树清理)",
-        hover = "超过配置数目常青树被清理",
-        options = {
-            { description = "No(不检查数量)", data = false, hover = "" },
-            { description = "50", data = 50, hover = "" },
-            { description = "100", data = 100, hover = "" },
-            { description = "120", data = 120, hover = "" },
-            { description = "150", data = 150, hover = "" },
-            { description = "200", data = 200, hover = "" },
-            { description = "300", data = 300, hover = "" },
-            { description = "500", data = 500, hover = "" },
-            { description = "1000", data = 1000, hover = "" },
-        },
-        default = 1000,
-    },
-    {
-        name = "boat_clean",
-        label = "Boat Clean(船只清理)",
-        hover = "Destroy boats that were not used for a specific days.(特定游戏内天数不使用的船只被清理)",
-        options = {
-            { description = "No", data = false, hover = "" },
-            { description = "180 days in game(180天)", data = 180, hover = "" },
-            { description = "360 days in game(360天)", data = 360, hover = "" },
-            { description = "540 days in game(540天)", data = 540, hover = "" },
-            { description = "720 days in game(720天)", data = 720, hover = "" },
-        },
-        default = false,
-    },
-    {
-        name = "use_for_tumbleweed",
-        label = "Use For Tumbleweed(花样风滚草档使用)",
-        hover = "Would clean tumbleweed,alterguardian,et.(花样风滚草会清理开出的天体等.)",
-        options = {
-            { description = "Yes", data = true, hover = "" },
-            { description = "No", data = false, hover = "" },
-        },
-        default = false,
-    },
-    AddOptionHeader("反作弊"),
-    AddOption("anti_cheat_switch", "开启反作弊", "是否开启反作弊功能", false),
-    {
-        name = "camera",
-        label = "检测鹰眼",
-        hover = "该功能尚在测试",
-        options = {
-            {
-                description = "关闭该功能",
-                data = 0,
-                hover = "什么也不做"
-            }, {
-                description = "禁用鹰眼",
-                data = 1,
-                hover = "对于鹰眼的玩家自动将视野调整到正常范围,大视野可以用,但是鹰眼就过分了"
-            }, {
-                description = "检测鹰眼 ",
-                data = 2,
-                hover = "检测鹰眼的玩家并使其退出游戏"
-            }
-
-        },
-        default = 0
-    }, {
-        name = "nightvision",
-        label = "检测夜视",
-        hover = "该功能尚在测试",
-        options = {
-            {
-                description = "关闭该功能",
-                data = 0,
-                hover = "什么也不做"
-            }, {
-                description = "禁用夜视",
-                data = 1,
-                hover = "可以使大部分客户端夜视模组失效,可能存在未知问题"
-            }, {
-                description = "检测夜视",
-                data = 2,
-                hover = "检测夜视玩家并使其退出游戏"
-            }
-        },
-        default = 0
-    }, {
-        name = "checkmode",
-        label = "白名单模式",
-        hover = "开启白名单模式",
-        options = {
-            {
-                description = "是",
-                data = true,
-                hover = "只允许开启列表中的MOD"
-            },
-            {
-                description = "否",
-                data = false,
-                hover = "不允许开启列表中的MOD"
-            }
-        },
-        default = false
-    }, { name = "whitemods", description = "白名单列表.", default = {} },
-    { name = "blockmods", description = "黑名单名单列表.", default = {} },
 }
+---随机蓝图
+configuration_options[#configuration_options + 1] = AddOptionHeader("")
+configuration_options[#configuration_options + 1] = AddOption("random_blueprint_drop", "随机蓝图掉落开关", "是否开启随机蓝图掉落", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("drop_multiplying", "蓝图掉落倍率", "",
+        { { description = "极低(0.1)", data = 0.1 },
+          { description = "很低(0.25)", data = 0.25 },
+          { description = "低(0.5)", data = 0.5 },
+          { description = "较低(0.75)", data = 75 },
+          { description = "默认(1.0)", data = 1 },
+          { description = "较高(1.25)", data = 1.25 },
+          { description = "高(1.5)", data = 1.5 },
+          { description = "很高(2)", data = 2 },
+          { description = "极高(3)", data = 3 }, }, 1)
+---强力清理
+configuration_options[#configuration_options + 1] = AddOptionHeader("强力清理")
+configuration_options[#configuration_options + 1] = AddOption("strong_leaner_switch", "强力清理", "是否开强力清理", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("checking_days", "清理检测时间间隔(Checking Days)", "清理时间间隔-天(Checking Period)",
+        { { description = "1", data = 1, hover = "" },
+          { description = "2", data = 2, hover = "" },
+          { description = "3", data = 3, hover = "" },
+          { description = "5", data = 5, hover = "" },
+          { description = "10", data = 10, hover = "" },
+          { description = "20", data = 20, hover = "" },
+          { description = "30", data = 30, hover = "" },
+          { description = "40", data = 40, hover = "" },
+          { description = "50", data = 50, hover = "" }, }, 2)
+configuration_options[#configuration_options + 1] = AddConfigOption("clean_mode", "清理模式(Clean Mode)", "白名单模式或者黑名单模式(Whitelist mode or Blacklist mode)", {
+    { description = "Whitelist", data = 0, hover = "" },
+    { description = "Blacklist", data = 1, hover = "" }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("white_area", "White Area(白名单区域)", "茶几附近的物品不清理(Things near the tables will not be removed)", optionsYesNo, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_maxnum", "风滚草清理(Tumbleweed Clean)", "超过配置数目风滚草被清理", clean_num_options, 100)
+configuration_options[#configuration_options + 1] = AddConfigOption("evergreen_maxnum", "常青树清理(evergreen Clean)", "超过配置数目常青树被清理", clean_num_options, 1000)
+configuration_options[#configuration_options + 1] = AddConfigOption("evergreen_sparse_maxnum", "无松果常青树清理(evergreen sparse Clean)", "超过配置数目常无松果常青树被清理", clean_num_options, 1000)
+configuration_options[#configuration_options + 1] = AddConfigOption("deciduoustree_maxnum", "桦树清理(deciduoustree Clean)", "超过配置数目桦树被清理", clean_num_options, 1000)
+configuration_options[#configuration_options + 1] = AddConfigOption("boat_clean", "船只清理(Boat Clean)", "特定游戏内天数不使用的船只被清理(Destroy boats that were not used for a specific days.)", {
+    { description = "No", data = false, hover = "" },
+    { description = "游戏内180天(180 days in game)", data = 180, hover = "" },
+    { description = "游戏内360天(360 days in game)", data = 360, hover = "" },
+    { description = "游戏内540天(540 days in game)", data = 540, hover = "" },
+    { description = "游戏内720天(720 days in game)", data = 720, hover = "" }, }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("use_for_tumbleweed", "花样风滚草档使用(Use For Tumbleweed)", "花样风滚草会清理开出的天体等.(Would clean tumbleweed,alterguardian,et.)", optionsYesNo, false)
+
+configuration_options[#configuration_options + 1] = AddOptionHeader("反作弊")
+configuration_options[#configuration_options + 1] = AddOption("anti_cheat_switch", "开启反作弊", "是否开启反作弊功能", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("camera", "检测鹰眼", "该功能尚在测试", {
+    { description = "关闭该功能", data = 0, hover = "什么也不做" },
+    { description = "禁用鹰眼", data = 1, hover = "对于鹰眼的玩家自动将视野调整到正常范围,大视野可以用,但是鹰眼就过分了" },
+    { description = "检测鹰眼 ", data = 2, hover = "检测鹰眼的玩家并使其退出游戏" } }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("nightvision", "检测夜视", "该功能尚在测试", {
+    { description = "关闭该功能", data = 0, hover = "什么也不做" },
+    { description = "禁用夜视", data = 1, hover = "可以使大部分客户端夜视模组失效,可能存在未知问题" },
+    { description = "检测夜视", data = 2, hover = "检测夜视玩家并使其退出游戏" } }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("checkmode", "白名单模式", "开启白名单模式", {
+    { description = "是", data = true, hover = "只允许开启列表中的MOD" },
+    { description = "否", data = false, hover = "不允许开启列表中的MOD" } }, false)
+configuration_options[#configuration_options + 1] = { name = "whitemods", description = "白名单列表.", default = {} }
+configuration_options[#configuration_options + 1] = { name = "blockmods", description = "黑名单名单列表.", default = {} }
+
 ---血量条
 configuration_options[#configuration_options + 1] = AddOptionHeader("血量条显示")
 configuration_options[#configuration_options + 1] = AddOption("simple_health_bar_switch", "1.简单血量条-开关", "是否显示简单血量条", true)
@@ -1994,35 +1804,10 @@ configuration_options[#configuration_options + 1] = AddOption("glommer_statue_re
 configuration_options[#configuration_options + 1] = AddOption("block_pooping_switch", "橡胶塞堵住牛屁股", "橡胶塞可以堵住牛屁股使其不拉屎", false)
 configuration_options[#configuration_options + 1] = AddOption("faster_trading_switch", "快速交易", "和猪王快速交易", false)
 configuration_options[#configuration_options + 1] = AddOption("limit_ripening_plant_switch", "限制催熟频率", "放置催熟过快导致的刷卡服务器", false)
-configuration_options[#configuration_options + 1] = AddConfigOption("ripening_plant_frequency", "催熟频率", "设置催熟的频率\n每阶段都限制",
-        {
-            { description = "不限制", data = 0 },
-            { description = "10秒", data = 10 },
-            { description = "20秒", data = 20 },
-            { description = "30秒", data = 30 },
-            { description = "1分钟", data = 60 },
-            { description = "2分钟", data = 120 },
-            { description = "4分钟", data = 240 },
-            { description = "1天", data = 480 },
-            { description = "2天", data = 960 },
-            { description = "不允许催熟", data = 999999 }
-        }, 60)
+configuration_options[#configuration_options + 1] = AddConfigOption("ripening_plant_frequency", "催熟频率", "设置催熟的频率\n每阶段都限制", { { description = "不限制", data = 0 }, { description = "10秒", data = 10 }, { description = "20秒", data = 20 }, { description = "30秒", data = 30 }, { description = "1分钟", data = 60 }, { description = "2分钟", data = 120 }, { description = "4分钟", data = 240 }, { description = "1天", data = 480 }, { description = "2天", data = 960 }, { description = "不允许催熟", data = 999999 } }, 60)
 configuration_options[#configuration_options + 1] = AddOption("more_crafting_details_switch", "制作栏显示更多信息", "制作前就能显示部分信息", false)
 
-local beefalo_status_bar_colors = {
-    { name = "ORANGE", description = "Orange(橘色)" },
-    { name = "ORANGE_ALT", description = "Orange Alt(橘色高亮)" },
-    { name = "BLUE", description = "Blue(蓝色)" },
-    { name = "BLUE_ALT", description = "Blue Alt(蓝色高亮)" },
-    { name = "PURPLE", description = "Purple(紫色)" },
-    { name = "PURPLE_ALT", description = "Purple Alt(紫色高亮)" },
-    { name = "RED", description = "Red(红色)" },
-    { name = "RED_ALT", description = "Red Alt(红色高亮)" },
-    { name = "GREEN", description = "Green(绿色)" },
-    { name = "GREEN_ALT", description = "Green Alt(绿色高亮)" },
-    { name = "WHITE", description = "White(白色)" },
-    { name = "YELLOW", description = "Yellow(白色高亮)" }
-}
+local beefalo_status_bar_colors = { { name = "ORANGE", description = "Orange(橘色)" }, { name = "ORANGE_ALT", description = "Orange Alt(橘色高亮)" }, { name = "BLUE", description = "Blue(蓝色)" }, { name = "BLUE_ALT", description = "Blue Alt(蓝色高亮)" }, { name = "PURPLE", description = "Purple(紫色)" }, { name = "PURPLE_ALT", description = "Purple Alt(紫色高亮)" }, { name = "RED", description = "Red(红色)" }, { name = "RED_ALT", description = "Red Alt(红色高亮)" }, { name = "GREEN", description = "Green(绿色)" }, { name = "GREEN_ALT", description = "Green Alt(绿色高亮)" }, { name = "WHITE", description = "White(白色)" }, { name = "YELLOW", description = "Yellow(白色高亮)" } }
 
 local function GenerateCommonOptions(start, count, step, default, prefix, suffix)
     local options = {}
@@ -2069,18 +1854,16 @@ configuration_options[#configuration_options + 1] = AddOptionHeader("驯牛状�
 configuration_options[#configuration_options + 1] = AddOption("beefalo_status_bar_switch", "总开关", "是否开启驯牛状态显示", false)
 configuration_options[#configuration_options + 1] = AddOption("ShowByDefault", "驯牛状态自动显示(Show Automatically)", "驯牛状态栏自动显示\nShow the status bar automatically when you mount a beefalo.", true)
 configuration_options[#configuration_options + 1] = AddConfigOption("ToggleKey", "驯牛显示快捷键(Toggle Key)", "Press this key (when mounted) to toggle the status bar.\nToggling will override \"Show Automatically\" for the current shard session.",
-        {
-            { description = "T", data = "KEY_T" },
-            { description = "O", data = "KEY_O" },
-            { description = "P", data = "KEY_P" },
-            { description = "G", data = "KEY_G" },
-            { description = "H", data = "KEY_H" },
-            { description = "Z", data = "KEY_Z" },
-            { description = "X", data = "KEY_X" },
-            { description = "C", data = "KEY_C" },
-            { description = "V", data = "KEY_V", hover = "Default" },
-            { description = "B", data = "KEY_B" }
-        }, "KEY_V")
+        { { description = "T", data = "KEY_T" },
+          { description = "O", data = "KEY_O" },
+          { description = "P", data = "KEY_P" },
+          { description = "G", data = "KEY_G" },
+          { description = "H", data = "KEY_H" },
+          { description = "Z", data = "KEY_Z" },
+          { description = "X", data = "KEY_X" },
+          { description = "C", data = "KEY_C" },
+          { description = "V", data = "KEY_V", hover = "Default" },
+          { description = "B", data = "KEY_B" } }, "KEY_V")
 configuration_options[#configuration_options + 1] = AddOption("EnableSounds", "声音(Sounds)", "开关显示有声音\nPlay a sound when showing or hiding the status bar.", false)
 
 configuration_options[#configuration_options + 1] = {
@@ -3089,7 +2872,7 @@ end
 
 ----------------------------
 --------------------------- 神秘强化炉-----------------------------
-configuration_options[#configuration_options + 1] = AddOptionHeader("可升级容器")
+configuration_options[#configuration_options + 1] = AddOptionHeader("神秘强化炉")
 configuration_options[#configuration_options + 1] = AddOption("wb_strengthen_switch", "总开关", "是否开启神秘强化炉", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("wb_strengthen_weapon_base", "强化武器伤害强度", "",
         { { description = "拾之无味", hover = "附魔13级近战武器伤害大约为181.01", data = 2 },
