@@ -583,8 +583,8 @@ configuration_options = {
     AddConfigOption("sleeping_buff_uses2", "木棚耐久", "改木棚耐久", sleeping_buff_hp_options, false),
     AddConfigOption("sleeping_buff_uses3", "便携帐篷耐久", "便携帐篷耐久", sleeping_buff_hp_options, false),
     AddConfigOption("sleeping_buff_uses4", "毛皮铺盖耐久", "毛皮铺盖耐久", sleeping_buff_hp_options, false),
-    AddConfigOption("sleeping_buff_t_smup", "黑血恢复", "睡觉是否可以黑血恢复", optionsEnableDisable, true),
-    AddConfigOption("sleeping_buff_t_smhf", "恢复速度", "睡觉是黑血恢复速度", {
+    AddConfigOption("sleeping_buff_t_smup", "黑血恢复", "睡觉是否可以黑血恢复", optionsYesNo, true),
+    AddConfigOption("sleeping_buff_t_smhf", "恢复速度", "睡觉是回血速度", {
         { description = "-2", data = 0.1 },
         { description = "-1.5", data = 0.5 },
         { description = "关闭", data = false },

@@ -53,10 +53,9 @@ end
 
 local SleepingBU = require("components/sleepingbaguser")
 AddComponentPostInit("sleepingbaguser", function(SleepingBU)
-	if t_smup == true then
+	if t_smup then
 		local _DoSleep = SleepingBU.DoSleep
 		local _DoWakeUp = SleepingBU.DoWakeUp
-
 		SleepingBU.DoSleep = function(self, bed)
 			_DoSleep(self, bed)
 			self.healthtask = self.inst:DoPeriodicTask(self.bed.components.sleepingbag.tick_period, function()
