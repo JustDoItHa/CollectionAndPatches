@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.0.0.0"
+version = "11.0.0.1"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -601,7 +601,7 @@ configuration_options = {
 
 
     AddOptionHeader("死亡不掉落配置"),
-    AddOption("dont_drop", "是否开启死亡掉落", "死亡不掉落物品总开关", false),
+    AddOption("dont_drop", "是否开启死亡不掉落", "死亡不掉落物品总开关", false),
     AddConfigOption("rendiao", "本体掉落最大数量", "角色物品栏最大的掉落数量", { { description = "不掉落", data = 0, hover = "" }, { description = "1", data = 1, hover = "" }, { description = "2", data = 2, hover = "" }, { description = "3", data = 3, hover = "" }, { description = "4", data = 4, hover = "" }, { description = "5", data = 5, hover = "" }, { description = "6", data = 6, hover = "" }, { description = "7", data = 7, hover = "" }, { description = "8", data = 8, hover = "" }, { description = "9", data = 9, hover = "" } }, 0),
     AddConfigOption("baodiao", "背包掉落", "背包掉落的最大数量", { { description = "不掉落", data = 0, hover = "" }, { description = "1", data = 1, hover = "" }, { description = "2", data = 2, hover = "" }, { description = "3", data = 3, hover = "" }, { description = "4", data = 4, hover = "" }, { description = "5", data = 5, hover = "" }, { description = "6", data = 6, hover = "" }, { description = "7", data = 7, hover = "" }, { description = "8", data = 8, hover = "" }, { description = "9", data = 9, hover = "" } }, 0),
     AddOption("zbdiao", "装备掉落", "死亡掉落装备 \n 防止一些未知bug.", false),
@@ -1120,6 +1120,7 @@ configuration_options = {
               { description = "20级", data = 20 },
               { description = "25级", data = 25 },
               { description = "30级", data = 30 }, }, 20),
+    AddConfigOption("soraExp", "去除经验惩罚", "升级更容易", optionsYesNo, true),
     AddConfigOption("soraHealDeath", "愈还原", "鞭尸\n是：还原 否：不改变", optionsYesNo, false),
 
     AddConfigOption("soraRepairerToPhilosopherStoneLimit", "限制缝纫包修贤者宝石", "",

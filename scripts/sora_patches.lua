@@ -287,35 +287,40 @@ if soraPackFL then
     end)
 end
 
-local originalExpMax = 120;
-local soraRemoveExpLimit = 150;
---根据选项给出一个等价的初始判断值
-local getInitExp = function(isOut)
-    return originalExpMax - (isOut and soraRemoveExpLimit * 0.5 or soraRemoveExpLimit);
-end
 
-local limit = {
-    kill = 50,
-    attack = 50,
-    emote = 20,
-}
-AddPrefabPostInit("sora", function(inst)
-    inst.FixExpVersion = 1
-    inst:WatchWorldState("startday", function()
-        local t = GLOBAL.TheWorld.state.cycles
-        local olddayexp = inst.soradayexp or {}-- getexppatch
-        inst.soradayexp = {}
-        for k, v in pairs(olddayexp) do
-            local maxexp = limit[k] or soraRemoveExpLimit
-            if k and v and v >= (maxexp) then
-                inst.soradayexp[k] = getInitExp(true)
-            else
-                inst.soradayexp[k] = getInitExp(false)
-            end
-        end
-        inst.soraday = t
+if GetModConfigData("soraExp") then
+
+    -- local originalExpMax = 120;
+    -- local soraRemoveExpLimit = 150;
+    -- --根据选项给出一个等价的初始判断值
+    -- local getInitExp = function(isOut)
+    --     return originalExpMax - (isOut and soraRemoveExpLimit * 0.5 or soraRemoveExpLimit);
+    -- end
+
+    -- local limit = {
+    --     kill = 50,
+    --     attack = 50,
+    --     emote = 20,
+    -- }
+    AddPrefabPostInit("sora", function(inst)
+        -- inst.FixExpVersion = 1
+        inst:WatchWorldState("startday", function()
+            -- local t = GLOBAL.TheWorld.state.cycles
+            -- local olddayexp = inst.soradayexp or {}-- getexppatch
+            inst.soradayexp = {}
+            -- for k, v in pairs(olddayexp) do
+            --     local maxexp = limit[k] or soraRemoveExpLimit
+            --     if k and v and v >= (maxexp) then
+            --         inst.soradayexp[k] = getInitExp(true)
+            --     else
+            --         inst.soradayexp[k] = getInitExp(false)
+            --     end
+            -- end
+            -- inst.soraday = t
+        end)
     end)
-end)
+
+end
 
 
 
