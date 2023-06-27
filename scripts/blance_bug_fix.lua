@@ -39,7 +39,7 @@ if TUNING.YEYU_NILXIN_ENABLE then
         local yyxk_can = upvaluehelper.Get(inst.yyxkpickup,"can")
         if type(yyxk_can) == "function" then
             local new_can = function(target,...)
-                if target.components.teleporter or target.components.follower or target.components.leader or target.components.inventory then
+                if  target.components.leader then
                     return false
                 end
 
