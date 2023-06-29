@@ -185,11 +185,47 @@ AddPlayerPostInit(function(inst)
 end)
 
 AddPrefabPostInit("beef_bell", function(inst)
-    local old_OnSave = inst.OnSave
-    inst.OnSave = function(inst, data)
-        if old_OnSave then old_OnSave(inst, data) end
-        for beef, _ in pairs(inst.components.leader.followers) do
-            if beef and beef:IsValid() then beef:Remove() end
+    if not TheWorld.ismastersim then return end
+    local old_OnLoad = inst.OnLoad
+    inst.OnLoad = function(inst, data)
+        if data and data.beef_record then
+            local fninfo
+            local i = 2
+            while true do
+                fninfo = debug.getinfo(i)
+                if fninfo and (fninfo.func == ResumeExistingUserSession or (type(fninfo.source) == "string" and fninfo.source:match("scripts/gamelogic.lua")) ) then 
+                    break
+                end
+                if fninfo and type(fninfo.source) == "string" and fninfo.source:match("scripts/bufferedaction.lua") or fninfo == nil then 
+                    data.beef_record = nil 
+                    break 
+                end
+                i = i + 1
+            end
         end
+
+        if old_OnLoad then old_OnLoad(inst, data) end
+
+    end
+end)
+
+AddPrefabPostInit("yyxk_buka", function(inst)
+    if not TheWorld.ismastersim then return end
+    local old_test = inst.components.trader.test
+    inst.components.trader.test = function(...)
+        if TUNING.CAP_NULLTEST then
+            local fninfo
+            local i = 2
+            while true do
+                fninfo = debug.getinfo(i)
+                print("------:"..i)
+                dumptable(fninfo)
+                if fninfo == nil then 
+                    break 
+                end
+                i = i + 1
+            end
+        end
+        if old_test then old_test(...) end
     end
 end)
