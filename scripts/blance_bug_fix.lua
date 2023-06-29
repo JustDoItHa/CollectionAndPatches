@@ -209,23 +209,23 @@ AddPrefabPostInit("beef_bell", function(inst)
     end
 end)
 
-AddPrefabPostInit("yyxk_buka", function(inst)
-    if not TheWorld.ismastersim then return end
-    local old_test = inst.components.trader.test
-    inst.components.trader.test = function(...)
-        if TUNING.CAP_NULLTEST then
-            local fninfo
-            local i = 2
-            while true do
-                fninfo = debug.getinfo(i)
-                print("------:"..i)
-                dumptable(fninfo)
-                if fninfo == nil then 
-                    break 
-                end
-                i = i + 1
-            end
-        end
-        if old_test then old_test(...) end
-    end
-end)
+-- AddPrefabPostInit("yyxk_buka", function(inst)
+--     if not TheWorld.ismastersim then return end
+--     local old_test = inst.components.trader.test
+--     inst.components.trader.test = function(...)
+--         if TUNING.CAP_NULLTEST then
+--             local fninfo
+--             local i = 2
+--             while true do
+--                 fninfo = debug.getinfo(i)
+--                 print("------:"..i)
+--                 dumptable(fninfo)
+--                 if fninfo == nil then 
+--                     break 
+--                 end
+--                 i = i + 1
+--             end
+--         end
+--         if old_test then return old_test(...) end
+--     end
+-- end)
