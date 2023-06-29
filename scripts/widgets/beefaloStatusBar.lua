@@ -6,7 +6,7 @@ local BeefaloStatusBar = Class(Widget, function(self, owner, config)
     Widget._ctor(self, "BeefaloStatusBar")
     self.owner = owner
     self.config = config
-    
+
     self.isHidden = true
 
     self.maxHealth = 1000
@@ -100,10 +100,14 @@ function BeefaloStatusBar:StopTimer()
     end
 end
 
+L = {
+    [" uses left"] = "：可用次数\n剩余时间",
+}
+
 function BeefaloStatusBar:SetSaddle(saddleUses)
     local saddle = self.owner.replica.rider:GetSaddle()
     local image = saddle.replica.inventoryitem:GetImage()
-    self.timerBadge:SetTooltip(saddle:GetDisplayName() .. "\n" .. (saddleUses > 1 and saddleUses .. " uses left" or "last use"))
+    self.timerBadge:SetTooltip(saddle:GetDisplayName() .. "\n" .. (saddleUses > 1 and saddleUses .. L[" uses left"] or "last use"))
     self.timerBadge.icon:SetTexture(GetInventoryItemAtlas(image), image)
 end
 
@@ -132,7 +136,7 @@ function BeefaloStatusBar:Activate(data)
     self.maxHealth = data.maxHealth
     self.maxHunger = data.maxHunger
     self.buckDelay = data.buckDelay
-    self.mountStartTime = GetTime() 
+    self.mountStartTime = GetTime()
     self.mounted = true
 
     self:UpdateHealth(data.health)

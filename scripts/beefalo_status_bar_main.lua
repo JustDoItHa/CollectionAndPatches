@@ -69,7 +69,7 @@ local function OnDataDirty(inst)
     end
 end
 
-local function OnHealthDeltaDirty(inst) 
+local function OnHealthDeltaDirty(inst)
     TheStatusBar:UpdateHealth(inst.beefaloHealth:value())
 end
 
@@ -78,7 +78,7 @@ local function OnDomesticationDeltaDirty(inst)
     TheStatusBar:UpdateDomestication(data.domestication, data.tendency)
 end
 
-local function OnObedienceDeltaDirty(inst) 
+local function OnObedienceDeltaDirty(inst)
     TheStatusBar:UpdateObedience(inst.beefaloObedience:value())
 end
 
@@ -103,26 +103,26 @@ AddPrefabPostInit("player_classified", function(inst)
     inst.beefaloDomestication = GLOBAL.net_string(inst.GUID, "beefaloDomestication", "beefaloDomesticationDirty")
     inst.beefaloObedience = GLOBAL.net_byte(inst.GUID, "beefaloObedience", "beefaloObedienceDirty")
     inst.beefaloHunger = GLOBAL.net_ushortint(inst.GUID, "beefaloHunger", "beefaloHungerDirty")
-    
+
     if GLOBAL.TheWorld.ismastersim then
 
         inst.OnBeefaloHealthDelta = function(beefalo, data)
             inst.beefaloHealth:set(beefalo.replica.health:GetCurrent())
         end
-        
+
         inst.OnBeefaloDomesticationDelta = function(beefalo, data)
             local domestData = {domestication = beefalo.components.domesticatable:GetDomestication() * 100, tendency = beefalo.tendency}
             inst.beefaloDomestication:set(GLOBAL.json.encode(domestData))
         end
-        
+
         inst.OnBeefaloObedienceDelta = function(beefalo, data)
             inst.beefaloObedience:set(beefalo.components.domesticatable:GetObedience() * 100)
         end
-        
+
         inst.OnBeefaloHungerDelta = function(beefalo, data)
             inst.beefaloHunger:set(beefalo.replica.hunger:GetCurrent())
         end
-        
+
 
         inst:DoTaskInTime(0.1, function()
             local parent = inst.entity:GetParent()
@@ -191,7 +191,7 @@ local config = {
     scale = scale,
     colors = colors,
     badgeColors = badgeColors,
-    
+
     basePositionX = (offsets.offsetX * offsets.offsetXMult) + offsets.offsetXFine,
     basePositionY = (95 * scaleOffset) + (offsets.offsetY * offsets.offsetYMult) + offsets.offsetYFine,
 
@@ -217,7 +217,7 @@ local InventoryBar = require "widgets/inventorybar"
 local DefaultRebuild = InventoryBar.Rebuild
 function InventoryBar:Rebuild(...)
     -- This also runs once when you load in, even with separated backpack (probably triggered from Inventory:AttachClassified()).
-	DefaultRebuild(self, ...)
+    DefaultRebuild(self, ...)
     TheStatusBar:Reposition()
 end
 
