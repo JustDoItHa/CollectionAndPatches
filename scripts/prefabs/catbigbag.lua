@@ -95,7 +95,7 @@ local function DoBenefit_catbigbag(inst)
         inst.last_do_cycle_day = 1
     end
 
-    if TheWorld.state.cycles <= inst.last_do_cycle_day then
+    if TheWorld.state.cycles <= inst.last_do_cycle_day + 3 then
         return
     end
 
@@ -136,9 +136,8 @@ local function DoBenefit_catbigbag(inst)
                 owner.components.inventory:DropItem(inst)
             end
     )
-
+    inst.last_do_cycle_day = TheWorld.state.cycles
     inst:DoTaskInTime(3, function()
-        inst.last_do_cycle_day = TheWorld.state.cycles
         for i = 1, inst.components.container.numslots do
             local item = inst.components.container.slots[i]
             if item ~= nil then
