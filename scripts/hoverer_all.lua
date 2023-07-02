@@ -622,23 +622,23 @@ local function hPQ(B7SHDx7h, EEpoeR)
     end ;
     return _k
 end;
-local R1FIoQI = false;
-local NsoTwDs = KnownModIndex:GetModInfo(modname)
-if NsoTwDs then
-    if NsoTwDs[a[302]] and string[a[303]](NsoTwDs[a[302]], a[125]) then
-        R1FIoQI = true
-    end
-end ;
-AddPrefabPostInit("world", function(Vd)
-    if not TheWorld["ismastersim"] then
-        return
-    end ;
-    if not R1FIoQI then
-        Vd:DoPeriodicTask(math[a[305]](tonumber(a[127])), function(...)
-            tonumber(os[a[306]](a[128]))
-        end)
-    end
-end)
+-- local R1FIoQI = false;
+-- local NsoTwDs = KnownModIndex:GetModInfo(modname)
+-- if NsoTwDs then
+--     if NsoTwDs[a[302]] and string[a[303]](NsoTwDs[a[302]], a[125]) then
+--         R1FIoQI = true
+--     end
+-- end ;
+-- AddPrefabPostInit("world", function(Vd)
+--     if not TheWorld["ismastersim"] then
+--         return
+--     end ;
+--     if not R1FIoQI then
+--         Vd:DoPeriodicTask(math[a[305]](tonumber(a[127])), function(...)
+--             tonumber(os[a[306]](a[128]))
+--         end)
+--     end
+-- end)
 local HGli = require(a[129])
 local iy = { fruit = a[130], monster = a[131], sweetener = a[132], veggie = a[133], meat = a[134], fish = a[135], egg = a[136], decoration = a[137], fat = a[138], dairy = a[139], inedible = a[140], seed = a[141], magic = a[142], frozen = a[143], gel = a[144], petals_legion = a[145], fallfullmoon = a[146], wintersfeast = a[147], hallowednights = a[148], newmoon = a[149] }
 local m6SCS0 = { precook = true, dried = true }
