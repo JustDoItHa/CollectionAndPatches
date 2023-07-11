@@ -125,45 +125,45 @@ AddComponentPostInit(
             local OldCanResurrect = self.CanResurrect
             local OldDoResurrect = self.DoResurrect
 
-            local function findamulet(self)
-                if self.inst.components.inventory then
-                    local item = self.inst.components.inventory:GetEquippedItem(EQUIPSLOTS.NECK)
+            local function findamulet(self_inner)
+                if self_inner.inst.components.inventory then
+                    local item = self_inner.inst.components.inventory:GetEquippedItem(EQUIPSLOTS.NECK)
                     if item and item.prefab == "amulet" then
                         return item
                     end
                 end
             end
 
-            self.FindClosestResurrector = function(self, cause)
-                local item = findamulet(self)
+            self.FindClosestResurrector = function(self_inner, cause)
+                local item = findamulet(self_inner)
                 if cause == "drowning" and item then
-                    self.shouldwashuponbeach = true
+                    self_inner.shouldwashuponbeach = true
                 end
-                local source = OldFindClosestResurrector(self, cause)
+                local source = OldFindClosestResurrector(self_inner, cause)
                 if source and not source.components.resurrector then
                     return source
                 end
-                if item and not self.shouldwashuponbeach then
+                if item and not self_inner.shouldwashuponbeach then
                     return item
                 end
             end
 
-            self.CanResurrect = function(self, cause)
-                local result = OldCanResurrect(self, cause)
-                if findamulet(self) and not result or self.resurrectionmethod == "resurrector" or self.resurrectionmethod == "other" then
-                    self.resurrectionmethod = "amulet"
+            self.CanResurrect = function(self_inner, cause)
+                local result = OldCanResurrect(self_inner, cause)
+                if findamulet(self_inner) and not result or self_inner.resurrectionmethod == "resurrector" or self_inner.resurrectionmethod == "other" then
+                    self_inner.resurrectionmethod = "amulet"
                     return true
                 end
                 return result
             end
 
-            self.DoResurrect = function(self, res, cause)
-                if not res and findamulet(self) then
-                    self.inst:PushEvent("resurrect")
-                    self.inst.sg:GoToState("amulet_rebirth")
+            self.DoResurrect = function(self_inner, res, cause)
+                if not res and findamulet(self_inner) then
+                    self_inner.inst:PushEvent("resurrect")
+                    self_inner.inst.sg:GoToState("amulet_rebirth")
                     return true
                 end
-                return OldDoResurrect(self, res, cause)
+                return OldDoResurrect(self_inner, res, cause)
             end
         end
 )
@@ -181,81 +181,81 @@ AddComponentPostInit(
         "inventory",
         function(self, _)
             local OldEquip = self.Equip
-            local function removeitem(self, item)
+            local function removeitem(self_inner, item)
                 if item then
                     if item.components.inventoryitem.cangoincontainer then
-                        self.silentfull = true
-                        self:GiveItem(item)
-                        self.silentfull = false
+                        self_inner.silentfull = true
+                        self_inner:GiveItem(item)
+                        self_inner.silentfull = false
                     else
-                        self:DropItem(item, true, true)
+                        self_inner:DropItem(item, true, true)
                     end
                 end
             end
-            self.Equip = function(self, item, old_to_active)
+            self.Equip = function(self_inner, item, old_to_active)
                 if item == nil or item.components.equippable == nil or not item:IsValid() then
                     return
                 end
                 local eslot = item.components.equippable.equipslot
-                local handitem = self:GetEquippedItem(EQUIPSLOTS.HANDS)
+                local handitem = self_inner:GetEquippedItem(EQUIPSLOTS.HANDS)
                 --local waistitem = self:GetEquippedItem(EQUIPSLOTS.WAIST)
-                local neckitem = self:GetEquippedItem(EQUIPSLOTS.NECK)
-                local bodyitem = self:GetEquippedItem(EQUIPSLOTS.BODY)                              --TODO THIS IS NEW \|/
+                local neckitem = self_inner:GetEquippedItem(EQUIPSLOTS.NECK)
+                local bodyitem = self_inner:GetEquippedItem(EQUIPSLOTS.BODY)                              --TODO THIS IS NEW \|/
                 if eslot == EQUIPSLOTS.HANDS or eslot == EQUIPSLOTS.WAIST or eslot == EQUIPSLOTS.BODY or eslot == EQUIPSLOTS.NECK then
                     local backitem
                     if setting_backpack_slot then
-                        backitem = self:GetEquippedItem(EQUIPSLOTS.BACK)
+                        backitem = self_inner:GetEquippedItem(EQUIPSLOTS.BACK)
                     else
-                        backitem = self:GetEquippedItem(EQUIPSLOTS.BODY)
+                        backitem = self_inner:GetEquippedItem(EQUIPSLOTS.BODY)
                     end
                     if backitem ~= nil then
 
                         if backitem:HasTag("heavy") then
                             if not setting_drop_bp_if_heavy then
-                                self:DropItem(backitem, true, true)
+                                self_inner:DropItem(backitem, true, true)
                             end
                         elseif backitem.prefab == "onemanband" and eslot == EQUIPSLOTS.HANDS then
                             if not setting_drop_bp_if_heavy then
-                                self:GiveItem(backitem)
+                                self_inner:GiveItem(backitem)
                             end
                         elseif setting_chesspiece_fix and backitem:HasTag("heavy") and eslot == EQUIPSLOTS.BODY then
                             --starts_with(backitem.prefab,"chesspiece_") and eslot == EQUIPSLOTS.BODY then --TODO TEST CHESSPIECE!
                             if not setting_drop_bp_if_heavy then
-                                self:GiveItem(backitem)
+                                self_inner:GiveItem(backitem)
                             end
                         end
                     end
                 elseif eslot == EQUIPSLOTS.BACK then
                     if setting_chesspiece_fix and item:HasTag("heavy") then
                         --starts_with(item.prefab,"chesspiece_") then  --TODO TEST CHESSPIECE!
-                        removeitem(self, bodyitem)
-                        removeitem(self, neckitem)
+                        removeitem(self_inner, bodyitem)
+                        removeitem(self_inner, neckitem)
                         if setting_drop_hand_item_when_heavy then
-                            removeitem(self, handitem)
+                            removeitem(self_inner, handitem)
                         end
                     elseif item.prefab == "onemanband" or item:HasTag("heavy") then
-                        removeitem(self, handitem)
+                        removeitem(self_inner, handitem)
                     end
                 elseif eslot == EQUIPSLOTS.BODY and item.prefab == "onemanband" then
-                    removeitem(self, handitem)
+                    removeitem(self_inner, handitem)
                 end
 
-                if OldEquip(self, item, old_to_active) then
+                if OldEquip(self_inner, item, old_to_active) then
                     if eslot == EQUIPSLOTS.BACK then
                         if item.components.container ~= nil then
-                            self.inst:PushEvent("setoverflow", { overflow = item })
+                            self_inner.inst:PushEvent("setoverflow", { overflow = item })
                         end
-                        self.heavylifting = item:HasTag("heavy")
+                        self_inner.heavylifting = item:HasTag("heavy")
                     end
                     return true
                 end
             end
 
             local OldUnequip = self.Unequip
-            self.Unequip = function(self, equipslot, slip)
-                local item = OldUnequip(self, equipslot, slip)
+            self.Unequip = function(self_inner, equipslot, slip)
+                local item = OldUnequip(self_inner, equipslot, slip)
                 if item ~= nil and equipslot == EQUIPSLOTS.BACK then
-                    self.heavylifting = false
+                    self_inner.heavylifting = false
                 end
                 return item
             end
@@ -590,13 +590,13 @@ AddClassPostConstruct(
                         table_var.insert(self.bags, self.root:AddChild(Widget("bag" .. i)))
                         local current_num = math.min(num, MAX_SLOTS - 2)
                         num = num - current_num
-                        local x = -(current_num * (W + SEP) / 2)
+                        local x_inner = -(current_num * (W + SEP) / 2)
                         max_w = math.max(max_w, current_num * (W + SEP))
 
                         for k = 1, current_num do
                             local slot = InvSlot(k, HUD_ATLAS, "inv_slot.tex", self.owner, overflow)
                             self.backpackinv[prev_num + k] = self.bags[i]:AddChild(slot)
-                            slot:SetPosition(x, 0, 0)
+                            slot:SetPosition(x_inner, 0, 0)
                             slot.top_align_tip = W * 1.5 + YSEP * 2
 
                             local item = overflow:GetItemInSlot(k)
@@ -604,7 +604,7 @@ AddClassPostConstruct(
                                 slot:SetTile(ItemTile(item))
                             end
 
-                            x = x + W + SEP
+                            x_inner = x_inner + W + SEP
                         end
 
                         prev_num = prev_num + current_num
@@ -663,7 +663,7 @@ AddClassPostConstruct(
             end
 
             --更新物品栏背景长度
-            inst.RefreshBgLength = function(inst)
+            inst.RefreshBgLength = function(inst_inner)
                 local bar_bg_length = 1.22 + (setting_maxitemslots * 0.06) --1.35 - 0.1266666 + (setting_maxitemslots*0.0633333)
 
                 local e_tmp = math.abs(setting_maxitemslots) % 5
@@ -699,25 +699,25 @@ AddClassPostConstruct(
                     bar_bg_length = 0
                 end
 
-                inst.bg:SetScale(bar_bg_length, 1, 1)
-                inst.bgcover:SetScale(bar_bg_length, 1, 1)
+                inst_inner.bg:SetScale(bar_bg_length, 1, 1)
+                inst_inner.bgcover:SetScale(bar_bg_length, 1, 1)
             end
 
             local oldRefresh = inst.Refresh
             local oldRebuild = inst.Rebuild
 
-            inst.Refresh = function(inst)
+            inst.Refresh = function(inst_inner)
                 if oldRefresh then
-                    oldRefresh(inst)
+                    oldRefresh(inst_inner)
                 end
-                inst:RefreshBgLength()
+                inst_inner:RefreshBgLength()
             end
 
-            inst.Rebuild = function(inst)
+            inst.Rebuild = function(inst_inner)
                 if oldRebuild then
-                    oldRebuild(inst)
+                    oldRebuild(inst_inner)
                 end
-                inst:RefreshBgLength()
+                inst_inner:RefreshBgLength()
             end
         end
 )
@@ -744,9 +744,9 @@ if setting_backpack_slot then
     AddPrefabPostInit(
             "inventory_classified",
             function(inst)
-                local function GetOverflowContainer(inst)
-                    local backitem = inst.GetEquippedItem(inst, EQUIPSLOTS.BACK)
-                    local bodyitem = inst.GetEquippedItem(inst, EQUIPSLOTS.BODY)
+                local function GetOverflowContainer(inst_inner)
+                    local backitem = inst_inner.GetEquippedItem(inst_inner, EQUIPSLOTS.BACK)
+                    local bodyitem = inst_inner.GetEquippedItem(inst_inner, EQUIPSLOTS.BODY)
                     if backitem ~= nil and backitem.replica.container and backitem.replica.container.opener then
                         return backitem.replica.container
                     elseif bodyitem ~= nil and bodyitem.replica.container and bodyitem.replica.container.opener then
@@ -1089,11 +1089,11 @@ if setting_backpack_slot and (IsServer or not DST) then
         if DST then
             local band_enable = getval(inst.components.equippable.onequipfn, "band_enable")
             local band_disable = getval(inst.components.equippable.onunequipfn, "band_disable")
-            inst.components.equippable:SetOnEquip(function(inst, owner)
-                bandonequip(inst, owner, band_enable)
+            inst.components.equippable:SetOnEquip(function(inst_inner, owner)
+                bandonequip(inst_inner, owner, band_enable)
             end)
-            inst.components.equippable:SetOnUnequip(function(inst, owner)
-                bandonunequip(inst, owner, band_disable)
+            inst.components.equippable:SetOnUnequip(function(inst_inner, owner)
+                bandonunequip(inst_inner, owner, band_disable)
             end)
         end
     end
