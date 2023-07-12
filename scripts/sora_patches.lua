@@ -12,19 +12,8 @@ local soraPackLimit = GetModConfigData("soraPackLimit") or false;
 local soraPackFL = GetModConfigData("soraPackFL") or false;
 local sorafl_select = GetModConfigData("sorafl_select") or false;
 
-
 local soraconfig = require "soraconfig/config"
-if soraRemoveDeathExpByLevel > 0 then
-    local old_DeathExp = soraconfig.level.DeathExp
-    soraconfig.level.DeathExp = function(a)
-        -- 穹一定等级后死亡不掉落经验
-        if a < soraRemoveDeathExpByLevel then
-            if old_DeathExp then return old_DeathExp(a) end
-        else
-            return 0
-        end
-    end
-end
+
 
 if soraRemoveRollExpByLevel > 0 then
     -- 穹换人不掉落经验
@@ -185,7 +174,7 @@ if soraPackLimit then
         if inst and inst.components and inst.components.sorapacker then
             local oldCanPackFn = inst.components.sorapacker.canpackfn
             inst.components.sorapacker:SetCanPackFn(function(target, inst2)
-                if testCantPackItem(target,TUNING.CANT_PACK_ITEMS) then
+                if testCantPackItem(target, TUNING.CANT_PACK_ITEMS) then
                     return false;
                 else
                     return oldCanPackFn(target, inst2);
@@ -287,7 +276,6 @@ if soraPackFL then
     end)
 end
 
-
 if GetModConfigData("soraExp") then
 
     -- local originalExpMax = 120;
@@ -322,8 +310,224 @@ if GetModConfigData("soraExp") then
 
 end
 
+if GetModConfigData("sora_level_broke_through") then
+    local upvaluehelper = require "utils/upvaluehelp_cap"
+    local soralevelup_patch_l = require "soralevelup_patch"
+    soraconfig.level = soralevelup_patch_l
+    -- 小穹难度设置 简单 普通 困难
+    --local sora_model = GLOBAL.TUNING.SORAMODE
+
+    local sora_character_p = require "prefabs/sora" --小穹
+    --local param = upvaluehelper.Set(sora_character_prefab.GetPostInitFns, "GetExp",GetExp_l)
+
+    AddPrefabPostInit("sora", function(inst)
+        local old_GetExp = upvaluehelper.Get(sora_character_p.fn,"GetExp")
+        local old_applyupgrades = upvaluehelper.Get(sora_character_p.fn,"applyupgrades")
+        local old_ReFreshExp = upvaluehelper.Get(sora_character_p.fn,"ReFreshExp")
+
+        inst.GetExp = function(inst_inner, num, code, dmaxexp, once)
+            -- 获得经验
+            if once then
+                if not inst_inner.soraonceexp[code] then
+                    inst_inner.soraonceexp[code] = num
+                else
+                    num = 0
+                end
+            else
+                local maxexp = dmaxexp or 120
+                local t = TheWorld.state.cycles
+                if (t - inst_inner.soraday) > 0 then
+                    local olddayexp = inst_inner.soradayexp -- getexppatch
+                    inst_inner.soradayexp = {}
+                    for k, v in pairs(olddayexp) do
+                        if k and v and v >= (maxexp * 0.75) then
+                            inst_inner.soradayexp[k] = math.random(maxexp * 0.8, maxexp * 0.95)
+                        else
+                            inst_inner.soradayexp[k] = math.random(maxexp * 0.1, maxexp * 0.3)
+                        end
+                    end
+                    inst_inner.soraday = t
+                end
+                if code then
+                    if not inst_inner.soradayexp[code] then
+                        inst_inner.soradayexp[code] = 0
+                    end
+                    if (inst_inner.soradayexp[code] + num > maxexp) then
+                        num = math.min(math.max(0, maxexp - inst_inner.soradayexp[code]), num)
+                    end
+                    inst_inner.soradayexp[code] = inst_inner.soradayexp[code] + num
+                end
+
+            end
+            if num == 0 then
+                return
+            end
+            inst_inner.soraexp:set(math.max(0, inst_inner.soraexp:value() + num))
+            if inst_inner.soralevel:value() < 100 and inst_inner.soraexp:value() >= soraconfig.level.expfornextlev(inst_inner.soralevel:value()) or
+                    num <= 0 then
+                old_applyupgrades(inst_inner, true)
+                old_ReFreshExp(inst_inner)
+            end
+            inst_inner.soraexpget = inst_inner.soraexpget + num
+            if inst_inner.soraexpget > 1000 then
+                inst_inner.soraexpget = 0
+                old_applyupgrades(inst_inner, true)
+                old_ReFreshExp(inst_inner)
+            end
+            TheWorld.components.soraexpsave:SetExp(inst_inner.userid, inst_inner.soraexp:value())
+        end
+
+        -- 伤害系数  计算方式不变
+        -- inst.components.combat.damagemultiplier = 0.7 + (inst.soralevel:value() * 0.02)
+        -- 防御系数
+        --inst.components.health.absorb = -0.3 + (inst.soralevel:value() * 0.02)
+        --100百级满防御
+        inst.components.health.absorb = -0.3 + (inst.soralevel:value() * 0.013)
+    end)
+end
+
+if soraRemoveDeathExpByLevel > 0 then
+    local old_DeathExp = soraconfig.level.DeathExp
+    soraconfig.level.DeathExp = function(a)
+        -- 穹一定等级后死亡不掉落经验
+        if a < soraRemoveDeathExpByLevel then
+            if old_DeathExp then
+                return old_DeathExp(a)
+            end
+        else
+            return 0
+        end
+    end
+end
 
 
 
-
-
+--[[
+ --
+    --local sora_level_up = require "soraconfig/soralevelup" --小穹 等级设置
+    --local expneed_l = {}
+    --local expdead_l = {}
+    --local maxlevel_l = 100
+    ----local expneed_l = upvaluehelper.Get(sora_level_up.InIt, "expneed")
+    ----local expdead_l = upvaluehelper.Get(sora_level_up.InIt, "expdead")
+    ----local maxlevel_l = upvaluehelper.Get(sora_level_up.InIt, "maxlevel")
+    --
+    --local function exptolev(a)
+    --    for i = maxlevel_l, 1, -1 do
+    --        if a >= expneed_l[i] then
+    --            return i
+    --        end
+    --    end
+    --    return 0
+    --end
+    --
+    --local function expfornextlev(a)
+    --    if a >= 100 then
+    --        return 0
+    --    elseif a < 1 then
+    --        return expneed_l[1]
+    --    else
+    --        return expneed_l[a + 1]
+    --    end
+    --end
+    --
+    --local function expper(exp)
+    --    local level = exptolev(exp)
+    --    if level > 99 then
+    --        return 100
+    --    end
+    --    local has = exp - (expneed_l[level] or 0)
+    --    local next = expneed_l[level + 1] - (expneed_l[level] or 0)
+    --    local per = math.floor(has / next * 20) * 5
+    --    return per
+    --end
+    --
+    --local function DeathExp(a)
+    --    if a < 1 then
+    --        return expdead_l[1]
+    --    elseif a >= 100 then
+    --        return expdead_l[100]
+    --    else
+    --        return expdead_l[a]
+    --    end
+    --end
+    --local function ListExp()
+    --    local a = ""
+    --    local b = ""
+    --    for i = 1, 100, 1 do
+    --        a = a .. i .. "=" .. expneed_l[i] .. ","
+    --        b = b .. i .. "=" .. expdead_l[i] .. ","
+    --    end
+    --end
+    --
+    --if sora_model == 1 then
+    --    -- 1-10级 经验 = 300 * 等级
+    --    -- 11-20级 经验  = 3000+500*等级
+    --    -- 21-30级 经验 = 1000*等级
+    --    for i = 1, 10, 1 do
+    --        expneed_l[i] = 300 * i
+    --        expdead_l[i] = 0
+    --    end
+    --    for i = 11, 20, 1 do
+    --        expneed_l[i] = 500 * i - 2000
+    --        expdead_l[i] = -100
+    --    end
+    --    for i = 21, 30, 1 do
+    --        expneed_l[i] = 1000 * i - 12000
+    --        expdead_l[i] = -500
+    --    end
+    --    --
+    --    for i = 31, 100, 1 do
+    --        expneed_l[i] = 1000 * i - 12000
+    --        expdead_l[i] = -800
+    --    end
+    --
+    --elseif sora_model == 2 then
+    --    for i = 1, 10, 1 do
+    --        expneed_l[i] = 500 * i
+    --        expdead_l[i] = i > 1 and -200 or 0
+    --    end
+    --    for i = 11, 20, 1 do
+    --        expneed_l[i] = 1500 * i - 10000
+    --        expdead_l[i] = -500
+    --    end
+    --    for i = 21, 30, 1 do
+    --        expneed_l[i] = 3000 * i - 40000
+    --        expdead_l[i] = -3000
+    --    end
+    --
+    --    --
+    --    for i = 31, 100, 1 do
+    --        expneed_l[i] = 3000 * i - 40000
+    --        expdead_l[i] = -5000
+    --    end
+    --elseif sora_model == 3 then
+    --    for i = 1, 10, 1 do
+    --        expneed_l[i] = 1000 * i
+    --        expdead_l[i] = -2000
+    --    end
+    --    for i = 11, 20, 1 do
+    --        expneed_l[i] = 3000 * i - 20000
+    --        expdead_l[i] = -5000
+    --    end
+    --    for i = 21, 30, 1 do
+    --        expneed_l[i] = 6000 * i - 80000
+    --        expdead_l[i] = -10000
+    --    end
+    --
+    --    for i = 31, 100, 1 do
+    --        expneed_l[i] = 6000 * i - 80000
+    --        expdead_l[i] = -15000
+    --    end
+    --end
+    --
+    --upvaluehelper.Set(sora_level_up.fn, "exptolev", exptolev)
+    --upvaluehelper.Set(sora_level_up.fn, "expfornextlev", expfornextlev)
+    --upvaluehelper.Set(sora_level_up.fn, "expper", expper)
+    --upvaluehelper.Set(sora_level_up.fn, "DeathExp", DeathExp)
+    --upvaluehelper.Set(sora_level_up.fn, "ListExp", ListExp)
+    --
+    --upvaluehelper.Set(sora_level_up.InIt, "expneed", expneed_l)
+    --upvaluehelper.Set(sora_level_up.InIt, "expdead", expdead_l)
+    --upvaluehelper.Set(sora_level_up.InIt, "maxlevel", maxlevel_l)
+]]

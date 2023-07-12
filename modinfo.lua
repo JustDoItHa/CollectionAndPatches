@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.0.0.7"
+version = "11.1.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1144,6 +1144,7 @@ configuration_options = {
     AddConfigOption("soraPackLimit", "限制打包", "禁止穹打包一些独有的东西，比如猪王等", optionsYesNo, true),
     AddConfigOption("soraPackFL", "打包风铃草", "初始自动打包风铃\n是：打包 否：不打包，全图找", optionsYesNo, true),
     AddConfigOption("sorafl_select", "风铃草自选", "绑定风铃草时可以自选装备(小穹mod)", optionsYesNo, false),
+    AddConfigOption("sora_level_broke_through", "小穹突破等级上限", "小穹不只是30级了可以玩到100级咯", optionsYesNo, false),
 
     AddOptionHeader("魔女之旅补丁"),
     AddOption("elaina_patches_switch", "魔女补丁总开关", "是否开启魔女补丁", false),
