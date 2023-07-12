@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.1.0.1"
+version = "11.2.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2233,6 +2233,7 @@ resource_prefab = {
     { name = "cutted_orchidbush", label = "棱镜:兰草种籽", default = 0 },
     { name = "cutted_lilybush", label = "棱镜:蹄莲芽丛", default = 0 },
     { name = "cutted_rosebush", label = "棱镜:蔷薇折枝", default = 0 },
+    { name = "squidamulet", label = "鱿鱼的庇护", default = 0 },
 }
 
 for i = 1, #resource_prefab do
