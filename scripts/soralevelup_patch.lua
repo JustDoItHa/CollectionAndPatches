@@ -1,4 +1,4 @@
-mode = GLOBAL.TUNING.SORAMODE
+mode = TUNING.SORAMODE
 local expneed = {}
 local expdead = {}
 local maxlevel = 100

@@ -9,7 +9,7 @@
 -- mod作者：辣椒小皇纸
 
 -- 更改范围：仅保留汉化、添加陷阱伤害、耐久、海星陷阱攻击范围
-TUNING = GLOBAL.TUNING
+--TUNING = GLOBAL.TUNING
 IsServer = GLOBAL.TheNet:GetIsServer()
 
 -- 牙齿陷阱耐久
