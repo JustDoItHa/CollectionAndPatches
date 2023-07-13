@@ -170,6 +170,7 @@ if TUNING.ELAINA_ENABLE then
 end
 if TUNING.YEYU_NILXIN_ENABLE then
     table.insert(RcpVE_MODs, Ingredient("yyxk_gift", 20))
+    table.insert(RcpVE_MODs, Ingredient("yyxk_bukas", 1))
 end
 if TUNING.QIHUANJIANGLIN_ENABLE then
     table.insert(RcpVE_MODs, Ingredient("ab_lnhx", 1))
