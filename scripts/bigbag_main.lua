@@ -182,37 +182,37 @@ end
 if #RcpVE_MODs > 0 then
     local bigbag = AddRecipe2("bigbag", RcpVE_MODs,
             tec,
-            { atlas = "images/inventoryimages/bigbag.xml", image = "bigbag.tex" },
+            { no_deconstruction = true, atlas = "images/inventoryimages/bigbag.xml", image = "bigbag.tex" },
             { "CONTAINERS" })
 
     local redbigbag = AddRecipe2("redbigbag", -- name
             { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("redgem", 10) }, -- ingredients Add more like so ,
             tec,
-            { atlas = "images/inventoryimages/redbigbag.xml", image = "redbigbag.tex" },
+            { no_deconstruction = true, atlas = "images/inventoryimages/redbigbag.xml", image = "redbigbag.tex" },
             { "CONTAINERS" })
 
     local bluebigbag = AddRecipe2("bluebigbag", -- name
             { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("bluegem", 10) }, -- ingredients Add more like so ,
             tec,
-            { atlas = "images/inventoryimages/bluebigbag.xml", image = "bluebigbag.tex" },
+            { no_deconstruction = true, atlas = "images/inventoryimages/bluebigbag.xml", image = "bluebigbag.tex" },
             { "CONTAINERS" })
 
     local nicebigbag = AddRecipe2("nicebigbag",
             RcpVE_MODs,
             tec,
-            { atlas = "images/inventoryimages/nicebigbag.xml", image = "nicebigbag.tex" },
+            { no_deconstruction = true, atlas = "images/inventoryimages/nicebigbag.xml", image = "nicebigbag.tex" },
             { "CONTAINERS" })
 
     local catbigbag = AddRecipe2("catbigbag", -- name
             RcpVE_MODs,
             tec,
-            { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
+            { no_deconstruction = true, atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
             { "CONTAINERS" })
 
     local catback = AddRecipe2("catback", -- name
             RcpVE_MODs,
             tec,
-            { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
+            { no_deconstruction = true, atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
             { "CONTAINERS" })
 else
     local bigbag = AddRecipe2("bigbag", rcp,
