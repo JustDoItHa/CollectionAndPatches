@@ -290,10 +290,56 @@ AddPrefabPostInit("redbigbag", function(inst)
     end
 end)
 AddPrefabPostInit("bluebigbag", function(inst)
-
     if not inst.components.insulator then
         inst:AddComponent("insulator")
         inst.components.insulator:SetSummer()
         inst.components.insulator:SetInsulation(500)
     end
-end) 
+end)
+
+--------------------------------------------------------------------------------------------------------------------------
+--[[如果想在风滚草中添加你想加的资源，可在mod中加入下面代码
+TUNING.TUMBLEWEED_RESOURCES_EXPAND=TUNING.TUMBLEWEED_RESOURCES_EXPAND or {}
+TUNING.TUMBLEWEED_RESOURCES_EXPAND.xxx_resources={--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
+	resourcesList={
+		--资源列表，可加多条，每条之间用英文逗号隔开
+		{chance=1,--权重(必填)
+		item="xxx",--掉落物(选填，item和pickfn最好至少填一个)
+		aggro=true,--是否仇视玩家(选填，一般是生成生物的时候用)
+		announce=true,--开出道具是否发公告(选填，默认false)
+		season=1,--是否属于季节性掉落(选填，填了后在相应的季节会有概率加成，春1夏2秋4冬8，可填季节数字之和表示多个季节，比如：春夏=3,夏秋=6,春夏秋冬=15)
+		specialtag="featherhat",--装备特殊加成(选填，填装备名或者该装备拥有的某一个标签，填了后玩家穿戴相应的装备开这个道具会有概率加成)
+		pickfn=function(inst,picker) print("123") end--开到后触发的函数(选填，请务必保证函数能正常执行，优先级大于item，有了pickfn就不会生成item了)
+		},
+		{chance=1,item="xxx2"}
+	},
+	multiple=1,--倍率(选填，不填默认为1)
+	weightClass="goodMin",--权重等级(选填，填了后掉率会随玩家幸运值变化,不填掉率不会随幸运值浮动)
+	--权重等级说明，good代表有益资源，幸运度越高掉率越高；bad代表有害资源(比如怪物)，幸运度越低掉率越高
+	--goodMin:普通有益资源，掉率浮动较小
+	--goodMid:高级有益资源，掉率浮动适中
+	--goodMax:稀有有益资源，掉率浮动较大
+	--badMin:普通有害资源，掉率浮动较小
+	--badMid:高级有害资源，掉率浮动适中
+	--badMax:稀有有害资源，掉率浮动较大
+}
+]]--
+if TUNING.INTERESTING_TUMBLEWEED_ENABLE then
+    TUNING.TUMBLEWEED_RESOURCES_EXPAND=TUNING.TUMBLEWEED_RESOURCES_EXPAND or {}
+    TUNING.TUMBLEWEED_RESOURCES_EXPAND.catback_resources={--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
+        resourcesList={
+            --资源列表，可加多条，每条之间用英文逗号隔开
+            {chance=0.005,--权重(必填)
+             item="catback",--掉落物(选填，item和pickfn最好至少填一个)
+             aggro=false,--是否仇视玩家(选填，一般是生成生物的时候用)
+             announce=true,--开出道具是否发公告(选填，默认false)
+             season=15,--是否属于季节性掉落(选填，填了后在相应的季节会有概率加成，春1夏2秋4冬8，可填季节数字之和表示多个季节，比如：春夏=3,夏秋=6,春夏秋冬=15)
+             --specialtag="featherhat",--装备特殊加成(选填，填装备名或者该装备拥有的某一个标签，填了后玩家穿戴相应的装备开这个道具会有概率加成)
+             --pickfn=function(inst,picker) end--开到后触发的函数(选填，请务必保证函数能正常执行，优先级大于item，有了pickfn就不会生成item了)
+            },
+            {chance=1,item="cutgrass"}
+        },
+        multiple=1,--倍率(选填，不填默认为1)
+        weightClass="goodMax",--权重等级(选填，填了后掉率会随玩家幸运值变化,不填掉率不会随幸运值浮动)
+    }
+end
