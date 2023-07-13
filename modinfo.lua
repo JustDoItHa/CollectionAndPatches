@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.4.0.0"
+version = "11.4.0.1"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1323,11 +1323,13 @@ configuration_options = {
                                                                              { description = SpeedFast, data = 0.5 },
                                                                              { description = SpeedFaster, data = 0.25 },
                                                                              { description = SpeedFastest, data = 0.01 } }, false),
-    AddOptionHeader("花样风滚草补丁"),
-    AddOption("interesting_tumbleweed_switch", "总开关", "", false),
-    AddConfigOption("tumbleweed_item_rates", "花样风滚草中可以开出一些物品", "花样风滚草可以开出一些其他物品", tumbleweed_item_rates_options, 0.02),
 
     AddOption("AutoCook", AutoCook_label, AutoCook_hover, Switch, false),
+
+    AddOptionHeader("花样风滚草补丁"),
+    AddOption("interesting_tumbleweed_switch", "总开关", "", false),
+    AddConfigOption("tumbleweed_item_rates", "花样风滚草中可以开出一些物品", "花样风滚草可以开出一些其他物品", tumbleweed_item_rates_options, 0.2),
+
     AddOptionHeader("码头套装增强"),
     AddOption("dock_kit_enhance_switch", "码头套装增强开关", "码头套装增强", true),
     AddConfigOption("DockKitNum", "码头套装制作数", "设置 制作码头套装时会得到的数量。", { { description = "2个", data = 2 },
