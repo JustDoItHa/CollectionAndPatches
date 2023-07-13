@@ -120,6 +120,16 @@ local color_options = {
     { description = "100%", data = 1, },
 }
 
+local tumbleweed_item_rates_options = {
+    { description = "无", data = false, },
+    { description = "极高", data = 1, },
+    { description = "高", data = 0.5, },
+    { description = "一般", data = 0.2, },
+    { description = "低", data = 0.05, },
+    { description = "极低", data = 0.01, },
+    { description = "巨低", data = 0.005, },
+}
+
 local disappear_magic = {
     { description = "永久消失不见", data = -1, hover = "整个存档全程消失不见" },
     { description = "不限制", data = 0, hover = "不消失" },
@@ -1313,6 +1323,9 @@ configuration_options = {
                                                                              { description = SpeedFast, data = 0.5 },
                                                                              { description = SpeedFaster, data = 0.25 },
                                                                              { description = SpeedFastest, data = 0.01 } }, false),
+    AddOptionHeader("花样风滚草补丁"),
+    AddOption("interesting_tumbleweed_switch", "总开关", "", false),
+    AddConfigOption("tumbleweed_item_rates", "花样风滚草中可以开出一些物品", "花样风滚草可以开出一些其他物品", tumbleweed_item_rates_options, 0.02),
 
     AddOption("AutoCook", AutoCook_label, AutoCook_hover, Switch, false),
     AddOptionHeader("码头套装增强"),
@@ -1379,6 +1392,8 @@ configuration_options = {
               { description = "Expensive(贵)", data = 4, },
               { description = "More Expensive(更贵)", data = 5, },
               { description = "super Expensive(超贵)", data = 6, }, }, 6),
+    AddOption("BIG_BAG_EFFECTED_BY_OTHER_MODS", "制作是否受其他mod影响", "开启会根据服务器开不同mod的变化而变化", true),
+
     AddConfigOption("CONTAINERDRAG_SWITCH", "BigBag Drag(背包拖拽)", "After opening, you can drag the bigbag's UI",
             { { description = "Close(关闭)", data = false, hover = "关闭容器拖拽" },
               { description = "Open(F1开启)", data = "KEY_F1", hover = "默认按住F1拖动" },
@@ -1390,6 +1405,7 @@ configuration_options = {
               { description = "F7", data = "KEY_F7", hover = "按住F7拖动" },
               { description = "F8", data = "KEY_F8", hover = "按住F8拖动" },
               { description = "F9", data = "KEY_F9", hover = "按住F9拖动" }, }, "KEY_F1"),
+
     --AddConfigOption("EASYSWITCH", "Easy switch(快捷开关)", "After opening, you can open the bigbag quickly",
     --        { { description = "Close", data = false, hover = "关闭快捷开关" },
     --          { description = "O", data = "KEY_O", hover = "使用快捷键O" },
