@@ -123,16 +123,6 @@ local RcpVVE = { Ingredient("goldnugget", 80),
                  Ingredient("goose_feather", 20),
                  Ingredient("minotaurhorn", 2) }
 
-local RcpVVE_S = { Ingredient("sorahat", 1),
-                   Ingredient("sorahealing", 1),
-                   Ingredient("soramagic", 1),
-                   Ingredient("soratele", 1),
-                   Ingredient("sorapick", 1),
-                   Ingredient("soraclothes", 1),
-                   Ingredient("sorabowknot", 1),
-                   Ingredient("sora2pack", 10),
-                   Ingredient("minotaurhorn", 1) }
-
 local rcp = RcpN
 
 if RcpType == 1 then
@@ -163,8 +153,33 @@ if TUNING.ROOMCAR_BIGBAG_FRESH and TUNING.ROOMCAR_BIGBAG_STACK then
         table.insert(rcp, v)
     end
 end
+
+local RcpVE_MODs = {}
 if TUNING.QIONG_ENABLE then
-    local bigbag = AddRecipe2("bigbag", RcpVVE_S,
+    table.insert(RcpVE_MODs, Ingredient("sorahat", 1))
+    table.insert(RcpVE_MODs, Ingredient("sorahealing", 1))
+    table.insert(RcpVE_MODs, Ingredient("soramagic", 1))
+    table.insert(RcpVE_MODs, Ingredient("soratele", 1))
+    table.insert(RcpVE_MODs, Ingredient("sorapick", 1))
+    table.insert(RcpVE_MODs, Ingredient("soraclothes", 1))
+    table.insert(RcpVE_MODs, Ingredient("sorabowknot", 1))
+    table.insert(RcpVE_MODs, Ingredient("sora2pack", 10))
+end
+if TUNING.ELAINA_ENABLE then
+    table.insert(RcpVE_MODs, Ingredient("elaina_bundlewrap", 10))
+end
+if TUNING.YEYU_NILXIN_ENABLE then
+    table.insert(RcpVE_MODs, Ingredient("yyxk_gift", 20))
+end
+if TUNING.QIHUANJIANGLIN_ENABLE then
+    table.insert(RcpVE_MODs, Ingredient("ab_lnhx", 1))
+end
+if TUNING.ARIA_ENABLE then
+    table.insert(RcpVE_MODs, Ingredient("aria_fantasycore", 1))
+end
+
+if #RcpVE_MODs > 0 then
+    local bigbag = AddRecipe2("bigbag", RcpVE_MODs,
             tec,
             { atlas = "images/inventoryimages/bigbag.xml", image = "bigbag.tex" },
             { "CONTAINERS" })
@@ -182,40 +197,19 @@ if TUNING.QIONG_ENABLE then
             { "CONTAINERS" })
 
     local nicebigbag = AddRecipe2("nicebigbag",
-            { Ingredient("sorahat", 1),
-              Ingredient("sorahealing", 1),
-              Ingredient("soramagic", 1),
-              Ingredient("soratele", 1),
-              Ingredient("sorapick", 1),
-              Ingredient("soraclothes", 1),
-              Ingredient("sorabowknot", 1),
-              Ingredient("sora2pack", 10) },
+            RcpVE_MODs,
             tec,
             { atlas = "images/inventoryimages/nicebigbag.xml", image = "nicebigbag.tex" },
             { "CONTAINERS" })
 
     local catbigbag = AddRecipe2("catbigbag", -- name
-            { Ingredient("sorahat", 1),
-              Ingredient("sorahealing", 1),
-              Ingredient("soramagic", 1),
-              Ingredient("soratele", 1),
-              Ingredient("sorapick", 1),
-              Ingredient("soraclothes", 1),
-              Ingredient("sorabowknot", 1),
-              Ingredient("sora2pack", 10)},
+            RcpVE_MODs,
             tec,
             { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
             { "CONTAINERS" })
 
     local catback = AddRecipe2("catback", -- name
-            { Ingredient("sorahat", 1),
-              Ingredient("sorahealing", 1),
-              Ingredient("soramagic", 1),
-              Ingredient("soratele", 1),
-              Ingredient("sorapick", 1),
-              Ingredient("soraclothes", 1),
-              Ingredient("sorabowknot", 1),
-              Ingredient("sora2pack", 10) },
+            RcpVE_MODs,
             tec,
             { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
             { "CONTAINERS" })
