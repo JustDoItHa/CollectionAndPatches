@@ -324,7 +324,97 @@ if GetModConfigData("sora_level_broke_through") then
         local old_GetExp = upvaluehelper.Get(sora_character_p.fn,"GetExp")
         local old_applyupgrades = upvaluehelper.Get(sora_character_p.fn,"applyupgrades")
         local old_ReFreshExp = upvaluehelper.Get(sora_character_p.fn,"ReFreshExp")
+        local function new_applyupgrades(inst_inner, nosay)
+            inst_inner.soralevel:set(soraconfig.level.exptolev(inst_inner.soraexp:value()))
+            inst_inner.soraexpmax:set(soraconfig.level.expfornextlev(inst_inner.soralevel:value()))
+            local hunger_percent = inst_inner.components.hunger:GetPercent()
+            local health_percent = inst_inner.components.health:GetPercent()
+            local sanity_percent = inst_inner.components.sanity:GetPercent()
+            if health_percent <= 0 then
+                return
+            end
+            if inst_inner.SoraSetExtend then
+                local up = inst_inner.soralevel:value() * 3
+                inst_inner:SoraSetExtend(75 + up, 100 + up, 50 + up)
+            else
+                -- 饥饿
+                inst_inner.components.hunger.max = math.ceil(75 + inst_inner.soralevel:value() * 3) -- 75  + 3*30 = 165
+                -- 生命
+                inst_inner.components.health.maxhealth = math.ceil(50 + inst_inner.soralevel:value() * 3) -- 50 + 3*30 =140
+                -- 精神
+                inst_inner.components.sanity.max = math.ceil(100 + inst_inner.soralevel:value() * 3) -- 100 +3 *30 =190
+                -- 伤害系数
+            end
+            inst_inner.components.combat.damagemultiplier = 0.7 + (inst_inner.soralevel:value() * 0.02)
+            -- 防御系数
+            --inst_inner.components.health.absorb = -0.3 + (inst_inner.soralevel:value() * 0.02)
+            inst_inner.components.health.absorb = -0.3 + (inst.soralevel:value() * 0.013)
+            -- 书籍阅读
 
+            if inst_inner.soralevel:value() > 4 then
+                inst_inner:AddTag("sorabook")
+            else
+                inst_inner:RemoveTag("sorabook")
+            end
+
+            -- 通用制作
+            if inst_inner.soralevel:value() > 9 then
+                inst_inner:AddTag("soraother")
+            else
+                inst_inner:RemoveTag("soraother")
+            end
+            -- 专属制作
+            if inst_inner.soralevel:value() > 19 then
+                inst_inner:AddTag("soraself")
+            else
+                inst_inner:RemoveTag("soraself")
+            end
+
+            -- 制作减半
+            if not getsora("zzjb") then
+                if inst_inner.soralevel:value() > 24 then
+                    inst_inner.components.builder.ingredientmod = .5
+                else
+                    inst_inner.components.builder.ingredientmod = 1
+                    for k, v in pairs(inst_inner.components.inventory.equipslots) do
+                        if v and v.prefab == "greenamulet" then
+                            inst_inner.components.builder.ingredientmod = .5
+                        end
+                    end
+
+                end
+
+                if inst_inner.components.allachivcoin then
+                    if inst_inner.components.allachivcoin.buildmaster then
+                        inst_inner.components.builder.ingredientmod = .5
+                    end
+
+                end
+                if inst_inner.components.achievementability then
+                    if inst_inner.components.achievementability.buildmaster then
+                        inst_inner.components.builder.ingredientmod = .5
+                    end
+                end
+            end
+            -- 保持百分比不变
+            if not inst_inner.soraloading then
+                inst_inner.components.hunger:SetPercent(hunger_percent)
+                inst_inner.components.health:SetPercent(health_percent)
+                inst_inner.components.sanity:SetPercent(sanity_percent)
+            end
+            for k, v in ipairs(SoraTags) do
+                if not inst_inner:HasTag(v) then
+                    inst_inner:AddTag(v)
+                end
+            end
+            if not inst_inner:HasTag("reader") then
+                inst_inner:AddTag("reader")
+            end
+            if not inst_inner.components.reader then
+                inst_inner:AddComponent("reader")
+            end
+        end
+        inst.applyupgrades = new_applyupgrades
         inst.GetExp = function(inst_inner, num, code, dmaxexp, once)
             -- 获得经验
             if once then
@@ -365,25 +455,31 @@ if GetModConfigData("sora_level_broke_through") then
             inst_inner.soraexp:set(math.max(0, inst_inner.soraexp:value() + num))
             if inst_inner.soralevel:value() < 100 and inst_inner.soraexp:value() >= soraconfig.level.expfornextlev(inst_inner.soralevel:value()) or
                     num <= 0 then
-                old_applyupgrades(inst_inner, true)
+                new_applyupgrades(inst_inner, true)
                 old_ReFreshExp(inst_inner)
             end
             inst_inner.soraexpget = inst_inner.soraexpget + num
             if inst_inner.soraexpget > 1000 then
                 inst_inner.soraexpget = 0
-                old_applyupgrades(inst_inner, true)
+                new_applyupgrades(inst_inner, true)
                 old_ReFreshExp(inst_inner)
             end
             TheWorld.components.soraexpsave:SetExp(inst_inner.userid, inst_inner.soraexp:value())
         end
 
-        -- 伤害系数  计算方式不变
-        -- inst.components.combat.damagemultiplier = 0.7 + (inst.soralevel:value() * 0.02)
-        -- 防御系数
-        --inst.components.health.absorb = -0.3 + (inst.soralevel:value() * 0.02)
-        --100百级满防御
-        inst.components.health.absorb = -0.3 + (inst.soralevel:value() * 0.013)
+
     end)
+    --AddPrefabPostInit("sora", function(inst)
+    --    if not inst and not inst.components and inst.components.health then
+    --        return
+    --    end
+    --    -- 伤害系数  计算方式不变
+    --    -- inst.components.combat.damagemultiplier = 0.7 + (inst.soralevel:value() * 0.02)
+    --    -- 防御系数
+    --    --inst.components.health.absorb = -0.3 + (inst.soralevel:value() * 0.02)
+    --    --100百级满防御
+    --    inst.components.health.absorb = -0.3 + (inst.soralevel:value() * 0.013)
+    --end)
 end
 
 if soraRemoveDeathExpByLevel > 0 then
@@ -399,135 +495,3 @@ if soraRemoveDeathExpByLevel > 0 then
         end
     end
 end
-
-
-
---[[
- --
-    --local sora_level_up = require "soraconfig/soralevelup" --小穹 等级设置
-    --local expneed_l = {}
-    --local expdead_l = {}
-    --local maxlevel_l = 100
-    ----local expneed_l = upvaluehelper.Get(sora_level_up.InIt, "expneed")
-    ----local expdead_l = upvaluehelper.Get(sora_level_up.InIt, "expdead")
-    ----local maxlevel_l = upvaluehelper.Get(sora_level_up.InIt, "maxlevel")
-    --
-    --local function exptolev(a)
-    --    for i = maxlevel_l, 1, -1 do
-    --        if a >= expneed_l[i] then
-    --            return i
-    --        end
-    --    end
-    --    return 0
-    --end
-    --
-    --local function expfornextlev(a)
-    --    if a >= 100 then
-    --        return 0
-    --    elseif a < 1 then
-    --        return expneed_l[1]
-    --    else
-    --        return expneed_l[a + 1]
-    --    end
-    --end
-    --
-    --local function expper(exp)
-    --    local level = exptolev(exp)
-    --    if level > 99 then
-    --        return 100
-    --    end
-    --    local has = exp - (expneed_l[level] or 0)
-    --    local next = expneed_l[level + 1] - (expneed_l[level] or 0)
-    --    local per = math.floor(has / next * 20) * 5
-    --    return per
-    --end
-    --
-    --local function DeathExp(a)
-    --    if a < 1 then
-    --        return expdead_l[1]
-    --    elseif a >= 100 then
-    --        return expdead_l[100]
-    --    else
-    --        return expdead_l[a]
-    --    end
-    --end
-    --local function ListExp()
-    --    local a = ""
-    --    local b = ""
-    --    for i = 1, 100, 1 do
-    --        a = a .. i .. "=" .. expneed_l[i] .. ","
-    --        b = b .. i .. "=" .. expdead_l[i] .. ","
-    --    end
-    --end
-    --
-    --if sora_model == 1 then
-    --    -- 1-10级 经验 = 300 * 等级
-    --    -- 11-20级 经验  = 3000+500*等级
-    --    -- 21-30级 经验 = 1000*等级
-    --    for i = 1, 10, 1 do
-    --        expneed_l[i] = 300 * i
-    --        expdead_l[i] = 0
-    --    end
-    --    for i = 11, 20, 1 do
-    --        expneed_l[i] = 500 * i - 2000
-    --        expdead_l[i] = -100
-    --    end
-    --    for i = 21, 30, 1 do
-    --        expneed_l[i] = 1000 * i - 12000
-    --        expdead_l[i] = -500
-    --    end
-    --    --
-    --    for i = 31, 100, 1 do
-    --        expneed_l[i] = 1000 * i - 12000
-    --        expdead_l[i] = -800
-    --    end
-    --
-    --elseif sora_model == 2 then
-    --    for i = 1, 10, 1 do
-    --        expneed_l[i] = 500 * i
-    --        expdead_l[i] = i > 1 and -200 or 0
-    --    end
-    --    for i = 11, 20, 1 do
-    --        expneed_l[i] = 1500 * i - 10000
-    --        expdead_l[i] = -500
-    --    end
-    --    for i = 21, 30, 1 do
-    --        expneed_l[i] = 3000 * i - 40000
-    --        expdead_l[i] = -3000
-    --    end
-    --
-    --    --
-    --    for i = 31, 100, 1 do
-    --        expneed_l[i] = 3000 * i - 40000
-    --        expdead_l[i] = -5000
-    --    end
-    --elseif sora_model == 3 then
-    --    for i = 1, 10, 1 do
-    --        expneed_l[i] = 1000 * i
-    --        expdead_l[i] = -2000
-    --    end
-    --    for i = 11, 20, 1 do
-    --        expneed_l[i] = 3000 * i - 20000
-    --        expdead_l[i] = -5000
-    --    end
-    --    for i = 21, 30, 1 do
-    --        expneed_l[i] = 6000 * i - 80000
-    --        expdead_l[i] = -10000
-    --    end
-    --
-    --    for i = 31, 100, 1 do
-    --        expneed_l[i] = 6000 * i - 80000
-    --        expdead_l[i] = -15000
-    --    end
-    --end
-    --
-    --upvaluehelper.Set(sora_level_up.fn, "exptolev", exptolev)
-    --upvaluehelper.Set(sora_level_up.fn, "expfornextlev", expfornextlev)
-    --upvaluehelper.Set(sora_level_up.fn, "expper", expper)
-    --upvaluehelper.Set(sora_level_up.fn, "DeathExp", DeathExp)
-    --upvaluehelper.Set(sora_level_up.fn, "ListExp", ListExp)
-    --
-    --upvaluehelper.Set(sora_level_up.InIt, "expneed", expneed_l)
-    --upvaluehelper.Set(sora_level_up.InIt, "expdead", expdead_l)
-    --upvaluehelper.Set(sora_level_up.InIt, "maxlevel", maxlevel_l)
-]]
