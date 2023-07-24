@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.4.0.2"
+version = "11.5.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -424,6 +424,7 @@ MOD_CHARACTERLIST = {
     "xxx_wuma", --雾码
     "yuki", --傲雪
     "lg_fanglingche", --方灵澈
+    "elena", --伊蕾娜-松饼版
 }
 --自定义配置请修改：
 --Please modify the custom configuration：
@@ -465,6 +466,7 @@ MOD_CHARACTERNAMES = {
     "雾码-xxx_wuma",
     "傲雪-yuki",
     "方灵澈-lg_fanglingche", --海洋传说
+    "伊蕾娜-松饼版-elena", --伊蕾娜-松饼版
 }
 
 DST_CHARACTERLIST = {
@@ -1326,9 +1328,11 @@ configuration_options = {
 
     AddOption("AutoCook", AutoCook_label, AutoCook_hover, Switch, false),
 
-    AddOptionHeader("花样风滚草补丁"),
+    AddOptionHeader("风滚草补丁"),
     AddOption("interesting_tumbleweed_switch", "总开关", "", false),
     AddConfigOption("tumbleweed_item_rates", "花样风滚草中可以开出一些物品", "花样风滚草可以开出一些其他物品", tumbleweed_item_rates_options, 0.2),
+    AddOption("tumbleweed_prevent_error_patch_switch", "风滚草防错补丁", "防止一些有关风滚草的mod的问题", true),
+
 
     AddOptionHeader("码头套装增强"),
     AddOption("dock_kit_enhance_switch", "码头套装增强开关", "码头套装增强", true),
@@ -2319,6 +2323,7 @@ configuration_options[#configuration_options + 1] = AddOption("fix_migration_dat
 configuration_options[#configuration_options + 1] = AddOption("heap_of_food_chs_language_switch", "HeapOfFood汉化(简中)", "HeapOfFood汉化(简中)", false)
 configuration_options[#configuration_options + 1] = AddOption("vtf_chs_language_switch", "情人节主题物品汉化(简中)", "情人节主题物品汉化(简中)", false)
 configuration_options[#configuration_options + 1] = AddOption("htf_chs_language_switch", "万圣节主题物品汉化(简中)", "万圣节主题物品汉化(简中)", false)
+configuration_options[#configuration_options + 1] = AddOption("dont_starve_dehydrated_chs_language_switch", "新喝水系统汉化(简中)", "新喝水系统汉化(简中)", false)
 
 --取消世界同步
 configuration_options[#configuration_options + 1] = AddOptionHeader("取消从世界与主世界部分同步")

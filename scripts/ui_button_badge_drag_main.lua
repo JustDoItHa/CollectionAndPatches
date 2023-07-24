@@ -87,6 +87,8 @@ local mainUIList = {
         adrenaline = "adrenaline",
         -- 随机生物大小数据包口渴值
         fili_hud_thirst = "fili_hud_thirst",
+        -- 新喝水mod
+        thirstbadge = "thirstbadge",
         -- 魔女之旅
         elaina_magic = "elaina_magic",
         -- 奇幻降临

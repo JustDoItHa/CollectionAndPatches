@@ -395,6 +395,11 @@ if GetModConfigData("red_pot_for_everyone_switch") then
     modimport("scripts/redpot_patches.lua")
 end
 
+--风滚草补丁
+if GetModConfigData("interesting_tumbleweed_switch") and GetModConfigData("tumbleweed_prevent_error_patch_switch") then
+    modimport("scripts/tumbleweed_prevent_error_patch.lua")
+end
+
 --码头套装增强
 if GetModConfigData("dock_kit_enhance_switch") then
     modimport("scripts/dock_kit_main.lua")
@@ -591,6 +596,11 @@ if GetModConfigData("beta_function_switch") then
 
     if GetModConfigData("htf_chs_language_switch") then
         modimport("cn/htf_strings_chs")
+    end
+
+    -- 新饮水系统汉化
+    if GetModConfigData("dont_starve_dehydrated_chs_language_switch") then
+        modimport("cn/hydration_strings")
     end
 end
 
