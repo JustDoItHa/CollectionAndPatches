@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.6.0.0"
+version = "11.7.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -964,153 +964,83 @@ configuration_options = {
 
     AddOptionHeader("蘑菇农场"),
     AddOption("improve_mushroom_planters_switch", "蘑菇农场增强-开关", "是否开启蘑菇农场增强", true),
-    {
-        name = "max_harvests",
-        label = "Maximum Fertilization(最大收获数量)",
-        hover = "Maximum amount of fertilizer value the planter can store. Living logs restore this many harvests.",
-        options = {
-            { description = "Unlimited", data = -1, hover = "Default, but never decrease" },
-            { description = "Default", data = 0, hover = "4 unless modded" },
-            { description = "8", data = 8, hover = "8 harvests" },
-            { description = "16", data = 16, hover = "16 harvests" },
-            { description = "32", data = 32, hover = "32 harvests" },
-        },
-        default = 0,
-    },
-    {
-        name = "easy_fert",
-        label = "Allow Fertilizers(允许使用肥料)",
-        hover = "If fertilizers can be used in place of living logs",
-        options = {
-            { description = "No", data = false, hover = "Living logs only" },
-            { description = "Yes", data = true, hover = "Fertilizes by the sum of all nutrients divided by 8" },
-        },
-        default = false,
-    },
-    {
-        name = "snow_grow",
-        label = "Grow When Snow-covered(被雪覆盖是否允许生长)",
-        hover = "Whether to continue growing in winter or pause growth until snow melts",
-        options = {
-            { description = "No", data = false, hover = "Pause growth" },
-            { description = "Yes", data = true, hover = "Keep growing" },
-        },
-        default = false,
-    },
-    {
-        name = "moon_ok",
-        label = "Allow Moon Shrooms(月亮蘑菇可种植)",
-        hover = "Should planters accept moon shrooms? Doesn't effect lunar spores.",
-        options = {
-            { description = "No", data = false, hover = "Don't accept moon shrooms" },
-            { description = "Yes", data = true, hover = "Accept moon shrooms" },
-        },
-        default = true,
-    },
-    {
-        name = "moon_spore",
-        label = "Catchable Lunar Spores(可捕捉月孢子)",
-        hover = "Lunar spores can be caught with a bug net and used in a planter. What could go wrong?",
-        options = {
-            { description = "No", data = false, hover = "Spores just explode, as usual" },
-            { description = "Yes", data = true, hover = "Spores can be caught and planted" },
-        },
-        default = false,
-    },
+    AddConfigOption("max_harvests", "Maximum Fertilization(最大收获数量)", "Maximum amount of fertilizer value the planter can store. Living logs restore this many harvests.",
+            { { description = "Unlimited", data = -1, hover = "Default, but never decrease" },
+              { description = "Default", data = 0, hover = "4 unless modded" },
+              { description = "8", data = 8, hover = "8 harvests" },
+              { description = "16", data = 16, hover = "16 harvests" },
+              { description = "32", data = 32, hover = "32 harvests" }, }, 0),
+
+    AddConfigOption("easy_fert", "Allow Fertilizers(允许使用肥料)", "If fertilizers can be used in place of living logs",
+            { { description = "No", data = false, hover = "Living logs only" },
+              { description = "Yes", data = true, hover = "Fertilizes by the sum of all nutrients divided by 8" }, }, false),
+
+    AddConfigOption("snow_grow", "Grow When Snow-covered(被雪覆盖是否允许生长)", "Whether to continue growing in winter or pause growth until snow melts",
+            { { description = "No", data = false, hover = "Pause growth" },
+              { description = "Yes", data = true, hover = "Keep growing" }, }, false),
+
+    AddConfigOption("moon_ok", "Allow Moon Shrooms(月亮蘑菇可种植)", "Should planters accept moon shrooms? Doesn't effect lunar spores.",
+            { { description = "No", data = false, hover = "Don't accept moon shrooms" },
+              { description = "Yes", data = true, hover = "Accept moon shrooms" }, }, true),
+
+
+    AddConfigOption("moon_spore", "Catchable Lunar Spores(可捕捉月孢子)", "Lunar spores can be caught with a bug net and used in a planter. What could go wrong?",
+            { { description = "No", data = false, hover = "Spores just explode, as usual" },
+              { description = "Yes", data = true, hover = "Spores can be caught and planted" }, }, false),
+
+
     AddOptionHeader("龙鳞冰炉"),
     AddOption("ice_furnace_switch", "龙鳞冰炉制作-开关", "是否可以制作龙鳞冰炉", false),
-    {
-        name = "lang",
-        label = "Language/语言",
-        hover = "The language you prefer to display the information related to Ice Furnaces" .. "\n你想要的用来显示冰炉相关信息的语言",
-        options = {
-            { description = "English", data = true, hover = "Information related to Ice Furnaces will be displayed in English" },
-            { description = "中文", data = false, hover = "将用中文来显示龙鳞冰炉的相关信息" },
-        },
-        default = false,
-    },
-    {
-        name = "temp",
-        label = "Heat Control/调温",
-        hover = "Whether the Ice Furnace automatically adjust the heat" .. "\n冰炉是否自动调温",
-        options = {
-            { description = "Yes/是", data = true, hover = "The Ice Furnace does not cause undercooling/冰炉不会导致过冷" },
-            { description = "No/否", data = false, hover = "The Ice Furnace keeps the strongest heat/冰炉保持最低温" },
-        },
-        default = false,
-    },
-    {
-        name = "light_range",
-        label = "Light Range/光照范围",
-        hover = "The light range of Ice Furnaces" .. "\n龙鳞冰炉的光照范围",
-        options = {
-            { description = "Default/默认", data = 1, hover = "1 unit of light range/1个单位的光照范围" },
-            { description = "2.5", data = 2.5, hover = "2.5 units of light range/2.5个单位的光照范围" },
-            { description = "5", data = 5, hover = "5 units of light range/5个单位的光照范围" },
-            { description = "7.5", data = 7.5, hover = "7.5 units of light range/7.5个单位的光照范围" },
-            { description = "10", data = 10, hover = "10 units of light range/10个单位的光照范围" },
-        },
-        default = 1,
-    },
-    {
-        name = "container_slot",
-        label = "Number of slots/容器格数",
-        hover = "The size of the container" .. "\n容器的空间大小",
-        options = {
-            { description = "None/无容器", data = 0, hover = "No container for Ice Furnaces/冰炉不具备容器功能" },
-            { description = "3 x 1", data = 3, hover = "Container contains 3 slots/容器拥有3格空间" },
-            { description = "3 x 2", data = 6, hover = "Container contains 6 slots/容器拥有6格空间" },
-            { description = "3 x 3", data = 9, hover = "Container contains 9 slots/容器拥有9格空间" },
-            { description = "3 x 4", data = 12, hover = "Container contains 12 slots/容器拥有12格空间" },
-            { description = "3 x 5", data = 15, hover = "Container contains 15 slots/容器拥有15格空间" },
-        },
-        default = 3,
-    },
-    {
-        name = "fresh_rate",
-        label = "Preservation Rate/保存速率",
-        hover = "The preservation rate of the container" .. "\n龙鳞冰炉的保鲜能力",
-        options = {
-            { description = "Default/默认", data = 1, hover = "Ice furnaces do not provide preservation effect/冰炉不提供保鲜效果" },
-            { description = "0.5", data = 0.5, hover = "Items inside spoil 2 times slower/2倍保鲜" },
-            { description = "0.25", data = 0.25, hover = "Items inside spoil 4 times slower/4倍保鲜" },
-            { description = "0", data = 0, hover = "Items inside do not spoil/永久保鲜" },
-            { description = "-0.25", data = -0.25, hover = "Items inside restore freshness at a rate of 0.25/0.25倍反鲜" },
-            { description = "-0.5", data = -0.5, hover = "Items inside restore freshness at a rate of 0.5/0.5倍反鲜" },
-            { description = "-1", data = -1, hover = "Items inside restore freshness at a rate of 1/一倍反鲜" },
-            { description = "-2", data = -2, hover = "Items inside restore freshness at a rate of 2/两倍反鲜" },
-            { description = "-4", data = -4, hover = "Items inside restore freshness at a rate of 4/四倍反鲜" },
-        },
-        default = 0,
-    },
-    {
-        name = "produce_ice",
-        label = "Ice Production Interval/产冰间隔",
-        hover = "The frequency of the ice production" .. "\n冰炉生产冰的频率",
-        options = {
-            { description = "5s", data = 5, hover = "Produce one piece of ice every 5 seconds/每5秒生产一块冰" },
-            { description = "15s", data = 15, hover = "Produce one piece of ice every 15 seconds/每15秒生产一块冰" },
-            { description = "30s", data = 30, hover = "Produce one piece of ice every 30 seconds/每30秒生产一块冰" },
-            { description = "60s", data = 60, hover = "Produce one piece of ice every 60 seconds/每60秒生产一块冰" },
-            { description = "120s", data = 120, hover = "Produce one piece of ice every 120 seconds/每120秒生产一块冰" },
-            { description = "240s", data = 240, hover = "Produce one piece of ice every 240 seconds/每240秒生产一块冰" },
-            { description = "480s", data = 480, hover = "Produce one piece of ice every 480 seconds/每480秒生产一块冰" },
-            { description = "No Ice/不生产", data = 99999, hover = "No Ice Production/不生产冰" },
-        },
-        default = 240,
-    },
-    {
-        name = "way_to_obtain",
-        label = "Way to Obtain/获得途径",
-        hover = "The way to obtain Ice Furnaces" .. "\n获得龙鳞冰炉的途径",
-        options = {
-            { description = "Staff/法杖", data = 1, hover = "Get Ice Furnaces by consuming Ice Staffs/通过消耗冰冻法杖获得冰炉" },
-            { description = "Switch/切换", data = 2, hover = "Get Ice Furnaces by switching Scaled Furnaces/将火炉切换为冰炉" },
-            { description = "Blueprint/蓝图", data = 3, hover = "Build Ice Furnaces by learning blueprint/通过学习蓝图来建造冰炉" },
+    AddConfigOption("lang", "Language/语言", "The language you prefer to display the information related to Ice Furnaces" .. "\n你想要的用来显示冰炉相关信息的语言",
+            { { description = "English", data = true, hover = "Information related to Ice Furnaces will be displayed in English" },
+              { description = "中文", data = false, hover = "将用中文来显示龙鳞冰炉的相关信息" }, }, false),
 
-        },
-        default = 1,
-    },
+    AddConfigOption("temp", "Heat Control/调温", "Whether the Ice Furnace automatically adjust the heat" .. "\n冰炉是否自动调温",
+            { { description = "Yes/是", data = true, hover = "The Ice Furnace does not cause undercooling/冰炉不会导致过冷" },
+              { description = "No/否", data = false, hover = "The Ice Furnace keeps the strongest heat/冰炉保持最低温" }, }, false),
+
+    AddConfigOption("light_range", "Light Range/光照范围", "The light range of Ice Furnaces" .. "\n龙鳞冰炉的光照范围",
+            { { description = "Default/默认", data = 1, hover = "1 unit of light range\n1个单位的光照范围" },
+              { description = "2.5", data = 2.5, hover = "2.5 units of light range\n2.5个单位的光照范围" },
+              { description = "5", data = 5, hover = "5 units of light range\n5个单位的光照范围" },
+              { description = "7.5", data = 7.5, hover = "7.5 units of light range\n7.5个单位的光照范围" },
+              { description = "10", data = 10, hover = "10 units of light range\n10个单位的光照范围" }, }, 1),
+
+    AddConfigOption("container_slot", "Number of slots/容器格数", "The size of the container" .. "\n容器的空间大小",
+            { { description = "None/无容器", data = 0, hover = "No container for Ice Furnaces\n冰炉不具备容器功能" },
+              { description = "3 x 1", data = 3, hover = "Container contains 3 slots\n容器拥有3格空间" },
+              { description = "3 x 2", data = 6, hover = "Container contains 6 slots\n容器拥有6格空间" },
+              { description = "3 x 3", data = 9, hover = "Container contains 9 slots\n容器拥有9格空间" },
+              { description = "3 x 4", data = 12, hover = "Container contains 12 slots\n容器拥有12格空间" },
+              { description = "3 x 5", data = 15, hover = "Container contains 15 slots\n容器拥有15格空间" }, }, 3),
+
+    AddConfigOption("fresh_rate", "Preservation Rate/保存速率", "The preservation rate of the container" .. "\n龙鳞冰炉的保鲜能力",
+            { { description = "Default/默认", data = 1, hover = "Ice furnaces do not provide preservation effect\n冰炉不提供保鲜效果" },
+              { description = "0.5", data = 0.5, hover = "Items inside spoil 2 times slower\n2倍保鲜" },
+              { description = "0.25", data = 0.25, hover = "Items inside spoil 4 times slower\n4倍保鲜" },
+              { description = "0", data = 0, hover = "Items inside do not spoil\n永久保鲜" },
+              { description = "-0.25", data = -0.25, hover = "Items inside restore freshness at a rate of 0.25\n0.25倍反鲜" },
+              { description = "-0.5", data = -0.5, hover = "Items inside restore freshness at a rate of 0.5\n0.5倍反鲜" },
+              { description = "-1", data = -1, hover = "Items inside restore freshness at a rate of 1\n一倍反鲜" },
+              { description = "-2", data = -2, hover = "Items inside restore freshness at a rate of 2\n两倍反鲜" },
+              { description = "-4", data = -4, hover = "Items inside restore freshness at a rate of 4\n四倍反鲜" }, }, 0),
+
+    AddConfigOption("produce_ice", "Ice Production Interval/产冰间隔", "The frequency of the ice production" .. "\n冰炉生产冰的频率",
+            { { description = "5s", data = 5, hover = "Produce one piece of ice every 5 seconds\n每5秒生产一块冰" },
+              { description = "15s", data = 15, hover = "Produce one piece of ice every 15 seconds\n每15秒生产一块冰" },
+              { description = "30s", data = 30, hover = "Produce one piece of ice every 30 seconds\n每30秒生产一块冰" },
+              { description = "60s", data = 60, hover = "Produce one piece of ice every 60 seconds\n每60秒生产一块冰" },
+              { description = "120s", data = 120, hover = "Produce one piece of ice every 120 seconds\n每120秒生产一块冰" },
+              { description = "240s", data = 240, hover = "Produce one piece of ice every 240 seconds\n每240秒生产一块冰" },
+              { description = "480s", data = 480, hover = "Produce one piece of ice every 480 seconds\n每480秒生产一块冰" },
+              { description = "No Ice/不生产", data = 99999, hover = "No Ice Production\n不生产冰" }, }, 240),
+
+    AddConfigOption("way_to_obtain", "Way to Obtain/获得途径", "The way to obtain Ice Furnaces" .. "\n获得龙鳞冰炉的途径",
+            { { description = "Staff/法杖", data = 1, hover = "Get Ice Furnaces by consuming Ice Staffs/通过消耗冰冻法杖获得冰炉" },
+              { description = "Switch/切换", data = 2, hover = "Get Ice Furnaces by switching Scaled Furnaces/将火炉切换为冰炉" },
+              { description = "Blueprint/蓝图", data = 3, hover = "Build Ice Furnaces by learning blueprint/通过学习蓝图来建造冰炉" }, }, 1),
+
+
     AddOptionHeader("小穹补丁"),
     AddOption("sora_patches_switch", "小穹补丁-总开关", "是否开启小穹补丁", false),
     AddConfigOption("soraRemoveDeathExpByLevel", "减免死亡惩罚", "穹一定等级后死亡不掉落经验",
@@ -1154,7 +1084,7 @@ configuration_options = {
               { description = "25级", data = 25 },
               { description = "30级", data = 30 },
               { description = "50级", data = 50 },
-              { description = "100级", data = 100 },}, 30),
+              { description = "100级", data = 100 }, }, 30),
     AddConfigOption("soraPackLimit", "限制打包", "禁止穹打包一些独有的东西，比如猪王等", optionsYesNo, true),
     AddConfigOption("soraPackFL", "打包风铃草", "初始自动打包风铃\n是：打包 否：不打包，全图找", optionsYesNo, true),
     AddConfigOption("sorafl_select", "风铃草自选", "绑定风铃草时可以自选装备(小穹mod)", optionsYesNo, false),
@@ -1473,89 +1403,97 @@ configuration_options = {
               option("-4", -4, L and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
               option("-16", -16, L and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
             }, -1),
-
-
-    AddOptionHeader("物品/生物禁用"),
-    AddOption("remove_something", "物品禁用", "是否开启物品禁用", false),
-    AddConfigOption("remove_myth_mooncake", "神话的月饼", "让神话的月饼消失！", disappear_magic, -1),
-    AddConfigOption("remove_myth_qxj", "神话的七星剑", "让神话的七星剑消失！", disappear_magic, -1),
-    AddConfigOption("remove_myth_bigpeach", "神话的大蟠桃", "让神话的大蟠桃消失！", disappear_magic, 0),
-    AddConfigOption("remove_aria_tower", "aria的领主之怒", "让aria的领主之怒消失！", disappear_magic, 0),
-    AddConfigOption("remove_aria_transfer", "aria的晶能转换站", "让aria的晶能转换站消失！", disappear_magic, 0),
-    AddConfigOption("remove_aria_blackhole", "aria的深空黑点", "让aria的深空黑点消失！", disappear_magic, 0),
-    AddConfigOption("remove_elaina_bq", "伊蕾娜的释槐留仙裙", "让伊蕾娜的释槐留仙裙消失！", disappear_magic, -1),
-    AddConfigOption("remove_abigail_williams_black_gold", "阿比盖尔威廉姆斯的暗金", "让阿比盖尔威廉姆斯的暗金消失！", disappear_magic, -1),
-    AddConfigOption("remove_abigail_williams_psionic_bobbin_c", "阿比盖尔威廉姆斯的彩虹线轴", "让阿比盖尔威廉姆斯的彩虹线轴消失！", disappear_magic, 0),
-    AddConfigOption("remove_abigail_williams_ab_lnhx", "阿比盖尔威廉姆斯的灵能核心", "让阿比盖尔威廉姆斯的灵能核心消失！", disappear_magic, -1),
-    AddConfigOption("remove_abigail_williams_starry_bush", "阿比盖尔威廉姆斯的星空矿从", "让阿比盖尔威廉姆斯的星空矿从消失！", disappear_magic, -1),
-    AddConfigOption("remove_abigail_williams_atrium_light_moon", "阿比盖尔威廉姆斯的月之灯柱", "让阿比盖尔威廉姆斯的月之灯柱消失！", disappear_magic, 0),
-    AddConfigOption("remove_abigail_williams_bonestew", "阿比盖尔威廉姆斯的无限炖肉汤", "让阿比盖尔威廉姆斯的无限炖肉汤消失！", disappear_magic, 0),
-    AddConfigOption("remove_abigail_williams_ab_wilsontorch", "阿比盖尔威廉姆斯的疯狂的科学家火炬", "让阿比盖尔威廉姆斯的疯狂的科学家火炬消失！", disappear_magic, 0),
-    AddConfigOption("remove_abigail_williams_traveler_armor", "阿比盖尔威廉姆斯的侠客服I", "让阿比盖尔威廉姆斯的侠客服I消失！", disappear_magic, -1),
-    AddConfigOption("remove_abigail_williams_traveler_armor_2", "阿比盖尔威廉姆斯的疯狂的侠客服II", "让阿比盖尔威廉姆斯的疯狂的侠客服II消失！", disappear_magic, -1),
-    AddConfigOption("remove_abigail_williams_traveler_armor_3", "阿比盖尔威廉姆斯的侠客服III", "让阿比盖尔威廉姆斯的侠客服III消失！", disappear_magic, -1),
-    AddConfigOption("remove_abigail_williams_sword", "阿比盖尔威廉姆斯的侠客剑I", "让阿比盖尔威廉姆斯的疯狂的侠客剑I消失！", disappear_magic, -1),
-    AddConfigOption("remove_abigail_williams_sword_a", "阿比盖尔威廉姆斯的疯狂的侠客剑II", "让阿比盖尔威廉姆斯的疯狂的侠客剑II消失！", disappear_magic, -1),
-    AddConfigOption("remove_abigail_williams_sword_b", "阿比盖尔威廉姆斯的疯狂的侠客剑III", "让阿比盖尔威廉姆斯的疯狂的侠客剑III消失！", disappear_magic, -1),
-    AddConfigOption("remove_abigail_williams_psionic_bobbin_2_3_4", "阿比盖尔威廉姆斯的编织：多重", "让阿比盖尔威廉姆斯的编织：多重(二、三、四)消失！", disappear_magic, -1),
-    AddConfigOption("remove_nilxin_fox", "夜雨心空的金团子", "让夜雨心空的金团子消失！(防止召唤很多卡服)！", disappear_magic, 0),
-    AddConfigOption("remove_nilxin_yyxk1", "夜雨心空的红尾巴", "让夜雨心空的红尾巴消失！", disappear_magic, 0),
-    AddConfigOption("remove_yyxk_auto_recipe", "夜雨心空的聚合之仪", "让夜雨心空的聚合之仪消失！", disappear_magic, 0),
-    AddConfigOption("remove_yyxk_auto_destroystructure", "夜雨心空的解构之仪", "让夜雨心空的解构之仪消失！", disappear_magic, 0),
-    AddConfigOption("remove_yyxk_item_togetherup0", "夜雨心空的采集箱子", "让夜雨心空的采集箱子消失！", disappear_magic, -1),
-    AddConfigOption("remove_yyxk_shadowflower_alterguardian", "夜雨心空的影天体", "让夜雨心空的影天体消失！", disappear_magic, 0),
-    AddConfigOption("remove_yyxk_lunarthrall_plant", "夜雨心空的影花A型", "让夜雨心空的影花A型消失！", disappear_magic, 0),
-    AddConfigOption("remove_kemomimi_book_fs", "小狐狸的丰收书", "让小狐狸的丰收书消失！(防止刷资源卡服)！", disappear_magic, 0),
-    AddConfigOption("remove_kemomimi_magic_coin_colour", "小狐狸的彩虹召唤币", "让小狐狸的彩虹召唤币！(防止召唤很多卡服)！", disappear_magic, 0),
-    AddConfigOption("remove_kemomimi_build_pig", "小狐狸的战斗大师", "让小狐狸的战斗大师消失", disappear_magic, 0),
-    AddConfigOption("remove_kemomimi_boss_ds_zh", "小狐狸的蛇莓", "让小狐狸的蛇莓消失", disappear_magic, -1),
-    AddConfigOption("remove_monster_book", "能力勋章的怪物图鉴", "让怪物图鉴消失！(大量刷boss卡服)", disappear_magic, 0),
-    AddConfigOption("remove_medal_spacetime_devourer", "能力勋章的时空吞噬者", "让时空吞噬者消失！", disappear_magic, 0),
-    AddConfigOption("remove_hclr_kjk", "怠惰科技的锟斤拷", "让怠惰科技的锟斤拷消失", disappear_magic, -1),
-    AddConfigOption("老鼠", "不妥协的老鼠", "让不妥协的老鼠消失", disappear_magic, -1),
-    AddConfigOption("恐怖剧钳", "不妥协的恐怖剧钳", "让不妥协的恐怖剧钳消失", disappear_magic, -1),
-    AddConfigOption("圣诞节日", "取消圣诞掉落", "让原版圣诞乱七八糟的食品消失", disappear_magic, -1),
-    AddConfigOption("remove_halloween_candy", "取消万圣节糖果掉落", "让原版万圣节糖果消失", disappear_magic, -1),
-    AddConfigOption("青蛙", "青蛙", "让原版的青蛙消失", disappear_magic, 0),
-    AddConfigOption("鸟粪", "鸟粪", "让原版的鸟粪食品消失", disappear_magic, 0),
-    AddConfigOption("月乌鸦", "月乌鸦", "让天体英雄任务中的乌鸦消失", disappear_magic, 0),
-    AddConfigOption("远古蜈蚣", "远古蜈蚣", "让地下档案室远古蜈蚣消失", disappear_magic, 0),
-    AddConfigOption("remove_tiddle_decay", "黑死病的鼠疫球", "让黑死病的鼠疫球消失", disappear_magic, -1),
-    --AddConfigOption("remove_heap_of_food_bird", "Heap Of food的鸟", "Heap Of food的鸟消失(防崩溃)", disappear_magic, -1),
-    AddConfigOption("remove_krm_broom", "时崎狂三的赝造魔女(复制)", "平衡", disappear_magic, -1),
-    AddConfigOption("remove_krm_bullet10", "时崎狂三的十之弹:解锁科技", "十之弹:解锁科技解锁伊蕾娜科技", disappear_magic, 200),
-    AddConfigOption("remove_krm_spirit_crystal", "时崎狂三的二亚的灵结晶", "可开启创造模式", disappear_magic, 300),
-    AddConfigOption("remove_taizhen_personal_fanhao", "太真专属番号", "限制太真的专属番号", disappear_magic, -1),
-
-    AddOptionHeader("内容PLUS"),
-    AddOption("hide_admin_switch", "隐藏管理员-开关", "是否隐藏管理员标志", false),
-    AddConfigOption("no_rollback", "禁止『发起投票->回滚世界』", "", { { description = "禁止投票回滚", data = true, hover = "不能发起投票回滚世界" },
-                                                                     { description = "不禁止投票回滚", data = false, hover = "可以发起投票回滚世界" }, }, true),
-    AddConfigOption("no_regenerate", "禁止『发起投票->重置世界』", "", { { description = "禁止投票重置", data = true, hover = "不可以发起投票重置世界" },
-                                                                       { description = "不禁止投票重置", data = false, hover = "可以发起投票重置世界" }, }, true),
-    AddConfigOption("optimiseAnnouncement", "优化重复宣告导致的刷屏", "统一文本宣告只会在设定值内显示一次", { { description = "关闭", data = 0 },
-                                                                                                              { description = "1s内", data = 1 },
-                                                                                                              { description = "5s内", data = 5 },
-                                                                                                              { description = "10s内", data = 10 },
-                                                                                                              { description = "20s内", data = 20 }, }, 5),
-    AddOption("SpyBundle", "包裹监控", "设置对包裹相关的监控。", true),
-    AddOption("SpyOther", "全能监控", "设置玩家与生物相关的监控。", true),
-    AddOption("command_stack", "堆叠指令", "玩家聊天输入#stack堆叠附近的物品。", true),
-    AddOption("remove_boss_taunted", "移除boss间的仇恨", "让boss之间不要相互伤害", false),
-    AddOption("boss_prop_more_drop_switch", "boss掉落概率增多", "是否开启boss掉落增多", false),
-    AddOption("reward_for_survival", "玩家存活激励", "是否开启玩家存活天数奖励制度", false),
-    AddOption("blackstaff_make", "黑色法杖-开关", "是否可制作黑色法杖\n用于手动清理垃圾", true),
-    AddOption("baka_lamp", "霓庭灯、虹庭灯", "是否允许制作霓庭灯、虹庭灯\n永亮光源", false),
-    AddOption("rabbit_house", "兔子喷泉", "是否允许建造兔子喷泉\n漂亮建筑", false),
-    AddOption("venus_icebox_switches", "萝卜冰箱", "是否允许建造萝卜冰箱\n前4格永久保鲜", false),
-    AddOptionHeader(""),
-    AddOption("canal_plow", "填海造海道具", "是否可以使用填海造海道具", false),
-    AddConfigOption("DEPLOY_RULE", "使用位置限制(Deployment location restrictions)", [[填海造海道具是否只能放于海岸线
-        Canal plow can only be placed on only the coastline or anywhere reachable]], { { description = "只能放于海岸线 Coastline", data = true }, { description = "任何地方 Anywhere", data = false } }, true),
-
 }
+CAP_REMOVE_SOMETHING_LIST_CONFIG = {
+    { "remove_myth_mooncake", "神话的月饼", "让神话的月饼消失！", disappear_magic, -1 },
+    { "remove_myth_qxj", "神话的七星剑", "让神话的七星剑消失！", disappear_magic, -1 },
+    { "remove_myth_bigpeach", "神话的大蟠桃", "让神话的大蟠桃消失！", disappear_magic, 0 },
+    { "remove_aria_tower", "aria的领主之怒", "让aria的领主之怒消失！", disappear_magic, 0 },
+    { "remove_aria_transfer", "aria的晶能转换站", "让aria的晶能转换站消失！", disappear_magic, 0 },
+    { "remove_aria_blackhole", "aria的深空黑点", "让aria的深空黑点消失！", disappear_magic, 0 },
+    { "remove_aria_medal_alter", "aria的暴君勋章", "让aria的暴君勋章消失！", disappear_magic, 0 },
+    { "remove_elaina_bq", "伊蕾娜的释槐留仙裙", "让伊蕾娜的释槐留仙裙消失！", disappear_magic, -1 },
+    { "remove_abigail_williams_black_gold", "阿比盖尔威廉姆斯的暗金", "让阿比盖尔威廉姆斯的暗金消失！", disappear_magic, -1 },
+    { "remove_abigail_williams_psionic_bobbin_c", "阿比盖尔威廉姆斯的彩虹线轴", "让阿比盖尔威廉姆斯的彩虹线轴消失！", disappear_magic, 0 },
+    { "remove_abigail_williams_ab_lnhx", "阿比盖尔威廉姆斯的灵能核心", "让阿比盖尔威廉姆斯的灵能核心消失！", disappear_magic, -1 },
+    { "remove_abigail_williams_starry_bush", "阿比盖尔威廉姆斯的星空矿从", "让阿比盖尔威廉姆斯的星空矿从消失！", disappear_magic, -1 },
+    { "remove_abigail_williams_atrium_light_moon", "阿比盖尔威廉姆斯的月之灯柱", "让阿比盖尔威廉姆斯的月之灯柱消失！", disappear_magic, 0 },
+    { "remove_abigail_williams_bonestew", "阿比盖尔威廉姆斯的无限炖肉汤", "让阿比盖尔威廉姆斯的无限炖肉汤消失！", disappear_magic, 0 },
+    { "remove_abigail_williams_ab_wilsontorch", "阿比盖尔威廉姆斯的疯狂的科学家火炬", "让阿比盖尔威廉姆斯的疯狂的科学家火炬消失！", disappear_magic, 0 },
+    { "remove_abigail_williams_traveler_armor", "阿比盖尔威廉姆斯的侠客服I", "让阿比盖尔威廉姆斯的侠客服I消失！", disappear_magic, -1 },
+    { "remove_abigail_williams_traveler_armor_2", "阿比盖尔威廉姆斯的疯狂的侠客服II", "让阿比盖尔威廉姆斯的疯狂的侠客服II消失！", disappear_magic, -1 },
+    { "remove_abigail_williams_traveler_armor_3", "阿比盖尔威廉姆斯的侠客服III", "让阿比盖尔威廉姆斯的侠客服III消失！", disappear_magic, -1 },
+    { "remove_abigail_williams_sword", "阿比盖尔威廉姆斯的侠客剑I", "让阿比盖尔威廉姆斯的疯狂的侠客剑I消失！", disappear_magic, -1 },
+    { "remove_abigail_williams_sword_a", "阿比盖尔威廉姆斯的疯狂的侠客剑II", "让阿比盖尔威廉姆斯的疯狂的侠客剑II消失！", disappear_magic, -1 },
+    { "remove_abigail_williams_sword_b", "阿比盖尔威廉姆斯的疯狂的侠客剑III", "让阿比盖尔威廉姆斯的疯狂的侠客剑III消失！", disappear_magic, -1 },
+    { "remove_abigail_williams_psionic_bobbin_2_3_4", "阿比盖尔威廉姆斯的编织：多重", "让阿比盖尔威廉姆斯的编织：多重(二、三、四)消失！", disappear_magic, -1 },
+    { "remove_nilxin_fox", "夜雨心空的金团子", "让夜雨心空的金团子消失！(防止召唤很多卡服)！", disappear_magic, 0 },
+    { "remove_nilxin_yyxk1", "夜雨心空的红尾巴", "让夜雨心空的红尾巴消失！", disappear_magic, 0 },
+    { "remove_yyxk_auto_recipe", "夜雨心空的聚合之仪", "让夜雨心空的聚合之仪消失！", disappear_magic, 0 },
+    { "remove_yyxk_auto_destroystructure", "夜雨心空的解构之仪", "让夜雨心空的解构之仪消失！", disappear_magic, 0 },
+    { "remove_yyxk_item_togetherup0", "夜雨心空的采集箱子", "让夜雨心空的采集箱子消失！", disappear_magic, -1 },
+    { "remove_yyxk_shadowflower_alterguardian", "夜雨心空的影天体", "让夜雨心空的影天体消失！", disappear_magic, 0 },
+    { "remove_yyxk_lunarthrall_plant", "夜雨心空的影花A型", "让夜雨心空的影花A型消失！", disappear_magic, 0 },
+    { "remove_kemomimi_book_fs", "小狐狸的丰收书", "让小狐狸的丰收书消失！(防止刷资源卡服)！", disappear_magic, 0 },
+    { "remove_kemomimi_magic_coin_colour", "小狐狸的彩虹召唤币", "让小狐狸的彩虹召唤币！(防止召唤很多卡服)！", disappear_magic, 0 },
+    { "remove_kemomimi_build_pig", "小狐狸的战斗大师", "让小狐狸的战斗大师消失", disappear_magic, 0 },
+    { "remove_kemomimi_boss_ds_zh", "小狐狸的蛇莓", "让小狐狸的蛇莓消失", disappear_magic, -1 },
+    { "remove_monster_book", "能力勋章的怪物图鉴", "让怪物图鉴消失！(大量刷boss卡服)", disappear_magic, 0 },
+    { "remove_medal_spacetime_devourer", "能力勋章的时空吞噬者", "让时空吞噬者消失！", disappear_magic, 0 },
+    { "remove_hclr_kjk", "怠惰科技的锟斤拷", "让怠惰科技的锟斤拷消失", disappear_magic, -1 },
+    { "老鼠", "不妥协的老鼠", "让不妥协的老鼠消失", disappear_magic, -1 },
+    { "恐怖剧钳", "不妥协的恐怖剧钳", "让不妥协的恐怖剧钳消失", disappear_magic, -1 },
+    { "圣诞节日", "取消圣诞掉落", "让原版圣诞乱七八糟的食品消失", disappear_magic, -1 },
+    { "remove_halloween_candy", "取消万圣节糖果掉落", "让原版万圣节糖果消失", disappear_magic, -1 },
+    { "青蛙", "青蛙", "让原版的青蛙消失", disappear_magic, 0 },
+    { "鸟粪", "鸟粪", "让原版的鸟粪食品消失", disappear_magic, 0 },
+    { "月乌鸦", "月乌鸦", "让天体英雄任务中的乌鸦消失", disappear_magic, 0 },
+    { "远古蜈蚣", "远古蜈蚣", "让地下档案室远古蜈蚣消失", disappear_magic, 0 },
+    { "remove_tiddle_decay", "黑死病的鼠疫球", "让黑死病的鼠疫球消失", disappear_magic, -1 },
+    --{"remove_heap_of_food_bird", "Heap Of food的鸟", "Heap Of food的鸟消失(防崩溃)", disappear_magic, -1},
+    { "remove_krm_broom", "时崎狂三的赝造魔女(复制)", "平衡", disappear_magic, -1 },
+    { "remove_krm_bullet10", "时崎狂三的十之弹:解锁科技", "十之弹:解锁科技解锁伊蕾娜科技", disappear_magic, 200 },
+    { "remove_krm_spirit_crystal", "时崎狂三的二亚的灵结晶", "可开启创造模式", disappear_magic, 300 },
+    { "remove_taizhen_personal_fanhao", "太真专属番号", "限制太真的专属番号", disappear_magic, -1 },
+}
+
+configuration_options[#configuration_options + 1] = AddOptionHeader("物品/生物禁用")
+configuration_options[#configuration_options + 1] = AddOption("remove_something", "物品禁用", "是否开启物品禁用", false)
+for i = 1, #CAP_REMOVE_SOMETHING_LIST_CONFIG do
+    configuration_options[#configuration_options + 1] = AddConfigOption(CAP_REMOVE_SOMETHING_LIST_CONFIG[i][1], CAP_REMOVE_SOMETHING_LIST_CONFIG[i][2], CAP_REMOVE_SOMETHING_LIST_CONFIG[i][3], CAP_REMOVE_SOMETHING_LIST_CONFIG[i][4], CAP_REMOVE_SOMETHING_LIST_CONFIG[i][5])
+end
+
+---内容PLUS
+configuration_options[#configuration_options + 1] = AddOptionHeader("内容PLUS")
+configuration_options[#configuration_options + 1] = AddOption("hide_admin_switch", "隐藏管理员-开关", "是否隐藏管理员标志", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("no_rollback", "禁止『发起投票->回滚世界』", "", { { description = "禁止投票回滚", data = true, hover = "不能发起投票回滚世界" },
+                                                                                                                     { description = "不禁止投票回滚", data = false, hover = "可以发起投票回滚世界" }, }, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("no_regenerate", "禁止『发起投票->重置世界』", "", { { description = "禁止投票重置", data = true, hover = "不可以发起投票重置世界" },
+                                                                                                                       { description = "不禁止投票重置", data = false, hover = "可以发起投票重置世界" }, }, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("optimiseAnnouncement", "优化重复宣告导致的刷屏", "统一文本宣告只会在设定值内显示一次", { { description = "关闭", data = 0 },
+                                                                                                                                                              { description = "1s内", data = 1 },
+                                                                                                                                                              { description = "5s内", data = 5 },
+                                                                                                                                                              { description = "10s内", data = 10 },
+                                                                                                                                                              { description = "20s内", data = 20 }, }, 5)
+configuration_options[#configuration_options + 1] = AddOption("SpyBundle", "包裹监控", "设置对包裹相关的监控。", true)
+configuration_options[#configuration_options + 1] = AddOption("SpyOther", "全能监控", "设置玩家与生物相关的监控。", true)
+configuration_options[#configuration_options + 1] = AddOption("command_stack", "堆叠指令", "玩家聊天输入#stack堆叠附近的物品。", true)
+configuration_options[#configuration_options + 1] = AddOption("remove_boss_taunted", "移除boss间的仇恨", "让boss之间不要相互伤害", false)
+configuration_options[#configuration_options + 1] = AddOption("boss_prop_more_drop_switch", "boss掉落概率增多", "是否开启boss掉落增多", false)
+configuration_options[#configuration_options + 1] = AddOption("reward_for_survival", "玩家存活激励", "是否开启玩家存活天数奖励制度", false)
+configuration_options[#configuration_options + 1] = AddOption("blackstaff_make", "黑色法杖-开关", "是否可制作黑色法杖\n用于手动清理垃圾", true)
+configuration_options[#configuration_options + 1] = AddOption("baka_lamp", "霓庭灯、虹庭灯", "是否允许制作霓庭灯、虹庭灯\n永亮光源", false)
+configuration_options[#configuration_options + 1] = AddOption("rabbit_house", "兔子喷泉", "是否允许建造兔子喷泉\n漂亮建筑", false)
+configuration_options[#configuration_options + 1] = AddOption("venus_icebox_switches", "萝卜冰箱", "是否允许建造萝卜冰箱\n前4格永久保鲜", false)
+
+---填海造陆道具
+configuration_options[#configuration_options + 1] = AddOptionHeader("填海造陆道具")
+configuration_options[#configuration_options + 1] = AddOption("canal_plow", "填海造海道具", "是否可以使用填海造海道具", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("DEPLOY_RULE", "使用位置限制(Deployment location restrictions)", [[填海造海道具是否只能放于海岸线
+        Canal plow can only be placed on only the coastline or anywhere reachable]], { { description = "只能放于海岸线 Coastline", data = true }, { description = "任何地方 Anywhere", data = false } }, true)
+
 ---随机蓝图
-configuration_options[#configuration_options + 1] = AddOptionHeader("")
+configuration_options[#configuration_options + 1] = AddOptionHeader("随机蓝图")
 configuration_options[#configuration_options + 1] = AddOption("random_blueprint_drop", "随机蓝图掉落开关", "是否开启随机蓝图掉落", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("drop_multiplying", "蓝图掉落倍率", "",
         { { description = "极低(0.1)", data = 0.1 },

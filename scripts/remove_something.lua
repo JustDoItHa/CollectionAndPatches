@@ -11,6 +11,7 @@ local remove_table = {
     remove_aria_tower = { "aria_tower" },
     remove_aria_transfer = { "aria_transfer" },
     remove_aria_meteor = { "aria_meteor" },
+    remove_aria_medal_alter = { "aria_medal_alter" },
     --伊蕾娜
     remove_elaina_bq = { "elaina_bq" },
     --奇幻降临阿比
