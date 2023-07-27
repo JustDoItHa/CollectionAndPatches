@@ -548,6 +548,27 @@ if GetModConfigData("m_98K_patches_switch") and TUNING.MAUSER_RIFLE_BAYONET_ENAB
 end
 
 
+modimport("scripts/mod_conflict_fix.lua")
+modimport("scripts/blance_bug_fix.lua")
+
+--if modenable("1991746508") then-- 神话 兼容 原版洞穴池塘 酸雨硝化 设定：在执行文件中
+--    modimport("scripts/fix_pond_error.lua")
+--end
+--修复月台错误
+modimport("scripts/fix_moon_beast_error.lua")
+
+if GetModConfigData("word_migrate_drop_sync_switch") or GetModConfigData("character_word_forbidden_option") then
+    modimport("scripts/word_migrate_drop.lua")
+end
+
+if GetModConfigData("upgrade_container_switch") then
+    modimport("scripts/upgrade_container_main.lua")
+end
+
+if GetModConfigData("wb_strengthen_switch") then
+    modimport("scripts/wb_strengthenstove.lua")
+end
+
 TUNING.RIPENING_PLANT_FREQUENCY = GetModConfigData("ripening_plant_frequency") or 60
 --- beta功能
 if GetModConfigData("beta_function_switch") then
@@ -602,27 +623,6 @@ if GetModConfigData("beta_function_switch") then
     if GetModConfigData("dont_starve_dehydrated_chs_language_switch") then
         modimport("cn/hydration_strings")
     end
-end
-
-modimport("scripts/mod_conflict_fix.lua")
-modimport("scripts/blance_bug_fix.lua")
-
---if modenable("1991746508") then-- 神话 兼容 原版洞穴池塘 酸雨硝化 设定：在执行文件中
---    modimport("scripts/fix_pond_error.lua")
---end
---修复月台错误
-modimport("scripts/fix_moon_beast_error.lua")
-
-if GetModConfigData("word_migrate_drop_sync_switch") or GetModConfigData("character_word_forbidden_option") then
-    modimport("scripts/word_migrate_drop.lua")
-end
-
-if GetModConfigData("upgrade_container_switch") then
-    modimport("scripts/upgrade_container_main.lua")
-end
-
-if GetModConfigData("wb_strengthen_switch") then
-    modimport("scripts/wb_strengthenstove.lua")
 end
 
 ----处理下重复加组件的问题 不知道放哪里 先写这里

@@ -1135,24 +1135,63 @@ AddClassPostConstruct(
                 local widget = container.replica.container:GetWidget()
                 if not self.button and not widget.buttoninfo and widget.sortbtninfo2hm and widget.collectbtninfo2hm then
                     -- 整理
-                    addbutton(self, container, doer, "sortbutton2hm", widget.sortbtninfo2hm)
-                    -- if
-                    -- container.prefab == "wardrobe" and widget.reskinbtninfo2hm and
-                    --         container:HasTag("wardrobecontainer2hm")
-                    -- then
-                    --     -- 换装
-                    --     addbutton(self, container, doer, "reskinbutton2hm", widget.reskinbtninfo2hm)
-                    -- end
-                    -- if container:HasTag("pocketdimension_container") and widget.exchangebtninfo2hm then
-                    --     -- 穿越
-                    --     addbutton(self, container, doer, "exchangebutton2hm", widget.exchangebtninfo2hm)
-                    -- else
-                    --     -- 跨整和跨收
-                    --     if hasmultisort and widget.multisortbtninfo2hm then
-                    --         addbutton(self, container, doer, "multisortbutton2hm", widget.multisortbtninfo2hm)
-                    --     end
-                    --     addbutton(self, container, doer, "collectbutton2hm", widget.collectbtninfo2hm)
-                    -- end
+                    if GetModConfigData("upgrade_container_switch") then
+
+                        --local finalslotpos = container.widget.slotpos[#container.widget.slotpos]
+                        --local endslotpos = container.widget.slotpos[#container.widget.slotpos - 1]
+                        --local thirdslotpos = container.widget.slotpos[#container.widget.slotpos - 2]
+                        --local position1, position2, position3
+                        --if endslotpos.x ~= finalslotpos.x then
+                        --    position1 = Vector3(finalslotpos.x, finalslotpos.y - 57, finalslotpos.z)
+                        --    position2 = Vector3(endslotpos.x, endslotpos.y - 57, endslotpos.z)
+                        --    if thirdslotpos.x ~= finalslotpos.x then
+                        --        position3 = Vector3(thirdslotpos.x, thirdslotpos.y - 57, thirdslotpos.z)
+                        --    else
+                        --        position3 = Vector3(finalslotpos.x, finalslotpos.y - 100, finalslotpos.z)
+                        --    end
+                        --else
+                        --    position1 = Vector3(finalslotpos.x, finalslotpos.y - 57, finalslotpos.z)
+                        --    position2 = Vector3(finalslotpos.x, finalslotpos.y - 100, finalslotpos.z)
+                        --    position3 = Vector3(finalslotpos.x, finalslotpos.y - 143, finalslotpos.z)
+                        --end
+
+                        local final_organize_slot_pos = widget.slotpos[#widget.slotpos]
+                        local position_tmp = nil
+                        if final_organize_slot_pos then
+                            position_tmp = Vector3(final_organize_slot_pos.x, final_organize_slot_pos.y - 57, final_organize_slot_pos.z)
+                        end
+
+                        if position_tmp then
+                            addbutton(self, container, doer, "sortbutton2hm", {
+                                --text = TUNING.MODHappyPatch.isCh and "整理" or "Sort",
+                                text = "整理",
+                                position = position_tmp,
+                                fn = sortcontainerbuttoninfofn,
+                                validfn = sortcontainerbuttoninfovalidfn
+                            })
+                        else
+                            addbutton(self, container, doer, "sortbutton2hm", widget.sortbtninfo2hm)
+                        end
+                    else
+                        addbutton(self, container, doer, "sortbutton2hm", widget.sortbtninfo2hm)
+                        -- if
+                        -- container.prefab == "wardrobe" and widget.reskinbtninfo2hm and
+                        --         container:HasTag("wardrobecontainer2hm")
+                        -- then
+                        --     -- 换装
+                        --     addbutton(self, container, doer, "reskinbutton2hm", widget.reskinbtninfo2hm)
+                        -- end
+                        -- if container:HasTag("pocketdimension_container") and widget.exchangebtninfo2hm then
+                        --     -- 穿越
+                        --     addbutton(self, container, doer, "exchangebutton2hm", widget.exchangebtninfo2hm)
+                        -- else
+                        --     -- 跨整和跨收
+                        --     if hasmultisort and widget.multisortbtninfo2hm then
+                        --         addbutton(self, container, doer, "multisortbutton2hm", widget.multisortbtninfo2hm)
+                        --     end
+                        --     addbutton(self, container, doer, "collectbutton2hm", widget.collectbtninfo2hm)
+                        -- end
+                    end
                 end
                 -- if morefar then
                 --     self:MoveToFront()
@@ -1265,3 +1304,10 @@ AddClassPostConstruct(
 --         end
 --     )
 -- end
+--
+--AddPrefabPostInit("world", function(inst)
+--    local refresh_container_organize_button = function()
+--
+--    end
+--    inst:DoPeriodicTask(480, refresh_container_organize_button)
+--end)
