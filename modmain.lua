@@ -149,7 +149,7 @@ function testCantPackItem(target, forbidTable)
     local prefab = target.prefab
     if type(forbidTable) == "table" and next(forbidTable) then
         if target:HasTag("multiplayer_portal") or target:HasTag("garden_exit") or target:HasTag("myth_door") or target:HasTag("hua_door")
-            or target.components.health or forbidTable[prefab] 
+                or target.components.health or forbidTable[prefab]
         then
             return true
         end
@@ -547,7 +547,6 @@ if GetModConfigData("m_98K_patches_switch") and TUNING.MAUSER_RIFLE_BAYONET_ENAB
     GLOBAL.MAUSER_PARAMS.BAYONET_DMG_1 = GetModConfigData("m_98k_BAYONET_DMG_1_multi") or 1
 end
 
-
 modimport("scripts/mod_conflict_fix.lua")
 modimport("scripts/blance_bug_fix.lua")
 
@@ -631,7 +630,7 @@ AddGlobalClassPostConstruct("entityscript", "EntityScript", function(self)
     function self:AddComponent(name, ...)
         local lower_name = string.lower(name)
         if self.lower_components_shadow[lower_name] ~= nil then
-            return
+            return self.components[name]
         end
 
         local cmp = oldcap_add(self, name, ...)
@@ -640,3 +639,19 @@ AddGlobalClassPostConstruct("entityscript", "EntityScript", function(self)
     end
 end)
 
+--测试道具
+--AddPrefabPostInit("lemontree", function(inst)
+--    local old_RemoveComponent = inst.RemoveComponent
+--    inst.RemoveComponent = function(...)
+--
+--        local fninfo
+--        for i=2,8 do
+--            fninfo = debug.getinfo(i)
+--            print("------:"..i)
+--            dumptable(fninfo)
+--        end
+--
+--        return old_RemoveComponent(...)
+--    end
+--
+--end)
