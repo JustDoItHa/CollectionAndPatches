@@ -1,41 +1,43 @@
 local AllUpgradeRecipes = ChestUpgrade.AllUpgradeRecipes or {}
 --net_byte: 8; net_ushortint: 16
 local use_net_byte = TUNING.CHESTUPGRADE.MAX_PAGE == 1 and TUNING.CHESTUPGRADE.MAX_LV <= 15 and TUNING.CHESTUPGRADE.MAXPACKUPGRADE == nil
---local use_net_byte = TUNING.CHESTUPGRADE.MAX_PAGE == 1 and TUNING.CHESTUPGRADE.MAX_LV <= 64 and TUNING.CHESTUPGRADE.MAXPACKUPGRADE == nil
 
 local function OnBaseLv(inst)
-	local blv = inst.replica.chestupgrade.net_blv:value()
-	inst.replica.chestupgrade.baselv.x = bit.band(blv, 7)
-	inst.replica.chestupgrade.baselv.y = bit.rshift(blv, 3)
-	inst.replica.chestupgrade:UpdateWidget()
+	local chestupgrade = inst.replica.chestupgrade
+	local blv = chestupgrade.net_blv:value()
+	chestupgrade.baselv.x = bit.band(blv, 7)
+	chestupgrade.baselv.y = bit.rshift(blv, 3)
+	chestupgrade:UpdateWidget()
 end
 
 local function OnChestLv(inst)
-	local clv = inst.replica.chestupgrade.net_clv:value()
+	local chestupgrade = inst.replica.chestupgrade
+	local clv = chestupgrade.net_clv:value()
 	if use_net_byte then
-		inst.replica.chestupgrade.chestlv.x = bit.band(clv, 15)
-		inst.replica.chestupgrade.chestlv.y = bit.rshift(clv, 4)
+		chestupgrade.chestlv.x = bit.band(clv, 15)
+		chestupgrade.chestlv.y = bit.rshift(clv, 4)
 	else
-		inst.replica.chestupgrade.chestlv.x = bit.band(clv, 63)
-		inst.replica.chestupgrade.chestlv.y = bit.rshift(bit.band(clv, 4032), 6)
-		inst.replica.chestupgrade.chestlv.z = bit.rshift(clv, 12)
+		chestupgrade.chestlv.x = bit.band(clv, 63)
+		chestupgrade.chestlv.y = bit.rshift(bit.band(clv, 4032), 6)
+		chestupgrade.chestlv.z = bit.rshift(clv, 12)
 	end
-	inst.replica.chestupgrade:UpdateWidget()
+	chestupgrade:UpdateWidget()
 end
 
 local function OnChestLvDirty(inst)
-	inst.replica.chestupgrade.chestlv.x = inst.replica.chestupgrade.net_lvx:value()
-	inst.replica.chestupgrade.chestlv.y = inst.replica.chestupgrade.net_lvy:value()
-	inst.replica.chestupgrade.chestlv.z = inst.replica.chestupgrade.net_lvz:value()
-	inst.replica.chestupgrade:UpdateWidget()
+	local chestupgrade = inst.replica.chestupgrade
+	chestupgrade.chestlv.x = chestupgrade.net_lvx:value()
+	chestupgrade.chestlv.y = chestupgrade.net_lvy:value()
+	chestupgrade.chestlv.z = chestupgrade.net_lvz:value()
+	chestupgrade:UpdateWidget()
 end
 
 local ChestUpgrade = Class(function(self, inst)
 	self.inst = inst
-	self.baselv = {x = 3, y = 3, z = 1}
+	self.baselv = Vector3(3, 3, 1)
 	self.net_blv = net_smallbyte(self.inst.GUID, "onbaselv", "onbaselv")
 
-	self.chestlv = {x = 3, y = 3, z = 1}
+	self.chestlv = Vector3(3, 3, 1)
 	if use_net_byte then
 		self.net_clv = net_byte(self.inst.GUID, "chestlv", "onchestlv")
 	elseif TUNING.CHESTUPGRADE.MAX_LV <= 63 then
@@ -164,9 +166,21 @@ local function GetOffset(slotpos, blv, issidewidget)
 	--local slotpos
 	local SEP = issidewidget and 75 or 80
 	local mid_pt = (slotpos[1] + slotpos[#slotpos]) / -2
-	local scale_x = RoundBiasedDown(((blv.x - 1) * SEP / (slotpos[#slotpos].x - slotpos[1].x)), 2)
-	local scale_y = RoundBiasedDown(((blv.y - 1) * SEP / (slotpos[1].y - slotpos[#slotpos].y)), 2)
-	return mid_pt, {scale_x, scale_y}
+
+	local wide_original = (blv.x - 1) * SEP
+	local wide_now = slotpos[#slotpos].x - slotpos[1].x
+	local hight_original = (blv.y - 1) * SEP
+	local hight_now = slotpos[1].y - slotpos[#slotpos].y
+
+	local scale = {1, 1}
+	if wide_now > 0 and wide_original > 0 then
+		scale[1] = RoundBiasedDown((wide_original / wide_now), 2)
+	end
+	if hight_now > 0 and hight_original > 0 then
+		scale[2] = RoundBiasedDown((hight_original / hight_now), 2)
+	end
+
+	return mid_pt, scale
 end
 
 local params = {}
@@ -181,11 +195,13 @@ function ChestUpgrade:UpdateWidget()
 	if lv_x < 64 and lv_z < 64 then
 		lv_code = lv_x + bit.lshift(lv_y, 6) + bit.lshift(lv_z, 12)
 	end
+
 	if params[self.inst.prefab] ~= nil and params[self.inst.prefab][lv_code] ~= nil then
 		widget = params[self.inst.prefab][lv_code]
 
 	else
 		widget = shallowcopy(container:GetWidget())
+
 		local shift_offset, scale_offset
 		if params[self.inst.prefab] ~= nil and params[self.inst.prefab].offset ~= nil then
 			shift_offset, scale_offset = unpack(params[self.inst.prefab].offset)
@@ -200,6 +216,7 @@ function ChestUpgrade:UpdateWidget()
 			end
 			params[self.inst.prefab].offset = {shift_offset, scale_offset}
 		end
+
 		if container.issidewidget then
 			local adjust = math.floor((widget.slotpos[1].y + widget.slotpos[#widget.slotpos].y + lv_y) / 2) + 37
 			widget.slotpos = {}
@@ -210,8 +227,6 @@ function ChestUpgrade:UpdateWidget()
 					end
 				end
 			end
-			--widget.bgshift = Vector3((lv_x / self.baselv.x - 1) * shift_offset.x, (lv_y / self.baselv.y - 1) * shift_offset.y, 0)
-			--widget.bgscale = Vector3(lv_x / self.baselv.x * scale_offset[1], lv_y / self.baselv.y * scale_offset[2], 1)
 
 		else
 			widget.slotpos = {}
@@ -223,18 +238,22 @@ function ChestUpgrade:UpdateWidget()
 				end
 			end
 
-			if self.drag then
-				lv_x = math.min(self.drag, lv_x)
-				lv_y = math.min(self.drag, lv_y)
+			if container.type == "chest" then
+				if self.drag then
+					lv_x = math.min(self.drag, lv_x)
+					lv_y = math.min(self.drag, lv_y)
+				end
+				if self.uipos then
+					widget.pos = Vector3(-65 - 25 * lv_x, 0, 0)
+				else
+					widget.pos = Vector3(0, 80 + 30 * lv_y, 0)
+				end
 			end
-			if self.uipos then
-				widget.pos = Vector3(-65 - 25 * lv_x, 0, 0)
-			else
-				widget.pos = Vector3(0, 80 + 30 * lv_y, 0)
-			end
+
 			widget.bgshift = Vector3(lv_x / self.baselv.x * shift_offset.x, lv_y / self.baselv.y * shift_offset.y, 0)
 			widget.bgscale = Vector3(lv_x / self.baselv.x * scale_offset[1], lv_y / self.baselv.y * scale_offset[2], 1)
 		end
+
 		if lv_code ~= 0 then
 			params[self.inst.prefab][lv_code] = widget
 		end

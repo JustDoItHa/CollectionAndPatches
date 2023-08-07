@@ -17,7 +17,7 @@ params = {
 		[n] = Ingredient(),
 	},
 	degrade = Ingredient(),		--should do nothing, but return this item when degrade
-			/ function(chestlv) --if is function, return "item" and "count"
+			/ function(chestlv) --if function, return "item" and "count"
 }
 
 instead of using Ingredient(), a simple string "prefab_name",
@@ -34,11 +34,12 @@ only higher priority will be checked for same slot
 ----------------------------------------------------------------
 GLOBAL.ChestUpgrade.AllUpgradeRecipes = {}
 local AUR = GLOBAL.ChestUpgrade.AllUpgradeRecipes
+local commonlv = {3,3}
 
-UpgradeRecipe = Class(function(self, prefab, params)
+UpgradeRecipe = Class(function(self, prefab, params, lv, degrade)
 	self.prefab = prefab
 	self.params = params
-	--[[
+
 	self.all = params.all
 	self.page = params.page
 	self.side = params.side
@@ -47,8 +48,20 @@ UpgradeRecipe = Class(function(self, prefab, params)
 	self.column = params.column
 	self.center = params.center
 	self.slot = params.slot
-	self.degrade = params.degrade
-	]]
+
+	if params.degrade ~= nil or degrade ~= nil then
+		self.degrade = degrade or params.degrade or nil
+		if self.params.degrade ~= nil then
+			self.params.degrade = nil
+		end
+	else
+		self.degrade = params.side
+	end
+
+	self.lv = params.lv or lv or commonlv
+	if self.params.lv ~= nil then
+		self.params.lv = nil
+	end
 
 	GLOBAL.ChestUpgrade.AllUpgradeRecipes[self.prefab] = self
 end)
@@ -68,6 +81,7 @@ end
 ]]
 function UpgradeRecipe:ChangeIngredient(index, ingr)
 	self.params[index] = ingr
+	self[index] = ingr
 end
 
 function UpgradeRecipe:GetIngredient(index)
@@ -97,3 +111,5 @@ function UpgradeRecipe:AddBlackList(prefab)
 end
 
 GLOBAL.ChestUpgrade.UpgradeRecipe = UpgradeRecipe
+
+--return UpgradeRecipe

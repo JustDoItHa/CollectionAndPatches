@@ -38,43 +38,6 @@ local SearchChest = Class(Widget, function(self, container, rotate)
 	self.queue = {add = {}, kill = {}}
 end)
 
-local function DoDragScroll(self)
-    -- Near the scroll bar, keep drag-scrolling
-    local marker = self.position_marker:GetWorldPosition()
-    if self.dragging and math.abs(TheFrontEnd.lasty - marker.y) <= 150 then
-        local pos = self:GetWorldPosition()
-
-		local _,scaleY,_ = self:GetHierarchicalScale()
-
-        local click_y = TheFrontEnd.lastx
-        local prev_step = self:GetNearestStep()
-
-		local scaledHalflength = (self.height/2) * scaleY
-		local scaledArrowHeight = 40 * scaleY
-
-		click_y = click_y - pos.x
-		click_y = math.clamp(- click_y, - scaledHalflength + scaledArrowHeight, scaledHalflength - scaledArrowHeight)
-
-		click_y = click_y / scaleY
-
-        self.position_marker:SetPosition(self.width/2, click_y + self.y_adjustment)
-        local curr_step = self:GetNearestStep()
-        if curr_step ~= prev_step then
-            self:Scroll(prev_step - curr_step, false)
-        end
-    else -- Far away from the scroll bar, revert to original pos
-        local prev_step = self:GetNearestStep()
-        if self.position_marker.o_pos then
-            self.position_marker:SetPosition(self.position_marker.o_pos)
-        end
-        local curr_step = self:GetNearestStep()
-        if curr_step ~= prev_step then
-            self:Scroll(prev_step - curr_step, false)
-        end
-        self:MoveMarkerToNearestStep()
-    end
-end
-
 --[[
 itemlist[item.prefab] = {
 	stacksize = function()
@@ -338,6 +301,43 @@ function SearchChest:Reset()
 			cb:onclick()
 		end
 	end
+end
+
+local function DoDragScroll(self)
+    -- Near the scroll bar, keep drag-scrolling
+    local marker = self.position_marker:GetWorldPosition()
+    if self.dragging and math.abs(TheFrontEnd.lasty - marker.y) <= 150 then
+        local pos = self:GetWorldPosition()
+
+		local _,scaleY,_ = self:GetHierarchicalScale()
+
+        local click_y = TheFrontEnd.lastx
+        local prev_step = self:GetNearestStep()
+
+		local scaledHalflength = (self.height/2) * scaleY
+		local scaledArrowHeight = 40 * scaleY
+
+		click_y = click_y - pos.x
+		click_y = math.clamp(- click_y, - scaledHalflength + scaledArrowHeight, scaledHalflength - scaledArrowHeight)
+
+		click_y = click_y / scaleY
+
+        self.position_marker:SetPosition(self.width/2, click_y + self.y_adjustment)
+        local curr_step = self:GetNearestStep()
+        if curr_step ~= prev_step then
+            self:Scroll(prev_step - curr_step, false)
+        end
+    else -- Far away from the scroll bar, revert to original pos
+        local prev_step = self:GetNearestStep()
+        if self.position_marker.o_pos then
+            self.position_marker:SetPosition(self.position_marker.o_pos)
+        end
+        local curr_step = self:GetNearestStep()
+        if curr_step ~= prev_step then
+            self:Scroll(prev_step - curr_step, false)
+        end
+        self:MoveMarkerToNearestStep()
+    end
 end
 
 function SearchChest:Initialize()

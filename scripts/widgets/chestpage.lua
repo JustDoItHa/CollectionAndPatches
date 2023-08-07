@@ -238,7 +238,8 @@ function ChestPage:SetBtnHlt()
 end
 
 function ChestPage:PageChange(delta)
-	if self:GetParent().searchbar ~= nil and #self:GetParent().searchbar.selected ~= 0 then
+	local parent = self:GetParent()
+	if parent.searchbar ~= nil and #parent.searchbar.selected ~= 0 then
 		return
 	end
 	local maxpage = math.ceil(self.total / self.show)
@@ -247,8 +248,9 @@ function ChestPage:PageChange(delta)
 		self.inv[i]:Hide()
 		--self.inv[i]:MoveToBack()
 	end
-	if self:GetParent().dragwidget then
-		self:GetParent().dragwidget:ShowSection()
+	if parent.dragwidget then
+		parent.dragwidget:Refresh()
+		parent.dragwidget:ShowSection()
 	else
 		local start = math.min((self.currentpage - 1) * self.show + 1, self.total)
 		local final = math.min(self.currentpage * self.show, self.total)

@@ -3,6 +3,17 @@ local Image = require("widgets/image")
 local ImageButton = require("widgets/imagebutton")
 local Text = require("widgets/text")
 
+local steps_x, steps_y, start_x, start_y = 0, 0, 0, 0
+local item_scale = Vector3()
+local function initialize(self)
+	steps_x = self.width / self.total[1]
+	steps_y = self.hight / self.total[2]
+	start_x = (steps_x - self.width) / 2
+	start_y = (self.hight - steps_y) / 2
+	item_scale.x = 3 / self.total[1]
+	item_scale.y = 3 / self.total[2]
+end
+
 local DragContainer = Class(Widget, function(self, altas, texture, scale, show, total)
 	Widget._ctor(self, "DragContainer")
 
@@ -15,7 +26,11 @@ local DragContainer = Class(Widget, function(self, altas, texture, scale, show, 
 	end)
 	self.bgimg:SetWhileDown(function()
 		if self.selsec and self.ondrag then
-			self:GoSection(TheFrontEnd.lastx, TheFrontEnd.lasty)
+			if self.cursor_now == nil
+			or math.abs(TheFrontEnd.lastx - self.cursor_now.x) >= (steps_x / 2)
+			or math.abs(TheFrontEnd.lasty - self.cursor_now.y) >= (steps_y / 2) then
+				self:GoSection(TheFrontEnd.lastx, TheFrontEnd.lasty)
+			end
 		end
 	end)
 	self.bgimg:SetOnClick(function()
@@ -38,32 +53,24 @@ local DragContainer = Class(Widget, function(self, altas, texture, scale, show, 
 	self.now = {1, 1}
 	self.width = 240
 	self.hight = 240
+
+	self.list = {}
+	self.imageroot = self:AddChild(Widget())
+	self.imageroot.pages = {}
+
+	initialize(self)
 end)
 
 function DragContainer:SlotToPos(x, y)
-	local steps_x = self.width / self.total[1]
-	local steps_y = self.hight / self.total[2]
-	local start_x = (steps_x - self.width) / 2
-	local start_y = (self.hight - steps_y) / 2
-
 	return start_x + steps_x * (x - 1), start_y - steps_y * (y - 1)
 end
 
+-- (+2-1) for avoiding a weird bug when self.total == 7
 function DragContainer:PosToSlot(x, y)
-	local steps_x = self.width / self.total[1]
-	local steps_y = self.hight / self.total[2]
-	local start_x = (steps_x - self.width) / 2
-	local start_y = (self.hight - steps_y) / 2
-
-	return (x - start_x) / steps_x + 1, (start_y - y) / steps_y + 1
+	return math.floor((x - start_x) / steps_x + 2 - 1), math.floor((start_y - y) / steps_y + 2 - 1)
 end
 
 function DragContainer:FindNearest(x, y)
-	local steps_x = self.width / self.total[1]
-	local steps_y = self.hight / self.total[2]
-	local start_x = (steps_x - self.width) / 2
-	local start_y = (self.hight - steps_y) / 2
-
 	local pos = self:GetWorldPosition()
 	x = RoundToNearest(x - pos.x - start_x, steps_x)
 	y = RoundToNearest(pos.y + start_y - y, steps_y)
@@ -78,16 +85,19 @@ function DragContainer:SetShowPos()
 end
 
 function DragContainer:GoSection(x, y)
-	local steps_x = self.width / self.total[1]
-	local steps_y = self.hight / self.total[2]
-	local start_x = (self.show[1] - self.total[1]) / 2 * steps_x
-	local start_y = (self.total[2] - self.show[2]) / 2 * steps_y
+	local range_x = (self.show[1] - self.total[1]) / 2 * steps_x
+	local range_y = (self.total[2] - self.show[2]) / 2 * steps_y
+	local offset_x = (1 - self.show[1]) / 2 * steps_x
+	local offset_y = (self.show[2] - 1) / 2 * steps_y
 
 	local pos = self:GetWorldPosition()
-	x = math.clamp(x, pos.x + start_x, pos.x - start_x) - (self.show[1] - 1) / 2 * steps_x
-	y = math.clamp(y, pos.y - start_y, pos.y + start_y) + (self.show[2] - 1) / 2 * steps_y
-	
-	self.now[1], self.now[2] = self:PosToSlot(self:FindNearest(x, y))
+	x = math.clamp(x, pos.x + range_x, pos.x - range_x) + offset_x
+	y = math.clamp(y, pos.y - range_y, pos.y + range_y) + offset_y
+
+	local nearest = Vector3(self:FindNearest(x, y))
+	self.now[1], self.now[2] = self:PosToSlot(nearest.x, nearest.y)
+
+	self.cursor_now = nearest + pos - Vector3(offset_x, offset_y)
 
 	self:SetShowPos()
 	self:ShowSection()
@@ -109,21 +119,117 @@ function DragContainer:ShowSection()
 	for i = 1, #inv do
 		inv[i]:Hide()
 	end
+	local now_x, now_y = unpack(self.now)
+	local show_x, show_y = unpack(self.show)
+	local total_x, total_y = unpack(self.total)
+
+	local y_start = now_y
+	local y_end = now_y + show_y - 1
+	local x_start = now_x
+	local x_end = now_x + show_x - 1
+
 	local pos = self:TempSlotPos()
 	local j = 0
 	local z = self:GetParent().chestpage ~= nil and self:GetParent().chestpage.currentpage or 1
-	for y = self.now[2], self.now[2] + (self.show[2] - 1) do
-		for x = self.now[1], self.now[1] + (self.show[1] - 1) do
-			local i = x - self.total[1] + self.total[1] * y + self.total[1] * self.total[2] * (z - 1)
+
+	for y = y_start, y_end do
+		for x = x_start, x_end do
+			local i = x + (y - 1) * total_x + (z - 1) * total_x * total_y
 			j = j + 1
 			if inv[i] then
 				inv[i]:SetPosition(pos[j])
 				inv[i]:Show()
-			elseif self.total[1] == 7 then		--idk why when it = 7 and y or x = 2, bug appear
-				inv[7+x]:SetPosition(pos[j])
-				inv[7+x]:Show()
 			end
 		end
+	end
+end
+
+function DragContainer:BuildItemList(list)
+	local tx, ty = unpack(self.total)
+	local page = 1
+	local page_total = tx * ty
+
+	for k, v in pairs(list) do
+		local atlas, image
+		if v then
+			local inventoryitem = v.replica.inventoryitem
+			atlas = inventoryitem:GetAtlas()
+			image = inventoryitem:GetImage()
+		end
+
+		while k > page_total do
+			page = page + 1
+			page_total = page_total + page * tx * ty
+		end
+		local ItemGroup = self.imageroot.pages[page]
+		if ItemGroup == nil then
+			ItemGroup = self.imageroot:AddChild(Widget())
+			self.imageroot.pages[page] = ItemGroup
+		end
+
+		local int, fra = math.modf((page_total - k) / tx)
+		local x, y = tx - tx * fra, ty - int
+
+		local item = Image(atlas, image)
+		self.list[k] = ItemGroup:AddChild(item)
+		item:SetScale(item_scale)
+		item:SetPosition(self:SlotToPos(x, y))
+	end
+
+	self:Refresh()
+end
+
+function DragContainer:UpdateItem(data)
+	local slot = data.slot
+	local item = data.item
+	if item and self.list[slot] then
+		local inventoryitem = item.replica.inventoryitem
+		local atlas = inventoryitem:GetAtlas()
+		local image = inventoryitem:GetImage()
+		self.list[slot]:SetTexture(atlas, image)
+	elseif item then
+		local tx, ty = unpack(self.total)
+		local page_total = tx * ty
+		local page = math.modf(slot / page_total + 1)
+
+		local ItemGroup = self.imageroot.pages[page]
+		if ItemGroup == nil then
+			ItemGroup = self.imageroot:AddChild(Widget())
+			self.imageroot.pages[page] = ItemGroup
+		end
+
+		local inventoryitem = item.replica.inventoryitem
+		local atlas = inventoryitem:GetAtlas()
+		local image = inventoryitem:GetImage()
+
+		local int, fra = math.modf((page_total * page - slot) / tx)
+		local x, y = tx - tx * fra, ty - int
+
+		local item = Image(atlas, image)
+		self.list[slot] = ItemGroup:AddChild(item)
+		item:SetScale(item_scale)
+		item:SetPosition(self:SlotToPos(x, y))
+	elseif self.list[slot] then
+		self.list[slot]:Kill()
+		self.list[slot] = nil
+	end
+end
+
+function DragContainer:Refresh()
+	local currentpage = self:GetParent().chestpage ~= nil and self:GetParent().chestpage.currentpage or 1
+	for k, v in pairs(self.imageroot.pages) do
+		v:Hide()
+	end
+	if self.imageroot.pages[currentpage] then
+		self.imageroot.pages[currentpage]:Show()
+	end
+end
+
+function DragContainer:GetItemInSlot(x, y, z)
+	if self.list and self.total then
+		local lv_x, lv_y = unpack(self.total)
+		local slot = (z - 1) * lv_x * lv_y + (y - 1) * lv_x + x
+		return self.list[slot]
 	end
 end
 

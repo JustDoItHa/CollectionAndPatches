@@ -91,13 +91,13 @@ local function AddUpgradable(prefab, x, y)
 end
 
 --------------------------------------------------
-local function OnDegradable(inst)
+local function OnDegradable(inst, data)
 	if inst.components.container.opencount ~= 0 then return end
 	local chestupgrade = inst.components.chestupgrade
 	local x, y, z = chestupgrade:GetLv()
 	local blv = chestupgrade.baselv
 	if x > blv.x or y > blv.y or z > blv.z then
-		chestupgrade:Degrade()
+		chestupgrade:Degrade(data.doer)
 	end
 end
 
@@ -132,7 +132,7 @@ local function SetCommonCloseFn(prefab, para, degradable)
 		for k, v in pairs(para) do
 			if k == "side" then
 				major = v
-			elseif k ~= "lv" and k ~= "skiptemp" then
+			else
 				minor = v
 				if type(minor) == "table" then
 					while type(minor[1]) == "table" do
@@ -197,10 +197,10 @@ end
 
 --------------------------------------------------
 --a quicker way for backpack
-local function SetPackCloseFn(prefab, item, para)
+local function SetPackCloseFn(prefab, item)
 	local function GetPackUpgData(prefab, x, y, z)
-		if para ~= nil then
-			return para
+		if type(item) == "table" then
+			return item
 		end
 		local data = {slot = {}}
 		for i = 1, x * y do
@@ -225,6 +225,28 @@ local function SetPackCloseFn(prefab, item, para)
 end
 
 --------------------------------------------------
+local function itemtest(temp_items, item, ...)
+	for k, v in pairs(temp_items) do
+		if type(v) == "string" then
+			if v == item.prefab then
+				return true
+			end
+		elseif type(v) == "table" then
+			if v.type ~= nil then
+				if v.type == item.prefab then
+					return true
+				end
+			else
+				return itemtest(v, item)
+			end
+		elseif type(v) == "function" then
+			if v(item, ...) then
+				return true
+			end
+		end
+	end
+end
+
 --make item be able to put into container, but drop when close
 --backpack is not suggested to add this. only unequiping the backpack will "close" it
 --that means we can put something it is not supposed to carry and go everywhere
@@ -234,23 +256,23 @@ local function SetTempContainable(prefab, temp_items)
 
 	if OLD_itemtestfn == nil then return end
 
+	if temp_items == nil then
+		temp_items = GLOBAL.ChestUpgrade.AllUpgradeRecipes[prefab].params or {}
+	end
+
 	containers.params[prefab].itemtestfn = function(cont, item, slot)
-		for _, need in pairs(temp_items) do
-			while type(need) == "table" do
-				need = need[1]
-			end
-			if type(need) == "string" and item.prefab == need then
-				return true
-			end
+		if itemtest(temp_items, item, slot, cont) then
+			return true
 		end
 
 		return item:HasTag("HAMMER_tool")
 			or OLD_itemtestfn(cont, item, slot)
 	end
+
 	--drop upgd material that are not able to put in to the container
-	local function DropTempItem(inst)
-		if OLD_itemtestfn ~= nil then
-			local container = inst.components.container
+	local function DropTempItem(inst, data)
+		local container = inst.components.container
+		if OLD_itemtestfn ~= nil and container.opencount == 0 then
 			local drop = {}
 			for i = 1, container:GetNumSlots() do 
 				local item = container.slots[i]
@@ -262,7 +284,7 @@ local function SetTempContainable(prefab, temp_items)
 						if slot ~= nil then
 							if (stackable:StackSize() + container.slots[slot].components.stackable:StackSize()) > stackable.maxsize then
 								stackable:Put(container.slots[slot])
-								container:DropItemBySlot(i)
+								container:DropItemBySlot(i, data.doer:GetPosition())
 							else
 								container.slots[slot].components.stackable:Put(item)
 							end
@@ -270,12 +292,12 @@ local function SetTempContainable(prefab, temp_items)
 							drop[item.prefab] = i
 						end
 					else
-						container:DropItemBySlot(i)
+						container:DropItemBySlot(i, data.doer:GetPosition())
 					end
 				end
 			end
 			for k, v in pairs(drop) do
-				container:DropItemBySlot(v)
+				container:DropItemBySlot(v, data.doer:GetPosition())
 			end
 		end
 	end
@@ -290,6 +312,17 @@ end
 --simple and easy. nice~~
 local function EasySetUp(prefab, para, size)
 	--print("Make "..prefab.." upgradeable")
+	local ChestUpgrade = GLOBAL.ChestUpgrade
+	local UpgradeRecipe = ChestUpgrade.UpgradeRecipe
+	local AllUpgradeRecipes = ChestUpgrade.AllUpgradeRecipes
+
+	if size == nil and AllUpgradeRecipes[prefab] ~= nil then
+		size = AllUpgradeRecipes[prefab].lv
+	end
+	if para == nil and AllUpgradeRecipes[prefab] ~= nil then
+		para = AllUpgradeRecipes[prefab].params or {}
+	end
+
 	local x, y = (size.x or size[1]), (size.y or size[2])
 	AddUpgradable(prefab, x, y)
  
@@ -305,15 +338,8 @@ local function EasySetUp(prefab, para, size)
 		SetTempContainable(prefab, para)
 	end
 
-	if GLOBAL.ChestUpgrade == nil or
-		GLOBAL.ChestUpgrade.AllUpgradeRecipes == nil or
-		GLOBAL.ChestUpgrade.AllUpgradeRecipes[prefab] ~= nil then
-		return
-	end
-	if GLOBAL.ChestUpgrade.UpgradeRecipe ~= nil then
-		GLOBAL.ChestUpgrade.UpgradeRecipe(prefab, para)
-	elseif GLOBAL.ChestUpgrade.AllUpgradeRecipes ~= nil then
-		GLOBAL.ChestUpgrade.AllUpgradeRecipes[prefab] = para
+	if AllUpgradeRecipes[prefab] == nil then
+		UpgradeRecipe(prefab, para, {x,y})
 	end
 end
 
@@ -329,3 +355,5 @@ local ChestUpgrade = {
 }
 
 GLOBAL.ChestUpgrade = ChestUpgrade
+
+--return ChestUpgrade

@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.9.0.0"
+version = "11.10.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2313,485 +2313,33 @@ local BoolOptTranslate = {
         { description = "Sim", data = true },
     },
 }
-local function BoolOpt(hover)
-    local tran = BoolOptTranslate[lang] or BoolOptTranslate["en"]
-    if hover then
-        local temp = {
-            tran[1],
-            { description = tran[2].description, data = tran[2].data, hover = hover }
-        }
-        return temp
-    end
-    return tran
+
+local function AddOptionShort(data, description, hover)
+    return { description = description, data = data, hover = hover }
 end
-local option_list = {
-    ["MAX_LV"] = {
-        { description = "up to 3x3", data = 3, hover = "why do you use this mod" },
-        { description = "up to 5x5", data = 5, hover = "able to upgrade 1 times" },
-        { description = "up to 7x7", data = 7, hover = "able to upgrade 2 times" },
-        { description = "up to 9x9", data = 9, hover = "able to upgrade 3 times" },
-        { description = "up to 11x11", data = 11, hover = "able to upgrade 4 times" },
-        { description = "up to 13x13", data = 13, hover = "able to upgrade 5 times" },
-        { description = "infinite", data = 63, hover = "to test the limits and break through? challenge accepted!" },
-    },
-    ["UPG_MODE"] = {
-        { description = "normal mode", data = 1, hover = "put upgrade items on the outermost slots" },
-        { description = "expensive mode", data = 2, hover = "put upgrade items to the right or to the bottom for upgrade" },
-        { description = "complex mode", data = 3, hover = "both of the modes" },
-    },
-    ["PAGEABLE"] = BoolOpt("After the chest is in max level, put the upgrade items to all the slots in 1st page"),
-    ["BACKPACK"] = BoolOpt("put items into every slots of the backpack"),
-    ["CHANGESIZE"] = BoolOpt(),
-    ["C_TREASURECHEST"] = BoolOpt("1 boards in each outermost slots"),
-    ["C_ICEBOX"] = BoolOpt("1 gears in each top-most slots, 1 cut stone in each other outermost slots"),
-    ["C_SALTBOX"] = BoolOpt("1 salt crystal in each outermost slots, and 1 blue gem in the center-most slot"),
-    ["C_DRAGONFLYCHEST"] = BoolOpt("1 boards in each outermost slots"),
-    ["C_FISH_BOX"] = BoolOpt("1 rope in each outermost slots"),
-    ["C_BOOKSTATION"] = BoolOpt("1 living log in each outermost slots"),
-    ["C_TACKLECONTAINER"] = BoolOpt("1 cookie cutter shell in each outermost slots"),
-    ["C_OCEAN_TRAWLER"] = BoolOpt("1 malbatross feather in each slots"),
-    ["C_SHADOW_CONTAINER"] = BoolOpt("1 shadow heart in each outermost slots"),
-    ["SHOWGUIDE"] = {
-        { description = "never", data = 0 },
-        { description = "always", data = 1 },
-        { description = "when empty", data = 2, hover = "Show guide when the chest is empty" },
-        { description = "auto", data = 3, hover = "Turn the guide off after you upgrade the chest once." },
-    },
-    ["SEARCHBAR"] = BoolOpt(),
-    ["SHOWALLPAGE"] = BoolOpt(),
-    ["UI_WIDGETPOS"] = {
-        { description = "top", data = false, hover = "unchange, above the character" },
-        { description = "left", data = true, hover = "next to the character" },
-    },
-    ["DRAGGABLE"] = {
-        { description = "disable(default)", data = false },
-        { description = "3x3", data = 3, hover = "show 3x3 slots" },
-        { description = "4x4", data = 4, hover = "show 4x4 slots" },
-        { description = "5x5(suggest)", data = 5, hover = "show 5x5 slots" },
-        { description = "6x6", data = 6, hover = "show 6x6 slots" },
-        { description = "7x7", data = 7, hover = "show 7x7 slots" },
-    },
-    ["PACKSTYLE"] = {
-        { description = "combine", data = false },
-        { description = "single", data = true },
-    },
-    ["OVERFLOW"] = BoolOpt(),
-    ["UI_ICEBOX"] = BoolOpt(),
-    ["DROPALL"] = BoolOpt(),
-    ["SORTITEM"] = BoolOpt(),
-    ["UI_BGIMAGE"] = BoolOpt(),
-    ["SCALE_FACTOR"] = {
-        { description = "2", data = 1, hover = "Size of 6x6 chest is 2 times to the 3x3" },
-        { description = "1.5", data = 2, hover = "Size of 6x6 chest is 1.5 times to the 3x3" },
-        { description = "1.33", data = 3, hover = "Size of 6x6 chest is 1.33 times to the 3x3" },
-        { description = "1.25", data = 4, hover = "Size of 6x6 chest is 1.25 times to the 3x3" },
-        { description = "1.2", data = 5 },
-        { description = "1.16", data = 6 },
-        { description = "1.1", data = 10 }
-    },
-    ["BACKPACKPAGE"] = {
-        { description = "1", data = 1, hover = "Why will you turn backpack upgrade on" },
-        { description = "2", data = 2 },
-        { description = "3", data = 3 },
-        { description = "4", data = 4 },
-        { description = "5", data = 5 },
-        { description = "6", data = 6 },
-        { description = "7", data = 7 },
-        { description = "8", data = 8 },
-        { description = "9", data = 9 },
-        { description = "10", data = 10 },
-        { description = "11", data = 11 },
-        { description = "12", data = 12 },
-        { description = "13", data = 13 },
-        { description = "14", data = 14 },
-        { description = "15", data = 15 },
-    },
-    ["DEGRADABLE"] = BoolOpt(),
-    ["INSIGHT"] = BoolOpt(),
-    ["UNCOM_MODE"] = BoolOpt(),
-    ["RETURNITEM"] = BoolOpt(),
-    ["DEBUG_MAXLV"] = BoolOpt(),
-    ["DEBUG_IIC"] = BoolOpt(),
-    --[""] = BoolOpt(),
-}
-local opt_trans_list = {
-    ["zh"] = {
-        ["MAX_LV"] = {
-            { description = "直到3x3", data = 3, hover = "为什么你用这个模组" },
-            { description = "直到5x5", data = 5, hover = "可以升级 1 次" },
-            { description = "直到7x7", data = 7, hover = "可以升级 2 次" },
-            { description = "直到9x9", data = 9, hover = "可以升级 3 次" },
-            { description = "直到11x11", data = 11, hover = "可以升级 4 次" },
-            { description = "直到13x13", data = 13, hover = "可以升级 5 次" },
-            { description = "无限", data = 63, hover = "想挑战上限？接受挑战" },
-        },
-        ["UPG_MODE"] = {
-            { description = "普通模式", data = 1, hover = "升级材料放最外圈储存格" },
-            { description = "复杂模式", data = 2, hover = "升级材料放最右列 / 最下行储存格以进行横向 / 纵向升级" },
-            { description = "混合模式", data = 3, hover = "我全都要" },
-        },
-        ["PAGEABLE"] = "满级以后，把升级材料放满第 1 页",
-        ["BACKPACK"] = "把升级材料放满第 1 页",
-        ["C_TREASURECHEST"] = "1 木板到每一个最外层储存格",
-        ["C_ICEBOX"] = "1 齿轮到每一个最上层储存格，1 石砖到其他最外层储存格",
-        ["C_SALTBOX"] = "1 盐晶到每一个最外层储存格，1 蓝宝石到最中间储存格",
-        ["C_DRAGONFLYCHEST"] = "1 木板到每一个最外层储存格",
-        ["C_FISH_BOX"] = "1 绳子到每一个最外层储存格",
-        ["C_BOOKSTATION"] = "1 活木到每一个最外层储存格",
-        ["C_TACKLECONTAINER"] = "1 饼干切割机壳到每一个最外层储存格",
-        ["C_OCEAN_TRAWLER"] = "1 邪天翁羽毛到每一个储存格",
-        ["C_SHADOW_CONTAINER"] = "1 暗影之心到每一个最外层储存格",
-        ["SHOWGUIDE"] = {
-            { description = "永不", data = 0 },
-            { description = "一直", data = 1 },
-            { description = "当空", data = 2, hover = "当箱子为空时显示" },
-            { description = "自动", data = 3, hover = "当你进行一次升级后，永久关闭显示" },
-        },
-        ["UI_WIDGETPOS"] = {
-            { description = "上面", data = false, hover = "原版的位置, 人物上方" },
-            { description = "左面", data = true, hover = "在人物左边" },
-        },
-        ["DRAGGABLE"] = {
-            { description = "关闭", data = false },
-            { description = "3x3", data = 3, hover = "显示3x3的数量" },
-            { description = "4x4", data = 4, hover = "显示4x4的数量" },
-            { description = "5x5(建议)", data = 5, hover = "显示5x5的数量" },
-            { description = "6x6", data = 6, hover = "显示6x6的数量" },
-            { description = "7x7", data = 7, hover = "显示7x7的数量" },
-        },
-        ["PACKSTYLE"] = {
-            { description = "合并", data = false },
-            { description = "整页", data = true },
-        },
-        ["SCALE_FACTOR"] = {
-            { description = "2", data = 1, hover = "1:2, ie. 6x6箱子2倍大(半径)" },
-            { description = "1.5", data = 2 },
-            { description = "1.33", data = 3, hover = "1:1.33, ie. 6x6箱子1.33倍大(半径)" },
-            { description = "1.25", data = 4 },
-            { description = "1.2", data = 5, hover = "1:1.2, ie. 6x6箱子1.2倍大(半径)" },
-            { description = "1.16", data = 6 },
-            { description = "1.1", data = 10, hover = "1:1.1, ie. 6x6箱子1.1倍大(半径)" }
-        },
-        --["RETURNITEM"] = "锤子返一半，法杖返所有（并不）",
-    },
-    ["pt"] = {
-        ["MAX_LV"] = {
-            { description = "up to 3x3", data = 3, hover = "por que você usa esse mod" },
-            { description = "up to 5x5", data = 5, hover = "capaz de atualizar 1 vezes" },
-            { description = "up to 7x7", data = 7, hover = "capaz de atualizar 2 vezes" },
-            { description = "up to 9x9", data = 9, hover = "capaz de atualizar 3 vezes" },
-            { description = "up to 11x11", data = 11, hover = "capaz de atualizar 4 vezes" },
-            { description = "up to 13x13", data = 13, hover = "capaz de atualizar 5 vezes" },
-            { description = "infinite", data = 63, hover = "para testar os limites e romper? desafio aceito!" },
-        },
-        ["UPG_MODE"] = {
-            { description = "modo normal", data = 1, hover = "coloque itens de atualização nos slots mais externos" },
-            { description = "modo caro", data = 2, hover = "coloque itens de atualização à direita ou na parte inferior para atualização" },
-            { description = "mod complexoe", data = 3, hover = "ambos os modos" },
-        },
-        ["PAGEABLE"] = "Depois que o baú estiver no nível máximo, coloque os itens de atualização em todos os slots na 1ª página",
-        ["BACKPACK"] = "coloque itens em todos os slots da mochila",
-        ["C_TREASURECHEST"] = "1 placas em cada slot mais externo",
-        ["C_ICEBOX"] = "1 engrenagem em cada slot mais alto, 1 pedra cortada em cada slot mais externo",
-        ["C_SALTBOX"] = "1 cristal de sal em cada slot mais externo e 1 gema azul no slot mais central",
-        ["C_DRAGONFLYCHEST"] = "1 placas em cada slot mais externo",
-        ["C_FISH_BOX"] = "1 corda em cada slot mais externo",
-        ["C_BOOKSTATION"] = "1 tronco vivo em cada slot mais externo",
-        ["C_TACKLECONTAINER"] = "1 cookiecuttershell em cada slot mais externo",
-        ["C_OCEAN_TRAWLER"] = "1 malbatross_feather em cada slot mais externo",
-        ["C_SHADOW_CONTAINER"] = "1 shadowheart em cada slot mais externo",
-        ["SHOWGUIDE"] = {
-            { description = "never", data = 0 },
-            { description = "always", data = 1 },
-            { description = "when empty", data = 2, hover = "Show guide when the chest is empty" },
-            { description = "auto", data = 3, hover = "Desligue o guia depois de atualizar o baú uma vez." },
-        },
-        ["UI_WIDGETPOS"] = {
-            { description = "parte de cima", data = false, hover = "inalterado, acima do personagem" },
-            { description = "lado esquerdo", data = true, hover = "ao lado do personagem" },
-        },
-        ["DRAGGABLE"] = {
-            { description = "disable", data = false },
-            { description = "3x3", data = 3, hover = "show 3x3 slots" },
-            { description = "4x4", data = 4, hover = "show 4x4 slots" },
-            { description = "5x5(suggest)", data = 5, hover = "show 5x5 slots" },
-            { description = "6x6", data = 6, hover = "show 6x6 slots" },
-            { description = "7x7", data = 7, hover = "show 7x7 slots" },
-        },
-        ["PACKSTYLE"] = {
-            { description = "combinar", data = false },
-            { description = "único", data = true },
-        },
-        ["SCALE_FACTOR"] = {
-            { description = "2", data = 1, hover = "O tamanho do peito 6x6 é 2 vezes o 3x3" },
-            { description = "1.5", data = 2, hover = "O tamanho do peito 6x6 é 1,5 vezes o 3x3" },
-            { description = "1.33", data = 3, hover = "Size of 6x6 chest is 1.33 times to the 3x3" },
-            { description = "1.25", data = 4, hover = "O tamanho do peito 6x6 é 1,25 vezes o 3x3" },
-            { description = "1.2", data = 5 },
-            { description = "1.16", data = 6 },
-            { description = "1.1", data = 10 }
-        },
-    },
-}
-local config_list = {
-    ["MAX_LV"] = {
-        ["en"] = AddTranslate("Max upgrade"),
-        ["zh"] = AddTranslate("等级上限"),
-        ["pt"] = AddTranslate("Atualização máxima"),
-        default = 9,
-        client = nil,
-    },
-    ["UPG_MODE"] = {
-        ["en"] = AddTranslate("Upgrade Mode", "Change the upgrading mode"),
-        ["zh"] = AddTranslate("升级模式", "变更升级模式"),
-        ["pt"] = AddTranslate("Modo de atualização", "Alterar o modo de atualização"),
-        default = 1,
-        client = nil,
-    },
-    ["PAGEABLE"] = {
-        ["en"] = AddTranslate("Pageable Upgrade", "Make the Chest Pageable"),
-        ["zh"] = AddTranslate("翻页升级", "让箱子可翻页的升级"),
-        ["pt"] = AddTranslate("Atualização paginável", "Torne o Baú Paginável"),
-        default = false,
-        client = nil,
-    },
-    ["BACKPACK"] = {
-        ["en"] = AddTranslate("Backpack Upgrade-able"),
-        ["zh"] = AddTranslate("背包可升级"),
-        ["pt"] = AddTranslate("Mochila com capacidade de atualização"),
-        default = false,
-        client = nil,
-    },
-    ["CHANGESIZE"] = {
-        ["en"] = AddTranslate("Change Size", "Change the chest size scale to its level"),
-        ["zh"] = AddTranslate("改变大小", "根据箱子等级改变箱子大小"),
-        ["pt"] = AddTranslate("Alterar tamanho", "Altere a escala do tamanho do peito para o seu nível"),
-        default = false,
-        client = nil,
-    },
-    ["C_TREASURECHEST"] = {
-        ["en"] = AddTranslate("Chest"),
-        ["zh"] = AddTranslate("箱子"),
-        ["pt"] = AddTranslate("Bau"),
-        default = true,
-        client = nil,
-    },
-    ["C_ICEBOX"] = {
-        ["en"] = AddTranslate("Ice Box"),
-        ["zh"] = AddTranslate("冰箱"),
-        ["pt"] = AddTranslate("Caixa de gelo"),
-        default = true,
-        client = nil,
-    },
-    ["C_SALTBOX"] = {
-        ["en"] = AddTranslate("Salt Box"),
-        ["zh"] = AddTranslate("盐盒"),
-        ["pt"] = AddTranslate("Caixa de sal"),
-        default = true,
-        client = nil,
-    },
-    ["C_DRAGONFLYCHEST"] = {
-        ["en"] = AddTranslate("Dragonfly Chest"),
-        ["zh"] = AddTranslate("龙鳞宝箱"),
-        ["pt"] = AddTranslate("Baú de Libélula"),
-        default = true,
-        client = nil,
-    },
-    ["C_FISH_BOX"] = {
-        ["en"] = AddTranslate("Fish Box"),
-        ["zh"] = AddTranslate("锡鱼罐"),
-        ["pt"] = AddTranslate("Caixa de Peixe"),
-        default = true,
-        client = nil,
-    },
-    ["C_BOOKSTATION"] = {
-        ["en"] = AddTranslate("Bookcase"),
-        ["zh"] = AddTranslate("书架"),
-        ["pt"] = AddTranslate("Estante"),
-        default = false,
-        client = nil,
-    },
-    ["C_TACKLECONTAINER"] = {
-        ["en"] = AddTranslate("Tackle Box", "tackle box and super tackle box"),
-        ["zh"] = AddTranslate("钓具箱", "钓具箱 和 超级钓具箱"),
-        ["pt"] = AddTranslate(),
-        default = false,
-        client = nil,
-    },
-    ["C_OCEAN_TRAWLER"] = {
-        ["en"] = AddTranslate("Ocean Trawler"),
-        ["zh"] = AddTranslate("拖网捕鱼器"),
-        ["pt"] = AddTranslate(),
-        default = false,
-        client = nil,
-    },
-    ["C_SHADOW_CONTAINER"] = {
-        ["en"] = AddTranslate("Magician's Containers", "Magician's Hat, Magician's Box, Shadow Chester"),
-        ["zh"] = AddTranslate("魔术师的容器", "魔术师的礼帽, 魔术师的盒子, 暗影切斯特"),
-        ["pt"] = AddTranslate(),
-        default = true,
-        client = nil,
-    },
-    ["SHOWGUIDE"] = {
-        ["en"] = AddTranslate("Shows Guide", "Show you the upgrade requirement\nWon't show for Column/Row Upgrade(expensive mode)"),
-        ["zh"] = AddTranslate("显示升级需求", "为你显示升级所需物品\n不会显示 行/列升级（混合模式） 的需求"),
-        ["pt"] = AddTranslate("Guia de shows", "Mostrar o requisito de atualização\nNão será exibido para atualização de coluna/linha (modo caro)"),
-        default = 3,
-        client = true,
-    },
-    ["SEARCHBAR"] = {
-        ["en"] = AddTranslate("Search UI", "double click the background to open/close the search UI"),
-        ["zh"] = AddTranslate("搜索栏", "双击背景显示/隐藏搜索栏"),
-        ["pt"] = AddTranslate("Barra de pesquisa", "clique duas vezes no plano de fundo para abrir/fechar a interface de pesquisa"),
-        default = true,
-        client = true,
-    },
-    ["SHOWALLPAGE"] = {
-        ["en"] = AddTranslate("Show All Page", "(testing)show all page when you open your container"),
-        ["zh"] = AddTranslate("显示所有页数", "(测试中)打开箱子时显示所有页数"),
-        ["pt"] = AddTranslate("Mostrar todas as páginas", "(testando) mostrar toda a página quando você abre seu contêiner"),
-        default = false,
-        client = true,
-    },
-    ["UI_WIDGETPOS"] = {
-        ["en"] = AddTranslate("Widget Position"),
-        ["zh"] = AddTranslate("位置"),
-        ["pt"] = AddTranslate("Posição do widget"),
-        default = true,
-        client = true,
-    },
-    ["DRAGGABLE"] = {
-        ["en"] = AddTranslate("Draggable Widget"),
-        ["zh"] = AddTranslate("局部显示组件"),
-        ["pt"] = AddTranslate("Widget Arrastável"),
-        default = false,
-        client = true,
-    },
-    ["PACKSTYLE"] = {
-        ["en"] = AddTranslate("Backpack Layout", "\"Integrated\" backpack layout\nActivate only if \"Backpack Upgrade-able\" option on"),
-        ["zh"] = AddTranslate("背包样式", "\"融合\"背包样式\n只在\"背包可升级\"选项开启时有效"),
-        ["pt"] = AddTranslate("Layout da mochila", "Layout de mochila \"Integrado\"\nAtive somente se a opção \"Mochila atualizável\" estiver ativada"),
-        default = true,
-        client = true,
-    },
-    ["OVERFLOW"] = {
-        ["en"] = AddTranslate("Paged Overflow Slot", "\"Integrated\" backpack layout\nMove the \"overflowed slots\" to the next page"),
-        ["zh"] = AddTranslate("智能分页", "\"融合\" 背包样式\n把溢出的格子挪到下一页"),
-        ["pt"] = AddTranslate("Slot de estouro paginado", "Layout da mochila \"Integrated\"\nMova os \"slots transbordados\" para a próxima página"),
-        default = true,
-        client = true,
-    },
-    ["UI_ICEBOX"] = {
-        ["en"] = AddTranslate("Ice Box Leftward", "shift the ui of ice box leftward so that it won't block your cooker"),
-        ["zh"] = AddTranslate("冰箱UI左移", "UI左移使UI不会遮挡烹饪锅"),
-        ["pt"] = AddTranslate("Caixa de gelo para a esquerda", "mude a interface do usuário da caixa de gelo para a esquerda para que ela não bloqueie seu fogão"),
-        default = false,
-        client = true,
-    },
-    ["DROPALL"] = {
-        ["en"] = AddTranslate("\"Drop All\" Button", "a button allow you dropping the entire content to the ground"),
-        ["zh"] = AddTranslate("\"清空\"按钮", "一个能把箱子里所有物品扔到地上的按钮"),
-        ["pt"] = AddTranslate("Botão \"Soltar tudo\"", "um botão permite que você solte todo o conteúdo no chão"),
-        default = false,
-        client = true,
-    },
-    ["SORTITEM"] = {
-        ["en"] = AddTranslate("\"Sort Item\" Button", "a button allow you sorting the content quickly\nMy sorting style. You may not like it."),
-        ["zh"] = AddTranslate("\"整理\"按钮", "一个能帮你整理内容物的按钮\n按我的使用习惯做的，未必适合所有人"),
-        ["pt"] = AddTranslate("Botão \"Classificar item\"", "um botão permite classificar o conteúdo rapidamente\nMeu estilo de classificação. Você pode não gostar."),
-        default = false,
-        client = true,
-    },
-    ["UI_BGIMAGE"] = {
-        ["en"] = AddTranslate("Hide Background Image"),
-        ["zh"] = AddTranslate("隐藏UI背景"),
-        ["pt"] = AddTranslate("Ocultar imagem de fundo"),
-        default = false,
-        client = true,
-    },
-    ["SCALE_FACTOR"] = {
-        ["en"] = AddTranslate("Size Factor", "The scale for upgraded chest(in radius)\nActivate only if \"Change Size\" option on."),
-        ["zh"] = AddTranslate("大小比例", "改变箱子大小的比例\n只在\"改变大小\"选项开启时有效"),
-        ["pt"] = AddTranslate("Fator de tamanho", "A escala para baús atualizados (em raio)\nAtive somente se a opção \"Alterar tamanho\" estiver ativada."),
-        default = 3,
-        client = nil,
-    },
-    ["BACKPACKPAGE"] = {
-        ["en"] = AddTranslate("Backpack Max Page"),
-        ["zh"] = AddTranslate("背包最大页数"),
-        ["pt"] = AddTranslate(),
-        default = 3,
-        client = nil,
-    },
-    ["DEGRADABLE"] = {
-        ["en"] = AddTranslate("Downgrade-able", "Enable downgrading the chest\nPut a hammer in the empty container"),
-        ["zh"] = AddTranslate("可降级", "箱子可降级\n放一个锤子进空箱子"),
-        ["pt"] = AddTranslate("Capacidade de downgrade", "Ativar o downgrade do baú\nColoque um martelo no recipiente vazio"),
-        default = true,
-        client = nil,
-    },
-    ["INSIGHT"] = {
-        ["en"] = AddTranslate("Insight", "Mod: Insight will shows the detailed info for chest level"),
-        ["zh"] = AddTranslate("Insight资讯", "模组: Insight 会为你显示更多资讯"),
-        ["pt"] = AddTranslate("Entendimento", "Mod: Insight mostrará as informações detalhadas para o nível do peito"),
-        default = true,
-        client = nil,
-    },
-    ["UNCOM_MODE"] = {
-        ["en"] = AddTranslate("Uncompomising Mode", "Adjust some setting when use with Mod: Uncompomising Mode"),
-        ["zh"] = AddTranslate("永不妥协", "调整与 模组: Uncompomising Mode(永不妥协) 同时使用时的设定"),
-        ["pt"] = AddTranslate("Uncompomising Mode", "Ajuste algumas configurações ao usar com Mod: Uncompomising Mode"),
-        default = false,
-        client = nil,
-    },
-    ["RETURNITEM"] = {
-        ["en"] = AddTranslate("Deconstruct Return Items", "Testing function\nReturn items when decontrution"),
-        ["zh"] = AddTranslate("拆除返还材料", "测试中\n拆除时返还升级材料"),
-        ["pt"] = AddTranslate("Desconstruir itens de devolução", "Função de teste\nRetorna itens ao desconstruir"),
-        default = false,
-        client = nil,
-    },
-    ["DEBUG_MAXLV"] = {
-        ["en"] = AddTranslate("Max Level", "Containers are in max lv once builded"),
-        ["zh"] = AddTranslate("满级", "容器在建造的时候就已经满级"),
-        ["pt"] = AddTranslate("Nível máximo", "Os contêineres estão no máximo lv uma vez construídos"),
-        default = false,
-        client = nil,
-    },
-    ["DEBUG_IIC"] = {
-        ["en"] = AddTranslate("Item in Container", "Put upgrade material and hammer into container once builded"),
-        ["zh"] = AddTranslate("自带升级材料", "容器在建造时自带升级材料和锤子"),
-        ["pt"] = AddTranslate("Item no Contêiner", "Coloque o material de atualização e o martelo no contêiner uma vez construído"),
-        default = false,
-        client = nil,
-    },
-
-}
-local section_index = {
+local BoolOptTrans = {
     ["en"] = {
-        ["UPG_MODE"] = "Advanced Options:",
-        ["C_TREASURECHEST"] = "Upgradeable Containers:",
-        ["SHOWGUIDE"] = "Widget UI Settings:",
-        ["SCALE_FACTOR"] = "Other Functions:",
-        ["DEBUG_MAXLV"] = "DEBUG:"
+        AddOptionShort(false, "no"),
+        AddOptionShort(true, "yes"),
     },
     ["zh"] = {
-        ["UPG_MODE"] = "进阶选项:",
-        ["C_TREASURECHEST"] = "可升级的容器:",
-        ["SHOWGUIDE"] = "UI设置:",
-        ["SCALE_FACTOR"] = "其他功能:",
-        ["DEBUG_MAXLV"] = "除错模式:"
+        AddOptionShort(false, "否"),
+        AddOptionShort(true, "是"),
     },
     ["pt"] = {
-        ["UPG_MODE"] = "Opções avançadas:",
-        ["C_TREASURECHEST"] = "Contêineres atualizáveis:",
-        ["SHOWGUIDE"] = "Configuração da interface do usuário:",
-        ["SCALE_FACTOR"] = "Outras funções:",
-        ["DEBUG_MAXLV"] = "DEPURAR:"
+        AddOptionShort(false, "Não"),
+        AddOptionShort(true, "Sim"),
     },
 }
+local BoolOpt = BoolOptTrans[lang] or BoolOptTrans["en"]
+local function AddHoverBoolOpt(hovertrue, hoverfalse)
+    local optfalse = hoverfalse and AddOptionShort(false, BoolOpt[1].description, hoverfalse) or BoolOpt[1]
+    local opttrue = hovertrue and AddOptionShort(true, BoolOpt[2].description, hovertrue) or BoolOpt[2]
+    return { optfalse, opttrue }
+end
+local SecOpt = { AddOptionShort(false, "") }
 
-local function AddNewConfig(name, label, hover, options, default, client)
+local function AddNewConfig(name, label, default, options, hover, client)
     configuration_options[#configuration_options + 1] = { name = name, label = label, hover = hover, options = options, default = default, client = client }
 end
 
@@ -2799,41 +2347,226 @@ local function isTable(arg)
     return arg[1] ~= nil
 end
 
-local allConfigs = {
-    "MAX_LV",
-    "UPG_MODE", "PAGEABLE", "BACKPACK", "CHANGESIZE",
-    "C_TREASURECHEST", "C_ICEBOX", "C_SALTBOX", "C_DRAGONFLYCHEST", "C_FISH_BOX", "C_BOOKSTATION", "C_TACKLECONTAINER", "C_OCEAN_TRAWLER", "C_SHADOW_CONTAINER",
-    "SHOWGUIDE", "SEARCHBAR", "SHOWALLPAGE", "UI_WIDGETPOS", "DRAGGABLE", "PACKSTYLE", "OVERFLOW", "UI_ICEBOX", "DROPALL", "SORTITEM", "UI_BGIMAGE",
-    "SCALE_FACTOR", "BACKPACKPAGE", "DEGRADABLE", "INSIGHT", "UNCOM_MODE", "RETURNITEM",
-    "DEBUG_MAXLV", "DEBUG_IIC"
-}
-for i = 1, #allConfigs do
-    local name = allConfigs[i]
-    local v = config_list[name]
-    local section = section_index[lang] or section_index["en"]
-    if section[name] then
-        configuration_options[#configuration_options + 1] = AddSection(section[name])
-    end
-    local data = v[lang] or v["en"]
-    local label = data.label
-    local hover = data.hover
-    local options = option_list[name]
-    local opt_tran = opt_trans_list[lang]
-    if opt_tran and opt_tran[name] then
-        if isTable(opt_tran[name]) then
-            options = opt_tran[name]
-        elseif options[2].hover ~= nil then
-            options[2].hover = opt_tran[name]
-        else
-            local temp_opt = {
-                description = options.description,
-                data = options.data,
-                hover = opt_tran[name],
-            }
-            options = temp_opt
-        end
-    end
-    AddNewConfig(name, label, hover, options, v.default, v.client)
+if lang == "zh" then
+    AddNewConfig("MAX_LV", "等级上限", 9,
+            {
+                AddOptionShort(3, "直到3x3", "为什么你用这个模组"),
+                AddOptionShort(5, "直到5x5", "可以升级 1 次"),
+                AddOptionShort(7, "直到7x7", "可以升级 2 次"),
+                AddOptionShort(9, "直到9x9", "可以升级 3 次"),
+                AddOptionShort(11, "直到11x11", "可以升级 4 次"),
+                AddOptionShort(13, "直到13x13", "可以升级 5 次"),
+                AddOptionShort(63, "无限", "想挑战上限？接受挑战"), })
+
+    configuration_options[#configuration_options + 1] = AddOptionHeader("进阶选项:")
+
+    AddNewConfig("UPG_MODE", "升级模式", 1,
+            {
+                AddOptionShort(1, "普通模式", "升级材料放最外圈储存格"),
+                AddOptionShort(2, "复杂模式", "升级材料放最右列 / 最下行储存格以进行横向 / 纵向升级"),
+                AddOptionShort(3, "混合模式", "我全都要"),
+            }, "变更升级模式")
+    AddNewConfig("PAGEABLE", "翻页升级", false,
+            AddHoverBoolOpt("满级以后，把升级材料放满第 1 页"),
+            "让箱子可翻页的升级")
+    AddNewConfig("BACKPACK", "背包可升级", false,
+            AddHoverBoolOpt("把升级材料放满第 1 页"))
+    AddNewConfig("CHANGESIZE", "改变大小", false, BoolOpt, "根据箱子等级改变箱子大小")
+
+    configuration_options[#configuration_options + 1] = AddOptionHeader("可升级的容器:")
+
+    AddNewConfig("C_TREASURECHEST", "Chest", true, AddHoverBoolOpt("1 木板到每一个最外层储存格"))
+    AddNewConfig("C_ICEBOX", "冰箱", true, AddHoverBoolOpt("1 齿轮到每一个最上层储存格，1 石砖到其他最外层储存格"))
+    AddNewConfig("C_SALTBOX", "盐盒", true, AddHoverBoolOpt("1 盐晶到每一个最外层储存格，1 蓝宝石到最中间储存格"))
+    AddNewConfig("C_DRAGONFLYCHEST", "龙鳞宝箱", true, AddHoverBoolOpt("1 木板到每一个最外层储存格"))
+    AddNewConfig("C_FISH_BOX", "锡鱼罐", true, AddHoverBoolOpt("1 绳子到每一个最外层储存格"))
+    AddNewConfig("C_BOOKSTATION", "书架", false, AddHoverBoolOpt("1 活木到每一个最外层储存格"))
+    AddNewConfig("C_TACKLECONTAINER", "钓具箱", false, AddHoverBoolOpt("1 饼干切割机壳到每一个最外层储存格"), "钓具箱 和 超级钓具箱")
+    AddNewConfig("C_OCEAN_TRAWLER", "拖网捕鱼器", false, AddHoverBoolOpt("1 邪天翁羽毛到每一个储存格"))
+    AddNewConfig("C_SHADOW_CONTAINER", "魔术师的容器", true, AddHoverBoolOpt("1 暗影之心到每一个最外层储存格"), "魔术师的礼帽, 魔术师的盒子, 暗影切斯特")
+    configuration_options[#configuration_options + 1] = AddOptionHeader("UI设置:")
+    AddNewConfig("SHOWGUIDE", "显示升级需求", 2,
+            {
+                AddOptionShort(0, "永不"),
+                AddOptionShort(1, "一直"),
+                AddOptionShort(2, "当空", "当箱子为空时显示"),
+                AddOptionShort(3, "自动", "当你进行一次升级后，永久关闭显示"),
+            }, "为你显示升级所需物品\n不会显示 行/列升级（混合模式） 的需求", true)
+    AddNewConfig("SEARCHBAR", "搜索栏", true, BoolOpt, "双击背景显示/隐藏搜索栏", true)
+    AddNewConfig("SHOWALLPAGE", "显示所有页数", false, BoolOpt, "(测试中)打开箱子时显示所有页数", true)
+    AddNewConfig("UI_WIDGETPOS", "位置", true,
+            {
+                AddOptionShort(false, "上面", "原版的位置, 人物上方"),
+                AddOptionShort(true, "左面", "在人物左边"),
+            }, nil, true)
+    AddNewConfig("DRAGGABLE", "局部显示组件", false,
+            {
+                AddOptionShort(false, "关闭"),
+                AddOptionShort(3, "3x3", "显示3x3的数量"),
+                AddOptionShort(4, "4x4", "显示4x4的数量"),
+                AddOptionShort(5, "5x5(建议)", "显示5x5的数量"),
+                AddOptionShort(6, "6x6", "显示6x6的数量"),
+                AddOptionShort(7, "7x7", "显示7x7的数量"),
+            }, nil, true)
+    AddNewConfig("PACKSTYLE", "背包样式", true,
+            {
+                AddOptionShort(false, "合并"),
+                AddOptionShort(true, "整页"), }, "\"融合\"背包样式\n只在\"背包可升级\"选项开启时有效", true)
+    AddNewConfig("OVERFLOW", "智能分页", true, BoolOpt, "\"融合\" 背包样式\n把溢出的格子挪到下一页", true)
+    AddNewConfig("UI_ICEBOX", "冰箱UI左移", true, BoolOpt, "UI左移使UI不会遮挡烹饪锅", true)
+    AddNewConfig("DROPALL", "\"清空\"按钮", false, BoolOpt, "一个能把箱子里所有物品扔到地上的按钮", true)
+    AddNewConfig("SORTITEM", "\"整理\"按钮", false, BoolOpt, "一个能帮你整理内容物的按钮\n按我的使用习惯做的，未必适合所有人", true)
+    AddNewConfig("UI_BGIMAGE", "隐藏UI背景", false, BoolOpt, nil, true)
+
+    configuration_options[#configuration_options + 1] = AddOptionHeader("其他功能:")
+    AddNewConfig("SCALE_FACTOR", "大小比例", 3,
+            {
+                AddOptionShort(1, "2", "1:2, ie. 6x6箱子2倍大(半径)"),
+                AddOptionShort(2, "1.5", "1:1.5, ie. 6x6箱子1.5倍大(半径)"),
+                AddOptionShort(3, "1.33", "1:1.33, ie. 6x6箱子1.33倍大(半径)"),
+                AddOptionShort(4, "1.25", "1:1.25, ie. 6x6箱子1.25倍大(半径)"),
+                AddOptionShort(5, "1.2"),
+                AddOptionShort(6, "1.16"),
+                AddOptionShort(10, "1.1")
+            }, "改变箱子大小的比例\n只在\"改变大小\"选项开启时有效")
+    AddNewConfig("BACKPACKPAGE", "背包最大页数", 3,
+            {
+                AddOptionShort(1, "1"),
+                AddOptionShort(2, "2"),
+                AddOptionShort(3, "3"),
+                AddOptionShort(4, "4"),
+                AddOptionShort(5, "5"),
+                AddOptionShort(6, "6"),
+                AddOptionShort(7, "7"),
+                AddOptionShort(8, "8"),
+                AddOptionShort(9, "9"),
+                AddOptionShort(10, "10"),
+                AddOptionShort(11, "11"),
+                AddOptionShort(12, "12"),
+                AddOptionShort(13, "13"),
+                AddOptionShort(14, "14"),
+                AddOptionShort(15, "15"), })
+    AddNewConfig("ALLCANUPG", "(测试中)全容器升级", false, AddHoverBoolOpt("制作该容器所需材料中消耗最大的材料到每一格最外圈储存格"), "让大部分模组容器也能升级\n不建议用经常玩的档进行测试")
+    AddNewConfig("DEGRADABLE", "可降级", true, BoolOpt, "箱子可降级\n放一个锤子进空箱子")
+    AddNewConfig("INSIGHT", "Insight资讯", true, BoolOpt, "模组: Insight 会为你显示更多资讯")
+    AddNewConfig("UNCOM_MODE", "永不妥协", false, BoolOpt, "调整与 模组: Uncompomising Mode(永不妥协) 同时使用时的设定")
+    AddNewConfig("RETURNITEM", "拆除返还材料", false, BoolOpt, "测试中\n拆除时返还升级材料")
+
+    configuration_options[#configuration_options + 1] = AddOptionHeader("除错模式:")
+    AddNewConfig("DEBUG_MAXLV", "满级", false, BoolOpt, "容器在建造的时候就已经满级")
+    AddNewConfig("DEBUG_IIC", "自带升级材料", false, BoolOpt, "容器在建造时自带升级材料和锤子")
+else
+    AddNewConfig("MAX_LV", "Max upgrade", 9,
+            {
+                AddOptionShort(3, "up to 3x3", "why do you use this mod"),
+                AddOptionShort(5, "up to 5x5", "able to upgrade 1 times"),
+                AddOptionShort(7, "up to 7x7", "able to upgrade 2 times"),
+                AddOptionShort(9, "up to 9x9", "able to upgrade 3 times"),
+                AddOptionShort(11, "up to 11x11", "able to upgrade 4 times"),
+                AddOptionShort(13, "up to 13x13", "able to upgrade 5 times"),
+                AddOptionShort(63, "infinite", "to test the limits and break through? challenge accepted!"),
+            })
+
+    configuration_options[#configuration_options + 1] = AddOptionHeader("Advanced Options:")
+
+    AddNewConfig("UPG_MODE", "Upgrade Mode", 1,
+            {
+                AddOptionShort(1, "normal mode", "put upgrade items on the outermost slots"),
+                AddOptionShort(2, "expensive mode", "put upgrade items to the right or to the bottom for upgrade"),
+                AddOptionShort(3, "complex mode", "both of the modes"),
+            }, "Change the upgrading mode")
+    AddNewConfig("PAGEABLE", "Pageable Upgrade", false,
+            AddHoverBoolOpt("After the chest is in max level, put the upgrade items to all the slots in 1st page"),
+            "Make the Chest Pageable")
+    AddNewConfig("BACKPACK", "Backpack Upgrade-able", false,
+            AddHoverBoolOpt("put items into every slots of the backpack"))
+    AddNewConfig("CHANGESIZE", "Change Size", false, BoolOpt, "Change the chest size scale to its level")
+
+    configuration_options[#configuration_options + 1] = AddOptionHeader("Upgradeable Containers:")
+    AddNewConfig("C_TREASURECHEST", "Chest", true, AddHoverBoolOpt("1 boards in each outermost slots"))
+    AddNewConfig("C_ICEBOX", "Ice Box", true, AddHoverBoolOpt("1 gears in each top-most slots, 1 cut stone in each other outermost slots"))
+    AddNewConfig("C_SALTBOX", "Salt Box", true, AddHoverBoolOpt("1 salt crystal in each outermost slots, and 1 blue gem in the center-most slot"))
+    AddNewConfig("C_DRAGONFLYCHEST", "Dragonfly Chest", true, AddHoverBoolOpt("1 boards in each outermost slots"))
+    AddNewConfig("C_FISH_BOX", "Fish Box", true, AddHoverBoolOpt("1 rope in each outermost slots"))
+    AddNewConfig("C_BOOKSTATION", "Bookcase", false, AddHoverBoolOpt("1 living log in each outermost slots"))
+    AddNewConfig("C_TACKLECONTAINER", "Tackle Box", false, AddHoverBoolOpt("1 cookie cutter shell in each outermost slots"), "tackle box and super tackle box")
+    AddNewConfig("C_OCEAN_TRAWLER", "Ocean Trawler", false, AddHoverBoolOpt("1 malbatross feather in each slots"))
+    AddNewConfig("C_SHADOW_CONTAINER", "Magician's Containers", true, AddHoverBoolOpt("1 shadow heart in each outermost slots"), "Magician's Hat, Magician's Box, Shadow Chester")
+
+    configuration_options[#configuration_options + 1] = AddOptionHeader("Widget UI Settings:")
+    AddNewConfig("SHOWGUIDE", "Shows Guide", 3,
+            {
+                AddOptionShort(0, "never"),
+                AddOptionShort(1, "always"),
+                AddOptionShort(2, "when empty", "Show guide when the chest is empty"),
+                AddOptionShort(3, "auto", "Turn the guide off after you upgrade the chest once."),
+            }, "Show you the upgrade requirement\nWon't show for Column/Row Upgrade(expensive mode)", true)
+    AddNewConfig("SEARCHBAR", "Search UI", true, BoolOpt, "double click the background to open/close the search UI", true)
+    AddNewConfig("SHOWALLPAGE", "Show All Page", false, BoolOpt, "(testing)show all page when you open your container", true)
+    AddNewConfig("UI_WIDGETPOS", "Widget Position", true,
+            {
+                AddOptionShort(false, "top", "unchange, above the character"),
+                AddOptionShort(true, "left", "next to the character"),
+            }, nil, true)
+    AddNewConfig("DRAGGABLE", "Partial Display", false,
+            {
+                AddOptionShort(false, "disable(default)"),
+                AddOptionShort(3, "3x3", "show 3x3 slots"),
+                AddOptionShort(4, "4x4", "show 4x4 slots"),
+                AddOptionShort(5, "5x5(suggest)", "show 5x5 slots"),
+                AddOptionShort(6, "6x6", "show 6x6 slots"),
+                AddOptionShort(7, "7x7", "show 7x7 slots"),
+            }, nil, true)
+    AddNewConfig("PACKSTYLE", "Backpack Layout", true,
+            {
+                AddOptionShort(false, "combine"),
+                AddOptionShort(true, "single"),
+            }, "\"Integrated\" backpack layout\nActivate only if \"Backpack Upgrade-able\" option on", true)
+    AddNewConfig("OVERFLOW", "Backpack Page Fusion", true, BoolOpt, "\"Integrated\" backpack layout\nShow slots in same page until the inventory bar is full", true)
+    AddNewConfig("UI_ICEBOX", "Ice Box Leftward", true, BoolOpt, "shift the ui of ice box leftward so that it won't block your cooker", true)
+    AddNewConfig("DROPALL", "\"Drop All\" Button", false, BoolOpt, "a button allow you dropping the entire content to the ground", true)
+    AddNewConfig("SORTITEM", "\"Sort Item\" Button", false, BoolOpt, "a button allow you sorting the content quickly\nMy sorting style. You may not like it.", true)
+    AddNewConfig("UI_BGIMAGE", "Hide Background Image", false, BoolOpt, nil, true)
+
+    configuration_options[#configuration_options + 1] = AddOptionHeader("Other Functions:")
+    AddNewConfig("SCALE_FACTOR", "Size Factor", 3,
+            {
+                AddOptionShort(1, "2", "Size of 6x6 chest is 2 times to the 3x3"),
+                AddOptionShort(2, "1.5", "Size of 6x6 chest is 1.5 times to the 3x3"),
+                AddOptionShort(3, "1.33", "Size of 6x6 chest is 1.33 times to the 3x3"),
+                AddOptionShort(4, "1.25", "Size of 6x6 chest is 1.25 times to the 3x3"),
+                AddOptionShort(5, "1.2"),
+                AddOptionShort(6, "1.16"),
+                AddOptionShort(10, "1.1")
+            }, "The scale for upgraded chest(in radius)\nActivate only if \"Change Size\" option on.")
+    AddNewConfig("BACKPACKPAGE", "Backpack Max Page", 3,
+            {
+                AddOptionShort(1, "1", "Why will you turn backpack upgrade on"),
+                AddOptionShort(2, "2"),
+                AddOptionShort(3, "3"),
+                AddOptionShort(4, "4"),
+                AddOptionShort(5, "5"),
+                AddOptionShort(6, "6"),
+                AddOptionShort(7, "7"),
+                AddOptionShort(8, "8"),
+                AddOptionShort(9, "9"),
+                AddOptionShort(10, "10"),
+                AddOptionShort(11, "11"),
+                AddOptionShort(12, "12"),
+                AddOptionShort(13, "13"),
+                AddOptionShort(14, "14"),
+                AddOptionShort(15, "15"), })
+    AddNewConfig("ALLCANUPG", "(testing)All Upgrade-able", false, AddHoverBoolOpt("item consumed the most when crafting to each outermost slots"), "Allow most of the modded containers upgradable")
+    AddNewConfig("DEGRADABLE", "Downgrade-able", true, BoolOpt, "Enable downgrading the chest\nPut a hammer in the empty container")
+    AddNewConfig("INSIGHT", "Insight", true, BoolOpt,
+            "Mod: Insight will shows the detailed info for chest level"
+    )
+    AddNewConfig("UNCOM_MODE", "Uncompomising Mode", false, BoolOpt, "Adjust some setting when use with Mod: Uncompomising Mode")
+    AddNewConfig("RETURNITEM", "Deconstruct Return Items", false, BoolOpt, "Testing function\nReturn items when decontrution")
+
+    configuration_options[#configuration_options + 1] = AddOptionHeader("DEBUG:")
+    AddNewConfig("DEBUG_MAXLV", "Max Level", false, BoolOpt, "Containers are in max lv once builded")
+    AddNewConfig("DEBUG_IIC", "Item in Container", false, BoolOpt, "Put upgrade material and hammer into container once builded")
 end
 
 ----------------------------
