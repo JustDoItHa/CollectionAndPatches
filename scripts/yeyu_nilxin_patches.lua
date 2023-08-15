@@ -167,11 +167,11 @@ if sea ~= -1 then
     end)
 end
 
-if GetModConfigData("everyone_is_yeyu_nilxin") then
-    TUNING.YYXK.X3RV9ANX = true
-else
-    TUNING.YYXK.X3RV9ANX = false
-end
+--if GetModConfigData("everyone_is_yeyu_nilxin") then
+--    TUNING.YYXK.X3RV9ANX = true
+--else
+--    TUNING.YYXK.X3RV9ANX = false
+--end
 
 ---防止箱子升级炸服的修复
 local old_YYXKTOGETHERUP = ACTIONS.YYXKTOGETHERUP.fn

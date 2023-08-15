@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.10.0.0"
+version = "11.10.0.1"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1123,7 +1123,7 @@ configuration_options = {
                                                                                  { description = "大门洞穴附近无法造海", data = 0, },
                                                                                  { description = "大门洞穴和有structure标签附近无法造海", data = 1, } }, 0),
 
-    AddOption("everyone_is_yeyu_nilxin", "人人都是夜雨", "每个角色都可以使用当夜雨", false),
+    --AddOption("everyone_is_yeyu_nilxin", "人人都是夜雨", "每个角色都可以使用当夜雨", false),
     AddOption("yeyu_nilxin_island_generate_no", "不生成夜雨岛", "给无资源档使用", false),
 
 
