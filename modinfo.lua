@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.10.0.1"
+version = "11.10.0.2"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1517,7 +1517,15 @@ configuration_options[#configuration_options + 1] = AddConfigOption("checking_da
           { description = "20", data = 20, hover = "" },
           { description = "30", data = 30, hover = "" },
           { description = "40", data = 40, hover = "" },
-          { description = "50", data = 50, hover = "" }, }, 2)
+          { description = "50", data = 50, hover = "" },
+          { description = "100", data = 100, hover = "" },
+          { description = "200", data = 200, hover = "" },
+          { description = "500", data = 500, hover = "" },
+          { description = "800", data = 800, hover = "" },
+          { description = "1000", data = 1000, hover = "" },
+          { description = "1500", data = 1500, hover = "" },
+          { description = "2000", data = 2000, hover = "" },
+        }, 2)
 configuration_options[#configuration_options + 1] = AddConfigOption("clean_mode", "清理模式(Clean Mode)", "白名单模式或者黑名单模式(Whitelist mode or Blacklist mode)", {
     { description = "Whitelist", data = 0, hover = "" },
     { description = "Blacklist", data = 1, hover = "" }, }, 0)
