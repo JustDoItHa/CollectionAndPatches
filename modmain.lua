@@ -95,6 +95,7 @@ TUNING.LEGION_ENABLE = modenable({ "1392778117", "legion", "Legion-棱镜" })
 TUNING.SUCCULENT_PLANT_ENABLE = modenable({ "2441790846", "Succulent plant", "多肉植物" })
 TUNING.NDNR_ENABLE = modenable({ "2823458540", "富贵险中求", "ndnr", "富贵险中求(No Danger No Rich)" })
 TUNING.ARIA_ENABLE = modenable({ "2418617371", "艾丽娅·克莉丝塔露（重置版）" })
+TUNING.SIMPLE_ECONOMY_FOR_RX = modenable({ "2846621983", "简单经济学(改专用)" })
 
 ---限制打包物品
 TUNING.CANT_PACK_ITEMS = {

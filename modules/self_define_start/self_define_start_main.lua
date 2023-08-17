@@ -16,6 +16,7 @@ local PACKS_SEASON = GetModConfigData("PACKS_SEASON")
 local PACKS_BUFF = GetModConfigData("PACKS_BUFF") * 60
 local PACKS_SCIENCE = GetModConfigData("PACKS_SCIENCE")
 local PACKS_BACKPACK = GetModConfigData("PACKS_BACKPACK")
+local START_COIN_IN_SIMPLE_ECONOMY = GetModConfigData("START_COIN_IN_SIMPLE_ECONOMY") or false
 
 local function endswith(str, substr)
     if str == nil or substr == nil then
@@ -423,6 +424,17 @@ local OnPlayerSpawn = function(src, player)
                 AddBuff(player)
                 player.novicepacks.ispacks = true
             end
+            --- 开启简单经济学 启动资金
+            if type(START_COIN_IN_SIMPLE_ECONOMY) == "number"
+                    and START_COIN_IN_SIMPLE_ECONOMY > 0
+                    and TUNING.SIMPLE_ECONOMY_FOR_RX
+                    and player.start_coin_in_simple_economy_flag ~= true
+                    and player.components.seplayerstatus then
+                player.components.talker:Say("获得启动资金：" .. math.ceil(START_COIN_IN_SIMPLE_ECONOMY))
+                player.components.seplayerstatus:DoDeltaCoin(math.ceil(START_COIN_IN_SIMPLE_ECONOMY))
+                player.start_coin_in_simple_economy_flag = true
+            end
+
             local backpack_type = PACKS_BACKPACK
             if PACKS_CHARACTER > 0 and character_backpack[player.prefab] and character_backpack[player.prefab] > backpack_type then
                 backpack_type = character_backpack[player.prefab]
@@ -563,6 +575,11 @@ local OnPlayerSpawn = function(src, player)
         if player.novicepacks_build then
             data.novicepacks_build = 2
         end
+        if player.start_coin_in_simple_economy_flag then
+            data.start_coin_in_simple_economy_flag = player.start_coin_in_simple_economy_flag
+        else
+            data.start_coin_in_simple_economy_flag = false
+        end
         if Old_OnSave ~= nil then
             return Old_OnSave(inst, data)
         end
@@ -571,6 +588,11 @@ local OnPlayerSpawn = function(src, player)
     player.OnLoad = function(inst, data)
         if data.novicepacks_build then
             player.novicepacks_build = 2
+        end
+        if data.start_coin_in_simple_economy_flag then
+            player.start_coin_in_simple_economy_flag = data.start_coin_in_simple_economy_flag
+        else
+            player.start_coin_in_simple_economy_flag = false
         end
         if Old_OnLoad ~= nil then
             return Old_OnLoad(inst, data)

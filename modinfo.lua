@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.10.0.2"
+version = "11.11.0.2"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2156,6 +2156,35 @@ configuration_options[#configuration_options + 1] = AddConfigOption("PACKS_BACKP
           { description = "猪猪包", data = 2, hover = "Piggyback" },
           { description = "冰包", data = 3, hover = "Icepack" },
           { description = "小偷袋", data = 4, hover = "Krampus Sack" }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("START_COIN_IN_SIMPLE_ECONOMY", "简单经济学启动资金", "",
+        { { description = "不额外赠送", data = false, hover = "None" },
+          { description = "100", data = 100 },
+          { description = "200", data = 200 },
+          { description = "300", data = 300 },
+          { description = "500", data = 500 },
+          { description = "800", data = 800},
+          { description = "1000", data = 1000},
+          { description = "2000", data = 2000},
+          { description = "3000", data = 3000},
+          { description = "5000", data = 5000},
+          { description = "8000", data = 8000},
+          { description = "1W", data = 10000},
+          { description = "2W", data = 20000},
+          { description = "3W", data = 30000},
+          { description = "5W", data = 50000},
+          { description = "8W", data = 80000},
+          { description = "10W", data = 100000},
+          { description = "20W", data = 200000},
+          { description = "30W", data = 300000},
+          { description = "50W", data = 500000},
+          { description = "80W", data = 800000},
+          { description = "100W", data = 1000000},
+          { description = "200W", data = 2000000},
+          { description = "300W", data = 3000000},
+          { description = "500W", data = 5000000},
+          { description = "800W", data = 8000000},
+          { description = "1000W", data = 10000000},
+        }, false)
 
 default_number = {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 99, 100, 500
