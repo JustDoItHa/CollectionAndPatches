@@ -2,6 +2,9 @@ if not (GLOBAL.TheNet and GLOBAL.TheNet:GetIsServer()) then
     return
 end
 
+AllPlayers = AllPlayers or GLOBAL.AllPlayers
+AllRecipes = AllRecipes or GLOBAL.AllRecipes
+
 function blueprintDrop(inst, min, max)
     --蓝图掉落函数
     if inst.components.lootdropper == nil then
@@ -13,6 +16,59 @@ end
 
 local drop_multiplying_f = GetModConfigData("drop_multiplying") --蓝图掉落倍率
 
+local function CanBlueprintRandomRecipe(recipe)
+    if recipe.nounlock or recipe.builder_tag ~= nil then
+        --Exclude crafting station and character specific
+        return false
+    end
+    local hastech = false
+    for k, v in pairs(recipe.level) do
+        if v >= 10 then
+            --Exclude TECH.LOST
+            return false
+        elseif v > 0 then
+            hastech = true
+        end
+    end
+    --Exclude TECH.NONE
+    return hastech
+end
+
+local function generate_random_blueprint(inst)
+    local unknownrecipes = {}
+    local knownrecipes = {}
+    local allplayers = AllPlayers
+    for k, v in pairs(AllRecipes) do
+        if IsRecipeValid(v.name) and CanBlueprintRandomRecipe(v) then
+            local known = false
+            for i, player_inner in ipairs(allplayers) do
+                if player_inner.components.builder:KnowsRecipe(v) or
+                        not player_inner.components.builder:CanLearn(v.name) then
+                    known = true
+                    break
+                end
+            end
+            table.insert(known and knownrecipes or unknownrecipes, v)
+        end
+    end
+    local random_recipetouse = (#unknownrecipes > 0 and unknownrecipes[math.random(#unknownrecipes)].name) or
+            (#knownrecipes > 0 and knownrecipes[math.random(#knownrecipes)].name)
+
+    local blueprint_name = string.lower(random_recipetouse) .. "_" .. "blueprint"
+    local name_test = STRINGS.NAMES[string.upper(random_recipetouse)]
+
+    if name_test ~= nil then
+        local item_tmp = GLOBAL.SpawnPrefab(random_recipetouse)  --生成商品
+        if item_tmp ~= nil and item_tmp.name ~= nil then
+            local item = GLOBAL.SpawnPrefab(blueprint_name)  --生成商品蓝图
+            local px, py, pz = inst.Transform:GetWorldPosition()
+            if item ~= nil and item.name ~= nil then
+                item.Transform:SetPosition(px, 0, pz)
+                GLOBAL.SpawnPrefab("small_puff").Transform:SetPosition(px, 0, pz)
+            end
+        end
+    end
+end
 if GetModConfigData("random_blueprint_drop") then
     local List_blueprint_TINY = {
         "lightflier", --光虫
@@ -232,12 +288,7 @@ if GetModConfigData("random_blueprint_drop") then
         local oldHookFish = self.HookFish
         self.HookFish = function(self, fisherman)
             if math.random() < .15 * drop_multiplying_f then
-                local px, py, pz = fisherman.Transform:GetWorldPosition()
-                local lantu = GLOBAL.SpawnPrefab("blueprint")
-                if lantu ~= nil and lantu.name ~= nil and lantu.skin ~= nil and lantu.skin_id ~= nil then
-                    lantu.Transform:SetPosition(px, 0, pz)
-                    GLOBAL.SpawnPrefab("small_puff").Transform:SetPosition(px, 0, pz)
-                end
+                generate_random_blueprint(fisherman)
             end
             return oldHookFish and oldHookFish(self, fisherman) or nil
         end
@@ -249,12 +300,7 @@ if GetModConfigData("random_blueprint_drop") then
         self.CatchFish = function(self)
             if self.target and self.target.components.oceanfishable then
                 if math.random() < .15 * drop_multiplying_f then
-                    local px, py, pz = self.fisher.Transform:GetWorldPosition()
-                    local lantu = GLOBAL.SpawnPrefab("blueprint")
-                    if lantu ~= nil and lantu.name ~= nil and lantu.skin ~= nil and lantu.skin_id ~= nil then
-                        lantu.Transform:SetPosition(px, 0, pz)
-                        GLOBAL.SpawnPrefab("small_puff").Transform:SetPosition(px, 0, pz)
-                    end
+                    generate_random_blueprint(self.fisher)
                 end
             end
             return oldCatchFish and oldCatchFish(self) or nil
@@ -268,13 +314,7 @@ if GetModConfigData("random_blueprint_drop") then
             oldStartCooking(self, doer)
             if doer ~= nil and self.product ~= nil then
                 if math.random() < 0.03 * drop_multiplying_f then
-                    local px, py, pz = doer.Transform:GetWorldPosition()
-                    local lantu = GLOBAL.SpawnPrefab("blueprint")
-                    if lantu ~= nil and lantu.name ~= nil and lantu.skin ~= nil and lantu.skin_id ~= nil then
-                        lantu.Transform:SetPosition(px, 0, pz)
-                        local liaoli = GLOBAL.SpawnPrefab(self.product)
-                        GLOBAL.SpawnPrefab("small_puff").Transform:SetPosition(px, 0, pz)
-                    end
+                    generate_random_blueprint(doer)
                 end
             end
         end
@@ -286,12 +326,7 @@ if GetModConfigData("random_blueprint_drop") then
         self.CookItem = function(self, item, chef)
             if item and chef and chef:HasTag("player") then
                 if math.random() < .005 * drop_multiplying_f then
-                    local px, py, pz = chef.Transform:GetWorldPosition()
-                    local lantu = GLOBAL.SpawnPrefab("blueprint")
-                    if lantu ~= nil and lantu.name ~= nil and lantu.skin ~= nil and lantu.skin_id ~= nil then
-                        lantu.Transform:SetPosition(px, 0, pz)
-                        GLOBAL.SpawnPrefab("small_puff").Transform:SetPosition(px, 0, pz)
-                    end
+                    generate_random_blueprint(chef)
                 end
             end
             return oldCookItem and oldCookItem(self, item, chef) or nil
@@ -304,12 +339,7 @@ if GetModConfigData("random_blueprint_drop") then
         self.Pick = function(self, picker)
             if picker and picker:HasTag("player") and self.inst then
                 if math.random() < .005 * drop_multiplying_f then
-                    local px, py, pz = picker.Transform:GetWorldPosition()
-                    local lantu = GLOBAL.SpawnPrefab("blueprint")
-                    if lantu ~= nil and lantu.name ~= nil and lantu.skin ~= nil and lantu.skin_id ~= nil then
-                        lantu.Transform:SetPosition(px, 0, pz)
-                        GLOBAL.SpawnPrefab("small_puff").Transform:SetPosition(px, 0, pz)
-                    end
+                    generate_random_blueprint(picker)
                 end
             end
             return oldPick and oldPick(self, picker) or nil
@@ -322,12 +352,7 @@ if GetModConfigData("random_blueprint_drop") then
         self.Plant = function(self, target, planter)
             if planter and planter:HasTag("player") and target and self.inst then
                 if math.random() < .03 * drop_multiplying_f then
-                    local px, py, pz = planter.Transform:GetWorldPosition()
-                    local lantu = GLOBAL.SpawnPrefab("blueprint")
-                    if lantu ~= nil and lantu.name ~= nil and lantu.skin ~= nil and lantu.skin_id ~= nil then
-                        lantu.Transform:SetPosition(px, 0, pz)
-                        GLOBAL.SpawnPrefab("small_puff").Transform:SetPosition(px, 0, pz)
-                    end
+                    generate_random_blueprint(planter)
                 end
             end
             return oldPlant and oldPlant(self, target, planter) or nil
@@ -340,12 +365,7 @@ if GetModConfigData("random_blueprint_drop") then
         self.Eat = function(self, food, feeder)
             if feeder and feeder:HasTag("player") and food and self.inst then
                 if math.random() < .005 * drop_multiplying_f then
-                    local px, py, pz = feeder.Transform:GetWorldPosition()
-                    local lantu = GLOBAL.SpawnPrefab("blueprint")
-                    if lantu ~= nil and lantu.name ~= nil and lantu.skin ~= nil and lantu.skin_id ~= nil then
-                        lantu.Transform:SetPosition(px, 0, pz)
-                        GLOBAL.SpawnPrefab("small_puff").Transform:SetPosition(px, 0, pz)
-                    end
+                    generate_random_blueprint(feeder)
                 end
             end
             return oldEat and oldEat(self, food, feeder) or nil
@@ -358,12 +378,7 @@ if GetModConfigData("random_blueprint_drop") then
             if inst ~= nil and inst:HasTag("player") and not inst:HasTag("playerghost") and inst.components.age then
                 if math.random() < .05 * drop_multiplying_f then
                     local playerday = inst.components.age:GetAgeInDays() + 1
-                    local px, py, pz = inst.Transform:GetWorldPosition()
-                    local lantu = GLOBAL.SpawnPrefab("blueprint")
-                    if lantu ~= nil and lantu.name ~= nil and lantu.skin ~= nil and lantu.skin_id ~= nil then
-                        lantu.Transform:SetPosition(px, 0, pz)
-                        GLOBAL.SpawnPrefab("small_puff").Transform:SetPosition(px, 0, pz)
-                    end
+                    generate_random_blueprint(inst)
                 end
             end
         end)
