@@ -127,4 +127,18 @@ local function MakeAnyBlueprint_local()
     return inst
 end
 
-local params = upvaluehelper.Set(blueprint_p_file.fn, "MakeAnyBlueprint", MakeAnyBlueprint_local)
+-----修复不了的 写法错误
+--local Old_RegisterPrefabs = ModManager.RegisterPrefabs
+--local function NewRegisterPrefabs(...)
+--    if GLOBAL.Prefabs["blueprint"] then
+--        local params = upvaluehelper.Set(GLOBAL.Prefabs["blueprint"].fn, "MakeAnyBlueprint", MakeAnyBlueprint_local)
+--    end
+--
+--    Old_RegisterPrefabs(...)
+--end
+--ModManager.RegisterPrefabs = NewRegisterPrefabs
+
+--local params = upvaluehelper.Set(blueprint_p_file.fn, "MakeAnyBlueprint", MakeAnyBlueprint_local)
+AddPrefabPostInit("blueprint", function (inst)
+    local params = upvaluehelper.Set(inst.components.inspectable.getstatus, "MakeAnyBlueprint", MakeAnyBlueprint_local)
+end)

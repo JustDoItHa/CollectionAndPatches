@@ -607,9 +607,9 @@ if GetModConfigData("beta_function_switch") then
         modimport("scripts/fix_migration_data_lost.lua")
     end
 
-    if GetModConfigData("blueprint_error_fix_switch") then
-        modimport("scripts/blueprint_error_fix.lua")
-    end
+    --if GetModConfigData("blueprint_error_fix_switch") then
+    --    modimport("scripts/blueprint_error_fix.lua")
+    --end
 
     --Heap Of food 汉化
     if GetModConfigData("heap_of_food_chs_language_switch") then

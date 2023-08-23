@@ -46,6 +46,7 @@ local remove_table = {
     remove_krm_broom = { "krm_broom" },
     remove_krm_bullet10 = { "krm_bullet10" },
     remove_krm_spirit_crystal = { "krm_spirit_crystal" },
+    remove_krm_book = { "krm_book" },
     --勋章
     remove_monster_book = { "monster_book" },
     remove_medal_spacetime_devourer = { "medal_spacetime_devourer" },

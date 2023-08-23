@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.12.0.0"
+version = "11.13.0.1"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1454,6 +1454,7 @@ CAP_REMOVE_SOMETHING_LIST_CONFIG = {
     { "remove_krm_broom", "时崎狂三的赝造魔女(复制)", "平衡", disappear_magic, -1 },
     { "remove_krm_bullet10", "时崎狂三的十之弹:解锁科技", "十之弹:解锁科技解锁伊蕾娜科技", disappear_magic, 200 },
     { "remove_krm_spirit_crystal", "时崎狂三的二亚的灵结晶", "可开启创造模式", disappear_magic, 300 },
+    { "remove_krm_book", "时崎狂三的嗫眚篇帙", "随机效果", disappear_magic, 300 },
     { "remove_taizhen_personal_fanhao", "太真专属番号", "限制太真的专属番号", disappear_magic, -1 },
 }
 
@@ -2295,7 +2296,7 @@ configuration_options[#configuration_options + 1] = AddOption("fix_tags_overflow
 configuration_options[#configuration_options + 1] = AddOption("give_item_optimize_switch", "拾取优化", "自动寻找打开的容器进行放入", false)
 configuration_options[#configuration_options + 1] = AddOption("fix_heap_of_food_switch", "修复HeapOfFood问题", "修复HeapOfFood问题", false)
 configuration_options[#configuration_options + 1] = AddOption("fix_migration_data_lost_switch", "修复跳世界数据丢失问题", "修复跳世界数据丢失导致重选人物问题", true)
-configuration_options[#configuration_options + 1] = AddOption("blueprint_error_fix_switch", "蓝图问题修复", "世界蓝图可能存在的问题", true)
+--configuration_options[#configuration_options + 1] = AddOption("blueprint_error_fix_switch", "蓝图问题修复", "世界蓝图可能存在的问题", true)
 configuration_options[#configuration_options + 1] = AddOption("heap_of_food_chs_language_switch", "HeapOfFood汉化(简中)", "HeapOfFood汉化(简中)", false)
 configuration_options[#configuration_options + 1] = AddOption("vtf_chs_language_switch", "情人节主题物品汉化(简中)", "情人节主题物品汉化(简中)", false)
 configuration_options[#configuration_options + 1] = AddOption("htf_chs_language_switch", "万圣节主题物品汉化(简中)", "万圣节主题物品汉化(简中)", false)
