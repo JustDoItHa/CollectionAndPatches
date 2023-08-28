@@ -626,6 +626,10 @@ if GetModConfigData("beta_function_switch") then
     end
 end
 
+if GetModConfigData("niche_container_modification_switch") then
+    modimport("scripts/niche_container_modification_main.lua")
+end
+
 ----处理下重复加组件的问题 不知道放哪里 先写这里
 AddGlobalClassPostConstruct("entityscript", "EntityScript", function(self)
     local oldcap_add = self.AddComponent

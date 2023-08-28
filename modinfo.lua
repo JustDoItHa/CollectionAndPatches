@@ -19,13 +19,14 @@ description = [[
 --44.超级便携大箱子 45.beefalo status bar 46.疼总的信息显示(就是偷来的,好看)
 --47.史诗般血量条 48.为爽而虐-容器排序 49.鼠标滚轮调节堆叠 50.可升级箱子(已经抄过来用了)
 --51.cat bag 52.wing pack 53.神秘强化炉 54.死亡累计升级版 55.More Crafting Details
+--56.箱子容量+
 --集合mod：
 --1.常用mod集合
 --2.萌新合集-服务端
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.14.0.0"
+version = "11.15.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -601,7 +602,6 @@ configuration_options = {
     AddOption("stack_more", "更多可堆叠", "使鸟、兔子、地鼠、鱼等生物变得可堆叠", true),
 
     AddOption("death_counter_switch", "死亡次数累计", "显示死亡次数累计", false),
-
 }
 
 ---睡眠设备调整
@@ -2437,3 +2437,26 @@ configuration_options[#configuration_options + 1] = AddConfigOption("wb_strength
           { description = "天亦可灭", hover = "附魔13级近战武器伤害大约为1538.66", data = 17 } }, 8)
 
 configuration_options[#configuration_options + 1] = AddOption("wb_strengthen_increase", "启用附魔", "是否开启附魔功能", true)
+
+---小众容器修改
+configuration_options[#configuration_options + 1] = AddOptionHeader("小众容器修改")
+configuration_options[#configuration_options + 1] = AddOption("niche_container_modification_switch", "总开关", "小众容器修改总开关", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("package_container_modification", "捆绑包装", "捆绑包装的容量大小更改\n捆绑包装，以及礼物包装",
+        { { description = "关闭", data = false, hover = "不启用" },
+          { description = "6格", data = 6, hover = "捆绑包装6格容量" },
+          { description = "10格", data = 10, hover = "捆绑包装10格容量" },
+          { description = "12格", data = 12, hover = "捆绑包装12格容量" },
+          { description = "14格", data = 14, hover = "捆绑包装14格容量（格子相对紧凑！）" },
+          { description = "19格", data = 19, hover = "捆绑包装19格容量（不太美观！！）" }, }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("package_open_modification", "捆绑物资-打开", "捆绑物资的打开更改为打开容器，不是直接拆开",
+        { { description = "关闭", data = false, hover = "不启用" },
+          { description = "打开-不保鲜", data = 1, hover = "捆绑物资打开时容器内的物品无保鲜，会减少保质期（指打开状态的那段时间）" },
+          { description = "打开-保鲜", data = 2, hover = "捆绑物资打开时容器内的物品不会减少保质期（指打开状态的那段时间）" }, }, false)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("gift_package_container_modification", "礼物-打开", "礼物的打开更改为打开容器，不是直接拆开",
+        { { description = "关闭", data = false, hover = "不启用" },
+          { description = "打开容器", data = 1, hover = "礼物打开状态时间内物品是否保鲜取决于 捆绑物资-打开 的选项" }, }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("shirenhua", "食人花-打开", "食人花顶端没有挂东西时可右键打开容器，容量一般默认是15格\n右键取走物品的优先级高于打开容器，可攻击食人花或眼球草或右键取走物品后右键打开容器",
+        { { description = "关闭", data = false, hover = "不启用" },
+          { description = "15格", data = 15, hover = "添加可打开的15格容器容量" },
+          { description = "20格", data = 20, hover = "添加可打开的20格容器容量(当人为放入位置在15格后的物品关闭时将掉落下来)" }, }, false)
