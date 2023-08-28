@@ -167,7 +167,9 @@ if GetModConfigData("use_for_tumbleweed") then
     table.insert(strongcleanlist, "durian_oversized_rotten")
     table.insert(strongcleanlist, "pomegranate_oversized_rotten")
     table.insert(strongcleanlist, "watermelon_oversized_rotten")
-
+    --
+    --table.insert(strongcleanlist, "tacklecontainer")--钓具箱
+    --table.insert(strongcleanlist, "supertacklecontainer")--超级钓具箱
 end
 
 if clean_mode == 0 then

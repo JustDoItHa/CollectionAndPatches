@@ -25,7 +25,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.13.0.1"
+version = "11.14.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -259,7 +259,8 @@ else
     Light_heal_label = "Tincture Heal 󰀍"
 end
 
-local L = (locale == "zh" or locale == "zht" or locale == "zhr") and true or false;
+local Language_cn = (locale == "zh" or locale == "zht" or locale == "zhr") and true or false;
+
 local config = {
     template = function()
         return {
@@ -298,8 +299,8 @@ local config = {
             hover = hover or ""
         };
     end,
-    OPEN = L and "开启" or "Open",
-    CLOSE = L and "关闭" or "Close",
+    OPEN = Language_cn and "开启" or "Open",
+    CLOSE = Language_cn and "关闭" or "Close",
 }
 local option = config.option;
 
@@ -570,7 +571,7 @@ local clean_num_options = {
 }
 
 configuration_options = {
-    AddOptionHeader(""),
+    AddOptionHeader("基础配置"),
     --TheNet:SetDefaultMaxPlayers(16)
     AddConfigOption("max_player_num", "服务器人数上限", "设置服务器的最大人数", {
         { description = "不在这里设置", data = 0 },
@@ -580,830 +581,688 @@ configuration_options = {
         { description = "31", data = 31 }, { description = "32", data = 32 }, { description = "36", data = 36 }, { description = "42", data = 42 }, { description = "48", data = 48 }, { description = "64", data = 64 }, { description = "72", data = 72 },
         { description = "128", data = 128, hover = "你是认真的么..." }, { description = "256", data = 256, hover = "你是认真的么..." }, { description = "512", data = 512, hover = "你是认真的么..." }, { description = "1024", data = 1024, hover = "你是认真的么..." },
     }, 0),
+    AddOption("hide_admin_switch", "隐藏管理员-开关", "是否隐藏管理员标志", false),
+    AddConfigOption("no_rollback", "禁止『发起投票->回滚世界』", "", { { description = "禁止投票回滚", data = true, hover = "不能发起投票回滚世界" },
+                                                                     { description = "不禁止投票回滚", data = false, hover = "可以发起投票回滚世界" }, }, true),
+    AddConfigOption("no_regenerate", "禁止『发起投票->重置世界』", "", { { description = "禁止投票重置", data = true, hover = "不可以发起投票重置世界" },
+                                                                       { description = "不禁止投票重置", data = false, hover = "可以发起投票重置世界" }, }, true),
+    AddConfigOption("optimiseAnnouncement", "优化重复宣告导致的刷屏", "统一文本宣告只会在设定值内显示一次", { { description = "关闭", data = 0 },
+                                                                                                              { description = "1s内", data = 1 },
+                                                                                                              { description = "5s内", data = 5 },
+                                                                                                              { description = "10s内", data = 10 },
+                                                                                                              { description = "20s内", data = 20 }, }, 5),
+    AddOption("SpyBundle", "包裹监控", "设置对包裹相关的监控。", true),
+    AddOption("SpyOther", "全能监控", "设置玩家与生物相关的监控。", true),
+    AddOption("command_stack", "堆叠指令", "玩家聊天输入#stack堆叠附近的物品。", true),
     AddOption("change_stack_num_by_mousewheel_switch", "物品数量鼠标滚轮控制", "可以通过滚轮调整拿起的可堆叠物品的数量", true),
     AddOption("clean_garbage", "二本垃圾箱", "对二本科技右键会有4个小格子，将不想用的物品放入点击清理可直接删除", true),
     AddConfigOption("auto_stack_range", "掉落自动堆叠", "设置掉落物自动堆叠的范围，设为0关闭自动堆叠", { { description = "关闭", data = 0 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30, hover = "默认" }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "60", data = 60 }, { description = "70", data = 70 }, { description = "80", data = 80 }, { description = "90", data = 90 }, { description = "100", data = 100 }, }, 30),
     AddConfigOption("stack_size", "物品堆叠数量", "设置物品堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 }, }, 40),
     AddOption("stack_more", "更多可堆叠", "使鸟、兔子、地鼠、鱼等生物变得可堆叠", true),
+
     AddOption("death_counter_switch", "死亡次数累计", "显示死亡次数累计", false),
 
-    AddOptionHeader("睡眠设备调整"),
-    AddOption("sleeping_buff_switch", "总开关", "是否开启睡眠设备相关的调整", false),
-    --AddConfigOption("tent_uses", "帐篷耐久", "改帐篷耐久", { { description = "关闭", data = 15 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30 }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "100", data = 100 }, { description = "200", data = 200 }, { description = "500", data = 500, hover = "默认" }, { description = "9999", data = 9999 }, }, 500),
-    --AddConfigOption("siesta_canopy_uses", "木棚耐久", "改木棚耐久", { { description = "关闭", data = 16 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30 }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "100", data = 100 }, { description = "200", data = 200 }, { description = "500", data = 500, hover = "默认" }, { description = "9999", data = 9999 }, }, 500),
-    AddConfigOption("sleeping_buff_uses", "帐篷耐久", "改帐篷耐久", sleeping_buff_hp_options, false),
-    AddConfigOption("sleeping_buff_uses2", "木棚耐久", "改木棚耐久", sleeping_buff_hp_options, false),
-    AddConfigOption("sleeping_buff_uses3", "便携帐篷耐久", "便携帐篷耐久", sleeping_buff_hp_options, false),
-    AddConfigOption("sleeping_buff_uses4", "毛皮铺盖耐久", "毛皮铺盖耐久", sleeping_buff_hp_options, false),
-    AddConfigOption("sleeping_buff_t_smup", "黑血恢复", "睡觉是否可以黑血恢复", optionsYesNo, true),
-    AddConfigOption("sleeping_buff_t_smhf", "恢复速度", "睡觉是回血速度", {
-        { description = "-2", data = 0.1 },
-        { description = "-1.5", data = 0.5 },
-        { description = "关闭", data = false },
-        { description = "1.25", data = 1.25 },
-        { description = "1.5", data = 1.5 },
-        { description = "1.75", data = 1.75 },
-        { description = "2", data = 2 },
-        { description = "2.5", data = 2.5 },
-        { description = "3", data = 3 },
-        { description = "3.5", data = 3.5 },
-        { description = "4", data = 4 },
-        { description = "5", data = 5 },
-        { description = "6", data = 6 }, }, 3),
-
-
-    AddOptionHeader("死亡不掉落配置"),
-    AddOption("dont_drop", "是否开启死亡不掉落", "死亡不掉落物品总开关", false),
-    AddConfigOption("rendiao", "本体掉落最大数量", "角色物品栏最大的掉落数量", { { description = "不掉落", data = 0, hover = "" }, { description = "1", data = 1, hover = "" }, { description = "2", data = 2, hover = "" }, { description = "3", data = 3, hover = "" }, { description = "4", data = 4, hover = "" }, { description = "5", data = 5, hover = "" }, { description = "6", data = 6, hover = "" }, { description = "7", data = 7, hover = "" }, { description = "8", data = 8, hover = "" }, { description = "9", data = 9, hover = "" } }, 0),
-    AddConfigOption("baodiao", "背包掉落", "背包掉落的最大数量", { { description = "不掉落", data = 0, hover = "" }, { description = "1", data = 1, hover = "" }, { description = "2", data = 2, hover = "" }, { description = "3", data = 3, hover = "" }, { description = "4", data = 4, hover = "" }, { description = "5", data = 5, hover = "" }, { description = "6", data = 6, hover = "" }, { description = "7", data = 7, hover = "" }, { description = "8", data = 8, hover = "" }, { description = "9", data = 9, hover = "" } }, 0),
-    AddOption("zbdiao", "装备掉落", "死亡掉落装备 \n 防止一些未知bug.", false),
-    AddOption("amudiao", "生命护符掉落", "死亡掉落生命护符", true),
-    AddConfigOption("nillots", "置空一个物品栏", "死亡置空一个物品栏，用于给心脏", { { description = "On(开启)", data = 0, hover = "" }, { description = "Off(关闭)", data = 1, hover = "" } }, 0),
-    AddOption("drown_drop", "落水掉落", "落水掉落东西", true),
-
-    AddOptionHeader("额外装备栏设置"),
-    AddOption("extra_equip_slots", "额外装备栏设置总开关", "五格装备栏总开关", true),
-    -- {
-    --     name = "render_strategy",
-    --     label = "渲染策略(Render Strategy)",
-    --     hover = "同时装备护符和身体部位装备时，您希望渲染哪一个贴图？(When equip both amulet and body equipment, which do you want to render?)",
-    --     options = {
-    --         { description = "默认(default)", data = "none", hover = "渲染最后装备的那个(Render the last equipment)" },
-    --         { description = "护符(amulet)", data = "neck", hover = "渲染护符贴图(Render amulet)" },
-    --         { description = "身体(body)", data = "body", hover = "渲染身体部位装备贴图(Render body equipment)" },
-    --     },
-    --     default = "none",
-    -- },
-    AddConfigOption("slots_num", "额外物品栏格子(Extra Item Slots)", "您想要多少额外的物品栏格子？(How many extra item slots do you want?)", {
-        { description = "-10", data = -10 },
-        { description = "-5", data = -5 },
-        { description = "-4", data = -4 },
-        { description = "-3", data = -3 },
-        { description = "-2", data = -2 },
-        { description = "-1", data = -1 },
-        { description = "默认(default)", data = 0 },
-        { description = "+1", data = 1 },
-        { description = "+2", data = 2 },
-        { description = "+3", data = 3 },
-        { description = "+4", data = 4 },
-        { description = "+5", data = 5 },
-        { description = "+10", data = 10 },
-        { description = "+15", data = 15, hover = "可能会导致UI溢出(Maybe cause UI overflow)" },
-        { description = "+20", data = 20, hover = "可能会导致UI溢出(Maybe cause UI overflow)" }, }, 0),
-    AddOption("backpack_slot", "额外背包格子(Extra Backpack Slot)", "你想要一个额外的背包格子吗？(Do you want an extra backpack slot?)", true),
-    AddOption("amulet_slot", "额外护符格子(Extra Amulet Slot)", "你想要一个额外的护符格子吗？(Do you want an extra amulet slot?)", true),
-    AddOption("compass_slot", "额外指南针格子(Extra Compass Slot)", "你想要一个额外的指南针格子吗？(Do you want an extra compass slot?)", false),
-    AddOption("drop_hand_item_when_heavy", "负重时卸下手部装备(Drop Handitem)", "背起重物时，是否让你的手部装备被卸下？(Remove handitem when you carry heavy?)", true),
-    AddOption("show_compass", "显示指南针(Show Compass)", "装备指南针时是否显示贴图(Show compass when equipped?)", true),
-    AddOption("chesspiece_fix", "搬雕像渲染修复(Chesspiece Fix)", "修复可能出现的渲染错误(Fix some render problems)", true),
-    --AddConfigOption("drop_bp_if_heavy","搬运重物时使用的格子","搬运重物时，您想使用哪个格子？",{ {description = "背包格子", data = true}, {description = "身体格子", data = false}, },false),
-    AddConfigOption("slots_bg_length_adapter", "物品栏背景长度调整", "每大一点就会长一点点，每小一点就会短一点点", options_for_slots_bg, 0),
-    AddConfigOption("slots_bg_length_adapter_no_bg", "去除物品栏背景", "去除物品栏背景", { { description = "去除", data = true }, { description = "不去除", data = false }, }, false),
-
-    AddOptionHeader("木牌传送设置"),
-    AddOption("fast_travel", "木牌传送-总开关", "设置是否开启木牌传送", true),
-    AddConfigOption("set_wait_second", "设置等待时长", "修改传送时等待的时长（秒）", { { description = "直接传送", data = 0 }, { description = "1秒", data = 1 }, { description = "3秒", data = 3 }, { description = "5秒", data = 5, hover = "默认" }, }, 0),
-    AddConfigOption("Hunger_Cost", "饥饿消耗", "修改传送时饥饿消耗倍率", { { description = "无消耗", data = 0 }, { description = "X0.25", data = 0.25 }, { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 }, { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 } }, 1),
-    AddConfigOption("Sanity_Cost", "精神消耗", "修改传送时精神消耗倍率", { { description = "无消耗", data = 0 }, { description = "X0.25", data = 0.25 }, { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 }, { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 } }, 1),
-    AddConfigOption("Ownership", "权限修改", "所有权限制?", { { description = "启用", data = true }, { description = "不可用", data = false } }, false),
-
-    AddOptionHeader("死亡复活按钮设置"),
-    AddOption("death_resurrection_button", "死亡复活按钮-总开关", "设置是否开启死亡复活按钮", true),
-    AddConfigOption("CD", "设置冷却时间", "", { { description = "0分钟", hover = "无CD", data = 0 }, { description = "1分钟", hover = "游戏中一天为8分钟", data = 60 }, { description = "2分钟", hover = "游戏中一天为8分钟", data = 120 }, { description = "4分钟", hover = "游戏中一天为8分钟", data = 240 }, { description = "8分钟", hover = "游戏中一天为8分钟", data = 480 }, { description = "12分钟", hover = "游戏中一天为8分钟", data = 720 }, { description = "2天", hover = "游戏中一天为8分钟", data = 960 }, { description = "3天", hover = "游戏中一天为8分钟", data = 1440 }, { description = "4天", hover = "游戏中一天为8分钟", data = 1920 } }, 0),
-    AddConfigOption("Health_Penalty", "血量上限惩罚设置", "俗称黑血", { { description = "0%", hover = "无惩罚", data = 0 }, { description = "5%", hover = "5%", data = 0.05 }, { description = "15%", hover = "15%", data = 0.15 }, { description = "25%", hover = "25%", data = 0.25 }, { description = "35%", hover = "35%", data = 0.35 }, { description = "45%", hover = "45%", data = 0.45 }, { description = "55%", hover = "55%", data = 0.55 }, { description = "65%", hover = "65%", data = 0.65 }, { description = "75%", hover = "75%", data = 0.75 } }, 0),
-    AddConfigOption("UI", "按钮位置", "", { { description = "中心点", hover = "中心点", data = "center" }, { description = "中心偏下", hover = "中心偏下", data = "center_offset_down" }, { description = "正上方", hover = "正上方", data = "right_above" }, { description = "左上角", hover = "左上角", data = "upper_left" }, { description = "左下角", hover = "左下角", data = "lower_left" } }, "center_offset_down"),
-
-    AddOptionHeader("重生设置"),
-    AddOption("restart_set", "重生-总开关", "设置是否开启重生功能", true),
-    AddOption("MOD_RESTART_ALLOW_RESTART", "重生", "", false),
-    AddOption("MOD_RESTART_ALLOW_RESURRECT", "复活", "", true),
-    AddOption("MOD_RESTART_ALLOW_KILL", "自杀", "", false),
-    AddConfigOption("MOD_RESTART_CD_RESTART", "重生冷却(分)", "重生的冷却时间.", mod_restart_cd_options, 0),
-    AddConfigOption("MOD_RESTART_CD_RESURRECT", "复活冷却(分)", "复活的冷却时间.", mod_restart_cd_options, 0),
-    AddConfigOption("MOD_RESTART_CD_KILL", "自杀冷却(分)", "自杀的冷却时间.", mod_restart_cd_options, 0),
-    AddConfigOption("MOD_RESTART_CD_BONUS", "冷却调整", "冷却时间随使用次数不断增加.", { { description = "关", data = 0, hover = "固定的冷却时间" },
-                                                                                         { description = "10%", data = 0.1, hover = "每次使用后增加(基础值的)10%" },
-                                                                                         { description = "20%", data = 0.2, hover = "每次使用后增加(基础值的)20%" },
-                                                                                         { description = "30%", data = 0.3, hover = "每次使用后增加(基础值的)30%" },
-                                                                                         { description = "40%", data = 0.4, hover = "每次使用后增加(基础值的)40%" },
-                                                                                         { description = "50%", data = 0.5, hover = "每次使用后增加(基础值的)50%" },
-                                                                                         { description = "100%", data = 1, hover = "每次使用后增加(基础值的)100%" },
-                                                                                         { description = "150%", data = 1.5, hover = "每次使用后增加(基础值的)150%" },
-                                                                                         { description = "200%", data = 2, hover = "每次使用后增加(基础值的)200%" }, }, 0),
-    AddConfigOption("MOD_RESTART_CD_MAX", "最大冷却(分)", "开启冷却调整后累计可达到的最大冷却时间.", { { description = "无", data = 0, hover = "冷却无上限" },
-                                                                                                       { description = "10", data = 10, hover = "10 分钟" },
-                                                                                                       { description = "15", data = 15, hover = "15 分钟" },
-                                                                                                       { description = "20", data = 20, hover = "20 分钟" },
-                                                                                                       { description = "25", data = 25, hover = "25 分钟" },
-                                                                                                       { description = "30", data = 30, hover = "30 分钟" },
-                                                                                                       { description = "45", data = 45, hover = "45 分钟" },
-                                                                                                       { description = "60", data = 60, hover = "60 分钟" },
-                                                                                                       { description = "75", data = 75, hover = "75 分钟" },
-                                                                                                       { description = "90", data = 90, hover = "90 分钟" },
-                                                                                                       { description = "105", data = 105, hover = "105 分钟" },
-                                                                                                       { description = "120", data = 120, hover = "120 分钟" },
-                                                                                                       { description = "180", data = 180, hover = "180 分钟" }, }, 0),
-    AddConfigOption("MOD_RESTART_FORCE_DROP_MODE", "强制掉落道具", "重生是否强制掉落道具.", { { description = "默认", data = 0, hover = "默认" }, { description = "掉落", data = 1, hover = "重生强制掉落道具" }, { description = "不掉落", data = 2, hover = "重生强制不掉落道具" }, }, 1),
-    AddConfigOption("MOD_RESTART_MAP_SAVE", "保留地图", "使用重生指令是否保留探索过的地图.", { { description = "开启(On)", data = 1, hover = "重生将会记住地图" },
-                                                                                               { description = "关闭(Off)", data = 2, hover = "重生失去所有地图的记忆" }, }, 1),
-    AddConfigOption("MOD_RESTART_RESURRECT_HEALTH", "复活血量", "使用复活指令后恢复的血量.", { { description = "默认", data = 0, hover = "游戏默认\n(只剩 50 点血量)" },
-                                                                                               { description = "递减", data = 1, hover = "每次复活恢复的血量不断减少\n(最少为 40% 的血量)" },
-                                                                                               { description = "随机", data = 2, hover = "复活随机恢复血量\n(随机血量范围: 10% ~ 100%)" },
-                                                                                               { description = "100%", data = 100, hover = "固定恢复 100% 的血量" },
-                                                                                               { description = "90%", data = 90, hover = "固定恢复 90% 的血量" },
-                                                                                               { description = "80%", data = 80, hover = "固定恢复 80% 的血量" },
-                                                                                               { description = "70%", data = 70, hover = "固定恢复 70% 的血量" },
-                                                                                               { description = "60%", data = 60, hover = "固定恢复 60% 的血量" },
-                                                                                               { description = "50%", data = 50, hover = "固定恢复 50% 的血量" },
-    }, 80),
-    AddConfigOption("MOD_RESTART_TRIGGER_MODE", "触发模式", "公聊或者私聊触发指令.", { { description = "公&私聊", data = 1 }, { description = "仅公聊", data = 2 }, { description = "仅私聊", data = 3 }, }, 1),
-
-    AddOptionHeader("智能小木牌"),
-    AddOption("smart_minisign_switch", "智能小木牌-总开关", "设置是否开启智能小木牌", true),
-    AddOption("Icebox", "冰箱(Icebox)", "Minisign for icebox/允许冰箱添加小木牌", false),
-    AddOption("ChangeSkin", "换肤功能(ChangeSkin)", "Minisign can change skin\n允许小木牌切换皮肤", true),
-    AddOption("DragonflyChest", "龙鳞宝箱(DragonflyChest)", "Minisign for DragonflyChest\n允许龙鳞箱子添加小木牌", false),
-    AddOption("SaltBox", "盐盒(SaltBox)", "Minisign for SaltBox\n允许盐箱添加小木牌", false),
-    AddOption("BundleItems", "包裹物品显示(BundleItems)", "Show the item in bundle/显示包裹里面的物品", false),
-    AddOption("Digornot", "小木牌挖除(CanbeDug)", "Can be Dug/是否可以被挖", false),
-
-    AddOptionHeader("冰箱返鲜设置"),
-    AddOption("better_icebox", "冰箱返鲜-总开关", "设置是否开冰箱返现功能", true),
-    AddConfigOption("icebox_freeze", "腐烂速度", "", { { description = "正常腐烂", data = "0.5" },
-                                                       { description = "缓慢腐烂", data = "0.3" },
-                                                       { description = "保鲜", data = "0" },
-                                                       { description = "反鲜", data = "-5" }, }, "-5"),
-    AddConfigOption("krampus_sack_ice", "小偷包保鲜", "", { { description = "开启", data = true, hover = "小偷包保鲜,保鲜度同冰箱" },
-                                                            { description = "关闭", data = false }, }, false),
-    AddConfigOption("backpack_ice", "背包保鲜", "", { { description = "开启", data = true, hover = "背包包保鲜,保鲜度同冰箱" },
-                                                      { description = "关闭", data = false }, }, false),
-    AddConfigOption("piggyback_ice", "小猪包保鲜", "", { { description = "开启", data = true, hover = "小猪包保鲜,保鲜度同冰箱" },
-                                                         { description = "关闭", data = false }, }, false),
-    AddConfigOption("saltlicker", "盐盒", "", { { description = "正常腐烂", data = 0.25 },
-                                                { description = "保鲜", data = 0 },
-                                                { description = "反鲜", data = -5 }, }, 0.25),
-    AddConfigOption("mushroom_frige", "蘑菇灯保鲜", "", { { description = "正常腐烂", data = 0.25 },
-                                                          { description = "保鲜", data = 0 } }, 0),
-    AddConfigOption("cage_frige", "骨灰盒保鲜", "", { { description = "开启", data = true, hover = "骨灰盒保鲜,保鲜度同冰箱" },
-                                                      { description = "关闭", data = false }, }, false),
-
-    AddOptionHeader("快速工作设置"),
-    AddOption("quick_work", "快速工作-总开关", "设置是否开启快速工作功能", true),
-    AddOption("Pick", "采集类", "采集、捡起、收获", true),
-    AddOption("BuildRepair", "建造修复类", "建造、装饰、绘画、修复、缝补、灭火", true),
-    AddOption("HSHU", "三围升级类", "食用、治疗、学习、升级", true),
-    AddOption("Animal", "动物类", "抚摸、喂食、杀害、刷毛、刮毛", true),
-    AddOption("Others", "其他动作", "其他动作加快", true),
-    AddOption("QuickDry", "晾肉秒干", "肉一挂上晾肉架就风干", false),
-    AddConfigOption("CookTime", "烹饪时间", "按照你设定的时间煮好食物", { { description = "立刻完成", data = 0 },
-                                                                          { description = "只开启快速烤制", data = 998, hover = "默认" },
-                                                                          { description = "15 秒", data = 15 },
-                                                                          { description = "30 秒", data = 30 },
-                                                                          { description = "关闭", data = 999 }, }, 999),
-    AddConfigOption("FishTime", "钓鱼时间", "钓鱼时鱼按你设置的时间上钩", { { description = "立刻上钩", data = 0, hover = "默认" },
-                                                                            { description = "5 秒", data = 5 },
-                                                                            { description = "关闭", data = 999 }, }, 0),
-    AddConfigOption("QuickGrow", "作物秒熟", "农场种植种子成熟时间调整", { { description = "开启", data = 0 },
-                                                                           { description = "只开启冬天正常生长", data = 1 },
-                                                                           { description = "关闭", data = 999, hover = "默认" }, }, 999),
-    AddConfigOption("ChopTime", "砍伐次数", "设置砍倒树木的次数", { { description = "1 次", data = 1, hover = "默认" },
-                                                                    { description = "4 次", data = 4 },
-                                                                    { description = "关闭", data = 999 }, }, 1),
-    AddConfigOption("MineTime", "开采次数", "设置敲开矿物岩石的次数", { { description = "1 次", data = 1 },
-                                                                        { description = "4 次", data = 4 },
-                                                                        { description = "关闭", data = 999, hover = "默认" }, }, 999),
-
-    AddOptionHeader("陷阱增强"),
-    AddOption("trap_enhance", "陷阱增强-总开关", "设置是否开启陷阱增强功能", false),
-    AddOption("stack", "狗牙陷阱可堆叠", "狗牙陷阱可堆叠", true),
-    AddConfigOption("trap_uses", "狗牙陷阱耐久修改", "", { { description = "无修改(默认10次)", data = 0, hover = "默认" },
-                                                           { description = "2倍", data = 16 },
-                                                           { description = "8倍", data = 64 },
-                                                           { description = "32倍", data = 256 },
-                                                           { description = "无限", data = 9999999 }, }, 0),
-    AddConfigOption("trap_teeth_damage", "狗牙陷阱伤害修改", "尽量不要修改哦，小心丧失游戏乐趣~", { { description = "无修改(默认60)", data = 0, hover = "默认" },
-                                                                                                   { description = "2倍(120)", data = 120 },
-                                                                                                   { description = "4倍(240)", data = 240 },
-                                                                                                   { description = "8倍(480)", data = 480 },
-                                                                                                   { description = "999", data = 999 }, }, 0),
-    AddConfigOption("radius", "狗牙陷阱攻击范围", "", { { description = "无变化", data = 1 },
-                                                        { description = "2倍", data = 2 },
-                                                        { description = "3倍", data = 3 },
-                                                        { description = "4倍", data = 4 },
-                                                        { description = "8倍", data = 8 }, }, 1),
-    AddConfigOption("reset", "狗牙陷阱自动重置", "", { { description = "是", data = 1 },
-                                                       { description = "否", data = 0 }, }, 1),
-    AddConfigOption("time", "狗牙陷阱自动重置时间", "", { { description = "0.2秒", data = 0.2 },
-                                                          { description = "0.5秒", data = 0.5 },
-                                                          { description = "1秒", data = 1 },
-                                                          { description = "2秒", data = 2 },
-                                                          { description = "3秒", data = 3 },
-                                                          { description = "4秒", data = 4 }, }, 2),
-
-    AddOptionHeader(" "),
-    AddOption("stack_j", "荆棘陷阱可堆叠", "荆棘陷阱可堆叠", true),
-    AddConfigOption("trap_uses_j", "荆棘陷阱耐久修改", "", { { description = "无修改(默认10次)", data = 0, hover = "默认" },
-                                                             { description = "2倍", data = 16 },
-                                                             { description = "8倍", data = 64 },
-                                                             { description = "32倍", data = 256 },
-                                                             { description = "无限", data = 9999999 }, }, 0),
-    AddConfigOption("trap_bramble_damage", "荆棘陷阱伤害修改", "尽量不要修改哦，小心丧失游戏乐趣~", { { description = "无修改(默认40)", data = 0, hover = "默认" },
-                                                                                                     { description = "2倍(80)", data = 80 },
-                                                                                                     { description = "4倍(160)", data = 160 },
-                                                                                                     { description = "8倍(320)", data = 320 },
-                                                                                                     { description = "999", data = 999 }, }, 0),
-    AddConfigOption("radius_j", "荆棘陷阱攻击范围", "", { { description = "无变化", data = 1 },
-                                                          { description = "2倍", data = 2 },
-                                                          { description = "3倍", data = 3 },
-                                                          { description = "4倍", data = 4 },
-                                                          { description = "8倍", data = 8 }, }, 1),
-    AddConfigOption("reset_j", "荆棘陷阱自动重置", "", { { description = "是", data = 1 }, { description = "否", data = 0 }, }, 1),
-    AddConfigOption("time_j", "荆棘陷阱自动重置时间", "", { { description = "0.2秒", data = 0.2 },
-                                                            { description = "0.5秒", data = 0.5 },
-                                                            { description = "1秒", data = 1 },
-                                                            { description = "2秒", data = 2 },
-                                                            { description = "3秒", data = 3 },
-                                                            { description = "4秒", data = 4 }, }, 2),
-
-    AddOptionHeader(" "),
-    AddOption("attack_player_h", "海星陷阱不攻击玩家", "设置海信陷阱是否攻击玩家", false),
-    AddConfigOption("trap_starfish_damage", "海星陷阱伤害修改", "尽量不要修改哦，小心丧失游戏乐趣~", { { description = "无修改(默认60)", data = 0, hover = "默认" },
-                                                                                                      { description = "2倍(120)", data = 120 },
-                                                                                                      { description = "4倍(240)", data = 240 },
-                                                                                                      { description = "8倍(480)", data = 480 },
-                                                                                                      { description = "999", data = 999 }, }, 0),
-    AddConfigOption("radius_h", "海星陷阱攻击范围", "", { { description = "无变化", data = 0 },
-                                                          { description = "2倍", data = 2.8 },
-                                                          { description = "3倍", data = 4.2 },
-                                                          { description = "4倍", data = 5.6 },
-                                                          { description = "8倍", data = 11.2 }, }, 0),
-    AddConfigOption("reset_h", "海星陷阱重置时间", "", { { description = "无变化", data = 0 },
-                                                         { description = "0.2秒", data = 0.2 },
-                                                         { description = "0.5秒", data = 0.5 },
-                                                         { description = "1秒", data = 1 },
-                                                         { description = "2秒", data = 2 },
-                                                         { description = "3秒", data = 3 },
-                                                         { description = "5秒", data = 4 }, }, 0),
-
-    AddOptionHeader("Show me"),
-    AddOption("show_me_switch", "show me-开关", "是否开启show me", true),
-    --[[AddConfigOption("message_style", "Style", "", {
-        {description = "Isolation ->", data = 1},
-        {description = "isolation ->", data = 2},
-        {description = "Isol ->", data = 3},
-        {description = "isol ->", data = 4},
-        {description = "<- Warm", data = 5},
-        {description = "<- warm", data = 6},
-    },1),]]
-    AddConfigOption("food_style", "食物信息显示风格(Food Style)", "", {
-        { description = "默认(undefined)", data = 0, hover = "Default is \"long\"\n默认是 \"详细\"" },
-        { description = "详细(long)", data = 1, hover = "Hunger: +12.5 / Sanity: -10 / Health: +3\n饥饿: +12.5 / 精神: -10 / 生命: +3" },
-        { description = "简洁(short)", data = 2, hover = "+12.5 / -10 / +3" }, }, 0),
-    AddConfigOption("food_order", "食物属性显示顺序(Food Properties Order)", "", {
-        { description = "默认(undefined)", data = 0, hover = "Default if \"interface\"\n默认是 \"标准\"" },
-        { description = "标准(Interface)", data = 1, hover = "Hunger / Sanity / Health\n饥饿 / 精神 / 生命" },
-        { description = "自定(Wikia)", data = 2, hover = "Health / Hunger / Sanity\n生命 / 饥饿 / 精神" }, }, 0),
-    AddConfigOption("food_estimation", "过期时间(Estimate Stale Status)", "Should we estimate the stale status?(要不要估算过期时间)", {
-        { description = "默认(Undefined)", data = -1, hover = "Yes, and users may override this option.(是)" },
-        { description = "否(No)", data = 0, hover = "No, but users may override this option.(否)" },
-        { description = "是(Yes)", data = 1, hover = "Yes, but users may override this option.(是)" }, }, -1),
-    AddConfigOption("show_food_units", "显示食物的食物属性单位(Show Food Units)", "For example, units of meat, units of veggie etc.\n(例如肉度，菜度)", {
-        { description = "默认(undefined)", data = -1, hover = "Yes, and users may override this option.(是)" },
-        { description = "否(No)", data = 0, hover = "No, but users may override this option.(否)" },
-        { description = "是(Yes)", data = 1, hover = "Yes, but users may override this option.(是)" },
-        { description = "禁止(Forbidden)", data = 2, hover = "Server won't send food info to clients and their settings will not matter.\n服务端不会发送属性信息给客户端" }, }, -1),
-    AddConfigOption("show_uses", "显示工具用途(Show Tools Uses)", "", {
-        { description = "默认(undefined)", data = -1, hover = "Yes, and users may override this option.(是)" },
-        { description = "否(No)", data = 0, hover = "No, but users may override this option.(否)" },
-        { description = "是(Yes)", data = 1, hover = "Yes, but users may override this option.(是)" },
-        { description = "禁止(Forbidden)", data = 2, hover = "Server won't send this info to the clients and their settings will not matter.\n服务端不会发送属性信息给客户端" }, }, -1),
-    AddConfigOption("show_me_lang", "语言(Language)", "", {
-        { description = "Auto(自动)", data = "auto", hover = "Detect Language Pack(检测语言包)" },
-        { description = "en(英语)", data = "en", hover = "English(英语)" },
-        { description = "ru(俄语)", data = "ru", hover = "Russian(俄语)" },
-        { description = "chs(简体中文)", data = "chs", hover = "Simplified Chinese(简体中文)" },
-        { description = "cht(繁体中文)", data = "cht", hover = "Traditional Chinese(繁体中文)" },
-        { description = "br(葡萄牙语)", data = "br", hover = "Brazilian Portuguese(葡萄牙语)" },
-        { description = "pl(波兰语)", data = "pl", hover = "Polish(波兰语)" },
-        { description = "kr(韩语)", data = "kr", hover = "Korean(韩语)" },
-        { description = "es(西班牙语)", data = "es", hover = "Spanish(西班牙语)" }, }, "auto"),
-    AddConfigOption("display_hp", "显示血量(Display HP)", "", {
-        { description = "Auto(自动)", data = -1, hover = "Depends on installed mods.(取决于安装的模组)" },
-        { description = "No(否)", data = 0, hover = "No, but users may override this option.(否，但用户可以覆盖此选项。)" },
-        { description = "Yes(是)", data = 1, hover = "Yes, but users may override this option.(是，但用户可以覆盖此选项。)" },
-        { description = "Forbidden(禁止)", data = 2, hover = "Server won't send this info to the clients and their settings will not matter.(服务端将不会发送属性信息给客户端)" }, }, -1),
-
-    AddOption("T_crop", "农作物状态显示", "例如缺肥料、水分、家族、有杂草等，成长计时不受影响", true),
-    --AddConfigOption("naughtiness", "顽皮值", "", {
-    --    { description = "禁用", data = 0 },
-    --    { description = "", data = 1 },
-    --    { description = "", data = 2 },
-    --}, 0),
-    AddConfigOption("show_buddle_item", "显示捆绑包物(品show bundle item)", "", {
-        { description = "显示(yes)", data = 1 },
-        { description = "不显示(no)", data = 0 }, }, 1),
-
-    AddConfigOption("item_info_mod", "兼容item info模组(compatible with item info)", "如果打开，Show me将不显示与item info相同的信息", {
-        { description = "关闭(OFF)", data = 0 },
-        { description = "开启(ON)", data = 1 }, }, 0),
-
-
-    AddOptionHeader("容器拥有物品高亮显示"),
-    AddOption("container_high_light_switch", "总开关", "容器拥有物品高亮显示总开关", false),
-    AddConfigOption("chestR", "参数-红(Red)", "This is red component of highlighted chests color.\n默认绿色，如果红绿蓝都设置为0%或100%，箱子就没有颜色", color_options, -1),
-    AddConfigOption("chestG", "参数-绿(Green)", "This is green component of highlighted chests color.\n默认绿色，如果红绿蓝都设置为0%或100%，箱子就没有颜色", color_options, -1),
-    AddConfigOption("chestB", "参数-蓝(Blue)", "This is blue component of highlighted chests color.\n默认绿色，如果红绿蓝都设置为0%或100%，箱子就没有颜色", color_options, -1),
-
-
-    AddOptionHeader("信息显示"),
-    AddOption("cap_show_info_switch", "总开关", "物体信息详情显示总开关，开启此则show me不生效", false),
-    AddConfigOption("showanim", "显示物品动画信息", "", { { description = "显示", data = true }, { description = "不显示", data = false }, }, false),
-    AddConfigOption("showtype", "显示边框颜色", "", show_info_edge_color_options, 1),
-    AddConfigOption("show_info_bg", "显示背景", "", { { description = "显示", data = true, hover = "会显示背景及边框" }, { description = "不显示", data = false, hover = "不会显示背景及边框" }, }, false),
-
-    AddOptionHeader("全图定位"),
-    AddOption("global_position_switch", "全图定位-开关", "是否开启全图定位", true),
-    AddConfigOption("SHOWPLAYERSOPTIONS", "玩家指示器(Player Indicators)", "The arrow things that show players past the edge of the screen.", {
-        { description = "Always", data = 3 },
-        { description = "Scoreboard", data = 2 },
-        { description = "Never", data = 1 }, }, 2),
-    AddConfigOption("SHOWPLAYERICONS", "玩家图标(Player Icons)", "The player icons on the map.", { { description = "显示(Show)", data = true }, { description = "隐藏(Hide)", data = false }, }, true),
-    AddConfigOption("FIREOPTIONS", "火堆指示器(Show Fires)", "Show fires with indicators like players." ..
-            "\nThey will smoke when they are visible this way.", {
-        { description = "Always", data = 1 },
-        { description = "Charcoal", data = 2 },
-        { description = "Disabled", data = 3 }, }, 2),
-    AddConfigOption("SHOWFIREICONS", "火堆图标(Fire Icons)", "Show fires globally on the map (this will only work if fires are set to show)." ..
-            "\nThey will smoke when they are visible this way.", {
-        { description = "显示(Show)", data = true },
-        { description = "隐藏(Hide)", data = false }, }, true),
-    AddConfigOption("SHAREMINIMAPPROGRESS", "共享地图(Share Map)", "Share map exploration between players. This will only work if" ..
-            "\n'Player Indicators' and 'Player Icons' are not both disabled.", {
-        { description = "开启(Enabled)", data = true },
-        { description = "禁用(Disabled)", data = false }, }, true),
-    AddConfigOption("OVERRIDEMODE", "荒野覆盖(Wilderness Override)", "If enabled, it will use the other options you set in Wilderness mode." ..
-            "\nOtherwise, it will not show players, but all fires will smoke and be visible.", {
-        { description = "开启(Enabled)", data = true },
-        { description = "禁用(Disabled)", data = false }, }, false),
-
-    AddConfigOption("ENABLEPINGS", "点位标记(Pings)", "Whether to allow players to ping (alt+click) the map.", {
-        { description = "开启(Enabled)", data = true },
-        { description = "禁用(Disabled)", data = false }, }, true),
-
-    AddOption("map_on_Cartography", "在制图桌上共享地图", "", false),
-    AddOptionHeader("指南针"),
-    AddOption("compass_switch", "总开关", "建议全图定位只开ping,然后开启本功能,优化全图定位的后期卡顿", false),
-    AddConfigOption("compass_refresh_interval", "刷新间隔", "", { { description = "0", data = 0 },
-                                                                  { description = "0.1", data = 0.1 },
-                                                                  { description = "0.2", data = 0.2 },
-                                                                  { description = "0.5", data = 0.5 },
-                                                                  { description = "1", data = 1 },
-                                                                  { description = "2", data = 2 },
-                                                                  { description = "5", data = 5 } }, 0.2),
-
-
-    AddOptionHeader("蘑菇农场"),
-    AddOption("improve_mushroom_planters_switch", "蘑菇农场增强-开关", "是否开启蘑菇农场增强", true),
-    AddConfigOption("max_harvests", "Maximum Fertilization(最大收获数量)", "Maximum amount of fertilizer value the planter can store. Living logs restore this many harvests.",
-            { { description = "Unlimited", data = -1, hover = "Default, but never decrease" },
-              { description = "Default", data = 0, hover = "4 unless modded" },
-              { description = "8", data = 8, hover = "8 harvests" },
-              { description = "16", data = 16, hover = "16 harvests" },
-              { description = "32", data = 32, hover = "32 harvests" }, }, 0),
-
-    AddConfigOption("easy_fert", "Allow Fertilizers(允许使用肥料)", "If fertilizers can be used in place of living logs",
-            { { description = "No", data = false, hover = "Living logs only" },
-              { description = "Yes", data = true, hover = "Fertilizes by the sum of all nutrients divided by 8" }, }, false),
-
-    AddConfigOption("snow_grow", "Grow When Snow-covered(被雪覆盖是否允许生长)", "Whether to continue growing in winter or pause growth until snow melts",
-            { { description = "No", data = false, hover = "Pause growth" },
-              { description = "Yes", data = true, hover = "Keep growing" }, }, false),
-
-    AddConfigOption("moon_ok", "Allow Moon Shrooms(月亮蘑菇可种植)", "Should planters accept moon shrooms? Doesn't effect lunar spores.",
-            { { description = "No", data = false, hover = "Don't accept moon shrooms" },
-              { description = "Yes", data = true, hover = "Accept moon shrooms" }, }, true),
-
-
-    AddConfigOption("moon_spore", "Catchable Lunar Spores(可捕捉月孢子)", "Lunar spores can be caught with a bug net and used in a planter. What could go wrong?",
-            { { description = "No", data = false, hover = "Spores just explode, as usual" },
-              { description = "Yes", data = true, hover = "Spores can be caught and planted" }, }, false),
-
-
-    AddOptionHeader("龙鳞冰炉"),
-    AddOption("ice_furnace_switch", "龙鳞冰炉制作-开关", "是否可以制作龙鳞冰炉", false),
-    AddConfigOption("lang", "Language/语言", "The language you prefer to display the information related to Ice Furnaces" .. "\n你想要的用来显示冰炉相关信息的语言",
-            { { description = "English", data = true, hover = "Information related to Ice Furnaces will be displayed in English" },
-              { description = "中文", data = false, hover = "将用中文来显示龙鳞冰炉的相关信息" }, }, false),
-
-    AddConfigOption("temp", "Heat Control/调温", "Whether the Ice Furnace automatically adjust the heat" .. "\n冰炉是否自动调温",
-            { { description = "Yes/是", data = true, hover = "The Ice Furnace does not cause undercooling/冰炉不会导致过冷" },
-              { description = "No/否", data = false, hover = "The Ice Furnace keeps the strongest heat/冰炉保持最低温" }, }, false),
-
-    AddConfigOption("light_range", "Light Range/光照范围", "The light range of Ice Furnaces" .. "\n龙鳞冰炉的光照范围",
-            { { description = "Default/默认", data = 1, hover = "1 unit of light range\n1个单位的光照范围" },
-              { description = "2.5", data = 2.5, hover = "2.5 units of light range\n2.5个单位的光照范围" },
-              { description = "5", data = 5, hover = "5 units of light range\n5个单位的光照范围" },
-              { description = "7.5", data = 7.5, hover = "7.5 units of light range\n7.5个单位的光照范围" },
-              { description = "10", data = 10, hover = "10 units of light range\n10个单位的光照范围" }, }, 1),
-
-    AddConfigOption("container_slot", "Number of slots/容器格数", "The size of the container" .. "\n容器的空间大小",
-            { { description = "None/无容器", data = 0, hover = "No container for Ice Furnaces\n冰炉不具备容器功能" },
-              { description = "3 x 1", data = 3, hover = "Container contains 3 slots\n容器拥有3格空间" },
-              { description = "3 x 2", data = 6, hover = "Container contains 6 slots\n容器拥有6格空间" },
-              { description = "3 x 3", data = 9, hover = "Container contains 9 slots\n容器拥有9格空间" },
-              { description = "3 x 4", data = 12, hover = "Container contains 12 slots\n容器拥有12格空间" },
-              { description = "3 x 5", data = 15, hover = "Container contains 15 slots\n容器拥有15格空间" }, }, 3),
-
-    AddConfigOption("fresh_rate", "Preservation Rate/保存速率", "The preservation rate of the container" .. "\n龙鳞冰炉的保鲜能力",
-            { { description = "Default/默认", data = 1, hover = "Ice furnaces do not provide preservation effect\n冰炉不提供保鲜效果" },
-              { description = "0.5", data = 0.5, hover = "Items inside spoil 2 times slower\n2倍保鲜" },
-              { description = "0.25", data = 0.25, hover = "Items inside spoil 4 times slower\n4倍保鲜" },
-              { description = "0", data = 0, hover = "Items inside do not spoil\n永久保鲜" },
-              { description = "-0.25", data = -0.25, hover = "Items inside restore freshness at a rate of 0.25\n0.25倍反鲜" },
-              { description = "-0.5", data = -0.5, hover = "Items inside restore freshness at a rate of 0.5\n0.5倍反鲜" },
-              { description = "-1", data = -1, hover = "Items inside restore freshness at a rate of 1\n一倍反鲜" },
-              { description = "-2", data = -2, hover = "Items inside restore freshness at a rate of 2\n两倍反鲜" },
-              { description = "-4", data = -4, hover = "Items inside restore freshness at a rate of 4\n四倍反鲜" }, }, 0),
-
-    AddConfigOption("produce_ice", "Ice Production Interval/产冰间隔", "The frequency of the ice production" .. "\n冰炉生产冰的频率",
-            { { description = "5s", data = 5, hover = "Produce one piece of ice every 5 seconds\n每5秒生产一块冰" },
-              { description = "15s", data = 15, hover = "Produce one piece of ice every 15 seconds\n每15秒生产一块冰" },
-              { description = "30s", data = 30, hover = "Produce one piece of ice every 30 seconds\n每30秒生产一块冰" },
-              { description = "60s", data = 60, hover = "Produce one piece of ice every 60 seconds\n每60秒生产一块冰" },
-              { description = "120s", data = 120, hover = "Produce one piece of ice every 120 seconds\n每120秒生产一块冰" },
-              { description = "240s", data = 240, hover = "Produce one piece of ice every 240 seconds\n每240秒生产一块冰" },
-              { description = "480s", data = 480, hover = "Produce one piece of ice every 480 seconds\n每480秒生产一块冰" },
-              { description = "No Ice/不生产", data = 99999, hover = "No Ice Production\n不生产冰" }, }, 240),
-
-    AddConfigOption("way_to_obtain", "Way to Obtain/获得途径", "The way to obtain Ice Furnaces" .. "\n获得龙鳞冰炉的途径",
-            { { description = "Staff/法杖", data = 1, hover = "Get Ice Furnaces by consuming Ice Staffs/通过消耗冰冻法杖获得冰炉" },
-              { description = "Switch/切换", data = 2, hover = "Get Ice Furnaces by switching Scaled Furnaces/将火炉切换为冰炉" },
-              { description = "Blueprint/蓝图", data = 3, hover = "Build Ice Furnaces by learning blueprint/通过学习蓝图来建造冰炉" }, }, 1),
-
-
-    AddOptionHeader("小穹补丁"),
-    AddOption("sora_patches_switch", "小穹补丁-总开关", "是否开启小穹补丁", false),
-    AddConfigOption("soraRemoveDeathExpByLevel", "减免死亡惩罚", "穹一定等级后死亡不掉落经验",
-            { { description = "不改变", data = -1 },
-              { description = "1级", data = 1 },
-              { description = "5级", data = 5 },
-              { description = "10级", data = 10 },
-              { description = "15级", data = 15 },
-              { description = "20级", data = 20 },
-              { description = "25级", data = 25 },
-              { description = "30级", data = 30 }, }, 20),
-
-    AddConfigOption("soraRemoveRollExpByLevel", "减免换人惩罚", "穹一定等级后换人不掉落经验",
-            { { description = "不改变", data = -1 },
-              { description = "1级", data = 1 },
-              { description = "5级", data = 5 },
-              { description = "10级", data = 10 },
-              { description = "15级", data = 15 },
-              { description = "20级", data = 20 },
-              { description = "25级", data = 25 },
-              { description = "30级", data = 30 }, }, 20),
-    AddConfigOption("soraExp", "去除经验惩罚", "升级更容易", optionsYesNo, true),
-    AddConfigOption("soraHealDeath", "愈还原", "鞭尸\n是：还原 否：不改变", optionsYesNo, false),
-
-    AddConfigOption("soraRepairerToPhilosopherStoneLimit", "限制缝纫包修贤者宝石", "",
-            { { description = "不改变", data = 0 },
-              { description = "修0.5%", data = 0.005 },
-              { description = "修1%", data = 0.01 },
-              { description = "修2%", data = 0.02 },
-              { description = "修5%", data = 0.05 },
-              { description = "修10%", data = 0.1 },
-              { description = "修20%", data = 0.2 }, }, 0.01),
-    AddConfigOption("soraFastMaker", "制作速度更快", "装备荣誉勋章或穹与巧手勋章可以提高制作速度！穹30级进一步提高。\n是：提高 否：不提高", optionsYesNo, true),
-    AddConfigOption("soraDoubleMaker", "一定等级解锁双倍制作", "平行世界里偷不算偷！",
-            { { description = "不改变", data = -1 },
-              { description = "一开始", data = 0 },
-              { description = "5级", data = 5 },
-              { description = "10级", data = 10 },
-              { description = "15级", data = 15 },
-              { description = "20级", data = 20 },
-              { description = "25级", data = 25 },
-              { description = "30级", data = 30 },
-              { description = "50级", data = 50 },
-              { description = "100级", data = 100 }, }, 30),
-    AddConfigOption("soraPackLimit", "限制打包", "禁止穹打包一些独有的东西，比如猪王等", optionsYesNo, true),
-    AddConfigOption("soraPackFL", "打包风铃草", "初始自动打包风铃\n是：打包 否：不打包，全图找", optionsYesNo, true),
-    AddConfigOption("sorafl_select", "风铃草自选", "绑定风铃草时可以自选装备(小穹mod)", optionsYesNo, false),
-    AddConfigOption("sora_level_broke_through", "小穹突破等级上限", "小穹不只是30级了可以玩到100级咯", optionsYesNo, false),
-
-    AddOptionHeader("魔女之旅补丁"),
-    AddOption("elaina_patches_switch", "魔女补丁总开关", "是否开启魔女补丁", false),
-    AddOption("elaina_additional_skin_switch", "魔女额外皮肤", "是否开启魔女额外皮肤", false),
-    AddConfigOption("ban_brooch", "禁用专属胸针", "禁用伊蕾娜专属胸针(都乖乖舔老师去)", optionsYesNo, false),
-    AddConfigOption("ban_most_brooch", "禁用最强胸针", "禁用伊蕾娜的最强胸针", optionsYesNo, false),
-
-    AddOptionHeader("夜雨空心补丁"),
-    AddOption("yeyu_nilxin_patches_switch", "夜雨空心补丁总开关", "是否开启夜雨空心补丁", false),
-    AddConfigOption("yeyu_ruqin", "夜雨空心入侵调整", "入侵生物一段时间消失 地图范围外消失 防止小房子周围刷",
-            { { description = "否", data = false },
-              { description = "不消失", data = -1, hover = "地图范围外仍然消失" },
-              { description = "马上消失 主世界可用", data = 0, hover = "建议主世界设置" },
-              { description = "1天", data = 1 },
-              { description = "1.5天", data = 1.5 },
-              { description = "2天", data = 2, },
-              { description = "3天", data = 3, }, }, -1),
-    AddOption("yeyu_nilxin_pack_limit", "夜雨空心打包限制", "是否限制打包物品(共物品不允许打包)", false),
-    AddOption("xiuxian_patches", "夜雨空心 修仙额外", "限制了一些修仙武器可以放入魔杖", false),
-    AddConfigOption("yeyu_nilxin_jump_distance_limit", "夜雨心空跳跃限制", "限制夜雨心空的跳跃距离",
-            { { description = "不限制", data = -1, },
-              { description = "原地跳(哈哈)", data = 0, },
-              { description = "20码", data = 20, },
-              { description = "50码", data = 50, },
-              { description = "70码", data = 70, },
-              { description = "100码", data = 100, },
-              { description = "500码", data = 500, },
-              { description = "1000码", data = 1000, },
-              { description = "2000码", data = 2000, }, }, -1),
-
-    AddConfigOption("yeyu_nilxin_sea", "夜雨心空填海造海", "夜雨心空填海造海", { { description = "不限制", data = -1, },
-                                                                                 { description = "大门洞穴附近无法造海", data = 0, },
-                                                                                 { description = "大门洞穴和有structure标签附近无法造海", data = 1, } }, 0),
-
-    --AddOption("everyone_is_yeyu_nilxin", "人人都是夜雨", "每个角色都可以使用当夜雨", false),
-    AddOption("yeyu_nilxin_island_generate_no", "不生成夜雨岛", "给无资源档使用", false),
-
-
-    AddOptionHeader("奇幻降临补丁"),
-    AddOption("ab_patches_switch", "总开关", "是否开启奇幻降临补丁", false),
-    AddConfigOption("ab_t", "限制阿比日记超能权限", "限制世界多少天后可以使用", disappear_magic, 0),
-    AddConfigOption("ab_ty", "限制阿比桃源", "限制世界多少天后可以使用", disappear_magic, 0),
-    AddOption("ab_knot_drop_limit", "纽结：降临-掉落数量限制", "限制奇幻降临扭结碎片的掉落最大值及自动堆叠", false),
-    AddOption("ab_packer_limit", "阿比打包限制", "禁止打包一些公用物品", true),
-    AddConfigOption("ab_heisewuhui_optimize", "黑色舞会优化版", "稍微修改黑色舞会机制", {
-        { description = "默", data = 0, hover = "『事件禁止』：休闲模式" },
-        { description = "启", data = 1, hover = "『事件开始』：一阶段" },
-        { description = "中", data = 2, hover = "『事件扩展』：一*二阶段" },
-        { description = "终", data = 3, hover = "『事件全满』：一*二*三阶段" }, }, 0),
-
-    AddOptionHeader("乃木园子补丁"),
-    AddOption("yuanzi_patches_switch", "总开关", "是否开启乃木园子补丁", false),
-
-    {
-        name = "divinetree_no_health",
-        label = "神树真无敌",
-        hover = "神树无敌啦，再也不担心被狗咬啦",
-        options = {
-            { description = "是", data = true },
-            { description = "否", data = false },
-        },
-        default = false,
-    },
-    AddOptionHeader("水晶领主(aria)补丁"),
-    AddOption("aria_patches_switch", "总开关", "是否开启水晶领主", false),
-    AddOption("turn_off_aria_transfer_replicate_function", "转换站复制功能关闭", "移除制作站复制功能", true),
-    AddOption("aria_magiccore_can_make", "魔法核心制作", "可以在制作栏制作魔法核心\n需要研究所五级", true),
-
-    AddOptionHeader("璇儿补丁"),
-    AddOption("xuaner_patches_switch", "总开关", "是否开启璇儿补丁", false),
-    AddOption("xuaner_packer_limit_switch", "璇儿打包限制", "禁止打包一些公用物品", true),
-    -- {
-    --     name = "xuaner_patch",
-    --     label = "璇儿补丁",
-    --     hover = "无死亡惩罚",
-    --     options =
-    --     {
-    --         {description = "是", data = true},
-    --         {description = "否", data = false},
-    --     },
-    --     default = true,
-    -- },
-    AddOptionHeader("时崎狂三补丁"),
-    AddOption("kurumi_patches_switch", "总开关", "是否开启时崎狂三补丁", false),
-    AddOption("kurumi_packer_limit_switch", "狂三打包限制", "禁止打包一些公用物品", true),
-
-    AddOptionHeader("98K补丁(955048205)"),
-    AddOption("m_98K_patches_switch", "总开关", "是否开启98K补丁", false),
-    AddConfigOption("m_98k_RIFLE_DMG_R_multi", "RIFLE_DMG_R伤害倍率", "", { { description = "默认", data = 1 },
-                                                                            { description = "2倍", data = 2 },
-                                                                            { description = "5倍", data = 5 },
-                                                                            { description = "10倍", data = 10 },
-                                                                            { description = "100倍", data = 100 },
-                                                                            { description = "200倍", data = 200 },
-                                                                            { description = "500倍", data = 500 }, }, 1),
-    AddConfigOption("m_98k_RIFLE_DMG_M_multi", "RIFLE_DMG_M伤害倍率", "", { { description = "默认", data = 1 },
-                                                                            { description = "2倍", data = 2 },
-                                                                            { description = "5倍", data = 5 },
-                                                                            { description = "10倍", data = 10 },
-                                                                            { description = "100倍", data = 100 },
-                                                                            { description = "200倍", data = 200 },
-                                                                            { description = "500倍", data = 500 }, }, 1),
-    AddConfigOption("m_98k_BAYONET_DMG_2_multi", "BAYONET_DMG_2伤害倍率", "", { { description = "默认", data = 1 },
-                                                                                { description = "2倍", data = 2 },
-                                                                                { description = "5倍", data = 5 },
-                                                                                { description = "10倍", data = 10 },
-                                                                                { description = "100倍", data = 100 },
-                                                                                { description = "200倍", data = 200 },
-                                                                                { description = "500倍", data = 500 }, }, 1),
-    AddConfigOption("m_98k_BAYONET_DMG_1_multi", "BAYONET_DMG_1伤害倍率", "", { { description = "默认", data = 1 },
-                                                                                { description = "2倍", data = 2 },
-                                                                                { description = "5倍", data = 5 },
-                                                                                { description = "10倍", data = 10 },
-                                                                                { description = "100倍", data = 100 },
-                                                                                { description = "200倍", data = 200 },
-                                                                                { description = "500倍", data = 500 }, }, 1),
-
-
-    AddOptionHeader("神话书说补丁"),
-    AddOption("myth_patches_switch", "神话书说补丁-总开关", "是否开启神话书说补丁", true),
-    AddConfigOption("timeleft_tips", "BOSS刷新提醒", "", { { description = "不提醒", data = 1 },
-                                                           { description = "自动提醒", data = 2 },
-                                                           { description = "热键提醒", data = 3 } }, 2),
-    AddConfigOption("tip_key", "提醒热键", "", { { description = "F1", data = KEY_F1 }, { description = "F2", data = KEY_F2 }, { description = "F3", data = KEY_F3 }, { description = "F4", data = KEY_F4 }, { description = "F5", data = KEY_F5 }, { description = "F6", data = KEY_F6 }, { description = "F7", data = KEY_F7 }, { description = "F8", data = KEY_F8 }, { description = "F9", data = KEY_F9 }, { description = "F10", data = KEY_F10 }, { description = "F11", data = KEY_F11 }, { description = "F12", data = KEY_F12 } }, KEY_F8),
-    AddConfigOption("blackbear_respawn", "黑熊重生时间", "", { { description = "默认", data = 20 }, { description = "较多", data = 10 }, { description = "大量", data = 5 }, { description = "小强", data = 1 } }, 20),
-    AddConfigOption("rhino_respawn", "犀牛三大王重生时间", "", { { description = "默认", data = 50 }, { description = "较多", data = 10 }, { description = "大量", data = 5 }, { description = "小强", data = 1 } }, 50),
-    AddConfigOption("regen_myth_forg_respawn", "金蛤蟆重生时间", "", { { description = "默认", data = 20 }, { description = "较多", data = 10 }, { description = "大量", data = 5 }, { description = "小强", data = 1 } }, 20),
-    AddConfigOption("laozi_trade_num", "太上老君单人可交易次数", "", { { description = "1次(默认)", data = 1 }, { description = "2次", data = 2 }, { description = "3次", data = 3 }, { description = "4次", data = 4 }, { description = "5次", data = 5 }, { description = "6次", data = 6 } }, 1),
-    AddConfigOption("granary_not_rot", "谷仓保鲜", "", { { description = "关闭(OFF)", data = false }, { description = "开启(ON)", data = true } }, true),
-    AddConfigOption("granary_save_fruit", "谷仓可放水果", "", { { description = "关闭(OFF)", data = false }, { description = "开启(ON)", data = true } }, true),
-    AddConfigOption("mythBlackBearRockClearTime", "黑熊岩石清理", "一定时间后清理黑熊出来的岩石", { { description = "不清理", data = -1 },
-                                                                                                    { description = "4分后清理", data = 4 * 60 },
-                                                                                                    { description = "8分后清理", data = 8 * 60 },
-                                                                                                    { description = "16分后清理", data = 16 * 60 },
-                                                                                                    { description = "32分后清理", data = 32 * 60 }, }, 4 * 60),
-    AddConfigOption("mythFlyingSpeedMultiplier", "腾云术附带移动加成", "腾云术附带部分移动速度加成", { { description = "不附带", data = 0 },
-                                                                                                       { description = "附带25%", data = 0.25 },
-                                                                                                       { description = "附带50%", data = 0.5 },
-                                                                                                       { description = "附带75%", data = 0.75 },
-                                                                                                       { description = "附带100%", data = 1 },
-                                                                                                       { description = "附带150%", data = 1.5 },
-                                                                                                       { description = "附带200%", data = 2 }, }, 1),
-
-    AddOptionHeader("怠惰科技补丁"),
-    AddOption("lazy_technology_patches_switch", "怠惰科技补丁-开关", "怠惰科技补丁", false),
-    AddConfigOption("lazyTechKJKLimit", "锟斤拷限制", "进行进一步限制", { { description = "不限制", data = false },
-                                                                          { description = "仅对可装备的物品有效", data = "equipment" },
-                                                                          { description = "仅对武器和衣物有效", data = "weaponAndClothing" },
-                                                                          { description = "仅对衣物有效", data = "clothing" },
-                                                                          { description = "仅对武器有效", data = "weapon" },
-                                                                          { description = "全部禁止", data = "null" }, }, "weaponAndClothing"),
-
-    AddConfigOption("lazyTechHDSelectOptimize", "火堆检测优化", "现在会检查是否有怠惰火堆改装的箱子烧可燃物", { { description = "不优化", data = false }, { description = "优化", data = true }, }, true),
-
-    AddOptionHeader("小房子补丁"),
-    AddOption("sweet_house_patches_switch", "小房子可种植", "是否允许小房子可种植", false),
-
-    AddOptionHeader("红锅补丁"),
-    AddOption("red_pot_for_everyone_switch", "烹饪锅补丁开关", "任何人都可以使用烹饪锅？", false),
-    AddOption("Cookpots", Cookpots_label, Cookpots_hover, Switch, true),
-    AddOption("Other_item", Other_item_label, Other_item_hover, Switch, false),
-    AddOption("Professionalchef", Professionalchef_label, Professionalchef_hover, Switch, false),
-    AddConfigOption("CookingSpeed", CookingSpeed_label, CookingSpeed_hove, { { description = SpeedNormal, data = false },
-                                                                             { description = SpeedFast, data = 0.5 },
-                                                                             { description = SpeedFaster, data = 0.25 },
-                                                                             { description = SpeedFastest, data = 0.01 } }, false),
-
-    AddOption("AutoCook", AutoCook_label, AutoCook_hover, Switch, false),
-
-    AddOptionHeader("风滚草补丁"),
-    AddOption("interesting_tumbleweed_switch", "总开关", "", false),
-    AddConfigOption("tumbleweed_item_rates", "花样风滚草中可以开出一些物品", "花样风滚草可以开出一些其他物品", tumbleweed_item_rates_options, 0.2),
-    AddOption("tumbleweed_prevent_error_patch_switch", "风滚草防错补丁", "防止一些有关风滚草的mod的问题", true),
-
-
-    AddOptionHeader("码头套装增强"),
-    AddOption("dock_kit_enhance_switch", "码头套装增强开关", "码头套装增强", true),
-    AddConfigOption("DockKitNum", "码头套装制作数", "设置 制作码头套装时会得到的数量。", { { description = "2个", data = 2 },
-                                                                                          { description = "4个(官方)", data = 4 },
-                                                                                          { description = "6个", data = 6 },
-                                                                                          { description = "8个", data = 8 },
-                                                                                          { description = "10个", data = 10 },
-                                                                                          { description = "12个", data = 12 },
-                                                                                          { description = "16个(默认)", data = 16 },
-                                                                                          { description = "20个", data = 20 } }, 16),
-
-    AddOption("DockTileBreak", "码头地皮不连环崩坏", "设置 码头地皮不会连环崩坏。", true),
-    AddOption("DockKitAreaSea", "码头套装放置不限浅海", "设置 码头套装能在任何水域放置。", true),
-    AddOption("DockKitAreaCave", "码头套装放置洞穴深渊", "设置 码头套装能在洞穴深渊放置。", true),
-    AddOptionHeader("船只相关"),
-    AddOption("new_boats_size_switch", "新不同大小船只开关", "是否可以创建不同大小船只", false),
-    AddOption("ALLOWSKINS", "使用皮肤(Allow skins)", "创建船只是否允许使用皮肤(Allows players to craft boats with skins.)", true),
-
-    AddOptionHeader("发光的瓶子"),
-    AddOption("light_bottle_switch", "制作发光的瓶子总开关", "是否可以制作发光的瓶子", false),
-    AddConfigOption("light_bottle_lang", "语言(Language)", "", {
-        { description = "English", data = "en", hover = "English" },
-        { description = "简体中文", data = "chs", hover = "简体中文" }, }, "chs"),
-    AddConfigOption("light_area", Light_area_label, "", light_bottle_options, 10),
-    AddConfigOption("Light_heal", Light_heal_label, "", light_bottle_options, 5),
-    AddConfigOption("Light_sunshine", Light_sunshine_label, "", light_bottle_options, 1),
-    AddConfigOption("Light_menacing", Light_menacing_label, "", light_bottle_options, 1),
-    AddConfigOption("Light_poison", Light_poison_label, "", light_bottle_options, 15),
-    AddConfigOption("Light_Ember", Light_Ember_label, "", light_bottle_options, 1),
-    AddConfigOption("Light_Icy", Light_Icy_label, "", light_bottle_options, 1),
-
-    AddOptionHeader("超大容量背包"),
-    AddOption("bigbag_switch", "制作大背包开关", "是否可以制作超大背包", false),
-    AddConfigOption("BIG_BAG_LANG", "Language (语言)", "Change display language.", { { description = "English", data = 0, }, { description = "简体中文", data = 1, }, }, 1),
-    AddConfigOption("BAGSIZE", "Size of bag(背包大小)", "Size of bag", { { description = "8x3", data = 4, }, { description = "8x4", data = 1, }, { description = "8x6", data = 2, }, { description = "8x8", data = 3, }, }, 1),
-    AddConfigOption("NICEBIGBAGSIZE", "Size of haversack(挎包大小)", "Choose your size of haversack.",
-            { { description = "8x3", data = 1, },
-              { description = "8x4", data = 2, }, }, 2),
-    AddConfigOption("CATBIGBAGSIZE", "Size of catback(猫包大小)", "Choose your size of catback.",
-            { { description = "8x3", data = 1, },
-              { description = "8x4", data = 2, },
-              { description = "8x6", data = 3, },
-              { description = "8x8", data = 4, }, }, 2),
-    AddOption("KEEPFRESH", "KeepFresh (保鲜)", "Keep the food fresh.", false),
-    AddOption("LIGHT", "Light (保命微光)", "Let the bag give off light.", false),
-    AddOption("BIGBAGWATER", "Rainproof(防雨)", "Protect you from the rain.", false),
-    AddOption("BIGBAGPICK", "Fastpickup(快采)", "Let you pick up items quickly.", false),
-    AddOption("HEATROCKTEMPERATURE", "HeatrockTemp(暖石升降温)", "Change the heatrock's temperature automatically.", false),
-    AddConfigOption("WALKSPEED", "Walk Speed (移速)", "Walk speed while taking this bag.",
-            { { description = "Much Slower(超慢)", data = 0.5, },
-              { description = "Slower(慢)", data = 0.75, },
-              { description = "No Change(不变)", data = 1, },
-              { description = "Faster(快)", data = 1.25, },
-              { description = "Much Faster(超快)", data = 1.5, }, }, 1),
-    AddOption("BIG_BAG_STACK", "Full Stack (自动堆满)", "Get full stack when reopen the bag.(放一个重新打开会变堆叠满个数哦，慎用)", false),
-    AddOption("BIG_BAG_FRESH", "ReFresh (恢复新鲜)", "ReFresh food and tools when reopen the bag.", false),
-    --AddOption("GIVE", "Give Items (获得物品)", "!!! SEVER ONLY !!!  Give Items Directly If Can't Build Something. !!! SEVER ONLY !!!", false),
-    AddConfigOption("RECIPE", "Recipe (耗材)", "Recipe cost.",
-            { { description = "Very Cheap(超便宜)", data = 1, },
-              { description = "Cheap(便宜)", data = 2, },
-              { description = "Normal(正常)", data = 3, },
-              { description = "Expensive(贵)", data = 4, },
-              { description = "More Expensive(更贵)", data = 5, },
-              { description = "super Expensive(超贵)", data = 6, }, }, 6),
-    AddOption("BIG_BAG_EFFECTED_BY_OTHER_MODS", "制作是否受其他mod影响", "开启会根据服务器开不同mod的变化而变化", true),
-
-    AddConfigOption("CONTAINERDRAG_SWITCH", "BigBag Drag(背包拖拽)", "After opening, you can drag the bigbag's UI",
-            { { description = "Close(关闭)", data = false, hover = "关闭容器拖拽" },
-              { description = "Open(F1开启)", data = "KEY_F1", hover = "默认按住F1拖动" },
-              { description = "F2", data = "KEY_F2", hover = "按住F2拖动" },
-              { description = "F3", data = "KEY_F3", hover = "按住F3拖动" },
-              { description = "F4", data = "KEY_F4", hover = "按住F4拖动" },
-              { description = "F5", data = "KEY_F5", hover = "按住F5拖动" },
-              { description = "F6", data = "KEY_F6", hover = "按住F6拖动" },
-              { description = "F7", data = "KEY_F7", hover = "按住F7拖动" },
-              { description = "F8", data = "KEY_F8", hover = "按住F8拖动" },
-              { description = "F9", data = "KEY_F9", hover = "按住F9拖动" }, }, "KEY_F1"),
-
-    --AddConfigOption("EASYSWITCH", "Easy switch(快捷开关)", "After opening, you can open the bigbag quickly",
-    --        { { description = "Close", data = false, hover = "关闭快捷开关" },
-    --          { description = "O", data = "KEY_O", hover = "使用快捷键O" },
-    --          { description = "0", data = "KEY_0", hover = "使用快捷键0" },
-    --          { description = "F1", data = "KEY_F1", hover = "使用快捷键F1" },
-    --          { description = "F2", data = "KEY_F2", hover = "使用快捷键F2" },
-    --          { description = "F3", data = "KEY_F3", hover = "使用快捷键F3" },
-    --          { description = "F4", data = "KEY_F4", hover = "使用快捷键F4" },
-    --          { description = "F5", data = "KEY_F5", hover = "使用快捷键F5" },
-    --          { description = "F6", data = "KEY_F6", hover = "使用快捷键F6" },
-    --          { description = "F7", data = "KEY_F7", hover = "使用快捷键F7" },
-    --          { description = "F8", data = "KEY_F8", hover = "使用快捷键F8" },
-    --          { description = "F9", data = "KEY_F9", hover = "使用快捷键F9" }, }, "KEY_O"),
-    AddOption("BAGINBAG", "Bag in bag(包中包)", "Bag in bag", false),
-
-    AddOptionHeader("翅膀背包"),
-    AddOption("wingpack_switch", "制作翅膀背包开关", "是否可以制作翅膀背包", false),
-    AddOption("wingpack_equip_slot", "放在额外背包栏", "开始则放在额外背包栏\n关闭放在身体栏", false),
-
-    AddOptionHeader("超大容量便携箱子"),
-    AddOption("bigbox_switch", "制作超大容量便携箱子开关", "是否可以制作超大容量便携箱子", false),
-    --AddConfigOption("_big_box_ui_location_vertical", "UI位置垂直偏移", "",
-    --        { { description = "上移140", hover = "", data = 140 },
-    --          { description = "上移120", hover = "", data = 120 },
-    --          { description = "上移100", hover = "", data = 100 },
-    --          { description = "上移80", hover = "这个位置感觉刚刚好，不会挡住人物", data = 80 },
-    --          { description = "0", hover = "", data = 0 },
-    --          { description = "下移80", hover = "", data = -80 },
-    --          { description = "下移100", hover = "", data = -100 },
-    --          { description = "下移200", hover = "", data = -200 }, }, 80),
-    --AddConfigOption("_big_box_ui_location_vertical", "UI位置水平偏移", "",
-    --        { { description = "左移300", hover = "", data = 300 },
-    --          { description = "左移200", hover = "", data = -200 },
-    --          { description = "左移100", hover = "", data = -100 },
-    --          { description = "0", hover = "", data = 0 },
-    --          { description = "右移100", hover = "", data = 100 },
-    --          { description = "右移200", hover = "", data = 200 },
-    --          { description = "右移300", hover = "", data = 300 }, }, 0),
-
-    AddConfigOption("container_removable", L and "容器 UI 可以移动" or "The container UI can be moved", "警告：万万不可和同类功能的模组一起开启！！！\n如果有同类模组请关闭该选项。",
-            { option(L and "开启" or "Open", true, ""),
-              option(L and "关闭" or "Close", false, ""), }, false),
-    --AddConfigOption("_set_preserver_big_box", "保鲜效果设置", "",
-    --        { { description = "关闭", hover = "", data = false },
-    --          { description = "0.5", hover = "冰箱的保鲜效果", data = 0.5 },
-    --          { description = "0.25", hover = "盐盒的保鲜效果", data = 0.25 },
-    --          { description = "0.1", hover = "冰箱保鲜效果的5倍", data = 0.1 },
-    --          { description = "0", hover = "永久保鲜", data = 0 },
-    --          { description = "-0.5", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -0.5 },
-    --          { description = "-4", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -4 },
-    --          { description = "-16", hover = "返鲜。参考值：锡鱼罐返鲜效果为-0.333", data = -16 } }, false),
-    AddConfigOption("SET_HUGE_BOX_PRESERVER_VALUE", L and "设置保鲜效果" or "Set fresh-keeping effect", "",
-            { option(L and "关闭" or "Close", -1, ""),
-              option("0.5", 0.5, L and "冰箱的保鲜效果" or "The preservation effect of refrigerator"),
-              option("0.25", 0.25, L and "盐盒的保鲜效果" or "The preservation effect of salt box"),
-              option("0.1", 0.1, L and "冰箱保鲜效果的5倍" or "Five times as effective as a refrigerator"),
-              option("0", 0, L and "永久保鲜" or "Permanent preservation"),
-              option("-0.5", -0.5, L and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
-              option("-4", -4, L and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
-              option("-16", -16, L and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
-            }, -1),
 }
+
+---睡眠设备调整
+configuration_options[#configuration_options + 1] = AddOptionHeader("睡眠设备调整")
+configuration_options[#configuration_options + 1] = AddOption("sleeping_buff_switch", "总开关", "是否开启睡眠设备相关的调整", false)
+--configuration_options[#configuration_options + 1] = AddConfigOption("tent_uses", "帐篷耐久", "改帐篷耐久", { { description = "关闭", data = 15 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30 }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "100", data = 100 }, { description = "200", data = 200 }, { description = "500", data = 500, hover = "默认" }, { description = "9999", data = 9999 }, }, 500)
+--configuration_options[#configuration_options + 1] = AddConfigOption("siesta_canopy_uses", "木棚耐久", "改木棚耐久", { { description = "关闭", data = 16 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30 }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "100", data = 100 }, { description = "200", data = 200 }, { description = "500", data = 500, hover = "默认" }, { description = "9999", data = 9999 }, }, 500)
+configuration_options[#configuration_options + 1] = AddConfigOption("sleeping_buff_uses", "帐篷耐久", "改帐篷耐久", sleeping_buff_hp_options, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("sleeping_buff_uses2", "木棚耐久", "改木棚耐久", sleeping_buff_hp_options, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("sleeping_buff_uses3", "便携帐篷耐久", "便携帐篷耐久", sleeping_buff_hp_options, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("sleeping_buff_uses4", "毛皮铺盖耐久", "毛皮铺盖耐久", sleeping_buff_hp_options, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("sleeping_buff_t_smup", "黑血恢复", "睡觉是否可以黑血恢复", optionsYesNo, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("sleeping_buff_t_smhf", "恢复速度", "睡觉是回血速度", { { description = "-2", data = 0.1 }, { description = "-1.5", data = 0.5 }, { description = "关闭", data = false }, { description = "1.25", data = 1.25 }, { description = "1.5", data = 1.5 }, { description = "1.75", data = 1.75 }, { description = "2", data = 2 }, { description = "2.5", data = 2.5 }, { description = "3", data = 3 }, { description = "3.5", data = 3.5 }, { description = "4", data = 4 }, { description = "5", data = 5 }, { description = "6", data = 6 }, }, 3)
+
+---死亡不掉落配置
+configuration_options[#configuration_options + 1] = AddOptionHeader("死亡不掉落配置")
+configuration_options[#configuration_options + 1] = AddOption("dont_drop", "是否开启死亡不掉落", "死亡不掉落物品总开关", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("rendiao", "本体掉落最大数量", "角色物品栏最大的掉落数量", { { description = "不掉落", data = 0, hover = "" }, { description = "1", data = 1, hover = "" }, { description = "2", data = 2, hover = "" }, { description = "3", data = 3, hover = "" }, { description = "4", data = 4, hover = "" }, { description = "5", data = 5, hover = "" }, { description = "6", data = 6, hover = "" }, { description = "7", data = 7, hover = "" }, { description = "8", data = 8, hover = "" }, { description = "9", data = 9, hover = "" } }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("baodiao", "背包掉落", "背包掉落的最大数量", { { description = "不掉落", data = 0, hover = "" }, { description = "1", data = 1, hover = "" }, { description = "2", data = 2, hover = "" }, { description = "3", data = 3, hover = "" }, { description = "4", data = 4, hover = "" }, { description = "5", data = 5, hover = "" }, { description = "6", data = 6, hover = "" }, { description = "7", data = 7, hover = "" }, { description = "8", data = 8, hover = "" }, { description = "9", data = 9, hover = "" } }, 0)
+configuration_options[#configuration_options + 1] = AddOption("zbdiao", "装备掉落", "死亡掉落装备 \n 防止一些未知bug.", false)
+configuration_options[#configuration_options + 1] = AddOption("amudiao", "生命护符掉落", "死亡掉落生命护符", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("nillots", "置空一个物品栏", "死亡置空一个物品栏，用于给心脏", { { description = "On(开启)", data = 0, hover = "" }, { description = "Off(关闭)", data = 1, hover = "" } }, 0)
+configuration_options[#configuration_options + 1] = AddOption("drown_drop", "落水掉落", "落水掉落东西", true)
+
+---额外装备栏设置
+configuration_options[#configuration_options + 1] = AddOptionHeader("额外装备栏设置")
+configuration_options[#configuration_options + 1] = AddOption("extra_equip_slots", "额外装备栏设置总开关", "五格装备栏总开关", true)
+--configuration_options[#configuration_options + 1] = AddConfigOption("render_strategy","渲染策略(Render Strategy)","同时装备护符和身体部位装备时，您希望渲染哪一个贴图？(When equip both amulet and body equipment, which do you want to render?)",{ { description = "默认(default)", data = "none", hover = "渲染最后装备的那个(Render the last equipment)" }, { description = "护符(amulet)", data = "neck", hover = "渲染护符贴图(Render amulet)" }, { description = "身体(body)", data = "body", hover = "渲染身体部位装备贴图(Render body equipment)" }, },"none")
+configuration_options[#configuration_options + 1] = AddConfigOption("slots_num", "额外物品栏格子(Extra Item Slots)", "您想要多少额外的物品栏格子？(How many extra item slots do you want?)",
+        { { description = "-10", data = -10 }, { description = "-5", data = -5 }, { description = "-4", data = -4 }, { description = "-3", data = -3 }, { description = "-2", data = -2 }, { description = "-1", data = -1 },
+          { description = "默认(default)", data = 0 }, { description = "+1", data = 1 }, { description = "+2", data = 2 }, { description = "+3", data = 3 }, { description = "+4", data = 4 }, { description = "+5", data = 5 }, { description = "+10", data = 10 },
+          { description = "+15", data = 15, hover = "可能会导致UI溢出(Maybe cause UI overflow)" }, { description = "+20", data = 20, hover = "可能会导致UI溢出(Maybe cause UI overflow)" }, }, 0)
+configuration_options[#configuration_options + 1] = AddOption("backpack_slot", "额外背包格子(Extra Backpack Slot)", "你想要一个额外的背包格子吗？(Do you want an extra backpack slot?)", true)
+configuration_options[#configuration_options + 1] = AddOption("amulet_slot", "额外护符格子(Extra Amulet Slot)", "你想要一个额外的护符格子吗？(Do you want an extra amulet slot?)", true)
+configuration_options[#configuration_options + 1] = AddOption("compass_slot", "额外指南针格子(Extra Compass Slot)", "你想要一个额外的指南针格子吗？(Do you want an extra compass slot?)", false)
+configuration_options[#configuration_options + 1] = AddOption("drop_hand_item_when_heavy", "负重时卸下手部装备(Drop Handitem)", "背起重物时，是否让你的手部装备被卸下？(Remove handitem when you carry heavy?)", true)
+configuration_options[#configuration_options + 1] = AddOption("show_compass", "显示指南针(Show Compass)", "装备指南针时是否显示贴图(Show compass when equipped?)", true)
+configuration_options[#configuration_options + 1] = AddOption("chesspiece_fix", "搬雕像渲染修复(Chesspiece Fix)", "修复可能出现的渲染错误(Fix some render problems)", true)
+--configuration_options[#configuration_options + 1] = AddConfigOption("drop_bp_if_heavy","搬运重物时使用的格子","搬运重物时，您想使用哪个格子？",{ {description = "背包格子", data = true}, {description = "身体格子", data = false}, },false)
+configuration_options[#configuration_options + 1] = AddConfigOption("slots_bg_length_adapter", "物品栏背景长度调整", "每大一点就会长一点点，每小一点就会短一点点", options_for_slots_bg, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("slots_bg_length_adapter_no_bg", "去除物品栏背景", "去除物品栏背景", { { description = "去除", data = true }, { description = "不去除", data = false }, }, false)
+
+---木牌传送设置
+configuration_options[#configuration_options + 1] = AddOptionHeader("木牌传送设置")
+configuration_options[#configuration_options + 1] = AddOption("fast_travel", "木牌传送-总开关", "设置是否开启木牌传送", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("set_wait_second", "设置等待时长", "修改传送时等待的时长（秒）", { { description = "直接传送", data = 0 }, { description = "1秒", data = 1 }, { description = "3秒", data = 3 }, { description = "5秒", data = 5, hover = "默认" }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("Hunger_Cost", "饥饿消耗", "修改传送时饥饿消耗倍率", { { description = "无消耗", data = 0 }, { description = "X0.25", data = 0.25 }, { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 }, { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 } }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("Sanity_Cost", "精神消耗", "修改传送时精神消耗倍率", { { description = "无消耗", data = 0 }, { description = "X0.25", data = 0.25 }, { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 }, { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 } }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("Ownership", "权限修改", "所有权限制?", { { description = "启用", data = true }, { description = "不可用", data = false } }, false)
+
+---死亡复活按钮
+configuration_options[#configuration_options + 1] = AddOptionHeader("死亡复活按钮设置")
+configuration_options[#configuration_options + 1] = AddOption("death_resurrection_button", "死亡复活按钮-总开关", "设置是否开启死亡复活按钮", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("CD", "设置冷却时间", "", { { description = "0分钟", hover = "无CD", data = 0 }, { description = "1分钟", hover = "游戏中一天为8分钟", data = 60 }, { description = "2分钟", hover = "游戏中一天为8分钟", data = 120 }, { description = "4分钟", hover = "游戏中一天为8分钟", data = 240 }, { description = "8分钟", hover = "游戏中一天为8分钟", data = 480 }, { description = "12分钟", hover = "游戏中一天为8分钟", data = 720 }, { description = "2天", hover = "游戏中一天为8分钟", data = 960 }, { description = "3天", hover = "游戏中一天为8分钟", data = 1440 }, { description = "4天", hover = "游戏中一天为8分钟", data = 1920 } }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("Health_Penalty", "血量上限惩罚设置", "俗称黑血", { { description = "0%", hover = "无惩罚", data = 0 }, { description = "5%", hover = "5%", data = 0.05 }, { description = "15%", hover = "15%", data = 0.15 }, { description = "25%", hover = "25%", data = 0.25 }, { description = "35%", hover = "35%", data = 0.35 }, { description = "45%", hover = "45%", data = 0.45 }, { description = "55%", hover = "55%", data = 0.55 }, { description = "65%", hover = "65%", data = 0.65 }, { description = "75%", hover = "75%", data = 0.75 } }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("UI", "按钮位置", "", { { description = "中心点", hover = "中心点", data = "center" }, { description = "中心偏下", hover = "中心偏下", data = "center_offset_down" }, { description = "正上方", hover = "正上方", data = "right_above" }, { description = "左上角", hover = "左上角", data = "upper_left" }, { description = "左下角", hover = "左下角", data = "lower_left" } }, "center_offset_down")
+
+---死亡复活重生指令
+configuration_options[#configuration_options + 1] = AddOptionHeader("死亡复活重生指令设置")
+configuration_options[#configuration_options + 1] = AddOption("restart_set", "死亡复活重生指令-总开关", "设置是否开启重生功能", true)
+configuration_options[#configuration_options + 1] = AddOption("MOD_RESTART_ALLOW_RESTART", "重生", "", false)
+configuration_options[#configuration_options + 1] = AddOption("MOD_RESTART_ALLOW_RESURRECT", "复活", "", true)
+configuration_options[#configuration_options + 1] = AddOption("MOD_RESTART_ALLOW_KILL", "自杀", "", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("MOD_RESTART_CD_RESTART", "重生冷却(分)", "重生的冷却时间.", mod_restart_cd_options, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("MOD_RESTART_CD_RESURRECT", "复活冷却(分)", "复活的冷却时间.", mod_restart_cd_options, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("MOD_RESTART_CD_KILL", "自杀冷却(分)", "自杀的冷却时间.", mod_restart_cd_options, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("MOD_RESTART_CD_BONUS", "冷却调整", "冷却时间随使用次数不断增加.", { { description = "关", data = 0, hover = "固定的冷却时间" },
+                                                                                                                                         { description = "10%", data = 0.1, hover = "每次使用后增加(基础值的)10%" },
+                                                                                                                                         { description = "20%", data = 0.2, hover = "每次使用后增加(基础值的)20%" },
+                                                                                                                                         { description = "30%", data = 0.3, hover = "每次使用后增加(基础值的)30%" },
+                                                                                                                                         { description = "40%", data = 0.4, hover = "每次使用后增加(基础值的)40%" },
+                                                                                                                                         { description = "50%", data = 0.5, hover = "每次使用后增加(基础值的)50%" },
+                                                                                                                                         { description = "100%", data = 1, hover = "每次使用后增加(基础值的)100%" },
+                                                                                                                                         { description = "150%", data = 1.5, hover = "每次使用后增加(基础值的)150%" },
+                                                                                                                                         { description = "200%", data = 2, hover = "每次使用后增加(基础值的)200%" }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("MOD_RESTART_CD_MAX", "最大冷却(分)", "开启冷却调整后累计可达到的最大冷却时间.", { { description = "无", data = 0, hover = "冷却无上限" },
+                                                                                                                                                       { description = "10", data = 10, hover = "10 分钟" },
+                                                                                                                                                       { description = "15", data = 15, hover = "15 分钟" },
+                                                                                                                                                       { description = "20", data = 20, hover = "20 分钟" },
+                                                                                                                                                       { description = "25", data = 25, hover = "25 分钟" },
+                                                                                                                                                       { description = "30", data = 30, hover = "30 分钟" },
+                                                                                                                                                       { description = "45", data = 45, hover = "45 分钟" },
+                                                                                                                                                       { description = "60", data = 60, hover = "60 分钟" },
+                                                                                                                                                       { description = "75", data = 75, hover = "75 分钟" },
+                                                                                                                                                       { description = "90", data = 90, hover = "90 分钟" },
+                                                                                                                                                       { description = "105", data = 105, hover = "105 分钟" },
+                                                                                                                                                       { description = "120", data = 120, hover = "120 分钟" },
+                                                                                                                                                       { description = "180", data = 180, hover = "180 分钟" }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("MOD_RESTART_FORCE_DROP_MODE", "强制掉落道具", "重生是否强制掉落道具.", { { description = "默认", data = 0, hover = "默认" }, { description = "掉落", data = 1, hover = "重生强制掉落道具" }, { description = "不掉落", data = 2, hover = "重生强制不掉落道具" }, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("MOD_RESTART_MAP_SAVE", "保留地图", "使用重生指令是否保留探索过的地图.", { { description = "开启(On)", data = 1, hover = "重生将会记住地图" },
+                                                                                                                                               { description = "关闭(Off)", data = 2, hover = "重生失去所有地图的记忆" }, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("MOD_RESTART_RESURRECT_HEALTH", "复活血量", "使用复活指令后恢复的血量.", { { description = "默认", data = 0, hover = "游戏默认\n(只剩 50 点血量)" },
+                                                                                                                                               { description = "递减", data = 1, hover = "每次复活恢复的血量不断减少\n(最少为 40% 的血量)" },
+                                                                                                                                               { description = "随机", data = 2, hover = "复活随机恢复血量\n(随机血量范围: 10% ~ 100%)" },
+                                                                                                                                               { description = "100%", data = 100, hover = "固定恢复 100% 的血量" },
+                                                                                                                                               { description = "90%", data = 90, hover = "固定恢复 90% 的血量" },
+                                                                                                                                               { description = "80%", data = 80, hover = "固定恢复 80% 的血量" },
+                                                                                                                                               { description = "70%", data = 70, hover = "固定恢复 70% 的血量" },
+                                                                                                                                               { description = "60%", data = 60, hover = "固定恢复 60% 的血量" },
+                                                                                                                                               { description = "50%", data = 50, hover = "固定恢复 50% 的血量" }, }, 80)
+configuration_options[#configuration_options + 1] = AddConfigOption("MOD_RESTART_TRIGGER_MODE", "触发模式", "公聊或者私聊触发指令.", { { description = "公&私聊", data = 1 }, { description = "仅公聊", data = 2 }, { description = "仅私聊", data = 3 }, }, 1)
+---智能小木牌
+configuration_options[#configuration_options + 1] = AddOptionHeader("智能小木牌")
+configuration_options[#configuration_options + 1] = AddOption("smart_minisign_switch", "智能小木牌-总开关", "设置是否开启智能小木牌", true)
+configuration_options[#configuration_options + 1] = AddOption("Icebox", "冰箱(Icebox)", "Minisign for icebox/允许冰箱添加小木牌", false)
+configuration_options[#configuration_options + 1] = AddOption("ChangeSkin", "换肤功能(ChangeSkin)", "Minisign can change skin\n允许小木牌切换皮肤", true)
+configuration_options[#configuration_options + 1] = AddOption("DragonflyChest", "龙鳞宝箱(DragonflyChest)", "Minisign for DragonflyChest\n允许龙鳞箱子添加小木牌", false)
+configuration_options[#configuration_options + 1] = AddOption("SaltBox", "盐盒(SaltBox)", "Minisign for SaltBox\n允许盐箱添加小木牌", false)
+configuration_options[#configuration_options + 1] = AddOption("BundleItems", "包裹物品显示(BundleItems)", "Show the item in bundle/显示包裹里面的物品", false)
+configuration_options[#configuration_options + 1] = AddOption("Digornot", "小木牌挖除(CanbeDug)", "Can be Dug/是否可以被挖", false)
+---原版通用容器返鲜设置
+configuration_options[#configuration_options + 1] = AddOptionHeader("原版通用容器返鲜设置")
+configuration_options[#configuration_options + 1] = AddOption("better_icebox", "冰箱返鲜-总开关", "设置是否开原版通用容器返鲜功能", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("icebox_freeze", "腐烂速度", "", { { description = "正常腐烂", data = "0.5" },
+                                                                                                       { description = "缓慢腐烂", data = "0.3" },
+                                                                                                       { description = "保鲜", data = "0" },
+                                                                                                       { description = "反鲜", data = "-5" }, }, "-5")
+configuration_options[#configuration_options + 1] = AddConfigOption("krampus_sack_ice", "小偷包保鲜", "", { { description = "开启", data = true, hover = "小偷包保鲜,保鲜度同冰箱" },
+                                                                                                            { description = "关闭", data = false }, }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("backpack_ice", "背包保鲜", "", { { description = "开启", data = true, hover = "背包包保鲜,保鲜度同冰箱" },
+                                                                                                      { description = "关闭", data = false }, }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("piggyback_ice", "小猪包保鲜", "", { { description = "开启", data = true, hover = "小猪包保鲜,保鲜度同冰箱" },
+                                                                                                         { description = "关闭", data = false }, }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("saltlicker", "盐盒", "", { { description = "正常腐烂", data = 0.25 },
+                                                                                                { description = "保鲜", data = 0 },
+                                                                                                { description = "反鲜", data = -5 }, }, 0.25)
+configuration_options[#configuration_options + 1] = AddConfigOption("mushroom_frige", "蘑菇灯保鲜", "", { { description = "正常腐烂", data = 0.25 },
+                                                                                                          { description = "保鲜", data = 0 } }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("cage_frige", "骨灰盒保鲜", "", { { description = "开启", data = true, hover = "骨灰盒保鲜,保鲜度同冰箱" },
+                                                                                                      { description = "关闭", data = false }, }, false)
+
+---快速工作设置
+configuration_options[#configuration_options + 1] = AddOptionHeader("快速工作设置")
+configuration_options[#configuration_options + 1] = AddOption("quick_work", "快速工作-总开关", "设置是否开启快速工作功能", true)
+configuration_options[#configuration_options + 1] = AddOption("Pick", "采集类", "采集、捡起、收获", true)
+configuration_options[#configuration_options + 1] = AddOption("BuildRepair", "建造修复类", "建造、装饰、绘画、修复、缝补、灭火", true)
+configuration_options[#configuration_options + 1] = AddOption("HSHU", "三围升级类", "食用、治疗、学习、升级", true)
+configuration_options[#configuration_options + 1] = AddOption("Animal", "动物类", "抚摸、喂食、杀害、刷毛、刮毛", true)
+configuration_options[#configuration_options + 1] = AddOption("Others", "其他动作", "其他动作加快", true)
+configuration_options[#configuration_options + 1] = AddOption("QuickDry", "晾肉秒干", "肉一挂上晾肉架就风干", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("CookTime", "烹饪时间", "按照你设定的时间煮好食物", { { description = "立刻完成", data = 0 },
+                                                                                                                          { description = "只开启快速烤制", data = 998, hover = "默认" },
+                                                                                                                          { description = "15 秒", data = 15 },
+                                                                                                                          { description = "30 秒", data = 30 },
+                                                                                                                          { description = "关闭", data = 999 }, }, 999)
+configuration_options[#configuration_options + 1] = AddConfigOption("FishTime", "钓鱼时间", "钓鱼时鱼按你设置的时间上钩", { { description = "立刻上钩", data = 0, hover = "默认" },
+                                                                                                                            { description = "5 秒", data = 5 },
+                                                                                                                            { description = "关闭", data = 999 }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("QuickGrow", "作物秒熟", "农场种植种子成熟时间调整", { { description = "开启", data = 0 },
+                                                                                                                           { description = "只开启冬天正常生长", data = 1 },
+                                                                                                                           { description = "关闭", data = 999, hover = "默认" }, }, 999)
+configuration_options[#configuration_options + 1] = AddConfigOption("ChopTime", "砍伐次数", "设置砍倒树木的次数", { { description = "1 次", data = 1, hover = "默认" },
+                                                                                                                    { description = "4 次", data = 4 },
+                                                                                                                    { description = "关闭", data = 999 }, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("MineTime", "开采次数", "设置敲开矿物岩石的次数", { { description = "1 次", data = 1 },
+                                                                                                                        { description = "4 次", data = 4 },
+                                                                                                                        { description = "关闭", data = 999, hover = "默认" }, }, 999)
+
+---陷阱增强
+configuration_options[#configuration_options + 1] = AddOptionHeader("陷阱增强")
+configuration_options[#configuration_options + 1] = AddOption("trap_enhance", "陷阱增强-总开关", "设置是否开启陷阱增强功能", false)
+configuration_options[#configuration_options + 1] = AddOption("stack", "狗牙陷阱可堆叠", "狗牙陷阱可堆叠", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("trap_uses", "狗牙陷阱耐久修改", "", { { description = "无修改(默认10次)", data = 0, hover = "默认" },
+                                                                                                           { description = "2倍", data = 16 },
+                                                                                                           { description = "8倍", data = 64 },
+                                                                                                           { description = "32倍", data = 256 },
+                                                                                                           { description = "无限", data = 9999999 }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("trap_teeth_damage", "狗牙陷阱伤害修改", "尽量不要修改哦，小心丧失游戏乐趣~", { { description = "无修改(默认60)", data = 0, hover = "默认" },
+                                                                                                                                                   { description = "2倍(120)", data = 120 },
+                                                                                                                                                   { description = "4倍(240)", data = 240 },
+                                                                                                                                                   { description = "8倍(480)", data = 480 },
+                                                                                                                                                   { description = "999", data = 999 }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("radius", "狗牙陷阱攻击范围", "", { { description = "无变化", data = 1 },
+                                                                                                        { description = "2倍", data = 2 },
+                                                                                                        { description = "3倍", data = 3 },
+                                                                                                        { description = "4倍", data = 4 },
+                                                                                                        { description = "8倍", data = 8 }, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("reset", "狗牙陷阱自动重置", "", { { description = "是", data = 1 },
+                                                                                                       { description = "否", data = 0 }, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("time", "狗牙陷阱自动重置时间", "", { { description = "0.2秒", data = 0.2 },
+                                                                                                          { description = "0.5秒", data = 0.5 },
+                                                                                                          { description = "1秒", data = 1 },
+                                                                                                          { description = "2秒", data = 2 },
+                                                                                                          { description = "3秒", data = 3 },
+                                                                                                          { description = "4秒", data = 4 }, }, 2)
+
+configuration_options[#configuration_options + 1] = AddOptionHeader(" ")
+configuration_options[#configuration_options + 1] = AddOption("stack_j", "荆棘陷阱可堆叠", "荆棘陷阱可堆叠", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("trap_uses_j", "荆棘陷阱耐久修改", "", { { description = "无修改(默认10次)", data = 0, hover = "默认" },
+                                                                                                             { description = "2倍", data = 16 },
+                                                                                                             { description = "8倍", data = 64 },
+                                                                                                             { description = "32倍", data = 256 },
+                                                                                                             { description = "无限", data = 9999999 }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("trap_bramble_damage", "荆棘陷阱伤害修改", "尽量不要修改哦，小心丧失游戏乐趣~", { { description = "无修改(默认40)", data = 0, hover = "默认" },
+                                                                                                                                                     { description = "2倍(80)", data = 80 },
+                                                                                                                                                     { description = "4倍(160)", data = 160 },
+                                                                                                                                                     { description = "8倍(320)", data = 320 },
+                                                                                                                                                     { description = "999", data = 999 }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("radius_j", "荆棘陷阱攻击范围", "", { { description = "无变化", data = 1 },
+                                                                                                          { description = "2倍", data = 2 },
+                                                                                                          { description = "3倍", data = 3 },
+                                                                                                          { description = "4倍", data = 4 },
+                                                                                                          { description = "8倍", data = 8 }, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("reset_j", "荆棘陷阱自动重置", "", { { description = "是", data = 1 }, { description = "否", data = 0 }, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("time_j", "荆棘陷阱自动重置时间", "", { { description = "0.2秒", data = 0.2 },
+                                                                                                            { description = "0.5秒", data = 0.5 },
+                                                                                                            { description = "1秒", data = 1 },
+                                                                                                            { description = "2秒", data = 2 },
+                                                                                                            { description = "3秒", data = 3 },
+                                                                                                            { description = "4秒", data = 4 }, }, 2)
+
+configuration_options[#configuration_options + 1] = AddOptionHeader(" ")
+configuration_options[#configuration_options + 1] = AddOption("attack_player_h", "海星陷阱不攻击玩家", "设置海信陷阱是否攻击玩家", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("trap_starfish_damage", "海星陷阱伤害修改", "尽量不要修改哦，小心丧失游戏乐趣~", { { description = "无修改(默认60)", data = 0, hover = "默认" },
+                                                                                                                                                      { description = "2倍(120)", data = 120 },
+                                                                                                                                                      { description = "4倍(240)", data = 240 },
+                                                                                                                                                      { description = "8倍(480)", data = 480 },
+                                                                                                                                                      { description = "999", data = 999 }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("radius_h", "海星陷阱攻击范围", "", { { description = "无变化", data = 0 },
+                                                                                                          { description = "2倍", data = 2.8 },
+                                                                                                          { description = "3倍", data = 4.2 },
+                                                                                                          { description = "4倍", data = 5.6 },
+                                                                                                          { description = "8倍", data = 11.2 }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("reset_h", "海星陷阱重置时间", "", { { description = "无变化", data = 0 },
+                                                                                                         { description = "0.2秒", data = 0.2 },
+                                                                                                         { description = "0.5秒", data = 0.5 },
+                                                                                                         { description = "1秒", data = 1 },
+                                                                                                         { description = "2秒", data = 2 },
+                                                                                                         { description = "3秒", data = 3 },
+                                                                                                         { description = "5秒", data = 4 }, }, 0)
+
+---Show me
+configuration_options[#configuration_options + 1] = AddOptionHeader("Show me")
+configuration_options[#configuration_options + 1] = AddOption("show_me_switch", "show me-开关", "是否开启show me", true)
+--[[AddConfigOption("message_style", "Style", "", {
+    {description = "Isolation ->", data = 1},
+    {description = "isolation ->", data = 2},
+    {description = "Isol ->", data = 3},
+    {description = "isol ->", data = 4},
+    {description = "<- Warm", data = 5},
+    {description = "<- warm", data = 6},
+},1),]]
+configuration_options[#configuration_options + 1] = AddConfigOption("food_style", "食物信息显示风格(Food Style)", "", { { description = "默认(undefined)", data = 0, hover = "Default is \"long\"\n默认是 \"详细\"" },
+                                                                                                                        { description = "详细(long)", data = 1, hover = "Hunger: +12.5 / Sanity: -10 / Health: +3\n饥饿: +12.5 / 精神: -10 / 生命: +3" },
+                                                                                                                        { description = "简洁(short)", data = 2, hover = "+12.5 / -10 / +3" }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("food_order", "食物属性显示顺序(Food Properties Order)", "", { { description = "默认(undefined)", data = 0, hover = "Default if \"interface\"\n默认是 \"标准\"" },
+                                                                                                                                   { description = "标准(Interface)", data = 1, hover = "Hunger / Sanity / Health\n饥饿 / 精神 / 生命" },
+                                                                                                                                   { description = "自定(Wikia)", data = 2, hover = "Health / Hunger / Sanity\n生命 / 饥饿 / 精神" }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("food_estimation", "过期时间(Estimate Stale Status)", "Should we estimate the stale status?(要不要估算过期时间)", { { description = "默认(Undefined)", data = -1, hover = "Yes, and users may override this option.(是)" },
+                                                                                                                                                                                        { description = "否(No)", data = 0, hover = "No, but users may override this option.(否)" },
+                                                                                                                                                                                        { description = "是(Yes)", data = 1, hover = "Yes, but users may override this option.(是)" }, }, -1)
+configuration_options[#configuration_options + 1] = AddConfigOption("show_food_units", "显示食物的食物属性单位(Show Food Units)", "For example, units of meat, units of veggie etc.\n(例如肉度，菜度)", { { description = "默认(undefined)", data = -1, hover = "Yes, and users may override this option.(是)" },
+                                                                                                                                                                                                         { description = "否(No)", data = 0, hover = "No, but users may override this option.(否)" },
+                                                                                                                                                                                                         { description = "是(Yes)", data = 1, hover = "Yes, but users may override this option.(是)" },
+                                                                                                                                                                                                         { description = "禁止(Forbidden)", data = 2, hover = "Server won't send food info to clients and their settings will not matter.\n服务端不会发送属性信息给客户端" }, }, -1)
+configuration_options[#configuration_options + 1] = AddConfigOption("show_uses", "显示工具用途(Show Tools Uses)", "", { { description = "默认(undefined)", data = -1, hover = "Yes, and users may override this option.(是)" },
+                                                                                                                        { description = "否(No)", data = 0, hover = "No, but users may override this option.(否)" },
+                                                                                                                        { description = "是(Yes)", data = 1, hover = "Yes, but users may override this option.(是)" },
+                                                                                                                        { description = "禁止(Forbidden)", data = 2, hover = "Server won't send this info to the clients and their settings will not matter.\n服务端不会发送属性信息给客户端" }, }, -1)
+configuration_options[#configuration_options + 1] = AddConfigOption("show_me_lang", "语言(Language)", "", { { description = "Auto(自动)", data = "auto", hover = "Detect Language Pack(检测语言包)" },
+                                                                                                            { description = "en(英语)", data = "en", hover = "English(英语)" },
+                                                                                                            { description = "ru(俄语)", data = "ru", hover = "Russian(俄语)" },
+                                                                                                            { description = "chs(简体中文)", data = "chs", hover = "Simplified Chinese(简体中文)" },
+                                                                                                            { description = "cht(繁体中文)", data = "cht", hover = "Traditional Chinese(繁体中文)" },
+                                                                                                            { description = "br(葡萄牙语)", data = "br", hover = "Brazilian Portuguese(葡萄牙语)" },
+                                                                                                            { description = "pl(波兰语)", data = "pl", hover = "Polish(波兰语)" },
+                                                                                                            { description = "kr(韩语)", data = "kr", hover = "Korean(韩语)" },
+                                                                                                            { description = "es(西班牙语)", data = "es", hover = "Spanish(西班牙语)" }, }, "auto")
+configuration_options[#configuration_options + 1] = AddConfigOption("display_hp", "显示血量(Display HP)", "", { { description = "Auto(自动)", data = -1, hover = "Depends on installed mods.(取决于安装的模组)" },
+                                                                                                                { description = "No(否)", data = 0, hover = "No, but users may override this option.(否，但用户可以覆盖此选项。)" },
+                                                                                                                { description = "Yes(是)", data = 1, hover = "Yes, but users may override this option.(是，但用户可以覆盖此选项。)" },
+                                                                                                                { description = "Forbidden(禁止)", data = 2, hover = "Server won't send this info to the clients and their settings will not matter.(服务端将不会发送属性信息给客户端)" }, }, -1)
+
+configuration_options[#configuration_options + 1] = AddOption("T_crop", "农作物状态显示", "例如缺肥料、水分、家族、有杂草等，成长计时不受影响", true)
+--AddConfigOption("naughtiness", "顽皮值", "", {
+--    { description = "禁用", data = 0 },
+--    { description = "", data = 1 },
+--    { description = "", data = 2 },
+--}, 0),
+configuration_options[#configuration_options + 1] = AddConfigOption("show_buddle_item", "显示捆绑包物(品show bundle item)", "", { { description = "显示(YES)", data = 1 }, { description = "不显示(NO)", data = 0 }, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("item_info_mod", "兼容item info模组(compatible with item info)", "如果打开，Show me将不显示与item info相同的信息", { { description = "关闭(OFF)", data = 0 }, { description = "开启(ON)", data = 1 }, }, 0)
+
+---容器拥有物品高亮显示
+configuration_options[#configuration_options + 1] = AddOptionHeader("容器拥有物品高亮显示")
+configuration_options[#configuration_options + 1] = AddOption("container_high_light_switch", "总开关", "容器拥有物品高亮显示总开关", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("chestR", "参数-红(Red)", "This is red component of highlighted chests color.\n默认绿色，如果红绿蓝都设置为0%或100%，箱子就没有颜色", color_options, -1)
+configuration_options[#configuration_options + 1] = AddConfigOption("chestG", "参数-绿(Green)", "This is green component of highlighted chests color.\n默认绿色，如果红绿蓝都设置为0%或100%，箱子就没有颜色", color_options, -1)
+configuration_options[#configuration_options + 1] = AddConfigOption("chestB", "参数-蓝(Blue)", "This is blue component of highlighted chests color.\n默认绿色，如果红绿蓝都设置为0%或100%，箱子就没有颜色", color_options, -1)
+---信息显示
+configuration_options[#configuration_options + 1] = AddOptionHeader("信息显示")
+configuration_options[#configuration_options + 1] = AddOption("cap_show_info_switch", "总开关", "物体信息详情显示总开关，开启此则show me不生效", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("showanim", "显示物品动画信息", "", { { description = "显示", data = true }, { description = "不显示", data = false }, }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("showtype", "显示边框颜色", "", show_info_edge_color_options, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("show_info_bg", "显示背景", "", { { description = "显示", data = true, hover = "会显示背景及边框" }, { description = "不显示", data = false, hover = "不会显示背景及边框" }, }, false)
+---全图定位
+configuration_options[#configuration_options + 1] = AddOptionHeader("全图定位")
+configuration_options[#configuration_options + 1] = AddOption("global_position_switch", "全图定位-开关", "是否开启全图定位", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("SHOWPLAYERSOPTIONS", "玩家指示器(Player Indicators)", "The arrow things that show players past the edge of the screen.", { { description = "Always", data = 3 }, { description = "Scoreboard", data = 2 }, { description = "Never", data = 1 }, }, 2)
+configuration_options[#configuration_options + 1] = AddConfigOption("SHOWPLAYERICONS", "玩家图标(Player Icons)", "The player icons on the map.", { { description = "显示(Show)", data = true }, { description = "隐藏(Hide)", data = false }, }, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("FIREOPTIONS", "火堆指示器(Show Fires)", "Show fires with indicators like players." .. "\nThey will smoke when they are visible this way.", { { description = "Always", data = 1 }, { description = "Charcoal", data = 2 }, { description = "Disabled", data = 3 }, }, 2)
+configuration_options[#configuration_options + 1] = AddConfigOption("SHOWFIREICONS", "火堆图标(Fire Icons)", "Show fires globally on the map (this will only work if fires are set to show)." .. "\nThey will smoke when they are visible this way.", { { description = "显示(Show)", data = true }, { description = "隐藏(Hide)", data = false }, }, true)
+configuration_options[#configuration_options + 1] = AddOption("SHAREMINIMAPPROGRESS", "共享地图(Share Map)", "Share map exploration between players. This will only work if" .. "\n'Player Indicators' and 'Player Icons' are not both disabled.", true)
+configuration_options[#configuration_options + 1] = AddOption("OVERRIDEMODE", "荒野覆盖(Wilderness Override)", "If enabled, it will use the other options you set in Wilderness mode." .. "\nOtherwise, it will not show players, but all fires will smoke and be visible.", false)
+configuration_options[#configuration_options + 1] = AddOption("ENABLEPINGS", "点位标记(Pings)", "Whether to allow players to ping (alt+click) the map.", true)
+configuration_options[#configuration_options + 1] = AddOption("map_on_Cartography", "在制图桌上共享地图", "", false)
+
+---指南针
+configuration_options[#configuration_options + 1] = AddOptionHeader("指南针")
+configuration_options[#configuration_options + 1] = AddOption("compass_switch", "总开关", "建议全图定位只开ping,然后开启本功能,优化全图定位的后期卡顿", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("compass_refresh_interval", "刷新间隔", "", { { description = "0", data = 0 }, { description = "0.1", data = 0.1 }, { description = "0.2", data = 0.2 }, { description = "0.5", data = 0.5 }, { description = "1", data = 1 }, { description = "2", data = 2 }, { description = "5", data = 5 } }, 0.2)
+---蘑菇农场
+configuration_options[#configuration_options + 1] = AddOptionHeader("蘑菇农场")
+configuration_options[#configuration_options + 1] = AddOption("improve_mushroom_planters_switch", "蘑菇农场增强-开关", "是否开启蘑菇农场增强", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("max_harvests", "Maximum Fertilization(最大收获数量)", "Maximum amount of fertilizer value the planter can store. Living logs restore this many harvests.", { { description = "Unlimited", data = -1, hover = "Default, but never decrease" }, { description = "Default", data = 0, hover = "4 unless modded" }, { description = "8", data = 8, hover = "8 harvests" }, { description = "16", data = 16, hover = "16 harvests" }, { description = "32", data = 32, hover = "32 harvests" }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("easy_fert", "Allow Fertilizers(允许使用肥料)", "If fertilizers can be used in place of living logs", { { description = "No", data = false, hover = "Living logs only" }, { description = "Yes", data = true, hover = "Fertilizes by the sum of all nutrients divided by 8" }, }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("snow_grow", "Grow When Snow-covered(被雪覆盖是否允许生长)", "Whether to continue growing in winter or pause growth until snow melts", { { description = "No", data = false, hover = "Pause growth" }, { description = "Yes", data = true, hover = "Keep growing" }, }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("moon_ok", "Allow Moon Shrooms(月亮蘑菇可种植)", "Should planters accept moon shrooms? Doesn't effect lunar spores.", { { description = "No", data = false, hover = "Don't accept moon shrooms" }, { description = "Yes", data = true, hover = "Accept moon shrooms" }, }, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("moon_spore", "Catchable Lunar Spores(可捕捉月孢子)", "Lunar spores can be caught with a bug net and used in a planter. What could go wrong?", { { description = "No", data = false, hover = "Spores just explode, as usual" }, { description = "Yes", data = true, hover = "Spores can be caught and planted" }, }, false)
+---龙鳞冰炉
+configuration_options[#configuration_options + 1] = AddOptionHeader("龙鳞冰炉")
+configuration_options[#configuration_options + 1] = AddOption("ice_furnace_switch", "龙鳞冰炉制作-开关", "是否可以制作龙鳞冰炉", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("lang", "Language/语言", "The language you prefer to display the information related to Ice Furnaces" .. "\n你想要的用来显示冰炉相关信息的语言", { { description = "English", data = true, hover = "Information related to Ice Furnaces will be displayed in English" }, { description = "中文", data = false, hover = "将用中文来显示龙鳞冰炉的相关信息" }, }, false)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("temp", "Heat Control/调温", "Whether the Ice Furnace automatically adjust the heat" .. "\n冰炉是否自动调温", { { description = "Yes/是", data = true, hover = "The Ice Furnace does not cause undercooling/冰炉不会导致过冷" }, { description = "No/否", data = false, hover = "The Ice Furnace keeps the strongest heat/冰炉保持最低温" }, }, false)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("light_range", "Light Range/光照范围", "The light range of Ice Furnaces" .. "\n龙鳞冰炉的光照范围", { { description = "Default/默认", data = 1, hover = "1 unit of light range\n1个单位的光照范围" },
+                                                                                                                                                                          { description = "2.5", data = 2.5, hover = "2.5 units of light range\n2.5个单位的光照范围" },
+                                                                                                                                                                          { description = "5", data = 5, hover = "5 units of light range\n5个单位的光照范围" },
+                                                                                                                                                                          { description = "7.5", data = 7.5, hover = "7.5 units of light range\n7.5个单位的光照范围" },
+                                                                                                                                                                          { description = "10", data = 10, hover = "10 units of light range\n10个单位的光照范围" }, }, 1)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("container_slot", "Number of slots/容器格数", "The size of the container" .. "\n容器的空间大小", { { description = "None/无容器", data = 0, hover = "No container for Ice Furnaces\n冰炉不具备容器功能" },
+                                                                                                                                                                       { description = "3 x 1", data = 3, hover = "Container contains 3 slots\n容器拥有3格空间" },
+                                                                                                                                                                       { description = "3 x 2", data = 6, hover = "Container contains 6 slots\n容器拥有6格空间" },
+                                                                                                                                                                       { description = "3 x 3", data = 9, hover = "Container contains 9 slots\n容器拥有9格空间" },
+                                                                                                                                                                       { description = "3 x 4", data = 12, hover = "Container contains 12 slots\n容器拥有12格空间" },
+                                                                                                                                                                       { description = "3 x 5", data = 15, hover = "Container contains 15 slots\n容器拥有15格空间" }, }, 3)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("fresh_rate", "Preservation Rate/保存速率", "The preservation rate of the container" .. "\n龙鳞冰炉的保鲜能力", { { description = "Default/默认", data = 1, hover = "Ice furnaces do not provide preservation effect\n冰炉不提供保鲜效果" },
+                                                                                                                                                                                      { description = "0.5", data = 0.5, hover = "Items inside spoil 2 times slower\n2倍保鲜" },
+                                                                                                                                                                                      { description = "0.25", data = 0.25, hover = "Items inside spoil 4 times slower\n4倍保鲜" },
+                                                                                                                                                                                      { description = "0", data = 0, hover = "Items inside do not spoil\n永久保鲜" },
+                                                                                                                                                                                      { description = "-0.25", data = -0.25, hover = "Items inside restore freshness at a rate of 0.25\n0.25倍反鲜" },
+                                                                                                                                                                                      { description = "-0.5", data = -0.5, hover = "Items inside restore freshness at a rate of 0.5\n0.5倍反鲜" },
+                                                                                                                                                                                      { description = "-1", data = -1, hover = "Items inside restore freshness at a rate of 1\n一倍反鲜" },
+                                                                                                                                                                                      { description = "-2", data = -2, hover = "Items inside restore freshness at a rate of 2\n两倍反鲜" },
+                                                                                                                                                                                      { description = "-4", data = -4, hover = "Items inside restore freshness at a rate of 4\n四倍反鲜" }, }, 0)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("produce_ice", "Ice Production Interval/产冰间隔", "The frequency of the ice production" .. "\n冰炉生产冰的频率", { { description = "5s", data = 5, hover = "Produce one piece of ice every 5 seconds\n每5秒生产一块冰" },
+                                                                                                                                                                                        { description = "15s", data = 15, hover = "Produce one piece of ice every 15 seconds\n每15秒生产一块冰" },
+                                                                                                                                                                                        { description = "30s", data = 30, hover = "Produce one piece of ice every 30 seconds\n每30秒生产一块冰" },
+                                                                                                                                                                                        { description = "60s", data = 60, hover = "Produce one piece of ice every 60 seconds\n每60秒生产一块冰" },
+                                                                                                                                                                                        { description = "120s", data = 120, hover = "Produce one piece of ice every 120 seconds\n每120秒生产一块冰" },
+                                                                                                                                                                                        { description = "240s", data = 240, hover = "Produce one piece of ice every 240 seconds\n每240秒生产一块冰" },
+                                                                                                                                                                                        { description = "480s", data = 480, hover = "Produce one piece of ice every 480 seconds\n每480秒生产一块冰" },
+                                                                                                                                                                                        { description = "No Ice/不生产", data = 99999, hover = "No Ice Production\n不生产冰" }, }, 240)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("way_to_obtain", "Way to Obtain/获得途径", "The way to obtain Ice Furnaces" .. "\n获得龙鳞冰炉的途径", { { description = "Staff/法杖", data = 1, hover = "Get Ice Furnaces by consuming Ice Staffs/通过消耗冰冻法杖获得冰炉" },
+                                                                                                                                                                             { description = "Switch/切换", data = 2, hover = "Get Ice Furnaces by switching Scaled Furnaces/将火炉切换为冰炉" },
+                                                                                                                                                                             { description = "Blueprint/蓝图", data = 3, hover = "Build Ice Furnaces by learning blueprint/通过学习蓝图来建造冰炉" }, }, 1)
+
+---小穹补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("小穹补丁")
+configuration_options[#configuration_options + 1] = AddOption("sora_patches_switch", "小穹补丁-总开关", "是否开启小穹补丁", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("soraRemoveDeathExpByLevel", "减免死亡惩罚", "穹一定等级后死亡不掉落经验", { { description = "不改变", data = -1 },
+                                                                                                                                                 { description = "1级", data = 1 },
+                                                                                                                                                 { description = "5级", data = 5 },
+                                                                                                                                                 { description = "10级", data = 10 },
+                                                                                                                                                 { description = "15级", data = 15 },
+                                                                                                                                                 { description = "20级", data = 20 },
+                                                                                                                                                 { description = "25级", data = 25 },
+                                                                                                                                                 { description = "30级", data = 30 }, }, 20)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("soraRemoveRollExpByLevel", "减免换人惩罚", "穹一定等级后换人不掉落经验", { { description = "不改变", data = -1 },
+                                                                                                                                                { description = "1级", data = 1 },
+                                                                                                                                                { description = "5级", data = 5 },
+                                                                                                                                                { description = "10级", data = 10 },
+                                                                                                                                                { description = "15级", data = 15 },
+                                                                                                                                                { description = "20级", data = 20 },
+                                                                                                                                                { description = "25级", data = 25 },
+                                                                                                                                                { description = "30级", data = 30 }, }, 20)
+configuration_options[#configuration_options + 1] = AddConfigOption("soraExp", "去除经验惩罚", "升级更容易", optionsYesNo, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("soraHealDeath", "愈还原", "鞭尸\n是：还原 否：不改变", optionsYesNo, false)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("soraRepairerToPhilosopherStoneLimit", "限制缝纫包修贤者宝石", "", { { description = "不改变", data = 0 },
+                                                                                                                                         { description = "修0.5%", data = 0.005 },
+                                                                                                                                         { description = "修1%", data = 0.01 },
+                                                                                                                                         { description = "修2%", data = 0.02 },
+                                                                                                                                         { description = "修5%", data = 0.05 },
+                                                                                                                                         { description = "修10%", data = 0.1 },
+                                                                                                                                         { description = "修20%", data = 0.2 }, }, 0.01)
+configuration_options[#configuration_options + 1] = AddConfigOption("soraFastMaker", "制作速度更快", "装备荣誉勋章或穹与巧手勋章可以提高制作速度！穹30级进一步提高。\n是：提高 否：不提高", optionsYesNo, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("soraDoubleMaker", "一定等级解锁双倍制作", "平行世界里偷不算偷！", { { description = "不改变", data = -1 },
+                                                                                                                                        { description = "一开始", data = 0 },
+                                                                                                                                        { description = "5级", data = 5 },
+                                                                                                                                        { description = "10级", data = 10 },
+                                                                                                                                        { description = "15级", data = 15 },
+                                                                                                                                        { description = "20级", data = 20 },
+                                                                                                                                        { description = "25级", data = 25 },
+                                                                                                                                        { description = "30级", data = 30 },
+                                                                                                                                        { description = "50级", data = 50 },
+                                                                                                                                        { description = "100级", data = 100 }, }, 30)
+configuration_options[#configuration_options + 1] = AddConfigOption("soraPackLimit", "限制打包", "禁止穹打包一些独有的东西，比如猪王等", optionsYesNo, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("soraPackFL", "打包风铃草", "初始自动打包风铃\n是：打包 否：不打包，全图找", optionsYesNo, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("sorafl_select", "风铃草自选", "绑定风铃草时可以自选装备(小穹mod)", optionsYesNo, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("sora_level_broke_through", "小穹突破等级上限", "小穹不只是30级了可以玩到100级咯", optionsYesNo, false)
+---魔女之旅补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("魔女之旅补丁")
+configuration_options[#configuration_options + 1] = AddOption("elaina_patches_switch", "魔女补丁总开关", "是否开启魔女补丁", false)
+configuration_options[#configuration_options + 1] = AddOption("elaina_additional_skin_switch", "魔女额外皮肤", "是否开启魔女额外皮肤", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("ban_brooch", "禁用专属胸针", "禁用伊蕾娜专属胸针(都乖乖舔老师去)", optionsYesNo, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("ban_most_brooch", "禁用最强胸针", "禁用伊蕾娜的最强胸针", optionsYesNo, false)
+---夜雨空心补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("夜雨空心补丁")
+configuration_options[#configuration_options + 1] = AddOption("yeyu_nilxin_patches_switch", "夜雨空心补丁总开关", "是否开启夜雨空心补丁", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("yeyu_ruqin", "夜雨空心入侵调整", "入侵生物一段时间消失 地图范围外消失 防止小房子周围刷", { { description = "否", data = false },
+                                                                                                                                                                { description = "不消失", data = -1, hover = "地图范围外仍然消失" },
+                                                                                                                                                                { description = "马上消失 主世界可用", data = 0, hover = "建议主世界设置" },
+                                                                                                                                                                { description = "1天", data = 1 },
+                                                                                                                                                                { description = "1.5天", data = 1.5 },
+                                                                                                                                                                { description = "2天", data = 2, },
+                                                                                                                                                                { description = "3天", data = 3, }, }, -1)
+configuration_options[#configuration_options + 1] = AddOption("yeyu_nilxin_pack_limit", "夜雨空心打包限制", "是否限制打包物品(共物品不允许打包)", false)
+configuration_options[#configuration_options + 1] = AddOption("xiuxian_patches", "夜雨空心 修仙额外", "限制了一些修仙武器可以放入魔杖", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("yeyu_nilxin_jump_distance_limit", "夜雨心空跳跃限制", "限制夜雨心空的跳跃距离", { { description = "不限制", data = -1, },
+                                                                                                                                                       { description = "原地跳(哈哈)", data = 0, },
+                                                                                                                                                       { description = "20码", data = 20, },
+                                                                                                                                                       { description = "50码", data = 50, },
+                                                                                                                                                       { description = "70码", data = 70, },
+                                                                                                                                                       { description = "100码", data = 100, },
+                                                                                                                                                       { description = "500码", data = 500, },
+                                                                                                                                                       { description = "1000码", data = 1000, },
+                                                                                                                                                       { description = "2000码", data = 2000, }, }, -1)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("yeyu_nilxin_sea", "夜雨心空填海造海", "夜雨心空填海造海", { { description = "不限制", data = -1, },
+                                                                                                                                 { description = "大门洞穴附近无法造海", data = 0, },
+                                                                                                                                 { description = "大门洞穴和有structure标签附近无法造海", data = 1, } }, 0)
+
+--configuration_options[#configuration_options + 1] = AddOption("everyone_is_yeyu_nilxin", "人人都是夜雨", "每个角色都可以使用当夜雨", false),
+configuration_options[#configuration_options + 1] = AddOption("yeyu_nilxin_island_generate_no", "不生成夜雨岛", "给无资源档使用", false)
+---奇幻降临补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("奇幻降临补丁")
+configuration_options[#configuration_options + 1] = AddOption("ab_patches_switch", "总开关", "是否开启奇幻降临补丁", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("ab_t", "限制阿比日记超能权限", "限制世界多少天后可以使用", disappear_magic, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("ab_ty", "限制阿比桃源", "限制世界多少天后可以使用", disappear_magic, 0)
+configuration_options[#configuration_options + 1] = AddOption("ab_knot_drop_limit", "纽结：降临-掉落数量限制", "限制奇幻降临扭结碎片的掉落最大值及自动堆叠", false)
+configuration_options[#configuration_options + 1] = AddOption("ab_packer_limit", "阿比打包限制", "禁止打包一些公用物品", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("ab_heisewuhui_optimize", "黑色舞会优化版", "稍微修改黑色舞会机制", { { description = "默", data = 0, hover = "『事件禁止』：休闲模式" },
+                                                                                                                                          { description = "启", data = 1, hover = "『事件开始』：一阶段" },
+                                                                                                                                          { description = "中", data = 2, hover = "『事件扩展』：一*二阶段" },
+                                                                                                                                          { description = "终", data = 3, hover = "『事件全满』：一*二*三阶段" }, }, 0)
+
+---乃木园子补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("乃木园子补丁")
+configuration_options[#configuration_options + 1] = AddOption("yuanzi_patches_switch", "总开关", "是否开启乃木园子补丁", false)
+configuration_options[#configuration_options + 1] = AddOption("divinetree_no_health", "神树真无敌", "神树无敌啦，再也不担心被狗咬啦", false)
+
+---水晶领主(aria)补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("水晶领主(aria)补丁")
+configuration_options[#configuration_options + 1] = AddOption("aria_patches_switch", "总开关", "是否开启水晶领主", false)
+configuration_options[#configuration_options + 1] = AddOption("turn_off_aria_transfer_replicate_function", "转换站复制功能关闭", "移除制作站复制功能", true)
+configuration_options[#configuration_options + 1] = AddOption("aria_magiccore_can_make", "魔法核心制作", "可以在制作栏制作魔法核心\n需要研究所五级", true)
+
+---璇儿补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("璇儿补丁")
+configuration_options[#configuration_options + 1] = AddOption("xuaner_patches_switch", "总开关", "是否开启璇儿补丁", false)
+configuration_options[#configuration_options + 1] = AddOption("xuaner_packer_limit_switch", "璇儿打包限制", "禁止打包一些公用物品", true)
+
+---时崎狂三补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("时崎狂三补丁")
+configuration_options[#configuration_options + 1] = AddOption("kurumi_patches_switch", "总开关", "是否开启时崎狂三补丁", false)
+configuration_options[#configuration_options + 1] = AddOption("kurumi_packer_limit_switch", "狂三打包限制", "禁止打包一些公用物品", true)
+---98K补丁(955048205)
+configuration_options[#configuration_options + 1] = AddOptionHeader("98K补丁(955048205)")
+configuration_options[#configuration_options + 1] = AddOption("m_98K_patches_switch", "总开关", "是否开启98K补丁", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("m_98k_RIFLE_DMG_R_multi", "RIFLE_DMG_R伤害倍率", "", { { description = "默认", data = 1 },
+                                                                                                                            { description = "2倍", data = 2 },
+                                                                                                                            { description = "5倍", data = 5 },
+                                                                                                                            { description = "10倍", data = 10 },
+                                                                                                                            { description = "100倍", data = 100 },
+                                                                                                                            { description = "200倍", data = 200 },
+                                                                                                                            { description = "500倍", data = 500 }, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("m_98k_RIFLE_DMG_M_multi", "RIFLE_DMG_M伤害倍率", "", { { description = "默认", data = 1 },
+                                                                                                                            { description = "2倍", data = 2 },
+                                                                                                                            { description = "5倍", data = 5 },
+                                                                                                                            { description = "10倍", data = 10 },
+                                                                                                                            { description = "100倍", data = 100 },
+                                                                                                                            { description = "200倍", data = 200 },
+                                                                                                                            { description = "500倍", data = 500 }, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("m_98k_BAYONET_DMG_2_multi", "BAYONET_DMG_2伤害倍率", "", { { description = "默认", data = 1 },
+                                                                                                                                { description = "2倍", data = 2 },
+                                                                                                                                { description = "5倍", data = 5 },
+                                                                                                                                { description = "10倍", data = 10 },
+                                                                                                                                { description = "100倍", data = 100 },
+                                                                                                                                { description = "200倍", data = 200 },
+                                                                                                                                { description = "500倍", data = 500 }, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("m_98k_BAYONET_DMG_1_multi", "BAYONET_DMG_1伤害倍率", "", { { description = "默认", data = 1 },
+                                                                                                                                { description = "2倍", data = 2 },
+                                                                                                                                { description = "5倍", data = 5 },
+                                                                                                                                { description = "10倍", data = 10 },
+                                                                                                                                { description = "100倍", data = 100 },
+                                                                                                                                { description = "200倍", data = 200 },
+                                                                                                                                { description = "500倍", data = 500 }, }, 1)
+
+---神话书说
+configuration_options[#configuration_options + 1] = AddOptionHeader("神话书说补丁")
+configuration_options[#configuration_options + 1] = AddOption("myth_patches_switch", "神话书说补丁-总开关", "是否开启神话书说补丁", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("timeleft_tips", "BOSS刷新提醒", "", { { description = "不提醒", data = 1 },
+                                                                                                           { description = "自动提醒", data = 2 },
+                                                                                                           { description = "热键提醒", data = 3 } }, 2)
+configuration_options[#configuration_options + 1] = AddConfigOption("tip_key", "提醒热键", "", { { description = "F1", data = KEY_F1 }, { description = "F2", data = KEY_F2 }, { description = "F3", data = KEY_F3 }, { description = "F4", data = KEY_F4 }, { description = "F5", data = KEY_F5 }, { description = "F6", data = KEY_F6 }, { description = "F7", data = KEY_F7 }, { description = "F8", data = KEY_F8 }, { description = "F9", data = KEY_F9 }, { description = "F10", data = KEY_F10 }, { description = "F11", data = KEY_F11 }, { description = "F12", data = KEY_F12 } }, KEY_F8)
+configuration_options[#configuration_options + 1] = AddConfigOption("blackbear_respawn", "黑熊重生时间", "", { { description = "默认", data = 20 }, { description = "较多", data = 10 }, { description = "大量", data = 5 }, { description = "小强", data = 1 } }, 20)
+configuration_options[#configuration_options + 1] = AddConfigOption("rhino_respawn", "犀牛三大王重生时间", "", { { description = "默认", data = 50 }, { description = "较多", data = 10 }, { description = "大量", data = 5 }, { description = "小强", data = 1 } }, 50)
+configuration_options[#configuration_options + 1] = AddConfigOption("regen_myth_forg_respawn", "金蛤蟆重生时间", "", { { description = "默认", data = 20 }, { description = "较多", data = 10 }, { description = "大量", data = 5 }, { description = "小强", data = 1 } }, 20)
+configuration_options[#configuration_options + 1] = AddConfigOption("laozi_trade_num", "太上老君单人可交易次数", "", { { description = "1次(默认)", data = 1 }, { description = "2次", data = 2 }, { description = "3次", data = 3 }, { description = "4次", data = 4 }, { description = "5次", data = 5 }, { description = "6次", data = 6 } }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("granary_not_rot", "谷仓保鲜", "", { { description = "关闭(OFF)", data = false }, { description = "开启(ON)", data = true } }, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("granary_save_fruit", "谷仓可放水果", "", { { description = "关闭(OFF)", data = false }, { description = "开启(ON)", data = true } }, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("mythBlackBearRockClearTime", "黑熊岩石清理", "一定时间后清理黑熊出来的岩石", { { description = "不清理", data = -1 },
+                                                                                                                                                    { description = "4分后清理", data = 4 * 60 },
+                                                                                                                                                    { description = "8分后清理", data = 8 * 60 },
+                                                                                                                                                    { description = "16分后清理", data = 16 * 60 },
+                                                                                                                                                    { description = "32分后清理", data = 32 * 60 }, }, 4 * 60)
+configuration_options[#configuration_options + 1] = AddConfigOption("mythFlyingSpeedMultiplier", "腾云术附带移动加成", "腾云术附带部分移动速度加成", { { description = "不附带", data = 0 },
+                                                                                                                                                       { description = "附带25%", data = 0.25 },
+                                                                                                                                                       { description = "附带50%", data = 0.5 },
+                                                                                                                                                       { description = "附带75%", data = 0.75 },
+                                                                                                                                                       { description = "附带100%", data = 1 },
+                                                                                                                                                       { description = "附带150%", data = 1.5 },
+                                                                                                                                                       { description = "附带200%", data = 2 }, }, 1)
+
+---怠惰科技补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("怠惰科技补丁")
+configuration_options[#configuration_options + 1] = AddOption("lazy_technology_patches_switch", "怠惰科技补丁-开关", "怠惰科技补丁", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("lazyTechKJKLimit", "锟斤拷限制", "进行进一步限制", { { description = "不限制", data = false },
+                                                                                                                          { description = "仅对可装备的物品有效", data = "equipment" },
+                                                                                                                          { description = "仅对武器和衣物有效", data = "weaponAndClothing" },
+                                                                                                                          { description = "仅对衣物有效", data = "clothing" },
+                                                                                                                          { description = "仅对武器有效", data = "weapon" },
+                                                                                                                          { description = "全部禁止", data = "null" }, }, "weaponAndClothing")
+
+configuration_options[#configuration_options + 1] = AddConfigOption("lazyTechHDSelectOptimize", "火堆检测优化", "现在会检查是否有怠惰火堆改装的箱子烧可燃物", { { description = "不优化", data = false }, { description = "优化", data = true }, }, true)
+---小房子补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("小房子补丁")
+configuration_options[#configuration_options + 1] = AddOption("sweet_house_patches_switch", "小房子可种植", "是否允许小房子可种植", false)
+
+---人人都可以用红锅补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("红锅补丁")
+configuration_options[#configuration_options + 1] = AddOption("red_pot_for_everyone_switch", "烹饪锅补丁开关", "任何人都可以使用烹饪锅？", false)
+configuration_options[#configuration_options + 1] = AddOption("Cookpots", Cookpots_label, Cookpots_hover, optionsYesNo, true)
+configuration_options[#configuration_options + 1] = AddOption("Other_item", Other_item_label, Other_item_hover, optionsYesNo, false)
+configuration_options[#configuration_options + 1] = AddOption("Professionalchef", Professionalchef_label, Professionalchef_hover, optionsYesNo, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("CookingSpeed", CookingSpeed_label, CookingSpeed_hove, { { description = SpeedNormal, data = false },
+                                                                                                                             { description = SpeedFast, data = 0.5 },
+                                                                                                                             { description = SpeedFaster, data = 0.25 },
+                                                                                                                             { description = SpeedFastest, data = 0.01 } }, false)
+
+configuration_options[#configuration_options + 1] = AddOption("AutoCook", AutoCook_label, AutoCook_hover, optionsYesNo, false)
+
+---风滚草补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("风滚草补丁")
+configuration_options[#configuration_options + 1] = AddOption("interesting_tumbleweed_switch", "总开关", "", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_item_rates", "花样风滚草中可以开出一些物品", "花样风滚草可以开出一些其他物品", tumbleweed_item_rates_options, 0.2)
+configuration_options[#configuration_options + 1] = AddOption("tumbleweed_prevent_error_patch_switch", "风滚草防错补丁", "防止一些有关风滚草的mod的问题", true)
+
+---码头套装增强
+configuration_options[#configuration_options + 1] = AddOptionHeader("码头套装增强")
+configuration_options[#configuration_options + 1] = AddOption("dock_kit_enhance_switch", "码头套装增强开关", "码头套装增强", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("DockKitNum", "码头套装制作数", "设置 制作码头套装时会得到的数量。", { { description = "2个", data = 2 },
+                                                                                                                                          { description = "4个(官方)", data = 4 }, { description = "6个", data = 6 }, { description = "8个", data = 8 }, { description = "10个", data = 10 }, { description = "12个", data = 12 },
+                                                                                                                                          { description = "16个(默认)", data = 16 }, { description = "20个", data = 20 } }, 16)
+configuration_options[#configuration_options + 1] = AddOption("DockTileBreak", "码头地皮不连环崩坏", "设置 码头地皮不会连环崩坏。", true)
+configuration_options[#configuration_options + 1] = AddOption("DockKitAreaSea", "码头套装放置不限浅海", "设置 码头套装能在任何水域放置。", true)
+configuration_options[#configuration_options + 1] = AddOption("DockKitAreaCave", "码头套装放置洞穴深渊", "设置 码头套装能在洞穴深渊放置。", true)
+
+---大小船只
+configuration_options[#configuration_options + 1] = AddOptionHeader("船只相关")
+configuration_options[#configuration_options + 1] = AddOption("new_boats_size_switch", "新不同大小船只开关", "是否可以创建不同大小船只", false)
+configuration_options[#configuration_options + 1] = AddOption("ALLOWSKINS", "使用皮肤(Allow skins)", "创建船只是否允许使用皮肤(Allows players to craft boats with skins.)", true)
+
+---发光的瓶子
+configuration_options[#configuration_options + 1] = AddOptionHeader("发光的瓶子")
+configuration_options[#configuration_options + 1] = AddOption("light_bottle_switch", "制作发光的瓶子总开关", "是否可以制作发光的瓶子", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("light_bottle_lang", "语言(Language)", "", { { description = "English", data = "en", hover = "English" }, { description = "简体中文", data = "chs", hover = "简体中文" }, }, "chs")
+configuration_options[#configuration_options + 1] = AddConfigOption("light_area", Light_area_label, "", light_bottle_options, 10)
+configuration_options[#configuration_options + 1] = AddConfigOption("Light_heal", Light_heal_label, "", light_bottle_options, 5)
+configuration_options[#configuration_options + 1] = AddConfigOption("Light_sunshine", Light_sunshine_label, "", light_bottle_options, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("Light_menacing", Light_menacing_label, "", light_bottle_options, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("Light_poison", Light_poison_label, "", light_bottle_options, 15)
+configuration_options[#configuration_options + 1] = AddConfigOption("Light_Ember", Light_Ember_label, "", light_bottle_options, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("Light_Icy", Light_Icy_label, "", light_bottle_options, 1)
+
+---超大容量背包
+configuration_options[#configuration_options + 1] = AddOptionHeader("超大容量背包")
+configuration_options[#configuration_options + 1] = AddOption("bigbag_switch", "制作大背包开关", "是否可以制作超大背包", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("BIG_BAG_LANG", "Language (语言)", "Change display language.", { { description = "English", data = 0, }, { description = "简体中文", data = 1, }, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("BAGSIZE", "Size of bag(背包大小)", "Size of bag", { { description = "8x3", data = 4, }, { description = "8x4", data = 1, }, { description = "8x6", data = 2, }, { description = "8x8", data = 3, }, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("NICEBIGBAGSIZE", "Size of haversack(挎包大小)", "Choose your size of haversack.", { { description = "8x3", data = 1, },
+                                                                                                                                                         { description = "8x4", data = 2, }, }, 2)
+configuration_options[#configuration_options + 1] = AddConfigOption("CATBIGBAGSIZE", "Size of catback(猫包大小)", "Choose your size of catback.", { { description = "8x3", data = 1, },
+                                                                                                                                                    { description = "8x4", data = 2, },
+                                                                                                                                                    { description = "8x6", data = 3, },
+                                                                                                                                                    { description = "8x8", data = 4, }, }, 2)
+configuration_options[#configuration_options + 1] = AddOption("KEEPFRESH", "KeepFresh (保鲜)", "Keep the food fresh.", false)
+configuration_options[#configuration_options + 1] = AddOption("LIGHT", "Light (保命微光)", "Let the bag give off light.", false)
+configuration_options[#configuration_options + 1] = AddOption("BIGBAGWATER", "Rainproof(防雨)", "Protect you from the rain.", false)
+configuration_options[#configuration_options + 1] = AddOption("BIGBAGPICK", "Fastpickup(快采)", "Let you pick up items quickly.", false)
+configuration_options[#configuration_options + 1] = AddOption("HEATROCKTEMPERATURE", "HeatrockTemp(暖石升降温)", "Change the heatrock's temperature automatically.", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("WALKSPEED", "Walk Speed (移速)", "Walk speed while taking this bag.", { { description = "Much Slower(超慢)", data = 0.5, },
+                                                                                                                                             { description = "Slower(慢)", data = 0.75, },
+                                                                                                                                             { description = "No Change(不变)", data = 1, },
+                                                                                                                                             { description = "Faster(快)", data = 1.25, },
+                                                                                                                                             { description = "Much Faster(超快)", data = 1.5, }, }, 1)
+configuration_options[#configuration_options + 1] = AddOption("BIG_BAG_STACK", "Full Stack (自动堆满)", "Get full stack when reopen the bag.(放一个重新打开会变堆叠满个数哦，慎用)", false)
+configuration_options[#configuration_options + 1] = AddOption("BIG_BAG_FRESH", "ReFresh (恢复新鲜)", "ReFresh food and tools when reopen the bag.", false)
+--configuration_options[#configuration_options + 1] = AddOption("GIVE", "Give Items (获得物品)", "!!! SEVER ONLY !!!  Give Items Directly If Can't Build Something. !!! SEVER ONLY !!!", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("RECIPE", "Recipe (耗材)", "Recipe cost.", { { description = "Very Cheap(超便宜)", data = 1, },
+                                                                                                                 { description = "Cheap(便宜)", data = 2, },
+                                                                                                                 { description = "Normal(正常)", data = 3, },
+                                                                                                                 { description = "Expensive(贵)", data = 4, },
+                                                                                                                 { description = "More Expensive(更贵)", data = 5, },
+                                                                                                                 { description = "super Expensive(超贵)", data = 6, }, }, 6)
+configuration_options[#configuration_options + 1] = AddOption("BIG_BAG_EFFECTED_BY_OTHER_MODS", "制作是否受其他mod影响", "开启会根据服务器开不同mod的变化而变化", true)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("CONTAINERDRAG_SWITCH", "BigBag Drag(背包拖拽)", "After opening, you can drag the bigbag's UI", { { description = "Close(关闭)", data = false, hover = "关闭容器拖拽" },
+                                                                                                                                                                      { description = "Open(F1开启)", data = "KEY_F1", hover = "默认按住F1拖动" },
+                                                                                                                                                                      { description = "F2", data = "KEY_F2", hover = "按住F2拖动" },
+                                                                                                                                                                      { description = "F3", data = "KEY_F3", hover = "按住F3拖动" },
+                                                                                                                                                                      { description = "F4", data = "KEY_F4", hover = "按住F4拖动" },
+                                                                                                                                                                      { description = "F5", data = "KEY_F5", hover = "按住F5拖动" },
+                                                                                                                                                                      { description = "F6", data = "KEY_F6", hover = "按住F6拖动" },
+                                                                                                                                                                      { description = "F7", data = "KEY_F7", hover = "按住F7拖动" },
+                                                                                                                                                                      { description = "F8", data = "KEY_F8", hover = "按住F8拖动" },
+                                                                                                                                                                      { description = "F9", data = "KEY_F9", hover = "按住F9拖动" }, }, "KEY_F1")
+
+--configuration_options[#configuration_options + 1] = AddConfigOption("EASYSWITCH", "Easy switch(快捷开关)", "After opening, you can open the bigbag quickly", { { description = "Close", data = false, hover = "关闭快捷开关" }, { description = "O", data = "KEY_O", hover = "使用快捷键O" }, { description = "0", data = "KEY_0", hover = "使用快捷键0" }, { description = "F1", data = "KEY_F1", hover = "使用快捷键F1" }, { description = "F2", data = "KEY_F2", hover = "使用快捷键F2" }, { description = "F3", data = "KEY_F3", hover = "使用快捷键F3" }, { description = "F4", data = "KEY_F4", hover = "使用快捷键F4" }, { description = "F5", data = "KEY_F5", hover = "使用快捷键F5" }, { description = "F6", data = "KEY_F6", hover = "使用快捷键F6" }, { description = "F7", data = "KEY_F7", hover = "使用快捷键F7" }, { description = "F8", data = "KEY_F8", hover = "使用快捷键F8" }, { description = "F9", data = "KEY_F9", hover = "使用快捷键F9" }, }, "KEY_O")
+configuration_options[#configuration_options + 1] = AddOption("BAGINBAG", "Bag in bag(包中包)", "Bag in bag", false)
+
+---翅膀背包
+configuration_options[#configuration_options + 1] = AddOptionHeader("翅膀背包")
+configuration_options[#configuration_options + 1] = AddOption("wingpack_switch", "制作翅膀背包开关", "是否可以制作翅膀背包", false)
+configuration_options[#configuration_options + 1] = AddOption("wingpack_equip_slot", "放在额外背包栏", "开始则放在额外背包栏\n关闭放在身体栏", false)
+
+---海上箱子
+configuration_options[#configuration_options + 1] = AddOptionHeader("超大容量便携箱子")
+configuration_options[#configuration_options + 1] = AddOption("bigbox_switch", "制作超大容量便携箱子开关", "是否可以制作超大容量便携箱子", false)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("container_removable", Language_cn and "容器 UI 可以移动" or "The container UI can be moved", "警告：万万不可和同类功能的模组一起开启！！！\n如果有同类模组请关闭该选项。",
+        { option(Language_cn and "开启" or "Open", true, ""),
+          option(Language_cn and "关闭" or "Close", false, ""), }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("SET_HUGE_BOX_PRESERVER_VALUE", Language_cn and "设置保鲜效果" or "Set fresh-keeping effect", "",
+        { option(Language_cn and "关闭" or "Close", -1, ""),
+          option("0.5", 0.5, Language_cn and "冰箱的保鲜效果" or "The preservation effect of refrigerator"),
+          option("0.25", 0.25, Language_cn and "盐盒的保鲜效果" or "The preservation effect of salt box"),
+          option("0.1", 0.1, Language_cn and "冰箱保鲜效果的5倍" or "Five times as effective as a refrigerator"),
+          option("0", 0, Language_cn and "永久保鲜" or "Permanent preservation"),
+          option("-0.5", -0.5, Language_cn and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
+          option("-4", -4, Language_cn and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
+          option("-16", -16, Language_cn and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
+        }, -1)
+
+---限制级物品列表
 CAP_REMOVE_SOMETHING_LIST_CONFIG = {
     { "remove_myth_mooncake", "神话的月饼", "让神话的月饼消失！", disappear_magic, -1 },
     { "remove_myth_qxj", "神话的七星剑", "让神话的七星剑消失！", disappear_magic, -1 },
@@ -1466,19 +1325,6 @@ end
 
 ---内容PLUS
 configuration_options[#configuration_options + 1] = AddOptionHeader("内容PLUS")
-configuration_options[#configuration_options + 1] = AddOption("hide_admin_switch", "隐藏管理员-开关", "是否隐藏管理员标志", false)
-configuration_options[#configuration_options + 1] = AddConfigOption("no_rollback", "禁止『发起投票->回滚世界』", "", { { description = "禁止投票回滚", data = true, hover = "不能发起投票回滚世界" },
-                                                                                                                     { description = "不禁止投票回滚", data = false, hover = "可以发起投票回滚世界" }, }, true)
-configuration_options[#configuration_options + 1] = AddConfigOption("no_regenerate", "禁止『发起投票->重置世界』", "", { { description = "禁止投票重置", data = true, hover = "不可以发起投票重置世界" },
-                                                                                                                       { description = "不禁止投票重置", data = false, hover = "可以发起投票重置世界" }, }, true)
-configuration_options[#configuration_options + 1] = AddConfigOption("optimiseAnnouncement", "优化重复宣告导致的刷屏", "统一文本宣告只会在设定值内显示一次", { { description = "关闭", data = 0 },
-                                                                                                                                                              { description = "1s内", data = 1 },
-                                                                                                                                                              { description = "5s内", data = 5 },
-                                                                                                                                                              { description = "10s内", data = 10 },
-                                                                                                                                                              { description = "20s内", data = 20 }, }, 5)
-configuration_options[#configuration_options + 1] = AddOption("SpyBundle", "包裹监控", "设置对包裹相关的监控。", true)
-configuration_options[#configuration_options + 1] = AddOption("SpyOther", "全能监控", "设置玩家与生物相关的监控。", true)
-configuration_options[#configuration_options + 1] = AddOption("command_stack", "堆叠指令", "玩家聊天输入#stack堆叠附近的物品。", true)
 configuration_options[#configuration_options + 1] = AddOption("remove_boss_taunted", "移除boss间的仇恨", "让boss之间不要相互伤害", false)
 configuration_options[#configuration_options + 1] = AddOption("boss_prop_more_drop_switch", "boss掉落概率增多", "是否开启boss掉落增多", false)
 configuration_options[#configuration_options + 1] = AddOption("reward_for_survival", "玩家存活激励", "是否开启玩家存活天数奖励制度", false)
@@ -2163,28 +2009,28 @@ configuration_options[#configuration_options + 1] = AddConfigOption("START_COIN_
           { description = "200", data = 200 },
           { description = "300", data = 300 },
           { description = "500", data = 500 },
-          { description = "800", data = 800},
-          { description = "1000", data = 1000},
-          { description = "2000", data = 2000},
-          { description = "3000", data = 3000},
-          { description = "5000", data = 5000},
-          { description = "8000", data = 8000},
-          { description = "1W", data = 10000},
-          { description = "2W", data = 20000},
-          { description = "3W", data = 30000},
-          { description = "5W", data = 50000},
-          { description = "8W", data = 80000},
-          { description = "10W", data = 100000},
-          { description = "20W", data = 200000},
-          { description = "30W", data = 300000},
-          { description = "50W", data = 500000},
-          { description = "80W", data = 800000},
-          { description = "100W", data = 1000000},
-          { description = "200W", data = 2000000},
-          { description = "300W", data = 3000000},
-          { description = "500W", data = 5000000},
-          { description = "800W", data = 8000000},
-          { description = "1000W", data = 10000000},
+          { description = "800", data = 800 },
+          { description = "1000", data = 1000 },
+          { description = "2000", data = 2000 },
+          { description = "3000", data = 3000 },
+          { description = "5000", data = 5000 },
+          { description = "8000", data = 8000 },
+          { description = "1W", data = 10000 },
+          { description = "2W", data = 20000 },
+          { description = "3W", data = 30000 },
+          { description = "5W", data = 50000 },
+          { description = "8W", data = 80000 },
+          { description = "10W", data = 100000 },
+          { description = "20W", data = 200000 },
+          { description = "30W", data = 300000 },
+          { description = "50W", data = 500000 },
+          { description = "80W", data = 800000 },
+          { description = "100W", data = 1000000 },
+          { description = "200W", data = 2000000 },
+          { description = "300W", data = 3000000 },
+          { description = "500W", data = 5000000 },
+          { description = "800W", data = 8000000 },
+          { description = "1000W", data = 10000000 },
         }, false)
 
 default_number = {
@@ -2323,35 +2169,6 @@ if locale == "zht" then
 elseif locale == "br" then
     lang = "pt"
 end
-local function AddTranslate(label, hover)
-    if label then
-        return { label = label, hover = hover }
-    else
-        return
-    end
-end
-local function AddSection(section)
-    return {
-        name = "",
-        label = section,
-        options = { { description = "", data = false } },
-        default = false,
-    }
-end
-local BoolOptTranslate = {
-    ["en"] = {
-        { description = "no", data = false },
-        { description = "yes", data = true },
-    },
-    ["zh"] = {
-        { description = "否", data = false },
-        { description = "是", data = true },
-    },
-    ["pt"] = {
-        { description = "Não", data = false },
-        { description = "Sim", data = true },
-    },
-}
 
 local function AddOptionShort(data, description, hover)
     return { description = description, data = data, hover = hover }
@@ -2376,15 +2193,14 @@ local function AddHoverBoolOpt(hovertrue, hoverfalse)
     local opttrue = hovertrue and AddOptionShort(true, BoolOpt[2].description, hovertrue) or BoolOpt[2]
     return { optfalse, opttrue }
 end
-local SecOpt = { AddOptionShort(false, "") }
 
 local function AddNewConfig(name, label, default, options, hover, client)
     configuration_options[#configuration_options + 1] = { name = name, label = label, hover = hover, options = options, default = default, client = client }
 end
 
-local function isTable(arg)
-    return arg[1] ~= nil
-end
+--local function isTable(arg)
+--    return arg[1] ~= nil
+--end
 
 if lang == "zh" then
     AddNewConfig("MAX_LV", "等级上限", 9,

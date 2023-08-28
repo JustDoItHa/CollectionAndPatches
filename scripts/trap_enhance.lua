@@ -23,10 +23,10 @@ end
 -- 牙齿陷阱可堆叠
 if GetModConfigData("stack") and IsServer then
     function stackable(inst)
-       if(inst.components.stackable == nil) then
-          inst:AddComponent("stackable")
-       end
-       inst.components.inventoryitem:SetOnDroppedFn(function(inst)
+        if (inst.components.stackable == nil) then
+            inst:AddComponent("stackable")
+        end
+        inst.components.inventoryitem:SetOnDroppedFn(function(inst)
             if inst.components.perishable then
                 inst.components.perishable:StopPerishing()
             end
@@ -40,10 +40,10 @@ if GetModConfigData("stack") and IsServer then
                         if item.components.inventoryitem then
                             item.components.inventoryitem:OnDropped()
                         end
-                        item.Physics:Teleport(inst.Transform:GetWorldPosition() )
+                        item.Physics:Teleport(inst.Transform:GetWorldPosition())
                     end
                 end
-             end
+            end
         end)
     end
     AddPrefabPostInit("trap_teeth", stackable)
@@ -61,7 +61,9 @@ if IsServer then
             inst.components.mine:SetOnExplodeFn(function(inst, target)
                 onexplode(inst, target)
                 if inst.components.mine then
-                    inst:DoTaskInTime(GetModConfigData("time"), function() inst.components.mine:Reset() end )
+                    inst:DoTaskInTime(GetModConfigData("time"), function()
+                        inst.components.mine:Reset()
+                    end)
                 end
             end)
         end
@@ -80,10 +82,10 @@ end
 -- 荆棘陷阱可堆叠
 if GetModConfigData("stack_j") and IsServer then
     function stackable(inst)
-       if(inst.components.stackable == nil) then
-          inst:AddComponent("stackable")
-       end
-       inst.components.inventoryitem:SetOnDroppedFn(function(inst)
+        if (inst.components.stackable == nil) then
+            inst:AddComponent("stackable")
+        end
+        inst.components.inventoryitem:SetOnDroppedFn(function(inst)
             if inst.components.perishable then
                 inst.components.perishable:StopPerishing()
             end
@@ -97,10 +99,10 @@ if GetModConfigData("stack_j") and IsServer then
                         if item.components.inventoryitem then
                             item.components.inventoryitem:OnDropped()
                         end
-                        item.Physics:Teleport(inst.Transform:GetWorldPosition() )
+                        item.Physics:Teleport(inst.Transform:GetWorldPosition())
                     end
                 end
-             end
+            end
         end)
     end
     AddPrefabPostInit("trap_bramble", stackable)
@@ -118,7 +120,11 @@ if IsServer then
             inst.components.mine:SetOnExplodeFn(function(inst, target)
                 onexplode(inst, target)
                 if inst.components.mine then
-                    inst:DoTaskInTime(GetModConfigData("time_j"), function() inst.components.mine:Reset() end )
+                    inst:DoTaskInTime(GetModConfigData("time_j"), function()
+                        if inst.components.mine then
+                            inst.components.mine:Reset()
+                        end
+                    end)
                 end
             end)
         end
@@ -150,10 +156,10 @@ if GetModConfigData("attack_player_h") then
 
         UpvalueHacker.GetUpvalue = function(fn, ...)
             local prv, i, prv_var = nil, nil, "(the starting point)"
-            for j,var in ipairs({...}) do
-                assert(type(fn) == "function", "We were looking for "..var..", but the value before it, "
-                    ..prv_var..", wasn't a function (it was a "..type(fn)
-                    .."). Here's the full chain: "..table.concat({"(the starting point)", ...}, ", "))
+            for j, var in ipairs({ ... }) do
+                assert(type(fn) == "function", "We were looking for " .. var .. ", but the value before it, "
+                        .. prv_var .. ", wasn't a function (it was a " .. type(fn)
+                        .. "). Here's the full chain: " .. table.concat({ "(the starting point)", ... }, ", "))
                 prv = fn
                 prv_var = var
                 fn, i = GetUpvalueHelper(fn, var)
@@ -165,7 +171,7 @@ if GetModConfigData("attack_player_h") then
             local _fn, _fn_i, scope_fn = UpvalueHacker.GetUpvalue(start_fn, ...)
             debug.setupvalue(scope_fn, _fn_i, new_fn)
         end
-        
+
         -- 修复不攻击猪人、鱼人、兔人等
         local mine_test_tags = { "monster", "animal", "pig", "merm" }
         AddPrefabPostInit("world", function(inst)
@@ -184,9 +190,8 @@ if GetModConfigData("radius_h") > 0 then
 end
 -- 海星陷阱重置时间
 if GetModConfigData("reset_h") > 0 then
-    GLOBAL.TUNING.STARFISH_TRAP_NOTDAY_RESET =
-        {
-            BASE = GetModConfigData("reset_h"),
-            VARIANCE = 2,
-        }
+    GLOBAL.TUNING.STARFISH_TRAP_NOTDAY_RESET = {
+        BASE = GetModConfigData("reset_h"),
+        VARIANCE = 2,
+    }
 end

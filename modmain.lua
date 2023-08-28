@@ -218,6 +218,13 @@ if GetModConfigData("death_counter_switch") then
     modimport("scripts/death_counter_main.lua")
 end
 
+--隐藏管理员
+if GetModConfigData("hide_admin_switch") then
+    modimport("scripts/hide_admin.lua")
+end
+--宣告优化
+modimport("scripts/optimise_announcement.lua")
+
 -- 生存天数奖励
 if GetModConfigData('reward_for_survival') then
     modimport("scripts/widgets/reward_day")
@@ -331,10 +338,6 @@ end
 if GetModConfigData("compass_switch") then
     modimport("scripts/compass_main.lua")
 end
---隐藏管理员
-if GetModConfigData("hide_admin_switch") then
-    modimport("scripts/hide_admin.lua")
-end
 
 --蘑菇农场
 if GetModConfigData("improve_mushroom_planters_switch") then
@@ -355,9 +358,6 @@ if GetModConfigData("bigbox_switch") then
     TUNING.MONITOR_CHESTS._big_box = true
     TUNING.MONITOR_CHESTS._big_box_chest = true
 
-    --TUNING._BIGBOXUILOCATION_V = checknumber(GetModConfigData("_big_box_ui_location_vertical")) and GetModConfigData("_big_box_ui_location_vertical") or 80
-    --TUNING._BIGBOXUILOCATION_H = checknumber(GetModConfigData("_big_box_ui_location_horizontal")) and GetModConfigData("_big_box_ui_location_horizontal") or 0
-    --TUNING._SET_PRESERVER_BIG_BOX = GetModConfigData("_set_preserver_big_box") or false--超级大箱子保鲜设置
     modimport("scripts/huge_box_main.lua")
 end
 --show me 不与信息显示同时开启
@@ -419,9 +419,6 @@ end
 
 --龙鳞冰炉
 modimport("scripts/ice_furnace.lua")
-
---宣告优化
-modimport("scripts/optimise_announcement.lua")
 
 --霓庭灯 兔子喷泉
 modimport("scripts/more_produce.lua")
