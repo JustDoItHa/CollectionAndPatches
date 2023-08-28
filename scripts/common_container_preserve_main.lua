@@ -40,3 +40,12 @@ if piggyback_ice then
 		end)
 end
 
+---保鲜 捕鱼器
+if GetModConfigData("buyuqi_preserver") then
+	AddPrefabPostInit("ocean_trawler", function(inst)
+		if not inst.components.preserver then
+			inst:AddComponent("preserver")
+		end
+		inst.components.preserver:SetPerishRateMultiplier(0)
+	end)
+end

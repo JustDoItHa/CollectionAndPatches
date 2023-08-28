@@ -714,7 +714,7 @@ configuration_options[#configuration_options + 1] = AddOption("BundleItems", "�
 configuration_options[#configuration_options + 1] = AddOption("Digornot", "小木牌挖除(CanbeDug)", "Can be Dug/是否可以被挖", false)
 ---原版通用容器返鲜设置
 configuration_options[#configuration_options + 1] = AddOptionHeader("原版通用容器返鲜设置")
-configuration_options[#configuration_options + 1] = AddOption("better_icebox", "冰箱返鲜-总开关", "设置是否开原版通用容器返鲜功能", true)
+configuration_options[#configuration_options + 1] = AddOption("common_container_preserve", "冰箱返鲜-总开关", "设置是否开原版通用容器返鲜功能", true)
 configuration_options[#configuration_options + 1] = AddConfigOption("icebox_freeze", "腐烂速度", "", { { description = "正常腐烂", data = "0.5" },
                                                                                                        { description = "缓慢腐烂", data = "0.3" },
                                                                                                        { description = "保鲜", data = "0" },
@@ -731,6 +731,8 @@ configuration_options[#configuration_options + 1] = AddConfigOption("saltlicker"
 configuration_options[#configuration_options + 1] = AddConfigOption("mushroom_frige", "蘑菇灯保鲜", "", { { description = "正常腐烂", data = 0.25 },
                                                                                                           { description = "保鲜", data = 0 } }, 0)
 configuration_options[#configuration_options + 1] = AddConfigOption("cage_frige", "骨灰盒保鲜", "", { { description = "开启", data = true, hover = "骨灰盒保鲜,保鲜度同冰箱" },
+                                                                                                      { description = "关闭", data = false }, }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("buyuqi_preserver", "捕鱼器保鲜", "", { { description = "开启", data = true, hover = "捕鱼器捕到鱼不会坏" },
                                                                                                       { description = "关闭", data = false }, }, false)
 
 ---快速工作设置

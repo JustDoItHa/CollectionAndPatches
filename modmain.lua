@@ -253,8 +253,8 @@ end
 
 
 --冰箱返鲜
-if GetModConfigData("better_icebox") == true then
-    modimport("scripts/better_icebox.lua")
+if GetModConfigData("common_container_preserve") == true then
+    modimport("scripts/common_container_preserve_main.lua")
 end
 
 --快速工作
