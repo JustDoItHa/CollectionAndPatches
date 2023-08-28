@@ -212,7 +212,6 @@ if GetModConfigData("sleeping_buff_switch") then
     modimport("scripts/sleeping_buff_main.lua")
 end
 
-
 -- 死亡次数累计
 if GetModConfigData("death_counter_switch") then
     modimport("scripts/death_counter_main.lua")
@@ -224,6 +223,11 @@ if GetModConfigData("hide_admin_switch") then
 end
 --宣告优化
 modimport("scripts/optimise_announcement.lua")
+
+-- 防止生物灭绝
+if GetModConfigData("prevent_creature_extinction_switch") then
+    modimport("scripts/prevent_creature_extinction_main.lua")
+end
 
 -- 生存天数奖励
 if GetModConfigData('reward_for_survival') then

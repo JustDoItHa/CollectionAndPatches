@@ -570,7 +570,14 @@ local clean_num_options = {
     { description = "500", data = 500, hover = "" },
     { description = "1000", data = 1000, hover = "" },
 }
+local prevent_creature_extinction_count_option = {}
 
+for i = 0, 10 do
+    prevent_creature_extinction_count_option[#prevent_creature_extinction_count_option + 1] = {
+        description = i,
+        data = i,
+    }
+end
 configuration_options = {
     AddOptionHeader("基础配置"),
     --TheNet:SetDefaultMaxPlayers(16)
@@ -600,9 +607,35 @@ configuration_options = {
     AddConfigOption("auto_stack_range", "掉落自动堆叠", "设置掉落物自动堆叠的范围，设为0关闭自动堆叠", { { description = "关闭", data = 0 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30, hover = "默认" }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "60", data = 60 }, { description = "70", data = 70 }, { description = "80", data = 80 }, { description = "90", data = 90 }, { description = "100", data = 100 }, }, 30),
     AddConfigOption("stack_size", "物品堆叠数量", "设置物品堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 }, }, 40),
     AddOption("stack_more", "更多可堆叠", "使鸟、兔子、地鼠、鱼等生物变得可堆叠", true),
-
     AddOption("death_counter_switch", "死亡次数累计", "显示死亡次数累计", false),
+
+
 }
+---防止生物灭绝
+configuration_options[#configuration_options + 1] = AddOptionHeader("防止生物灭绝")
+configuration_options[#configuration_options + 1] = AddOption("prevent_creature_extinction_switch", "总开关", "是否开启防止生物灭绝", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("respawnmechanism", (~Language_cn) and "Respawn Mechanism" or "重生机制", (~Language_cn) and "Choose respawn near the death spot or randomly" or "选择在死亡点附近重生或随机重生", { { description = (~Language_cn) and "Near" or "附近", data = "scripts/respawnnear.lua", hover = "" },
+                                                                                                                                                                                                                                                         { description = (~Language_cn) and "Randomly" or "随机", data = "scripts/respawnrandom.lua", hover = "" }, }, "scripts/respawnnear.lua")
+configuration_options[#configuration_options + 1] = AddConfigOption("respawntime", (~Language_cn) and "Respawn Time" or "重生时间", (~Language_cn) and "This option only works when you choose respawn near the death spot." or "该选项仅在选择在死亡点附近重生时有效。", { { description = (~Language_cn) and "1  day" or "1  天", data = 1, hover = "" },
+                                                                                                                                                                                                                                                                           { description = (~Language_cn) and "2  days" or "2  天", data = 2, hover = "" },
+                                                                                                                                                                                                                                                                           { description = (~Language_cn) and "3  days" or "3  天", data = 3, hover = "" },
+                                                                                                                                                                                                                                                                           { description = (~Language_cn) and "4  days" or "4  天", data = 4, hover = "" },
+                                                                                                                                                                                                                                                                           { description = (~Language_cn) and "5  days" or "5  天", data = 5, hover = "" },
+                                                                                                                                                                                                                                                                           { description = (~Language_cn) and "6  days" or "6  天", data = 6, hover = "" },
+                                                                                                                                                                                                                                                                           { description = (~Language_cn) and "7  days" or "7  天", data = 7, hover = "" },
+                                                                                                                                                                                                                                                                           { description = (~Language_cn) and "8  days" or "8  天", data = 8, hover = "" },
+                                                                                                                                                                                                                                                                           { description = (~Language_cn) and "9  days" or "9  天", data = 9, hover = "" },
+                                                                                                                                                                                                                                                                           { description = (~Language_cn) and "10 days" or "10 天", data = 10, hover = "" },
+                                                                                                                                                                                                                                                                           { description = (~Language_cn) and "15 days" or "15 天", data = 15, hover = "" },
+                                                                                                                                                                                                                                                                           { description = (~Language_cn) and "20 days" or "20 天", data = 20, hover = "" }, }, 5)
+configuration_options[#configuration_options + 1] = AddConfigOption("leastnum_beefalo", (~Language_cn) and "Least Num of Beefalo" or "皮弗娄牛数量下限", "", prevent_creature_extinction_count_option, 2)
+configuration_options[#configuration_options + 1] = AddConfigOption("leastnum_lightninggoat", (~Language_cn) and "Least Num of Lightning Goat" or "伏特羊数量下限", "", prevent_creature_extinction_count_option, 2)
+configuration_options[#configuration_options + 1] = AddConfigOption("leastnum_spiderden", (~Language_cn) and "Least Num of Spider Den" or "蜘蛛巢数量下限", "", prevent_creature_extinction_count_option, 2)
+configuration_options[#configuration_options + 1] = AddConfigOption("leastnum_catcoonden", (~Language_cn) and "Least Num of Catcoon Den" or "空洞树桩量下限", "", prevent_creature_extinction_count_option, 2)
+configuration_options[#configuration_options + 1] = AddConfigOption("leastnum_beehive", (~Language_cn) and "Least Num of Bee Hive" or "蜂窝数量下限", "", prevent_creature_extinction_count_option, 2)
+configuration_options[#configuration_options + 1] = AddConfigOption("leastnum_knight", (~Language_cn) and "Least Num of Knight" or "发条骑士数量下限", "", prevent_creature_extinction_count_option, 2)
+configuration_options[#configuration_options + 1] = AddConfigOption("leastnum_rocky", (~Language_cn) and "Least Num of Rock Lobster" or "石虾数量下限", "", prevent_creature_extinction_count_option, 2)
+configuration_options[#configuration_options + 1] = AddConfigOption("leastnum_slurtlehole", (~Language_cn) and "Least Num of Slurtle Mound" or "蛞蝓龟窝数量下限", "", prevent_creature_extinction_count_option, 2)
 
 ---睡眠设备调整
 configuration_options[#configuration_options + 1] = AddOptionHeader("睡眠设备调整")
@@ -733,7 +766,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("mushroom_fr
 configuration_options[#configuration_options + 1] = AddConfigOption("cage_frige", "骨灰盒保鲜", "", { { description = "开启", data = true, hover = "骨灰盒保鲜,保鲜度同冰箱" },
                                                                                                       { description = "关闭", data = false }, }, false)
 configuration_options[#configuration_options + 1] = AddConfigOption("buyuqi_preserver", "捕鱼器保鲜", "", { { description = "开启", data = true, hover = "捕鱼器捕到鱼不会坏" },
-                                                                                                      { description = "关闭", data = false }, }, false)
+                                                                                                            { description = "关闭", data = false }, }, false)
 
 ---快速工作设置
 configuration_options[#configuration_options + 1] = AddOptionHeader("快速工作设置")
