@@ -95,7 +95,7 @@ local function DoBenefit_catbigbag(inst)
         inst.last_do_cycle_day = 1
     end
 
-    if TheWorld.state.cycles <= inst.last_do_cycle_day + 3 then
+    if TheWorld.state.cycles <= inst.last_do_cycle_day + 21 then
         return
     end
 
