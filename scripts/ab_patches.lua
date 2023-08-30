@@ -178,6 +178,7 @@ local forbidItem = {
     "redbigbag",
     "nicebigbag",
     "catbigbag",
+    "catback",
     "cherryruins_resonator_item",
     "cherryruins_resonator_item_completed",
     "cherryruins_resonator",
@@ -217,6 +218,53 @@ local forbidItem = {
     "wb_strengthen_increase_food",
     "myth_plant_infantree_trunk",
     "kemomimi_boss_ds",
+    "multiplayer_portal", --天体门
+    "multiplayer_portal_moonrock", --天体门
+    "multiplayer_portal_moonrock_constr", --天体门
+    "pigking", --猪王
+    "antlion", --蚁狮
+    "crabking", --帝王蟹
+    "beequeenhivegrown", --蜂王窝-底座
+    "statueglommer", --格罗姆雕像
+    "oasislake", --绿洲
+    "archive_switch", --档案馆华丽的基座
+    "archive_portal", --档案馆传送门
+    "archive_lockbox_dispencer", --知识饮水器
+    "archive_centipede", --远古哨兵蜈蚣
+    "archive_centipede_husk", --远古哨兵壳
+    "atrium_gate", --远古大门
+    "monkeyqueen", --月亮码头女王
+    "monkeyisland_portal", --非自然传送门
+    "toadstool_cap", --毒菌蟾蜍蘑菇
+    "elecourmaline", --电器台
+    "elecourmaline_keystone", --
+    "moondungeon", --月的地下城
+    "siving_thetree", --子圭神木岩
+    "myth_rhino_desk", --三犀牛台
+    "myth_chang_e", --嫦娥
+    "myth_store", --小店
+    "myth_store_construction", --未完成的小店
+    "myth_shop", --小店
+    "myth_shop_animals",
+    "myth_shop_foods",
+    "myth_shop_ingredient",
+    "myth_shop_numerology",
+    "myth_shop_plants",
+    "myth_shop_rareitem",
+    "myth_shop_weapons",
+    "medal_spacetime_devourer", --时空吞噬者
+    "star_monv", --星辰魔女
+    "elaina_npc_qp", --星辰魔女对话框
+    "ntex_other_lz", --逆天而行修仙龙柱
+    "garden_entrance", --糖果屋
+    "garden_entrance1", --糖果屋
+    "garden_exit", --糖果屋
+    "garden_exit1", --糖果屋
+    "lg_shop_wanju", --海洋传说商店
+    "lg_shop_rain", --海洋传说商店
+    "lg_shop_thing", --海洋传说商店
+    "lg_shop_food", --海洋传说商店
+    "lg_shop_cloth", --海洋传说商店
 }
 local ab_t = GetModConfigData("ab_t")
 local ab_ty = GetModConfigData("ab_ty")
@@ -230,7 +278,7 @@ if MOD_RPC_HANDLERS["ab_recipelist"] and MOD_RPC["ab_recipelist"] and MOD_RPC["a
                     inst.components.talker:Say("永久封禁")
                     return
                 end
-                inst.components.talker:Say("桃源" .. ab_t .. "天后解锁")
+                inst.components.talker:Say("超限链接" .. ab_t .. "天后解锁")
                 return
             end
             for k, v in pairs(forbidItem) do
