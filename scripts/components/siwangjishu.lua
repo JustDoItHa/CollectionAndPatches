@@ -24,7 +24,7 @@ function siwangjishu:OnUpdate(dt)
     if self.inst.deathed_num == nil or (self.inst._deathed_num and not self.inst.deathed_num:IsValid()) then
 	      self.inst.deathed_num = SpawnPrefab("deathed_num") 
 	      self.inst.deathed_num.entity:SetParent(self.inst.entity)
-		if  GetModConfigData("death_counter_show_title") then
+		if  TUNING.DEATH_COUNTER_SHOW_TITLE  then
 			self.inst.deathed_num:Stext("死亡次数"..self.num, 8, 25, 3, true)
 		else
 			self.inst.deathed_num:Stext(" ", 2, 25, 3, true)
