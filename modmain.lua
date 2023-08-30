@@ -309,6 +309,7 @@ end
 
 --奇幻降临
 if GetModConfigData("ab_patches_switch") and TUNING.QIHUANJIANGLIN_ENABLE then
+    TUNING.AB_BOBBIN_C_CD_SETTING = GetModConfigData("ab_bobbin_c_cd_setting") or 1000
     modimport("scripts/ab_patches.lua")
 end
 

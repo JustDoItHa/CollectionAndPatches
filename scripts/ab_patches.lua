@@ -339,6 +339,12 @@ if zslist then
         end
     end
 end
+local ab_c_builder = require "components/ab_c_builder" --彩虹宝石的修改
+
+if TUNING.AB_BOBBIN_C_CD_SETTING > 0 then
+    local timecd = TUNING.AB_BOBBIN_C_CD_SETTING
+    local param = upvaluehelper.Set(ab_c_builder.Use, "timecd",timecd)
+end
 
 
 --黑色舞会机制修改
