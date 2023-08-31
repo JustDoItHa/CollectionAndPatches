@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.15.3.0"
+version = "11.15.4.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -426,7 +426,12 @@ MOD_CHARACTERLIST = {
     "xxx_wuma", --雾码
     "yuki", --傲雪
     "lg_fanglingche", --方灵澈
+    "lg_lilingyi", --李伶仪
     "elena", --伊蕾娜-松饼版
+    "wonderwhy", --Ancient Dreams - ACT II
+    "houxiaosheng", --神话：傲来神仙境
+    "taizhen", --太真
+
 }
 --自定义配置请修改：
 --Please modify the custom configuration：
@@ -468,7 +473,11 @@ MOD_CHARACTERNAMES = {
     "雾码-xxx_wuma",
     "傲雪-yuki",
     "方灵澈-lg_fanglingche", --海洋传说
+    "李伶仪-lg_lilingyi", --李伶仪海洋传说
     "伊蕾娜-松饼版-elena", --伊蕾娜-松饼版
+    "远古梦境-wonderwhy", --Ancient Dreams - ACT II
+    "傲来神仙境-houxiaosheng", --神话：傲来神仙境
+    "太真-taizhen", --太真
 }
 
 DST_CHARACTERLIST = {
