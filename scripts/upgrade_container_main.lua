@@ -55,6 +55,9 @@ TUNING.CHESTUPGRADE = {	--add to tuning so that they can be easily tuned
 
 AddReplicableComponent("chestupgrade")
 
+--local containers = require("containers")
+--containers.MAXITEMSLOTS = math.max(containers.MAXITEMSLOTS, (TUNING.CHESTUPGRADE.MAX_LV ^ 2 + 2 * TUNING.CHESTUPGRADE.MAX_LV) * TUNING.CHESTUPGRADE.MAX_PAGE)
+
 ---------------Strings----------------
 modimport("modules/upgrade_container/main/strings.lua")
 

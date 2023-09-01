@@ -27,19 +27,4 @@ AddPrefabPostInit("container_classified", function(inst)
         end
 		return InitializeSlots(inst, numslots, ...)
 	end
-	--[[
-	if GLOBAL.TheWorld.ismastersim then return end
-	local tasks = inst.pendingtasks
-	if tasks ~= nil then
-		inst.OnReinitialize = GLOBAL.next(tasks).fn
-
-		local OLD_InitializeSlots = inst.InitializeSlots
-		inst.InitializeSlots = function(inst, ...)
-			inst:RemoveAllEventCallbacks()
-			OLD_InitializeSlots(inst, ...)
-			inst.OnReinitialize(inst)
-		end
-	end
-	]]
 end)
-

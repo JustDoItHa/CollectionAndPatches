@@ -29,7 +29,7 @@ NEW_OnItemGet;	OnItemChange
 
 --------------------------------------------------
 local function GetAlignPos(size, align, offset)
-	local drag = GetModConfigData("DRAGGABLE", true)
+	--local drag = GetModConfigData("DRAGGABLE", true)
 	local lv_x, lv_y = size[1], size[2]
 	if drag then
 		lv_x = math.min(lv_x, drag)
@@ -541,8 +541,9 @@ end
 --------------------------------------------------
 --OnItemChange
 local function NEW_OnItemGet(self, data)
-	local chestupgrade = self.container.replica.chestupgrade
-	if chestupgrade == nil then return end 
+	local chestupgrade = self.container ~= nil and self.container.replica.chestupgrade or nil
+
+	if chestupgrade == nil then return end
 
 	if self.searchbar ~= nil then
 		self.searchbar:OnItemGet(data)
@@ -551,7 +552,7 @@ local function NEW_OnItemGet(self, data)
 		self.dragwidget:UpdateItem(data)
 	end
 	if GetModConfigData("SHOWGUIDE", true) == 2 then
-		if self.iscontainerempty and self.container ~= nil and self.inv ~= nil then
+		if self.iscontainerempty and self.inv ~= nil then
 			self.iscontainerempty = false
 			for _, v in pairs(self.inv) do
 				if v.bgimage2 ~= nil then
@@ -564,9 +565,10 @@ end
 
 local function NEW_OnItemLose(self, data)
 	local inst = self.container
-	local chestupgrade = inst.replica.chestupgrade
+	local chestupgrade = inst ~= nil and inst.replica.chestupgrade or nil
 
-	if chestupgrade == nil then return end 
+	if chestupgrade == nil then return end
+
 	if self.searchbar ~= nil then
 		self.searchbar:OnItemLose(data)
 	end

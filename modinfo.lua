@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.15.4.0"
+version = "11.15.5.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then

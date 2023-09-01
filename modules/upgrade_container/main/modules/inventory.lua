@@ -3,8 +3,6 @@
 --this module may reduce some lagging when opening a container
 --by checking each slots once only for each update of craftingmenu
 
-local next = GLOBAL.next
-
 local function AddToList(itemlist, item, iscrafting)
 	if item == nil or iscrafting and item:HasTag("nocrafting") then return end
 	local prefab = item.prefab
@@ -82,8 +80,8 @@ local function CreateItemList(inst, checkallcontainers)
 end
 
 local function removelist(inst)
-	if inst.itemlist ~= nil and next(inst.itemlist) ~= nil then
-		inst.itemlist = {}
+	if inst.itemlist ~= nil then
+		inst.itemlist = nil
 	end
 	inst._removelist:Cancel()
 	inst._removelist = nil
@@ -99,7 +97,7 @@ local function NewHas(inst, prefab, amount, checkallcontainers, ...)
 	end
 
 	local itemlist = inst.itemlist
-	if itemlist == nil or next(itemlist) == nil then
+	if itemlist == nil then
 		itemlist = CreateItemList(inst, checkallcontainers)
 	end
 

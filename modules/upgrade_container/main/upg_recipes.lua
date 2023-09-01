@@ -16,11 +16,18 @@ local ALL_RECIPES = {
 	["ocean_trawler"]	= {all = Ingredient("malbatross_feather", 1), lv = {1,4}},
 
 	--backpack
-	["backpack"]		= {page = {[1] = Ingredient("rope", 1)}, lv = {2,4}},
-	["icepack"]			= {page = {[1] = Ingredient("transistor", 1)}, lv = {2,4}},
-	["spicepack"]		= {page = {[1] = Ingredient("nitre", 1)}, lv = {2,3}},
-	["krampus_sack"]	= {page = {[1] = Ingredient("rope", 1)}, lv = {2,7}},
-	["piggyback"]		= {page = {[1] = Ingredient("rope", 1)}, lv = {2,6}},
+	--["backpack"]		= {page = {[1] = Ingredient("rope", 1)}, lv = {2,4}},
+	--["icepack"]			= {page = {[1] = Ingredient("transistor", 1)}, lv = {2,4}},
+	--["spicepack"]		= {page = {[1] = Ingredient("nitre", 1)}, lv = {2,3}},
+	--["krampus_sack"]	= {page = {[1] = Ingredient("rope", 1)}, lv = {2,7}},
+	--["piggyback"]		= {page = {[1] = Ingredient("pigskin", 1)}, lv = {2,6}},
+
+	["backpack"]		= {page = {[1] = Ingredient("opalpreciousgem", 1)}, lv = {2,4}},
+	["icepack"]			= {page = {[1] = Ingredient("opalpreciousgem", 1)}, lv = {2,4}},
+	["spicepack"]		= {page = {[1] = Ingredient("opalpreciousgem", 1)}, lv = {2,3}},
+	["krampus_sack"]	= {page = {[1] = Ingredient("opalpreciousgem", 1)}, lv = {2,7}},
+	["piggyback"]		= {page = {[1] = Ingredient("opalpreciousgem", 1)}, lv = {2,6}},
+	["catback"]		    = {page = {[1] = Ingredient("opalpreciousgem", 1)}, lv = {2,15}},
 --	["seedpouch"] = "slurtle_shellpieces",
 --	["candybag"] = "rope",
 }

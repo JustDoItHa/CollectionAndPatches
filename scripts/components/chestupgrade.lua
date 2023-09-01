@@ -186,7 +186,7 @@ function ChestUpgrade:UpdateWidget()
 		end
 	end
 
-	--container:Close()
+	container:Close()
 	--container:WidgetSetup(self.inst.prefab, {["widget"] = widget})
 	ModCompat(container, widget)
 end
@@ -336,37 +336,25 @@ function ChestUpgrade:CheckItem(slots, data, ...)
 	if data == nil or slots == nil then return false end
 	local slotprops = self:SlotProps()
 	local checkpass = true
-	--dumptable(data)
 	for i = 1, self.inst.components.container:GetNumSlots() do
-		--print("Now", i)
 		local target, isside, iscenter, page, row, column = GetSlotProps(slotprops, i)
-		--print(target, isside, iscenter, page, row, column)
 		if data.slot and data.slot[i] then
-			print("slot", i, data.slot[i], slots[i])
 			checkpass = CheckItem(data.slot[i], slots[i], i, ...)
 		elseif data.center and iscenter then
-			print("center", i, data.center, slots[i])
 			checkpass = CheckItem(data.center, slots[i], i, ...)
 		elseif data.column and data.column[column] then
-			print("column", i, data.column[column], slots[i])
 			checkpass = CheckItem(data.column[column], slots[i], i, ...)
 		elseif data.row and data.row[row] then
-			print("row", i, data.row[row], slots[i])
 			checkpass = CheckItem(data.row[row], slots[i], i, ...)
 		elseif data.hollow and not isside then
-			print("hollow", i, data.hollow, slots[i])
 			checkpass = CheckItem(nil, slots[i], i, ...)
 		elseif data.side and isside then
-			print("side", i, data.side, slots[i])
 			checkpass = CheckItem(data.side, slots[i], i, ...)
 		elseif data.page and data.page[page] then
-			print("page", i, data.page[page], slots[i])
 			checkpass = CheckItem(data.page[page], slots[i], i, ...)
 		elseif data.all then
-			print("all", i, data.all, slots[i])
 			checkpass = CheckItem(data.all, slots[i], i, ...)
 		else
-			print("nil", i, nil, slots[i])
 			checkpass = CheckItem(nil, slots[i], i, ...)
 		end
 		if not checkpass then
@@ -471,7 +459,7 @@ function ChestUpgrade:SlotProps(slot)
 		local TR = x					--Top right hand corner
 		local BR = x * y				--Bottom right
 		local BL = BR - TR + 1			--Bottom left
-		local TOTAL = self.inst.components.container:GetNumSlots()			--page bottom left
+		local TOTAL = BR * z
 
 		for i = 1, TOTAL do
 			local page = math.floor((i - 1) / BR) + 1

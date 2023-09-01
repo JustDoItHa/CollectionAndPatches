@@ -35,18 +35,22 @@ local function OnPackClose(inst, data)
 	if container.opencount == 0 then
 		local chestupgrade = inst.components.chestupgrade
 		local x, y, z = chestupgrade:GetLv()
+		local recipe = ChestUpgrade.AllUpgradeRecipes[inst.prefab]
 
 		if z < (chestupgrade.baselv.z + TUNING.CHESTUPGRADE.MAXPACKUPGRADE) then
-			chestupgrade:SpecialUpgrade(GetPackUpgData(inst.prefab, x, y, z), data.doer, {z = 1})
+			--chestupgrade:SpecialUpgrade(GetPackUpgData(inst.prefab, x, y, z), data.doer, {z = 1})
+			chestupgrade:SpecialUpgrade(recipe, data.doer, {z = 1})
 		end
 
 		--we can upgrade krampus_sack twice if we use waxpaper for first upgrade. ie. 9 pages with total 126 slots
 		if inst.prefab == "krampus_sack" and z < (TUNING.CHESTUPGRADE.MAXPACKUPGRADE + 4) then
-			chestupgrade:SpecialUpgrade(GetPackUpgData("special", x, y, z), data.doer, {z = 4})
+			--chestupgrade:SpecialUpgrade(GetPackUpgData("special", x, y, z), data.doer, {z = 4})
+			chestupgrade:SpecialUpgrade({page = {[1] = "waxpaper"}}, data.doer, {z = 1})
 		end
-
+		--we can upgrade krampus_sack twice if we use waxpaper for first upgrade. ie. 9 pages with total 126 slots
 		if inst.prefab == "catback" and z < (TUNING.CHESTUPGRADE.MAXPACKUPGRADE + 4) then
-			chestupgrade:SpecialUpgrade(GetPackUpgData("special", x, y, z), data.doer, {z = 4})
+			--chestupgrade:SpecialUpgrade(GetPackUpgData("special", x, y, z), data.doer, {z = 4})
+			chestupgrade:SpecialUpgrade({page = {[1] = "waxpaper"}}, data.doer, {z = 1})
 		end
 	end
 end
