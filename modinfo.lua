@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.16.0.0"
+version = "11.16.0.1"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1222,7 +1222,7 @@ configuration_options[#configuration_options + 1] = AddOption("chest_spring_myth
 configuration_options[#configuration_options + 1] = AddOption("chest_summer_myth_make_recipe_change", "夏季箱子制作配方更改", "制作材料更难一些", true)
 configuration_options[#configuration_options + 1] = AddOption("chest_autumn_myth_make_recipe_change", "秋季箱子制作配方更改", "制作材料更难一些", true)
 configuration_options[#configuration_options + 1] = AddOption("chest_winter_myth_make_recipe_change", "冬季箱子制作配方更改", "制作材料更难一些", true)
-configuration_options[#configuration_options + 1] = AddConfigOption("four_seasons_chest_place_interval", "冬季箱子制作配方更改", "制作材料更难一些", { { description = "不设置", data = false },
+configuration_options[#configuration_options + 1] = AddConfigOption("four_seasons_chest_place_interval", "四季箱子间距", "箱子占地大小", { { description = "不设置", data = false },
                                                                                                                                                        { description = "很近", data = 1 },
                                                                                                                                                        { description = "近", data = 2 },
                                                                                                                                                        { description = "远", data = 3 },
