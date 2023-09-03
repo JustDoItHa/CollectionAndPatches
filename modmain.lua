@@ -96,6 +96,7 @@ TUNING.SUCCULENT_PLANT_ENABLE = modenable({ "2441790846", "Succulent plant", "�
 TUNING.NDNR_ENABLE = modenable({ "2823458540", "富贵险中求", "ndnr", "富贵险中求(No Danger No Rich)" })
 TUNING.ARIA_ENABLE = modenable({ "2418617371", "艾丽娅·克莉丝塔露（重置版）" })
 TUNING.SIMPLE_ECONOMY_FOR_RX = modenable({ "2846621983", "简单经济学(改专用)" })
+TUNING.AOLAI_MYTH = modenable({ "3014738585", "神话：傲来神仙境" })
 -----------------------------
 TUNING.DEATH_COUNTER_SHOW_TITLE = GetModConfigData("death_counter_show_title")
 ---限制打包物品
@@ -635,6 +636,9 @@ end
 if GetModConfigData("niche_container_modification_switch") then
     modimport("scripts/niche_container_modification_main.lua")
 end
+
+---制作配方的修改
+modimport("scripts/items_recipe_modification.lua")
 
 ----处理下重复加组件的问题 不知道放哪里 先写这里
 AddGlobalClassPostConstruct("entityscript", "EntityScript", function(self)

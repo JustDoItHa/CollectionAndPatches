@@ -156,27 +156,27 @@ end
 
 local RcpVE_MODs = {}
 if TUNING.QIONG_ENABLE then
-    table.insert(RcpVE_MODs, Ingredient("sorahat", 1))
-    table.insert(RcpVE_MODs, Ingredient("sorahealing", 1))
-    table.insert(RcpVE_MODs, Ingredient("soramagic", 1))
-    table.insert(RcpVE_MODs, Ingredient("soratele", 1))
-    table.insert(RcpVE_MODs, Ingredient("sorapick", 1))
-    table.insert(RcpVE_MODs, Ingredient("soraclothes", 1))
-    table.insert(RcpVE_MODs, Ingredient("sorabowknot", 1))
-    table.insert(RcpVE_MODs, Ingredient("sora2pack", 10))
+    table.insert(RcpVE_MODs, Ingredient("sorahat", 1, "images/inventoryimages/sorahat.xml"))
+    table.insert(RcpVE_MODs, Ingredient("sorahealing", 1, "images/inventoryimages/sorahealing.xml"))
+    table.insert(RcpVE_MODs, Ingredient("soramagic", 1, "images/inventoryimages/soramagic.xml"))
+    table.insert(RcpVE_MODs, Ingredient("soratele", 1, "images/inventoryimages/soratele.xml"))
+    table.insert(RcpVE_MODs, Ingredient("sorapick", 1, "images/inventoryimages/sorapick.xml"))
+    table.insert(RcpVE_MODs, Ingredient("soraclothes", 1, "images/inventoryimages/soraclothes.xml"))
+    table.insert(RcpVE_MODs, Ingredient("sorabowknot", 1, "images/inventoryimages/sorabowknot.xml"))
+    table.insert(RcpVE_MODs, Ingredient("sora2pack", 10, "images/inventoryimages/sora2pack.xml"))
 end
 if TUNING.ELAINA_ENABLE then
-    table.insert(RcpVE_MODs, Ingredient("elaina_bundlewrap", 10))
+    table.insert(RcpVE_MODs, Ingredient("elaina_bundlewrap", 10, "images/inventoryimages/elaina_bundlewrap.xml"))
 end
 if TUNING.YEYU_NILXIN_ENABLE then
-    table.insert(RcpVE_MODs, Ingredient("yyxk_gift", 20))
-    table.insert(RcpVE_MODs, Ingredient("yyxk_bukas", 1))
+    table.insert(RcpVE_MODs, Ingredient("yyxk_gift", 20, "images/inventoryimages.xml", nil, "giftwrap.tex"))
+    table.insert(RcpVE_MODs, Ingredient("yyxk_bukas", 1, "images/nilxin_inventoryimages.xml", nil, "yyxk_buka_item.tex"))
 end
 if TUNING.QIHUANJIANGLIN_ENABLE then
-    table.insert(RcpVE_MODs, Ingredient("ab_lnhx", 1))
+    table.insert(RcpVE_MODs, Ingredient("ab_lnhx", 1, "images/inventoryimages/ab_lnhx.xml"))
 end
 if TUNING.ARIA_ENABLE then
-    table.insert(RcpVE_MODs, Ingredient("aria_fantasycore", 1))
+    table.insert(RcpVE_MODs, Ingredient("aria_fantasycore", 1, "images/inventoryimages/aria_fantasycore.xml"))
 end
 
 if GetModConfigData("BIG_BAG_EFFECTED_BY_OTHER_MODS") and #RcpVE_MODs > 0 then
