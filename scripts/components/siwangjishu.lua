@@ -5,7 +5,12 @@ local siwangjishu = Class(function(self, inst)
 		self.num = self.num + 1
 
 		if self.inst.deathed_num and self.inst.deathed_num:IsValid() then
-               self.inst.deathed_num:Stext("死亡次数"..self.num, 2, 25, 3, true) 
+
+			if  TUNING.DEATH_COUNTER_SHOW_TITLE  then
+				self.inst.deathed_num:Stext("死亡次数"..self.num, 8, 25, 3, true)
+			else
+				self.inst.deathed_num:Stext(" ", 8, 25, 3, true)
+			end
 		end	
 
 		if self.inst._deathed_num:value() then
@@ -27,7 +32,7 @@ function siwangjishu:OnUpdate(dt)
 		if  TUNING.DEATH_COUNTER_SHOW_TITLE  then
 			self.inst.deathed_num:Stext("死亡次数"..self.num, 8, 25, 3, true)
 		else
-			self.inst.deathed_num:Stext(" \n ", 8, 25, 3, true)
+			self.inst.deathed_num:Stext(" ", 8, 25, 3, true)
 		end
 
 	end  
