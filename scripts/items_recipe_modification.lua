@@ -1,5 +1,5 @@
 ----神话：傲来仙境
-if GetModConfigData("aolai_myth_patches_switch") then
+if TUNING.AOLAI_MYTH and GetModConfigData("aolai_myth_patches_switch") then
     local four_seasons_chest_place_interval = GetModConfigData("four_seasons_chest_place_interval")
     if four_seasons_chest_place_interval and type(four_seasons_chest_place_interval) == "number" then
         if four_seasons_chest_place_interval <= 0 then
