@@ -92,7 +92,7 @@ local function doBenefit_catback(inst)
         inst.last_do_cycle_day = 1
     end
 
-    if TheWorld.state.cycles <= inst.last_do_cycle_day + 21 then
+    if TheWorld.state.cycles <= inst.last_do_cycle_day + 32 then
         return
     end
 

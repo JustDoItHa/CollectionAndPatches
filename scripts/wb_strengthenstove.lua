@@ -627,10 +627,10 @@ STRINGS.RECIPE_DESC.WB_STRENGTHENSTOVE = "神秘的强化炉"
 --        "images/inventoryimages2.xml",
 --        'wintersfeastoven.tex'
 --)
-AddRecipe2("wb_strengthenstove", -- name
+AddRecipe2("wb_strengthenstove_n", -- name
         {Ingredient('marble', 20), Ingredient('nightmarefuel', 20), Ingredient('redgem', 20), Ingredient('purplegem', 20),},
         GLOBAL.TECH.SCIENCE_TWO,
-        { placer = "wb_strengthenstove_placer", min_spacing = 3, atlas = "images/inventoryimages3.xml", image = "wintersfeastoven.tex" },
+        { placer = "wb_strengthenstove_placer", min_spacing = 3, atlas = "images/inventoryimages3.xml", image = "wintersfeastoven.tex", product = "wb_strengthenstove" },
         { "MAGIC", "STRUCTURES" })
 
 
