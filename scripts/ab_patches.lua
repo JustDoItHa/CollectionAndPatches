@@ -265,6 +265,13 @@ local forbidItem = {
     "lg_shop_thing", --海洋传说商店
     "lg_shop_food", --海洋传说商店
     "lg_shop_cloth", --海洋传说商店
+    "yyxk_favorability_medicament1000",
+    "yyxk_favorability_medicament",
+    "sora_exp_medicament",
+    "sora_exp_medicament100",
+    "sora_exp_medicament500",
+    "sora_exp_medicament1000",
+
 }
 local ab_t = GetModConfigData("ab_t")
 local ab_ty = GetModConfigData("ab_ty")
