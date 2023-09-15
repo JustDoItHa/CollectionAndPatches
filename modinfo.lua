@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.16.2.0"
+version = "11.17.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1305,6 +1305,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("RECIPE", "R
                                                                                                                  { description = "More Expensive(更贵)", data = 5, },
                                                                                                                  { description = "super Expensive(超贵)", data = 6, }, }, 6)
 configuration_options[#configuration_options + 1] = AddOption("BIG_BAG_EFFECTED_BY_OTHER_MODS", "制作是否受其他mod影响", "开启会根据服务器开不同mod的变化而变化", true)
+configuration_options[#configuration_options + 1] = AddOption("BIG_BAG_ONLY_IN_TUMBLEWEED", "只能在风滚草中开出来", "制作栏制作不了，只能在风滚草中开出来", false)
 
 configuration_options[#configuration_options + 1] = AddConfigOption("CONTAINERDRAG_SWITCH", "BigBag Drag(背包拖拽)", "After opening, you can drag the bigbag's UI", { { description = "Close(关闭)", data = false, hover = "关闭容器拖拽" },
                                                                                                                                                                       { description = "Open(F1开启)", data = "KEY_F1", hover = "默认按住F1拖动" },
@@ -1328,6 +1329,7 @@ configuration_options[#configuration_options + 1] = AddOption("wingpack_equip_sl
 ---海上箱子
 configuration_options[#configuration_options + 1] = AddOptionHeader("超大容量便携箱子")
 configuration_options[#configuration_options + 1] = AddOption("bigbox_switch", "制作超大容量便携箱子开关", "是否可以制作超大容量便携箱子", false)
+configuration_options[#configuration_options + 1] = AddOption("BIGBOX_ONLY_IN_TUMBLEWEED", "只能在风滚草中开出来", "制作栏制作不了，只能在风滚草中开出来", false)
 
 configuration_options[#configuration_options + 1] = AddConfigOption("container_removable", Language_cn and "容器 UI 可以移动" or "The container UI can be moved", "警告：万万不可和同类功能的模组一起开启！！！\n如果有同类模组请关闭该选项。",
         { option(Language_cn and "开启" or "Open", true, ""),

@@ -109,12 +109,13 @@ Recipes[#Recipes + 1] = {
     }
 };
 
-for _, v in pairs(Recipes) do
-    if v.CanMake ~= false then
-        env.AddRecipe2(v.name, v.ingredients, v.tech, v.config, v.filters);
+if not env.GetModConfigData("BIGBOX_ONLY_IN_TUMBLEWEED") then
+    for _, v in pairs(Recipes) do
+        if v.CanMake ~= false then
+            env.AddRecipe2(v.name, v.ingredients, v.tech, v.config, v.filters);
+        end
     end
 end
-
 -----------------------------------------------------------------------------------------
 
 local custom_actions = {

@@ -179,97 +179,99 @@ if TUNING.ARIA_ENABLE then
     table.insert(RcpVE_MODs, Ingredient("aria_fantasycore", 1, "images/inventoryimages/aria_fantasycore.xml"))
 end
 
-if GetModConfigData("BIG_BAG_EFFECTED_BY_OTHER_MODS") and #RcpVE_MODs > 0 then
-    local bigbag = AddRecipe2("bigbag_n", RcpVE_MODs,
-            tec,
-            { no_deconstruction = true, atlas = "images/inventoryimages/bigbag.xml", image = "bigbag.tex", product = "bigbag" },
-            { "CONTAINERS" })
+if not GetModConfigData("BIG_BAG_ONLY_IN_TUMBLEWEED") then
+    if GetModConfigData("BIG_BAG_EFFECTED_BY_OTHER_MODS") and #RcpVE_MODs > 0 then
+        local bigbag = AddRecipe2("bigbag_n", RcpVE_MODs,
+                tec,
+                { no_deconstruction = true, atlas = "images/inventoryimages/bigbag.xml", image = "bigbag.tex", product = "bigbag" },
+                { "CONTAINERS" })
 
-    local redbigbag = AddRecipe2("redbigbag_n", -- name
-            { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("redgem", 10) }, -- ingredients Add more like so ,
-            tec,
-            { no_deconstruction = true, atlas = "images/inventoryimages/redbigbag.xml", image = "redbigbag.tex", product = "redbigbag" },
-            { "CONTAINERS" })
+        local redbigbag = AddRecipe2("redbigbag_n", -- name
+                { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("redgem", 10) }, -- ingredients Add more like so ,
+                tec,
+                { no_deconstruction = true, atlas = "images/inventoryimages/redbigbag.xml", image = "redbigbag.tex", product = "redbigbag" },
+                { "CONTAINERS" })
 
-    local bluebigbag = AddRecipe2("bluebigbag_n", -- name
-            { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("bluegem", 10) }, -- ingredients Add more like so ,
-            tec,
-            { no_deconstruction = true, atlas = "images/inventoryimages/bluebigbag.xml", image = "bluebigbag.tex", product = "bluebigbag" },
-            { "CONTAINERS" })
+        local bluebigbag = AddRecipe2("bluebigbag_n", -- name
+                { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("bluegem", 10) }, -- ingredients Add more like so ,
+                tec,
+                { no_deconstruction = true, atlas = "images/inventoryimages/bluebigbag.xml", image = "bluebigbag.tex", product = "bluebigbag" },
+                { "CONTAINERS" })
 
-    local nicebigbag = AddRecipe2("nicebigbag_n",
-            RcpVE_MODs,
-            tec,
-            { no_deconstruction = true, atlas = "images/inventoryimages/nicebigbag.xml", image = "nicebigbag.tex", product = "nicebigbag" },
-            { "CONTAINERS" })
+        local nicebigbag = AddRecipe2("nicebigbag_n",
+                RcpVE_MODs,
+                tec,
+                { no_deconstruction = true, atlas = "images/inventoryimages/nicebigbag.xml", image = "nicebigbag.tex", product = "nicebigbag" },
+                { "CONTAINERS" })
 
-    local catbigbag = AddRecipe2("catbigbag_n", -- name
-            RcpVE_MODs,
-            tec,
-            { no_deconstruction = true, atlas = "images/inventoryimages/catback.xml", image = "catback.tex", product = "catbigbag" },
-            { "CONTAINERS" })
+        local catbigbag = AddRecipe2("catbigbag_n", -- name
+                RcpVE_MODs,
+                tec,
+                { no_deconstruction = true, atlas = "images/inventoryimages/catback.xml", image = "catback.tex", product = "catbigbag" },
+                { "CONTAINERS" })
 
-    local catback = AddRecipe2("catback_n", -- name
-            RcpVE_MODs,
-            tec,
-            { no_deconstruction = true, atlas = "images/inventoryimages/catback.xml", image = "catback.tex", product = "catback" },
-            { "CONTAINERS" })
-else
-    local bigbag = AddRecipe2("bigbag", rcp,
-            tec,
-            { atlas = "images/inventoryimages/bigbag.xml", image = "bigbag.tex" },
-            { "CONTAINERS" })
+        local catback = AddRecipe2("catback_n", -- name
+                RcpVE_MODs,
+                tec,
+                { no_deconstruction = true, atlas = "images/inventoryimages/catback.xml", image = "catback.tex", product = "catback" },
+                { "CONTAINERS" })
+    else
+        local bigbag = AddRecipe2("bigbag", rcp,
+                tec,
+                { atlas = "images/inventoryimages/bigbag.xml", image = "bigbag.tex" },
+                { "CONTAINERS" })
 
-    local redbigbag = AddRecipe2("redbigbag", -- name
-            { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("redgem", 10) }, -- ingredients Add more like so ,
-            tec,
-            { atlas = "images/inventoryimages/redbigbag.xml", image = "redbigbag.tex" },
-            { "CONTAINERS" })
+        local redbigbag = AddRecipe2("redbigbag", -- name
+                { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("redgem", 10) }, -- ingredients Add more like so ,
+                tec,
+                { atlas = "images/inventoryimages/redbigbag.xml", image = "redbigbag.tex" },
+                { "CONTAINERS" })
 
-    local bluebigbag = AddRecipe2("bluebigbag", -- name
-            { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("bluegem", 10) }, -- ingredients Add more like so ,
-            tec,
-            { atlas = "images/inventoryimages/bluebigbag.xml", image = "bluebigbag.tex" },
-            { "CONTAINERS" })
+        local bluebigbag = AddRecipe2("bluebigbag", -- name
+                { Ingredient("bigbag", 1, "images/inventoryimages/bigbag.xml"), Ingredient("bluegem", 10) }, -- ingredients Add more like so ,
+                tec,
+                { atlas = "images/inventoryimages/bluebigbag.xml", image = "bluebigbag.tex" },
+                { "CONTAINERS" })
 
-    local nicebigbag = AddRecipe2("nicebigbag",
-            { Ingredient("goldnugget", 40),
-              Ingredient("pigskin", 20),
-              Ingredient("nightmarefuel", 40),
-              Ingredient("silk", 40),
-              Ingredient("bearger_fur", 2),
-              Ingredient("dragon_scales", 2),
-              Ingredient("goose_feather", 10),
-              Ingredient("minotaurhorn", 1) },
-            tec,
-            { atlas = "images/inventoryimages/nicebigbag.xml", image = "nicebigbag.tex" },
-            { "CONTAINERS" })
+        local nicebigbag = AddRecipe2("nicebigbag",
+                { Ingredient("goldnugget", 40),
+                  Ingredient("pigskin", 20),
+                  Ingredient("nightmarefuel", 40),
+                  Ingredient("silk", 40),
+                  Ingredient("bearger_fur", 2),
+                  Ingredient("dragon_scales", 2),
+                  Ingredient("goose_feather", 10),
+                  Ingredient("minotaurhorn", 1) },
+                tec,
+                { atlas = "images/inventoryimages/nicebigbag.xml", image = "nicebigbag.tex" },
+                { "CONTAINERS" })
 
-    local catbigbag = AddRecipe2("catbigbag", -- name
-            { Ingredient("goldnugget", 80),
-              Ingredient("pigskin", 40),
-              Ingredient("nightmarefuel", 80),
-              Ingredient("silk", 80),
-              Ingredient("bearger_fur", 10),
-              Ingredient("dragon_scales", 10),
-              Ingredient("goose_feather", 20),
-              Ingredient("minotaurhorn", 2) },
-            tec,
-            { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
-            { "CONTAINERS" })
+        local catbigbag = AddRecipe2("catbigbag", -- name
+                { Ingredient("goldnugget", 80),
+                  Ingredient("pigskin", 40),
+                  Ingredient("nightmarefuel", 80),
+                  Ingredient("silk", 80),
+                  Ingredient("bearger_fur", 10),
+                  Ingredient("dragon_scales", 10),
+                  Ingredient("goose_feather", 20),
+                  Ingredient("minotaurhorn", 2) },
+                tec,
+                { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
+                { "CONTAINERS" })
 
-    local catback = AddRecipe2("catback", -- name
-            { Ingredient("goldnugget", 20),
-              Ingredient("pigskin", 10),
-              Ingredient("nightmarefuel", 20),
-              Ingredient("silk", 20),
-              Ingredient("bearger_fur", 2),
-              Ingredient("dragon_scales", 2),
-              Ingredient("goose_feather", 3),
-              Ingredient("minotaurhorn", 1) },
-            tec,
-            { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
-            { "CONTAINERS" })
+        local catback = AddRecipe2("catback", -- name
+                { Ingredient("goldnugget", 20),
+                  Ingredient("pigskin", 10),
+                  Ingredient("nightmarefuel", 20),
+                  Ingredient("silk", 20),
+                  Ingredient("bearger_fur", 2),
+                  Ingredient("dragon_scales", 2),
+                  Ingredient("goose_feather", 3),
+                  Ingredient("minotaurhorn", 1) },
+                tec,
+                { atlas = "images/inventoryimages/catback.xml", image = "catback.tex" },
+                { "CONTAINERS" })
+    end
 end
 
 --------------------------------------------------------------------------------------------------------------------------
@@ -330,7 +332,7 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
     TUNING.TUMBLEWEED_RESOURCES_EXPAND.catback_resources = {--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
         resourcesList = {
             --资源列表，可加多条，每条之间用英文逗号隔开
-            { chance = tumbleweed_item_rates_l * 0.5, --权重(必填)
+            { chance = tumbleweed_item_rates_l * 0.2, --权重(必填)
               item = "catback", --掉落物(选填，item和pickfn最好至少填一个)
               aggro = false, --是否仇视玩家(选填，一般是生成生物的时候用)
               announce = true, --开出道具是否发公告(选填，默认false)
