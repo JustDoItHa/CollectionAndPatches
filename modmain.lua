@@ -611,6 +611,10 @@ if GetModConfigData("beta_function_switch") then
         modimport("scripts/fix_migration_data_lost.lua")
     end
 
+    if GetModConfigData("fix_medal_conflict_with_other_mod_switch") then
+        modimport("scripts/fix_medal_conflict_with_other_mod.lua")
+    end
+
     --if GetModConfigData("blueprint_error_fix_switch") then
     --    modimport("scripts/blueprint_error_fix.lua")
     --end
