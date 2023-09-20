@@ -478,7 +478,12 @@ end }, { com = a[52], fn = function(IN, QYf1)
     end
 end }, { com = a[54], fn = function(RfsnisO, lvW2ga)
     if not RfsnisO[a[240]][a[219]][a[263]] and not RfsnisO[a[240]][a[219]][a[264]] then
-        table[a[246]](lvW2ga, { a[55], qW0lRiD1(RfsnisO[a[265]] * tonumber(a[39]), tonumber(a[17])) .. a[40] })
+        if a[265] == nil or RfsnisO[a[265]] == nil then
+            table[a[246]](lvW2ga, { a[55], qW0lRiD1(0, tonumber(a[17])) .. a[40] })
+        else
+            table[a[246]](lvW2ga, { a[55], qW0lRiD1(RfsnisO[a[265]] * tonumber(a[39]), tonumber(a[17])) .. a[40] })
+        end
+        --table[a[246]](lvW2ga, { a[55], qW0lRiD1(RfsnisO[a[265]] * tonumber(a[39]), tonumber(a[17])) .. a[40] })
         table[a[246]](lvW2ga, { a[56], (RfsnisO[a[266]] and a[57] or qW0lRiD1(RfsnisO[a[267]]) .. a[37] .. qW0lRiD1(RfsnisO[a[268]])) })
     end
 end }, { com = a[58], fn = function(T7RKP, _L6Bs)
