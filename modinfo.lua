@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "11.17.3.0"
+version = "11.18.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1223,10 +1223,10 @@ configuration_options[#configuration_options + 1] = AddOption("chest_summer_myth
 configuration_options[#configuration_options + 1] = AddOption("chest_autumn_myth_make_recipe_change", "秋季箱子制作配方更改", "制作材料更难一些", true)
 configuration_options[#configuration_options + 1] = AddOption("chest_winter_myth_make_recipe_change", "冬季箱子制作配方更改", "制作材料更难一些", true)
 configuration_options[#configuration_options + 1] = AddConfigOption("four_seasons_chest_place_interval", "四季箱子间距", "箱子占地大小", { { description = "不设置", data = false },
-                                                                                                                                                       { description = "很近", data = 1 },
-                                                                                                                                                       { description = "近", data = 2 },
-                                                                                                                                                       { description = "远", data = 3 },
-                                                                                                                                                       { description = "很远", data = 4 } }, 1)
+                                                                                                                                           { description = "很近", data = 1 },
+                                                                                                                                           { description = "近", data = 2 },
+                                                                                                                                           { description = "远", data = 3 },
+                                                                                                                                           { description = "很远", data = 4 } }, 1)
 
 ---人人都可以用红锅补丁
 configuration_options[#configuration_options + 1] = AddOptionHeader("红锅补丁")
@@ -2215,16 +2215,15 @@ configuration_options[#configuration_options + 1] = AddOption("beta_function_swi
 --configuration_options[#configuration_options + 1] = AddOption("repeat_death_fix", "鞭尸修复", "修复鞭尸怪物(理论上应该也能阻止玩家被鞭尸)", true)
 configuration_options[#configuration_options + 1] = AddOption("container_open_dont_drop_switch", "容器打开不掉落", "打开需要掉落的容器不再掉落", false)
 configuration_options[#configuration_options + 1] = AddOption("container_sort_switch", "容器物品排序", "容器/箱子里面的物品自动排序\n妈妈再也不担心箱子乱七八糟了", false)
-configuration_options[#configuration_options + 1] = AddConfigOption("container_organize_preference", "容器整理", "可以整理物品栏和背包哦", {
-    { description = "默认", data = true },
-    { description = "禁用", data = false },
-    { description = "部分", data = -1 },
-    { description = "全部开启", data = -2 },
-}, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("container_organize_preference", "容器整理", "可以整理物品栏和背包哦", { { description = "默认", data = true },
+                                                                                                                                             { description = "禁用", data = false },
+                                                                                                                                             { description = "部分", data = -1 },
+                                                                                                                                             { description = "全部开启", data = -2 }, }, true)
 configuration_options[#configuration_options + 1] = AddOption("fix_tags_overflow_switch", "标签溢出问题", "修复标签溢出问题", true)
 configuration_options[#configuration_options + 1] = AddOption("give_item_optimize_switch", "拾取优化", "自动寻找打开的容器进行放入", false)
 configuration_options[#configuration_options + 1] = AddOption("fix_heap_of_food_switch", "修复HeapOfFood问题", "修复HeapOfFood问题", false)
 configuration_options[#configuration_options + 1] = AddOption("fix_migration_data_lost_switch", "修复跳世界数据丢失问题", "修复跳世界数据丢失导致重选人物问题", true)
+configuration_options[#configuration_options + 1] = AddOption("fix_medal_conflict_with_other_mod_switch", "修复勋章跟其他mod一些冲突", "修复勋章跟其他mod一些冲突", true)
 --configuration_options[#configuration_options + 1] = AddOption("blueprint_error_fix_switch", "蓝图问题修复", "世界蓝图可能存在的问题", true)
 configuration_options[#configuration_options + 1] = AddOption("heap_of_food_chs_language_switch", "HeapOfFood汉化(简中)", "HeapOfFood汉化(简中)", false)
 configuration_options[#configuration_options + 1] = AddOption("vtf_chs_language_switch", "情人节主题物品汉化(简中)", "情人节主题物品汉化(简中)", false)
