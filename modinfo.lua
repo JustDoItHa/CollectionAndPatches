@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "12.0.0.0"
+version = "12.1.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2229,6 +2229,8 @@ configuration_options[#configuration_options + 1] = AddOption("heap_of_food_chs_
 configuration_options[#configuration_options + 1] = AddOption("vtf_chs_language_switch", "情人节主题物品汉化(简中)", "情人节主题物品汉化(简中)", false)
 configuration_options[#configuration_options + 1] = AddOption("htf_chs_language_switch", "万圣节主题物品汉化(简中)", "万圣节主题物品汉化(简中)", false)
 configuration_options[#configuration_options + 1] = AddOption("dont_starve_dehydrated_chs_language_switch", "新喝水系统汉化(简中)", "新喝水系统汉化(简中)", false)
+configuration_options[#configuration_options + 1] = AddOption("the_lamb_chs_language_switch", "the lamb(咩咩教主)汉化", "the lamb(咩咩教主)汉化(简中)", false)
+--configuration_options[#configuration_options + 1] = AddOption("the_lamb_bug_fix_switch", "the lamb(咩咩教主)问题修复", "the lamb(咩咩教主)问题修复", false)
 
 --取消世界同步
 configuration_options[#configuration_options + 1] = AddOptionHeader("取消从世界与主世界部分同步")

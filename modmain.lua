@@ -635,6 +635,14 @@ if GetModConfigData("beta_function_switch") then
     if GetModConfigData("dont_starve_dehydrated_chs_language_switch") then
         modimport("cn/hydration_strings")
     end
+
+    --the lamb
+    if GetModConfigData("the_lamb_chs_language_switch") then
+        modimport("cn/the_lamb_strings")
+    end
+    --if GetModConfigData("the_lamb_bug_fix_switch") then
+    --    modimport("scripts/the_lamb_patches")
+    --end
 end
 
 if GetModConfigData("niche_container_modification_switch") then
