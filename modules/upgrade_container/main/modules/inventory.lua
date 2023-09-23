@@ -15,7 +15,7 @@ local function GetOverflowContainer(inst)
 		return
 	end
 
-	local eslot = GLOBAL.EQUIPSLOTS.BODY
+	local eslot = GLOBAL.EQUIPSLOTS.BACK or GLOBAL.EQUIPSLOTS.BODY
 	local item = inst._equipspreview ~= nil and inst._equipspreview[eslot]
 		or inst._equips[eslot] ~= nil and inst._equips[eslot]:value()
 		or nil
