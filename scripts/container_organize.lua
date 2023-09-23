@@ -1072,7 +1072,7 @@ AddClassPostConstruct(
                             widget.collectbtninfo2hm then
                         local showguide = GetModConfigData("SHOWGUIDE", true) or 0
                         if showguide then
-                            local tmp_num = ((num / 2 + 7) < num) and (num / 2 + 7) or num
+                            --local tmp_num = ((num / 2 + 7) < num) and (num / 2 + 7) or num
                             local pos = self.backpackinv[num]:GetPosition()
                             addbutton(
                                     self.bottomrow,
@@ -1080,7 +1080,8 @@ AddClassPostConstruct(
                                     self.owner,
                                     "sortbutton2hm",
                                     widget.sortbtninfo2hm,
-                                    Vector3(pos.x + 270, pos.y, pos.z)
+                                    --Vector3(pos.x + 270, pos.y, pos.z)
+                                    Vector3(540, pos.y, pos.z)
                             )
                         else
                             local pos = self.backpackinv[1]:GetPosition()
