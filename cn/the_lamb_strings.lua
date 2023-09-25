@@ -129,7 +129,7 @@ GLOBAL.STRINGS.CHARACTERS.GENERIC.DESCRIBE.CULTIST_HEADACC_SHAMURA = "真的~~�
 GLOBAL.STRINGS.RECIPE_DESC.CULTIST_HEADACC_SHAMURA = "时装物品（并不完全是装饰品）"
 
 -- Custom speech strings
-STRINGS.CHARACTERS.LAMBOFTHECULT = require "speech_lambofthecult"
+-- STRINGS.CHARACTERS.LAMBOFTHECULT = require "speech_lambofthecult"
 
 -- The character's name as appears in-game
 STRINGS.NAMES.LAMBOFTHECULT = "The Lamb"
