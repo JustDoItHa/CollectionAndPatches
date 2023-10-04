@@ -3,6 +3,7 @@ GLOBAL.setmetatable(env, { __index = function(t, k)
 end })
 TUNING = TUNING or GLOBAL.TUNING
 TheNet = TheNet or GLOBAL.TheNet
+local ModWarningScreen = require "screens/modwarningscreen"
 
 local upvaluehelper = require "utils/upvaluehelp_cap"
 
@@ -107,7 +108,6 @@ GLOBAL.ModManager.SetPostEnv = function ()
                         print("prepare to run fn in GamePostInit "..mod.modname)
                     end
                     for i,modfn in ipairs(mod.postinitfns.GamePostInit) do
-                        print("test----------------------------")
                         runmodfn( modfn, mod, "gamepostinit" )()
                     end
                 end

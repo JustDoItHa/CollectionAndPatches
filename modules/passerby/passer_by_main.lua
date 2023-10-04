@@ -69,7 +69,7 @@ local function CheckItmeInPlayer(player, myitem)
         end
 
         --遍历身上打包袋
-        if v ~= nil and v:HasTag("bundle") then
+        if v ~= nil and v:HasTag("bundle") and v.components.unwrappable then
             for key, value in pairs(v.components.unwrappable.itemdata) do
                 if value and value.prefab == myitem then
                     if value.data and value.data.stackable then
@@ -96,7 +96,7 @@ local function CheckItmeInPlayer(player, myitem)
                 end
 
                 --遍历背包内打包袋
-                if u ~= nil and u:HasTag("bundle") then
+                if u ~= nil and u:HasTag("bundle") and v.components.unwrappable then
                     for key, value in pairs(u.components.unwrappable.itemdata) do
                         if value and value.prefab == myitem then
                             if value.data and value.data.stackable then
