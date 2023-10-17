@@ -7,11 +7,9 @@ local package_container_modification = GetModConfigData("package_container_modif
 local package_open_modification = GetModConfigData("package_open_modification")
 local shirenhua = GetModConfigData("shirenhua")
 
-
 table.insert(Assets, Asset("ANIM", "anim/ui_chest_4x5.zip"))
 table.insert(Assets, Asset("ANIM", "anim/ui_chest_5x8.zip"))
 table.insert(Assets, Asset("ANIM", "anim/ui_chest_5x12.zip"))
-
 
 local weizhi = GetModConfigData("rongliang_weizhi") ~= false and GetModConfigData("rongliang_weizhi") or 36
 local function getrlfn(lx, bb)
@@ -416,10 +414,10 @@ if shirenhua then
             end
         end
     end
-    local function quxiaofn(inst)
+    local function quxiaofn(inst, doer)
         local self = inst.components.shelf
         if self and self.itemonshelf then
-            self.ontakeitemfn(inst)
+            self.ontakeitemfn(inst, doer)
         end
     end
     local function quzoufn(inst, data)
@@ -455,7 +453,7 @@ if shirenhua then
             end
         end
         if pd then
-            quxiaofn(inst)
+            quxiaofn(inst, data.doer)
         end
     end
     AddPrefabPostInit("lureplant", function(inst)
