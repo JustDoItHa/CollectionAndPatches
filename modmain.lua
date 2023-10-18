@@ -524,6 +524,10 @@ if GetModConfigData("little_modify_for_pure_switch") then
     if GetModConfigData("faster_trading_switch") then
         modimport("modules/actions/faster_trading_main.lua")
     end
+    --- 猪王、鸟笼、蚁狮都可快速交易
+    if GetModConfigData("faster_trading_for_multi_switch") and GetModConfigData("faster_trading_switch") ~= true then
+        modimport("modules/actions/faster_trading_main2.lua")
+    end
     if GetModConfigData("limit_ripening_plant_switch") then
         modimport("scripts/limit_ripening_plant.lua")
     end
