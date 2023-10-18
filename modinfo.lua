@@ -1250,6 +1250,7 @@ configuration_options[#configuration_options + 1] = AddOption("tumbleweed_preven
 ---樱花林补丁
 configuration_options[#configuration_options + 1] = AddOptionHeader("樱花林补丁")
 configuration_options[#configuration_options + 1] = AddOption("cherry_forest_patch_switch", "总开关", "", false)
+configuration_options[#configuration_options + 1] = AddOption("cherry_plant_transfer_to_default", "植物与原版植物互转", "", false)
 
 ---码头套装增强
 configuration_options[#configuration_options + 1] = AddOptionHeader("码头套装增强")

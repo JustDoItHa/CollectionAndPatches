@@ -77,27 +77,30 @@ end
 ----樱花林补丁
 if TUNING.CHERRY_FOREST_ENABLE and GetModConfigData("cherry_forest_patch_switch") then
 
-    local dug_grass_cherry_r = AddRecipe2("dug_grass_cherry_n", -- name
-            { Ingredient("dug_grass", 1), Ingredient("purplegem", 1)},
-            tec,
-            { no_deconstruction = true, atlas = "images/cherryimages.xml", image = "dug_grass_cherry.tex", product = "dug_grass_cherry" },
-            { "GARDENING" })
+    if GetModConfigData("cherry_plant_transfer_to_default") then
+        local dug_grass_cherry_r = AddRecipe2("dug_grass_cherry_n", -- name
+                { Ingredient("dug_grass", 1), Ingredient("purplegem", 1)},
+                tec,
+                { no_deconstruction = true, atlas = "images/cherryimages.xml", image = "dug_grass_cherry.tex", product = "dug_grass_cherry" },
+                { "GARDENING" })
 
-    local dug_sapling_cherry_r = AddRecipe2("dug_sapling_cherry_n", -- name
-            { Ingredient("dug_sapling", 1), Ingredient("purplegem", 1)},
-            tec,
-            { no_deconstruction = true, atlas = "images/cherryimages.xml", image = "dug_sapling_cherry.tex", product = "dug_sapling_cherry" },
-            { "GARDENING" })
+        local dug_sapling_cherry_r = AddRecipe2("dug_sapling_cherry_n", -- name
+                { Ingredient("dug_sapling", 1), Ingredient("purplegem", 1)},
+                tec,
+                { no_deconstruction = true, atlas = "images/cherryimages.xml", image = "dug_sapling_cherry.tex", product = "dug_sapling_cherry" },
+                { "GARDENING" })
 
-    local dug_grass_r = AddRecipe2("dug_grass_n", -- name
-            { Ingredient("dug_grass_cherry", 1), Ingredient("purplegem", 1)},
-            tec,
-            { no_deconstruction = true, product = "dug_grass" },
-            { "GARDENING" })
+        local dug_grass_r = AddRecipe2("dug_grass_n", -- name
+                { Ingredient("dug_grass_cherry", 1), Ingredient("purplegem", 1)},
+                tec,
+                { no_deconstruction = true, product = "dug_grass" },
+                { "GARDENING" })
 
-    local dug_sapling_r = AddRecipe2("dug_sapling_n", -- name
-            { Ingredient("dug_sapling_cherry", 1), Ingredient("purplegem", 1)},
-            tec,
-            { no_deconstruction = true, product = "dug_sapling" },
-            { "GARDENING" })
+        local dug_sapling_r = AddRecipe2("dug_sapling_n", -- name
+                { Ingredient("dug_sapling_cherry", 1), Ingredient("purplegem", 1)},
+                tec,
+                { no_deconstruction = true, product = "dug_sapling" },
+                { "GARDENING" })
+    end
+
 end
