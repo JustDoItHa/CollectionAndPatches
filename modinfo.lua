@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "12.3.3.0"
+version = "12.4.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1246,6 +1246,10 @@ configuration_options[#configuration_options + 1] = AddOptionHeader("风滚草�
 configuration_options[#configuration_options + 1] = AddOption("interesting_tumbleweed_switch", "总开关", "", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_item_rates", "花样风滚草中可以开出一些物品", "花样风滚草可以开出一些其他物品", tumbleweed_item_rates_options, 0.2)
 configuration_options[#configuration_options + 1] = AddOption("tumbleweed_prevent_error_patch_switch", "风滚草防错补丁", "防止一些有关风滚草的mod的问题", true)
+
+---樱花林补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("樱花林补丁")
+configuration_options[#configuration_options + 1] = AddOption("cherry_forest_patch_switch", "总开关", "", false)
 
 ---码头套装增强
 configuration_options[#configuration_options + 1] = AddOptionHeader("码头套装增强")
