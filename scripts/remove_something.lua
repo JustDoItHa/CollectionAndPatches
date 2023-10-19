@@ -288,6 +288,10 @@ if TheNet:GetIsServer() then
                         else
                             remoe_gai(inst)
                         end
+                        if inst.prefab == "medal_spacetime_devourer" then
+                            --- TheWorld.components.medal_spacetimestormmanager:StartSpacetimestorm()
+                            TheWorld.components.medal_spacetimestormmanager:StopCurrentSpacetimestorm()
+                        end
                     end, 0)
                 end
             end)
@@ -394,6 +398,7 @@ if MOD_RPC_HANDLERS["ab_recipelist"] and MOD_RPC["ab_recipelist"] and MOD_RPC["a
         end
     end
 end
+
 
 -- local newtable = {}
 -- for k,v in pairs(zslist) do
