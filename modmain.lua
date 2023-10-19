@@ -409,9 +409,14 @@ if GetModConfigData("interesting_tumbleweed_switch") and GetModConfigData("tumbl
     modimport("scripts/tumbleweed_prevent_error_patch.lua")
 end
 
+--能力勋章补丁
+if TUNING.FUNCTIONAL_MEDAL_ENABLE and GetModConfigData("medal_patch_switch") then
+    modimport("scripts/tumbleweed_prevent_error_patch.lua")
+end
+
 --码头套装增强
 if GetModConfigData("dock_kit_enhance_switch") then
-    modimport("scripts/dock_kit_main.lua")
+    modimport("scripts/medal_patches.lua")
 end
 
 
