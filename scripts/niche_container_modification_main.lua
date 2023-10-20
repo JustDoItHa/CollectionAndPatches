@@ -452,8 +452,14 @@ if shirenhua then
                 pd = false
             end
         end
-        if pd then
-            quxiaofn(inst, data.doer)
+        if pd and inst.components.shelf then
+            -- quxiaofn(inst, data.doer)
+            local oldontakeitemfn = inst.components.shelf.ontakeitemfn
+            inst.components.shelf.ontakeitemfn = function(inst_inner, taker)
+                if oldontakeitemfn then
+                    oldontakeitemfn(inst_inner, taker)
+                end
+            end
         end
     end
     AddPrefabPostInit("lureplant", function(inst)
