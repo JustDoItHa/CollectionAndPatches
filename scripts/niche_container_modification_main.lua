@@ -414,12 +414,6 @@ if shirenhua then
             end
         end
     end
-    local function quxiaofn(inst, doer)
-        local self = inst.components.shelf
-        if self and self.itemonshelf then
-            self.ontakeitemfn(inst, doer)
-        end
-    end
     local function quzoufn(inst, data)
         local self = inst.components.inventory
         local self1 = inst.components.container

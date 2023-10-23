@@ -29,7 +29,9 @@ local function spawnchest(inst)
     inst:DoTaskInTime(3, dospawnchest)
 end
 local function announce(inst, data)
-    TheNet:Announce(""..inst:GetDisplayName().." 被 "..data.attacker:GetDisplayName().." 击杀")
+	if data and data.attacker then
+		TheNet:Announce(""..inst:GetDisplayName().." 被 "..data.attacker:GetDisplayName().." 击杀")
+	end
 end
 
 local function death(inst)
