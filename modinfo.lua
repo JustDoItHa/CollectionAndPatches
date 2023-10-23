@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "12.5.4.0"
+version = "12.6.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -431,6 +431,7 @@ MOD_CHARACTERLIST = {
     "wonderwhy", --Ancient Dreams - ACT II
     "houxiaosheng", --神话：傲来神仙境
     "taizhen", --太真
+    "ccs", -- 魔法少女小樱
 
 }
 --自定义配置请修改：
@@ -478,6 +479,7 @@ MOD_CHARACTERNAMES = {
     "远古梦境-wonderwhy", --Ancient Dreams - ACT II
     "傲来神仙境-houxiaosheng", --神话：傲来神仙境
     "太真-taizhen", --太真
+    "魔法少女小樱-ccs", -- 魔法少女小樱
 }
 
 DST_CHARACTERLIST = {
@@ -616,8 +618,6 @@ configuration_options = {
     AddConfigOption("auto_stack_range", "掉落自动堆叠", "设置掉落物自动堆叠的范围，设为0关闭自动堆叠", { { description = "关闭", data = 0 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30, hover = "默认" }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "60", data = 60 }, { description = "70", data = 70 }, { description = "80", data = 80 }, { description = "90", data = 90 }, { description = "100", data = 100 }, }, 30),
     AddConfigOption("stack_size", "物品堆叠数量", "设置物品堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 }, }, 40),
     AddOption("stack_more", "更多可堆叠", "使鸟、兔子、地鼠、鱼等生物变得可堆叠", true),
-
-
 }
 ---死亡次数累计
 configuration_options[#configuration_options + 1] = AddOptionHeader("死亡次数累计")
@@ -1719,7 +1719,23 @@ configuration_options[#configuration_options + 1] = AddOption("faster_trading_fo
 configuration_options[#configuration_options + 1] = AddOption("limit_ripening_plant_switch", "限制催熟频率", "放置催熟过快导致的刷卡服务器", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("ripening_plant_frequency", "催熟频率", "设置催熟的频率\n每阶段都限制", { { description = "不限制", data = 0 }, { description = "10秒", data = 10 }, { description = "20秒", data = 20 }, { description = "30秒", data = 30 }, { description = "1分钟", data = 60 }, { description = "2分钟", data = 120 }, { description = "4分钟", data = 240 }, { description = "1天", data = 480 }, { description = "2天", data = 960 }, { description = "不允许催熟", data = 999999 } }, 60)
 configuration_options[#configuration_options + 1] = AddOption("more_crafting_details_switch", "制作栏显示更多信息", "制作前就能显示部分信息", false)
-
+configuration_options[#configuration_options + 1] = AddConfigOption("CREATURE_DIE_TIME", "亮茄死亡时间", "亮茄死亡时间\n time of Deadly Brightshade death", { { description = "关闭", data = false, hover = "原版设定" },
+                                                                                                                                                              { description = "马上死", data = 0, hover = "immediately" },
+                                                                                                                                                              { description = "10秒", data = 10, hover = "10sec" },
+                                                                                                                                                              { description = "1分钟", data = 60, hover = "1min" },
+                                                                                                                                                              { description = "2分钟", data = 60 * 2, hover = "2min" },
+                                                                                                                                                              { description = "3分钟", data = 60 * 3, hover = "3min" },
+                                                                                                                                                              { description = "5分钟", data = 60 * 5, hover = "5min" },
+                                                                                                                                                              { description = "一天（8分钟）", data = 60 * 8, hover = "1d(8min)" },
+                                                                                                                                                              { description = "两天（16分钟）", data = 60 * 16, hover = "2d(16min)" },
+                                                                                                                                                              { description = "三天（24分钟）", data = 60 * 24, hover = "3d(24min)" },
+                                                                                                                                                              { description = "四天（32分钟）", data = 60 * 32, hover = "4d(32min)" },
+                                                                                                                                                              { description = "五天（40分钟）", data = 60 * 40, hover = "5d(40min)" },
+                                                                                                                                                              { description = "六天（48分钟）", data = 60 * 48, hover = "6d(48min)" },
+                                                                                                                                                              { description = "七天（56分钟）", data = 60 * 56, hover = "7d(56min)" },
+                                                                                                                                                              { description = "八天（64分钟）", data = 60 * 64, hover = "8d(64min)" },
+                                                                                                                                                              { description = "九天（72分钟）", data = 60 * 72, hover = "9d(72min)" },
+                                                                                                                                                              { description = "十天（80分钟）", data = 60 * 80, hover = "10d(80min)" }, }, false)
 local beefalo_status_bar_colors = { { name = "ORANGE", description = "Orange(橘色)" }, { name = "ORANGE_ALT", description = "Orange Alt(橘色高亮)" }, { name = "BLUE", description = "Blue(蓝色)" }, { name = "BLUE_ALT", description = "Blue Alt(蓝色高亮)" }, { name = "PURPLE", description = "Purple(紫色)" }, { name = "PURPLE_ALT", description = "Purple Alt(紫色高亮)" }, { name = "RED", description = "Red(红色)" }, { name = "RED_ALT", description = "Red Alt(红色高亮)" }, { name = "GREEN", description = "Green(绿色)" }, { name = "GREEN_ALT", description = "Green Alt(绿色高亮)" }, { name = "WHITE", description = "White(白色)" }, { name = "YELLOW", description = "Yellow(白色高亮)" } }
 
 local function GenerateCommonOptions(start, count, step, default, prefix, suffix)

@@ -539,6 +539,11 @@ if GetModConfigData("little_modify_for_pure_switch") then
     if GetModConfigData("more_crafting_details_switch") then
         modimport("scripts/more_crafting_details_main.lua")
     end
+    -- 亮茄定期死亡
+    if GetModConfigData("CREATURE_DIE_TIME") then
+        modimport("scripts/creature_die_time_patches.lua")
+    end
+
 end
 
 --驯牛状态
