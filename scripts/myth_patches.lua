@@ -267,3 +267,14 @@ if mythFlyingSpeedMultiplier > 0 then
         end
     end)
 end
+AddPrefabPostInit("myth_small_goldfrog",function(inst)
+    inst.sounds = {
+        attack_spit  = "dontstarve/frog/attack_spit",
+        attack_voice = "dontstarve/frog/attack_voice",
+        die          = "dontstarve/frog/die",
+        grunt        = "dontstarve/frog/grunt",
+        walk         = "dontstarve/frog/walk",
+        splat        = "dontstarve/frog/splat",
+        wake         = "dontstarve/frog/wake",
+    }
+end)
