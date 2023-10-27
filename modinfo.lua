@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "12.6.1.0"
+version = "12.6.3.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1192,13 +1192,13 @@ configuration_options[#configuration_options + 1] = AddConfigOption("mythBlackBe
                                                                                                                                                     { description = "8分后清理", data = 8 * 60 },
                                                                                                                                                     { description = "16分后清理", data = 16 * 60 },
                                                                                                                                                     { description = "32分后清理", data = 32 * 60 }, }, 4 * 60)
-configuration_options[#configuration_options + 1] = AddConfigOption("mythFlyingSpeedMultiplier", "腾云术附带移动加成", "腾云术附带部分移动速度加成", { { description = "不附带", data = 0 },
-                                                                                                                                                       { description = "附带25%", data = 0.25 },
-                                                                                                                                                       { description = "附带50%", data = 0.5 },
-                                                                                                                                                       { description = "附带75%", data = 0.75 },
-                                                                                                                                                       { description = "附带100%", data = 1 },
-                                                                                                                                                       { description = "附带150%", data = 1.5 },
-                                                                                                                                                       { description = "附带200%", data = 2 }, }, 1)
+--configuration_options[#configuration_options + 1] = AddConfigOption("mythFlyingSpeedMultiplier", "腾云术附带移动加成", "腾云术附带部分移动速度加成", { { description = "不附带", data = 0 },
+--                                                                                                                                                       { description = "附带25%", data = 0.25 },
+--                                                                                                                                                       { description = "附带50%", data = 0.5 },
+--                                                                                                                                                       { description = "附带75%", data = 0.75 },
+--                                                                                                                                                       { description = "附带100%", data = 1 },
+--                                                                                                                                                       { description = "附带150%", data = 1.5 },
+--                                                                                                                                                       { description = "附带200%", data = 2 }, }, 1)
 
 ---怠惰科技补丁
 configuration_options[#configuration_options + 1] = AddOptionHeader("怠惰科技补丁")
