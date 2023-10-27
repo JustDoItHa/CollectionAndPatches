@@ -5,7 +5,7 @@ local containers = require "containers"
 local cooking = require "cooking"
 local _G = GLOBAL
 local mythBlackBearRockClearTime = GetModConfigData("mythBlackBearRockClearTime") or 0
---local mythFlyingSpeedMultiplier = GetModConfigData("mythFlyingSpeedMultiplier") or 0
+local mythFlyingSpeedMultiplier = GetModConfigData("mythFlyingSpeedMultiplier") or 0
 
 local function findentity(prefabname)
     for k, v in pairs(Ents) do
@@ -249,24 +249,24 @@ if mythBlackBearRockClearTime > 0 then
     end)
 end
 
---if mythFlyingSpeedMultiplier > 0 then
---    AddComponentPostInit("locomotor", function(self)
---        local oldGetRunSpeed = self.GetRunSpeed;
---        function self:GetRunSpeed(...)
---            if self.inst.components.mk_flyer ~= nil and self.inst.components.mk_flyer:IsFlying() then
---
---                local speedMultiplier = self:GetSpeedMultiplier() - 1;
---                if speedMultiplier > 0 then
---                    speedMultiplier = speedMultiplier * mythFlyingSpeedMultiplier + 1;
---                else
---                    speedMultiplier = 1;
---                end
---                return self.inst.components.mk_flyer.runspeed * speedMultiplier
---            end
---            return oldGetRunSpeed(self, ...)
---        end
---    end)
---end
+if mythFlyingSpeedMultiplier > 0 then
+    AddComponentPostInit("locomotor", function(self)
+        local oldGetRunSpeed = self.GetRunSpeed;
+        function self:GetRunSpeed(...)
+            if self.inst.components.mk_flyer ~= nil and self.inst.components.mk_flyer:IsFlying() then
+
+                local speedMultiplier = self:GetSpeedMultiplier() - 1;
+                if speedMultiplier > 0 then
+                    speedMultiplier = speedMultiplier * mythFlyingSpeedMultiplier + 1;
+                else
+                    speedMultiplier = 1;
+                end
+                return self.inst.components.mk_flyer.runspeed * speedMultiplier
+            end
+            return oldGetRunSpeed(self, ...)
+        end
+    end)
+end
 --AddPrefabPostInit("myth_small_goldfrog",function(inst)
 --    inst.sounds = {
 --        attack_spit  = "dontstarve/frog/attack_spit",
