@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "12.6.4.0"
+version = "12.7.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -581,6 +581,13 @@ local clean_num_options = {
     { description = "500", data = 500, hover = "" },
     { description = "1000", data = 1000, hover = "" },
 }
+local strong_clean_white_list_additional = {}
+local strong_clean_black_list_additional = {}
+local strong_clean_white_tag_list_additional = {}
+local strong_clean_black_tag_list_additional = {}
+local strong_clean_half_white_list_additional = {}
+local strong_clean_strong_clean_list_additional = {}
+
 local prevent_creature_extinction_count_option = {}
 
 for i = 0, 10 do
@@ -1470,6 +1477,20 @@ configuration_options[#configuration_options + 1] = AddConfigOption("clean_mode"
     { description = "Whitelist", data = 0, hover = "" },
     { description = "Blacklist", data = 1, hover = "" }, }, 0)
 configuration_options[#configuration_options + 1] = AddConfigOption("white_area", "White Area(白名单区域)", "茶几附近的物品不清理(Things near the tables will not be removed)", optionsYesNo, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("strong_clean_white_list_additional_option", "白名单列表补充", "配置中添加物品列表",
+        { { description = "不额外补充名单", data = false }, { description = "自由配置", data = strong_clean_white_list_additional } }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("strong_clean_black_list_additional_option", "黑名单列表补充", "配置中添加物品列表",
+        { { description = "不额外补充名单", data = false }, { description = "自由配置", data = strong_clean_black_list_additional } }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("strong_clean_white_tag_list_additional_option", "白名单标签补充", "配置中添加物品列表",
+        { { description = "不额外补充名单", data = false }, { description = "自由配置", data = strong_clean_white_tag_list_additional } }, false)
+--configuration_options[#configuration_options + 1] = AddConfigOption("strong_clean_black_tag_list_additional_option", "黑名单标签补充", "配置中添加物品列表",
+--        { { description = "不额外补充名单", data = false }, { description = "自由配置", data = strong_clean_black_tag_list_additional } }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("strong_clean_half_white_list_additional_option", "白名单半清理补充", "配置中添加物品列表",
+        { { description = "不额外补充名单", data = false }, { description = "自由配置", data = strong_clean_half_white_list_additional } }, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("strong_clean_strong_clean_list_additional_option", "强力清理列表补充", "配置中添加物品列表",
+        { { description = "不额外补充名单", data = false }, { description = "自由配置", data = strong_clean_strong_clean_list_additional } }, false)
+
+
 configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_maxnum", "风滚草清理(Tumbleweed Clean)", "超过配置数目风滚草被清理", clean_num_options, 100)
 configuration_options[#configuration_options + 1] = AddConfigOption("evergreen_maxnum", "常青树清理(evergreen Clean)", "超过配置数目常青树被清理", clean_num_options, 1000)
 configuration_options[#configuration_options + 1] = AddConfigOption("evergreen_sparse_maxnum", "无松果常青树清理(evergreen sparse Clean)", "超过配置数目常无松果常青树被清理", clean_num_options, 1000)

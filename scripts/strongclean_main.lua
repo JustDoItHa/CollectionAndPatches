@@ -11,6 +11,14 @@ local evergreen_maxnum = GetModConfigData("evergreen_maxnum")
 local evergreen_sparse_maxnum = GetModConfigData("evergreen_sparse_maxnum")
 local deciduoustree_maxnum = GetModConfigData("deciduoustree_maxnum")
 
+local strong_clean_white_list_additional_l = GetModConfigData("strong_clean_white_list_additional_option")
+local strong_clean_black_list_additional_l = GetModConfigData("strong_clean_black_list_additional_option")
+local strong_clean_white_tag_list_additional_l = GetModConfigData("strong_clean_white_tag_list_additional_option")
+--local strong_clean_black_tag_list_additional_l = GetModConfigData("strong_clean_black_tag_list_additional_option")
+local strong_clean_half_white_list_additional_l = GetModConfigData("strong_clean_half_white_list_additional_option")
+local strong_clean_strong_clean_list_additional_l = GetModConfigData("strong_clean_strong_clean_list_additional_option")
+
+
 local lightbulb = "󰀏"
 
 local whitelist = {
@@ -171,6 +179,40 @@ if GetModConfigData("use_for_tumbleweed") then
     --table.insert(strongcleanlist, "tacklecontainer")--钓具箱
     --table.insert(strongcleanlist, "supertacklecontainer")--超级钓具箱
 end
+
+if strong_clean_white_list_additional_l and type(strong_clean_white_list_additional_l) == "table" then
+    for k, v in pairs(strong_clean_white_list_additional_l) do
+        table.insert(whitelist, v)
+    end
+end
+
+if strong_clean_black_list_additional_l and type(strong_clean_black_list_additional_l) == "table" then
+    for k, v in pairs(strong_clean_black_list_additional_l) do
+        table.insert(blacklist, v)
+    end
+end
+if strong_clean_white_tag_list_additional_l and type(strong_clean_white_tag_list_additional_l) == "table" then
+    for k, v in pairs(strong_clean_white_tag_list_additional_l) do
+        table.insert(whitetag, v)
+    end
+end
+--if strong_clean_black_tag_list_additional_l and type(strong_clean_black_tag_list_additional_l) == "table" then
+--    for k, v in pairs(strong_clean_black_tag_list_additional_l) do
+--        table.insert(blacktag, v)
+--    end
+--end
+if strong_clean_half_white_list_additional_l and type(strong_clean_half_white_list_additional_l) == "table" then
+    for k, v in pairs(strong_clean_half_white_list_additional_l) do
+        table.insert(halfwhitelist, v)
+    end
+end
+if strong_clean_strong_clean_list_additional_l and type(strong_clean_strong_clean_list_additional_l) == "table" then
+    for k, v in pairs(strong_clean_strong_clean_list_additional_l) do
+        table.insert(strongcleanlist, v)
+    end
+end
+
+
 
 if clean_mode == 0 then
     local readtxt, err = io.open(MODROOT .. "/modules/strongclean/whitelist.txt", "r")
