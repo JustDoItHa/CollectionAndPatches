@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "12.7.0.1"
+version = "12.8.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -432,6 +432,7 @@ MOD_CHARACTERLIST = {
     "houxiaosheng", --神话：傲来神仙境
     "taizhen", --太真
     "ccs", -- 魔法少女小樱
+    "binglinger", -- 冰凌儿
 
 }
 --自定义配置请修改：
@@ -480,6 +481,7 @@ MOD_CHARACTERNAMES = {
     "傲来神仙境-houxiaosheng", --神话：傲来神仙境
     "太真-taizhen", --太真
     "魔法少女小樱-ccs", -- 魔法少女小樱
+    "冰凌儿-binglinger", -- 冰凌儿
 }
 
 DST_CHARACTERLIST = {
