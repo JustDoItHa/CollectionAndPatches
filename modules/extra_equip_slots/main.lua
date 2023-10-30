@@ -782,12 +782,14 @@ if setting_backpack_slot then
     --end
     -----OCEANTREENUT WINCH fix 16.08.2021
     local t = getval(GLOBAL.EntityScript.CollectActions, "COMPONENT_ACTIONS")
-    t.SCENE.heavyobstacleusetarget = function(inst, doer, actions, right)
-        local item = doer.replica.inventory:GetEquippedItem(EQUIPSLOTS.BODY)
-        if right and item ~= nil and item:HasTag("heavy") and inst:HasTag("can_use_heavy")
-                and (inst.use_heavy_obstacle_action_filter == nil or inst.use_heavy_obstacle_action_filter(inst, doer, item)) then
+    if t then
+        t.SCENE.heavyobstacleusetarget = function(inst, doer, actions, right)
+            local item = doer.replica.inventory:GetEquippedItem(EQUIPSLOTS.BODY)
+            if right and item ~= nil and item:HasTag("heavy") and inst:HasTag("can_use_heavy")
+                    and (inst.use_heavy_obstacle_action_filter == nil or inst.use_heavy_obstacle_action_filter(inst, doer, item)) then
 
-            table_var.insert(actions, GLOBAL.ACTIONS.USE_HEAVY_OBSTACLE)
+                table_var.insert(actions, GLOBAL.ACTIONS.USE_HEAVY_OBSTACLE)
+            end
         end
     end
     GLOBAL.ACTIONS.USE_HEAVY_OBSTACLE.fn = function(act)
