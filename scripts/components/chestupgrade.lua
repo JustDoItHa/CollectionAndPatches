@@ -203,7 +203,7 @@ local function CheckItem(data, item, ...)
 			prefab, amount = data[1], data[2]
 		end
 	elseif type(data) == "function" then
-		return data(item, ...) 
+		return data(item, ...)
 	end
 
 	if amount ~= nil and item ~= nil and item.components.stackable ~= nil and item.components.stackable:StackSize() ~= amount then
@@ -275,7 +275,7 @@ function ChestUpgrade:CreateCheckTable(data)
 				local j = (k - 1) + i
 				slot[j] = v
 			end
-		end	
+		end
 	end
 
 	if data.center then
@@ -452,7 +452,7 @@ function ChestUpgrade:SlotProps(slot)
 	local MASK_SIDE = bit.lshift(1, MASKPOS_SIDE)
 	local MASK_CENTER = bit.lshift(2, MASKPOS_SIDE)
 
-	local lv_code = x + bit.lshift(y, MASKLEN_LV) + bit.lshift(z, MASKLEN_PAGE)
+	local lv_code = x + bit.lshift(y, MASKLEN_LV) + bit.lshift(z, MASKLEN_LV * 2)
 
 	local slots = props[lv_code] or {}
 	if props[lv_code] == nil then
@@ -506,7 +506,7 @@ function ChestUpgrade:SlotProps(slot)
 			elseif m == 2 then			--center: x-even	y-odd
 				i = BR / 2
 				slots[i+j] = bit.bor(slots[i+j], MASK_CENTER)
-				slots[i+j+1] = bit.bor(slots[i+j+x], MASK_CENTER)
+				slots[i+j+1] = bit.bor(slots[i+j+1], MASK_CENTER)
 			elseif m == 3 then			--center: x-odd		y-odd
 				i = (BR + 1) / 2
 				slots[i+j] = bit.bor(slots[i+j], MASK_CENTER)
@@ -524,13 +524,13 @@ end
 function ChestUpgrade:PrintSlotProps(slot)
 	local target, isside, iscenter, page, row, column = self:SlotProps(slot)
 	local str = string.format(
-		"Slot: %d\tIs Side: %s\tIs Center: %s\nPage: %d\tRow: %d\tColumn: %d",
-		slot,
-		tostring(isside),
-		tostring(iscenter),
-		page,
-		row,
-		column
+			"Slot: %d\tIs Side: %s\tIs Center: %s\nPage: %d\tRow: %d\tColumn: %d",
+			slot,
+			tostring(isside),
+			tostring(iscenter),
+			page,
+			row,
+			column
 	)
 	print(str)
 	return str
@@ -561,7 +561,7 @@ end
 function ChestUpgrade:Degrade(doer)		--return the chest to normal
 	local container = self.inst.components.container
 	local side = AllUpgradeRecipes[self.inst.prefab] and
-				(AllUpgradeRecipes[self.inst.prefab].degrade or AllUpgradeRecipes[self.inst.prefab].side) or nil
+			(AllUpgradeRecipes[self.inst.prefab].degrade or AllUpgradeRecipes[self.inst.prefab].side) or nil
 	if side ~= nil and container ~= nil and container:NumItems() == 1 then
 		for i = 1, container:GetNumSlots() do
 

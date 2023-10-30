@@ -85,7 +85,7 @@ end
 
 function ChestUpgrade:CreateCheckTable(data)
 	if data == nil then
-		data = AllUpgradeRecipes[self.inst.prefab]
+		data = AllUpgradeRecipes[self.inst.prefab] or {}
 	end
 
 	local TR, y = self:GetLv()
@@ -128,7 +128,7 @@ function ChestUpgrade:CreateCheckTable(data)
 				local j = (k - 1) + i
 				slot[j] = v
 			end
-		end	
+		end
 	end
 
 	if data.center then
