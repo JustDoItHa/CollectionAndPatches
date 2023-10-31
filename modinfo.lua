@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "12.9.0.0"
+version = "12.10.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1325,6 +1325,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("RECIPE", "R
                                                                                                                  { description = "super Expensive(超贵)", data = 6, }, }, 6)
 configuration_options[#configuration_options + 1] = AddOption("BIG_BAG_EFFECTED_BY_OTHER_MODS", "制作是否受其他mod影响", "开启会根据服务器开不同mod的变化而变化", true)
 configuration_options[#configuration_options + 1] = AddOption("BIG_BAG_ONLY_IN_TUMBLEWEED", "只能在风滚草中开出来", "制作栏制作不了，只能在风滚草中开出来", false)
+configuration_options[#configuration_options + 1] = AddOption("BIG_BAG_CAN_GET_MENU", "获取方式开放", "限制级\n开启：普通玩家可以获得 关闭：普通玩家获取不到", true)
 
 configuration_options[#configuration_options + 1] = AddConfigOption("CONTAINERDRAG_SWITCH", "BigBag Drag(背包拖拽)", "After opening, you can drag the bigbag's UI", { { description = "Close(关闭)", data = false, hover = "关闭容器拖拽" },
                                                                                                                                                                       { description = "Open(F1开启)", data = "KEY_F1", hover = "默认按住F1拖动" },

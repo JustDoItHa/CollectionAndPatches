@@ -147,6 +147,8 @@ TUNING.CANT_PACK_ITEMS = {
     lg_shop_thing = true, --海洋传说商店
     lg_shop_food = true, --海洋传说商店
     lg_shop_cloth = true, --海洋传说商店
+    catbag = true,
+    catbigbag = true,
 }
 
 function testCantPackItem(target, forbidTable)
