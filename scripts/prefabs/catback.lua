@@ -89,7 +89,7 @@ end
 --- 有堆叠的物品变成两倍但不能超过最大堆叠数
 local function doBenefit_catback(inst)
     if inst.last_do_cycle_day == nil then
-        inst.last_do_cycle_day = 1
+        inst.last_do_cycle_day = TheWorld.state.cycles
     end
 
     if TheWorld.state.cycles <= inst.last_do_cycle_day + 32 then
