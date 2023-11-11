@@ -26,26 +26,6 @@ table.insert(PrefabFiles, "catback")
 table.insert(PrefabFiles, "lifelight")
 
 --大背包
---[[Asset("ANIM", "anim/swap_bigbag.zip"),
-Asset("ANIM", "anim/ui_bigbag_3x8.zip"),
-Asset("ANIM", "anim/ui_bigbag_4x8.zip"),
---Asset("ANIM", "anim/bigbag_ui_8x6.zip"),
---Asset("ANIM", "anim/bigbag_ui_8x8.zip"),
-
-Asset("IMAGE", "images/inventoryimages/bigbag.tex"),
-Asset("ATLAS", "images/inventoryimages/bigbag.xml"),
-
-Asset("IMAGE", "minimap/bigbag.tex"),
-Asset("ATLAS", "minimap/bigbag.xml"),
-
---Asset("IMAGE", "images/bigbagbg.tex"),
---Asset("ATLAS", "images/bigbagbg.xml"),
-
-Asset("IMAGE", "images/bigbagbg_8x8.tex"),
-Asset("ATLAS", "images/bigbagbg_8x8.xml"),
-
-Asset("IMAGE", "images/bigbagbg_8x6.tex"),
-Asset("ATLAS", "images/bigbagbg_8x6.xml"),]]
 table.insert(Assets, Asset("ANIM", "anim/swap_bigbag.zip"))
 table.insert(Assets, Asset("ANIM", "anim/ui_bigbag_3x8.zip"))
 table.insert(Assets, Asset("ANIM", "anim/ui_bigbag_4x8.zip"))

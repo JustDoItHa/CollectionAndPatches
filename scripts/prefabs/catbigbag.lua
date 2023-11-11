@@ -94,9 +94,7 @@ local function DoBenefit_catbigbag(inst)
     if inst.last_do_cycle_day == nil then
         inst.last_do_cycle_day = TheWorld.state.cycles
     end
-    if inst.last_do_cycle_day ~= nil then
-        inst.components.named:SetName(STRINGS.NAMES.CATBIGBAG .. ":已激活")
-    end
+
     if TheWorld.state.cycles <= inst.last_do_cycle_day + 32 then
         return
     end
@@ -254,7 +252,23 @@ local function onunequip(inst, owner)
     inst.components.inventoryitem.imagename = "catback"
     inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
 end
+local function onsave(inst, data)
+    if inst.last_do_cycle_day ~= nil then
+        data.last_do_cycle_day = inst.last_do_cycle_day
+    else
+        data.last_do_cycle_day = TheWorld.state.cycles
+    end
+end
 
+local function onload(inst, data)
+    if data.last_do_cycle_day ~= nil then
+        inst.last_do_cycle_day = data.last_do_cycle_day
+        --inst.components.named:SetName(STRINGS.NAMES.CATBIGBAG .. ":已激活")
+    else
+        inst.last_do_cycle_day = 1
+    end
+    inst.components.named:SetName(STRINGS.NAMES.CATBIGBAG .. "\n" .. "上次CD时间:世界天数(第" .. inst.last_do_cycle_day .. "天)")
+end
 local function fn()
     local inst = CreateEntity()
 
@@ -315,6 +329,9 @@ local function fn()
         end
         return inst
     end
+
+    inst:AddComponent("named")
+
     -- This is really important for almost all prefabs. 
     -- This essentially says "if this is running on the client, stop here". 
     -- Almost all components should only be created on the server 
@@ -356,6 +373,9 @@ local function fn()
     inst:WatchWorldState("isfullmoon", DoBenefit_catbigbag)
     --inst:WatchWorldState("moonphase",DoBenefit_catbigbag)
     inst:WatchWorldState("isday", insulatorstate)
+
+    inst.OnSave = onsave
+    inst.OnLoad = onload
 
     return inst
 end
