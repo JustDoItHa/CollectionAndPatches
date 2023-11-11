@@ -94,6 +94,9 @@ local function DoBenefit_catbigbag(inst)
     if inst.last_do_cycle_day == nil then
         inst.last_do_cycle_day = TheWorld.state.cycles
     end
+    if inst.last_do_cycle_day ~= nil then
+        inst.components.named:SetName(STRINGS.NAMES.CATBIGBAG .. ":已激活")
+    end
     if TheWorld.state.cycles <= inst.last_do_cycle_day + 32 then
         return
     end
