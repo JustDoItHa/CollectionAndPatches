@@ -90,6 +90,13 @@ end
 local function doBenefit_catback(inst)
     if inst.last_do_cycle_day == nil then
         inst.last_do_cycle_day = TheWorld.state.cycles
+        inst.displaynamefn = function(aaa)
+            if STRINGS.NAMES[string.upper(inst.prefab)] then
+                return STRINGS.NAMES[string.upper(inst.prefab)] .. "-已激活"
+            else
+                return "小猫包"
+            end
+        end
     end
 
     if TheWorld.state.cycles <= inst.last_do_cycle_day + 32 then
