@@ -348,3 +348,20 @@ if GetModConfigData("BIG_BAG_CAN_GET_MENU") then
         }
     end
 end
+--for k, v in pairs({ "catback", "catbigbag", "nicebigbag" }) do
+--    AddPrefabPostInit(v, function(inst)
+--        inst:DoPeriodicTask(240, function(inst_inner_1, ...)
+--            local displaynamefn_old = inst_inner_1.displaynamefn
+--            if displaynamefn_old then
+--                inst_inner_1.displaynamefn = function(inst_inner, ...)
+--                    if inst_inner.last_do_cycle_day ~= nil then
+--                        return (STRINGS.NAMES[string.upper(inst.prefab)] .. "-已激活")
+--                    else
+--                        return displaynamefn_old(inst_inner, ...)
+--                    end
+--                end
+--            end
+--        end)
+--
+--    end)
+--end

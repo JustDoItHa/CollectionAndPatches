@@ -79,7 +79,6 @@ local function DoBenefit_nicebigbag(inst)
     if inst.last_do_cycle_day == nil then
         inst.last_do_cycle_day = TheWorld.state.cycles
     end
-
     if TheWorld.state.cycles <= inst.last_do_cycle_day + 32 then
         return
     end

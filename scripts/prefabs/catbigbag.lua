@@ -94,7 +94,6 @@ local function DoBenefit_catbigbag(inst)
     if inst.last_do_cycle_day == nil then
         inst.last_do_cycle_day = TheWorld.state.cycles
     end
-
     if TheWorld.state.cycles <= inst.last_do_cycle_day + 32 then
         return
     end
@@ -325,7 +324,6 @@ local function fn()
     inst.components.preserver:SetPerishRateMultiplier(function(inst, item)
         return (item ~= nil) and 0 or nil
     end)
-
     inst:AddComponent("equippable")
     inst.components.equippable.equipslot = EQUIPSLOTS.BACK or EQUIPSLOTS.BODY
     inst.components.equippable:SetOnEquip(onequip)
