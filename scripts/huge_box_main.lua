@@ -82,7 +82,7 @@ local Recipes = {};
 
 Recipes[#Recipes + 1] = {
     CanMake = true,
-    name = "_big_box_chest",
+    name = "_big_box_chest_n",
     ingredients = {
         Ingredient("opalpreciousgem", 1),
         Ingredient("goldnugget", 80),
@@ -102,7 +102,8 @@ Recipes[#Recipes + 1] = {
         numtogive = nil,
         builder_tag = nil,
         atlas = "images/DLC0002/inventoryimages.xml",
-        image = "waterchest.tex"
+        image = "waterchest.tex",
+        product = "_big_box_chest"
     },
     filters = {
         "CONTAINERS"
