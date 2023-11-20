@@ -19,14 +19,14 @@ description = [[
 --44.超级便携大箱子 45.beefalo status bar 46.疼总的信息显示(就是偷来的,好看)
 --47.史诗般血量条 48.为爽而虐-容器排序 49.鼠标滚轮调节堆叠 50.可升级箱子(已经抄过来用了)
 --51.cat bag 52.wing pack 53.神秘强化炉 54.死亡累计升级版 55.More Crafting Details
---56.箱子容量+
+--56.箱子容量+ 57.新月之魔典
 --集合mod：
 --1.常用mod集合
 --2.萌新合集-服务端
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "12.15.0.0"
+version = "12.16.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1364,6 +1364,11 @@ configuration_options[#configuration_options + 1] = AddConfigOption("SET_HUGE_BO
           option("-4", -4, Language_cn and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
           option("-16", -16, Language_cn and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
         }, -1)
+configuration_options[#configuration_options + 1] = AddOptionHeader("月亮控制书籍")
+configuration_options[#configuration_options + 1] = AddOption("add_moon_book_switch", "月亮控制相关书籍开关", "是否可以制作月亮控制相关书籍", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("moon_book_language", "语言/Language", "", { { description = "中文", data = "zhs", hover = "" }, { description = "English", data = "en", hover = "" }},"zhs")
+configuration_options[#configuration_options + 1] = AddOption("add_moon_book_new", "增加新月书", "", true)
+configuration_options[#configuration_options + 1] = AddOption("add_moon_book_half", "增加半月书", "", true)
 
 ---限制级物品列表
 CAP_REMOVE_SOMETHING_LIST_CONFIG = {
