@@ -267,7 +267,7 @@ local function onload(inst, data)
     else
         inst.last_do_cycle_day = 1
     end
-    inst.components.named:SetName(STRINGS.NAMES.CATBIGBAG .. "\n" .. "上次CD时间:世界天数(第" .. inst.last_do_cycle_day .. "天)")
+    inst.components.named:SetName(STRINGS.NAMES.CATBIGBAG .. "\n" .. "上次CD时间:世界第" .. inst.last_do_cycle_day .. "天")
 end
 local function fn()
     local inst = CreateEntity()
