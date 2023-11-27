@@ -1,4 +1,285 @@
-local Are7xU = td1madao_sv()
+require("constants")
+local ZG = require("widgets/text")
+local Vu0cCAf = require("widgets/widget")
+local q = require("widgets/redux/templates")
+local kP7O5 = require("widgets/spinner")
+local lqT = require("widgets/nineslice")
+local show_hover_ui = require("widgets/showhoverui")
+local NUM_TEN = tonumber("10")
+local NUM_ZERO = tonumber("0")
+local function a(inst, hDc_M)
+    local qW0lRiD1 = SHOW_INFO_NIL_STR;
+    local iD1IUx = false;
+    if inst ~= nil and inst:IsValid() then
+        local JLCOx_ak = inst:GetAdjective()
+        if JLCOx_ak ~= nil then
+            qW0lRiD1 = JLCOx_ak .. " "
+        end ;
+        qW0lRiD1 = qW0lRiD1 .. inst:GetDisplayName()
+        if qW0lRiD1 ~= SHOW_INFO_NIL_STR then
+            local iy = string.split(qW0lRiD1, "\n")
+            for k, v in ipairs(iy) do
+                table.insert(hDc_M, { v })
+            end
+        end ;
+        local hPQ = SHOW_INFO_NIL_STR;
+        local R1FIoQI = ThePlayer;
+        local NsoTwDs = R1FIoQI["components"]["playeractionpicker"]
+        local HGli = R1FIoQI["replica"]["inventory"]:GetActiveItem()
+        if HGli == nil then
+            if not (inst["replica"]["equippable"] ~= nil and inst["replica"]["equippable"]:IsEquipped()) then
+                if TheInput:IsControlPressed(CONTROL_FORCE_INSPECT) then
+                    hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["INSPECTMOD"]
+                    iD1IUx = true;
+                    qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["INSPECTMOD"]
+                elseif TheInput:IsControlPressed(CONTROL_FORCE_TRADE) and not inst["replica"]["inventoryitem"]:CanOnlyGoInPocket() then
+                    if next(R1FIoQI["replica"]["inventory"]:GetOpenContainers()) ~= nil then
+                        iD1IUx = true;
+                        hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. ((TheInput:IsControlPressed(CONTROL_FORCE_STACK) and inst["replica"]["stackable"] ~= nil) and (STRINGS["STACKMOD"] .. " " .. STRINGS["TRADEMOD"]) or STRINGS["TRADEMOD"])
+                        qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. ((TheInput:IsControlPressed(CONTROL_FORCE_STACK) and inst["replica"]["stackable"] ~= nil) and (STRINGS["STACKMOD"] .. " " .. STRINGS["TRADEMOD"]) or STRINGS["TRADEMOD"])
+                    end
+                elseif TheInput:IsControlPressed(CONTROL_FORCE_STACK) and inst["replica"]["stackable"] ~= nil then
+                    iD1IUx = true;
+                    hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["STACKMOD"]
+                    qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["STACKMOD"]
+                end
+            end ;
+            local Hv = NsoTwDs:GetInventoryActions(inst)
+            if #Hv > tonumber("0") then
+                hPQ = hPQ .. (iD1IUx and " " or SHOW_INFO_NIL_STR) .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. Hv[tonumber("1")]:GetActionString()
+                qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. Hv[tonumber("1")]:GetActionString()
+            end
+        elseif HGli:IsValid() then
+            if not (inst.replica.equippable ~= nil and inst.replica.equippable:IsEquipped()) then
+                if HGli["replica"]["stackable"] ~= nil and HGli["prefab"] == inst["prefab"] and HGli["AnimState"]:GetSkinBuild() == inst["AnimState"]:GetSkinBuild() then
+                    iD1IUx = true;
+                    hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["UI"]["HUD"]["PUT"]
+                    qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["UI"]["HUD"]["PUT"]
+                else
+                    iD1IUx = true;
+                    hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["UI"]["HUD"]["SWAP"]
+                    qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["UI"]["HUD"]["SWAP"]
+                end
+            end
+            local Ch = NsoTwDs:GetUseItemActions(inst, HGli, true)
+            if #Ch > tonumber("0") then
+                hPQ = hPQ .. (iD1IUx and " " or SHOW_INFO_NIL_STR) .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. Ch[tonumber("1")]:GetActionString()
+                qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. Ch[tonumber("1")]:GetActionString()
+            end
+        end ;
+        if hPQ ~= SHOW_INFO_NIL_STR then
+            table["insert"](hDc_M, tonumber("2"), { hPQ })
+        end
+    end ;
+    return qW0lRiD1
+end;
+local show_edge_color = GetModConfigData("showtype") or tonumber("1")
+local function hover_client_func(self)
+    local image_widgets_l = require("widgets/image")
+    self.showui = self:AddChild(show_hover_ui(show_edge_color))
+    self.target = nil;
+    self.lastchecktime = tonumber("0")
+    self.othertarget = false;
+    self.text:SetSize(tonumber("24"))
+    self.secondarytext:SetSize(tonumber("24"))
+    self.inst:ListenForEvent("hoverdirtychange", function(inst, data)
+        self["othertarget"] = false
+    end, self["owner"])
+    function self:OnUpdate()
+        if self["owner"]["components"]["playercontroller"] == nil or not self["owner"]["components"]["playercontroller"]:UsingMouse() then
+            if self["shown"] then
+                self:Hide()
+            end ;
+            return
+        elseif not self["shown"] then
+            if not self["forcehide"] then
+                self:Show()
+            else
+                return
+            end
+        end ;
+        local under_mouse = TheInput:GetHUDEntityUnderMouse()
+        local seMLr = false;
+        if under_mouse ~= nil then
+            under_mouse = under_mouse["widget"] ~= nil and under_mouse["widget"]["parent"] ~= nil and under_mouse["widget"]["parent"]["item"]
+            seMLr = true
+        else
+            under_mouse = TheInput:GetWorldEntityUnderMouse()
+        end ;
+        if under_mouse ~= nil and (under_mouse ~= self["target"] or GetTime() - self["lastchecktime"] > tonumber("1")) then
+            if under_mouse ~= self["target"] then
+                self["othertarget"] = true
+            end ;
+            self["target"] = under_mouse;
+            self["lastchecktime"] = GetTime()
+            SendModRPCToServer(MOD_RPC[modname][modname], under_mouse)
+        end ;
+        local tooltip_info = nil;
+        local tooltip_color = nil;
+        local xL7OTb = false;
+        local w8T3f = nil;
+        local K = SHOW_INFO_NIL_STR;
+        local qL = {}
+        if seMLr and under_mouse and under_mouse["replica"] and under_mouse["replica"]["inventoryitem"] ~= nil then
+            w8T3f = under_mouse;
+            tooltip_info = a(under_mouse, qL)
+        else
+            if not self["isFE"] then
+                tooltip_info = self.owner.HUD.controls:GetTooltip() or self.owner.components.playercontroller:GetHoverTextOverride()
+                self["text"]:SetPosition(self["owner"]["HUD"]["controls"]:GetTooltipPos() or self["default_text_pos"])
+                if self["owner"]["HUD"]["controls"]:GetTooltip() ~= nil then
+                    tooltip_color = self["owner"]["HUD"]["controls"]:GetTooltipColour()
+                end
+            else
+                tooltip_info = self["owner"]:GetTooltip()
+                self["text"]:SetPosition(self["owner"]:GetTooltipPos() or self["default_text_pos"])
+            end
+        end ;
+        local vfIyB = nil;
+        local mouse_action_l = nil
+        if tooltip_info == nil and not self["isFE"] and self["owner"]:IsActionsVisible() then
+            mouse_action_l = self["owner"]["components"]["playercontroller"]:GetLeftMouseAction()
+            if mouse_action_l ~= nil then
+                local u;
+                if mouse_action_l["target"] and mouse_action_l["target"]["replica"] and mouse_action_l["target"]["replica"]["inventoryitem"] ~= nil then
+                    w8T3f = mouse_action_l["target"]
+                end ;
+                tooltip_info, u = mouse_action_l:GetActionString()
+                if mouse_action_l["action"]["show_primary_input_left"] then
+                    tooltip_info = TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. " " .. tooltip_info
+                end ;
+                if tooltip_info then
+                    K = K .. STRINGS["LMB"] .. ": " .. tooltip_info
+                end ;
+                if not u and mouse_action_l["target"] ~= nil and mouse_action_l["target"] ~= mouse_action_l["doer"] then
+                    tooltip_info = SHOW_INFO_NIL_STR;
+                    local Ki1 = mouse_action_l["target"]:GetDisplayName()
+                    if Ki1 ~= nil then
+                        local zz1QI = mouse_action_l["target"]:GetAdjective()
+                        local kFTAh = zz1QI ~= nil and (zz1QI .. " " .. Ki1) or Ki1;
+                        if kFTAh ~= SHOW_INFO_NIL_STR then
+                            local LBf = string.split(kFTAh, "\n")
+                            for dijn4Ph, CO1 in ipairs(LBf) do
+                                table["insert"](qL, { CO1 })
+                            end
+                        end ;
+                        tooltip_info = tooltip_info .. " " .. (kFTAh)
+                        if mouse_action_l["target"]["components"]["inspectable"] ~= nil and mouse_action_l["target"]["components"]["inspectable"]["recordview"] and mouse_action_l["target"]["prefab"] ~= nil then
+                            ProfileStatsSet(mouse_action_l["target"]["prefab"] .. "_seen", true)
+                        end
+                    end
+                end
+            end ;
+            local qboV = nil
+            local nSBOx7 = nil
+            if self["owner"]["components"]["playercontroller"] ~= nil then
+                qboV = self["owner"]["components"]["playercontroller"]:IsAOETargeting()
+                nSBOx7 = self["owner"]["components"]["playercontroller"]:GetRightMouseAction()
+            end
+
+            if nSBOx7 ~= nil then
+                if nSBOx7["action"]["show_secondary_input_right"] then
+                    vfIyB = nSBOx7:GetActionString() .. " " .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY)
+                elseif nSBOx7["action"] ~= ACTIONS["CASTAOE"] then
+                    vfIyB = TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. nSBOx7:GetActionString()
+                elseif qboV and tooltip_info == nil then
+                    tooltip_info = nSBOx7:GetActionString()
+                    xL7OTb = true
+                end
+            end ;
+            if qboV and vfIyB == nil then
+                vfIyB = TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. STRINGS["UI"]["HUD"]["CANCEL"]
+                xL7OTb = true
+            end
+        end ;
+        if vfIyB ~= nil and vfIyB ~= SHOW_INFO_NIL_STR then
+            K = K .. (#(K) > tonumber("0") and " " or SHOW_INFO_NIL_STR) .. vfIyB;
+            self["secondarytext"]:SetString(vfIyB)
+            self["secondarytext"]:Show()
+        else
+            self["secondarytext"]:Hide()
+        end ;
+        if tooltip_info == nil then
+            self["text"]:Hide()
+            self["showui"]:Hide()
+        elseif self["str"] ~= self["lastStr"] then
+            self["lastStr"] = self["str"]
+            self["strFrames"] = NUM_ZERO
+        else
+            self["strFrames"] = self["strFrames"] - tonumber("1")
+            if self["strFrames"] <= tonumber("0") then
+                if under_mouse ~= nil and not xL7OTb then
+                    if not self["othertarget"] then
+                        local RlZo = self["owner"]["player_classified"] and self["owner"]["player_classified"]["hoverertext"]:value() or SHOW_INFO_NIL_STR;
+                        local SUn = { str = {}, im = {} }
+                        if RlZo ~= SHOW_INFO_NIL_STR then
+                            SUn = json["decode"](RlZo)
+                        end ;
+                        local Ib4 = false;
+                        for fjV1G2, Do in ipairs(qL) do
+                            Ib4 = true;
+                            table["insert"](SUn["str"], fjV1G2, Do)
+                        end ;
+                        if K ~= SHOW_INFO_NIL_STR then
+                            table["insert"](SUn["str"], Ib4 and tonumber("2") or tonumber("1"), { K })
+                        end ;
+                        self["showui"]:Show()
+                        self["showui"]:Setonumberew(SUn, w8T3f, self)
+                    else
+                        self["showui"]:Hide()
+                    end ;
+                    self["text"]:Hide()
+                    self["secondarytext"]:Hide()
+                else
+                    self["text"]:SetString(tooltip_info)
+                    self["showui"]:Hide()
+                    self["text"]:Show()
+                end
+            end
+        end ;
+        local QUh2tc = self["str"] ~= tooltip_info or self["secondarystr"] ~= vfIyB;
+        self["str"] = tooltip_info;
+        self["secondarystr"] = vfIyB;
+        if QUh2tc then
+            local _ = TheInput:GetScreenPosition()
+            self:UpdatePosition(_["x"], _["y"])
+        end
+    end;
+    local rHSjalVy = -tonumber("80")
+    local TjhsnP = tonumber("20")
+    function self:UpdatePosition(TqYJ4, DI)
+        local b = self:GetScale()
+        local E, KMw7_i1s = TheSim:GetScreenSize()
+        local CQi = tonumber("0")
+        local nHlJ = tonumber("0")
+        if self["showui"]:IsVisible() and self["showui"]["shown"] then
+            local lw4Q7kbl, IN = self["showui"]:GetEH()
+            CQi = math["max"](CQi, lw4Q7kbl)
+            nHlJ = math["max"](nHlJ, IN)
+            CQi = CQi * b["x"] * tonumber("0.5")
+            nHlJ = nHlJ * b["y"] * tonumber("0.5")
+            self:SetPosition(math["clamp"](TqYJ4, CQi + tonumber("30"), E - CQi - tonumber("30")), math["clamp"](DI, DI + nHlJ + TjhsnP * b["y"], KMw7_i1s - nHlJ - rHSjalVy * b["y"]), tonumber("0"))
+        else
+            if self["text"] ~= nil and self["str"] ~= nil then
+                local QYf1, RfsnisO = self["text"]:GetRegionSize()
+                CQi = math["max"](CQi, QYf1)
+                nHlJ = math["max"](nHlJ, RfsnisO)
+            end ;
+            if self["secondarytext"] ~= nil and self["secondarystr"] ~= nil then
+                local lvW2ga, T7RKP = self["secondarytext"]:GetRegionSize()
+                CQi = math["max"](CQi, lvW2ga)
+                nHlJ = math["max"](nHlJ, T7RKP)
+            end ;
+            CQi = CQi * b["x"] * tonumber("0.5")
+            nHlJ = nHlJ * b["y"] * tonumber("0.5")
+            self:SetPosition(math["clamp"](TqYJ4, CQi + NUM_TEN, E - CQi - NUM_TEN), math["clamp"](DI, nHlJ - tonumber("50") * b["y"], KMw7_i1s - nHlJ - rHSjalVy * b["y"]), tonumber("0"))
+        end
+    end
+end;
+AddClassPostConstruct("widgets/hoverer", hover_client_func)
+
+
+--[[
 local yxjl = {}
 yxjl[4] = "widgets/redux/templates"
 yxjl[51] = "owner"
@@ -57,7 +338,7 @@ yxjl[72] = "strFrames"
 yxjl[15] = "showtype"
 yxjl[21] = "20"
 yxjl[9] = "0"
-yxjl[11] = Are7xU({ 49 })
+yxjl[11] = "\n"
 yxjl[13] = "1"
 yxjl[53] = "shown"
 yxjl[14] = "2"
@@ -81,287 +362,6 @@ yxjl[47] = "othertarget"
 yxjl[26] = "split"
 yxjl[17] = "24"
 print("-------")
-print(Are7xU({ 49 }))
+print("\n")
 print("-------")
-
-Are7xU = yxjl;
-
-require("constants")
-local ZG = require("widgets/text")
-local Vu0cCAf = require("widgets/widget")
-local q = require("widgets/redux/templates")
-local kP7O5 = require("widgets/spinner")
-local lqT = require("widgets/nineslice")
-local show_hover_ui = require("widgets/showhoverui")
-local PrPyxMK = tonumber("10")
-local tczrIB = tonumber("0")
-local function a(N9L, hDc_M)
-    local qW0lRiD1 = TD1MADAO_NIL_STR;
-    local iD1IUx = false;
-    if N9L ~= nil and N9L:IsValid() then
-        local JLCOx_ak = N9L:GetAdjective()
-        if JLCOx_ak ~= nil then
-            qW0lRiD1 = JLCOx_ak .. yxjl[10]
-        end ;
-        qW0lRiD1 = qW0lRiD1 .. N9L:GetDisplayName()
-        if qW0lRiD1 ~= TD1MADAO_NIL_STR then
-            local iy = string[yxjl[26]](qW0lRiD1, yxjl[11])
-            for m6SCS0, NUhYw6R4 in ipairs(iy) do
-                table[yxjl[27]](hDc_M, { NUhYw6R4 })
-            end
-        end ;
-        local hPQ = TD1MADAO_NIL_STR;
-        local R1FIoQI = ThePlayer;
-        local NsoTwDs = R1FIoQI["components"][yxjl[29]]
-        local HGli = R1FIoQI[yxjl[30]][yxjl[31]]:GetActiveItem()
-        if HGli == nil then
-            if not (N9L[yxjl[30]][yxjl[32]] ~= nil and N9L[yxjl[30]][yxjl[32]]:IsEquipped()) then
-                if TheInput:IsControlPressed(CONTROL_FORCE_INSPECT) then
-                    hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[33]]
-                    iD1IUx = true;
-                    qW0lRiD1 = qW0lRiD1 .. yxjl[11] .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[33]]
-                elseif TheInput:IsControlPressed(CONTROL_FORCE_TRADE) and not N9L[yxjl[30]][yxjl[34]]:CanOnlyGoInPocket() then
-                    if next(R1FIoQI[yxjl[30]][yxjl[31]]:GetOpenContainers()) ~= nil then
-                        iD1IUx = true;
-                        hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. ((TheInput:IsControlPressed(CONTROL_FORCE_STACK) and N9L[yxjl[30]][yxjl[35]] ~= nil) and (STRINGS[yxjl[36]] .. yxjl[10] .. STRINGS[yxjl[37]]) or STRINGS[yxjl[37]])
-                        qW0lRiD1 = qW0lRiD1 .. yxjl[11] .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. ((TheInput:IsControlPressed(CONTROL_FORCE_STACK) and N9L[yxjl[30]][yxjl[35]] ~= nil) and (STRINGS[yxjl[36]] .. yxjl[10] .. STRINGS[yxjl[37]]) or STRINGS[yxjl[37]])
-                    end
-                elseif TheInput:IsControlPressed(CONTROL_FORCE_STACK) and N9L[yxjl[30]][yxjl[35]] ~= nil then
-                    iD1IUx = true;
-                    hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[36]]
-                    qW0lRiD1 = qW0lRiD1 .. yxjl[11] .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[36]]
-                end
-            end ;
-            local Hv = NsoTwDs:GetInventoryActions(N9L)
-            if #Hv > tonumber("0") then
-                hPQ = hPQ .. (iD1IUx and yxjl[10] or TD1MADAO_NIL_STR) .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. yxjl[12] .. Hv[tonumber("1")]:GetActionString()
-                qW0lRiD1 = qW0lRiD1 .. yxjl[11] .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. yxjl[12] .. Hv[tonumber("1")]:GetActionString()
-            end
-        elseif HGli:IsValid() then
-            if not (N9L[yxjl[30]][yxjl[32]] ~= nil and N9L[yxjl[30]][yxjl[32]]:IsEquipped()) then
-                if HGli[yxjl[30]][yxjl[35]] ~= nil and HGli[yxjl[38]] == N9L[yxjl[38]] and HGli[yxjl[39]]:GetSkinBuild() == N9L[yxjl[39]]:GetSkinBuild() then
-                    iD1IUx = true;
-                    hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[40]]["HUD"][yxjl[42]]
-                    qW0lRiD1 = qW0lRiD1 .. yxjl[11] .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[40]]["HUD"][yxjl[42]]
-                else
-                    iD1IUx = true;
-                    hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[40]]["HUD"][yxjl[43]]
-                    qW0lRiD1 = qW0lRiD1 .. yxjl[11] .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[12] .. STRINGS[yxjl[40]]["HUD"][yxjl[43]]
-                end
-            end
-            local Ch = NsoTwDs:GetUseItemActions(N9L, HGli, true)
-            if #Ch > tonumber("0") then
-                hPQ = hPQ .. (iD1IUx and yxjl[10] or TD1MADAO_NIL_STR) .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. yxjl[12] .. Ch[tonumber("1")]:GetActionString()
-                qW0lRiD1 = qW0lRiD1 .. yxjl[11] .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. yxjl[12] .. Ch[tonumber("1")]:GetActionString()
-            end
-        end ;
-        if hPQ ~= TD1MADAO_NIL_STR then
-            table[yxjl[27]](hDc_M, tonumber(yxjl[14]), { hPQ })
-        end
-    end ;
-    return qW0lRiD1
-end;
-local show_edge_color = GetModConfigData("showtype") or tonumber("1")
-local function LB1Z(hoverer)
-    local zhzpBSx = require("widgets/image")
-    hoverer["showui"] = hoverer:AddChild(show_hover_ui(show_edge_color))
-    hoverer["target"] = nil;
-    hoverer["lastchecktime"] = tonumber("0")
-    hoverer["othertarget"] = false;
-    hoverer["text"]:SetSize(tonumber("24"))
-    hoverer["secondarytext"]:SetSize(tonumber("24"))
-    hoverer["inst"]:ListenForEvent("hoverdirtychange", function(t5jzEd9, JZAU2)
-        hoverer["othertarget"] = false
-    end, hoverer["owner"])
-    function hoverer:OnUpdate()
-        if hoverer["owner"]["components"]["playercontroller"] == nil or not hoverer["owner"]["components"]["playercontroller"]:UsingMouse() then
-            if hoverer[yxjl[53]] then
-                hoverer:Hide()
-            end ;
-            return
-        elseif not hoverer[yxjl[53]] then
-            if not hoverer[yxjl[54]] then
-                hoverer:Show()
-            else
-                return
-            end
-        end ;
-        local under_mouse = TheInput:GetHUDEntityUnderMouse()
-        local seMLr = false;
-        if under_mouse ~= nil then
-            under_mouse = under_mouse[yxjl[55]] ~= nil and under_mouse[yxjl[55]][yxjl[56]] ~= nil and under_mouse[yxjl[55]][yxjl[56]][yxjl[57]]
-            seMLr = true
-        else
-            under_mouse = TheInput:GetWorldEntityUnderMouse()
-        end ;
-        if under_mouse ~= nil and (under_mouse ~= hoverer["target"] or GetTime() - hoverer["lastchecktime"] > tonumber("1")) then
-            if under_mouse ~= hoverer["target"] then
-                hoverer["othertarget"] = true
-            end ;
-            hoverer["target"] = under_mouse;
-            hoverer["lastchecktime"] = GetTime()
-            SendModRPCToServer(MOD_RPC[modname][modname], under_mouse)
-        end ;
-        local qX = nil;
-        local h_8 = nil;
-        local xL7OTb = false;
-        local w8T3f = nil;
-        local K = TD1MADAO_NIL_STR;
-        local qL = {}
-        if seMLr and under_mouse and under_mouse[yxjl[30]] and under_mouse[yxjl[30]][yxjl[34]] ~= nil then
-            w8T3f = under_mouse;
-            qX = a(under_mouse, qL)
-        else
-            if not hoverer[yxjl[58]] then
-                qX = hoverer["owner"]["HUD"]["controls"]:GetTooltip() or hoverer["owner"]["components"]["playercontroller"]:GetHoverTextOverride()
-                hoverer["text"]:SetPosition(hoverer["owner"]["HUD"]["controls"]:GetTooltipPos() or hoverer[yxjl[60]])
-                if hoverer["owner"]["HUD"]["controls"]:GetTooltip() ~= nil then
-                    h_8 = hoverer["owner"]["HUD"]["controls"]:GetTooltipColour()
-                end
-            else
-                qX = hoverer["owner"]:GetTooltip()
-                hoverer["text"]:SetPosition(hoverer["owner"]:GetTooltipPos() or hoverer[yxjl[60]])
-            end
-        end ;
-        local vfIyB = nil;
-        local quNsijN = nil
-        if qX == nil and not hoverer[yxjl[58]] and hoverer["owner"]:IsActionsVisible() then
-            quNsijN = hoverer["owner"]["components"]["playercontroller"]:GetLeftMouseAction()
-            if quNsijN ~= nil then
-                local u;
-                if quNsijN["target"] and quNsijN["target"][yxjl[30]] and quNsijN["target"][yxjl[30]][yxjl[34]] ~= nil then
-                    w8T3f = quNsijN["target"]
-                end ;
-                qX, u = quNsijN:GetActionString()
-                if quNsijN[yxjl[61]][yxjl[62]] then
-                    qX = TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. yxjl[10] .. qX
-                end ;
-                if qX then
-                    K = K .. STRINGS[yxjl[63]] .. yxjl[12] .. qX
-                end ;
-                if not u and quNsijN["target"] ~= nil and quNsijN["target"] ~= quNsijN[yxjl[64]] then
-                    qX = TD1MADAO_NIL_STR;
-                    local Ki1 = quNsijN["target"]:GetDisplayName()
-                    if Ki1 ~= nil then
-                        local zz1QI = quNsijN["target"]:GetAdjective()
-                        local kFTAh = zz1QI ~= nil and (zz1QI .. yxjl[10] .. Ki1) or Ki1;
-                        if kFTAh ~= TD1MADAO_NIL_STR then
-                            local LBf = string[yxjl[26]](kFTAh, yxjl[11])
-                            for dijn4Ph, CO1 in ipairs(LBf) do
-                                table[yxjl[27]](qL, { CO1 })
-                            end
-                        end ;
-                        qX = qX .. yxjl[10] .. (kFTAh)
-                        if quNsijN["target"]["components"][yxjl[65]] ~= nil and quNsijN["target"]["components"][yxjl[65]][yxjl[66]] and quNsijN["target"][yxjl[38]] ~= nil then
-                            ProfileStatsSet(quNsijN["target"][yxjl[38]] .. yxjl[19], true)
-                        end
-                    end
-                end
-            end ;
-            local qboV = nil
-            local nSBOx7 = nil
-            if hoverer["owner"]["components"]["playercontroller"] ~= nil then
-                qboV = hoverer["owner"]["components"]["playercontroller"]:IsAOETargeting()
-                nSBOx7 = hoverer["owner"]["components"]["playercontroller"]:GetRightMouseAction()
-            end
-
-            if nSBOx7 ~= nil then
-                if nSBOx7[yxjl[61]][yxjl[67]] then
-                    vfIyB = nSBOx7:GetActionString() .. yxjl[10] .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY)
-                elseif nSBOx7[yxjl[61]] ~= ACTIONS[yxjl[68]] then
-                    vfIyB = TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. yxjl[12] .. nSBOx7:GetActionString()
-                elseif qboV and qX == nil then
-                    qX = nSBOx7:GetActionString()
-                    xL7OTb = true
-                end
-            end ;
-            if qboV and vfIyB == nil then
-                vfIyB = TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. yxjl[12] .. STRINGS[yxjl[40]]["HUD"][yxjl[69]]
-                xL7OTb = true
-            end
-        end ;
-        if vfIyB ~= nil and vfIyB ~= TD1MADAO_NIL_STR then
-            K = K .. (#(K) > tonumber("0") and yxjl[10] or TD1MADAO_NIL_STR) .. vfIyB;
-            hoverer["secondarytext"]:SetString(vfIyB)
-            hoverer["secondarytext"]:Show()
-        else
-            hoverer["secondarytext"]:Hide()
-        end ;
-        if qX == nil then
-            hoverer["text"]:Hide()
-            hoverer["showui"]:Hide()
-        elseif hoverer[yxjl[70]] ~= hoverer[yxjl[71]] then
-            hoverer[yxjl[71]] = hoverer[yxjl[70]]
-            hoverer[yxjl[72]] = tczrIB
-        else
-            hoverer[yxjl[72]] = hoverer[yxjl[72]] - tonumber("1")
-            if hoverer[yxjl[72]] <= tonumber("0") then
-                if under_mouse ~= nil and not xL7OTb then
-                    if not hoverer["othertarget"] then
-                        local RlZo = hoverer["owner"][yxjl[73]] and hoverer["owner"][yxjl[73]][yxjl[74]]:value() or TD1MADAO_NIL_STR;
-                        local SUn = { str = {}, im = {} }
-                        if RlZo ~= TD1MADAO_NIL_STR then
-                            SUn = json[yxjl[75]](RlZo)
-                        end ;
-                        local Ib4 = false;
-                        for fjV1G2, Do in ipairs(qL) do
-                            Ib4 = true;
-                            table[yxjl[27]](SUn[yxjl[70]], fjV1G2, Do)
-                        end ;
-                        if K ~= TD1MADAO_NIL_STR then
-                            table[yxjl[27]](SUn[yxjl[70]], Ib4 and tonumber(yxjl[14]) or tonumber("1"), { K })
-                        end ;
-                        hoverer["showui"]:Show()
-                        hoverer["showui"]:Setonumberew(SUn, w8T3f, hoverer)
-                    else
-                        hoverer["showui"]:Hide()
-                    end ;
-                    hoverer["text"]:Hide()
-                    hoverer["secondarytext"]:Hide()
-                else
-                    hoverer["text"]:SetString(qX)
-                    hoverer["showui"]:Hide()
-                    hoverer["text"]:Show()
-                end
-            end
-        end ;
-        local QUh2tc = hoverer[yxjl[70]] ~= qX or hoverer[yxjl[76]] ~= vfIyB;
-        hoverer[yxjl[70]] = qX;
-        hoverer[yxjl[76]] = vfIyB;
-        if QUh2tc then
-            local _ = TheInput:GetScreenPosition()
-            hoverer:UpdatePosition(_[yxjl[77]], _[yxjl[78]])
-        end
-    end;
-    local rHSjalVy = -tonumber(yxjl[20])
-    local TjhsnP = tonumber(yxjl[21])
-    function hoverer:UpdatePosition(TqYJ4, DI)
-        local b = hoverer:GetScale()
-        local E, KMw7_i1s = TheSim:GetScreenSize()
-        local CQi = tonumber("0")
-        local nHlJ = tonumber("0")
-        if hoverer["showui"]:IsVisible() and hoverer["showui"][yxjl[53]] then
-            local lw4Q7kbl, IN = hoverer["showui"]:GetEH()
-            CQi = math["max"](CQi, lw4Q7kbl)
-            nHlJ = math["max"](nHlJ, IN)
-            CQi = CQi * b[yxjl[77]] * tonumber(yxjl[22])
-            nHlJ = nHlJ * b[yxjl[78]] * tonumber(yxjl[22])
-            hoverer:SetPosition(math[yxjl[80]](TqYJ4, CQi + tonumber(yxjl[23]), E - CQi - tonumber(yxjl[23])), math[yxjl[80]](DI, DI + nHlJ + TjhsnP * b[yxjl[78]], KMw7_i1s - nHlJ - rHSjalVy * b[yxjl[78]]), tonumber("0"))
-        else
-            if hoverer["text"] ~= nil and hoverer[yxjl[70]] ~= nil then
-                local QYf1, RfsnisO = hoverer["text"]:GetRegionSize()
-                CQi = math["max"](CQi, QYf1)
-                nHlJ = math["max"](nHlJ, RfsnisO)
-            end ;
-            if hoverer["secondarytext"] ~= nil and hoverer[yxjl[76]] ~= nil then
-                local lvW2ga, T7RKP = hoverer["secondarytext"]:GetRegionSize()
-                CQi = math["max"](CQi, lvW2ga)
-                nHlJ = math["max"](nHlJ, T7RKP)
-            end ;
-            CQi = CQi * b[yxjl[77]] * tonumber(yxjl[22])
-            nHlJ = nHlJ * b[yxjl[78]] * tonumber(yxjl[22])
-            hoverer:SetPosition(math[yxjl[80]](TqYJ4, CQi + PrPyxMK, E - CQi - PrPyxMK), math[yxjl[80]](DI, nHlJ - tonumber(yxjl[24]) * b[yxjl[78]], KMw7_i1s - nHlJ - rHSjalVy * b[yxjl[78]]), tonumber("0"))
-        end
-    end
-end;
-AddClassPostConstruct("widgets/hoverer", LB1Z)
+]]

@@ -267,7 +267,7 @@ local function onload(inst, data)
     else
         inst.last_do_cycle_day = 1
     end
-    inst.components.named:SetName(STRINGS.NAMES.CATBIGBAG .. "\n" .. "上次CD时间:世界第" .. inst.last_do_cycle_day .. "天")
+    --inst.components.named:SetName(STRINGS.NAMES.CATBIGBAG .. "\n" .. "上次CD时间: 世界第" .. inst.last_do_cycle_day .. "天")
 end
 local function fn()
     local inst = CreateEntity()
@@ -370,6 +370,7 @@ local function fn()
     inst.components.container.onopenfn = onopen
     inst.components.container.onclosefn = onclose
     inst:ListenForEvent("itemget", getitem_catbigbag)
+    inst:AddTag("special_benefit_cd_days")
     inst:WatchWorldState("isfullmoon", DoBenefit_catbigbag)
     --inst:WatchWorldState("moonphase",DoBenefit_catbigbag)
     inst:WatchWorldState("isday", insulatorstate)
