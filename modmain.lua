@@ -177,6 +177,10 @@ end
 if GetModConfigData("change_stack_num_by_mousewheel_switch") then
     modimport("scripts/change_stack_num_by_mousewheel.lua")
 end
+-- 一键挂机
+if GetModConfigData("invincible_status_switch") then
+    modimport("scripts/invincible_status_main.lua")
+end
 
 -- 死亡不掉落
 if GetModConfigData("dont_drop") == true then
