@@ -602,7 +602,7 @@ if GetModConfigData("wb_strengthen_switch") then
     modimport("scripts/wb_strengthenstove.lua")
 end
 
-TUNING.RIPENING_PLANT_FREQUENCY = GetModConfigData("ripening_plant_frequency") or 60
+TUNING.RIPENING_PLANT_FREQUENCY = GetModConfigData("ripening_plant_frequency")
 --- beta功能
 if GetModConfigData("beta_function_switch") then
     modimport("scripts/sgdeath.lua")
