@@ -25,9 +25,7 @@ if TUNING.ELAINA_ENABLE then
 end
 
 
-
 if TUNING.YEYU_NILXIN_ENABLE then
-    
 
     AddShardModRPCHandler("yyxkui", "mp", function(worldid, message, userid, str,world_id)
         print("----------ffffmp") print(message) print(userid) print(str) print("world_id"..world_id)
@@ -97,35 +95,6 @@ if TUNING.YEYU_NILXIN_ENABLE then
 
             end
         end
-    end)
-
-    AddComponentPostInit("yyxk", function(self)
-
-        local old_additem = self.additem
-        self.additem = function(self, inst, n, ...)
-            if inst then
-                local old_GetPersistData = inst.GetPersistData
-                inst.GetPersistData = function(inst)
-                    local references
-                    local data
-                    data, references = old_GetPersistData(inst)
-                    if inst.components.inventoryitem.owner and inst.components.inventoryitem.owner.prefab == "yyxk_cykjcc" then
-                        local owner = inst.components.inventoryitem.owner
-                        for i = 1, owner.components.container.numslots do
-                            if owner.components.container.slots[i] == inst then
-                                owner.components.container:RemoveItemBySlot(i)
-                                inst:Remove()
-                            end
-                        end
-                    end
-                    return data, references
-                end
-            end
-            return old_additem and old_additem(self, inst, n, ...)
-        end
-
-
-
     end)
 
 
