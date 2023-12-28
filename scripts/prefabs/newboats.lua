@@ -33,7 +33,14 @@ local function MakeBoat(name,radius)
 		local scale = scale_multiplier
 		local boatlip = "boatlip"
 
-		inst = create_common_pre(inst, bank, build, radius, max_health, item_collision_prefab, scale, boatlip)
+		local data_boat = {}
+		data_boat.radius = radius
+		data_boat.max_health = max_health
+		data_boat.item_collision_prefab = item_collision_prefab
+		data_boat.scale = scale
+		data_boat.boatlip = boatlip
+
+		inst = create_common_pre(inst, bank, build, data_boat)
 
 		inst.walksound = "wood"
 
@@ -45,7 +52,7 @@ local function MakeBoat(name,radius)
 			return inst
 		end
 
-		inst = create_master_pst(inst, bank, build, radius, max_health, item_collision_prefab, scale, boatlip)
+		inst = create_master_pst(inst, bank, build, data_boat)
 		
 		inst.components.boatphysics.sizespeedmultiplier=1/scale_multiplier
         inst.components.boatphysics.max_velocity=TUNING.BOAT.MAX_VELOCITY_MOD/scale_multiplier
