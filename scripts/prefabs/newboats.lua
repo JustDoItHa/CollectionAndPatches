@@ -33,7 +33,14 @@ local function MakeBoat(name,radius)
 		local scale = scale_multiplier
 		local boatlip = "boatlip"
 
-		local data_boat = {}
+		local data_boat = {
+			radius = TUNING.BOAT.RADIUS,
+			max_health = TUNING.BOAT.HEALTH,
+			item_collision_prefab = "boat_item_collision",
+			boatlip_prefab = "boatlip",
+			plank_prefab = "walkingplank",
+			minimap_image = "boat.png",
+		}
 		data_boat.radius = radius
 		data_boat.max_health = max_health
 		data_boat.item_collision_prefab = item_collision_prefab

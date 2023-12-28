@@ -439,10 +439,10 @@ if GetModConfigData("venus_icebox_switches") then
     modimport("scripts/venus_icebox_main.lua")
 end
 
---船只大小
-if GetModConfigData("new_boats_size_switch") then
-    modimport("scripts/newboats_main.lua")
-end
+----船只大小 有错误 带待修复
+--if GetModConfigData("new_boats_size_switch") then
+--    modimport("scripts/newboats_main.lua")
+--end
 
 --龙鳞冰炉
 modimport("scripts/ice_furnace.lua")

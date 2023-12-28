@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "13.4.1.0"
+version = "13.4.4.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1277,10 +1277,10 @@ configuration_options[#configuration_options + 1] = AddOption("DockTileBreak", "
 configuration_options[#configuration_options + 1] = AddOption("DockKitAreaSea", "码头套装放置不限浅海", "设置 码头套装能在任何水域放置。", true)
 configuration_options[#configuration_options + 1] = AddOption("DockKitAreaCave", "码头套装放置洞穴深渊", "设置 码头套装能在洞穴深渊放置。", true)
 
----大小船只
-configuration_options[#configuration_options + 1] = AddOptionHeader("船只相关")
-configuration_options[#configuration_options + 1] = AddOption("new_boats_size_switch", "新不同大小船只开关", "是否可以创建不同大小船只", false)
-configuration_options[#configuration_options + 1] = AddOption("ALLOWSKINS", "使用皮肤(Allow skins)", "创建船只是否允许使用皮肤(Allows players to craft boats with skins.)", true)
+-----大小船只
+--configuration_options[#configuration_options + 1] = AddOptionHeader("船只相关")
+--configuration_options[#configuration_options + 1] = AddOption("new_boats_size_switch", "新不同大小船只开关", "是否可以创建不同大小船只", false)
+--configuration_options[#configuration_options + 1] = AddOption("ALLOWSKINS", "使用皮肤(Allow skins)", "创建船只是否允许使用皮肤(Allows players to craft boats with skins.)", true)
 
 ---发光的瓶子
 configuration_options[#configuration_options + 1] = AddOptionHeader("发光的瓶子")
