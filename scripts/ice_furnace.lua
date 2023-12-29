@@ -100,7 +100,7 @@ end
 
 	--Clean Sweeper
 
-local function spell_icefurnace(inst, target, pos)
+local function spell_icefurnace(inst, target, pos, ...)
 	if target ~= nil and target:HasTag("icefurnace") and target.skinname ~= nil then
 		local fx_prefab = "explode_reskin"
 		local skin_fx = SKIN_FX_PREFAB[inst:GetSkinName()]
@@ -129,7 +129,7 @@ local function spell_icefurnace(inst, target, pos)
 		end
 	end
 	if inst.old_spell_icefurnace ~= nil then
-		return inst.old_spell_icefurnace(inst, target, pos)
+		return inst.old_spell_icefurnace(inst, target, pos, ...)
 	end
 end
 	
