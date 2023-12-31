@@ -97,31 +97,6 @@ if TUNING.YEYU_NILXIN_ENABLE then
         end
     end)
 
-
-
-
-    local function foxball_xg(inst)
-        if not TheWorld.ismastersim then return end
-
-        local old_onspawnfn = inst.components.petleash.onspawnfn
-        inst.components.petleash.onspawnfn = function(inst, pet, ...)
-            local l = pet.components.follower:GetLeader() or inst.components.inventoryitem:GetGrandOwner()
-            if l == nil or l:HasTag("player") then
-                inst:DoTaskInTime(0.15, function()
-                    inst:RemoveTag("call")
-                    inst.components.nilxinfoxball:foxUnequip(pet)
-                    pet:Remove()
-                    inst.components.inventoryitem:ChangeImageName("nilxin_foxball_" .. inst.components.nilxinfoxball.foxType)
-                    inst.AnimState:PlayAnimation(inst.components.nilxinfoxball.foxType, true)
-                end)
-                return
-            end
-            old_onspawnfn(inst, pet, ...)
-        end
-    end
-    AddPrefabPostInit("nilxin_foxball_blue", foxball_xg)
-    AddPrefabPostInit("nilxin_foxball_red", foxball_xg)
-
     AddPrefabPostInit("telestaff", function(inst)
         if not TheWorld.ismastersim then return end
         if inst.components.spellcaster then
