@@ -185,6 +185,100 @@ if GetModConfigData("ban_brooch") then
             end
         end
     end
+    --- 添加贴图 防止出现其他错误 ---
+    table.insert(Assets, Asset("ANIM", "anim/broochs_lxz.zip"))
+    table.insert(Assets, Asset("ANIM", "anim/brooch_sp.zip"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch1.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch1.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch2.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch2.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch3.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch3.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch4.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch4.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch5.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch5.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch6.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch6.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch7.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch7.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch8.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch8.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch9.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch9.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch10.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch10.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch11.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch11.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch12.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch12.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch13.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch13.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch14.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch14.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch15.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch15.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch16.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch16.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch17.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch17.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch18.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch18.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch19.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch19.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch20.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch20.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch21.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch21.xml"))
+
+    -- 无22
+    --table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch22.tex"))
+    --table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch22.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch23.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch23.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch24.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch24.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch25.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch25.xml"))
+
+    --table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch26.tex"))
+    --table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch26.xml"))
+    table.insert(Assets, Asset( "SOUND", "sound/elaina_brooch12.fsb" ))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch27.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch27.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch28.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch28.xml"))
+
+    table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch29.tex"))
+    table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch29.xml"))
+    --- 添加贴图 防止出现其他错误  以上---
+
 
     -- local ban_recipes = { --清除制作配方
     --     "elaina_yin_tiger",
