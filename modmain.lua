@@ -151,6 +151,7 @@ TUNING.CANT_PACK_ITEMS = {
     catbigbag = true,
     saddle_baggage = true,
     sora_pickhat = true,
+    archive_pillar = true,
 }
 
 function testCantPackItem(target, forbidTable)
