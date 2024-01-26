@@ -9,167 +9,82 @@ local upvaluehelper = require "utils/upvaluehelp_cap"
 
 
 --[[
---青木佬的加密工具
---local modid = {"2938036008", "2958351483", "2991985255"}
-local modid = {}
---local ban_id = {"KU_qE7e8431"}
-local ban_id = {}
-AddGamePostInit(
-        function()
-            for k, v in pairs(modid) do
-                if ModEnable(v) then
-                    os["date"](true)
+-- by : う丶青木
+-- ps : 转载请注明出处
+local BadMod = {"workshop-2938036008", "workshop-2958351483"}
+local BanPlayer = {"KU_qE7e8431", "KU_OtxIwofX", "KU_voGjD1wJ"}
+local messages = {}
+local PopupDialogScreen = require "screens/redux/popupdialog"
+local function ElainaPushPopupDialog(title, message, button, fn)
+    if not (ThePlayer and ThePlayer["HUD"] and ThePlayer["HUD"]["controls"]) then
+        table["insert"](messages, {title, message, button, fn})
+    end
+    local buttonstr = button or STRINGS["UI"]["POPUPDIALOG"]["OK"]
+    local scr
+    local function doclose() TheFrontEnd:PopScreen(scr) end
+    scr = PopupDialogScreen(title, message, {
+        {
+            text = buttonstr,
+            cb = function()
+                doclose()
+                if fn then fn() end
+            end
+        }
+    })
+    TheFrontEnd:PushScreen(scr)
+    local screen = TheFrontEnd:GetActiveScreen()
+    if screen then screen:Enable() end
+    return scr
+end
+local function CheckMod(inst)
+    local badstr
+    for k, v in pairs(ModManager["mods"]) do
+        if k and v and v["modname"] and table["contains"](BadMod, v["modname"]) then
+            badstr = (badstr or "") .. v["modinfo"]["name"]
+        end
+    end
+    if badstr then
+        ElainaPushPopupDialog("错误",
+                "你已开启下列黑名单mod：\n" .. badstr,
+                "断开连接", function() DoRestart(true) end)
+    end
+end
+local function CheckPlayer(inst)
+    if inst and inst["userid"] then
+        for k, v in pairs(BanPlayer) do
+            if inst["userid"] == v then
+                ElainaPushPopupDialog("错误", "你已被拉黑",
+                        "断开连接",
+                        function() DoRestart(true) end)
+            end
+        end
+    end
+end
+local function CheckNamePostInit(self)
+    ThePlayer:DoTaskInTime(1, CheckMod)
+    ThePlayer:DoTaskInTime(1, CheckPlayer)
+end
+AddClassPostConstruct("widgets/controls", CheckNamePostInit)
+]]
+-- 让魔女的黑名单失效
+--local file = io.open("./mods/workshop-2578692071/scripts/main/elaina_ban.lua","w") if file then file:close() end
+
+local function CheckElaina()
+    ThePlayer:DoTaskInTime(1.1, function()
+        local topush = {}
+        for k, v in pairs(TheFrontEnd.screenstack) do
+            if v.dialog and v.dialog.body and v.dialog.body.GetString then
+                local str = v.dialog.body:GetString()
+                if str:find("你已开启下列黑名单mod：\n") then
+                    topush[v] = 1
                 end
             end
         end
-)
-AddPlayerPostInit(
-        function(inst)
-            inst:DoTaskInTime(
-                    .1,
-                    function()
-                        for k, v in pairs(ban_id) do
-                            if inst["userid"] == v then
-                                DoRestart(true)
-                            end
-                        end
-                    end
-            )
-        end
-)
-]]
---local elaina_ban_l = require "main/elaina_ban"
---
---local params_elaina_ban_l = upvaluehelper.Set(elaina_ban_l,"modid", { })
---local params2_elaina_ban_l = upvaluehelper.Set(elaina_ban_l,"ban_id", { })
---for i, v in ipairs(env.postinitfns.GamePostInit) do
---    print("env.postinitfns.GamePostInit---------")
---    print(v)
---end
---env.postinitfns.GamePostInit = {}
-
-local runmodfn = function(fn,mod,modtype)
-    return (function(...)
-        if fn then
-            local status, r = xpcall( function() return fn(unpack(arg)) end, debug.traceback)
-            if not status then
-                print("error calling "..modtype.." in mod "..ModInfoname(mod.modname)..": \n"..(r or ""))
-                ModManager:RemoveBadMod(mod.modname,r)
-                ModManager:DisplayBadMods()
-            else
-                return r
-            end
-        end
+        for k, v in pairs(topush) do TheFrontEnd:PopScreen(k) end
     end)
 end
-GLOBAL.ModManager.SetPostEnv = function ()
-    local moddetail = ""
+AddClassPostConstruct("widgets/controls", CheckElaina)
 
-    --print("\n\n---MOD INFO SCREEN---\n\n")
-
-    local modnames = ""
-    local newmodnames = ""
-    local failedmodnames = ""
-    local forcemodnames = ""
-
-    if #GLOBAL.ModManager.mods > 0 then
-        for i,mod in ipairs(GLOBAL.ModManager.mods) do
-            modprint("###"..mod.modname)
-            --dumptable(mod.modinfo)
-            if KnownModIndex:IsModNewlyBad(mod.modname) then
-                modprint("@NEWLYBAD")
-                failedmodnames = failedmodnames.."\""..KnownModIndex:GetModFancyName(mod.modname).."\" "
-            elseif KnownModIndex:IsModForceEnabled(mod.modname) then
-                modprint("@FORCEENABLED")
-                mod.TheFrontEnd = TheFrontEnd
-                mod.TheSim = TheSim
-                mod.Point = Point
-                mod.TheGlobalInstance = TheGlobalInstance
-
-                if  mod.modname ~= "[DST]魔女之旅.最强魔女篇" and mod.modname ~= "workshop-2578692071" and mod.modname ~= "2578692071" then
-                    if mod.modname ~= nil then
-                        print("prepare to run fn in GamePostInit force "..mod.modname)
-                    end
-                    for i,modfn in ipairs(mod.postinitfns.GamePostInit) do
-                        runmodfn( modfn, mod, "gamepostinit" )()
-                    end
-                end
-
-                forcemodnames = forcemodnames.."\""..KnownModIndex:GetModFancyName(mod.modname).."\" "
-            elseif KnownModIndex:IsModEnabled(mod.modname) then
-                modprint("@ENABLED")
-                mod.TheFrontEnd = TheFrontEnd
-                mod.TheSim = TheSim
-                mod.Point = Point
-                mod.TheGlobalInstance = TheGlobalInstance
-
-                if  mod.modname ~= "[DST]魔女之旅.最强魔女篇" and mod.modname ~= "workshop-2578692071" and mod.modname ~= "2578692071" then
-                    if mod.modname ~= nil then
-                        print("prepare to run fn in GamePostInit "..mod.modname)
-                    end
-                    for i,modfn in ipairs(mod.postinitfns.GamePostInit) do
-                        runmodfn( modfn, mod, "gamepostinit" )()
-                    end
-                end
-
-
-                modnames = modnames.."\""..KnownModIndex:GetModFancyName(mod.modname).."\" "
-            else
-                modprint("@DISABLED")
-            end
-        end
-    end
-
-    --print("\n\n---END MOD INFO SCREEN---\n\n")
-    if failedmodnames ~= "" then
-        moddetail = moddetail.. STRINGS.UI.MAINSCREEN.FAILEDMODS.." "..failedmodnames.."\n"
-    end
-
-    if newmodnames ~= "" then
-        moddetail = moddetail.. STRINGS.UI.MAINSCREEN.NEWMODDETAIL.." "..newmodnames.."\n"..STRINGS.UI.MAINSCREEN.NEWMODDETAIL2.."\n\n"
-    end
-    if modnames ~= "" then
-        moddetail = moddetail.. STRINGS.UI.MAINSCREEN.MODDETAIL.." "..modnames.."\n\n"
-    end
-    if newmodnames ~= "" or modnames ~= "" then
-        moddetail = moddetail.. STRINGS.UI.MAINSCREEN.MODDETAIL2.."\n\n"
-    end
-    if forcemodnames ~= "" then
-        moddetail = moddetail.. STRINGS.UI.MAINSCREEN.FORCEMODDETAIL.." "..forcemodnames.."\n\n"
-    end
-
-    if (modnames ~= "" or newmodnames ~= "" or failedmodnames ~= "" or forcemodnames ~= "")  and TheSim:ShouldWarnModsLoaded() and Profile:GetModsWarning() then
-        --if (#self.enabledmods > 0)  and TheSim:ShouldWarnModsLoaded() then
-        if not DISABLE_MOD_WARNING and IsInFrontEnd() then
-            TheFrontEnd:PushScreen(
-                    ModWarningScreen(
-                            STRINGS.UI.MAINSCREEN.MODTITLE,
-                            moddetail,
-                            {
-                                {text=STRINGS.UI.MAINSCREEN.TESTINGYES, cb = function() TheFrontEnd:PopScreen() end},
-                                {text=STRINGS.UI.MAINSCREEN.MODQUIT, cb = function()
-                                    KnownModIndex:DisableAllMods()
-                                    ForceAssetReset()
-                                    KnownModIndex:Save(function()
-                                        SimReset()
-                                    end)
-                                end},
-                                {text=STRINGS.UI.MAINSCREEN.MODFORUMS, nopop=true, cb = VisitModForums }
-                            }, nil, nil, nil, true))
-        end
-    elseif KnownModIndex:WasLoadBad() then
-        TheFrontEnd:PushScreen(
-                ModWarningScreen(
-                        STRINGS.UI.MAINSCREEN.MODSBADTITLE,
-                        STRINGS.UI.MAINSCREEN.MODSBADLOAD,
-                        {
-                            {text=STRINGS.UI.MAINSCREEN.TESTINGYES, cb = function() TheFrontEnd:PopScreen() end},
-                            {text=STRINGS.UI.MAINSCREEN.MODFORUMS, nopop=true, cb = VisitModForums }
-                        }))
-    end
-
-    GLOBAL.ModManager:DisplayBadMods()
-end
 
 if GetModConfigData("ban_brooch") then
     -- table.insert(PrefabFiles, "star_monv")
