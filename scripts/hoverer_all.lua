@@ -279,7 +279,7 @@ end }, { com = "botanycontroller", fn = function(inx0, A5k5yt)
 end }, { com = "elaina_magic_spell_power", fn = function(inst, _)
     table["insert"](_, { "法强", "" .. qW0lRiD1(inst:GetEqu()) })
 end }, { com = "elaina_most_brooch2", fn = function(inst, _)
-    table["insert"](_, { "魔女已激活能力", qW0lRiD1(inst:GetBroochset() or 0).."条" })
+    table["insert"](_, { "魔女已激活能力", qW0lRiD1(inst:GetBroochset() or 0) .. "条" })
 end } }
 local function hPQ(B7SHDx7h, EEpoeR)
     local _k = {}
@@ -486,13 +486,28 @@ local function TjhsnP(player, inst)
             if inst["prefab"] == "armorskeleton" then
                 table["insert"](IWQcC, { "特殊效果", TUNING["ARMOR_SKELETON_COOLDOWN"] .. "秒抵挡一次伤害" })
             end ;
+            if inst and inst.entity ~= nil then
+                if inst.replica.ccs_card_level then
+                    if inst:HasTag("ccs_card") then
+                        local maxlevel = inst.replica.ccs_card_level:GetMaxLevel()
+                        local level = inst.replica.ccs_card_level:GetLevel()
+                        --local master = inst.replica.ccs_card_level:GetMaster()
+                        table["insert"](IWQcC, { "该卡牌最大等级", maxlevel })
+                        table["insert"](IWQcC, { "该卡牌当前等级", level })
+                        --table["insert"](IWQcC, { "该卡牌主人", master})
+                    end
+                    local master = inst.replica.ccs_card_level:GetMaster()
+                    table["insert"](IWQcC, { "该卡牌主人", master })
+                end
+
+            end ;
             if inst:HasTag("enbledue") then
                 local duenum = inst.replica.elaina_valid:GetElainaDue()
                 local dueok = "(未解封)"
                 if duenum >= 100 then
                     dueok = "(已解封)"
                 end
-                table["insert"](IWQcC, { "当前渡厄进度", duenum..dueok })
+                table["insert"](IWQcC, { "当前渡厄进度", duenum .. dueok })
             end ;
             if inst:HasTag("special_benefit_cd_days") then
                 table["insert"](IWQcC, { "特殊福利CD", "上次在世界第" .. (inst.last_do_cycle_day == nil and "*" or inst.last_do_cycle_day) .. "天进入CD" })
