@@ -152,6 +152,21 @@ TUNING.CANT_PACK_ITEMS = {
     saddle_baggage = true,
     sora_pickhat = true,
     archive_pillar = true,
+
+    toadstool_cap= true,
+    tentacle_pillar= true,
+    tentacle_pillar_hole= true, -- 大触手
+    --beequeenhive= true,
+    --klaus_sack= true,
+    -- ancient_altar= true,
+    -- ancient_altar_broken= true,
+    cave_exit= true,
+    cave_entrance= true,
+    cave_entrance_ruins= true,
+    cave_entrance_open= true,
+    statueglommer= true,
+    -- wormhole= true,
+    -- minotaur_spawner= true,
 }
 
 function testCantPackItem(target, forbidTable)
