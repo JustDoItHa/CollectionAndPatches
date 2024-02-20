@@ -69,18 +69,35 @@ local function GetFuelIcon(fuel)
     return false
 end
 local FNs = {
+    planardamage = function (w,v,data)
+        if not data.weapondamage or data.weapondamage==0 then
+            makeentry(w,"icon_damage.tex",v)
+            makesubentry(w,"("..v.." Planar)")
+        end
+    end,
     weapondamage = function (w,v,data)
-        v = string.format("%.1f", v)
-
-        local pjName = GLOBAL.ThePlayer.prefab
-        local dmgMult = string.upper(pjName).."_DAMAGE_MULT"
         local real = v
 
-        if pjName=="wolfgang" then
-            local state = GLOBAL.ThePlayer.GetCurrentMightinessState and GLOBAL.ThePlayer:GetCurrentMightinessState()
-            if state and wolfgang[state] then v = v * wolfgang[state] end
-        elseif _T[dmgMult] then
-            v = v * _T[dmgMult]
+        if (type(v) == "number") then
+            v = string.format("%.1f", v)
+
+            local pjName = GLOBAL.ThePlayer.prefab
+            local dmgMult = string.upper(pjName).."_DAMAGE_MULT"
+            real = v
+
+            if pjName=="wolfgang" then
+                local state = GLOBAL.ThePlayer.GetCurrentMightinessState and GLOBAL.ThePlayer:GetCurrentMightinessState()
+                if state and wolfgang[state] then v = v * wolfgang[state] end
+            elseif _T[dmgMult] then
+                v = v * _T[dmgMult]
+            end
+
+            if data.planardamage then
+                v = v + data.planardamage;
+                real = "("..data.planardamage.." Planar)"
+            end
+        else
+            v = " "
         end
 
         makeentry(w,"icon_damage.tex",v)
@@ -137,6 +154,7 @@ local function PopulateDetails(recipeName,widget,topY)
 
     if dataset[recipeName] then MakeDetails(dataset[recipeName],widget,topY) end
     if dataset2[recipeName] then MakeDetails(dataset2[recipeName],widget,topY) end
+    if _T.dataset and _T.dataset[recipeName] then MakeDetails(_T.dataset[recipeName],widget,topY) end
 end
 AddClassPostConstruct("widgets/redux/craftingmenu_details", function (craftingmenu_details)
     -- for prefab,data in pairs(dataset) do data.knownlevel = GLOBAL.TheScrapbookPartitions:GetLevelFor(prefab) end
@@ -144,6 +162,8 @@ AddClassPostConstruct("widgets/redux/craftingmenu_details", function (craftingme
     local old_PopulateRecipeDetailPanel = craftingmenu_details.PopulateRecipeDetailPanel
     function craftingmenu_details:PopulateRecipeDetailPanel(data, skin_name)
         old_PopulateRecipeDetailPanel(self, data, skin_name)
+
+        if not GLOBAL.ThePlayer.HUD or not GLOBAL.ThePlayer.HUD:IsCraftingOpen() then return end
 
         if data == nil then return end
         local recipeName = data.recipe.name;
