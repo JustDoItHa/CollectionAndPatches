@@ -163,8 +163,6 @@ AddClassPostConstruct("widgets/redux/craftingmenu_details", function (craftingme
     function craftingmenu_details:PopulateRecipeDetailPanel(data, skin_name)
         old_PopulateRecipeDetailPanel(self, data, skin_name)
 
-        if not GLOBAL.ThePlayer.HUD or not GLOBAL.ThePlayer.HUD:IsCraftingOpen() then return end
-
         if data == nil then return end
         local recipeName = data.recipe.name;
 
