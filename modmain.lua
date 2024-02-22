@@ -690,6 +690,18 @@ if GetModConfigData("beta_function_switch") then
     --if GetModConfigData("the_lamb_bug_fix_switch") then
     --    modimport("scripts/the_lamb_patches")
     --end
+
+    ---世界流速防篡改
+    if GetModConfigData("world_time_speed_to_normal") then
+        AddPrefabPostInit("world", function(inst)
+            --if not TheWorld.ismastersim then
+            --    return inst
+            --end
+            inst:DoPeriodicTask(60, function()
+                TheSim:SetTimeScale('1')
+            end, 0)
+        end)
+    end
 end
 
 if GetModConfigData("niche_container_modification_switch") then
