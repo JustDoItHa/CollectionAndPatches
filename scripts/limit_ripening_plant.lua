@@ -13,10 +13,10 @@ if TUNING.RIPENING_PLANT_FREQUENCY == nil then
     TUNING.RIPENING_PLANT_FREQUENCY = 60
 end
 
-if TUNING.RIPENING_PLANT_FREQUENCY <= 0 then
-    return
-else
+if TUNING.RIPENING_PLANT_FREQUENCY > 0 then
     ripening_frequency_local = TUNING.RIPENING_PLANT_FREQUENCY
+else
+    return
 end
 
 AddComponentPostInit("pickable", function(self, inst)

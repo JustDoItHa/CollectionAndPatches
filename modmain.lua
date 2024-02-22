@@ -536,6 +536,8 @@ if (not GetModConfigData("player_authority_switch")) and GetModConfigData("autho
     modimport("modules/authority_hexie/authority_hexie_main.lua")
 end
 
+TUNING.RIPENING_PLANT_FREQUENCY = GetModConfigData("ripening_plant_frequency")
+
 -- 微小游戏体验提升
 if GetModConfigData("little_modify_for_pure_switch") then
     if GetModConfigData("show_bundle_content_switch") then
@@ -618,7 +620,7 @@ if GetModConfigData("wb_strengthen_switch") then
     modimport("scripts/wb_strengthenstove.lua")
 end
 
-TUNING.RIPENING_PLANT_FREQUENCY = GetModConfigData("ripening_plant_frequency")
+
 --- beta功能
 if GetModConfigData("beta_function_switch") then
     modimport("scripts/sgdeath.lua")
