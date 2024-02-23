@@ -702,6 +702,11 @@ if GetModConfigData("beta_function_switch") then
             end, 0)
         end)
     end
+    if GetModConfigData("smarter_find_road_switch") then
+        modimport("scripts/smarter_find_road.lua")
+    end
+
+
 end
 
 if GetModConfigData("niche_container_modification_switch") then

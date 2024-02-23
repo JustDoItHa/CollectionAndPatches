@@ -19,14 +19,14 @@ description = [[
 --44.超级便携大箱子 45.beefalo status bar 46.疼总的信息显示(就是偷来的,好看)
 --47.史诗般血量条 48.为爽而虐-容器排序 49.鼠标滚轮调节堆叠 50.可升级箱子(已经抄过来用了)
 --51.cat bag 52.wing pack 53.神秘强化炉 54.死亡累计升级版 55.More Crafting Details
---56.箱子容量+ 57.新月之魔典  58.一键挂机
+--56.箱子容量+ 57.新月之魔典  58.一键挂机 59.寻路补丁
 --集合mod：
 --1.常用mod集合
 --2.萌新合集-服务端
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "13.6.4.0"
+version = "13.6.5.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2289,6 +2289,7 @@ configuration_options[#configuration_options + 1] = AddOption("dont_starve_dehyd
 configuration_options[#configuration_options + 1] = AddOption("the_lamb_chs_language_switch", "the lamb(咩咩教主)汉化", "the lamb(咩咩教主)汉化(简中)", false)
 --configuration_options[#configuration_options + 1] = AddOption("the_lamb_bug_fix_switch", "the lamb(咩咩教主)问题修复", "the lamb(咩咩教主)问题修复", false)
 configuration_options[#configuration_options + 1] = AddOption("world_time_speed_to_normal", "世界时间流速自动归位", "一定程度阻止玩家企图篡改世界时间流速", false)
+configuration_options[#configuration_options + 1] = AddOption("smarter_find_road_switch", "寻路补丁", "优化跟随物的寻路AI", false)
 
 --取消世界同步
 configuration_options[#configuration_options + 1] = AddOptionHeader("取消从世界与主世界部分同步")
