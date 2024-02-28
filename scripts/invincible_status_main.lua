@@ -80,7 +80,7 @@ local function clientpausefn(inst)
 
         --recover preserver
         local function recover(v)
-            if v and v.components.container ~= nil then
+            if v and v.components.container ~= nil and v.components.preserver then
                 if preservertb[v.prefab] ~= 1 then
                     v.components.preserver:SetPerishRateMultiplier(preservertb[v.prefab])
                 else
@@ -106,7 +106,7 @@ AddPlayerPostInit(function(inst)
 
     inst:DoPeriodicTask(240, function(inst)
         if inst.components.playercontroller and inst.components.playercontroller:IsEnabled() and inst:HasTag("KEY_P_FOR_PERSONAL_PAUSE") then
-            SendModRPCToServer(MOD_RPC["clientpause"]["clientpauseaction"], clientpausefn(inst))
+            SendModRPCToServer(MOD_RPC["clientpause"]["clientpauseaction"], inst)
         end
     end, 45)
 
