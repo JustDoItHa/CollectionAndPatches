@@ -328,9 +328,9 @@ local function isFloat(fabs)
 end
 
 local function WhiteArea(inst)
+    local pos = Vector3(inst.Transform:GetWorldPosition())
+    entity_list = TheSim:FindEntities(pos.x, pos.y, pos.z, 4)
     if white_area then
-        local pos = Vector3(inst.Transform:GetWorldPosition())
-        entity_list = TheSim:FindEntities(pos.x, pos.y, pos.z, 4)
         for i, entity in pairs(entity_list) do
             if entity.prefab == "endtable" or entity.prefab == "pirate_stash" then
                 -- 茶几 猴子宝藏
