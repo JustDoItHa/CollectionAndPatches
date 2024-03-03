@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "13.6.10.0"
+version = "13.7.10.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -798,26 +798,45 @@ configuration_options[#configuration_options + 1] = AddOption("quick_work", "快
 configuration_options[#configuration_options + 1] = AddOption("Pick", "采集类", "采集、捡起、收获", true)
 configuration_options[#configuration_options + 1] = AddOption("BuildRepair", "建造修复类", "建造、装饰、绘画、修复、缝补、灭火", true)
 configuration_options[#configuration_options + 1] = AddOption("HSHU", "三围升级类", "食用、治疗、学习、升级", true)
+
+configuration_options[#configuration_options + 1] = AddOption("Farming", "农耕", "Drilling, Plant, Assess Happiness, Talk To, Research, Wax, Apply", true)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("RapidGrowth", "成长速率", "成长时间", {
+    { description = "Only Farm Plant", data = 0 },
+    { description = "Farm Plant And Weed", data = 1 },
+    { description = "Only Farm Plant(Oversized)", data = 2 },
+    { description = "Farm Plant(Oversized) And Weed", data = 3 },
+    { description = "Off", data = 999 } }, 0)
 configuration_options[#configuration_options + 1] = AddOption("Animal", "动物类", "抚摸、喂食、杀害、刷毛、刮毛", true)
 configuration_options[#configuration_options + 1] = AddOption("Others", "其他动作", "其他动作加快", true)
-configuration_options[#configuration_options + 1] = AddOption("QuickDry", "晾肉秒干", "肉一挂上晾肉架就风干", false)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("ChopTimes", "砍伐速率", "设置砍倒树木速率", { { description = "立刻", data = 0, hover = "默认" },
+                                                                                                                    { description = "0.25x", data = 0.25 },
+                                                                                                                    { description = "0.5x", data = 0.5 },
+                                                                                                                    { description = "2x", data = 2 },
+                                                                                                                    { description = "关闭", data = 999 }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("MineTime", "开采速率", "设置敲开矿物岩石速率", { { description = "立刻", data = 0, hover = "默认" },
+                                                                                                                      { description = "0.25x", data = 0.25 },
+                                                                                                                      { description = "0.5x", data = 0.5 },
+                                                                                                                      { description = "2x", data = 2 },
+                                                                                                                      { description = "关闭", data = 999 }, }, 0)
+configuration_options[#configuration_options + 1] = AddOption("Cooking", "Cooking", "做饭调味", true)
 configuration_options[#configuration_options + 1] = AddConfigOption("CookTime", "烹饪时间", "按照你设定的时间煮好食物", { { description = "立刻完成", data = 0 },
-                                                                                                                          { description = "只开启快速烤制", data = 998, hover = "默认" },
-                                                                                                                          { description = "15 秒", data = 15 },
-                                                                                                                          { description = "30 秒", data = 30 },
-                                                                                                                          { description = "关闭", data = 999 }, }, 999)
+                                                                                                                          { description = "0.25x", data = 0.25, hover = "四分之一速度" },
+                                                                                                                          { description = "0.5x", data = 0.5 },
+                                                                                                                          { description = "1x", data = 1, hover = "不改变" },
+                                                                                                                          { description = "2x", data = 2, hover = "2倍速度" }, }, 0)
+
+
 configuration_options[#configuration_options + 1] = AddConfigOption("FishTime", "钓鱼时间", "钓鱼时鱼按你设置的时间上钩", { { description = "立刻上钩", data = 0, hover = "默认" },
                                                                                                                             { description = "5 秒", data = 5 },
                                                                                                                             { description = "关闭", data = 999 }, }, 0)
-configuration_options[#configuration_options + 1] = AddConfigOption("QuickGrow", "作物秒熟", "农场种植种子成熟时间调整", { { description = "开启", data = 0 },
-                                                                                                                           { description = "只开启冬天正常生长", data = 1 },
-                                                                                                                           { description = "关闭", data = 999, hover = "默认" }, }, 999)
-configuration_options[#configuration_options + 1] = AddConfigOption("ChopTime", "砍伐次数", "设置砍倒树木的次数", { { description = "1 次", data = 1, hover = "默认" },
-                                                                                                                    { description = "4 次", data = 4 },
-                                                                                                                    { description = "关闭", data = 999 }, }, 1)
-configuration_options[#configuration_options + 1] = AddConfigOption("MineTime", "开采次数", "设置敲开矿物岩石的次数", { { description = "1 次", data = 1 },
-                                                                                                                        { description = "4 次", data = 4 },
-                                                                                                                        { description = "关闭", data = 999, hover = "默认" }, }, 999)
+configuration_options[#configuration_options + 1] = AddConfigOption("QuickDry", "晾晒速率", "晾晒速率", { { description = "立刻", data = 0, hover = "默认" },
+                                                                                                                      { description = "0.25x", data = 0.25 },
+                                                                                                                      { description = "0.5x", data = 0.5 },
+                                                                                                                      { description = "2x", data = 2 },
+                                                                                                                      { description = "关闭", data = 999 }, }, 0)
+
 
 ---陷阱增强
 configuration_options[#configuration_options + 1] = AddOptionHeader("陷阱增强")
@@ -1367,7 +1386,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("SET_HUGE_BO
         }, -1)
 configuration_options[#configuration_options + 1] = AddOptionHeader("月亮控制书籍")
 configuration_options[#configuration_options + 1] = AddOption("add_moon_book_switch", "月亮控制相关书籍开关", "是否可以制作月亮控制相关书籍", false)
-configuration_options[#configuration_options + 1] = AddConfigOption("moon_book_language", "语言/Language", "", { { description = "中文", data = "zhs", hover = "" }, { description = "English", data = "en", hover = "" }},"zhs")
+configuration_options[#configuration_options + 1] = AddConfigOption("moon_book_language", "语言/Language", "", { { description = "中文", data = "zhs", hover = "" }, { description = "English", data = "en", hover = "" } }, "zhs")
 configuration_options[#configuration_options + 1] = AddOption("add_moon_book_new", "增加新月书", "", true)
 configuration_options[#configuration_options + 1] = AddOption("add_moon_book_half", "增加半月书", "", true)
 
@@ -1498,7 +1517,6 @@ configuration_options[#configuration_options + 1] = AddConfigOption("strong_clea
         { { description = "不额外补充名单", data = false }, { description = "自由配置", data = strong_clean_half_white_list_additional } }, false)
 configuration_options[#configuration_options + 1] = AddConfigOption("strong_clean_strong_clean_list_additional_option", "强力清理列表补充", "配置中添加物品列表",
         { { description = "不额外补充名单", data = false }, { description = "自由配置", data = strong_clean_strong_clean_list_additional } }, false)
-
 
 configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_maxnum", "风滚草清理(Tumbleweed Clean)", "超过配置数目风滚草被清理", clean_num_options, 100)
 configuration_options[#configuration_options + 1] = AddConfigOption("evergreen_maxnum", "常青树清理(evergreen Clean)", "超过配置数目常青树被清理", clean_num_options, 1000)
