@@ -397,6 +397,11 @@ end
 if GetModConfigData("add_moon_book_switch") then
     modimport("scripts/moon_book_main.lua")
 end
+--嫦娥mod物品
+if GetModConfigData("mod_change_part_switch") then
+    modimport("cn/mod_change_part_strings.lua")
+    modimport("scripts/mod_change_part_main.lua")
+end
 
 --show me 不与信息显示同时开启
 if GetModConfigData("show_me_switch") and ((not (GetModConfigData("cap_show_info_switch")) and (not modenable("666155465")))) then
@@ -456,9 +461,9 @@ if GetModConfigData("venus_icebox_switches") then
 end
 
 ----船只大小 有错误 带待修复
---if GetModConfigData("new_boats_size_switch") then
---    modimport("scripts/newboats_main.lua")
---end
+if GetModConfigData("new_boats_size_switch") then
+    modimport("scripts/newboats_main.lua")
+end
 
 --龙鳞冰炉
 modimport("scripts/ice_furnace.lua")
