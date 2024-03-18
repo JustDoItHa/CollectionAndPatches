@@ -45,7 +45,7 @@ function keepNDecimalPlaces(decimal, n)
     return decimal
 end
 GLOBAL.keepNDecimalPlaces = keepNDecimalPlaces
-
+TUNING.CAP_MOD_NAME = env.modname
 PrefabFiles = {}
 Assets = {}
 ------加载资源

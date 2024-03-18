@@ -1,6 +1,6 @@
 local containers = require("containers")
 
-local fancyname = "Upgradeable Chest"
+local fancyname = TUNING.CAP_MOD_NAME
 local modname = KnownModIndex:GetModActualName(fancyname)
 local LocalGetModConfigData = function(optionname, get_local_config)
 	return GetModConfigData(optionname, modname, get_local_config)
