@@ -22,9 +22,9 @@ end
 AddPrefabPostInit("container_classified", function(inst)
 	local InitializeSlots = inst.InitializeSlots
 	inst.InitializeSlots = function(inst, numslots, ...)
-        if not GLOBAL.ChestUpgrade.DISABLERS["CONTAINER_C"] then
-    		PreInitializeSlots(inst, numslots)
-        end
+		if not GLOBAL.ChestUpgrade.DISABLERS["CONTAINER_C"] then
+			PreInitializeSlots(inst, numslots)
+		end
 		return InitializeSlots(inst, numslots, ...)
 	end
 end)

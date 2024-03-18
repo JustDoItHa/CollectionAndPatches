@@ -1,87 +1,61 @@
---[[
-params = {
-	all = Ingredient(),			--all slot
-	page = {					--all slot of page[n]
-		[n] = Ingredient(),
-	},
-	side = Ingredient(),		--side, main feature for this mod
-	hollow = true/false,		--should be center empty(ie. except "side")
-	row = {						--all slot of row[n]
-		[n] = Ingredient(),
-	},
-	column = {					--all slot of column[n]
-		[n] = Ingredient(),
-	},
-	center = Ingredient(),		--center-most
-	slot = {					--slot[n]
-		[n] = Ingredient(),
-	},
-	degrade = Ingredient(),		--should do nothing, but return this item when degrade
-			/ function(chestlv) --if function, return "item" and "count"
-}
+local AllUpgradeRecipes = ChestUpgrade.AllUpgradeRecipes
+local COMMONLV = {3,3}
 
-instead of using Ingredient(), a simple string "prefab_name",
-or a function(item, inst, doer) return true/false end
-item: is the item we get from the corresponding container slot,
-inst: is the container
-doer: is player who close the chest
-note that, the return value is not-ed. ie false will keep upgrade, and true stop --going to change it in the future
-
-priority from slot -> all. all has the lowest priority and slot has the highest
-only higher priority will be checked for same slot
-]]
-
-----------------------------------------------------------------
-GLOBAL.ChestUpgrade.AllUpgradeRecipes = {}
-local AUR = GLOBAL.ChestUpgrade.AllUpgradeRecipes
-local commonlv = { 3, 3 }
-
-UpgradeRecipe = Class(function(self, prefab, params, lv, degrade)
+local UpgradeRecipe = Class(function(self, prefab, params, lv, degrade)
     self.prefab = prefab
-    self.params = params
 
-    self.all = params.all
-    self.page = params.page
-    self.side = params.side
-    self.hollow = params.hollow
-    self.row = params.row
-    self.column = params.column
-    self.center = params.center
-    self.slot = params.slot
+    if params == nil then
+        params = {}
+    end
+
+    self.params = {
+        all 	= params.all,
+        page 	= params.page,
+        side 	= params.side,
+        hollow 	= params.hollow,
+        row 	= params.row,
+        column 	= params.column,
+        center 	= params.center,
+        slot 	= params.slot,
+    }
 
     if params.degrade ~= nil or degrade ~= nil then
         self.degrade = degrade or params.degrade or nil
-        if self.params.degrade ~= nil then
-            self.params.degrade = nil
-        end
-    else
-        self.degrade = params.side
     end
 
-    self.lv = params.lv or lv or commonlv
-    if self.params.lv ~= nil then
-        self.params.lv = nil
-    end
+    lv = lv or params.lv or COMMONLV
+    self.lv = Vector3(lv.x or lv[1], lv.y or lv[2], lv.z or lv[3] or 1)
 
-    GLOBAL.ChestUpgrade.AllUpgradeRecipes[self.prefab] = self
+    self.isupgraderecipe = true
+
+    self:AddRecipe()
 end)
 
-function UpgradeRecipe:GetParams(prefab)
-    return self.params ~= nil and self.params or nil
+function UpgradeRecipe:GetParams()
+    return self.params
 end
---[[
-function UpgradeRecipe:AddIngredient(index, ingr)
-	local old_ingr = self.params[index]
-	if type(old_ingr) ~= "table" then
-		self.params[index] = {old_ingr, ingr}
-	else
-		table.insert(self.params[index], ingr)
-	end
+
+function UpgradeRecipe:AddIngredient(index, idx2, ingr, amount)
+    if index == nil or idx2 == nil then return end
+    if type(idx2) ~= "number" then
+        idx2, ingr, amount = nil, idx2, ingr
+    end
+    if ingr == nil then return end
+    if type(ingr) == "string" then
+        ingr = Ingredient(ingr, amount or 1)
+    end
+    if idx2 then
+        if self.params[index] == nil then
+            self.params[index] = {}
+        end
+        self.params[index][idx2] = ingr
+    else
+        self.params[index] = ingr
+    end
 end
-]]
+
 function UpgradeRecipe:ChangeIngredient(index, ingr)
     self.params[index] = ingr
-    self[index] = ingr
 end
 
 function UpgradeRecipe:GetIngredient(index)
@@ -96,20 +70,31 @@ function UpgradeRecipe:RemoveIngredient(index)
     self.params[index] = nil
 end
 
+function UpgradeRecipe:AddRecipe()
+    if AllUpgradeRecipes then
+        AllUpgradeRecipes[self.prefab] = self
+    end
+end
+
 function UpgradeRecipe:RemoveRecipe()
-    GLOBAL.ChestUpgrade.AllUpgradeRecipes[self.prefab] = nil
-end
-
-function UpgradeRecipe:AddBlackList(prefab)
-    if GLOBAL.ChestUpgrade.BlackList == nil then
-        GLOBAL.ChestUpgrade.BlackList = {}
-    end
-    GLOBAL.ChestUpgrade.AllUpgradeRecipes.BlackList[prefab] = true
-    if GLOBAL.ChestUpgrade.AllUpgradeRecipes[prefab] then
-        GLOBAL.ChestUpgrade.AllUpgradeRecipes[prefab] = nil
+    if AllUpgradeRecipes then
+        AllUpgradeRecipes[self.prefab] = nil
     end
 end
 
-GLOBAL.ChestUpgrade.UpgradeRecipe = UpgradeRecipe
+function UpgradeRecipe:AddBlackList()
+    local prefab = self.prefab
+    if AllUpgradeRecipes then
+        if AllUpgradeRecipes.BlackList == nil then
+            AllUpgradeRecipes.BlackList = {}
+        end
+        AllUpgradeRecipes.BlackList[prefab] = self
+        if AllUpgradeRecipes[prefab] then
+            AllUpgradeRecipes[prefab] = nil
+        end
+    end
+end
 
---return UpgradeRecipe
+--ChestUpgrade.UpgradeRecipe = UpgradeRecipe
+
+return UpgradeRecipe

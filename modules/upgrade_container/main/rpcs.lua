@@ -1,6 +1,6 @@
 local checkentity = GLOBAL.checkentity
 ----------------------------------------------------------------
---sync items btw server and client
+--sync items between server and client
 local function sync(inst)
 	local container = inst.components.container
 	if inst.replica.container ~= nil then
@@ -23,10 +23,7 @@ local function CommonSorting(inst)
 	if container.itemlist == nil then
 		container:CreateItemList()
 	end
-	local old_t = {}
-	for i, v in ipairs(container.itemlist.prefabs) do
-		old_t[v] = container.itemlist.slots[i]
-	end
+	local old_t = container.itemlist.prefabs
 	local items = {}
 	for k, v in pairs(container.slots) do
 		items[k] = v
@@ -53,10 +50,7 @@ local function Sorting(inst)
 	if container.itemlist == nil then
 		container:CreateItemList()
 	end
-	local old_t = {}
-	for i, v in ipairs(container.itemlist.prefabs) do
-		old_t[v] = container.itemlist.slots[i]
-	end
+	local old_t = container.itemlist.prefabs
 	local items = {}
 	for k, v in pairs(container.slots) do
 		items[k] = v
@@ -105,8 +99,8 @@ local function BetterSorting(inst)
 	if container.itemlist == nil then
 		container:CreateItemList()
 	end
-	local old_t = container.itemlist.prefabs
-	local tablesize = #old_t
+	--local old_t = container.itemlist.prefabs
+	local tablesize = container.itemlist.species
 	if tablesize > 1 and tablesize <= maxline then
 		Sorting(inst)
 	else
@@ -125,7 +119,7 @@ zone	no.of slots
 5		if rest < 6 then rest else again
 ]]
 local function ZoneSort(inst)
-	
+
 end
 
 ----------------------------------------------------------------
@@ -340,9 +334,9 @@ end
 local function rpcwrap(fn)
 	return function(doer, inst)
 		if checkentity(inst)
-		and inst.components ~= nil
-		and (inst.components.container ~= nil
-		or inst.components.chestupgrade ~= nil) then
+				and inst.components ~= nil
+				and (inst.components.container ~= nil
+				or inst.components.chestupgrade ~= nil) then
 			fn(doer, inst)
 		end
 	end

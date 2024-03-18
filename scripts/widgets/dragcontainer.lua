@@ -113,6 +113,10 @@ function DragContainer:TempSlotPos()
 	return pos
 end
 
+local function getpage(self)
+	return self:GetParent().chestpage ~= nil and self:GetParent().chestpage.currentpage or 1
+end
+
 function DragContainer:ShowSection()
 	local inv = self:GetParent().inv
 	if inv == nil then return end
@@ -130,7 +134,7 @@ function DragContainer:ShowSection()
 
 	local pos = self:TempSlotPos()
 	local j = 0
-	local z = self:GetParent().chestpage ~= nil and self:GetParent().chestpage.currentpage or 1
+	local z = getpage(self)
 
 	for y = y_start, y_end do
 		for x = x_start, x_end do
@@ -150,17 +154,14 @@ function DragContainer:BuildItemList(list)
 	local page_total = tx * ty
 
 	for k, v in pairs(list) do
-		local atlas, image
-		if v then
-			local inventoryitem = v.replica.inventoryitem
-			atlas = inventoryitem:GetAtlas()
-			image = inventoryitem:GetImage()
-		end
+		local inventoryitem = v.replica.inventoryitem
+		local atlas = inventoryitem:GetAtlas()
+		local image = inventoryitem:GetImage()
 
 		while k > page_total do
 			page = page + 1
-			page_total = page_total + page * tx * ty
 		end
+		page_total = page_total + page * tx * ty
 		local ItemGroup = self.imageroot.pages[page]
 		if ItemGroup == nil then
 			ItemGroup = self.imageroot:AddChild(Widget())
@@ -216,7 +217,7 @@ function DragContainer:UpdateItem(data)
 end
 
 function DragContainer:Refresh()
-	local currentpage = self:GetParent().chestpage ~= nil and self:GetParent().chestpage.currentpage or 1
+	local currentpage = getpage(self)
 	for k, v in pairs(self.imageroot.pages) do
 		v:Hide()
 	end

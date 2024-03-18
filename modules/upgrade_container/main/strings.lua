@@ -35,15 +35,26 @@ local DESCRIBE = {
 
 local index = {
 	STRINGS = function(loc)
+		local lang = "en"
+		for _, v in ipairs(LANGUAGE) do
+			if loc == v then
+				lang = loc
+				break
+			end
+		end
 		return {
-			DROPALLTEXT	= DROPALLTEXT[loc],
-			DROPHOVER 	= DROPHOVER[loc],
-			SORTTEXT	= SORTTEXT[loc],
+			DROPALLTEXT	= DROPALLTEXT[lang],
+			DROPHOVER 	= DROPHOVER[lang],
+			SORTTEXT	= SORTTEXT[lang],
 		}
 	end,
 	INSIGHT = DESCRIBE,
 }
 
-function GetString(i)
+function env.GetString(i)
 	return index[i]
 end
+
+local loc = GLOBAL.LOC.GetLocaleCode()
+
+GLOBAL.STRINGS.UPGRADEABLECHEST = GetString("STRINGS")(loc)

@@ -10,19 +10,6 @@ local function AddToList(itemlist, item, iscrafting)
 	itemlist[prefab] = (itemlist[prefab] or 0) + stack
 end
 
-local function GetOverflowContainer(inst)
-	if inst.ignoreoverflow then
-		return
-	end
-
-	local eslot = GLOBAL.EQUIPSLOTS.BACK or GLOBAL.EQUIPSLOTS.BODY
-	local item = inst._equipspreview ~= nil and inst._equipspreview[eslot]
-		or inst._equips[eslot] ~= nil and inst._equips[eslot]:value()
-		or nil
-
-	return item ~= nil and item.replica.container or nil
-end
-
 local function CreateItemList(inst, checkallcontainers)
 	local iscrafting = checkallcontainers
 	local itemlist = inst.itemlist
@@ -37,44 +24,44 @@ local function CreateItemList(inst, checkallcontainers)
 		AddToList(itemlist, item, iscrafting)
 	end
 
-    if inst._itemspreview ~= nil then
-        for i, v in ipairs(inst._items) do
-            local item = inst._itemspreview[i]
+	if inst._itemspreview ~= nil then
+		for i, v in ipairs(inst._items) do
+			local item = inst._itemspreview[i]
 			AddToList(itemlist, item, iscrafting)
 		end
-    else
-        for i, v in ipairs(inst._items) do
-            local item = v:value()
+	else
+		for i, v in ipairs(inst._items) do
+			local item = v:value()
 			if item ~= nil and item ~= inst._activeitem then
 				AddToList(itemlist, item, iscrafting)
 			end
-        end
-    end
+		end
+	end
 
-    local overflow = GetOverflowContainer(inst)
-    if overflow ~= nil then
+	local overflow = inst:GetOverflowContainer()
+	if overflow ~= nil then
 		local items = overflow:GetItems()
-        for _, item in pairs(items) do
+		for _, item in pairs(items) do
 			AddToList(itemlist, item, iscrafting)
 		end
 	end
 
-    if checkallcontainers then
-        local inventory_replica = inst and inst._parent and inst._parent.replica.inventory
-        local containers = inventory_replica and inventory_replica:GetOpenContainers()
+	if checkallcontainers then
+		local inventory_replica = inst and inst._parent and inst._parent.replica.inventory
+		local containers = inventory_replica and inventory_replica:GetOpenContainers()
 
-        if containers then
-            for container_inst in pairs(containers) do
-                local container = container_inst.replica.container or container_inst.replica.inventory
-                if container and container ~= overflow and not container.excludefromcrafting then
+		if containers then
+			for container_inst in pairs(containers) do
+				local container = container_inst.replica.container or container_inst.replica.inventory
+				if container and container ~= overflow and not container.excludefromcrafting then
 					local items = container.GetItems ~= nil and container:GetItems() or {}
 					for _, item in pairs(items) do
 						AddToList(itemlist, item, iscrafting)
 					end
 				end
-            end
-        end
-    end
+			end
+		end
+	end
 
 	return itemlist
 end

@@ -3,7 +3,7 @@ local ImageButton = require("widgets/imagebutton")
 local ChestPage = require("widgets/chestpage")
 local DragContainer = require("widgets/dragcontainer")
 local Text = require("widgets/text")
-local SeachChest = require("widgets/searchchest")
+local ChestSearcher = require("widgets/searchchest")
 
 local STRINGS = GLOBAL.STRINGS.UPGRADEABLECHEST
 local SORTTEXT = STRINGS.SORTTEXT
@@ -12,20 +12,6 @@ local DROPHOVER = STRINGS.DROPHOVER
 
 local Vector3 = GLOBAL.Vector3
 local TheInput = GLOBAL.TheInput
-
---[[
-ShowGuide;		Show Guide
-AddPageBtn;		Page btn
-AddDragWidget;	Draggable widget
-AddSearchBar;	Search Bar
-UselessBtn;		Useless btn
-NEW_Open;		Open
-NEW_Close;		Close
-ShowSearchBar;	Search bar
-MakeQuickSplit;	Quick Split
-MakeDraggable;	Draggable
-NEW_OnItemGet;	OnItemChange
-]]
 
 --------------------------------------------------
 local function GetAlignPos(size, align, offset)
@@ -54,6 +40,42 @@ end
 local PositionRecord = {}
 
 --------------------------------------------------
+local function BGReScale(self, widget)
+	if widget.bgscale ~= nil then
+		self.bganim:SetScale(widget.bgscale)
+		self.bgimage:SetScale(widget.bgscale)
+	end
+	if widget.bgshift ~= nil then
+		self.bganim:SetPosition(widget.bgshift)
+		self.bgimage:SetPosition(widget.bgshift)
+	end
+end
+
+--------------------------------------------------
+local function AddPageBtn(self, container)
+	local lv_x, lv_y, lv_z = container.replica.chestupgrade:GetLv()
+	local show = lv_x * lv_y
+
+	if self.chestpage == nil then
+		self.chestpage = self:AddChild(ChestPage(self.inv, show, #self.inv, container))
+	end
+	if container.replica.container:IsSideWidget() then
+		local inv = self.inv
+		local getmidptx = math.floor((inv[1]:GetPosition().x + inv[lv_x]:GetPosition().x) / 2)
+		self.chestpage:SetPosition(getmidptx, 0, 0)
+		self.chestpage:PageChange(0)
+	else
+		self.chestpage.defaultpos = GetAlignPos({lv_x, lv_y}, 0, 40)
+		self.chestpage:SetPosition(self.chestpage.defaultpos)
+		self.chestpage:PageChange(0)
+		if GetModConfigData("SHOWALLPAGE", true) then
+			self.chestpage.allpage = true
+			self.chestpage:ShowAllPage()
+		end
+	end
+end
+
+--------------------------------------------------
 --Show Guide
 local function ShowGuide(self, container)
 	local chestupgrade = container.replica.chestupgrade
@@ -70,34 +92,14 @@ local function ShowGuide(self, container)
 end
 
 --------------------------------------------------
---Page btn
-local function AddPageBtn(self, container)
-	local lv_x, lv_y, lv_z = container.replica.chestupgrade:GetLv()
-	local show = lv_x * lv_y
-	if self.chestpage == nil then
-		self.chestpage = self:AddChild(ChestPage(self.inv, show, #self.inv, container))
-	else
-		self.chestpage.inv = self.inv
-		self.chestpage.show = show
-		self.chestpage.total = #self.inv
-		self.chestpage.container = container
-		self.chestpage:ReBuild()
-		self.chestpage:Show()
-	end
-	if container.replica.container:IsSideWidget() then
-		local inv = self.inv
-		local getmidptx = math.floor((inv[1]:GetPosition().x + inv[lv_x]:GetPosition().x) / 2)
-		--local getmidpty = math.floor((inv[1]:GetPosition().y + inv[#inv]:GetPosition().y) / 2)
-		self.chestpage:SetPosition(getmidptx, 0, 0)
-		self.chestpage:PageChange(0)
-	else
-		self.chestpage.defaultpos = GetAlignPos({lv_x, lv_y}, 0, 40)
-		self.chestpage:SetPosition(self.chestpage.defaultpos)
-		self.chestpage:PageChange(0)
-		if GetModConfigData("SHOWALLPAGE", true) then
-			self.chestpage.allpage = true
-			self.chestpage:ShowAllPage()
-		end
+--Don't Block Cooker
+local function DontBlockCooker(self, container, doer)
+	local widget = container.replica.container:GetWidget()
+	local isonboat = doer:GetCurrentPlatform() ~= nil
+	local isfreezer = GetModConfigData("UI_ICEBOX", true) and (container.prefab == "icebox" or container.prefab == "saltbox")
+	if widget.pos ~= nil and (isonboat or isfreezer) then
+		local rhs = Vector3(-140, 0, 0)
+		self:SetPosition(widget.pos + rhs)
 	end
 end
 
@@ -137,15 +139,15 @@ local function AddDragWidget(self, container, drag, uipos)
 	self.dw_update = function(inst, data)
 		self.dragwidget:UpdateItem(data)
 	end
-    self.inst:ListenForEvent("itemlose", self.dw_update, container)
-    self.inst:ListenForEvent("itemget", self.dw_update, container)
+	self.inst:ListenForEvent("itemlose", self.dw_update, container)
+	self.inst:ListenForEvent("itemget", self.dw_update, container)
 end
 
 --------------------------------------------------
 --Search Bar
 local function AddSearchBar(self, container, uipos)
 	if self.searchbar == nil then
-		self.searchbar = self:AddChild(SeachChest(container, uipos))
+		self.searchbar = self:AddChild(ChestSearcher(container, uipos))
 	else
 		self.searchbar.container = container
 	end
@@ -187,7 +189,7 @@ end
 
 --Useless btn
 local UselessBtn = Class(Widget, function(self, button, sorting, dropall)
-    Widget._ctor(self, "ChestUpgrade_ULB")
+	Widget._ctor(self, "ChestUpgrade_ULB")
 
 	self.buttons = {}
 	if button then
@@ -237,29 +239,20 @@ local UselessBtn = Class(Widget, function(self, button, sorting, dropall)
 	local POS = -(#self.buttons - 1) * SEP / 2 - SEP
 	for i, btn in ipairs(self.buttons) do
 		btn:SetPosition(POS + SEP * i, 0, 0)
-		--self.dropallbtn:SetPosition(40, 0, 0)
-		--self.sortitembtn:SetPosition(-40, 0, 0)
 	end
 end)
 
 --------------------------------------------------
---Open
 local function NEW_Open(self, container, doer, ...)
 	local chestupgrade = container.replica.chestupgrade
 	if chestupgrade == nil then return end
-	local lv_x, lv_y, lv_z = chestupgrade:GetLv()
+
 	--change the bg scale
 	local widget = container.replica.container:GetWidget()
-	if widget.bgscale ~= nil then
-		self.bganim:SetScale(widget.bgscale)
-		self.bgimage:SetScale(widget.bgscale)
-	end
-	if widget.bgshift ~= nil then
-		self.bganim:SetPosition(widget.bgshift)
-		self.bgimage:SetPosition(widget.bgshift)
-	end
+	BGReScale(self, widget)
 
 	--shows the pageable button
+	local lv_x, lv_y, lv_z = chestupgrade:GetLv()
 	if lv_z ~= nil and lv_z > 1 then
 		AddPageBtn(self, container)
 	end
@@ -277,16 +270,11 @@ local function NEW_Open(self, container, doer, ...)
 	--shift the widget leftward if you are on the boat, or the container is icebox or saltbox
 	local uipos = GetModConfigData("UI_WIDGETPOS", true)
 	if uipos then
-		local isonboat = doer:GetCurrentPlatform() ~= nil 
-		local isfreezer = GetModConfigData("UI_ICEBOX", true) and (container.prefab == "icebox" or container.prefab == "saltbox")
-		if widget.pos ~= nil and (isonboat or isfreezer) then	
-			local rhs = Vector3(-140, 0, 0)
-			self:SetPosition(widget.pos + rhs)
-		end
+		DontBlockCooker(self, container, doer)
 	end
 
-	if PositionRecord[container.prefab] then
-		self:SetPosition(PositionRecord[container.prefab])
+	if PositionRecord[container.type] then
+		self:SetPosition(PositionRecord[container.type])
 	end
 
 	--draggable widget
@@ -303,11 +291,7 @@ local function NEW_Open(self, container, doer, ...)
 	--useless button
 	local sorting, dropall = GetModConfigData("SORTITEM", true), GetModConfigData("DROPALL", true)
 	if sorting or dropall then
-		if self.chestupgrade_ulb == nil then
-			self.chestupgrade_ulb = self:AddChild(UselessBtn(self.button, sorting, dropall))
-		else
-			self.chestupgrade_ulb:Show()
-		end
+		self.chestupgrade_ulb = self:AddChild(UselessBtn(self.button, sorting, dropall))
 		self.chestupgrade_ulb:SetPosition(GetAlignPos({lv_x, lv_y}, 3, 20))
 	end
 end
@@ -406,20 +390,20 @@ local function OnDoubleClick(self, control, down)
 	end
 end
 
-local function AddSearchBarPreSet(self)
-	local BGAnimOnControl = self.bganim.OnControl
-	function self.bganim:OnControl(...)
-		if BGAnimOnControl ~= nil then
-			BGAnimOnControl(self, ...)
-		end
-		OnDoubleClick(self, ...)
+local function OnControlBG(bg, ...)
+	if bg.oldOnControl ~= nil then
+		bg:oldOnControl(...)
 	end
-	local BGImageOnControl = self.bgimage.OnControl
-	function self.bgimage:OnControl(...)
-		if BGImageOnControl ~= nil then
-			BGImageOnControl(self, ...)
+	OnDoubleClick(bg, ...)
+end
+
+local function AddSearchBarPreSet(self)
+	local bg = self.bganim or self.bgimage
+	if bg then
+		if bg.oldOnControl == nil then
+			bg.oldOnControl = bg.OnControl
 		end
-		OnDoubleClick(self, ...)
+		bg.OnControl = OnControlBG
 	end
 end
 
@@ -427,8 +411,8 @@ end
 --Quick Split
 local function Highlight(slot, ...)
 	local container_widget = slot:GetParent()
-	local pressing = TheInput:IsControlPressed(GLOBAL.CONTROL_PUTSTACK) 
-				or (TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_STACK) and TheInput:IsControlPressed(GLOBAL.CONTROL_PRIMARY))
+	local pressing = TheInput:IsControlPressed(GLOBAL.CONTROL_PUTSTACK)
+			or (TheInput:IsControlPressed(GLOBAL.CONTROL_FORCE_STACK) and TheInput:IsControlPressed(GLOBAL.CONTROL_PRIMARY))
 
 	if pressing then
 		local active_item = GLOBAL.ThePlayer.replica.inventory:GetActiveItem() or nil
@@ -584,7 +568,6 @@ local function NEW_OnItemLose(self, data)
 	end
 end
 
---------------------------------------------------
 AddClassPostConstruct("widgets/containerwidget", function(self)
 	local OLD_Open = self.Open
 	function self:Open(...)

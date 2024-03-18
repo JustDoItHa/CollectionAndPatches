@@ -15,8 +15,10 @@ local texture = {
 	},
 }
 
-local SearchChest = Class(Widget, function(self, container, rotate)
-    Widget._ctor(self, "SearchChest")
+local SHOWMAX = 5
+
+local ChestSearcher = Class(Widget, function(self, container, rotate)
+    Widget._ctor(self, "ChestSearcher")
 
 	self.bganim = self:AddChild(UIAnim())
 	self.bganim:SetPosition(100, 0, 0)
@@ -27,7 +29,7 @@ local SearchChest = Class(Widget, function(self, container, rotate)
 
 	self.container = container
 
-	self.show = {5, 5}
+	self.show = {SHOWMAX, SHOWMAX}
 	self.rotate = rotate
 
 	self.itemlist = self:CreateItemList()
@@ -50,13 +52,17 @@ itemlist[item.prefab] = {
 }
 ]]
 
-function SearchChest:CreateItemList()
+function ChestSearcher:CreateItemList()
 	local itemlist = {}
 	local allitems = self.container.replica.container:GetItems()
 	for slot, item in pairs(allitems) do
 		if item ~= nil then
+			local inventoryitem = item.replica.inventoryitem
 			if itemlist[item.prefab] == nil then
-				itemlist[item.prefab] = {}
+				itemlist[item.prefab] = {
+					_image = inventoryitem:GetImage(),
+					_atlas = inventoryitem:GetAtlas(),
+				}
 			end
 			local stack = GetStackSize(item)
 			table.insert(itemlist[item.prefab], slot)
@@ -66,7 +72,7 @@ function SearchChest:CreateItemList()
 	return itemlist
 end
 
-function SearchChest:TempSlotPos()
+function ChestSearcher:TempSlotPos()
 	local pos = {}
 	for y = self.show[2], 1, -1 do
 		for x = 1, self.show[1] do
@@ -76,19 +82,11 @@ function SearchChest:TempSlotPos()
 	return pos
 end
 
-local QUAGMIRE_PORTS = {
-	"tomato",
-	"onion",
-}
-
-function SearchChest:MakeListItem(prefab)
+function ChestSearcher:MakeListItem(prefab)
 	local slot = Image(texture.slot.atlas, texture.slot.image)
 	slot.item = prefab
-	local image = prefab..".tex"
-	if prefab == "tomato" or prefab == "onion" then
-		image = "quagmire_"..image
-	end
-	local atlas = GetInventoryItemAtlas(image)
+	local image = self.itemlist[prefab]._image or (prefab..".tex")
+	local atlas = self.itemlist[prefab]._atlas or GetInventoryItemAtlas(image)
 	slot.bgimage = slot:AddChild(Image(atlas, image))
 	local checkbox = TEMPLATES.LabelCheckbox(function(box)
 		local item = box:GetParent().item
@@ -112,7 +110,7 @@ function SearchChest:MakeListItem(prefab)
 	return slot
 end
 
-function SearchChest:QueueRefresh(prefab, new)
+function ChestSearcher:QueueRefresh(prefab, new)
 	if new then
 		for i, v in ipairs(self.queue.kill) do
 			if v == prefab then
@@ -132,7 +130,7 @@ function SearchChest:QueueRefresh(prefab, new)
 	end
 end
 
-function SearchChest:RefreshSpinner()
+function ChestSearcher:RefreshSpinner()
 	for i, prefab in ipairs(self.queue.kill) do
 		for _, v in ipairs(self.spinner.items) do
 			if v.item == prefab then
@@ -149,7 +147,7 @@ function SearchChest:RefreshSpinner()
 	cleartable(self.queue.add)
 end
 
-function SearchChest:OnItemGet(data)
+function ChestSearcher:OnItemGet(data)
 	local prefab = data.item.prefab
 	--if self.itemlist == nil then
 	--	self.itemlist = self:CreateItemList()
@@ -175,7 +173,7 @@ function SearchChest:OnItemGet(data)
 	end
 end
 
-function SearchChest:OnItemLose(data)
+function ChestSearcher:OnItemLose(data)
 	local tile = self:GetParent().inv[data.slot].tile
 	if tile ~= nil then
 		local prefab = tile.item.prefab
@@ -213,49 +211,41 @@ function SearchChest:OnItemLose(data)
 	--self:RefreshSlot()
 end
 
---I hate this, but I have no other idea
-function SearchChest:RelocateParent(init)
+function ChestSearcher:RelocateParent(init)
 	local parent = self:GetParent()
 	local widget = self.container.replica.container:GetWidget()
 	local chestupgrade = self.container.replica.chestupgrade
+
 	if chestupgrade == nil then return end
+
 	local lv_x, lv_y = chestupgrade:GetLv()
-	if not init and widget.bgscale ~= nil and (lv_x >= 5 or lv_y >= 5) then
-		parent.bganim:SetScale(widget.bgscale.x * 5 / lv_x, widget.bgscale.y * 5 / lv_y, 1)
-		parent.bgimage:SetScale(widget.bgscale.x * 5 / lv_x, widget.bgscale.y * 5 / lv_y, 1)
-		if parent:GetPosition() == widget.pos then
-			local pos
-			if self.rotate then
-				pos = Vector3(-190, 0, 0)
-			else
-				pos = Vector3(0, 230, 0)
-			end
-			parent:SetPosition(pos)
-		end
-		if self.rotate then
-			self:SetPosition(0, 400, 0)
-		else
-			self:SetPosition(460, 0, 0)
-		end
-	else
-		self.show[1] = math.min(lv_x, self.show[1])
-		self.show[2] = math.min(lv_y, self.show[2])
-		if widget.bgscale ~= nil then
-			parent.bganim:SetScale(widget.bgscale)
-			parent.bgimage:SetScale(widget.bgscale)
-		else
-			parent.bganim:SetScale(1, 1, 1)
-			parent.bgimage:SetScale(1, 1, 1)
-		end
-		if self.rotate then
-			self:SetPosition(0, 240 + 40 * (lv_y - 1), 0)
-		else
-			self:SetPosition(300 + 40 * (lv_x - 1), 0, 0)
-		end
-	end
+
+	local parent_pos_x = (self.rotate and -190) or 0
+	local parent_pos_y = (not self.rotate and 230) or 0
+	local parent_pos = (init and widget.pos) or Vector3(parent_pos_x, parent_pos_y, 0)
+
+	parent:SetPosition(parent_pos)
+
+	self.show[1] = math.min(lv_x, SHOWMAX)
+	self.show[2] = math.min(lv_y, SHOWMAX)
+
+	local show_x = (init and lv_x) or math.min(SHOWMAX, lv_x)
+	local show_y = (init and lv_y) or math.min(SHOWMAX, lv_y)
+
+	local scale_x = widget.bgscale ~= nil and widget.bgscale.x or 1
+	local scale_y = widget.bgscale ~= nil and widget.bgscale.y or 1
+	local scale = Vector3(scale_x * show_x / lv_x, scale_y * show_y / lv_y, 1)
+
+	parent.bganim:SetScale(scale)
+	parent.bgimage:SetScale(scale)
+
+	local pos_x = (not self.rotate and 260 + 40 * show_x) or 0
+	local pos_y = (self.rotate and 200 + 40 * show_y) or 0
+
+	self:SetPosition(pos_x, pos_y, 0)
 end
 
-function SearchChest:RefreshSlot()
+function ChestSearcher:RefreshSlot()
 	--if self:IsVisible() then return end
 	local allslots = self:GetParent().inv
 	if #self.selected > 0 then
@@ -293,7 +283,7 @@ function SearchChest:RefreshSlot()
 	end
 end
 
-function SearchChest:Reset()
+function ChestSearcher:Reset()
 	local items = self.spinner.items
 	for i, v in ipairs(items) do
 		local cb = v.checkbox
@@ -340,7 +330,7 @@ local function DoDragScroll(self)
     end
 end
 
-function SearchChest:Initialize()
+function ChestSearcher:Initialize()
 	for k, v in pairs(self.itemlist) do
 		local slot = self:MakeListItem(k)
 		table.insert(self.inv, slot)
@@ -351,4 +341,4 @@ function SearchChest:Initialize()
 	end
 end
 
-return SearchChest
+return ChestSearcher

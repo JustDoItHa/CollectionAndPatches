@@ -59,79 +59,132 @@ local ChestPage = Class(Widget, function(self, inv, show, total, container)
 	self:SetBtnHlt()
 end)
 
--- c_select().components.chestupgrade:SetChestLv(3,3,3)
--- local X_SEP = 80
--- local Y_SEP = 80
--- local Z_SEP = 40
+function ChestPage:OnControl(control, down, force)
+    if ChestPage._base.OnControl(self, control, down) then return true end
+
+    if down and ((self.focus and self:IsVisible()) or force) then
+        if control == CONTROL_SCROLLBACK then
+			self:PageChange(-1)
+            return true
+        elseif control == CONTROL_SCROLLFWD then
+			self:PageChange(1)
+            return true
+        end
+    end
+end
+
+local function SetJumpWidgetPos(widget, page_numslots, currentpage, allslots)
+	local last_slot = page_numslots * currentpage
+	local first_slot = last_slot - page_numslots + 1
+
+	local first_pos = allslots[first_slot]
+	local last_pos = allslots[last_slot]
+
+	local pos = (first_pos + last_pos) / 2
+	widget:SetPosition(pos)
+
+	return pos
+end
+
 function ChestPage:ShowAllPage()
 	self.pgupbtn:Hide()
 	self.pgdnbtn:Hide()
+
+	local parent = self:GetParent()
+	self.parentpos = parent:GetPosition()
+
 	local maxpage = math.ceil(self.total / self.show)
 	local lv_x, lv_y, lv_z = self.container.replica.chestupgrade:GetLv()
 	local zx, zy = math.min(lv_z, HORIZONTAL), math.ceil(lv_z / HORIZONTAL)
-	self.parentpos = self:GetParent():GetPosition()
-	for zz = zy, 1, -1 do
+
+	local page_numslots = lv_x * lv_y
+	local slotpos_ref = self.container.replica.container.widget.slotpos
+	local slot = 1
+	local SEP = Vector3()
+	SEP.x = (80 * lv_x + 40)
+	SEP.y = -(80 * lv_y + 40)
+	for zz = zy , 1, -1 do
 		for z = 1, zx do
-			for y = lv_y, 1, -1 do
-				for x = 1, lv_x do
-					local slot = (zy * zx - zz * zx + z - 1) * self.show + (lv_y - y) * lv_x + x
-					if slot > #self.inv then break end
-					local ZX_SEP = (2 * z - zx - 1) * (40 * lv_x + 20)
-					local ZY_SEP = (2 * zz - zy - 1) * (40 * lv_y + 20)
-					local pos = Vector3(80 * x - 40 * lv_x - 40 + ZX_SEP, 80 * y - 40 * lv_y - 40 + ZY_SEP, 0)
-					self.inv[slot]:SetPosition(pos)
-					self.inv[slot]:Show()
-				end
+			local offset = Vector3()
+			offset.x = z - zx / 2 - 1
+			offset.y = zz - zy / 2 - 1
+			for i = 1, page_numslots do
+				local pos = slotpos_ref[slot] + SEP * offset
+				self.inv[slot]:SetPosition(pos)
+				self.inv[slot]:Show()
+				slot = slot + 1
 			end
 		end
 	end
+
 	if zy == 1 then
 		local position_x = self.inv[#self.inv]:GetPositionXYZ() + 70
 		self:SetPosition(position_x, 0, 0)
 		local pos = Vector3(0, 80 + 30 * lv_y, 0)
-		self:GetParent():SetPosition(pos)
+		parent:SetPosition(pos)
 	else
 		local inv = lv_x * lv_y * HORIZONTAL
 		local position_x = self.inv[inv]:GetPositionXYZ() + 70
 		self:SetPosition(position_x, 0, 0)
-		self:GetParent():SetPosition(0, 0, 0)
+		parent:SetPosition(0, 0, 0)
 	end
+
+	self.jumpwidget = self:AddChild(Image("images/plantregistry.xml", "oversizedpicturefilter.tex"))
+	self.jumpwidget:SetScale(lv_x / 3, lv_y / 3, 1)
+	SetJumpWidgetPos(self.jumpwidget, page_numslots, self.currentpage, self.inv)
+
+	local parent_onclick = parent.onclick
+	self.jumpwidget.parent_onclick = parent_onclick
+	parent.onclick = function()
+		local page = 0
+		self:SetPage(page)
+		self:ShowOnePage()
+	end
+
 	local blv = self.container.replica.chestupgrade.baselv
 	local xoffset, yoffset = (zx - 1) * blv.x / 20, (zy - 1) * blv.y / 12
-	self:GetParent().bganim:SetScale(zx * lv_x / blv.x + xoffset, zy * lv_y / blv.y + yoffset, 1)
+
+	if parent.bganim then
+		parent.bganim:SetScale(zx * lv_x / blv.x + xoffset, zy * lv_y / blv.y + yoffset, 1)
+	elseif parent.bgimage then
+		parent.bgimage:SetScale(zx * lv_x / blv.x + xoffset, zy * lv_y / blv.y + yoffset, 1)
+	end
+
 	self.allpage = true
-	if self:GetParent().dragwidget then
-		self:GetParent().dragwidget:Hide()
+
+	if parent.dragwidget then
+		parent.dragwidget:Hide()
 	end
 end
 
 function ChestPage:ShowOnePage()
 	self.pgupbtn:Show()
 	self.pgdnbtn:Show()
+	local parent = self:GetParent()
 	if self.parentpos ~= nil then
-		self:GetParent():SetPosition(self.parentpos)
+		parent:SetPosition(self.parentpos)
 	end
 	if self.defaultpos ~= nil then
 		self:SetPosition(self.defaultpos)
 	end
 	local lv_x, lv_y, lv_z = self.container.replica.chestupgrade:GetLv()
-	local slot = 0
-	for z = 1, lv_z do
-		for y = lv_y, 1, -1 do
-			for x = 1, lv_x do
-				slot = slot + 1
-				local pos = Vector3(80 * x - 40 * lv_x - 40, 80 * y - 40 * lv_y - 40, 0)
-				self.inv[slot]:SetPosition(pos)
-			end
-		end
+	local widget = self.container.replica.container.widget
+	local slotpos_ref = widget.slotpos
+	for slot = 1, #slotpos_ref do
+		local pos = slotpos_ref[slot]
+		self.inv[slot]:SetPosition(pos)
 	end
 	self:PageChange(0)
 	local lv_x, lv_y, lv_z = self.container.replica.chestupgrade:GetLv()
 	local blv = self.container.replica.chestupgrade.baselv
-	self:GetParent().bganim:SetScale(lv_x / blv.x, lv_y / blv.y, 1)
+	if parent.bganim ~= nil then
+		parent.bganim:SetScale(widget.bgscale)
+	elseif parent.bgimage ~= nil then
+		parent.bganim:SetScale(widget.bgscale)
+	end
 	self.allpage = false
-	if self:GetParent().dragwidget then
-		self:GetParent().dragwidget:Show()
+	if parent.dragwidget then
+		parent.dragwidget:Show()
 	end
 end
 

@@ -43,7 +43,7 @@ local function NEW_Rebuild(self)
 			local slottogo = num
 			self.backpackpage = self.bottomrow:AddChild(ChestPage(self.backpackinv, show, slottogo, overflow.inst))
 			self.backpackpage:SetPosition(self.inv[2]:GetPosition().x, 0, 0)
-			for n = 1, math.ceil(num / show) do 
+			for n = 1, math.ceil(num / show) do
 				for k = 1, math.min(show, slottogo) do
 					local slot = self.backpackinv[(n - 1) * show + k]
 					local inv = k + 3
@@ -80,7 +80,7 @@ local function NEW_OnControl(self, control, down, ...)
 	end
 	if control == GLOBAL.CONTROL_SCROLLBACK or control == GLOBAL.CONTROL_SCROLLFWD then
 		local chestpage = (self.current_list == self.backpackinv) and self.backpackpage
-						or self.active_slot:GetParent().chestpage
+				or self.active_slot:GetParent().chestpage
 		if chestpage then
 			local delta = control == GLOBAL.CONTROL_SCROLLBACK and -1 or 1
 			chestpage:PageChange(delta)
@@ -238,8 +238,8 @@ AddClassPostConstruct("widgets/inventorybar", function(self)
 	local OLD_OnControl = self.OnControl
 	function self:OnControl(control, down, ...)
 		return NEW_OnControl(self, control, down, ...)
-			or OLD_OnControl(self, control, down, ...)
-			or nil
+				or OLD_OnControl(self, control, down, ...)
+				or nil
 	end
 
 	--controller

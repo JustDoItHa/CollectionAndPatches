@@ -18,7 +18,7 @@ local function OnChestLv(inst)
 		chestupgrade.chestlv.y = bit.rshift(clv, 4)
 	else
 		chestupgrade.chestlv.x = bit.band(clv, 63)
-		chestupgrade.chestlv.y = bit.rshift(bit.band(clv, 4032), 6)
+		chestupgrade.chestlv.y = bit.band(bit.rshift(clv, 6), 63)
 		chestupgrade.chestlv.z = bit.rshift(clv, 12)
 	end
 	chestupgrade:UpdateWidget()
@@ -85,55 +85,86 @@ end
 
 function ChestUpgrade:CreateCheckTable(data)
 	if data == nil then
-		data = AllUpgradeRecipes[self.inst.prefab] or {}
+		data = AllUpgradeRecipes:GetParams(self.inst.prefab)
 	end
 
-	local TR, y = self:GetLv()
+	if data == nil then return {} end
+
+	local x, y, z = self:GetLv()
+
+	local TL = 1
+	local TR = x
 	local BR = TR * y
 	local BL = BR - TR + 1
 
 	local slot = {}
-	local all = data.all or false
-	for i = 1, BR do
-		slot[i] = all
-	end
+	for page = 1, z do
+		--local all = data.all or false
+		for i = 1, BR do
+			slot[i] = (data.page ~= nil and data.page[page]) or data.all or false
+		end
 
-	if data.side then
-		for i = 1, TR do slot[i] = data.side end
-		for i = BL , BR do slot[i] = data.side end
-		for i = 1, BL, TR do slot[i] = data.side end
-		for i = TR, BR, TR do slot[i] = data.side end
-	end
+		local n = BR * (page - 1)
+		if data.side then
+			for i = 1, TR do slot[i+n] = data.side end
+			for i = BL, BR do slot[i+n] = data.side end
+			for i = 1, BL, TR do slot[i+n] = data.side end
+			for i = TR, BR, TR do slot[i+n] = data.side end
+		end
 
-	if data.hollow then
-		for k = 1, TR - 2 do
-			for i = k * TR + 2, k * TR + TR - 1 do
-				slot[i] = false
+		if data.hollow then
+			for k = 1, TR - 2 do
+				for i = k * TR + 2, k * TR + TR - 1 do
+					slot[i+n] = false
+				end
 			end
 		end
-	end
 
-	if data.row then
-		for i = 1, TR do
-			for k, v in pairs(data.row) do
-				local j = (k - 1) * TR + i
-				slot[j] = v
+		if data.row then
+			for i = 1, TR do
+				for k, v in pairs(data.row) do
+					local j = (k - 1) * TR + i + n
+					slot[j] = v
+				end
 			end
 		end
-	end
 
-	if data.column then
-		for i = 1, BL, TR do
-			for k, v in pairs(data.column) do
-				local j = (k - 1) + i
-				slot[j] = v
+		if data.column then
+			for i = 1, BL, TR do
+				for k, v in pairs(data.column) do
+					local j = (k - 1) + i + n
+					slot[j] = v
+				end
 			end
 		end
-	end
 
-	if data.center then
-		if (BR + 1)%2 == 0 then
-			slot[(BR + 1)/2] = data.center
+		if data.center then
+			local m = 0
+			local i = 0
+			if IsNumberEven(x) then
+				m = m + 1
+			end
+			if IsNumberEven(y) then
+				m = m + 2
+			end
+			if m == 3 then				--center: x-even	y-even
+				i = (BR - x) / 2
+				slot[i+n] 		= data.center
+				slot[i+n+1] 	= data.center
+				slot[i+n+x] 	= data.center
+				slot[i+n+x+1] 	= data.center
+			elseif m == 2 then			--center: x-odd		y-even
+				i = (BR - x + 1) / 2
+				slot[i+n] 		= data.center
+				slot[i+n+x] 	= data.center
+			elseif m == 1 then			--center: x-even	y-odd
+				i = (BR) / 2
+				slot[i+n] 		= data.center
+				slot[i+n+1] 	= data.center
+			elseif m == 0 then			--center: x-odd		y-odd
+				i = (BR + 1) / 2
+				slot[i+n] 		= data.center
+			end
 		end
 	end
 
@@ -162,22 +193,21 @@ local function ModCompat(container, widget)
 	end
 end
 
-local function GetOffset(slotpos, blv, issidewidget)
-	--local slotpos
-	local SEP = issidewidget and 75 or 80
-	local mid_pt = (slotpos[1] + slotpos[#slotpos]) / -2
+local function GetOffset(slotpos, blv, sep)
+	--local SEP = issidewidget and 75 or 80
+	local mid_pt = -(slotpos[1] + slotpos[#slotpos]) / 2
 
-	local wide_original = (blv.x - 1) * SEP
+	local wide_original = (blv.x - 1) * sep.x
 	local wide_now = slotpos[#slotpos].x - slotpos[1].x
-	local hight_original = (blv.y - 1) * SEP
+	local hight_original = (blv.y - 1) * sep.y
 	local hight_now = slotpos[1].y - slotpos[#slotpos].y
 
-	local scale = {1, 1}
+	local scale = Vector3(1,1)
 	if wide_now > 0 and wide_original > 0 then
-		scale[1] = RoundBiasedDown((wide_original / wide_now), 2)
+		scale.x = RoundBiasedDown((wide_original / wide_now), 2)
 	end
 	if hight_now > 0 and hight_original > 0 then
-		scale[2] = RoundBiasedDown((hight_original / hight_now), 2)
+		scale.y = RoundBiasedDown((hight_original / hight_now), 2)
 	end
 
 	return mid_pt, scale
@@ -187,77 +217,91 @@ local params = {}
 function ChestUpgrade:UpdateWidget()
 	local container = self.inst.replica.container
 	if container == nil then return end
-
 	local lv_x, lv_y, lv_z = self:GetLv()
 
 	local widget
 	local lv_code = 0
-	if lv_x < 64 and lv_z < 64 then
-		lv_code = lv_x + bit.lshift(lv_y, 6) + bit.lshift(lv_z, 12)
+	if lv_x < 64 and lv_y < 64 then
+		lv_code = lv_x + bit.lshift(lv_y, 6)
 	end
-
 	if params[self.inst.prefab] ~= nil and params[self.inst.prefab][lv_code] ~= nil then
 		widget = params[self.inst.prefab][lv_code]
 
 	else
-		widget = shallowcopy(container:GetWidget())
+		widget = setmetatable({}, {__index = container.widget})
+
+		if params[self.inst.prefab] == nil then
+			params[self.inst.prefab] = {}
+		end
+
+		local slotpos = container.widget.slotpos or {}
+		local sep = params[self.inst.prefab].sep
+		if sep == nil then
+			sep = Vector3(80, 80)
+			if #slotpos > 1 then
+				if self.baselv.x > 1 then
+					sep.x = (slotpos[2].x - slotpos[1].x)
+				end
+				if self.baselv.y > 1 then
+					sep.y = (slotpos[1].y - slotpos[self.baselv.x + 1].y)
+				end
+			end
+			params[self.inst.prefab].sep = sep
+		end
 
 		local shift_offset, scale_offset
-		if params[self.inst.prefab] ~= nil and params[self.inst.prefab].offset ~= nil then
+		if params[self.inst.prefab].offset ~= nil then
 			shift_offset, scale_offset = unpack(params[self.inst.prefab].offset)
 		else
-			if params[self.inst.prefab] == nil then
-				params[self.inst.prefab] = {}
-			end
-			shift_offset, scale_offset = GetOffset(widget.slotpos, self.baselv, container.issidewidget)
-			--print("shift_offset",shift_offset)
-			if widget.animbank == "ui_chester_shadow_3x4" or widget.animbank == "ui_portal_shadow_3x4" then
-				scale_offset[1] = 1
-			end
+			shift_offset, scale_offset = GetOffset(container.widget.slotpos, self.baselv, sep)
 			params[self.inst.prefab].offset = {shift_offset, scale_offset}
 		end
 
 		if container.issidewidget then
-			local adjust = math.floor((widget.slotpos[1].y + widget.slotpos[#widget.slotpos].y + lv_y) / 2) + 37
-			widget.slotpos = {}
-			for z = 1, lv_z do
-				for y = 1, lv_y do
-					for x = 1, lv_x do
-						table.insert(widget.slotpos, Vector3(75 * x - 75 * lv_x - 87, -75 * y + 37 * lv_y + adjust, 0))
-					end
-				end
-			end
+			widget.pos = Vector3(0, widget.pos.y, 0)
+			widget.pos.x = math.floor((self.baselv.x - lv_x) * 23) - 92
 
-		else
-			widget.slotpos = {}
-			for z = 1, lv_z do
-				for y = lv_y, 1, -1 do
-					for x = 1, lv_x do
-						table.insert(widget.slotpos, Vector3(80 * x - 40 * lv_x - 40, 80 * y - 40 * lv_y - 40, 0))
-					end
-				end
+		elseif container.type == "chest" then
+			if self.drag then
+				lv_x = math.min(self.drag, lv_x)
+				lv_y = math.min(self.drag, lv_y)
 			end
-
-			if container.type == "chest" then
-				if self.drag then
-					lv_x = math.min(self.drag, lv_x)
-					lv_y = math.min(self.drag, lv_y)
-				end
-				if self.uipos then
-					widget.pos = Vector3(-65 - 25 * lv_x, 0, 0)
-				else
-					widget.pos = Vector3(0, 80 + 30 * lv_y, 0)
-				end
+			if self.uipos then
+				widget.pos = Vector3(-65 - 25 * lv_x, 0, 0)
+			else
+				widget.pos = Vector3(0, 80 + 30 * lv_y, 0)
 			end
+		end
 
-			widget.bgshift = Vector3(lv_x / self.baselv.x * shift_offset.x, lv_y / self.baselv.y * shift_offset.y, 0)
-			widget.bgscale = Vector3(lv_x / self.baselv.x * scale_offset[1], lv_y / self.baselv.y * scale_offset[2], 1)
+		widget.bgshift = Vector3(lv_x / self.baselv.x * shift_offset.x, lv_y / self.baselv.y * shift_offset.y, 0)
+		widget.bgscale = Vector3(lv_x / self.baselv.x * scale_offset.x, lv_y / self.baselv.y * scale_offset.y, 1)
+
+		local init_x = -(lv_x + 1) * math.floor(sep.x / 2)
+		local init_y = -(lv_y + 1) * math.floor(sep.y / 2)
+
+		widget.slotpos = {}
+		for y = lv_y, 1, -1 do
+			for x = 1, lv_x do
+				table.insert(widget.slotpos, Vector3(x * sep.x + init_x, y * sep.y + init_y, 0))
+			end
 		end
 
 		if lv_code ~= 0 then
 			params[self.inst.prefab][lv_code] = widget
 		end
 	end
+
+	if lv_z > 1 then
+		local slotpos_ref = widget.slotpos
+		widget = setmetatable({slotpos = {}}, {__index = widget})
+
+		for z = 1, lv_z do
+			for _, pos in pairs(slotpos_ref) do
+				table.insert(widget.slotpos, pos)
+			end
+		end
+	end
+
 	--container:Close()
 	--container:WidgetSetup(self.inst.prefab, {["widget"] = widget})
 	ModCompat(container, widget)

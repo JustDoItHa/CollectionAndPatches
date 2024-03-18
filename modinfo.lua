@@ -588,7 +588,7 @@ local clean_num_options = {
 local strong_clean_white_list_additional = {}
 local strong_clean_black_list_additional = {}
 local strong_clean_white_tag_list_additional = {}
-local strong_clean_black_tag_list_additional = {}
+--local strong_clean_black_tag_list_additional = {}
 local strong_clean_half_white_list_additional = {}
 local strong_clean_strong_clean_list_additional = {}
 
@@ -2417,6 +2417,7 @@ if lang == "zh" then
     AddNewConfig("C_TACKLECONTAINER", "钓具箱", false, AddHoverBoolOpt("1 饼干切割机壳到每一个最外层储存格"), "钓具箱 和 超级钓具箱")
     AddNewConfig("C_OCEAN_TRAWLER", "拖网捕鱼器", false, AddHoverBoolOpt("1 邪天翁羽毛到每一个储存格"))
     AddNewConfig("C_SHADOW_CONTAINER", "魔术师的容器", true, AddHoverBoolOpt("1 暗影之心到每一个最外层储存格"), "魔术师的礼帽, 魔术师的盒子, 暗影切斯特")
+    AddNewConfig("C_BEARGERFUR_SACK", "极地熊獾桶", true, AddHoverBoolOpt("1 熊皮到每一个最左储存格，1 纯粹辉煌到每一个最外层储存格"), "1 熊皮到每一个最左储存格，1 纯粹辉煌到每一个最外层储存格")
     configuration_options[#configuration_options + 1] = AddOptionHeader("UI设置:")
     AddNewConfig("SHOWGUIDE", "显示升级需求", 2,
             {
@@ -2483,6 +2484,7 @@ if lang == "zh" then
     AddNewConfig("DEGRADABLE", "可降级", true, BoolOpt, "箱子可降级\n放一个锤子进空箱子")
     AddNewConfig("INSIGHT", "Insight资讯", true, BoolOpt, "模组: Insight 会为你显示更多资讯")
     AddNewConfig("UNCOM_MODE", "永不妥协", false, BoolOpt, "调整与 模组: Uncompomising Mode(永不妥协) 同时使用时的设定")
+    AddNewConfig("KRAMPUS_ONLY", "仅坎普斯背包", false, BoolOpt, "*禁止* 所有其他背包升级, 除了坎普斯背包\n坎普斯背包升级需求改为 蜡纸 到第 1 页每个格子")
     AddNewConfig("RETURNITEM", "拆除返还材料", false, BoolOpt, "测试中\n拆除时返还升级材料")
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("除错模式:")
@@ -2525,6 +2527,7 @@ else
     AddNewConfig("C_TACKLECONTAINER", "Tackle Box", false, AddHoverBoolOpt("1 cookie cutter shell in each outermost slots"), "tackle box and super tackle box")
     AddNewConfig("C_OCEAN_TRAWLER", "Ocean Trawler", false, AddHoverBoolOpt("1 malbatross feather in each slots"))
     AddNewConfig("C_SHADOW_CONTAINER", "Magician's Containers", true, AddHoverBoolOpt("1 shadow heart in each outermost slots"), "Magician's Hat, Magician's Box, Shadow Chester")
+    AddNewConfig("C_BEARGERFUR_SACK", "Polar Bearger Bin", true, AddHoverBoolOpt("1 thick fur in each left-most slots, 1 pure brilliance in other outermost slots"))
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("Widget UI Settings:")
     AddNewConfig("SHOWGUIDE", "Shows Guide", 3,
@@ -2595,6 +2598,7 @@ else
             "Mod: Insight will shows the detailed info for chest level"
     )
     AddNewConfig("UNCOM_MODE", "Uncompomising Mode", false, BoolOpt, "Adjust some setting when use with Mod: Uncompomising Mode")
+    AddNewConfig("KRAMPUS_ONLY", "Krampus Sack Only", false, BoolOpt, "*DISABLE* all other backpack' upgrade, except Krampus Sack\nwax paper to all slots in first page for upgrading Krampus Sack")
     AddNewConfig("RETURNITEM", "Deconstruct Return Items", false, BoolOpt, "Testing function\nReturn items when decontrution")
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("DEBUG:")
