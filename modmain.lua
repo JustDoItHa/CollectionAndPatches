@@ -630,6 +630,13 @@ if GetModConfigData("word_migrate_drop_sync_switch") or GetModConfigData("charac
 end
 
 if GetModConfigData("upgrade_container_switch") then
+
+    TUNING.CAP_DEGRADABLE  = GetModConfigData("DEGRADABLE")
+    TUNING.CAP_UPG_MODE  = GetModConfigData("UPG_MODE")
+    TUNING.CAP_PAGEABLE  = GetModConfigData("PAGEABLE")
+
+
+
     modimport("scripts/upgrade_container_main.lua")
 end
 

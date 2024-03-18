@@ -1,11 +1,5 @@
 local containers = require("containers")
 
-local fancyname = "Upgradeable Chest"
-local modname = KnownModIndex:GetModActualName(fancyname)
-local LocalGetModConfigData = function(optionname, get_local_config)
-    return GetModConfigData(optionname, modname, get_local_config)
-end
-
 local containers_mt = {__index = {SetNumSlots = function() end}}
 local function RegisterParams(prefab)
     if containers.params[prefab] == nil then
@@ -294,18 +288,18 @@ local function CommonClose(chest, params)
         --upgrade only if all player close the container
         if container.opencount ~= 0 then return end
 
-        if LocalGetModConfigData("DEGRADABLE") then
+        if TUNING.CAP_DEGRADABLE then
             DegradeByHammer(inst, data)
         end
 
         --upgd mode: 1: normal; 2: row/column; 3: both 1 & 2
-        if LocalGetModConfigData("UPG_MODE") ~= 1 and container.slots[1] == nil then
+        if TUNING.CAP_UPG_MODE ~= 1 and container.slots[1] == nil then
             RowColumnUpgrade(inst, data, params)
         end
-        if LocalGetModConfigData("UPG_MODE") ~= 2 then
+        if TUNING.CAP_UPG_MODE ~= 2 then
             NormalUpgrade(inst, data, params)
         end
-        if LocalGetModConfigData("PAGEABLE") then
+        if TUNING.CAP_PAGEABLE then
             local page_params = {page = {[1] = (params.side or params.all or nil)}}
             PageUpgrade(inst, data, page_params)
         end
