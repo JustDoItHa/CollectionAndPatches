@@ -19,14 +19,14 @@ description = [[
 --44.超级便携大箱子 45.beefalo status bar 46.疼总的信息显示(就是偷来的,好看)
 --47.史诗般血量条 48.为爽而虐-容器排序 49.鼠标滚轮调节堆叠 50.可升级箱子(已经抄过来用了)
 --51.cat bag 52.wing pack 53.神秘强化炉 54.死亡累计升级版 55.More Crafting Details
---56.箱子容量+ 57.新月之魔典  58.一键挂机 59.寻路补丁
+--56.箱子容量+ 57.新月之魔典  58.一键挂机 59.寻路补丁 60.嫦娥
 --集合mod：
 --1.常用mod集合
 --2.萌新合集-服务端
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "13.8.0.0"
+version = "13.10.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -433,6 +433,7 @@ MOD_CHARACTERLIST = {
     "taizhen", --太真
     "ccs", -- 魔法少女小樱
     "binglinger", -- 冰凌儿
+    "mcw", -- 冰川镜华
 
 }
 --自定义配置请修改：
@@ -482,6 +483,7 @@ MOD_CHARACTERNAMES = {
     "太真-taizhen", --太真
     "魔法少女小樱-ccs", -- 魔法少女小樱
     "冰凌儿-binglinger", -- 冰凌儿
+    "冰川镜华-mcw", -- 冰川镜华
 }
 
 DST_CHARACTERLIST = {
@@ -1171,6 +1173,17 @@ configuration_options[#configuration_options + 1] = AddOption("xuaner_packer_lim
 configuration_options[#configuration_options + 1] = AddOptionHeader("时崎狂三补丁")
 configuration_options[#configuration_options + 1] = AddOption("kurumi_patches_switch", "总开关", "是否开启时崎狂三补丁", false)
 configuration_options[#configuration_options + 1] = AddOption("kurumi_packer_limit_switch", "狂三打包限制", "禁止打包一些公用物品", true)
+
+---魔法少女小樱补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("魔法少女小樱补丁")
+configuration_options[#configuration_options + 1] = AddOption("ccs_patches_switch", "总开关", "是否开启魔法少女小樱补丁", false)
+configuration_options[#configuration_options + 1] = AddOption("ccs_packer_limit_switch", "魔法少女小樱打包限制", "禁止打包一些公用物品", true)
+
+---冰川镜华补丁
+configuration_options[#configuration_options + 1] = AddOptionHeader("冰川镜华补丁")
+configuration_options[#configuration_options + 1] = AddOption("mcw_patches_switch", "总开关", "是否开启冰川镜华补丁", false)
+configuration_options[#configuration_options + 1] = AddOption("mcw_packer_limit_switch", "冰川镜华打包限制", "禁止打包一些公用物品", true)
+
 ---98K补丁(955048205)
 configuration_options[#configuration_options + 1] = AddOptionHeader("98K补丁(955048205)")
 configuration_options[#configuration_options + 1] = AddOption("m_98K_patches_switch", "总开关", "是否开启98K补丁", false)

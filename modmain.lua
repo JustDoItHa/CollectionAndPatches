@@ -98,6 +98,8 @@ TUNING.ARIA_ENABLE = modenable({ "2418617371", "艾丽娅·克莉丝塔露（重
 TUNING.SIMPLE_ECONOMY_FOR_RX = modenable({ "2846621983", "简单经济学(改专用)" })
 TUNING.AOLAI_MYTH = modenable({ "3014738585", "神话：傲来神仙境" })
 TUNING.CHERRY_FOREST_ENABLE = modenable({ "1289779251", "Cherry Forest" })
+TUNING.CCS_MOD_ENABLE = modenable({ "3043439883", "魔卡少女小樱（百变小樱）", "魔卡少女小樱" })
+TUNING.MCW_MOD_ENABLE = modenable({ "3152056502", "冰川镜华(万圣节)", "冰川镜华" })
 -----------------------------
 TUNING.DEATH_COUNTER_SHOW_TITLE = GetModConfigData("death_counter_show_title")
 ---限制打包物品
@@ -349,10 +351,6 @@ if GetModConfigData("yuanzi_patches_switch") then
     modimport("scripts/yuanzi_patches.lua")
 end
 
---时崎狂三
-if GetModConfigData("kurumi_patches_switch") then
-    modimport("scripts/kurumi_patches.lua")
-end
 -- 璇儿
 if GetModConfigData("xuaner_patches_switch") then
     modimport("scripts/xuaner_patches.lua")
@@ -360,6 +358,20 @@ end
 -- 士条怜
 if modenable("士条怜") then
     modimport("scripts/rei_patches.lua")
+end
+
+--时崎狂三
+if GetModConfigData("kurumi_patches_switch") then
+    modimport("scripts/kurumi_patches.lua")
+end
+--魔法少女小樱
+if TUNING.CCS_MOD_ENABLE and GetModConfigData("ccs_patches_switch") then
+    modimport("scripts/ccs_patches.lua")
+end
+
+--冰川镜华
+if TUNING.MCW_MOD_ENABLE and GetModConfigData("mcw_patches_switch") then
+    modimport("scripts/mcw_patches.lua")
 end
 
 --全图定位
