@@ -223,7 +223,7 @@ if GetModConfigData("auto_stack_range") > 0 then
 end
 
 -- 物品堆叠数量、更多物品可堆叠
-if GetModConfigData("stack_size") > 0 then
+if GetModConfigData("cap_stack_size_switch") then
     modimport("scripts/stack_size.lua")
 end
 

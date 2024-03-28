@@ -17,8 +17,10 @@ local Stack_other_objects = GetModConfigData("cap_stack_more")
 -- local mod_stackable_replica = GLOBAL.require("components/stackable_replica")
 -- mod_stackable_replica._ctor = function(self, inst)
 -- self.inst = inst
--- self._stacksize = GLOBAL.net_shortint(inst.GUID, "stackable._stacksize", "stacksizedirty")
--- self._maxsize = GLOBAL.net_shortint(inst.GUID, "stackable._maxsize")
+-- self._stacksize 		= _G.net_shortint(inst.GUID, "stackable._stacksize", "stacksizedirty")
+-- self._stacksizeupper 	= _G.net_shortint(inst.GUID, "stackable._stacksizeupper", "stacksizedirty")
+-- self._ignoremaxsize 	= _G.net_bool(inst.GUID, "stackable._ignoremaxsize")
+-- self._maxsize 		= _G.net_shortint(inst.GUID, "stackable._maxsize")
 -- end
 
 
