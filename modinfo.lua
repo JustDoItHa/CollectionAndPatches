@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "13.10.6.0"
+version = "13.10.7.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -628,8 +628,37 @@ configuration_options = {
     AddOption("change_stack_num_by_mousewheel_switch", "物品数量鼠标滚轮控制", "可以通过滚轮调整拿起的可堆叠物品的数量", true),
     AddOption("clean_garbage", "二本垃圾箱", "对二本科技右键会有4个小格子，将不想用的物品放入点击清理可直接删除", true),
     AddConfigOption("auto_stack_range", "掉落自动堆叠", "设置掉落物自动堆叠的范围，设为0关闭自动堆叠", { { description = "关闭", data = 0 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30, hover = "默认" }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "60", data = 60 }, { description = "70", data = 70 }, { description = "80", data = 80 }, { description = "90", data = 90 }, { description = "100", data = 100 }, }, 30),
-    AddConfigOption("stack_size", "物品堆叠数量", "设置物品堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 }, }, 40),
-    AddOption("stack_more", "更多可堆叠", "使鸟、兔子、地鼠、鱼等生物变得可堆叠", true),
+
+    AddOptionHeader("堆叠修改"),
+    AddConfigOption("cap_stack_size", "物品堆叠数量", "设置物品堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 },  { description = "1000", data = 1000 },}, 40),
+    AddConfigOption("cap_soul_stack_size", "灵魂堆叠数量", "设置灵魂堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 },  { description = "1000", data = 1000 },}, 40),
+    AddOptionHeader("更多堆叠及细项"),
+    AddOption("cap_stack_more", "更多可堆叠", "使鸟、兔子、地鼠、鱼等生物变得可堆叠", true),
+    -- 分别为：配置名（modmain中配置用）,中文显示名,英文显示名,默认是否开启,中文备注提示,英文备注提示
+    -- 若没有备注提示，则后两项可以不用写。也可以只写中文备注，不写英文备注。但是若是需要写英文备注，则中文备注必填
+    AddOption("stack_more_rabbit", "兔子","Rabbit",  true),
+    AddOption("stack_more_mole", "鼹鼠", "Mole", true),
+    AddOption("stack_more_bird", "鸟类", "Bird", true),
+    AddOption("stack_more_fish", "鱼类", "Fish", true),
+    AddOption("stack_more_spider", "各类蜘蛛", "Spider", true),
+    AddOption("stack_more_eyeturret", "眼球炮塔", "Eyeturret", true),
+    AddOption("stack_more_tallbirdegg", "高脚鸟蛋", "Tallbirdegg\n如果需要孵化高鸟蛋，需要关闭堆叠\nIf you need to hatch tall eggs, you need to close the stack", true),
+    AddOption("stack_more_lavae_egg", "岩浆虫卵", "Lavae egg\n如果需要孵化岩浆虫卵，需要关闭堆叠\nIf you need to hatch lavae eggs, you need to close the stack", true),
+    AddOption("stack_more_shadowheart", "暗影心房", "Shadow heart", true),
+    AddOption("stack_more_minotaurhorn", "犀牛角", "Minotaurhorn", true),
+    AddOption("stack_more_glommerwings", "格罗姆翅膀", "Glommerwings", true),
+    AddOption("stack_more_moonrockidol", "月岩雕像,告密的心", "Moonrockidol and Reviver", true),
+    AddOption("stack_more_horn", "牛角和独角鲸角", "Horn\n注意：只能作为材料堆叠，如需作为工具，请关闭选项\nNote: TURN OFF WHEN USE IT AS TOOL", false),
+    AddOption("stack_more_deer_antler","鹿角和克劳斯钥匙","Deer Antler and Klaussackkey",true),
+    AddOption("stack_more_security_pulse_cage", "火花柜", "Security Pulse Cage and Full Cage",true),
+    --addConfig("sketch1", "常用草图","Sketch", true),
+    AddOption("stack_more_myth_lotusleaf", "荷叶和月饼(神话书说)", "Lotusleaf and Mooncake", true),
+    AddOption("stack_more_blank_certificate", "空白勋章(能力勋章)", "Blank certificate", true),
+    AddOption("stack_more_lg_choufish_inv", "小丑鱼(海洋传说)", "Uglyfish", true),
+    AddOption("stack_more_aip_leaf_note", "树叶笔记(额外物品包)", "Aip leaf note", true),
+    AddOption("stack_more_foliageath", "青枝绿叶（棱镜）", "Foliageath", true),
+    AddOption("stack_more_miao_packbox", "超级打包盒（超级打包盒）", "Miao packbox\n需单个使用，整组使用会整组消耗", true),
+    AddOption("stack_more_reskin_tool", "其他自用", "For self use",false),
 }
 ---死亡次数累计
 configuration_options[#configuration_options + 1] = AddOptionHeader("死亡次数累计")
