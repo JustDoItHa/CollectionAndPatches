@@ -385,15 +385,15 @@ end
 -- end)
 
 local upvaluehelper = require "utils/upvaluehelp_cap"
-local ab_wg = require "components/ab_wg" --阿比第四 开局礼包 修改
-local zslist = upvaluehelper.Get(ab_wg.InIt, "zslist")
-if zslist then
-    for k, v in pairs(zslist) do
-        if v.id and v.item then
-            v.item = { "pyrite" }--黄铁
-        end
-    end
-end
+--local ab_wg = require "components/ab_wg" --阿比第四 开局礼包 修改
+--local zslist = upvaluehelper.Get(ab_wg.InIt, "zslist")
+--if zslist then
+--    for k, v in pairs(zslist) do
+--        if v.id and v.item then
+--            v.item = { "pyrite" }--黄铁
+--        end
+--    end
+--end
 local ab_c_builder = require "components/ab_c_builder" --彩虹宝石的修改
 
 if TUNING.AB_BOBBIN_C_CD_SETTING > 0 then
