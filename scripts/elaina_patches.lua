@@ -92,7 +92,9 @@ if GetModConfigData("ban_brooch") then
     for i, k in pairs(ModManager.mods) do
         if k.modname == "workshop-2578692071" then
             for i = #k.PrefabFiles, 1, -1 do
-                if (string.find(k.PrefabFiles[i], "brooch") and k.PrefabFiles[i] ~= "star_brooch" and k.PrefabFiles[i] ~= "elaina_most_brooch")
+                --if (string.find(k.PrefabFiles[i], "brooch") and k.PrefabFiles[i] ~= "star_brooch" and k.PrefabFiles[i] ~= "elaina_most_brooch")
+                --知非的id：KU_cg2vTe-X  专属胸针3和24
+                if (string.find(k.PrefabFiles[i], "brooch") and k.PrefabFiles[i] ~= "star_brooch" and k.PrefabFiles[i] ~= "brooch3" and k.PrefabFiles[i] ~= "brooch24" and k.PrefabFiles[i] ~= "elaina_most_brooch")
                         -- or k.PrefabFiles[i] == "elaina_yin_tiger"
                 then
                     table.remove(k.PrefabFiles, i)
