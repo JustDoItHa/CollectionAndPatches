@@ -1,21 +1,36 @@
 local LANGUAGE = {"zh", "zht"}
 
-local DROPALLTEXT = {
-	["zh"] = "清空",
-	["zht"] = "清空",
-	["en"] = "Drop All",
-}
-
-local DROPHOVER = {
-	["zh"] = "长按以清理",
-	["zht"] = "長按以清理",
-	["en"] = "Hold to drop all",
-}
-
-local SORTTEXT = {
-	["zh"] = "整理",
-	["zht"] = "整理",
-	["en"] = "Sort",
+local strings = {
+	DROPALLTEXT = {
+		["zh"] = "清空",
+		["zht"] = "清空",
+		["en"] = "Drop All",
+	},
+	DROPHOVER = {
+		["zh"] = "长按以清理",
+		["zht"] = "長按以清理",
+		["en"] = "Hold to drop all",
+	},
+	SORTTEXT = {
+		["zh"] = "整理",
+		["zht"] = "整理",
+		["en"] = "Sort",
+	},
+	CLOSETEXT = {
+		["zh"] = "关闭",
+		["zht"] = "關閉",
+		["en"] = "Close",
+	},
+	FILLTEXT = {
+		["zh"] = "填充",
+		["zht"] = "填充",
+		["en"] = "Fill",
+	},
+	FILLHOVER = {
+		["zh"] = "长按以自动填充升级材料",
+		["zht"] = "長按以自動填充升級材料",
+		["en"] = "Hold to auto fill upgrade item",
+	},
 }
 
 local DESCRIBE = {
@@ -34,20 +49,29 @@ local DESCRIBE = {
 }
 
 local index = {
-	STRINGS = function(loc)
-		local lang = "en"
-		for _, v in ipairs(LANGUAGE) do
-			if loc == v then
-				lang = loc
-				break
+	STRINGS = GLOBAL.setmetatable(strings, {
+		__call = function(t, loc)
+			local res = {}
+			for k, v in pairs(t) do
+				res[k] = v[loc] or v["en"]
 			end
+			return res
 		end
-		return {
-			DROPALLTEXT	= DROPALLTEXT[lang],
-			DROPHOVER 	= DROPHOVER[lang],
-			SORTTEXT	= SORTTEXT[lang],
-		}
-	end,
+	}),
+	-- STRINGS = function(loc)
+	-- 	local lang = "en"
+	-- 	for _, v in ipairs(LANGUAGE) do
+	-- 		if loc == v then
+	-- 			lang = loc
+	-- 			break
+	-- 		end
+	-- 	end
+	-- 	return {
+	-- 		DROPALLTEXT	= DROPALLTEXT[lang],
+	-- 		DROPHOVER 	= DROPHOVER[lang],
+	-- 		SORTTEXT	= SORTTEXT[lang],
+	-- 	}
+	-- end,
 	INSIGHT = DESCRIBE,
 }
 

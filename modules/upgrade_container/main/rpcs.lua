@@ -219,10 +219,88 @@ local function FillContent(doer, inst)
 	if container ~= nil and container.openlist[doer] and inst.components.chestupgrade ~= nil then
 		local x, y, z = inst.components.chestupgrade:GetLv()
 		local params = AllUpgradeRecipes[inst.prefab] and AllUpgradeRecipes[inst.prefab].params or nil
-		local side = params and params.side or nil
-		if not side then return end
-		local prefab = side.type or side[1]
-		if z > 1 and z < TUNING.CHESTUPGRADE.MAX_PAGE and container:Has(prefab, x * y) and prefab ~= nil then
+		if x < TUNING.CHESTUPGRADE.MAX_LV and y < TUNING.CHESTUPGRADE.MAX_LV then
+			local checktable = inst.components.chestupgrade:CreateCheckTable()
+			local t = {}
+			for i, v in ipairs(checktable) do
+				if v then
+					local isstring = type(v) == "string"
+					local prefab = isstring and v or v.type or v[1]
+					local amount = isstring and 1 or v.amount or v[2]
+					t[prefab] = (t[prefab] or 0) + amount
+				end
+			end
+			local enoughitem = true
+			for prefab, amount in pairs(t) do
+				if not container:Has(prefab, amount) then
+					enoughitem = false
+					break
+				end
+			end
+			if enoughitem then
+				local collected_items = {}
+				local other_items = {}
+
+				for slot = container.numslots, 1, -1 do
+					--local item = container:RemoveItemBySlot(slot, true)
+					if container.slots[slot] then
+						item = container.slots[slot]
+						if t[item.prefab] and t[item.prefab] > 0  then
+							if collected_items[item.prefab] == nil then
+								collected_items[item.prefab] = {}
+							end
+							local stacksize = item.components.stackable:StackSize()
+							if stacksize > t[item.prefab] then
+								table.insert(collected_items[item.prefab], item.components.stackable:Get(t[item.prefab]))
+								--table.insert(other_items, item)
+								container:DropItemBySlot(slot, doer:GetPosition())
+							else
+								table.insert(collected_items[item.prefab], item)
+								container:RemoveItemBySlot(slot, true)
+							end
+							t[item.prefab] = math.max(0, t[item.prefab] - stacksize)
+						else
+							--table.insert(other_items, item)
+							container:DropItemBySlot(slot, doer:GetPosition())
+						end
+					end
+				end
+				for slot, v in ipairs(checktable) do
+					if v then
+						local isstring = type(v) == "string"
+						local prefab = isstring and v or v.type or v[1]
+						local amount = isstring and 1 or v.amount or v[2]
+						local item
+						repeat
+							local lastitem = collected_items[prefab][1]
+							local stacksize = lastitem.components.stackable:StackSize()
+							local num = math.min(amount, stacksize)
+							local itemget = lastitem.components.stackable:Get(num)
+							if num == stacksize then
+								table.remove(collected_items[prefab], 1)
+							end
+							if item == nil then
+								item = itemget
+							else
+								item.components.stackable:Put(itemget)
+							end
+						until item == nil or item.components.stackable:StackSize() >= amount
+						container:GiveItem(item, slot)
+					end
+				end
+				--container:Close()
+				--for _, item in ipairs(other_items) do
+				--	container:GiveItem(item, item.prevslot)
+				--end
+				--FillContent(doer, inst)
+				return
+			end
+
+		elseif z < TUNING.CHESTUPGRADE.MAX_PAGE then
+			local side = params and params.side or nil
+			if not side then return end
+			local prefab = type(side) == "string" and side or side.type or side[1]
+			if prefab == nil or not container:Has(prefab, x * y) then return end
 			local t = {}
 			local numtoget = x * y
 			for k, v in pairs(container.slots) do

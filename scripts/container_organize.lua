@@ -1081,7 +1081,7 @@ AddClassPostConstruct(
                                     "sortbutton2hm",
                                     widget.sortbtninfo2hm,
                                     --Vector3(pos.x + 270, pos.y, pos.z)
-                                    Vector3(540, pos.y, pos.z)
+                                    Vector3(600, pos.y, pos.z)
                             )
                         else
                             local pos = self.backpackinv[1]:GetPosition()

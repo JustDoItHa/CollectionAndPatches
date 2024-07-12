@@ -9,6 +9,9 @@ local STRINGS = GLOBAL.STRINGS.UPGRADEABLECHEST
 local SORTTEXT = STRINGS.SORTTEXT
 local DROPALLTEXT = STRINGS.DROPALLTEXT
 local DROPHOVER = STRINGS.DROPHOVER
+local CLOSETEXT = STRINGS.CLOSETEXT
+local FILLTEXT = STRINGS.FILLTEXT
+local FILLHOVER = STRINGS.FILLHOVER
 
 local Vector3 = GLOBAL.Vector3
 local TheInput = GLOBAL.TheInput
@@ -80,12 +83,18 @@ end
 local function ShowGuide(self, container)
 	local chestupgrade = container.replica.chestupgrade
 	local lv_x, lv_y, lv_z = chestupgrade:GetLv()
-	if (lv_x < TUNING.CHESTUPGRADE.MAX_LV and lv_y < TUNING.CHESTUPGRADE.MAX_LV) and AllUpgradeRecipes[container.prefab] then
+	if (
+			AllUpgradeRecipes[container.prefab] and
+					(lv_x < TUNING.CHESTUPGRADE.MAX_LV and lv_y < TUNING.CHESTUPGRADE.MAX_LV) and
+					not (container.replica.container:IsSideWidget() and lv_z >= TUNING.CHESTUPGRADE.MAXPACKPAGE)
+	) then
+
 		local slots = chestupgrade:CreateCheckTable()
-		for k, v in pairs(slots) do
-			if v then
-				local image = type(v) == "table" and (v.GetImage ~= nil and v:GetImage() or v[1]..".tex") or v..".tex"
-				self.inv[k]:SetBGImage2(GLOBAL.resolvefilepath(GLOBAL.GetInventoryItemAtlas(image)), image, {1, 1, 1, .4})
+		for i = 1, #self.inv do
+			if slots[i] then
+				local ingr = slots[i]
+				local image = type(ingr) == "table" and (ingr.GetImage ~= nil and ingr:GetImage() or ingr[1]..".tex") or ingr..".tex"
+				self.inv[i]:SetBGImage2(GLOBAL.resolvefilepath(GLOBAL.GetInventoryItemAtlas(image)), image, {1, 1, 1, .4})
 			end
 		end
 	end
@@ -132,6 +141,7 @@ local function AddDragWidget(self, container, drag, uipos)
 	self.dragwidget:Show()
 	self.dragwidget:SetShowPos()
 	self.dragwidget:ShowSection()
+	self.dragwidget:RescaleParentBG()
 
 	local items = container.replica.container:GetItems()
 	self.dragwidget:BuildItemList(items)
@@ -188,7 +198,7 @@ local function setholdfn(btn, fn, hover, delay)
 end
 
 --Useless btn
-local UselessBtn = Class(Widget, function(self, button, sorting, dropall)
+local UselessBtn = Class(Widget, function(self, button, sorting, dropall, close, fill)
 	Widget._ctor(self, "ChestUpgrade_ULB")
 
 	self.buttons = {}
@@ -200,47 +210,94 @@ local UselessBtn = Class(Widget, function(self, button, sorting, dropall)
 
 	--sort content
 	if sorting then
-		self.sortitembtn = self:AddChild(ImageButton("images/ui.xml", "button_small.tex", "button_small_over.tex", "button_small_disabled.tex", nil, nil, {.8,1.2}, {0,0}))
-		self.sortitembtn:SetPosition(0, 0, 0)
-		self.sortitembtn:SetOnClick(function()
+		local onclick = function()
 			self.sortitembtn.countdown = 0
 			if not self.sortitembtn.holding then
 				SendModRPCToServer(GetModRPC("RPC_UPGCHEST", "stackandsort"), self:GetParent().container)
 			end
-		end)
-		setholdfn(self.sortitembtn, function()
-			SendModRPCToServer(GetModRPC("RPC_UPGCHEST", "fillcontent"), self:GetParent().container)
-		end)
-
-		self.sortitembtn:SetText(SORTTEXT)
-		self.sortitembtn:SetFont(GLOBAL.BUTTONFONT)
-		self.sortitembtn:SetTextSize(30)
-		table.insert(self.buttons, self.sortitembtn)
+		end
+		self:AddButton("sortitembtn", SORTTEXT, onclick)
 	end
 
 	--drop content
 	if dropall then
-		self.dropallbtn = self:AddChild(ImageButton("images/ui.xml", "button_small.tex", "button_small_over.tex", "button_small_disabled.tex", nil, nil, {.8,1.2}, {0,0}))
-		self.dropallbtn:SetPosition(0, 0, 0)
-		self.dropallbtn:SetOnClick(function()
+		local onclick = function()
 			self.dropallbtn.countdown = 0
-		end)
-		setholdfn(self.dropallbtn, function()
+		end
+		local onhold = function()
 			SendModRPCToServer(GetModRPC("RPC_UPGCHEST", "dropcontent"), self:GetParent().container)
-		end)
-		self.dropallbtn:SetText(DROPALLTEXT)
-		self.dropallbtn:SetFont(GLOBAL.BUTTONFONT)
-		self.dropallbtn:SetTextSize(30)
-		self.dropallbtn:SetHoverText(DROPHOVER)
-		table.insert(self.buttons, self.dropallbtn)
+		end
+		self:AddButton("dropallbtn", DROPALLTEXT, onclick, onhold, DROPHOVER)
 	end
 
-	local SEP = 80
-	local POS = -(#self.buttons - 1) * SEP / 2 - SEP
-	for i, btn in ipairs(self.buttons) do
-		btn:SetPosition(POS + SEP * i, 0, 0)
+	if close then
+		local onclick = function()
+			local ThePlayer = GLOBAL.ThePlayer
+			if ThePlayer ~= nil and ThePlayer.components.playercontroller ~= nil then
+				local target = self:GetParent().container
+				local closeact = GLOBAL.BufferedAction(ThePlayer, target, GLOBAL.ACTIONS.RUMMAGE)
+				local pos_x, pos_y, pos_z = target.Transform:GetWorldPosition()
+				ThePlayer.components.playercontroller:DoAction(closeact)
+				GLOBAL.SendRPCToServer(GLOBAL.RPC.LeftClick, closeact.action.code, pos_x, pos_z, target, true)
+			end
+		end
+		self:AddButton("closebtn", CLOSETEXT, onclick)
 	end
+
+	if fill then
+		local onhold = function()
+			SendModRPCToServer(GetModRPC("RPC_UPGCHEST", "fillcontent"), self:GetParent().container)
+		end
+		self:AddButton("fillbtn", FILLTEXT, nil, onhold, FILLHOVER)
+	end
+
+	self:RelocateBtnPos()
 end)
+
+function UselessBtn:RelocateBtnPos()
+	local SEP_X = 80
+	local SEP_Y = 60
+	local LINEMAX = 3
+	local totalline = math.ceil(#self.buttons / LINEMAX)
+	local buttontoadd = #self.buttons
+	local pos = -(math.min(buttontoadd, LINEMAX) - 1) * SEP_X / 2 - SEP_X
+	local n = 1
+	for y = 1, totalline do
+		if buttontoadd < LINEMAX then
+			pos = -(buttontoadd - 1) * SEP_X / 2 - SEP_X
+		end
+		for x = 1, math.min(buttontoadd, LINEMAX) do
+			self.buttons[n]:SetPosition(pos + SEP_X * x, SEP_Y * (1 - y), 0)
+			n = n + 1
+		end
+		buttontoadd = buttontoadd - LINEMAX
+	end
+	-- for i, btn in ipairs(self.buttons) do
+	-- 	btn:SetPosition(POS + SEP * i, 0, 0)
+	-- end
+end
+
+function UselessBtn:AddButton(name, text, onclick, onhold, hover)
+	self[name] = self:AddChild(ImageButton("images/ui.xml", "button_small.tex", "button_small_over.tex", "button_small_disabled.tex", nil, nil, {.8,1.2}, {0,0}))
+
+	local btn = self[name]
+	btn:SetPosition(0, 0, 0)
+	if onclick then
+		btn:SetOnClick(onclick)
+	end
+	if onhold then
+		setholdfn(btn, onhold)
+	end
+	btn:SetText(text)
+	btn:SetFont(GLOBAL.BUTTONFONT)
+	btn:SetTextSize(30)
+	if hover then
+		btn:SetHoverText(hover)
+	end
+
+	--self.buttons[name] = btn
+	table.insert(self.buttons, btn)
+end
 
 --------------------------------------------------
 local function NEW_Open(self, container, doer, ...)
@@ -251,13 +308,19 @@ local function NEW_Open(self, container, doer, ...)
 	local widget = container.replica.container:GetWidget()
 	BGReScale(self, widget)
 
+	--unify the slotbg
+	--UnifySlotBg(self, widget)
+	if widget.slotbg ~= nil and widget.slotbg.generic then
+		for i, v in ipairs(self.inv) do
+			v.bgimage:SetTexture(widget.slotbg.atlas, widget.slotbg.image)
+		end
+	end
+
 	--shows the pageable button
 	local lv_x, lv_y, lv_z = chestupgrade:GetLv()
 	if lv_z ~= nil and lv_z > 1 then
 		AddPageBtn(self, container)
 	end
-
-	if container.replica.container:IsSideWidget() then return end		--no backpack is going to do the following
 
 	--show upgrade requirment
 	local showguide = GetModConfigData("SHOWGUIDE", true) or 0
@@ -266,6 +329,8 @@ local function NEW_Open(self, container, doer, ...)
 			ShowGuide(self, container)
 		end
 	end
+
+	if container.replica.container:IsSideWidget() then return end		--no backpack is going to do the following
 
 	--shift the widget leftward if you are on the boat, or the container is icebox or saltbox
 	local uipos = GetModConfigData("UI_WIDGETPOS", true)
@@ -289,10 +354,19 @@ local function NEW_Open(self, container, doer, ...)
 	end
 
 	--useless button
-	local sorting, dropall = GetModConfigData("SORTITEM", true), GetModConfigData("DROPALL", true)
-	if sorting or dropall then
-		self.chestupgrade_ulb = self:AddChild(UselessBtn(self.button, sorting, dropall))
-		self.chestupgrade_ulb:SetPosition(GetAlignPos({lv_x, lv_y}, 3, 20))
+	--AddUselessButton(self, container)
+	local buttons = {
+		GetModConfigData("SORTITEM", true),
+		GetModConfigData("DROPALL", true),
+		GetModConfigData("CLOSEBTN", true),
+		GetModConfigData("FILLBTN", true),
+	}
+	for _, v in ipairs(buttons) do
+		if v == true then
+			self.chestupgrade_ulb = self:AddChild(UselessBtn(self.button, GLOBAL.unpack(buttons)))
+			self.chestupgrade_ulb:SetPosition(GetAlignPos({lv_x, lv_y}, 3, 20))
+			break
+		end
 	end
 end
 
@@ -355,6 +429,7 @@ local function HideSearchBar(self)
 	self.searchbar:RelocateParent(true)
 	if self.dragwidget ~= nil then
 		self.dragwidget:Show()
+		self.dragwidget:RescaleParentBG()
 	end
 end
 

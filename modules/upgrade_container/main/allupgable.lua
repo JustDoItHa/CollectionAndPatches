@@ -1,5 +1,5 @@
-local UpgradeRecipe = require("utils/chestupgrade_recipe")
-local util = require("utils/chestupgrade_util")
+local UpgradeRecipe = require("chestupgrade_recipe")
+local util = require("chestupgrade_util")
 
 --local ALLOWEDTYPE = {"chest", "pack"}
 local function IsTypeAllowed(container_type)
@@ -22,11 +22,11 @@ local function CalSize(container)
 	if init_vec == nil then
 		return 0, 0
 	end
-	local last_vec = slotpos[#slotpos]
+	--local last_vec = slotpos[#slotpos]
 	local x = 0
 	local init_y = init_vec.y
-	for k, s_pos in pairs(slotpos) do
-		if s_pos.y == init_y then
+	for k, pos in pairs(slotpos) do
+		if pos.y == init_y then
 			x = x + 1
 		else
 			break

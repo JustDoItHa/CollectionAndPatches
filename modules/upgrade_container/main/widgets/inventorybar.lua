@@ -21,7 +21,6 @@ local function NEW_Rebuild(self)
 			self.integrated_arrow = nil
 			self.backpackpage = self.bottomrow:AddChild(ChestPage(self.backpackinv, show, slottogo, overflow.inst))
 			--local mid = (self.equip[GLOBAL.EQUIPSLOTS.HANDS]:GetPosition().x + self.equip[GLOBAL.EQUIPSLOTS.BODY]:GetPosition().x) / 2
-			--print(mid - self.inv[#self.inv]:GetPosition().x)
 			self.backpackpage:SetPosition(self.inv[#self.inv]:GetPosition().x + 136, 0, 0)
 			for n = 1, z do
 				for k = 1, x * y do

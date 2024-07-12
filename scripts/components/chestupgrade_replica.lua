@@ -1,6 +1,6 @@
 local AllUpgradeRecipes = ChestUpgrade.AllUpgradeRecipes or {}
 --net_byte: 8; net_ushortint: 16
-local use_net_byte = TUNING.CHESTUPGRADE.MAX_PAGE == 1 and TUNING.CHESTUPGRADE.MAX_LV <= 15 and TUNING.CHESTUPGRADE.MAXPACKUPGRADE == nil
+local use_net_byte = TUNING.CHESTUPGRADE.MAX_PAGE == 1 and TUNING.CHESTUPGRADE.MAX_LV <= 15 and TUNING.CHESTUPGRADE.MAXPACKPAGE == nil
 
 local function OnBaseLv(inst)
 	local chestupgrade = inst.replica.chestupgrade
@@ -100,11 +100,11 @@ function ChestUpgrade:CreateCheckTable(data)
 	local slot = {}
 	for page = 1, z do
 		--local all = data.all or false
+		local n = BR * (page - 1)
 		for i = 1, BR do
-			slot[i] = (data.page ~= nil and data.page[page]) or data.all or false
+			slot[i+n] = (data.page ~= nil and data.page[page]) or data.all or false
 		end
 
-		local n = BR * (page - 1)
 		if data.side then
 			for i = 1, TR do slot[i+n] = data.side end
 			for i = BL, BR do slot[i+n] = data.side end
@@ -113,7 +113,7 @@ function ChestUpgrade:CreateCheckTable(data)
 		end
 
 		if data.hollow then
-			for k = 1, TR - 2 do
+			for k = 1, BL - 2 do
 				for i = k * TR + 2, k * TR + TR - 1 do
 					slot[i+n] = false
 				end
@@ -121,8 +121,8 @@ function ChestUpgrade:CreateCheckTable(data)
 		end
 
 		if data.row then
-			for i = 1, TR do
-				for k, v in pairs(data.row) do
+			for k, v in pairs(data.row) do
+				for i = 1, TR do
 					local j = (k - 1) * TR + i + n
 					slot[j] = v
 				end
@@ -130,8 +130,8 @@ function ChestUpgrade:CreateCheckTable(data)
 		end
 
 		if data.column then
-			for i = 1, BL, TR do
-				for k, v in pairs(data.column) do
+			for k, v in pairs(data.column) do
+				for i = 1, BL, TR do
 					local j = (k - 1) + i + n
 					slot[j] = v
 				end
@@ -234,16 +234,30 @@ function ChestUpgrade:UpdateWidget()
 			params[self.inst.prefab] = {}
 		end
 
+		if widget.slotbg ~= nil and widget.slotbg[1] ~= nil then
+			local generic = widget.slotbg[1]
+			for k, v in pairs(widget.slotbg) do
+				if v.image ~= generic.image or v.atlas ~= generic.atlas then
+					generic = nil
+				end
+			end
+			--container.widget.slotbg.generic = generic
+			if generic then
+				widget.slotbg = generic
+				widget.slotbg.generic = true
+			end
+		end
+
 		local slotpos = container.widget.slotpos or {}
 		local sep = params[self.inst.prefab].sep
 		if sep == nil then
 			sep = Vector3(80, 80)
 			if #slotpos > 1 then
 				if self.baselv.x > 1 then
-					sep.x = (slotpos[2].x - slotpos[1].x)
+					sep.x = math.abs(slotpos[#slotpos].x - slotpos[1].x) / (self.baselv.x - 1)
 				end
 				if self.baselv.y > 1 then
-					sep.y = (slotpos[1].y - slotpos[self.baselv.x + 1].y)
+					sep.y = math.abs(slotpos[1].y - slotpos[#slotpos].y) / (self.baselv.y - 1)
 				end
 			end
 			params[self.inst.prefab].sep = sep
@@ -262,10 +276,6 @@ function ChestUpgrade:UpdateWidget()
 			widget.pos.x = math.floor((self.baselv.x - lv_x) * 23) - 92
 
 		elseif container.type == "chest" then
-			if self.drag then
-				lv_x = math.min(self.drag, lv_x)
-				lv_y = math.min(self.drag, lv_y)
-			end
 			if self.uipos then
 				widget.pos = Vector3(-65 - 25 * lv_x, 0, 0)
 			else

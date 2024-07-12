@@ -13,7 +13,7 @@ TUNING.CHESTUPGRADE = {	--add to tuning so that they can be easily tuned
 }
 
 if GetModConfigData("BACKPACK") then
-	TUNING.CHESTUPGRADE.MAXPACKUPGRADE = (GetModConfigData("BACKPACKPAGE") or 3) - 1
+	TUNING.CHESTUPGRADE.MAXPACKPAGE = GetModConfigData("BACKPACKPAGE") or 3
 end
 
 AddReplicableComponent("chestupgrade")

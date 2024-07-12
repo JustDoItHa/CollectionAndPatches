@@ -29,9 +29,6 @@ local ChestUpgrade = Class(function(self, inst)
 end)
 
 local function SetLv(lv, x, y, z)
-	if z == nil then
-		z = lv.z
-	end
 	if type(x) == "table" then
 		if x.x ~= nil then
 			lv.x = x.x or lv.x
@@ -40,10 +37,8 @@ local function SetLv(lv, x, y, z)
 		else
 			SetLv(lv, unpack(x))
 		end
-	elseif y then
-		lv._ctor(lv, x, y, z)
 	else
-		lv._ctor(lv, x, x, z)
+		lv:_ctor(x, (y or x), (z or lv.z))
 	end
 end
 
@@ -121,16 +116,30 @@ function ChestUpgrade:UpdateWidget()
 			params[self.inst.prefab] = {}
 		end
 
+		if widget.slotbg ~= nil and widget.slotbg[1] ~= nil then
+			local generic = widget.slotbg[1]
+			for k, v in pairs(widget.slotbg) do
+				if v.image ~= generic.image or v.atlas ~= generic.atlas then
+					generic = nil
+				end
+			end
+			--container.widget.slotbg.generic = generic
+			if generic then
+				widget.slotbg = generic
+				widget.slotbg.generic = true
+			end
+		end
+
 		local slotpos = container.widget.slotpos or {}
 		local sep = params[self.inst.prefab].sep
 		if sep == nil then
 			sep = Vector3(80, 80)
 			if #slotpos > 1 then
 				if self.baselv.x > 1 then
-					sep.x = (slotpos[2].x - slotpos[1].x)
+					sep.x = math.abs(slotpos[#slotpos].x - slotpos[1].x) / (self.baselv.x - 1)
 				end
 				if self.baselv.y > 1 then
-					sep.y = (slotpos[1].y - slotpos[self.baselv.x + 1].y)
+					sep.y = math.abs(slotpos[1].y - slotpos[#slotpos].y) / (self.baselv.y - 1)
 				end
 			end
 			params[self.inst.prefab].sep = sep
@@ -206,78 +215,120 @@ local function GetSlotProps(allslots, targetslot)
 	end
 end
 
+local props_mt = {}
+props_mt.__index = function(t, k)
+	local props = rawget(t, "_")
+	local slot = (k - 1) % #props + 1
+	local page = (k - slot) / #props + 1
+	local bit_page = bit.lshift(page, MASKLEN_SP + MASKLEN_LV + MASKLEN_LV)
+	return bit.bor(bit_page, props[slot])
+end
+
 local props = {}
-function ChestUpgrade:SlotProps(slot)
+function ChestUpgrade:SlotProps(targetslot)
 	local x, y, z = self:GetLv()
 
-	local lv_code = x + bit.lshift(y, MASKLEN_LV) + bit.lshift(z, MASKLEN_PAGE)
+	local lv_code = bit.lshift(y, MASKLEN_LV) + x
 
-	local slots = props[lv_code] or {}
+	--local slots = props[lv_code] or setmetatable({_ = {}}, props_mt)
 	if props[lv_code] == nil then
+		local slots = {}
+
 		local TR = x					--Top right hand corner
 		local BR = x * y				--Bottom right
 		local BL = BR - TR + 1			--Bottom left
-		local TOTAL = BR * z
 
-		for i = 1, TOTAL do
-			local page = math.floor((i - 1) / BR) + 1
+		for i = 1, BR do
 			local row = math.floor((i - 1) / x) + 1
 			local column = (i - 1) % x + 1
-			local bit_page = bit.lshift(bit.band(page, MASK_PAGE), MASKLEN_LV + MASKLEN_LV)
 			local bit_row = bit.lshift(bit.band(row, MASK_LV), MASKLEN_LV)
 			local bit_col = bit.band(column, MASK_LV)
-			slots[i] = bit.lshift(bit_page + bit_row + bit_col, MASKLEN_SP)
+			slots[i] = bit.lshift(bit_row + bit_col, MASKLEN_SP)
 		end
 
-		for p = 1, z do
-			local j = (p - 1) * BR
-			for i = 1, TR do			--side: top
-				slots[i+j] = bit.bor(slots[i+j], MASK_SIDE)
-			end
-			for i = BL, BR do			--side: bottom
-				slots[i+j] = bit.bor(slots[i+j], MASK_SIDE)
-			end
-			for i = 1, BL, TR do		--sied: left
-				slots[i+j] = bit.bor(slots[i+j], MASK_SIDE)
-			end
-			for i = TR, BR, TR do		--side: right
-				slots[i+j] = bit.bor(slots[i+j], MASK_SIDE)
-			end
-			local m = 0
-			local i = 0
-			if bit.band(x, 1) ~= 0 then	--x-odd
-				m = m + 1
-			end
-			if bit.band(y, 1) ~= 0 then	--y-odd
-				m = m + 2
-			end
-			if m == 0 then				--center: x-even	y-even
-				i = bit.rshift(BR - x, 1)
-				slots[i+j] 		= bit.bor(slots[i+j]	, MASK_CENTER)
-				slots[i+j+1] 	= bit.bor(slots[i+j+1]	, MASK_CENTER)
-				slots[i+j+x] 	= bit.bor(slots[i+j+x]	, MASK_CENTER)
-				slots[i+j+x+1] 	= bit.bor(slots[i+j+x+1], MASK_CENTER)
-			elseif m == 1 then			--center: x-odd		y-even
-				i = bit.rshift(BR - x + 1, 1)
-				slots[i+j] 		= bit.bor(slots[i+j]	, MASK_CENTER)
-				slots[i+j+x] 	= bit.bor(slots[i+j+x]	, MASK_CENTER)
-			elseif m == 2 then			--center: x-even	y-odd
-				i = bit.rshift(BR, 1)
-				slots[i+j] 		= bit.bor(slots[i+j]	, MASK_CENTER)
-				slots[i+j+1] 	= bit.bor(slots[i+j+1]	, MASK_CENTER)
-			elseif m == 3 then			--center: x-odd		y-odd
-				i = bit.rshift(BR + 1, 1)
-				slots[i+j] 		= bit.bor(slots[i+j]	, MASK_CENTER)
+		for i = 1, TR do			--side: top
+			slots[i] = bit.bor(slots[i], MASK_SIDE)
+		end
+		for i = BL, BR do			--side: bottom
+			slots[i] = bit.bor(slots[i], MASK_SIDE)
+		end
+		for i = 1, BL, TR do		--sied: left
+			slots[i] = bit.bor(slots[i], MASK_SIDE)
+		end
+		for i = TR, BR, TR do		--side: right
+			slots[i] = bit.bor(slots[i], MASK_SIDE)
+		end
+
+		local i = 0
+		local m = bit.bor(bit.lshift(bit.band(y, 1), 1), bit.band(x, 1))
+		if m == 0 then				--center: x-even	y-even
+			i = bit.rshift(BR - x, 1)
+			slots[i] 		= bit.bor(slots[i]		, MASK_CENTER)
+			slots[i+1] 		= bit.bor(slots[i+1]	, MASK_CENTER)
+			slots[i+x] 		= bit.bor(slots[i+x]	, MASK_CENTER)
+			slots[i+x+1] 	= bit.bor(slots[i+x+1]	, MASK_CENTER)
+		elseif m == 1 then			--center: x-odd		y-even
+			i = bit.rshift(BR - x + 1, 1)
+			slots[i] 		= bit.bor(slots[i]		, MASK_CENTER)
+			slots[i+x] 		= bit.bor(slots[i+x]	, MASK_CENTER)
+		elseif m == 2 then			--center: x-even	y-odd
+			i = bit.rshift(BR, 1)
+			slots[i] 		= bit.bor(slots[i]		, MASK_CENTER)
+			slots[i+1]	 	= bit.bor(slots[i+1]	, MASK_CENTER)
+		elseif m == 3 then			--center: x-odd		y-odd
+			i = bit.rshift(BR + 1, 1)
+			slots[i] 		= bit.bor(slots[i]		, MASK_CENTER)
+		end
+
+		props[lv_code] = setmetatable({_ = slots}, props_mt)
+	end
+
+	if targetslot then
+		return GetSlotProps(props[lv_code], targetslot)
+	end
+	return props[lv_code]
+end
+
+--[[
+function ChestUpgrade:SlotProps(targetslot)
+	local x, y, z = self:GetLv()
+
+	local lv_code = bit.lshift(y, MASKLEN_LV) + x
+
+	local slots = props[lv_code] or setmetatable({}, props_mt)
+	if props[lv_code] == nil then
+		for col = 1, x do
+			for row = 1, y do
+				local i = row * x + col - x
+
+				--column and row
+				slots[i] = bit.lshift(bit.bor(bit.lshift(row, MASKLEN_LV), col), MASKLEN_SP)
+
+				--side
+				if col == 1 or col == x or row == 1 or row == y then
+					slots[i] = bit.bor(slots[i], MASK_SIDE)
+				end
 			end
 		end
+
+		--center
+		local n = bit.rshift((BR + x + 2 + bit.band(x, 1) + (bit.band(y, 1) == 1 and x or 0)), 1)
+		for a = bit.band(x, 1), 1 do
+			for b = bit.band(y, 1), 1 do
+				local i = n - a - (b == 1 and x or 0)
+				slots[i] = bit.bor(slots[i], MASK_CENTER)
+			end
+		end
+
 		props[lv_code] = slots
 	end
 
-	if slot then
-		return GetSlotProps(slots, slot)
+	if targetslot then
+		return GetSlotProps(slots, targetslot)
 	end
 	return slots
 end
+]]
 
 function ChestUpgrade:PrintSlotProps(slot)
 	local target, isside, iscenter, page, row, column = self:SlotProps(slot)
@@ -436,8 +487,8 @@ function ChestUpgrade:Degrade(ratio, fn)
 		for i = 1, (x * y) do
 			local v = oldchecktbl[i]
 			if v then
-				local item = v.type
-				local amount = v.amount
+				local item = v.type or v[1]
+				local amount = v.amount or v[2] or 1
 
 				olditems[item] = (olditems[item] or 0) + amount
 			end
@@ -455,7 +506,7 @@ function ChestUpgrade:Degrade(ratio, fn)
 
 		local lvfactor = (x - self.baselv.x + y - self.baselv.y) / 4 + 1
 		for prefab, amount in pairs(newitems) do
-			local oldamount = olditems[prefab]
+			local oldamount = olditems[prefab] or 0
 			local repayamount = (amount + oldamount) * lvfactor / 2 - oldamount
 			--[[
 			if amount == oldamount then
@@ -467,7 +518,9 @@ function ChestUpgrade:Degrade(ratio, fn)
 			repayamount = math.floor(repayamount * (ratio or TUNING.CHESTUPGRADE.DEGRADE_RATIO))
 
 			for i = 1, repayamount do
-				self.inst.components.container:GiveItem(SpawnPrefab(prefab))
+				if self.inst.components.container ~= nil then
+					self.inst.components.container:GiveItem(SpawnPrefab(prefab))
+				end
 			end
 		end
 	else

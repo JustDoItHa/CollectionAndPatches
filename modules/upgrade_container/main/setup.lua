@@ -3,7 +3,14 @@ local AddUpgradeRecipe = require("utils/chestupgrade_recipe")
 
 local DEBUG = {}
 function DEBUG.MaxLv(inst)
-	inst.components.chestupgrade:SetChestLv(TUNING.CHESTUPGRADE.MAX_LV, TUNING.CHESTUPGRADE.MAX_LV, TUNING.CHESTUPGRADE.MAX_PAGE)
+	if util.IsSideWidget(inst.prefab) then
+		--local maxpage = issidewidget and TUNING.CHESTUPGRADE.MAXPACKUPGRADE or TUNING.CHESTUPGRADE.MAX_PAGE
+		local x, y = inst.components.chestupgrade:GetLv()
+		local z = TUNING.CHESTUPGRADE.MAXPACKPAGE
+		inst.components.chestupgrade:SetChestLv(x, y, z)
+	else
+		inst.components.chestupgrade:SetChestLv(TUNING.CHESTUPGRADE.MAX_LV, TUNING.CHESTUPGRADE.MAX_LV, TUNING.CHESTUPGRADE.MAX_PAGE)
+	end
 end
 
 function DEBUG.ItemInContainer(inst)
@@ -59,7 +66,7 @@ local function ChestSetUp(prefab, params, size)
 end
 
 local function PackSetUp(prefab, params, size)
-	params = checkrecipe(prefab, params, size)
+	checkrecipe(prefab, params, size)
 
 	if size == nil then
 		size = {3,3}

@@ -72,9 +72,9 @@ local function ChangeSize(inst, factor)
 		local clv = cupg.chestlv
 		local blv = cupg.baselv
 		chest.Transform:SetScale(
-				((clv.x / blv.x - 1) / TUNING.CHESTUPGRADE.SCALE_FACTOR + 1),
-				((clv.y / blv.y - 1) / TUNING.CHESTUPGRADE.SCALE_FACTOR + 1),
-				1
+			((clv.x / blv.x - 1) / TUNING.CHESTUPGRADE.SCALE_FACTOR + 1),
+			((clv.y / blv.y - 1) / TUNING.CHESTUPGRADE.SCALE_FACTOR + 1),
+			1
 		)
 		if factor then
 			local x, y = chest.Transform:GetScale()
@@ -133,7 +133,7 @@ local function DropTempItem(inst, data)
 	local container = inst.components.container
 	if container.olditemtestfn ~= nil and container.opencount == 0 then
 		local itemtodrop = {}
-		for i = 1, container:GetNumSlots() do
+		for i = 1, container:GetNumSlots() do 
 			local item = container.slots[i]
 			if item ~= nil and not container.olditemtestfn(container, item, i) then
 				--stack all stackable to make the floor tidy
@@ -179,11 +179,11 @@ local function RowColumnUpgrade(inst, data, params)
 
 	local major = params.side or params.all or nil
 	local minor = (
-			params.center or
-					nextval(params.column) or
-					nextval(params.row) or
-					nextval(params.slot) or
-					nil
+		params.center or
+		nextval(params.column) or
+		nextval(params.row) or
+		nextval(params.slot) or
+		nil
 	)
 
 	if major == nil then
@@ -210,7 +210,7 @@ local function RowColumnUpgrade(inst, data, params)
 	end
 	--row upg
 	if y < TUNING.CHESTUPGRADE.MAX_LV then
-		chestupgrade:SpecialUpgrade(row, data.doer, {y = 1})
+		chestupgrade:SpecialUpgrade(row, data.doer, {y = 1})  
 	end
 end
 

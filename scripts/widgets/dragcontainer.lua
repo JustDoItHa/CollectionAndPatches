@@ -191,7 +191,7 @@ function DragContainer:UpdateItem(data)
 	elseif item then
 		local tx, ty = unpack(self.total)
 		local page_total = tx * ty
-		local page = math.modf(slot / page_total + 1)
+		local page = math.modf((slot - 1) / page_total) + 1
 
 		local ItemGroup = self.imageroot.pages[page]
 		if ItemGroup == nil then
@@ -232,6 +232,24 @@ function DragContainer:GetItemInSlot(x, y, z)
 		local slot = (z - 1) * lv_x * lv_y + (y - 1) * lv_x + x
 		return self.list[slot]
 	end
+end
+
+function DragContainer:RescaleParentBG()
+	local parent = self:GetParent()
+	local container = parent.container
+	local widget = container.replica.container:GetWidget()
+
+	if not widget then return end
+
+	local lv_x, lv_y = container.replica.chestupgrade:GetLv()
+
+	local show_x, show_y = unpack(self.show)
+	local scale_x = widget.bgscale ~= nil and widget.bgscale.x or 1
+	local scale_y = widget.bgscale ~= nil and widget.bgscale.y or 1
+	local scale = Vector3(scale_x * show_x / lv_x, scale_y * show_y / lv_y, 1)
+
+	parent.bganim:SetScale(scale)
+	parent.bgimage:SetScale(scale)
 end
 
 return DragContainer

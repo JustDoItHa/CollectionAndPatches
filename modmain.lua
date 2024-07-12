@@ -155,18 +155,18 @@ TUNING.CANT_PACK_ITEMS = {
     sora_pickhat = true,
     archive_pillar = true,
 
-    toadstool_cap= true,
-    tentacle_pillar= true,
-    tentacle_pillar_hole= true, -- 大触手
+    toadstool_cap = true,
+    tentacle_pillar = true,
+    tentacle_pillar_hole = true, -- 大触手
     --beequeenhive= true,
     --klaus_sack= true,
     -- ancient_altar= true,
     -- ancient_altar_broken= true,
-    cave_exit= true,
-    cave_entrance= true,
-    cave_entrance_ruins= true,
-    cave_entrance_open= true,
-    statueglommer= true,
+    cave_exit = true,
+    cave_entrance = true,
+    cave_entrance_ruins = true,
+    cave_entrance_open = true,
+    statueglommer = true,
     -- wormhole= true,
     -- minotaur_spawner= true,
 }
@@ -185,12 +185,18 @@ end
 
 --修复标签问题
 if GetModConfigData("beta_function_switch") and GetModConfigData("fix_tags_overflow_switch") then
-    -- modimport("scripts/tags_for_additional.lua")
-    --引用风铃code
-    modimport("scripts/moretags.lua")
-    -- for k, v in pairs(additional_tags_to_fix) do
-    --     RegTag(v)
-    -- end
+
+    if GetModConfigData("fix_tags_overflow_switch") == 1 then
+        -- modimport("scripts/tags_for_additional.lua")
+        --引用风铃code
+        modimport("scripts/moretags.lua")
+        -- for k, v in pairs(additional_tags_to_fix) do
+        --     RegTag(v)
+        -- end
+    elseif GetModConfigData("fix_tags_overflow_switch") == 2 then
+        modimport("scripts/extend_tags.lua")
+    end
+
 end
 
 -- 鼠标滚轮控制拿起的物品的数量
@@ -629,13 +635,12 @@ if GetModConfigData("word_migrate_drop_sync_switch") or GetModConfigData("charac
     modimport("scripts/word_migrate_drop.lua")
 end
 
+--可升级容器/箱子
 if GetModConfigData("upgrade_container_switch") then
 
-    TUNING.CAP_DEGRADABLE  = GetModConfigData("DEGRADABLE")
-    TUNING.CAP_UPG_MODE  = GetModConfigData("UPG_MODE")
-    TUNING.CAP_PAGEABLE  = GetModConfigData("PAGEABLE")
-
-
+    TUNING.CAP_DEGRADABLE = GetModConfigData("DEGRADABLE")
+    TUNING.CAP_UPG_MODE = GetModConfigData("UPG_MODE")
+    TUNING.CAP_PAGEABLE = GetModConfigData("PAGEABLE")
 
     modimport("scripts/upgrade_container_main.lua")
 end
@@ -643,7 +648,6 @@ end
 if GetModConfigData("wb_strengthen_switch") then
     modimport("scripts/wb_strengthenstove.lua")
 end
-
 
 --- beta功能
 if GetModConfigData("beta_function_switch") then

@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "13.10.14.0"
+version = "13.11.2.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2341,7 +2341,10 @@ configuration_options[#configuration_options + 1] = AddConfigOption("container_o
                                                                                                                                              { description = "禁用", data = false },
                                                                                                                                              { description = "部分", data = -1 },
                                                                                                                                              { description = "全部开启", data = -2 }, }, true)
-configuration_options[#configuration_options + 1] = AddOption("fix_tags_overflow_switch", "标签溢出问题", "修复标签溢出问题", true)
+--configuration_options[#configuration_options + 1] = AddOption("fix_tags_overflow_switch", "标签溢出问题", "修复标签溢出问题", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("fix_tags_overflow_switch", "标签溢出问题", "修复标签溢出问题",
+        { { description = "关闭", data = false }, { description = "更多标签-方式1", data = 1 }, { description = "标签优化-方式2", data = 2 } }, 1)
+
 configuration_options[#configuration_options + 1] = AddOption("give_item_optimize_switch", "拾取优化", "自动寻找打开的容器进行放入", false)
 configuration_options[#configuration_options + 1] = AddOption("fix_heap_of_food_switch", "修复HeapOfFood问题", "修复HeapOfFood问题", false)
 configuration_options[#configuration_options + 1] = AddOption("fix_migration_data_lost_switch", "修复跳世界数据丢失问题", "修复跳世界数据丢失导致重选人物问题", true)

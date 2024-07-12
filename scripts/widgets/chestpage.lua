@@ -2,6 +2,7 @@ local Widget = require("widgets/widget")
 local Image = require("widgets/image")
 local ImageButton = require("widgets/imagebutton")
 local Text = require("widgets/text")
+local TextEdit = require("widgets/textedit")
 
 local defaultatlas = {
 	atlas 		= "images/hud.xml",
@@ -23,16 +24,16 @@ local ChestPage = Class(Widget, function(self, inv, show, total, container)
 	self.pagebg:SetScale(.8)
 	self.pagebg.scale_on_focus = false
 	self.pagebg.move_on_click = false
-	self.pagebg:SetOnClick(function()
-		SendModRPCToServer(GetModRPC("RPC_UPGCHEST", "fillcontent"), self.container)
-		--[[
-		if self.allpage then
-			self:ShowOnePage()
-		else
-			self:ShowAllPage()
-		end
-		]]
-	end)
+	-- self.pagebg:SetOnClick(function()
+	-- 	SendModRPCToServer(GetModRPC("RPC_UPGCHEST", "fillcontent"), self.container)
+	-- 	--[[
+	-- 	if self.allpage then
+	-- 		self:ShowOnePage()
+	-- 	else
+	-- 		self:ShowAllPage()
+	-- 	end
+	-- 	]]
+	-- end)
 
 	self.pgupbtn = self:AddChild(ImageButton())
 	self.pgupbtn:SetOnClick(function()
@@ -100,16 +101,21 @@ function ChestPage:ShowAllPage()
 	local page_numslots = lv_x * lv_y
 	local slotpos_ref = self.container.replica.container.widget.slotpos
 	local slot = 1
-	local SEP = Vector3()
-	SEP.x = (80 * lv_x + 40)
-	SEP.y = -(80 * lv_y + 40)
-	for zz = zy , 1, -1 do
-		for z = 1, zx do
-			local offset = Vector3()
-			offset.x = z - zx / 2 - 1
-			offset.y = zz - zy / 2 - 1
+	local SEP = {
+		(80 * lv_x + 40),
+		(80 * lv_y + 40)
+	}
+	for page_y = zy , 1, -1 do
+		for page_x = 1, zx do
+			if slot > self.container.replica.container:GetNumSlots() then
+				break
+			end
+			local offset = {
+				(page_x - (zx + 1) / 2),
+				(page_y - (zy + 1) / 2)
+			}
 			for i = 1, page_numslots do
-				local pos = slotpos_ref[slot] + SEP * offset
+				local pos = slotpos_ref[slot] + Vector3(offset[1] * SEP[1], offset[2] * SEP[2], 0)
 				self.inv[slot]:SetPosition(pos)
 				self.inv[slot]:Show()
 				slot = slot + 1
@@ -128,7 +134,7 @@ function ChestPage:ShowAllPage()
 		self:SetPosition(position_x, 0, 0)
 		parent:SetPosition(0, 0, 0)
 	end
-
+--[[
 	self.jumpwidget = self:AddChild(Image("images/plantregistry.xml", "oversizedpicturefilter.tex"))
 	self.jumpwidget:SetScale(lv_x / 3, lv_y / 3, 1)
 	SetJumpWidgetPos(self.jumpwidget, page_numslots, self.currentpage, self.inv)
@@ -136,11 +142,12 @@ function ChestPage:ShowAllPage()
 	local parent_onclick = parent.onclick
 	self.jumpwidget.parent_onclick = parent_onclick
 	parent.onclick = function()
-		local page = 0
+		local page = 1
 		self:SetPage(page)
 		self:ShowOnePage()
+		parent.onclick = self.jumpwidget.parent_onclick
 	end
-
+]]
 	local blv = self.container.replica.chestupgrade.baselv
 	local xoffset, yoffset = (zx - 1) * blv.x / 20, (zy - 1) * blv.y / 12
 
@@ -155,6 +162,13 @@ function ChestPage:ShowAllPage()
 	if parent.dragwidget then
 		parent.dragwidget:Hide()
 	end
+
+	self.inst:DoTaskInTime(0, function(inst)
+		if parent.chestupgrade_ulb then
+			local pos_x, pos_y, pos_z = self.inv[#self.inv]:GetPositionXYZ()
+			parent.chestupgrade_ulb:SetPosition(0, pos_y - 60, 0)
+		end
+	end)
 end
 
 function ChestPage:ShowOnePage()
@@ -216,12 +230,15 @@ function ChestPage:ReBuild(integrated)
 			self.pagebg = nil
 		end
 
-		local y_top = self.inv[1]:GetPosition().y
+		local y_first = self.inv[1]:GetPosition().y
+		local y_last = self.inv[self.show]:GetPosition().y
+		local y_top = math.max(y_first, y_last)
+		local y_bot = math.min(y_first, y_last)
+
 		self.pgupbtn:SetTextures("images/hud.xml", "craft_end_normal.tex", "craft_end_normal_mouseover.tex")
 		self.pgupbtn:SetScale(-.7)
 		self.pgupbtn:SetPosition(0, y_top + 75, 0)
 
-		local y_bot = self.inv[self.show]:GetPosition().y
 		self.pgdnbtn:SetTextures("images/hud.xml", "craft_end_normal.tex", "craft_end_normal_mouseover.tex")
 		self.pgdnbtn:SetScale(.7)
 		self.pgdnbtn:SetPosition(0, y_bot - 75, 0)

@@ -9,6 +9,7 @@ local chests = {
 	"supertacklecontainer",
 	"shadow_container",
 	"beargerfur_sack",
+	"battlesong_container",
 }
 
 for _, prefab in pairs(chests) do
@@ -26,7 +27,6 @@ local packs = {
 	"krampus_sack",
 	"catback",
 	"piggyback",
-	"catback",
 }
 
 if GetModConfigData("KRAMPUS_ONLY") then
@@ -39,6 +39,21 @@ elseif GetModConfigData("BACKPACK") then
 	for _, prefab in pairs(packs) do
 		local recipe = AllUpgradeRecipes[prefab]
 		ChestUpgrade.PackSetUp(prefab, recipe.params, recipe.lv)
+	end
+end
+
+------------------------------------------------
+local critters = {
+	"chester",
+	"hutch",
+	--"wobybig",
+	--"wobysmall",
+}
+
+if GetModConfigData("C_CHESTER") then
+	for _, prefab in pairs(critters) do
+		local recipe = AllUpgradeRecipes[prefab]
+		ChestUpgrade.ChestSetUp(prefab, recipe.params, recipe.lv)
 	end
 end
 
@@ -98,7 +113,7 @@ if GetModConfigData("BACKPACK") then
 			local chestupgrade = inst.components.chestupgrade
 			local x, y, z = chestupgrade:GetLv()
 
-			if z < (TUNING.CHESTUPGRADE.MAXPACKUPGRADE + 4) then
+			if z < TUNING.CHESTUPGRADE.MAXPACKPAGE + 4 then
 				chestupgrade:SpecialUpgrade(KSSpecialParams, data.doer, {z = 1})
 			end
 		end
