@@ -84,7 +84,7 @@ TUNING.YEYU_NILXIN_ENABLE = modenable({ "2736985627", "2626800998", "夜雨心�
 TUNING.QIONG_ENABLE = modenable({ "1638724235", "小穹" })
 TUNING.YEYU_NILXIN_XIUXIAN_ENABLE = modenable({ "2736985627", "2626800998", "夜雨心空" }) and modenable("修仙世界额外")
 TUNING.ELAINA_ENABLE = modenable({ "2578692071", "魔女之旅" })
-TUNING.SORA_ENABLE = modenable("1638724235")
+TUNING.SORA_ENABLE = modenable({ "1638724235", "小穹" })
 TUNING.ARIA_CRYSTAL_ENABLE = modenable({ "2418617371", "Aria Crystal", "Aria Crystal", "Aria", "艾丽娅", "艾丽娅·克莉丝塔露" })
 TUNING.UI_DRAGGABLE_ENABLE = modenable({ "2885137047", "UI拖拽缩放" })
 TUNING.QIHUANJIANGLIN_ENABLE = modenable({ "2867435690", "2790273347", "奇幻降临：永恒终焉", "永恒终焉" }) or modenable({ "2898657309", "2958351483", "奇幻降临：第四人称", "第四人称" }) or modenable({ "2965155245", "第四人称：主线重载", "第四人称" })
@@ -100,6 +100,7 @@ TUNING.AOLAI_MYTH = modenable({ "3014738585", "神话：傲来神仙境" })
 TUNING.CHERRY_FOREST_ENABLE = modenable({ "1289779251", "Cherry Forest" })
 TUNING.CCS_MOD_ENABLE = modenable({ "3043439883", "魔卡少女小樱（百变小樱）", "魔卡少女小樱" })
 TUNING.MCW_MOD_ENABLE = modenable({ "3152056502", "冰川镜华(万圣节)", "冰川镜华" })
+TUNING.MYTH_THEME_ENABLE = modenable({ "1991746508", "Myth Words Theme-神话书说主题" })
 -----------------------------
 TUNING.DEATH_COUNTER_SHOW_TITLE = GetModConfigData("death_counter_show_title")
 ---限制打包物品
@@ -183,6 +184,9 @@ function testCantPackItem(target, forbidTable)
     return false
 end
 
+function CAP_GetModConfigData(configStr)
+    return GetModConfigData(configStr)
+end
 --修复标签问题
 if GetModConfigData("beta_function_switch") and GetModConfigData("fix_tags_overflow_switch") then
 
@@ -462,6 +466,9 @@ if GetModConfigData("interesting_tumbleweed_switch") and GetModConfigData("tumbl
     modimport("scripts/tumbleweed_prevent_error_patch.lua")
 end
 
+if GetModConfigData("interesting_tumbleweed_switch") and GetModConfigData("tumbleweed_add_more_item_switch") then
+    modimport("scripts/tumbleweed_more_item_patch.lua")
+end
 --能力勋章补丁
 if TUNING.FUNCTIONAL_MEDAL_ENABLE and GetModConfigData("medal_patch_switch") then
     modimport("scripts/tumbleweed_prevent_error_patch.lua")
