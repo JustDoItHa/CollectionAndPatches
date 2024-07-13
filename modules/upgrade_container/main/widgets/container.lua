@@ -324,7 +324,7 @@ local function NEW_Open(self, container, doer, ...)
 
 	--show upgrade requirment
 	local showguide = GetModConfigData("SHOWGUIDE", true) or 0
-	if GetModConfigData("UPG_MODE") ~= 2 and showguide ~= 0 then
+	if TUNING.CAP_UPG_MODE ~= 2 and showguide ~= 0 then
 		if showguide ~= 2 or container.replica.container:IsEmpty() then
 			ShowGuide(self, container)
 		end

@@ -184,9 +184,6 @@ function testCantPackItem(target, forbidTable)
     return false
 end
 
-function CAP_GetModConfigData(configStr)
-    return GetModConfigData(configStr)
-end
 --修复标签问题
 if GetModConfigData("beta_function_switch") and GetModConfigData("fix_tags_overflow_switch") then
 
@@ -648,6 +645,7 @@ if GetModConfigData("upgrade_container_switch") then
     TUNING.CAP_DEGRADABLE = GetModConfigData("DEGRADABLE")
     TUNING.CAP_UPG_MODE = GetModConfigData("UPG_MODE")
     TUNING.CAP_PAGEABLE = GetModConfigData("PAGEABLE")
+    TUNING.CAP_EXPENSIVE_BACKPACK = GetModConfigData("EXPENSIVE_BACKPACK")
 
     modimport("scripts/upgrade_container_main.lua")
 end

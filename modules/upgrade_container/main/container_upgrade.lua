@@ -75,7 +75,7 @@ if GetModConfigData("C_OCEAN_TRAWLER") then
 			chestupgrade:SpecialUpgrade(OTRecipe.params, data.doer, {x = 1})
 		end
 
-		if GetModConfigData("DEGRADABLE") then
+		if TUNING.CAP_DEGRADABLE then
 			util.DegradeByHammer(inst, data)
 		end
 	end

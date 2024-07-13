@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "13.12.2.0"
+version = "13.12.6.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2487,6 +2487,12 @@ if lang == "zh" then
     AddNewConfig("UI_BGIMAGE", "隐藏UI背景", false, BoolOpt, nil, true)
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("其他功能:")
+    AddNewConfig("EXPENSIVE_BACKPACK", "Expensive Backpack", false,
+            AddHoverBoolOpt(
+                    "item to all slots for 1 page upgrade",
+                    "item to 1st page for 1 page upgrade"
+            )
+    )
     AddNewConfig("SCALE_FACTOR", "大小比例", 3,
             {
                 AddOptionShort(1, "2", "1:2, ie. 6x6箱子2倍大(半径)"),

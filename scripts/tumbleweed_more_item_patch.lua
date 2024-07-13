@@ -232,9 +232,9 @@ cap_shenhua_resources = {--神话书说
     { chance = 0.1, item = "myth_food_lxq", aggro = false, announce = true }, --
 
     { chance = 0.1, item = "blackbear", aggro = false, announce = true }, --黑风
-    { chance = 0.1, item = "rhino3_yellow", aggro = false, announce = true }, --三犀牛
-    { chance = 0.1, item = "rhino3_blue", aggro = false, announce = true }, --
-    { chance = 0.1, item = "rhino3_red", aggro = false, announce = true }, --
+    { chance = 0.1, item = "rhino3_yellow", aggro = true, announce = true }, --三犀牛
+    { chance = 0.1, item = "rhino3_blue", aggro = true, announce = true }, --
+    { chance = 0.1, item = "rhino3_red", aggro = true, announce = true }, --
     { chance = 0.1, item = "cold_resistant_pill", aggro = false, announce = true }, --避寒
     { chance = 0.1, item = "heat_resistant_pill", aggro = false, announce = true }, --
     { chance = 0.1, item = "condensed_pill", aggro = false, announce = true }, --凝味
@@ -407,7 +407,7 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
 
     ------------------------------------------------------------------------------
 
-    if TUNING.TUNING.MYTH_THEME_ENABLE then
+    if TUNING.MYTH_THEME_ENABLE then
         local cap_shenhua_resources_tmp = {}
         for i, v in pairs(cap_shenhua_resources) do
             local innner_item = {}
