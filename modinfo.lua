@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "13.13.0.0"
+version = "13.13.1.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -129,6 +129,15 @@ local tumbleweed_item_rates_options = {
     { description = "低", data = 0.05, },
     { description = "极低", data = 0.01, },
     { description = "巨低", data = 0.005, },
+}
+local tumbleweed_item_multiple_options = {
+    { description = "无", data = 1, },
+    { description = "极高", data = 1000, },
+    { description = "高", data = 100, },
+    { description = "一般", data = 10, },
+    { description = "降低", data = 0.1, },
+    { description = "加倍降低", data = 0.01, },
+    { description = "超级降低", data = 0.001, },
 }
 
 local disappear_magic = {
@@ -1319,7 +1328,7 @@ configuration_options[#configuration_options + 1] = AddOption("interesting_tumbl
 configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_item_rates", "花样风滚草中可以开出一些物品", "花样风滚草可以开出一些其他物品", tumbleweed_item_rates_options, 0.2)
 configuration_options[#configuration_options + 1] = AddOption("tumbleweed_prevent_error_patch_switch", "风滚草防错补丁", "防止一些有关风滚草的mod的问题", true)
 configuration_options[#configuration_options + 1] = AddOption("tumbleweed_add_more_item_switch", "风滚草开出更多物品", "风滚草开出更多物品", false)
-
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_item_multiple", "开出更多物品倍率", "开出更多物品倍率", tumbleweed_item_multiple_options, 1)
 ---樱花林补丁
 configuration_options[#configuration_options + 1] = AddOptionHeader("樱花林补丁")
 configuration_options[#configuration_options + 1] = AddOption("cherry_forest_patch_switch", "总开关", "", false)

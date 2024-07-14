@@ -308,6 +308,10 @@ TUNING.TUMBLEWEED_RESOURCES_EXPAND.xxx_resources={--xxx_resources由你自己命
 ]]--
 if GetModConfigData("BIG_BAG_CAN_GET_MENU") then
     local tumbleweed_item_rates_l = GetModConfigData("tumbleweed_item_rates")
+    local tumbleweed_item_multiple_l = GetModConfigData("tumbleweed_item_multiple")
+    if tumbleweed_item_multiple_l == nil or tumbleweed_item_multiple_l < 0 then
+        tumbleweed_item_multiple_l = 1
+    end
     if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_rates_l) == "number" and tumbleweed_item_rates_l > 0 and TUNING.INTERESTING_TUMBLEWEED_ENABLE then
         TUNING.TUMBLEWEED_RESOURCES_EXPAND = TUNING.TUMBLEWEED_RESOURCES_EXPAND or {}
         TUNING.TUMBLEWEED_RESOURCES_EXPAND.catback_resources = {--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
@@ -320,10 +324,9 @@ if GetModConfigData("BIG_BAG_CAN_GET_MENU") then
                   season = 15, --是否属于季节性掉落(选填，填了后在相应的季节会有概率加成，春1夏2秋4冬8，可填季节数字之和表示多个季节，比如：春夏=3,夏秋=6,春夏秋冬=15)
                     --specialtag="featherhat",--装备特殊加成(选填，填装备名或者该装备拥有的某一个标签，填了后玩家穿戴相应的装备开这个道具会有概率加成)
                     --pickfn=function(inst,picker) end--开到后触发的函数(选填，请务必保证函数能正常执行，优先级大于item，有了pickfn就不会生成item了)
-                },
-                { chance = 1, item = "cutgrass" }
+                }
             },
-            multiple = 1, --倍率(选填，不填默认为1)
+            multiple = tumbleweed_item_multiple_l, --倍率(选填，不填默认为1)
             weightClass = "goodMax", --权重等级(选填，填了后掉率会随玩家幸运值变化,不填掉率不会随幸运值浮动)
         }
     end
