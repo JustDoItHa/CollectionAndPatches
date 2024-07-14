@@ -336,7 +336,9 @@ cap_yln_resources = {--魔女
     { chance = .003, item = "tiger_yin", announce = true }, --山宝
 }
 
-
+cap_yyxk_resources = {--夜雨心空
+    { chance = .003, item = "yyxk_magic_seal", aggro = false, announce = true }, --魔法豹印
+}
 --TUNING.TUMBLEWEED_RESOURCES_EXPAND.lengjing_resources = {--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
 --    resourcesList = {
 --        --资源列表，可加多条，每条之间用英文逗号隔开
@@ -406,7 +408,6 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
     end
 
     ------------------------------------------------------------------------------
-
     if TUNING.MYTH_THEME_ENABLE then
         local cap_shenhua_resources_tmp = {}
         for i, v in pairs(cap_shenhua_resources) do
@@ -453,8 +454,8 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
     end
 
     ------------------------------------------------------------------------------
-    local cap_yln_resources_tmp = {}
     if TUNING.SORA_ENABLE then
+        local cap_yln_resources_tmp = {}
         for i, v in pairs(cap_yln_resources) do
             local innner_item = {}
             innner_item.chance = tumbleweed_item_rates_l * v.chance
@@ -470,6 +471,31 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
         end
         TUNING.TUMBLEWEED_RESOURCES_EXPAND.cap_yln_resources = {--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
             resourcesList = cap_yln_resources_tmp,
+            multiple = 1, --倍率(选填，不填默认为1)
+            weightClass = "goodMax", --权重等级(选填，填了后掉率会随玩家幸运值变化,不填掉率不会随幸运值浮动)
+        }
+    end
+
+
+
+    ------------------------------------------------------------------------------
+    if TUNING.YEYU_NILXIN_ENABLE then
+        local cap_yyxk_resources_tmp = {}
+        for i, v in pairs(cap_yln_resources) do
+            local innner_item = {}
+            innner_item.chance = tumbleweed_item_rates_l * v.chance
+            innner_item.item = v.item
+            innner_item.aggro = v.aggro
+            innner_item.announce = v.announce
+            if v.season ~= nil then
+                innner_item.season = v.season
+            else
+                innner_item.season = 15
+            end
+            cap_yyxk_resources_tmp[i] = innner_item
+        end
+        TUNING.TUMBLEWEED_RESOURCES_EXPAND.cap_yyxk_resources = {--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
+            resourcesList = cap_yyxk_resources_tmp,
             multiple = 1, --倍率(选填，不填默认为1)
             weightClass = "goodMax", --权重等级(选填，填了后掉率会随玩家幸运值变化,不填掉率不会随幸运值浮动)
         }
