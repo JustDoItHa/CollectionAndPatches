@@ -552,14 +552,6 @@ local function TjhsnP(player, inst)
             if inst["TengString"] then
                 inst:TengString(IWQcC)
             end ;
-            if inst["text"] then
-                --local textStr = inst.text:GetString()
-                --local textStrs = string.split(textStr, "\n")
-                --for k, v in ipairs(textStrs) do
-                --    table["insert"](IWQcC, { v })
-                --end
-                table["insert"](IWQcC, { inst.text:GetString() })
-            end ;
             if inst["prefab"] then
                 table["insert"](IWQcC, { "代码", inst["prefab"] })
             end ;

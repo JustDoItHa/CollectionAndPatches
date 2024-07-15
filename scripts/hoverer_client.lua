@@ -7,19 +7,19 @@ local lqT = require("widgets/nineslice")
 local show_hover_ui = require("widgets/showhoverui")
 local NUM_TEN = tonumber("10")
 local NUM_ZERO = tonumber("0")
-local function a(inst, hDc_M)
-    local qW0lRiD1 = SHOW_INFO_NIL_STR;
+local function a(inst, data_table)
+    local show_info_str_tt = SHOW_INFO_NIL_STR;
     local iD1IUx = false;
     if inst ~= nil and inst:IsValid() then
-        local JLCOx_ak = inst:GetAdjective()
-        if JLCOx_ak ~= nil then
-            qW0lRiD1 = JLCOx_ak .. " "
+        local adjectiveStr = inst:GetAdjective()
+        if adjectiveStr ~= nil then
+            show_info_str_tt = adjectiveStr .. " "
         end ;
-        qW0lRiD1 = qW0lRiD1 .. inst:GetDisplayName()
-        if qW0lRiD1 ~= SHOW_INFO_NIL_STR then
-            local iy = string.split(qW0lRiD1, "\n")
+        show_info_str_tt = show_info_str_tt .. inst:GetDisplayName()
+        if show_info_str_tt ~= SHOW_INFO_NIL_STR then
+            local iy = string.split(show_info_str_tt, "\n")
             for k, v in ipairs(iy) do
-                table.insert(hDc_M, { v })
+                table.insert(data_table, { v })
             end
         end ;
         local hPQ = SHOW_INFO_NIL_STR;
@@ -31,47 +31,47 @@ local function a(inst, hDc_M)
                 if TheInput:IsControlPressed(CONTROL_FORCE_INSPECT) then
                     hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["INSPECTMOD"]
                     iD1IUx = true;
-                    qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["INSPECTMOD"]
+                    show_info_str_tt = show_info_str_tt .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["INSPECTMOD"]
                 elseif TheInput:IsControlPressed(CONTROL_FORCE_TRADE) and not inst["replica"]["inventoryitem"]:CanOnlyGoInPocket() then
                     if next(thePlayer_l["replica"]["inventory"]:GetOpenContainers()) ~= nil then
                         iD1IUx = true;
                         hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. ((TheInput:IsControlPressed(CONTROL_FORCE_STACK) and inst["replica"]["stackable"] ~= nil) and (STRINGS["STACKMOD"] .. " " .. STRINGS["TRADEMOD"]) or STRINGS["TRADEMOD"])
-                        qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. ((TheInput:IsControlPressed(CONTROL_FORCE_STACK) and inst["replica"]["stackable"] ~= nil) and (STRINGS["STACKMOD"] .. " " .. STRINGS["TRADEMOD"]) or STRINGS["TRADEMOD"])
+                        show_info_str_tt = show_info_str_tt .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. ((TheInput:IsControlPressed(CONTROL_FORCE_STACK) and inst["replica"]["stackable"] ~= nil) and (STRINGS["STACKMOD"] .. " " .. STRINGS["TRADEMOD"]) or STRINGS["TRADEMOD"])
                     end
                 elseif TheInput:IsControlPressed(CONTROL_FORCE_STACK) and inst["replica"]["stackable"] ~= nil then
                     iD1IUx = true;
                     hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["STACKMOD"]
-                    qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["STACKMOD"]
+                    show_info_str_tt = show_info_str_tt .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["STACKMOD"]
                 end
             end ;
             local Hv = player_action_picker:GetInventoryActions(inst)
             if #Hv > tonumber("0") then
                 hPQ = hPQ .. (iD1IUx and " " or SHOW_INFO_NIL_STR) .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. Hv[tonumber("1")]:GetActionString()
-                qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. Hv[tonumber("1")]:GetActionString()
+                show_info_str_tt = show_info_str_tt .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. Hv[tonumber("1")]:GetActionString()
             end
         elseif player_active_item:IsValid() then
             if not (inst.replica.equippable ~= nil and inst.replica.equippable:IsEquipped()) then
                 if player_active_item["replica"]["stackable"] ~= nil and player_active_item["prefab"] == inst["prefab"] and player_active_item["AnimState"]:GetSkinBuild() == inst["AnimState"]:GetSkinBuild() then
                     iD1IUx = true;
                     hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["UI"]["HUD"]["PUT"]
-                    qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["UI"]["HUD"]["PUT"]
+                    show_info_str_tt = show_info_str_tt .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["UI"]["HUD"]["PUT"]
                 else
                     iD1IUx = true;
                     hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["UI"]["HUD"]["SWAP"]
-                    qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["UI"]["HUD"]["SWAP"]
+                    show_info_str_tt = show_info_str_tt .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["UI"]["HUD"]["SWAP"]
                 end
             end
             local Ch = player_action_picker:GetUseItemActions(inst, player_active_item, true)
             if #Ch > tonumber("0") then
                 hPQ = hPQ .. (iD1IUx and " " or SHOW_INFO_NIL_STR) .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. Ch[tonumber("1")]:GetActionString()
-                qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. Ch[tonumber("1")]:GetActionString()
+                show_info_str_tt = show_info_str_tt .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. Ch[tonumber("1")]:GetActionString()
             end
         end ;
         if hPQ ~= SHOW_INFO_NIL_STR then
-            table["insert"](hDc_M, tonumber("2"), { hPQ })
+            table["insert"](data_table, tonumber("2"), { hPQ })
         end
     end ;
-    return qW0lRiD1
+    return show_info_str_tt
 end;
 local show_edge_color = GetModConfigData("showtype") or tonumber("1")
 local function hover_client_func(self)
@@ -119,10 +119,10 @@ local function hover_client_func(self)
         local xL7OTb = false;
         local w8T3f = nil;
         local K = SHOW_INFO_NIL_STR;
-        local qL = {}
+        local show_data_table_l = {}
         if seMLr and under_mouse and under_mouse["replica"] and under_mouse["replica"]["inventoryitem"] ~= nil then
             w8T3f = under_mouse;
-            tooltip_info = a(under_mouse, qL)
+            tooltip_info = a(under_mouse, show_data_table_l)
         else
             if not self["isFE"] then
                 tooltip_info = self.owner.HUD.controls:GetTooltip() or self.owner.components.playercontroller:GetHoverTextOverride()
@@ -160,7 +160,7 @@ local function hover_client_func(self)
                         if kFTAh ~= SHOW_INFO_NIL_STR then
                             local LBf = string.split(kFTAh, "\n")
                             for dijn4Ph, CO1 in ipairs(LBf) do
-                                table["insert"](qL, { CO1 })
+                                table["insert"](show_data_table_l, { CO1 })
                             end
                         end ;
                         tooltip_info = tooltip_info .. " " .. (kFTAh)
@@ -210,19 +210,24 @@ local function hover_client_func(self)
             if self["strFrames"] <= tonumber("0") then
                 if under_mouse ~= nil and not xL7OTb then
                     if not self["othertarget"] then
-                        local RlZo = self["owner"]["player_classified"] and self["owner"]["player_classified"]["hoverertext"]:value() or SHOW_INFO_NIL_STR;
+                        local hoverertext_value_l = self["owner"]["player_classified"] and self["owner"]["player_classified"]["hoverertext"]:value() or SHOW_INFO_NIL_STR;
                         local SUn = { str = {}, im = {} }
-                        if RlZo ~= SHOW_INFO_NIL_STR then
-                            SUn = json["decode"](RlZo)
+                        if hoverertext_value_l ~= SHOW_INFO_NIL_STR then
+                            SUn = json["decode"](hoverertext_value_l)
                         end ;
                         local Ib4 = false;
-                        for fjV1G2, Do in ipairs(qL) do
+                        for k, v in ipairs(show_data_table_l) do
                             Ib4 = true;
-                            table["insert"](SUn["str"], fjV1G2, Do)
+                            table["insert"](SUn["str"], k, v)
                         end ;
                         if K ~= SHOW_INFO_NIL_STR then
                             table["insert"](SUn["str"], Ib4 and tonumber("2") or tonumber("1"), { K })
                         end ;
+                        local additional_info = self["text"]:GetString()
+                        if (additional_info ~= nil and additional_info ~= "") then
+                            table["insert"](SUn["str"], 1, "附加: "..additional_info)
+                        end
+
                         self["showui"]:Show()
                         self["showui"]:Setonumberew(SUn, w8T3f, self)
                     else
