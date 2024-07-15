@@ -290,8 +290,8 @@ cap_yln_resources = {--魔女
     { chance = .003, item = "elaina_pk_stone", aggro = false, announce = true }, --破空石
     { chance = .003, item = "elaina_magic_stone", aggro = false, announce = true }, --精炼石头
     { chance = .003, item = "tool_magic_wand", aggro = false, announce = true }, --工具棒
-    { chance = .0004, item = "red_fairyskirt", aggro = false, announce = true }, --红裙子
-    { chance = .0004, item = "bule_fairyskirt", aggro = false, announce = true }, --蓝裙子
+    { chance = .002, item = "red_fairyskirt", aggro = false, announce = true }, --红裙子
+    { chance = .002, item = "bule_fairyskirt", aggro = false, announce = true }, --蓝裙子
     { chance = .0004, item = "star_brooch", aggro = false, announce = true }, --星辰胸针
     { chance = .003, item = "elaina_fragment", aggro = false, announce = true }, --魔力碎片
     { chance = .003, item = "elaina_book2", aggro = false, announce = true }, --回脑书
@@ -308,7 +308,7 @@ cap_yln_resources = {--魔女
     { chance = .003, item = "elaina_vampire_tooth", aggro = false, announce = true }, --长牙
     { chance = .003, item = "elaina_maid_hat", aggro = false, announce = true }, --女仆帽
     { chance = .003, item = "elaina_epiphyllum", aggro = false, announce = true }, --一叶昙花
-    { chance = .003, item = "elaina_ysth_recall", aggro = false, announce = true }, --人间追忆
+    { chance = .0003, item = "elaina_ysth_recall", aggro = false, announce = true }, --人间追忆
     { chance = .003, item = "elaina_miracle", aggro = false, announce = true }, --奇迹
     { chance = .003, item = "elaina_cupid", aggro = false, announce = true }, --爱神之箭
     { chance = .003, item = "elaina_cheap_love", aggro = false, announce = true }, --廉价爱意

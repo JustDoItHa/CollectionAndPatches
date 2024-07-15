@@ -87,6 +87,25 @@ local function iD1IUx(vfIyB, quNsijN)
         return QUh2tc
     end
 end
+local function GetStrEntry(tab, min_entry)
+    local str = ""
+    for k, v in pairs(tab) do
+        for a, b in pairs(str_entrytab) do
+            if tab[string.format(a)] ~= nil and tab[string.format(a)] > 0 then
+                if k and k == a then
+                    if string.format(a) == string.format(min_entry) then
+                        str = str .. "\n" .. b .. "(主要词条)：" .. v .. "级"
+                    else
+                        str = str .. "\n" .. b .. "：" .. v .. "级"
+                    end
+                    break
+                end
+            end
+        end
+    end
+    return str
+end
+
 local JLCOx_ak = {
     { com = "edible", fn = function(nSBOx7, u, K)
         if K["components"]["eater"] ~= nil and K["components"]["eater"]:CanEat(nSBOx7["inst"]) then
@@ -312,11 +331,52 @@ local JLCOx_ak = {
         table["insert"](A5k5yt, { "水分", inx0["moisture"] })
         table["insert"](A5k5yt, { "肥料", inx0["nutrients"][tonumber("1")] .. "/" .. inx0["nutrients"][tonumber("2")] .. "/" .. inx0["nutrients"][tonumber("3")] })
     end },
+    { com = "elaina_skill", fn = function(inst, _)
+        table["insert"](_, { "当前可用魔女专属科技点", "" .. qW0lRiD1(inst:GetSkillTreePoints()) })
+    end },
     { com = "elaina_magic_spell_power", fn = function(inst, _)
         table["insert"](_, { "法强", "" .. qW0lRiD1(inst:GetEqu()) })
     end },
     { com = "elaina_most_brooch2", fn = function(inst, _)
         table["insert"](_, { "魔女已激活能力", qW0lRiD1(inst:GetBroochset() or 0) .. "条" })
+    end },
+    { com = "saya_moyao", fn = function(inst, _)
+
+        local score = inst:GetScore()
+        local entry = inst:Getentry()
+        local time = inst:GetTime()
+        local min_entry = inst:GetMinEntry()
+        local str_entry = GetStrEntry(entry, min_entry)
+
+        table["insert"](_, { "该魔药评分", score })
+        table["insert"](_, { "该魔药效果", str_entry })
+        table["insert"](_, { "该魔药预计持续时间", time})
+    end },
+    { com = "saya_potions_furnace", fn = function(inst, _)
+        table["insert"](_, { "当前火候", string.format("%.1f", qW0lRiD1(inst:GetFireLevel() or 0)) })
+    end },
+    { com = "saya_potions", fn = function(inst, _)
+
+        local magic = inst.magic:value()
+        local absurd = inst.absurd:value()
+        local food = inst.food:value()
+        local herbs = inst.herbs:value()
+        local magical = inst.magical:value()
+        if magic > 0 then
+            table["insert"](_, { "魔法度", magic })
+        end
+        if absurd > 0 then
+            table["insert"](_, { "荒诞度", absurd })
+        end
+        if food > 0 then
+            table["insert"](_, { "食物度", food })
+        end
+        if herbs > 0 then
+            table["insert"](_, { "草药度", herbs })
+        end
+        if magical > 0 then
+            table["insert"](_, { "神奇度", magical })
+        end
     end } }
 local function hPQ(B7SHDx7h, EEpoeR)
     local _k = {}
