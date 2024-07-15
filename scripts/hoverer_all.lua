@@ -87,6 +87,22 @@ local function iD1IUx(vfIyB, quNsijN)
         return QUh2tc
     end
 end
+local str_entrytab = {
+    atk = "攻击增益",
+    def = "防御增益",
+    spe = "移速增益",
+    magic = "魔法回复增益",
+    happiness = "幸福",
+    fusion = "调合",
+    eternal = "永恒",
+    attack = "进攻",
+    uplevel = "成长",
+    light = "荧光",
+    reply = "回复",
+    confusion = "混乱",
+    wonderful = "奇妙",
+    boom = "爆炸",
+}
 local function GetStrEntry(tab, min_entry)
     local str = ""
     for k, v in pairs(tab) do
