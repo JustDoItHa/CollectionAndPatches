@@ -364,9 +364,9 @@ local JLCOx_ak = {
         local min_entry = inst:GetMinEntry()
         local str_entry = GetStrEntry(entry, min_entry)
 
-        table["insert"](_, { "该魔药评分", score })
-        table["insert"](_, { "该魔药效果", str_entry })
-        table["insert"](_, { "该魔药预计持续时间", time})
+        table["insert"](_, { "该魔药评分", ""..score })
+        table["insert"](_, { "该魔药效果", ""..str_entry })
+        table["insert"](_, { "该魔药预计持续时间", ""..time})
     end },
     { com = "saya_potions_furnace", fn = function(inst, _)
         table["insert"](_, { "当前火候", string.format("%.1f", qW0lRiD1(inst:GetFireLevel() or 0)) })
@@ -379,19 +379,19 @@ local JLCOx_ak = {
         local herbs = inst.herbs:value()
         local magical = inst.magical:value()
         if magic > 0 then
-            table["insert"](_, { "魔法度", magic })
+            table["insert"](_, { "魔法度", ""..magic })
         end
         if absurd > 0 then
-            table["insert"](_, { "荒诞度", absurd })
+            table["insert"](_, { "荒诞度", ""..absurd })
         end
         if food > 0 then
-            table["insert"](_, { "食物度", food })
+            table["insert"](_, { "食物度", ""..food })
         end
         if herbs > 0 then
-            table["insert"](_, { "草药度", herbs })
+            table["insert"](_, { "草药度", ""..herbs })
         end
         if magical > 0 then
-            table["insert"](_, { "神奇度", magical })
+            table["insert"](_, { "神奇度", ""..magical })
         end
     end } }
 local function hPQ(B7SHDx7h, EEpoeR)
