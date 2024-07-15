@@ -198,49 +198,49 @@ cap_xunzhang_resources = {--勋章部分
 }
 
 cap_shenhua_resources = {--神话书说
-    { chance = 0.1, item = "myth_redlantern", aggro = false, announce = true }, --永亮灯笼
-    { chance = 0.1, item = "wine_bottle_gourd", aggro = false, announce = true }, --酒葫芦
+    { chance = 0.01, item = "myth_redlantern", aggro = false, announce = true }, --永亮灯笼
+    { chance = 0.01, item = "wine_bottle_gourd", aggro = false, announce = true }, --酒葫芦
     --{chance=1,item="purple_gourd",aggro=true,announce=true},--紫金葫芦
-    { chance = 0.1, item = "myth_banana_tree", aggro = false, announce = true }, --芭蕉树
-    { chance = .1, item = "myth_zongzi1", aggro = false, announce = true }, --粽子
-    { chance = 0.1, item = "myth_zongzi2", aggro = false, announce = true }, --粽子
-    { chance = 0.1, item = "myth_yjp", aggro = false, announce = true }, --玉净瓶
+    { chance = 0.01, item = "myth_banana_tree", aggro = false, announce = true }, --芭蕉树
+    { chance = 0.01, item = "myth_zongzi1", aggro = false, announce = true }, --粽子
+    { chance = 0.01, item = "myth_zongzi2", aggro = false, announce = true }, --粽子
+    { chance = 0.01, item = "myth_yjp", aggro = false, announce = true }, --玉净瓶
     --{ chance = 0.01, item = "seeds_gourd_l", aggro = false, announce = true }, --葫芦异种
-    { chance = 0.1, item = "alchmy_fur", aggro = false, announce = true }, --八卦炉
+    { chance = 0.01, item = "alchmy_fur", aggro = false, announce = true }, --八卦炉
 
-    { chance = 0.1, item = "myth_coin_box", aggro = false, announce = true }, --铜钱
-    { chance = 0.1, item = "myth_plant_infant_fruit", aggro = false, announce = true }, --人参果藤
-    { chance = 0.1, item = "mk_battle_flag_item", aggro = false, announce = true }, --战旗
-    { chance = 0.1, item = "kam_lan_cassock", aggro = false, announce = true }, --袈裟
+    { chance = 0.01, item = "myth_coin_box", aggro = false, announce = true }, --铜钱
+    { chance = 0.01, item = "myth_plant_infant_fruit", aggro = false, announce = true }, --人参果藤
+    { chance = 0.01, item = "mk_battle_flag_item", aggro = false, announce = true }, --战旗
+    { chance = 0.01, item = "kam_lan_cassock", aggro = false, announce = true }, --袈裟
     --{chance=1,item="myth_qxj",aggro=true,announce=true},--七星剑
     --{chance=1,item="bananafan_big",aggro=true,announce=true},--芭蕉扇
-    { chance = 0.1, item = "myth_mooncake_ice", aggro = false, announce = true }, --冰皮月饼
-    { chance = 0.1, item = "myth_mooncake_lotus", aggro = false, announce = true }, --莲蓉月饼
-    { chance = 0.1, item = "myth_mooncake_nuts", aggro = false, announce = true }, --五仁月饼
-    { chance = 0.1, item = "myth_food_tsj", aggro = false, announce = true }, --屠苏酒
-    { chance = 0.1, item = "myth_food_lwhz", aggro = false, announce = true }, --
-    { chance = 0.1, item = "myth_food_hlbz", aggro = false, announce = true }, --
-    { chance = 0.1, item = "myth_food_cj", aggro = false, announce = true }, --
-    { chance = 0.1, item = "myth_food_zyoh", aggro = false, announce = true }, --
-    { chance = 0.1, item = "myth_food_bbf", aggro = false, announce = true }, --
-    { chance = 0.1, item = "myth_food_hsy", aggro = false, announce = true }, --
-    { chance = 0.1, item = "myth_food_xjdmg", aggro = false, announce = true }, --
-    { chance = 0.1, item = "myth_food_bz", aggro = false, announce = true }, --
-    { chance = 0.1, item = "myth_food_sj", aggro = false, announce = true }, --
-    { chance = 0.1, item = "myth_food_zpd", aggro = false, announce = true }, --
-    { chance = 0.1, item = "myth_food_fhy", aggro = false, announce = true }, --
-    { chance = 0.1, item = "myth_food_lxq", aggro = false, announce = true }, --
+    { chance = 0.01, item = "myth_mooncake_ice", aggro = false, announce = true }, --冰皮月饼
+    { chance = 0.01, item = "myth_mooncake_lotus", aggro = false, announce = true }, --莲蓉月饼
+    { chance = 0.01, item = "myth_mooncake_nuts", aggro = false, announce = true }, --五仁月饼
+    { chance = 0.01, item = "myth_food_tsj", aggro = false, announce = true }, --屠苏酒
+    { chance = 0.01, item = "myth_food_lwhz", aggro = false, announce = true }, --
+    { chance = 0.01, item = "myth_food_hlbz", aggro = false, announce = true }, --
+    { chance = 0.01, item = "myth_food_cj", aggro = false, announce = true }, --
+    { chance = 0.01, item = "myth_food_zyoh", aggro = false, announce = true }, --
+    { chance = 0.01, item = "myth_food_bbf", aggro = false, announce = true }, --
+    { chance = 0.01, item = "myth_food_hsy", aggro = false, announce = true }, --
+    { chance = 0.01, item = "myth_food_xjdmg", aggro = false, announce = true }, --
+    { chance = 0.01, item = "myth_food_bz", aggro = false, announce = true }, --
+    { chance = 0.01, item = "myth_food_sj", aggro = false, announce = true }, --
+    { chance = 0.01, item = "myth_food_zpd", aggro = false, announce = true }, --
+    { chance = 0.01, item = "myth_food_fhy", aggro = false, announce = true }, --
+    { chance = 0.01, item = "myth_food_lxq", aggro = false, announce = true }, --
 
-    { chance = 0.1, item = "blackbear", aggro = false, announce = true }, --黑风
-    { chance = 0.1, item = "rhino3_yellow", aggro = true, announce = true }, --三犀牛
-    { chance = 0.1, item = "rhino3_blue", aggro = true, announce = true }, --
-    { chance = 0.1, item = "rhino3_red", aggro = true, announce = true }, --
-    { chance = 0.1, item = "cold_resistant_pill", aggro = false, announce = true }, --避寒
-    { chance = 0.1, item = "heat_resistant_pill", aggro = false, announce = true }, --
-    { chance = 0.1, item = "condensed_pill", aggro = false, announce = true }, --凝味
-    { chance = 0.1, item = "fly_pill", aggro = false, announce = true }, --起飞
-    { chance = 0.1, item = "myth_passcard_jie", aggro = false, announce = true }, --通天敕令
-    { chance = 0.1, item = "laozi_sp", aggro = false, announce = true }, --通天敕令
+    { chance = 0.01, item = "blackbear", aggro = false, announce = true }, --黑风
+    { chance = 0.01, item = "rhino3_yellow", aggro = true, announce = true }, --三犀牛
+    { chance = 0.01, item = "rhino3_blue", aggro = true, announce = true }, --
+    { chance = 0.01, item = "rhino3_red", aggro = true, announce = true }, --
+    { chance = 0.01, item = "cold_resistant_pill", aggro = false, announce = true }, --避寒
+    { chance = 0.01, item = "heat_resistant_pill", aggro = false, announce = true }, --
+    { chance = 0.01, item = "condensed_pill", aggro = false, announce = true }, --凝味
+    { chance = 0.01, item = "fly_pill", aggro = false, announce = true }, --起飞
+    { chance = 0.01, item = "myth_passcard_jie", aggro = false, announce = true }, --通天敕令
+    { chance = 0.01, item = "laozi_sp", aggro = false, announce = true }, --通天敕令
 }
 
 cap_sora_resources = {--小穹

@@ -336,7 +336,7 @@ AddClassPostConstruct(
             local oldUpdateBuildButton = self.UpdateBuildButton
             function self:UpdateBuildButton(from_pin_slot)
                 oldUpdateBuildButton(self, from_pin_slot)
-                if kj_name[self.data.recipe.name] then
+                if self.data and self.data.recipe and self.data.recipe.name and kj_name[self.data.recipe.name] then
                     local remove_day = kj_name[self.data.recipe.name] or 0
                     if TheWorld.state.cycles + 1 >= remove_day and remove_day ~= -1 then
                         return
