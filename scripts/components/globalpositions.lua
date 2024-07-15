@@ -34,7 +34,7 @@ end
 function GlobalPositions:OnLoad(data)
 	-- TheWorld can't have its own map on non-dedicated servers
 	if TheNet:IsDedicated() and data and data.worldmap then
-		if TheWorld.worldmapexplorer.MapExplorer then
+		if TheWorld.worldmapexplorer and TheWorld.worldmapexplorer.MapExplorer then
 			-- This seems to depend on some networking before it can succeed
 			-- However, it always in my testing succeeds before it tries to load the player map
 			-- So that's good enough, I suppose?
