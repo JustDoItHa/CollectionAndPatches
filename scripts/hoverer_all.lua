@@ -87,200 +87,237 @@ local function iD1IUx(vfIyB, quNsijN)
         return QUh2tc
     end
 end
-local JLCOx_ak = { { com = "edible", fn = function(nSBOx7, u, K)
-    if K["components"]["eater"] ~= nil and K["components"]["eater"]:CanEat(nSBOx7["inst"]) then
-        local i1 = K["components"]["foodmemory"] ~= nil and K["components"]["foodmemory"]:GetFoodMultiplier(nSBOx7["inst"]["prefab"]) or tonumber("1")
-        local zz1QI = K["components"]["eater"]
-        local kFTAh = zz1QI["hungerabsorption"]
-        local LBf = zz1QI["sanityabsorption"]
-        local dijn4Ph = zz1QI["healthabsorption"]
-        table["insert"](u, { "󰀎" .. (qW0lRiD1(nSBOx7:GetHunger(K) * kFTAh * i1, tonumber("1"))) .. " 󰀓" .. (qW0lRiD1(nSBOx7:GetSanity(K) * LBf * i1, tonumber("1"))) .. " 󰀍" .. (qW0lRiD1(nSBOx7:GetHealth(K) * dijn4Ph * i1, tonumber("1"))) })
-        if nSBOx7["temperaturedelta"] ~= tonumber("0") then
-            table["insert"](u, { "温度变化", nSBOx7["temperaturedelta"] .. "(" .. nSBOx7["temperatureduration"] .. "秒)" })
-        end
-    end
-end }, { com = "unwrappable", fn = function(CO1, RlZo)
-    if CO1["itemdata"] and type(CO1["itemdata"]) == 'table' then
-        for SUn, Ib4 in ipairs(CO1["itemdata"]) do
-            if Ib4["prefab"] then
-                local fjV1G2 = Ib4["data"] and Ib4["data"]["stackable"] and Ib4["data"]["stackable"]["stack"]
-                table["insert"](RlZo, { (STRINGS["NAMES"][string["upper"](Ib4["prefab"])] or Ib4["prefab"]) .. (fjV1G2 and "(" .. fjV1G2 .. ") " or " ") })
+local JLCOx_ak = {
+    { com = "edible", fn = function(nSBOx7, u, K)
+        if K["components"]["eater"] ~= nil and K["components"]["eater"]:CanEat(nSBOx7["inst"]) then
+            local i1 = K["components"]["foodmemory"] ~= nil and K["components"]["foodmemory"]:GetFoodMultiplier(nSBOx7["inst"]["prefab"]) or tonumber("1")
+            local zz1QI = K["components"]["eater"]
+            local kFTAh = zz1QI["hungerabsorption"]
+            local LBf = zz1QI["sanityabsorption"]
+            local dijn4Ph = zz1QI["healthabsorption"]
+            table["insert"](u, { "󰀎" .. (qW0lRiD1(nSBOx7:GetHunger(K) * kFTAh * i1, tonumber("1"))) .. " 󰀓" .. (qW0lRiD1(nSBOx7:GetSanity(K) * LBf * i1, tonumber("1"))) .. " 󰀍" .. (qW0lRiD1(nSBOx7:GetHealth(K) * dijn4Ph * i1, tonumber("1"))) })
+            if nSBOx7["temperaturedelta"] ~= tonumber("0") then
+                table["insert"](u, { "温度变化", nSBOx7["temperaturedelta"] .. "(" .. nSBOx7["temperatureduration"] .. "秒)" })
             end
         end
-    end
-end }, { com = "health", fn = function(Do, _)
-    table["insert"](_, { "生命", qW0lRiD1(Do["currenthealth"]) .. "/" .. qW0lRiD1(Do:GetMaxWithPenalty()) })
-    if Do["absorb"] ~= tonumber("0") then
-        table["insert"](_, { "减伤", qW0lRiD1(Do["absorb"] * tonumber("100"), tonumber("1")) .. "%" })
-    end
-end }, { com = "hunger", fn = function(TqYJ4, DI)
-    table["insert"](DI, { "饥饿", qW0lRiD1(TqYJ4["current"]) .. "/" .. TqYJ4["max"] })
-end }, { com = "occupiable", fn = function(b, E)
-    if b["occupant"] ~= nil and b["occupant"]:IsValid() and b["occupant"]["components"]["perishable"] then
-        table["insert"](E, { "剩余天数", qW0lRiD1((b["occupant"]["components"]["perishable"]["perishremainingtime"] or tonumber("0")) / TUNING["TOTAL_DAY_TIME"], tonumber("1")) .. "天" })
-    end
-end }, { com = "sanity", fn = function(KMw7_i1s, CQi)
-    table["insert"](CQi, { "理智", qW0lRiD1(KMw7_i1s["current"]) .. "/" .. KMw7_i1s["max"] })
-end }, { com = "combat", fn = function(nHlJ, lw4Q7kbl)
-    if nHlJ["defaultdamage"] > tonumber("0") then
-        table["insert"](lw4Q7kbl, { "伤害", qW0lRiD1(nHlJ["defaultdamage"]) })
-    end ;
-    if nHlJ["attackrange"] > tonumber("3") then
-        table["insert"](lw4Q7kbl, { "攻击距离", qW0lRiD1(nHlJ["attackrange"], tonumber("1")) })
-    end
-end }, { com = "weapon", fn = function(IN, QYf1)
-    if not IN["inst"]["components"]["weapon_fumo"] and IN["damage"] ~= nil and type(IN["damage"]) == "number" then
-        table["insert"](QYf1, { "伤害", qW0lRiD1(IN["damage"], tonumber("1")) })
-        if IN["attackrange"] ~= nil and IN["attackrange"] ~= tonumber("0") then
-            table["insert"](QYf1, { "攻击距离", qW0lRiD1(IN["attackrange"], tonumber("1")) })
+    end },
+    { com = "unwrappable", fn = function(CO1, RlZo)
+        if CO1["itemdata"] and type(CO1["itemdata"]) == 'table' then
+            for SUn, Ib4 in ipairs(CO1["itemdata"]) do
+                if Ib4["prefab"] then
+                    local fjV1G2 = Ib4["data"] and Ib4["data"]["stackable"] and Ib4["data"]["stackable"]["stack"]
+                    table["insert"](RlZo, { (STRINGS["NAMES"][string["upper"](Ib4["prefab"])] or Ib4["prefab"]) .. (fjV1G2 and "(" .. fjV1G2 .. ") " or " ") })
+                end
+            end
         end
-    end
-end }, { com = "armor", fn = function(RfsnisO, lvW2ga)
-    if not RfsnisO["inst"]["components"]["armor_fumo"] and not RfsnisO["inst"]["components"]["hat_fumo"] then
-        if "absorb_percent" == nil or RfsnisO["absorb_percent"] == nil then
-            table["insert"](lvW2ga, { "防御", qW0lRiD1(0, tonumber("1")) .. "%" })
-        else
-            table["insert"](lvW2ga, { "防御", qW0lRiD1(RfsnisO["absorb_percent"] * tonumber("100"), tonumber("1")) .. "%" })
+    end },
+    { com = "health", fn = function(Do, _)
+        table["insert"](_, { "生命", qW0lRiD1(Do["currenthealth"]) .. "/" .. qW0lRiD1(Do:GetMaxWithPenalty()) })
+        if Do["absorb"] ~= tonumber("0") then
+            table["insert"](_, { "减伤", qW0lRiD1(Do["absorb"] * tonumber("100"), tonumber("1")) .. "%" })
         end
-        --table["insert"](lvW2ga, { "防御", qW0lRiD1(RfsnisO["absorb_percent"] * tonumber("100"), tonumber("1")) .. "%" })
-        table["insert"](lvW2ga, { "耐久", (RfsnisO["indestructible"] and "无限耐久" or qW0lRiD1(RfsnisO["condition"]) .. "/" .. qW0lRiD1(RfsnisO["maxcondition"])) })
-    end
-end }, { com = "fishable", fn = function(T7RKP, _L6Bs)
-    table["insert"](_L6Bs, { "钓鱼", T7RKP["fishleft"] .. "/" .. T7RKP["maxfish"] })
-end }, { com = "farmplantstress", fn = function(SH, wU4wYbA9)
-    table["insert"](wU4wYbA9, { "压力值", SH["stress_points"] })
-end }, { com = "stackable", fn = function(fFeQcIM, JEHSHPh3)
-    table["insert"](JEHSHPh3, { "叠加", fFeQcIM["stacksize"] .. "/" .. fFeQcIM["maxsize"] })
-end }, { com = "finiteuses", fn = function(bb, o5e6fP)
-    table["insert"](o5e6fP, { "耐久", qW0lRiD1(bb["current"]) .. "/" .. qW0lRiD1(bb["total"]) })
-end }, { com = "perishable", fn = function(iq7ol, eMV)
-    if not iq7ol["inst"]["replica"]["health"] then
-        local WDtonumberkTD = iD1IUx(iq7ol["inst"], iq7ol)
-        if WDtonumberkTD > tonumber("0") then
-            table["insert"](eMV, { "新鲜度", qW0lRiD1(iq7ol:GetPercent() * tonumber("100")) .. "%" })
-            table["insert"](eMV, { "剩余天数", qW0lRiD1((iq7ol["perishremainingtime"] or tonumber("0")) / TUNING["TOTAL_DAY_TIME"] / WDtonumberkTD, tonumber("1")) .. "天" })
-        else
-            table["insert"](eMV, { "特殊效果", WDtonumberkTD == tonumber("0") and "永久保鲜" or "回复新鲜度" })
-            table["insert"](eMV, { "新鲜度", qW0lRiD1(iq7ol:GetPercent() * tonumber("100")) .. "%" })
-            table["insert"](eMV, { "剩余天数", qW0lRiD1((iq7ol["perishremainingtime"] or tonumber("0")) / TUNING["TOTAL_DAY_TIME"], tonumber("1")) .. "天" })
+    end },
+    { com = "hunger", fn = function(TqYJ4, DI)
+        table["insert"](DI, { "饥饿", qW0lRiD1(TqYJ4["current"]) .. "/" .. TqYJ4["max"] })
+    end },
+    { com = "occupiable", fn = function(b, E)
+        if b["occupant"] ~= nil and b["occupant"]:IsValid() and b["occupant"]["components"]["perishable"] then
+            table["insert"](E, { "剩余天数", qW0lRiD1((b["occupant"]["components"]["perishable"]["perishremainingtime"] or tonumber("0")) / TUNING["TOTAL_DAY_TIME"], tonumber("1")) .. "天" })
         end
-    end
-end }, { com = "follower", fn = function(Oejsws, CkD73N0)
-    if Oejsws["leader"] and Oejsws["leader"]:IsValid() and Oejsws["leader"]["name"] and Oejsws["leader"]["name"] ~= SHOW_INFO_NIL_STR then
-        table["insert"](CkD73N0, { "主人", Oejsws["leader"]["name"] })
-        if Oejsws["targettime"] ~= nil and Oejsws["maxfollowtime"] ~= nil then
-            local PlwhaRKJ = Oejsws["maxfollowtime"]
-            table["insert"](CkD73N0, { "剩余跟随时间", qW0lRiD1(Oejsws:GetLoyaltyPercent() * PlwhaRKJ, tonumber("1")) })
+    end },
+    { com = "sanity", fn = function(KMw7_i1s, CQi)
+        table["insert"](CQi, { "理智", qW0lRiD1(KMw7_i1s["current"]) .. "/" .. KMw7_i1s["max"] })
+    end },
+    { com = "combat", fn = function(nHlJ, lw4Q7kbl)
+        if nHlJ["defaultdamage"] > tonumber("0") then
+            table["insert"](lw4Q7kbl, { "伤害", qW0lRiD1(nHlJ["defaultdamage"]) })
+        end ;
+        if nHlJ["attackrange"] > tonumber("3") then
+            table["insert"](lw4Q7kbl, { "攻击距离", qW0lRiD1(nHlJ["attackrange"], tonumber("1")) })
         end
-    end
-end }, { com = "domesticatable", fn = function(Caz4NM4Z, XVxxx)
-    local hD = Caz4NM4Z:GetObedience()
-    local G5BuU5 = Caz4NM4Z:GetDomestication()
-    if hD ~= nil and hD ~= tonumber("0") then
-        table["insert"](XVxxx, { "服从度", qW0lRiD1(Caz4NM4Z:GetObedience() * tonumber("100"), tonumber("2")) .. "%" })
-    end ;
-    if G5BuU5 ~= nil and G5BuU5 ~= tonumber("0") then
-        table["insert"](XVxxx, { "驯化度", qW0lRiD1(Caz4NM4Z:GetDomestication() * tonumber("100"), tonumber("2")) .. "%" })
-    end
-end }, { com = "growable", fn = function(AfwsY, T)
-    if AfwsY["targettime"] ~= nil and AfwsY.GetonumberextStage ~= nil and AfwsY["stage"] ~= AfwsY:GetonumberextStage() then
-        table["insert"](T, { "阶段", AfwsY["stage"] })
-        table["insert"](T, { "时间", qW0lRiD1(AfwsY["targettime"] - GetTime(), tonumber("1")) .. "秒" })
-    end
-end }, { com = "stewer", fn = function(WZs, ITdz)
-    if WZs["product"] ~= nil then
-        local AjfoUo = STRINGS["NAMES"][string["upper"](WZs["product"])] or WZs["product"]
-        if WZs:IsCooking() then
-            table["insert"](ITdz, { "食物", AjfoUo })
-            table["insert"](ITdz, { "剩余时间", qW0lRiD1(WZs:GetTimeToCook()) .. "秒" })
-        elseif WZs:IsDone() then
-            table["insert"](ITdz, { "食物", AjfoUo })
+    end },
+    { com = "weapon", fn = function(IN, QYf1)
+        if not IN["inst"]["components"]["weapon_fumo"] and IN["damage"] ~= nil and type(IN["damage"]) == "number" then
+            table["insert"](QYf1, { "伤害", qW0lRiD1(IN["damage"], tonumber("1")) })
+            if IN["attackrange"] ~= nil and IN["attackrange"] ~= tonumber("0") then
+                table["insert"](QYf1, { "攻击距离", qW0lRiD1(IN["attackrange"], tonumber("1")) })
+            end
         end
-    end
-end }, { com = "insulator", fn = function(Er9zidsB, X)
-    table["insert"](X, { Er9zidsB["type"] == SEASONS["WINTER"] and "保暖" or "隔热", Er9zidsB["insulation"] })
-end }, { com = "tool", fn = function(dR, JFXtQwy)
-    local uMV17h0 = SHOW_INFO_NIL_STR;
-    for E2NZK, WNWWe in pairs(dR["actions"]) do
-        if E2NZK["id"] and LB1Z[E2NZK["id"]] then
-            uMV17h0 = uMV17h0 .. LB1Z[E2NZK["id"]] .. "(" .. qW0lRiD1(WNWWe, tonumber("1")) .. ") "
+    end },
+    { com = "armor", fn = function(RfsnisO, lvW2ga)
+        if not RfsnisO["inst"]["components"]["armor_fumo"] and not RfsnisO["inst"]["components"]["hat_fumo"] then
+            if "absorb_percent" == nil or RfsnisO["absorb_percent"] == nil then
+                table["insert"](lvW2ga, { "防御", qW0lRiD1(0, tonumber("1")) .. "%" })
+            else
+                table["insert"](lvW2ga, { "防御", qW0lRiD1(RfsnisO["absorb_percent"] * tonumber("100"), tonumber("1")) .. "%" })
+            end
+            --table["insert"](lvW2ga, { "防御", qW0lRiD1(RfsnisO["absorb_percent"] * tonumber("100"), tonumber("1")) .. "%" })
+            table["insert"](lvW2ga, { "耐久", (RfsnisO["indestructible"] and "无限耐久" or qW0lRiD1(RfsnisO["condition"]) .. "/" .. qW0lRiD1(RfsnisO["maxcondition"])) })
         end
-    end
-    if uMV17h0 ~= SHOW_INFO_NIL_STR then
-        table["insert"](JFXtQwy, { "工具", uMV17h0 })
-    end
-end }, { com = "waterproofer", fn = function(zMzjn3lk, Trkkpmd)
-    local L = zMzjn3lk:GetEffectiveness()
-    if L ~= tonumber("0") then
-        table["insert"](Trkkpmd, { "防雨", qW0lRiD1(L * tonumber("100")) .. "%" })
-    end
-end }, { com = "temperature", fn = function(GGv, ZIzh4Si)
-    if GGv["current"] and type(GGv["current"]) == "number" then
-        table["insert"](ZIzh4Si, { "温度", qW0lRiD1(GGv["current"], tonumber("1")) })
-    end
-end }, { com = "dryer", fn = function(c8D4n81, cSjJHx)
-    if c8D4n81:IsDrying() then
-        table["insert"](cSjJHx, { "晾晒时间", qW0lRiD1(c8D4n81:GetTimeToDry() / TUNING["TOTAL_DAY_TIME"], tonumber("1")) .. "天" })
-    elseif c8D4n81["IsDone"] and c8D4n81:IsDone() and c8D4n81["GetTimeToSpoil"] ~= nil then
-        table["insert"](cSjJHx, { "腐烂时间", qW0lRiD1(c8D4n81:GetTimeToSpoil() / TUNING["TOTAL_DAY_TIME"], tonumber("1")) .. "天" })
-    end
-end }, { com = "pickable", fn = function(fa, M)
-    local dIZlrvD = fa["targettime"]
-    if dIZlrvD then
-        local jQgsATKd = dIZlrvD - GetTime()
-        if jQgsATKd > tonumber("0") then
-            table["insert"](M, { "成熟时间", qW0lRiD1(jQgsATKd / TUNING["TOTAL_DAY_TIME"], tonumber("1")) .. "天" })
+    end },
+    { com = "fishable", fn = function(T7RKP, _L6Bs)
+        table["insert"](_L6Bs, { "钓鱼", T7RKP["fishleft"] .. "/" .. T7RKP["maxfish"] })
+    end },
+    { com = "farmplantstress", fn = function(SH, wU4wYbA9)
+        table["insert"](wU4wYbA9, { "压力值", SH["stress_points"] })
+    end },
+    { com = "stackable", fn = function(fFeQcIM, JEHSHPh3)
+        table["insert"](JEHSHPh3, { "叠加", fFeQcIM["stacksize"] .. "/" .. fFeQcIM["maxsize"] })
+    end },
+    { com = "finiteuses", fn = function(bb, o5e6fP)
+        table["insert"](o5e6fP, { "耐久", qW0lRiD1(bb["current"]) .. "/" .. qW0lRiD1(bb["total"]) })
+    end },
+    { com = "perishable", fn = function(iq7ol, eMV)
+        if not iq7ol["inst"]["replica"]["health"] then
+            local WDtonumberkTD = iD1IUx(iq7ol["inst"], iq7ol)
+            if WDtonumberkTD > tonumber("0") then
+                table["insert"](eMV, { "新鲜度", qW0lRiD1(iq7ol:GetPercent() * tonumber("100")) .. "%" })
+                table["insert"](eMV, { "剩余天数", qW0lRiD1((iq7ol["perishremainingtime"] or tonumber("0")) / TUNING["TOTAL_DAY_TIME"] / WDtonumberkTD, tonumber("1")) .. "天" })
+            else
+                table["insert"](eMV, { "特殊效果", WDtonumberkTD == tonumber("0") and "永久保鲜" or "回复新鲜度" })
+                table["insert"](eMV, { "新鲜度", qW0lRiD1(iq7ol:GetPercent() * tonumber("100")) .. "%" })
+                table["insert"](eMV, { "剩余天数", qW0lRiD1((iq7ol["perishremainingtime"] or tonumber("0")) / TUNING["TOTAL_DAY_TIME"], tonumber("1")) .. "天" })
+            end
         end
-    end
-end }, { com = "crop", fn = function(aBbGg, D9)
-    if aBbGg["product_prefab"] then
-        local G = STRINGS["NAMES"][string["upper"](aBbGg["product_prefab"])] or "未知果实"
-        table["insert"](D9, { "果实", G })
-        if aBbGg["growthpercent"] and type(aBbGg["growthpercent"]) == 'number' and aBbGg["growthpercent"] < tonumber("1") then
-            table["insert"](D9, { "成熟百分比", qW0lRiD1(aBbGg["growthpercent"] * tonumber("100"), tonumber("1")) .. "%" })
+    end },
+    { com = "follower", fn = function(Oejsws, CkD73N0)
+        if Oejsws["leader"] and Oejsws["leader"]:IsValid() and Oejsws["leader"]["name"] and Oejsws["leader"]["name"] ~= SHOW_INFO_NIL_STR then
+            table["insert"](CkD73N0, { "主人", Oejsws["leader"]["name"] })
+            if Oejsws["targettime"] ~= nil and Oejsws["maxfollowtime"] ~= nil then
+                local PlwhaRKJ = Oejsws["maxfollowtime"]
+                table["insert"](CkD73N0, { "剩余跟随时间", qW0lRiD1(Oejsws:GetLoyaltyPercent() * PlwhaRKJ, tonumber("1")) })
+            end
         end
-    end
-end }, { com = "tradable", fn = function(gE, QgC)
-    if gE["goldvalue"] >= tonumber("1") then
-        table["insert"](QgC, { "价值", qW0lRiD1(gE["goldvalue"], tonumber("1")) .. "黄金" })
-    end
-end }, { com = "healer", fn = function(CYoa, K3ipRr)
-    table["insert"](K3ipRr, { "治疗血量", SHOW_INFO_NIL_STR .. qW0lRiD1(CYoa["health"], tonumber("1")) })
-end }, { com = "explosive", fn = function(F2tY, rb21L2)
-    table["insert"](rb21L2, { "伤害", qW0lRiD1(F2tY["explosivedamage"]) })
-end }, { com = "mine", fn = function(o_v255, wUVm)
-    if N9L[o_v255["inst"]["prefab"]] then
-        table["insert"](wUVm, { "伤害", qW0lRiD1(N9L[o_v255["inst"]["prefab"]]) })
-    end
-end }, { com = "childspawner", fn = function(VQ, oTYNsnP)
-    table["insert"](oTYNsnP, { "生物", VQ["childreninside"] .. "/" .. VQ["maxchildren"] .. hDc_M(VQ) })
-end }, { com = "fueled", fn = function(I, L)
-    table["insert"](L, { "耐久", qW0lRiD1(I:GetPercent() * tonumber("100"), tonumber("1")) .. "%" })
-end }, { com = "equippable", fn = function(mR5gwW, DfbW)
-    if mR5gwW["dapperness"] ~= tonumber("0") then
-        table["insert"](DfbW, { "回复精神", qW0lRiD1(mR5gwW["dapperness"] * tonumber("60"), tonumber("1")) .. "/分钟" })
-    end ;
-    if mR5gwW["walkspeedmult"] and mR5gwW["walkspeedmult"] ~= tonumber("1") then
-        local sh = qW0lRiD1((mR5gwW["walkspeedmult"] - tonumber("1")) * tonumber("100"), tonumber("1"))
-        table["insert"](DfbW, { "装备加速", sh .. "%" })
-    end ;
-    if mR5gwW["insulated"] then
-        table["insert"](DfbW, { "特殊效果", "免疫闪电" })
-    end
-end }, { com = "damagereflect", fn = function(rrFLbCtj, YcPea0vg)
-    if rrFLbCtj["defaultdamage"] ~= tonumber("0") then
-        table["insert"](YcPea0vg, { "特殊效果", "反伤" .. rrFLbCtj["defaultdamage"] })
-    end
-end }, { com = "blinkstaff", fn = function(usLpLoaH, e7dv)
-    table["insert"](e7dv, { "特殊效果", "传送" })
-end }, { com = "botanycontroller", fn = function(inx0, A5k5yt)
-    table["insert"](A5k5yt, { "水分", inx0["moisture"] })
-    table["insert"](A5k5yt, { "肥料", inx0["nutrients"][tonumber("1")] .. "/" .. inx0["nutrients"][tonumber("2")] .. "/" .. inx0["nutrients"][tonumber("3")] })
-end }, { com = "elaina_magic_spell_power", fn = function(inst, _)
-    table["insert"](_, { "法强", "" .. qW0lRiD1(inst:GetEqu()) })
-end }, { com = "elaina_most_brooch2", fn = function(inst, _)
-    table["insert"](_, { "魔女已激活能力", qW0lRiD1(inst:GetBroochset() or 0) .. "条" })
-end } }
+    end },
+    { com = "domesticatable", fn = function(Caz4NM4Z, XVxxx)
+        local hD = Caz4NM4Z:GetObedience()
+        local G5BuU5 = Caz4NM4Z:GetDomestication()
+        if hD ~= nil and hD ~= tonumber("0") then
+            table["insert"](XVxxx, { "服从度", qW0lRiD1(Caz4NM4Z:GetObedience() * tonumber("100"), tonumber("2")) .. "%" })
+        end ;
+        if G5BuU5 ~= nil and G5BuU5 ~= tonumber("0") then
+            table["insert"](XVxxx, { "驯化度", qW0lRiD1(Caz4NM4Z:GetDomestication() * tonumber("100"), tonumber("2")) .. "%" })
+        end
+    end },
+    { com = "growable", fn = function(AfwsY, T)
+        if AfwsY["targettime"] ~= nil and AfwsY.GetonumberextStage ~= nil and AfwsY["stage"] ~= AfwsY:GetonumberextStage() then
+            table["insert"](T, { "阶段", AfwsY["stage"] })
+            table["insert"](T, { "时间", qW0lRiD1(AfwsY["targettime"] - GetTime(), tonumber("1")) .. "秒" })
+        end
+    end },
+    { com = "stewer", fn = function(WZs, ITdz)
+        if WZs["product"] ~= nil then
+            local AjfoUo = STRINGS["NAMES"][string["upper"](WZs["product"])] or WZs["product"]
+            if WZs:IsCooking() then
+                table["insert"](ITdz, { "食物", AjfoUo })
+                table["insert"](ITdz, { "剩余时间", qW0lRiD1(WZs:GetTimeToCook()) .. "秒" })
+            elseif WZs:IsDone() then
+                table["insert"](ITdz, { "食物", AjfoUo })
+            end
+        end
+    end },
+    { com = "insulator", fn = function(Er9zidsB, X)
+        table["insert"](X, { Er9zidsB["type"] == SEASONS["WINTER"] and "保暖" or "隔热", Er9zidsB["insulation"] })
+    end },
+    { com = "tool", fn = function(dR, JFXtQwy)
+        local uMV17h0 = SHOW_INFO_NIL_STR;
+        for E2NZK, WNWWe in pairs(dR["actions"]) do
+            if E2NZK["id"] and LB1Z[E2NZK["id"]] then
+                uMV17h0 = uMV17h0 .. LB1Z[E2NZK["id"]] .. "(" .. qW0lRiD1(WNWWe, tonumber("1")) .. ") "
+            end
+        end
+        if uMV17h0 ~= SHOW_INFO_NIL_STR then
+            table["insert"](JFXtQwy, { "工具", uMV17h0 })
+        end
+    end },
+    { com = "waterproofer", fn = function(zMzjn3lk, Trkkpmd)
+        local L = zMzjn3lk:GetEffectiveness()
+        if L ~= tonumber("0") then
+            table["insert"](Trkkpmd, { "防雨", qW0lRiD1(L * tonumber("100")) .. "%" })
+        end
+    end },
+    { com = "temperature", fn = function(GGv, ZIzh4Si)
+        if GGv["current"] and type(GGv["current"]) == "number" then
+            table["insert"](ZIzh4Si, { "温度", qW0lRiD1(GGv["current"], tonumber("1")) })
+        end
+    end },
+    { com = "dryer", fn = function(c8D4n81, cSjJHx)
+        if c8D4n81:IsDrying() then
+            table["insert"](cSjJHx, { "晾晒时间", qW0lRiD1(c8D4n81:GetTimeToDry() / TUNING["TOTAL_DAY_TIME"], tonumber("1")) .. "天" })
+        elseif c8D4n81["IsDone"] and c8D4n81:IsDone() and c8D4n81["GetTimeToSpoil"] ~= nil then
+            table["insert"](cSjJHx, { "腐烂时间", qW0lRiD1(c8D4n81:GetTimeToSpoil() / TUNING["TOTAL_DAY_TIME"], tonumber("1")) .. "天" })
+        end
+    end },
+    { com = "pickable", fn = function(fa, M)
+        local dIZlrvD = fa["targettime"]
+        if dIZlrvD then
+            local jQgsATKd = dIZlrvD - GetTime()
+            if jQgsATKd > tonumber("0") then
+                table["insert"](M, { "成熟时间", qW0lRiD1(jQgsATKd / TUNING["TOTAL_DAY_TIME"], tonumber("1")) .. "天" })
+            end
+        end
+    end },
+    { com = "crop", fn = function(aBbGg, D9)
+        if aBbGg["product_prefab"] then
+            local G = STRINGS["NAMES"][string["upper"](aBbGg["product_prefab"])] or "未知果实"
+            table["insert"](D9, { "果实", G })
+            if aBbGg["growthpercent"] and type(aBbGg["growthpercent"]) == 'number' and aBbGg["growthpercent"] < tonumber("1") then
+                table["insert"](D9, { "成熟百分比", qW0lRiD1(aBbGg["growthpercent"] * tonumber("100"), tonumber("1")) .. "%" })
+            end
+        end
+    end },
+    { com = "tradable", fn = function(gE, QgC)
+        if gE["goldvalue"] >= tonumber("1") then
+            table["insert"](QgC, { "价值", qW0lRiD1(gE["goldvalue"], tonumber("1")) .. "黄金" })
+        end
+    end },
+    { com = "healer", fn = function(CYoa, K3ipRr)
+        table["insert"](K3ipRr, { "治疗血量", SHOW_INFO_NIL_STR .. qW0lRiD1(CYoa["health"], tonumber("1")) })
+    end },
+    { com = "explosive", fn = function(F2tY, rb21L2)
+        table["insert"](rb21L2, { "伤害", qW0lRiD1(F2tY["explosivedamage"]) })
+    end },
+    { com = "mine", fn = function(o_v255, wUVm)
+        if N9L[o_v255["inst"]["prefab"]] then
+            table["insert"](wUVm, { "伤害", qW0lRiD1(N9L[o_v255["inst"]["prefab"]]) })
+        end
+    end },
+    { com = "childspawner", fn = function(VQ, oTYNsnP)
+        table["insert"](oTYNsnP, { "生物", VQ["childreninside"] .. "/" .. VQ["maxchildren"] .. hDc_M(VQ) })
+    end },
+    { com = "fueled", fn = function(I, L)
+        table["insert"](L, { "耐久", qW0lRiD1(I:GetPercent() * tonumber("100"), tonumber("1")) .. "%" })
+    end },
+    { com = "equippable", fn = function(mR5gwW, DfbW)
+        if mR5gwW["dapperness"] ~= tonumber("0") then
+            table["insert"](DfbW, { "回复精神", qW0lRiD1(mR5gwW["dapperness"] * tonumber("60"), tonumber("1")) .. "/分钟" })
+        end ;
+        if mR5gwW["walkspeedmult"] and mR5gwW["walkspeedmult"] ~= tonumber("1") then
+            local sh = qW0lRiD1((mR5gwW["walkspeedmult"] - tonumber("1")) * tonumber("100"), tonumber("1"))
+            table["insert"](DfbW, { "装备加速", sh .. "%" })
+        end ;
+        if mR5gwW["insulated"] then
+            table["insert"](DfbW, { "特殊效果", "免疫闪电" })
+        end
+    end },
+    { com = "damagereflect", fn = function(rrFLbCtj, YcPea0vg)
+        if rrFLbCtj["defaultdamage"] ~= tonumber("0") then
+            table["insert"](YcPea0vg, { "特殊效果", "反伤" .. rrFLbCtj["defaultdamage"] })
+        end
+    end },
+    { com = "blinkstaff", fn = function(usLpLoaH, e7dv)
+        table["insert"](e7dv, { "特殊效果", "传送" })
+    end },
+    { com = "botanycontroller", fn = function(inx0, A5k5yt)
+        table["insert"](A5k5yt, { "水分", inx0["moisture"] })
+        table["insert"](A5k5yt, { "肥料", inx0["nutrients"][tonumber("1")] .. "/" .. inx0["nutrients"][tonumber("2")] .. "/" .. inx0["nutrients"][tonumber("3")] })
+    end },
+    { com = "elaina_magic_spell_power", fn = function(inst, _)
+        table["insert"](_, { "法强", "" .. qW0lRiD1(inst:GetEqu()) })
+    end },
+    { com = "elaina_most_brooch2", fn = function(inst, _)
+        table["insert"](_, { "魔女已激活能力", qW0lRiD1(inst:GetBroochset() or 0) .. "条" })
+    end } }
 local function hPQ(B7SHDx7h, EEpoeR)
     local _k = {}
     for k, v in ipairs(JLCOx_ak) do

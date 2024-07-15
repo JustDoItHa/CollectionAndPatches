@@ -116,7 +116,7 @@ local lqT = require("widgets/redux/templates")
 local mP3mlD = require("widgets/spinner")
 local image_l = require("widgets/image")
 
-local tczrIB = {
+local color_enum = {
     PLAYERCOLOURS["GREEN"],
     PLAYERCOLOURS["CHOCOLATE"],
     PLAYERCOLOURS["BLUE"],
@@ -136,7 +136,7 @@ local tczrIB = {
     { tonumber(ZG[7]) / tonumber(ZG[8]), tonumber(ZG[7]) / tonumber(ZG[8]), tonumber(ZG[8]) / tonumber(ZG[8]), tonumber("1") }
 }
 local a = Class(widget_l, function(self, iD1IUx, JLCOx_ak, hPQ)
-    local R1FIoQI = tczrIB[hPQ or tonumber("1")]
+    local R1FIoQI = color_enum[hPQ or tonumber("1")]
     widget_l["_ctor"](self, "makeback")
     self["image11"] = self:AddChild(image_l("images/text_teng_hoverer.xml", ZG[12]))
     self["image11"]:SetTint(unpack(R1FIoQI))
