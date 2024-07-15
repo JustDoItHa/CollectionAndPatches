@@ -170,24 +170,24 @@ local function hover_client_func(self)
                     end
                 end
             end ;
-            local qboV = nil
-            local nSBOx7 = nil
+            local isAOETargeting_l = nil
+            local rightMouseAction_l = nil
             if self["owner"]["components"]["playercontroller"] ~= nil then
-                qboV = self["owner"]["components"]["playercontroller"]:IsAOETargeting()
-                nSBOx7 = self["owner"]["components"]["playercontroller"]:GetRightMouseAction()
+                isAOETargeting_l = self["owner"]["components"]["playercontroller"]:IsAOETargeting()
+                rightMouseAction_l = self["owner"]["components"]["playercontroller"]:GetRightMouseAction()
             end
 
-            if nSBOx7 ~= nil then
-                if nSBOx7["action"]["show_secondary_input_right"] then
-                    vfIyB = nSBOx7:GetActionString() .. " " .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY)
-                elseif nSBOx7["action"] ~= ACTIONS["CASTAOE"] then
-                    vfIyB = TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. nSBOx7:GetActionString()
-                elseif qboV and tooltip_info == nil then
-                    tooltip_info = nSBOx7:GetActionString()
+            if rightMouseAction_l ~= nil then
+                if rightMouseAction_l["action"]["show_secondary_input_right"] then
+                    vfIyB = rightMouseAction_l:GetActionString() .. " " .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY)
+                elseif rightMouseAction_l["action"] ~= ACTIONS["CASTAOE"] then
+                    vfIyB = TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. rightMouseAction_l:GetActionString()
+                elseif isAOETargeting_l and tooltip_info == nil then
+                    tooltip_info = rightMouseAction_l:GetActionString()
                     xL7OTb = true
                 end
             end ;
-            if qboV and vfIyB == nil then
+            if isAOETargeting_l and vfIyB == nil then
                 vfIyB = TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. STRINGS["UI"]["HUD"]["CANCEL"]
                 xL7OTb = true
             end
@@ -223,6 +223,11 @@ local function hover_client_func(self)
                         if K ~= SHOW_INFO_NIL_STR then
                             table["insert"](SUn["str"], Ib4 and tonumber("2") or tonumber("1"), { K })
                         end ;
+                        local additional_info = self["text"]:GetString()
+                        if (additional_info ~= nil and additional_info ~= "") then
+                            table["insert"](SUn["str"], 2, "附加: "..additional_info)
+                        end
+
                         self["showui"]:Show()
                         self["showui"]:Setonumberew(SUn, w8T3f, self)
                     else
@@ -275,6 +280,10 @@ local function hover_client_func(self)
             self:SetPosition(math["clamp"](TqYJ4, CQi + NUM_TEN, E - CQi - NUM_TEN), math["clamp"](DI, nHlJ - tonumber("50") * b["y"], KMw7_i1s - nHlJ - rHSjalVy * b["y"]), tonumber("0"))
         end
     end
+    --local old_setString = self.text.SetString
+    --self.text.SetString = function(text,str)
+    --
+    --end
 end;
 AddClassPostConstruct("widgets/hoverer", hover_client_func)
 
