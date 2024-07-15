@@ -223,11 +223,6 @@ local function hover_client_func(self)
                         if K ~= SHOW_INFO_NIL_STR then
                             table["insert"](SUn["str"], Ib4 and tonumber("2") or tonumber("1"), { K })
                         end ;
-                        local additional_info = self["text"]:GetString()
-                        if (additional_info ~= nil and additional_info ~= "") then
-                            table["insert"](SUn["str"], 2, "附加: "..additional_info)
-                        end
-
                         self["showui"]:Show()
                         self["showui"]:Setonumberew(SUn, w8T3f, self)
                     else
