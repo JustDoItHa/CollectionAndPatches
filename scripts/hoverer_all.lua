@@ -9,17 +9,17 @@ AddPrefabPostInit("player_classified", function(inst)
         inst:ListenForEvent("hoverdirty", wqU76o)
     end
 end)
-AddClassPostConstruct("components/inventoryitem_replica", function(zPXTTg, seMLr)
-    zPXTTg["_fantasyatlas"] = nil;
-    local qX = zPXTTg["SetAtlas"]
-    function zPXTTg:SetAtlas(h_8)
-        if qX ~= nil then
-            qX(zPXTTg, h_8)
+AddClassPostConstruct("components/inventoryitem_replica", function(self, inst)
+    self["_fantasyatlas"] = nil;
+    local old_SetAtlas = self["SetAtlas"]
+    function self:SetAtlas(atlasname)
+        if old_SetAtlas ~= nil then
+            old_SetAtlas(self, atlasname)
         end ;
-        zPXTTg["_fantasyatlas"] = h_8
+        self["_fantasyatlas"] = atlasname
     end;
-    function zPXTTg:GetFantasyAtlas()
-        return zPXTTg["_fantasyatlas"] ~= nil and zPXTTg["_fantasyatlas"] or zPXTTg:GetAtlas()
+    function self:GetFantasyAtlas()
+        return self["_fantasyatlas"] ~= nil and self["_fantasyatlas"] or self:GetAtlas()
     end
 end)
 local LB1Z = { CHOP = "砍", DIG = "铲", HAMMER = "锤", MINE = "凿", NET = "捕" }
@@ -551,6 +551,13 @@ local function TjhsnP(player, inst)
             end ;
             if inst["TengString"] then
                 inst:TengString(IWQcC)
+            end ;
+            if inst["text"] then
+                local textStr = inst.text:GetString()
+                local textStrs = string.split(textStr, "\n")
+                for k, v in ipairs(textStrs) do
+                    table["insert"](IWQcC, { v })
+                end
             end ;
             if inst["prefab"] then
                 table["insert"](IWQcC, { "代码", inst["prefab"] })

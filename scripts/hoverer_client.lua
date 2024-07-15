@@ -23,17 +23,17 @@ local function a(inst, hDc_M)
             end
         end ;
         local hPQ = SHOW_INFO_NIL_STR;
-        local R1FIoQI = ThePlayer;
-        local NsoTwDs = R1FIoQI["components"]["playeractionpicker"]
-        local HGli = R1FIoQI["replica"]["inventory"]:GetActiveItem()
-        if HGli == nil then
+        local thePlayer_l = ThePlayer;
+        local player_action_picker = thePlayer_l["components"]["playeractionpicker"]
+        local player_active_item = thePlayer_l["replica"]["inventory"]:GetActiveItem()
+        if player_active_item == nil then
             if not (inst["replica"]["equippable"] ~= nil and inst["replica"]["equippable"]:IsEquipped()) then
                 if TheInput:IsControlPressed(CONTROL_FORCE_INSPECT) then
                     hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["INSPECTMOD"]
                     iD1IUx = true;
                     qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["INSPECTMOD"]
                 elseif TheInput:IsControlPressed(CONTROL_FORCE_TRADE) and not inst["replica"]["inventoryitem"]:CanOnlyGoInPocket() then
-                    if next(R1FIoQI["replica"]["inventory"]:GetOpenContainers()) ~= nil then
+                    if next(thePlayer_l["replica"]["inventory"]:GetOpenContainers()) ~= nil then
                         iD1IUx = true;
                         hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. ((TheInput:IsControlPressed(CONTROL_FORCE_STACK) and inst["replica"]["stackable"] ~= nil) and (STRINGS["STACKMOD"] .. " " .. STRINGS["TRADEMOD"]) or STRINGS["TRADEMOD"])
                         qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. ((TheInput:IsControlPressed(CONTROL_FORCE_STACK) and inst["replica"]["stackable"] ~= nil) and (STRINGS["STACKMOD"] .. " " .. STRINGS["TRADEMOD"]) or STRINGS["TRADEMOD"])
@@ -44,14 +44,14 @@ local function a(inst, hDc_M)
                     qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["STACKMOD"]
                 end
             end ;
-            local Hv = NsoTwDs:GetInventoryActions(inst)
+            local Hv = player_action_picker:GetInventoryActions(inst)
             if #Hv > tonumber("0") then
                 hPQ = hPQ .. (iD1IUx and " " or SHOW_INFO_NIL_STR) .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. Hv[tonumber("1")]:GetActionString()
                 qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. Hv[tonumber("1")]:GetActionString()
             end
-        elseif HGli:IsValid() then
+        elseif player_active_item:IsValid() then
             if not (inst.replica.equippable ~= nil and inst.replica.equippable:IsEquipped()) then
-                if HGli["replica"]["stackable"] ~= nil and HGli["prefab"] == inst["prefab"] and HGli["AnimState"]:GetSkinBuild() == inst["AnimState"]:GetSkinBuild() then
+                if player_active_item["replica"]["stackable"] ~= nil and player_active_item["prefab"] == inst["prefab"] and player_active_item["AnimState"]:GetSkinBuild() == inst["AnimState"]:GetSkinBuild() then
                     iD1IUx = true;
                     hPQ = hPQ .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["UI"]["HUD"]["PUT"]
                     qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["UI"]["HUD"]["PUT"]
@@ -61,7 +61,7 @@ local function a(inst, hDc_M)
                     qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_PRIMARY) .. ": " .. STRINGS["UI"]["HUD"]["SWAP"]
                 end
             end
-            local Ch = NsoTwDs:GetUseItemActions(inst, HGli, true)
+            local Ch = player_action_picker:GetUseItemActions(inst, player_active_item, true)
             if #Ch > tonumber("0") then
                 hPQ = hPQ .. (iD1IUx and " " or SHOW_INFO_NIL_STR) .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. Ch[tonumber("1")]:GetActionString()
                 qW0lRiD1 = qW0lRiD1 .. "\n" .. TheInput:GetLocalizedControl(TheInput:GetControllerID(), CONTROL_SECONDARY) .. ": " .. Ch[tonumber("1")]:GetActionString()
