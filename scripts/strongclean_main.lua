@@ -58,6 +58,12 @@ local whitelist = {
     "singingshell_octave", --贝壳钟(关键词 有3 4 5)
     "atrium_light_moon", --阿比的灯柱
     "nilxin_fox", -- 夜雨团子
+    "sora_pot", --
+    "doydoy",
+    "doydoybaby",
+    "dubloon",
+    "ia_messagebottle",
+    "ia_messagebottleempty"
 }
 
 local blacklist = {

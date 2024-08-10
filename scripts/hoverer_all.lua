@@ -373,11 +373,11 @@ local JLCOx_ak = {
     end },
     { com = "saya_potions", fn = function(inst, _)
 
-        local magic = inst.magic:value()
-        local absurd = inst.absurd:value()
-        local food = inst.food:value()
-        local herbs = inst.herbs:value()
-        local magical = inst.magical:value()
+        local magic = inst.magic
+        local absurd = inst.absurd
+        local food = inst.food
+        local herbs = inst.herbs
+        local magical = inst.magical
         if magic > 0 then
             table["insert"](_, { "魔法度", ""..magic })
         end
