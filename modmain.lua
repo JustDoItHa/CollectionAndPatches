@@ -595,9 +595,9 @@ if GetModConfigData("little_modify_for_pure_switch") then
     if GetModConfigData("limit_ripening_plant_switch") then
         modimport("scripts/limit_ripening_plant.lua")
     end
-    if GetModConfigData("more_crafting_details_switch") then
-        modimport("scripts/more_crafting_details_main.lua")
-    end
+    --if GetModConfigData("more_crafting_details_switch") then
+    --    modimport("scripts/more_crafting_details_main.lua")
+    --end
     -- 亮茄定期死亡
     if GetModConfigData("CREATURE_DIE_TIME") then
         modimport("scripts/creature_die_time_patches.lua")
@@ -694,10 +694,10 @@ if GetModConfigData("beta_function_switch") then
     --if GetModConfigData("fix_medal_conflict_with_other_mod_switch") then
     --    modimport("scripts/fix_medal_conflict_with_other_mod.lua")
     --end
-
-    --if GetModConfigData("blueprint_error_fix_switch") then
-    --    modimport("scripts/blueprint_error_fix.lua")
-    --end
+    --蓝图、草图、广告bug修复事件
+    if GetModConfigData("blueprint_error_fix_switch") then
+        modimport("scripts/blueprint_error_fix.lua")
+    end
 
     --Heap Of food 汉化
     if GetModConfigData("heap_of_food_chs_language_switch") then

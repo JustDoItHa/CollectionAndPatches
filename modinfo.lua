@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "13.14.1.0"
+version = "13.14.3.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2359,7 +2359,7 @@ configuration_options[#configuration_options + 1] = AddOption("give_item_optimiz
 configuration_options[#configuration_options + 1] = AddOption("fix_heap_of_food_switch", "修复HeapOfFood问题", "修复HeapOfFood问题", false)
 configuration_options[#configuration_options + 1] = AddOption("fix_migration_data_lost_switch", "修复跳世界数据丢失问题", "修复跳世界数据丢失导致重选人物问题", true)
 --configuration_options[#configuration_options + 1] = AddOption("fix_medal_conflict_with_other_mod_switch", "修复勋章跟其他mod一些冲突", "修复勋章跟其他mod一些冲突", true)
---configuration_options[#configuration_options + 1] = AddOption("blueprint_error_fix_switch", "蓝图问题修复", "世界蓝图可能存在的问题", true)
+configuration_options[#configuration_options + 1] = AddOption("blueprint_error_fix_switch", "蓝图问题修复", "世界蓝图可能存在的问题", true)
 configuration_options[#configuration_options + 1] = AddOption("heap_of_food_chs_language_switch", "HeapOfFood汉化(简中)", "HeapOfFood汉化(简中)", false)
 configuration_options[#configuration_options + 1] = AddOption("vtf_chs_language_switch", "情人节主题物品汉化(简中)", "情人节主题物品汉化(简中)", false)
 configuration_options[#configuration_options + 1] = AddOption("htf_chs_language_switch", "万圣节主题物品汉化(简中)", "万圣节主题物品汉化(简中)", false)
