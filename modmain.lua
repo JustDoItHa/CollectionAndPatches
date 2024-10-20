@@ -101,6 +101,12 @@ TUNING.CHERRY_FOREST_ENABLE = modenable({ "1289779251", "Cherry Forest" })
 TUNING.CCS_MOD_ENABLE = modenable({ "3043439883", "魔卡少女小樱（百变小樱）", "魔卡少女小樱" })
 TUNING.MCW_MOD_ENABLE = modenable({ "3152056502", "冰川镜华(万圣节)", "冰川镜华" })
 TUNING.MYTH_THEME_ENABLE = modenable({ "1991746508", "Myth Words Theme-神话书说主题" })
+TUNING.DENGXIAN_ENABLE = modenable({ "3235319974", "登仙" })
+TUNING.ADDITIONAL_ITEM_PACKAGE_ENABLE = modenable({ "1085586145", "额外物品包" })
+TUNING.MIAO_PACKBOX_ENABLE = modenable({ "1545370686", "Packbox(miao) (sua khoang cach )" })
+--TUNING.TROPICAL_ENABLE = modenable({ "1505270912", "热带体验 | 海难哈姆雷特生态：来自域外" },{"2986194136","热带冒险：乘风破浪！"})
+TUNING.TROPICAL_ENABLE = modenable({"2986194136","热带冒险：乘风破浪！"})
+TUNING.LEGEND_AND_SEA_ENABLE = modenable({"2979177306","[DST]海洋传说-Legend and sea"})
 -----------------------------
 TUNING.DEATH_COUNTER_SHOW_TITLE = GetModConfigData("death_counter_show_title")
 ---限制打包物品

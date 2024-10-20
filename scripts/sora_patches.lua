@@ -20,9 +20,10 @@ if soraRemoveRollExpByLevel > 0 then
     AddComponentPostInit("soraexpsave", function(self)
         function self:GetExp(userid)
             local exptolev = soraconfig.level.exptolev
-            local level = exptolev(self.exps[userid] or 0);
+            local exps_tmp = SoraAPI.GLOBALDB:Get("expsave",userid,-1)
+            local level = exptolev(exps_tmp or 0);
             local loseExp = level >= soraRemoveRollExpByLevel and 0 or 1000;
-            return userid and self.exps[userid] and math.max(0, self.exps[userid] - loseExp) or -1
+            return userid and exps_tmp and math.max(0, exps_tmp - loseExp) or -1
         end
     end)
 end
