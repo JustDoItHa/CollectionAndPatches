@@ -10,7 +10,7 @@ local soraFastMaker = GetModConfigData("soraFastMaker") or false;
 local soraDoubleMaker = GetModConfigData("soraDoubleMaker") or -1;
 local soraPackLimit = GetModConfigData("soraPackLimit") or false;
 local soraPackFL = GetModConfigData("soraPackFL") or false;
-local sorafl_select = GetModConfigData("sorafl_select") or false;
+--local sorafl_select = GetModConfigData("sorafl_select") or false;
 
 local soraconfig = require "soraconfig/config"
 
@@ -19,8 +19,10 @@ if soraRemoveRollExpByLevel > 0 then
     -- 穹换人不掉落经验
     AddComponentPostInit("soraexpsave", function(self)
         function self:GetExp(userid)
-            local exptolev = soraconfig.level.exptolev
+            if not userid then return -1 end
             local exps_tmp = SoraAPI.GLOBALDB:Get("expsave",userid,-1)
+            if exps_tmp == -1 then return -1 end
+            local exptolev = soraconfig.level.exptolev
             local level = exptolev(exps_tmp or 0);
             local loseExp = level >= soraRemoveRollExpByLevel and 0 or 1000;
             return userid and exps_tmp and math.max(0, exps_tmp - loseExp) or -1
@@ -28,33 +30,36 @@ if soraRemoveRollExpByLevel > 0 then
     end)
 end
 
--- if soraRemoveDeathExpByLevel > 0 then
---     -- 穹一定等级后死亡不掉落经验
---     AddPrefabPostInit('sora', function(inst)
---         if not __DeathExp and GLOBAL.DeathExp then
---             __DeathExp = GLOBAL.DeathExp
---             GLOBAL.DeathExp = function(a)
---                 if a >= soraRemoveDeathExpByLevel then
---                     return 0
---                 end
---                 return __DeathExp(a)
---             end
---         end
---     end)
--- end
+ if soraRemoveDeathExpByLevel > 0 then
+     -- 穹一定等级后死亡不掉落经验
+     AddPrefabPostInit('sora', function(inst)
+         if not __DeathExp and soraconfig.level.DeathExp then
+             __DeathExp = soraconfig.level.DeathExp
+             soraconfig.level.DeathExp = function(a)
+                 if a >= soraRemoveDeathExpByLevel then
+                     return 0
+                 end
+                 return __DeathExp(a)
+             end
+         end
+     end)
+ end
 
--- if soraRemoveRollExpByLevel > 0 then
---     -- 穹2换人不掉落经验
---     AddComponentPostInit("soraexpsave",
---             function(self)
---                 function self:GetExp(userid)
---                     local level = GLOBAL.exptolev(self.exps[userid] or 0);
---                     local loseExp = level >= soraRemoveRollExpByLevel and 0 or 1000;
---                     return userid and self.exps[userid] and math.max(0, self.exps[userid] - loseExp) or -1
---                 end
---             end
---     )
--- end
+ if soraRemoveRollExpByLevel > 0 then
+     -- 穹2换人不掉落经验
+     AddComponentPostInit("soraexpsave",
+             function(self)
+                 function self:GetExp(userid)
+                     if not userid then return -1 end
+                     local exps_tmp = SoraAPI.GLOBALDB:Get("expsave",userid,-1)
+                     if exps_tmp == -1 then return -1 end
+                     local level = soraconfig.level.exptolev(exps_tmp or 0);
+                     local loseExp = level >= soraRemoveRollExpByLevel and 0 or 1000;
+                     return userid and exps_tmp and math.max(0, exps_tmp - loseExp) or -1
+                 end
+             end
+     )
+ end
 
 if soraHealDeath then
     local heal = function(inst)
@@ -186,66 +191,66 @@ if soraPackLimit then
     AddPrefabPostInit("sorapacker", packPostInit)
 end
 
-if soraPackFL and sorafl_select then
-    AddClassPostConstruct("screens/playerhud", function(self)
-        self.ShowEquipmentSelector = function()
-            local sor_fl
-            local x, y, z = self.owner.Transform:GetWorldPosition()
-            local ent = TheSim:FindEntities(x, y, z, 2, { "plant" })
-            for _, v in pairs(ent) do
-                if v.prefab == "sora_fl" and v:HasTag(self.owner.userid) then
-                    sor_fl = v
-                    break
-                end
-            end
-            self.equipmentselector = EquipmentSelector(self.owner, sor_fl)
-            self:OpenScreenUnderPause(self.equipmentselector)
-            return self.equipmentselector
-        end
-    end)
-    AddPlayerPostInit(function(inst)
-        if inst:HasTag("sora") then
-            inst._soraeqselect = net_bool(inst.GUID, "soraeqselect",
-                    "soraeqselectdirty")
-            inst:ListenForEvent("soraeqselectdirty", function()
-                if inst.HUD then
-                    inst.HUD:ShowEquipmentSelector(inst)
-                end
-            end)
-        end
-    end)
-    AddComponentPostInit("sorafllink", function(self)
-        self.newLink = self.Link
-        self.Link = function(s, doer)
-            if not (doer:HasTag("sora") and not self.link) then
-                return
-            end
-            doer._soraeqselect:set(true)
-            doer._soraeqselect:set_local(false)
-        end
-    end)
-    local function checkequipment(equipment)
-        local equipments = {
-            "soratele", "sorapick", "soramagic", "sorahealing", "soraclothes",
-            "sorahat", "sorabowknot"
-        }
-        for _, v in pairs(equipments) do
-            if v == equipment then
-                return true
-            end
-        end
-        return false
-    end
-    AddModRPCHandler("SoraPatch", "SoraEQSelect",
-            function(player, sora_fl, equipment)
-                if player and sora_fl and sora_fl:HasTag(player.userid) then
-                    if checkequipment(equipment) and not sora_fl.components.sorafllink.link then
-                        sora_fl.components.sorafllink.item = equipment
-                    end
-                    sora_fl.components.sorafllink:newLink(player)
-                end
-            end)
-end
+--if soraPackFL and sorafl_select then
+--    AddClassPostConstruct("screens/playerhud", function(self)
+--        self.ShowEquipmentSelector = function()
+--            local sor_fl
+--            local x, y, z = self.owner.Transform:GetWorldPosition()
+--            local ent = TheSim:FindEntities(x, y, z, 2, { "plant" })
+--            for _, v in pairs(ent) do
+--                if v.prefab == "sora_fl" and v:HasTag(self.owner.userid) then
+--                    sor_fl = v
+--                    break
+--                end
+--            end
+--            self.equipmentselector = EquipmentSelector(self.owner, sor_fl)
+--            self:OpenScreenUnderPause(self.equipmentselector)
+--            return self.equipmentselector
+--        end
+--    end)
+--    AddPlayerPostInit(function(inst)
+--        if inst:HasTag("sora") then
+--            inst._soraeqselect = net_bool(inst.GUID, "soraeqselect",
+--                    "soraeqselectdirty")
+--            inst:ListenForEvent("soraeqselectdirty", function()
+--                if inst.HUD then
+--                    inst.HUD:ShowEquipmentSelector(inst)
+--                end
+--            end)
+--        end
+--    end)
+--    AddComponentPostInit("sorafllink", function(self)
+--        self.newLink = self.Link
+--        self.Link = function(s, doer)
+--            if not (doer:HasTag("sora") and not self.link) then
+--                return
+--            end
+--            doer._soraeqselect:set(true)
+--            doer._soraeqselect:set_local(false)
+--        end
+--    end)
+--    local function checkequipment(equipment)
+--        local equipments = {
+--            "soratele", "sorapick", "soramagic", "sorahealing", "soraclothes",
+--            "sorahat", "sorabowknot"
+--        }
+--        for _, v in pairs(equipments) do
+--            if v == equipment then
+--                return true
+--            end
+--        end
+--        return false
+--    end
+--    AddModRPCHandler("SoraPatch", "SoraEQSelect",
+--            function(player, sora_fl, equipment)
+--                if player and sora_fl and sora_fl:HasTag(player.userid) then
+--                    if checkequipment(equipment) and not sora_fl.components.sorafllink.link then
+--                        sora_fl.components.sorafllink.item = equipment
+--                    end
+--                    sora_fl.components.sorafllink:newLink(player)
+--                end
+--            end)
+--end
 
 if soraPackFL then
     AddComponentPostInit("sorafl", function(self)
@@ -277,39 +282,39 @@ if soraPackFL then
     end)
 end
 
-if GetModConfigData("soraExp") then
-
-    -- local originalExpMax = 120;
-    -- local soraRemoveExpLimit = 150;
-    -- --根据选项给出一个等价的初始判断值
-    -- local getInitExp = function(isOut)
-    --     return originalExpMax - (isOut and soraRemoveExpLimit * 0.5 or soraRemoveExpLimit);
-    -- end
-
-    -- local limit = {
-    --     kill = 50,
-    --     attack = 50,
-    --     emote = 20,
-    -- }
-    AddPrefabPostInit("sora", function(inst)
-        -- inst.FixExpVersion = 1
-        inst:WatchWorldState("startday", function()
-            -- local t = GLOBAL.TheWorld.state.cycles
-            -- local olddayexp = inst.soradayexp or {}-- getexppatch
-            inst.soradayexp = {}
-            -- for k, v in pairs(olddayexp) do
-            --     local maxexp = limit[k] or soraRemoveExpLimit
-            --     if k and v and v >= (maxexp) then
-            --         inst.soradayexp[k] = getInitExp(true)
-            --     else
-            --         inst.soradayexp[k] = getInitExp(false)
-            --     end
-            -- end
-            -- inst.soraday = t
-        end)
-    end)
-
-end
+--if GetModConfigData("soraExp") then
+--
+--    -- local originalExpMax = 120;
+--    -- local soraRemoveExpLimit = 150;
+--    -- --根据选项给出一个等价的初始判断值
+--    -- local getInitExp = function(isOut)
+--    --     return originalExpMax - (isOut and soraRemoveExpLimit * 0.5 or soraRemoveExpLimit);
+--    -- end
+--
+--    -- local limit = {
+--    --     kill = 50,
+--    --     attack = 50,
+--    --     emote = 20,
+--    -- }
+--    AddPrefabPostInit("sora", function(inst)
+--        -- inst.FixExpVersion = 1
+--        inst:WatchWorldState("startday", function()
+--            -- local t = GLOBAL.TheWorld.state.cycles
+--            -- local olddayexp = inst.soradayexp or {}-- getexppatch
+--            inst.soradayexp = {}
+--            -- for k, v in pairs(olddayexp) do
+--            --     local maxexp = limit[k] or soraRemoveExpLimit
+--            --     if k and v and v >= (maxexp) then
+--            --         inst.soradayexp[k] = getInitExp(true)
+--            --     else
+--            --         inst.soradayexp[k] = getInitExp(false)
+--            --     end
+--            -- end
+--            -- inst.soraday = t
+--        end)
+--    end)
+--
+--end
 
 if soraRemoveDeathExpByLevel > 0 then
     local old_DeathExp = soraconfig.level.DeathExp

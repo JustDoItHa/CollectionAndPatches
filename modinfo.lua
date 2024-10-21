@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "13.14.10.0"
+version = "13.15.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -131,10 +131,11 @@ local tumbleweed_item_rates_options = {
     { description = "巨低", data = 0.005, },
 }
 local tumbleweed_item_multiple_options = {
-    { description = "无", data = 1, },
+    { description = "无", data = false, },
     { description = "极高", data = 1000, },
     { description = "高", data = 100, },
     { description = "一般", data = 10, },
+    { description = "默认", data = 1, },
     { description = "降低", data = 0.1, },
     { description = "加倍降低", data = 0.01, },
     { description = "超级降低", data = 0.001, },
@@ -1115,7 +1116,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("soraRemoveR
                                                                                                                                                 { description = "20级", data = 20 },
                                                                                                                                                 { description = "25级", data = 25 },
                                                                                                                                                 { description = "30级", data = 30 }, }, 20)
-configuration_options[#configuration_options + 1] = AddConfigOption("soraExp", "去除经验惩罚", "升级更容易", optionsYesNo, true)
+--configuration_options[#configuration_options + 1] = AddConfigOption("soraExp", "去除经验惩罚", "升级更容易", optionsYesNo, true)
 configuration_options[#configuration_options + 1] = AddConfigOption("soraHealDeath", "愈还原", "鞭尸\n是：还原 否：不改变", optionsYesNo, false)
 
 configuration_options[#configuration_options + 1] = AddConfigOption("soraRepairerToPhilosopherStoneLimit", "限制缝纫包修贤者宝石", "", { { description = "不改变", data = 0 },
@@ -1138,7 +1139,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("soraDoubleM
                                                                                                                                         { description = "100级", data = 100 }, }, 30)
 configuration_options[#configuration_options + 1] = AddConfigOption("soraPackLimit", "限制打包", "禁止穹打包一些独有的东西，比如猪王等", optionsYesNo, true)
 configuration_options[#configuration_options + 1] = AddConfigOption("soraPackFL", "打包风铃草", "初始自动打包风铃\n是：打包 否：不打包，全图找", optionsYesNo, true)
-configuration_options[#configuration_options + 1] = AddConfigOption("sorafl_select", "风铃草自选", "绑定风铃草时可以自选装备(小穹mod)", optionsYesNo, false)
+--configuration_options[#configuration_options + 1] = AddConfigOption("sorafl_select", "风铃草自选", "绑定风铃草时可以自选装备(小穹mod)", optionsYesNo, false)
 --configuration_options[#configuration_options + 1] = AddConfigOption("sora_level_broke_through", "小穹突破等级上限", "小穹不只是30级了可以玩到100级咯", optionsYesNo, false)
 ---魔女之旅补丁
 configuration_options[#configuration_options + 1] = AddOptionHeader("魔女之旅补丁")
@@ -1338,8 +1339,9 @@ configuration_options[#configuration_options + 1] = AddOption("AutoCook", AutoCo
 ---风滚草补丁
 configuration_options[#configuration_options + 1] = AddOptionHeader("风滚草补丁")
 configuration_options[#configuration_options + 1] = AddOption("interesting_tumbleweed_switch", "总开关", "", false)
-configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_item_rates", "花样风滚草中可以开出一些物品", "花样风滚草可以开出一些其他物品", tumbleweed_item_rates_options, 0.2)
 configuration_options[#configuration_options + 1] = AddOption("tumbleweed_prevent_error_patch_switch", "风滚草防错补丁", "防止一些有关风滚草的mod的问题", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_item_rates", "花样风滚草中可以开出一些物品", "花样风滚草可以开出一些其他物品", tumbleweed_item_rates_options, 0.2)
+configuration_options[#configuration_options + 1] = AddConfigOption("cap_item_multiple_l", "本MOD物品倍率", "本MOD物品倍率", tumbleweed_item_multiple_options, 1)
 configuration_options[#configuration_options + 1] = AddOption("tumbleweed_add_more_item_switch", "风滚草开出更多物品", "风滚草开出更多物品", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_item_multiple", "开出更多物品倍率", "开出更多物品倍率", tumbleweed_item_multiple_options, 1)
 ---樱花林补丁
