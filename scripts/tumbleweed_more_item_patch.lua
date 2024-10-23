@@ -75,9 +75,9 @@ cap_lengjing_resources = {
     { chance = 0.002, item = "cutted_rosebush", aggro = false, announce = true }, --蔷薇花枝
     { chance = 0.002, item = "lilybush", aggro = false, announce = true }, --蹄莲花丛
     { chance = 0.002, item = "foliageath", aggro = false, announce = true }, --青枝绿叶
-    { chance = 0.005, item = "sachet", aggro = false, announce = true }, --香包
+    { chance = 0.002, item = "sachet", aggro = false, announce = true }, --香包
 
-    { chance = 0.005, item = "hat_lichen", aggro = false, announce = true }, --发卡
+    { chance = 0.002, item = "hat_lichen", aggro = false, announce = true }, --发卡
     { chance = 0.005, item = "fishhomingtool_awesome", aggro = false, announce = true }, --打窝
 }
 
@@ -94,13 +94,13 @@ cap_xunzhang_resources = {--勋章部分
     { chance = 0.0005, item = "ommateum_certificate", announce = true }, --复眼勋章
     { chance = 0.0005, item = "speed_certificate", announce = true }, --速度勋章
     { chance = 0.0005, item = "treadwater_certificate", announce = true }, --踏水勋章
-    { chance = 0.007, item = "tentacle_certificate", announce = true }, --触手勋章
+    { chance = 0.003, item = "tentacle_certificate", announce = true }, --触手勋章
     { chance = 0.002, item = "valkyrie_certificate", announce = true }, --女武神勋章
     { chance = 0.0001, item = "merm_certificate", announce = true }, --鱼人勋章
-    { chance = 0.007, item = "naughty_certificate", announce = true }, --淘气勋章
-    { chance = 0.007, item = "spider_certificate", announce = true }, --蜘蛛勋章
-    { chance = 0.002, item = "bathingfire_certificate", announce = true }, --浴火勋章
-    { chance = 0.005, item = "silence_certificate", announce = true }, --沉默
+    { chance = 0.003, item = "naughty_certificate", announce = true }, --淘气勋章
+    { chance = 0.003, item = "spider_certificate", announce = true }, --蜘蛛勋章
+    { chance = 0.001, item = "bathingfire_certificate", announce = true }, --浴火勋章
+    { chance = 0.002, item = "silence_certificate", announce = true }, --沉默
     { chance = 0.003, item = "largefishing_certificate", announce = true }, --垂钓勋章
     { chance = 0.0003, item = "down_filled_coat_certificate", announce = true }, --羽绒勋章
     { chance = 0.002, item = "blank_certificate", announce = true }, --空白勋章
@@ -109,32 +109,32 @@ cap_xunzhang_resources = {--勋章部分
     { chance = 0.0001, item = "chef_certificate", announce = true }, --主厨勋章
 
 
-    { chance = 0.009, item = "smallchop_certificate", announce = true }, --伐木
-    { chance = 0.009, item = "smallminer_certificate", announce = true }, --旷工考验
-    { chance = 0.009, item = "handy_test_certificate", announce = true }, --巧手考验
-    { chance = 0.009, item = "wisdom_test_certificate", announce = true }, --愚人
-    { chance = 0.005, item = "xinhua_dictionary", announce = true }, --字典
-    { chance = 0.0035, item = "plant_certificate", announce = true }, --虫木
-    { chance = 0.005, item = "valkyrie_test_certificate", announce = true }, --女武神的考研
-    { chance = 0.005, item = "smallfishing_certificate", announce = true }, --钓鱼勋章
-    { chance = 0.002, item = "medal_resonator_item", announce = true }, --宝藏探测仪
-    { chance = 0.005, item = "medal_gift_fruit", announce = true }, --包果
-    { chance = 0.002, item = "medal_gift_fruit_oversized", announce = true }, --巨型包果
+    { chance = 0.004, item = "smallchop_certificate", announce = true }, --伐木
+    { chance = 0.004, item = "smallminer_certificate", announce = true }, --旷工考验
+    { chance = 0.004, item = "handy_test_certificate", announce = true }, --巧手考验
+    { chance = 0.004, item = "wisdom_test_certificate", announce = true }, --愚人
+    { chance = 0.002, item = "xinhua_dictionary", announce = true }, --字典
+    { chance = 0.001, item = "plant_certificate", announce = true }, --虫木
+    { chance = 0.002, item = "valkyrie_test_certificate", announce = true }, --女武神的考研
+    { chance = 0.002, item = "smallfishing_certificate", announce = true }, --钓鱼勋章
+    { chance = 0.001, item = "medal_resonator_item", announce = true }, --宝藏探测仪
+    { chance = 0.002, item = "medal_gift_fruit", announce = true }, --包果
+    { chance = 0.001, item = "medal_gift_fruit_oversized", announce = true }, --巨型包果
     { chance = 0.001, item = "medal_monster_symbol", announce = true }, --暗影挑战符
-    { chance = 0.002, item = "medal_diligence_token", announce = true }, --酬勤令
-    { chance = 0.002, item = "medal_tribute_symbol", announce = true }, --奉纳府
+    { chance = 0.001, item = "medal_diligence_token", announce = true }, --酬勤令
+    { chance = 0.001, item = "medal_tribute_symbol", announce = true }, --奉纳府
 
 
     { chance = 0.003, item = "medal_farm_plow_item", announce = true }, --高效耕地机
-    { chance = 0.009, item = "mandrake_seeds", announce = true }, --曼德拉种子
-    { chance = 0.005, item = "bottled_moonlight", announce = true }, --瓶装月光
+    { chance = 0.004, item = "mandrake_seeds", announce = true }, --曼德拉种子
+    { chance = 0.002, item = "bottled_moonlight", announce = true }, --瓶装月光
     { chance = 0.0008, item = "medal_moonglass_shovel", announce = true }, --月光铲
     { chance = 0.0008, item = "medal_moonglass_hammer", announce = true }, --月光锤
     { chance = 0.0008, item = "medal_moonglass_bugnet", announce = true }, --月光网
     { chance = 0.0008, item = "medal_moonglass_potion", announce = true }, --月光药水
-    { chance = 0.003, item = "lureplant_rod", announce = true }, --食人花手杖
-    { chance = 0.003, item = "immortal_book", announce = true }, --不朽之谜
-    { chance = 0.0009, item = "immortal_fruit_seed", announce = true }, --不朽种子
+    { chance = 0.001, item = "lureplant_rod", announce = true }, --食人花手杖
+    { chance = 0.001, item = "immortal_book", announce = true }, --不朽之谜
+    { chance = 0.0004, item = "immortal_fruit_seed", announce = true }, --不朽种子
     { chance = 0.0015, item = "immortal_fruit", announce = true }, --不朽果实
     { chance = 0.0003, item = "immortal_fruit_oversized", announce = true }, --巨型不朽果实
     { chance = 0.0003, item = "immortal_gem", announce = true }, --不朽宝石
@@ -244,100 +244,100 @@ cap_shenhua_resources = {--神话书说
 }
 
 cap_sora_resources = {--小穹
-    { chance = .005, item = "sora2bag", aggro = false, announce = true }, --翅膀
-    { chance = .005, item = "sora2armor", aggro = false, announce = true }, --银白穹甲
-    { chance = .005, item = "sora2sword", aggro = false, announce = true }, --剑
-    { chance = .005, item = "sora2hat", aggro = false, announce = true }, --穹头盔
-    { chance = .001, item = "sora2amulet", aggro = false, announce = true }, --荣誉勋章
-    { chance = .008, item = "sora2plant", aggro = false, announce = true }, --扶光
-    { chance = .001, item = "sorabowknot", aggro = false, announce = true }, --蝴蝶结
-    { chance = .001, item = "sorapick", aggro = false, announce = true }, --穹采
-    { chance = .001, item = "soratelt", aggro = false, announce = true }, --穹瞬
-    { chance = .001, item = "soraclothes", aggro = false, announce = true }, --穹护
-    { chance = .001, item = "sorahat", aggro = false, announce = true }, --穹冠
-    { chance = .001, item = "sorahealing", aggro = false, announce = true }, --穹愈
+    { chance = .001, item = "sora2bag", aggro = false, announce = true }, --翅膀
+    { chance = .001, item = "sora2armor", aggro = false, announce = true }, --银白穹甲
+    { chance = .001, item = "sora2sword", aggro = false, announce = true }, --剑
+    { chance = .001, item = "sora2hat", aggro = false, announce = true }, --穹头盔
+    { chance = .0005, item = "sora2amulet", aggro = false, announce = true }, --荣誉勋章
+    { chance = .002, item = "sora2plant", aggro = false, announce = true }, --扶光
+    { chance = .0005, item = "sorabowknot", aggro = false, announce = true }, --蝴蝶结
+    { chance = .0005, item = "sorapick", aggro = false, announce = true }, --穹采
+    { chance = .0005, item = "soratelt", aggro = false, announce = true }, --穹瞬
+    { chance = .0005, item = "soraclothes", aggro = false, announce = true }, --穹护
+    { chance = .0005, item = "sorahat", aggro = false, announce = true }, --穹冠
+    { chance = .0005, item = "sorahealing", aggro = false, announce = true }, --穹愈
 
-    { chance = .005, item = "sora2birdchest", aggro = false, announce = true }, --咕咕鸡箱子
-    { chance = .005, item = "sora2fire", aggro = false, announce = true }, --烈焰箱子
-    { chance = .005, item = "sora2chest", aggro = false, announce = true }, --强迫箱子
-    { chance = .005, item = "sora2ice", aggro = false, announce = true }, --寒冰箱子
-    { chance = .005, item = "sora2tree", aggro = false, announce = true }, --圣诞树
-    { chance = .005, item = "sora_huapen", aggro = false, announce = true }, --穹的花盆
-    { chance = .004, item = "sora_light", aggro = false, announce = true }, --玫瑰灯
-    { chance = .005, item = "sora2base", aggro = false, announce = true }, --祭坛
-    { chance = .005, item = "sora2sword", aggro = false, announce = true }, --万能工具
-    { chance = .005, item = "sora2prop", aggro = false, announce = true }, --神奇法杖
-    { chance = .009, item = "sora3chest", aggro = false, announce = true }, --心语之愿
+    { chance = .001, item = "sora2birdchest", aggro = false, announce = true }, --咕咕鸡箱子
+    { chance = .001, item = "sora2fire", aggro = false, announce = true }, --烈焰箱子
+    { chance = .001, item = "sora2chest", aggro = false, announce = true }, --强迫箱子
+    { chance = .001, item = "sora2ice", aggro = false, announce = true }, --寒冰箱子
+    { chance = .001, item = "sora2tree", aggro = false, announce = true }, --圣诞树
+    { chance = .001, item = "sora_huapen", aggro = false, announce = true }, --穹的花盆
+    { chance = .001, item = "sora_light", aggro = false, announce = true }, --玫瑰灯
+    { chance = .001, item = "sora2base", aggro = false, announce = true }, --祭坛
+    { chance = .001, item = "sora2sword", aggro = false, announce = true }, --万能工具
+    { chance = .001, item = "sora2prop", aggro = false, announce = true }, --神奇法杖
+    { chance = .001, item = "sora3chest", aggro = false, announce = true }, --心语之愿
 
-    { chance = .002, item = "sora_butterfly", aggro = false, announce = true }, --拟态蝴蝶
-    { chance = .002, item = "sora_lightflier", aggro = false, announce = true }, --拟态萤火
-    { chance = .002, item = "sora_lock", aggro = false, announce = true }, --总有刁民偷东西
-    { chance = .001, item = "sora_pearl", aggro = false, announce = true }, --拟态珍珠
-    { chance = .002, item = "sora_packhat", aggro = false, announce = true }, --咸鱼咸鱼咸
-    { chance = .001, item = "sora_sign_item", aggro = false, announce = true }, --拟态木牌
-    { chance = .001, item = "sora_tochset", aggro = false, announce = true }, --原来你也有强迫症
-    { chance = .08, item = "sora2pack", aggro = false, announce = true }, --打包纸
-    { chance = .08, item = "sora_flh", aggro = false, announce = true }, --风铃花
+    { chance = .001, item = "sora_butterfly", aggro = false, announce = true }, --拟态蝴蝶
+    { chance = .001, item = "sora_lightflier", aggro = false, announce = true }, --拟态萤火
+    { chance = .001, item = "sora_lock", aggro = false, announce = true }, --总有刁民偷东西
+    { chance = .0005, item = "sora_pearl", aggro = false, announce = true }, --拟态珍珠
+    { chance = .001, item = "sora_packhat", aggro = false, announce = true }, --咸鱼咸鱼咸
+    { chance = .0005, item = "sora_sign_item", aggro = false, announce = true }, --拟态木牌
+    { chance = .0005, item = "sora_tochset", aggro = false, announce = true }, --原来你也有强迫症
+    { chance = .002, item = "sora2pack", aggro = false, announce = true }, --打包纸
+    { chance = .002, item = "sora_flh", aggro = false, announce = true }, --风铃花
 }
 
 cap_yln_resources = {--魔女
-    { chance = .002, item = "elaina_witch_blood", aggro = false, announce = true }, --魔女血
-    { chance = .002, item = "elaina_filthy_ghost", aggro = false, announce = true }, --脏灵魂
-    { chance = .002, item = "elaina_white_flower", aggro = false, announce = true }, --白花
-    { chance = .002, item = "elaina_redhat", aggro = false, announce = true }, --普通的红帽
-    { chance = .002, item = "elaina_lethe_stone", aggro = false, announce = true }, --忘川石
-    { chance = .002, item = "elaina_treasure_map", aggro = false, announce = true }, --藏宝图
-    { chance = .002, item = "elaina_pk_stone", aggro = false, announce = true }, --破空石
-    { chance = .002, item = "elaina_magic_stone", aggro = false, announce = true }, --精炼石头
-    { chance = .002, item = "tool_magic_wand", aggro = false, announce = true }, --工具棒
+    { chance = .001, item = "elaina_witch_blood", aggro = false, announce = true }, --魔女血
+    { chance = .001, item = "elaina_filthy_ghost", aggro = false, announce = true }, --脏灵魂
+    { chance = .001, item = "elaina_white_flower", aggro = false, announce = true }, --白花
+    { chance = .001, item = "elaina_redhat", aggro = false, announce = true }, --普通的红帽
+    { chance = .001, item = "elaina_lethe_stone", aggro = false, announce = true }, --忘川石
+    { chance = .001, item = "elaina_treasure_map", aggro = false, announce = true }, --藏宝图
+    { chance = .001, item = "elaina_pk_stone", aggro = false, announce = true }, --破空石
+    { chance = .001, item = "elaina_magic_stone", aggro = false, announce = true }, --精炼石头
+    { chance = .001, item = "tool_magic_wand", aggro = false, announce = true }, --工具棒
     { chance = .002, item = "red_fairyskirt", aggro = false, announce = true }, --红裙子
     { chance = .002, item = "bule_fairyskirt", aggro = false, announce = true }, --蓝裙子
     { chance = .0001, item = "star_brooch", aggro = false, announce = true }, --星辰胸针
-    { chance = .002, item = "elaina_fragment", aggro = false, announce = true }, --魔力碎片
-    { chance = .002, item = "elaina_book2", aggro = false, announce = true }, --回脑书
-    { chance = .002, item = "elaina_lightstone", aggro = false, announce = true }, --雷石
-    { chance = .002, item = "magic_stone", aggro = false, announce = true }, --魔法石
+    { chance = .001, item = "elaina_fragment", aggro = false, announce = true }, --魔力碎片
+    { chance = .001, item = "elaina_book2", aggro = false, announce = true }, --回脑书
+    { chance = .001, item = "elaina_lightstone", aggro = false, announce = true }, --雷石
+    { chance = .001, item = "magic_stone", aggro = false, announce = true }, --魔法石
     { chance = .0001, item = "elaina_pk", aggro = false, announce = true }, --破空
     { chance = .0001, item = "magic_core", aggro = false, announce = true }, --魔法核心
-    { chance = .002, item = "monvfu_blueprint", aggro = false, announce = true }, --法袍蓝图
+    { chance = .001, item = "monvfu_blueprint", aggro = false, announce = true }, --法袍蓝图
     { chance = .0001, item = "elaina_hlq", aggro = false, announce = true }, --百分比裙子
     { chance = .0004, item = "magic_wand", aggro = false, announce = true }, --魔法棒
-    { chance = .002, item = "elaina_bundlewrap_blueprint", aggro = false, announce = true }, --一口炫
-    { chance = .002, item = "magic_music", aggro = false, announce = true }, --喇叭
-    { chance = .002, item = "elaina_htxl", aggro = false, announce = true }, --海豚项链
-    { chance = .002, item = "elaina_vampire_tooth", aggro = false, announce = true }, --长牙
-    { chance = .002, item = "elaina_maid_hat", aggro = false, announce = true }, --女仆帽
-    { chance = .002, item = "elaina_epiphyllum", aggro = false, announce = true }, --一叶昙花
+    { chance = .001, item = "elaina_bundlewrap_blueprint", aggro = false, announce = true }, --一口炫
+    { chance = .001, item = "magic_music", aggro = false, announce = true }, --喇叭
+    { chance = .001, item = "elaina_htxl", aggro = false, announce = true }, --海豚项链
+    { chance = .001, item = "elaina_vampire_tooth", aggro = false, announce = true }, --长牙
+    { chance = .001, item = "elaina_maid_hat", aggro = false, announce = true }, --女仆帽
+    { chance = .001, item = "elaina_epiphyllum", aggro = false, announce = true }, --一叶昙花
     { chance = .0001, item = "elaina_ysth_recall", aggro = false, announce = true }, --人间追忆
-    { chance = .002, item = "elaina_miracle", aggro = false, announce = true }, --奇迹
-    { chance = .002, item = "elaina_cupid", aggro = false, announce = true }, --爱神之箭
-    { chance = .002, item = "elaina_cheap_love", aggro = false, announce = true }, --廉价爱意
-    { chance = .002, item = "elaina_star_fragment", aggro = false, announce = true }, --星光碎片
-    { chance = .002, item = "elaina_avoid_evil", aggro = false, announce = true }, --辟邪
-    { chance = .002, item = "elaina_due", aggro = false, announce = true }, --渡厄
-    { chance = .002, item = "elaina_indestructible_light", aggro = false, announce = true }, --不灭的明灯
-    { chance = .002, item = "elaina_bq", aggro = false, announce = true }, --背包裙
-    { chance = .002, item = "elaina_book4", aggro = false, announce = true }, --咒文书
-    { chance = .002, item = "fig_pigeon_soup", aggro = false, announce = true }, --鸽子汤
-    { chance = .002, item = "saya_potions_material2", announce = true }, --焰丝草
-    { chance = .002, item = "saya_potions_material5", announce = true }, --翠霜藤
-    { chance = .002, item = "saya_potions_material3", announce = true }, --幻灵菇
-    { chance = .002, item = "saya_potions_material1", announce = true }, --佛手乌
-    { chance = .002, item = "saya_potions_material4", announce = true }, --散晖叶
-    { chance = .002, item = "saya_potions_material6", announce = true }, --天命草
-    { chance = .002, item = "saya_potions_attack", announce = true }, --进攻
-    { chance = .002, item = "saya_potions_fluorescence", announce = true }, --荧光
-    { chance = .002, item = "saya_potions_confusion", announce = true }, --混乱
-    { chance = .002, item = "saya_potions_happiness", announce = true }, --创造
-    { chance = .002, item = "saya_potions_grow", announce = true }, --成长
-    { chance = .002, item = "saya_potions_wonderful", announce = true }, --奇妙
-    { chance = .002, item = "cloud_hidden_moon", announce = true }, --回魔
-    { chance = .002, item = "fish_life", announce = true }, --余生
-    { chance = .002, item = "tiger_yin", announce = true }, --山宝
+    { chance = .001, item = "elaina_miracle", aggro = false, announce = true }, --奇迹
+    { chance = .001, item = "elaina_cupid", aggro = false, announce = true }, --爱神之箭
+    { chance = .001, item = "elaina_cheap_love", aggro = false, announce = true }, --廉价爱意
+    { chance = .001, item = "elaina_star_fragment", aggro = false, announce = true }, --星光碎片
+    { chance = .001, item = "elaina_avoid_evil", aggro = false, announce = true }, --辟邪
+    { chance = .001, item = "elaina_due", aggro = false, announce = true }, --渡厄
+    { chance = .001, item = "elaina_indestructible_light", aggro = false, announce = true }, --不灭的明灯
+    { chance = .001, item = "elaina_bq", aggro = false, announce = true }, --背包裙
+    { chance = .001, item = "elaina_book4", aggro = false, announce = true }, --咒文书
+    { chance = .001, item = "fig_pigeon_soup", aggro = false, announce = true }, --鸽子汤
+    { chance = .001, item = "saya_potions_material2", announce = true }, --焰丝草
+    { chance = .001, item = "saya_potions_material5", announce = true }, --翠霜藤
+    { chance = .001, item = "saya_potions_material3", announce = true }, --幻灵菇
+    { chance = .001, item = "saya_potions_material1", announce = true }, --佛手乌
+    { chance = .001, item = "saya_potions_material4", announce = true }, --散晖叶
+    { chance = .001, item = "saya_potions_material6", announce = true }, --天命草
+    { chance = .001, item = "saya_potions_attack", announce = true }, --进攻
+    { chance = .001, item = "saya_potions_fluorescence", announce = true }, --荧光
+    { chance = .001, item = "saya_potions_confusion", announce = true }, --混乱
+    { chance = .001, item = "saya_potions_happiness", announce = true }, --创造
+    { chance = .001, item = "saya_potions_grow", announce = true }, --成长
+    { chance = .001, item = "saya_potions_wonderful", announce = true }, --奇妙
+    { chance = .001, item = "cloud_hidden_moon", announce = true }, --回魔
+    { chance = .001, item = "fish_life", announce = true }, --余生
+    { chance = .001, item = "tiger_yin", announce = true }, --山宝
 }
 
 cap_yyxk_resources = {--夜雨心空
-    { chance = .003, item = "yyxk_magic_seal", aggro = false, announce = true }, --魔法豹印
+    { chance = .001, item = "yyxk_magic_seal", aggro = false, announce = true }, --魔法豹印
 }
 --TUNING.TUMBLEWEED_RESOURCES_EXPAND.lengjing_resources = {--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
 --    resourcesList = {
