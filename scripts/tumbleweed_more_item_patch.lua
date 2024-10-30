@@ -273,7 +273,7 @@ cap_sora_resources = {--小穹
     { chance = .001, item = "sora_lightflier", aggro = false, announce = true }, --拟态萤火
     { chance = .001, item = "sora_lock", aggro = false, announce = true }, --总有刁民偷东西
     { chance = .0005, item = "sora_pearl", aggro = false, announce = true }, --拟态珍珠
-    { chance = .001, item = "sora_packhat", aggro = false, announce = true }, --咸鱼咸鱼咸
+    { chance = .001, item = "sora_pickhat", aggro = false, announce = true }, --咸鱼咸鱼咸
     { chance = .0005, item = "sora_sign_item", aggro = false, announce = true }, --拟态木牌
     { chance = .0005, item = "sora_tochset", aggro = false, announce = true }, --原来你也有强迫症
     { chance = .002, item = "sora2pack", aggro = false, announce = true }, --打包纸
