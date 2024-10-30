@@ -29,7 +29,7 @@ function Travelable:OnRemoveFromEntity()
         else
             self.classified._parent = nil
             self.inst:RemoveEventCallback("onremove", self.ondetachclassified,
-                                          self.classified)
+                    self.classified)
             self:DetachClassified()
         end
     end
@@ -73,7 +73,7 @@ function Travelable:BeginTravel(traveller)
         end
         self.inst.components.travelable:BeginTravel(traveller)
     elseif self.classified ~= nil and self.opentask == nil and traveller ~= nil and
-        traveller == ThePlayer then
+            traveller == ThePlayer then
         if traveller.HUD == nil then
             -- abort
         else -- if not busy...

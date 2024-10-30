@@ -42,21 +42,25 @@ local TravelScreen = Class(Screen, function(self, owner, attach)
     self.black:SetVAnchor(ANCHOR_MIDDLE)
     self.black:SetHAnchor(ANCHOR_MIDDLE)
     self.black:SetScaleMode(SCALEMODE_FILLSCREEN)
-    self.black:SetTint(0, 0, 0, 0)
+    self.black:SetTint(0, 1, 1, 0)
     self.black.OnMouseButton = function() self:OnCancel() end
 
-    self.destspanel = self.root:AddChild(TEMPLATES.RectangleWindow(350, 550))
+    self.destspanel = self.root:AddChild(TEMPLATES.RectangleWindow(600, 550))
     self.destspanel:SetPosition(0, 25)
 
+    -- 顶上选择传送站点
     self.current = self.destspanel:AddChild(Text(BODYTEXTFONT, 35))
     self.current:SetPosition(0, 250, 0)
-    self.current:SetRegionSize(350, 50)
+    self.current:SetRegionSize(600, 50)
     self.current:SetHAlign(ANCHOR_MIDDLE)
+    self.current:SetString(STRINGS.NANA_TELEPORT_DESTINATIONS)--默认文字内容(暂无目标)
+    self.current:SetColour(1, 1, 0, 1)--默认颜色
 
+    -- 取消按钮
     self.cancelbutton = self.destspanel:AddChild(
-                            TEMPLATES.StandardButton(
-                                function() self:OnCancel() end, "关闭",
-                                {120, 40}))
+            TEMPLATES.StandardButton(
+                    function() self:OnCancel() end, STRINGS.NANA_TELEPORT_CLOSE,
+                    { 120, 40 }))
     self.cancelbutton:SetPosition(0, -250)
 
     self:LoadDests()
@@ -67,7 +71,7 @@ end)
 
 function TravelScreen:LoadDests()
     local info_pack = self.attach.replica.travelable and
-                          self.attach.replica.travelable:GetDestInfos()
+            self.attach.replica.travelable:GetDestInfos()
     self.dest_infos = {}
     for i, v in ipairs(string.split(info_pack, "\n")) do
         local elements = string.split(v, "\t")
@@ -93,7 +97,7 @@ end
 function TravelScreen:RefreshDests()
     self.destwidgets = {}
     for i, v in ipairs(self.dest_infos) do
-        local data = {index = i, info = v}
+        local data = { index = i, info = v }
 
         table.insert(self.destwidgets, data)
     end
@@ -131,21 +135,22 @@ function TravelScreen:RefreshDests()
 
     if not self.dests_scroll_list then
         self.dests_scroll_list = self.destspanel:AddChild(
-                                     TEMPLATES.ScrollingGrid(self.destwidgets, {
-                context = {},
-                widget_width = 350,
-                widget_height = 90,
-                num_visible_rows = 5,
-                num_columns = 1,
-                item_ctor_fn = ScrollWidgetsCtor,
-                apply_fn = ApplyDataToWidget,
-                scrollbar_offset = 10,
-                scrollbar_height_offset = -60,
-                peek_percent = 0, -- may init with few clientmods, but have many servermods.
-                allow_bottom_empty_row = true -- it's hidden anyway
-            }))
+                TEMPLATES.ScrollingGrid(self.destwidgets, {
+                    context = {},
+                    widget_width = 200,
+                    widget_height = 75,
+                    num_visible_rows = 6,
+                    num_columns = 3,
+                    item_ctor_fn = ScrollWidgetsCtor,
+                    apply_fn = ApplyDataToWidget,
+                    scrollbar_offset = 5,
+                    scrollbar_height_offset = -60,
+                    peek_percent = 0,             -- may init with few clientmods, but have many servermods.
+                    allow_bottom_empty_row = true -- it's hidden anyway
+                }))
 
         self.dests_scroll_list:SetPosition(0, 0)
+        self.destspanel.focus_forward = self.dests_scroll_list--设置焦点
 
         self.dests_scroll_list:SetFocusChangeDir(MOVE_DOWN, self.cancelbutton)
         self.cancelbutton:SetFocusChangeDir(MOVE_UP, self.dests_scroll_list)
@@ -155,76 +160,75 @@ end
 function TravelScreen:DestListItem()
     local dest = Widget("destination")
 
-    local item_width, item_height = 340, 90
-    dest.backing = dest:AddChild(TEMPLATES.ListItemBackground(item_width,
-                                                              item_height,
-                                                              function() end))
+    local item_width, item_height = 200, 75
+    dest.backing = dest:AddChild(TEMPLATES.ListItemBackground(item_width, item_height, function() end))
     dest.backing.move_on_click = true
 
-    dest.name = dest:AddChild(Text(BODYTEXTFONT, 35))
+    dest.name = dest:AddChild(Text(BODYTEXTFONT, 28))
     dest.name:SetVAlign(ANCHOR_MIDDLE)
-    dest.name:SetHAlign(ANCHOR_LEFT)
-    dest.name:SetPosition(0, 10, 0)
-    dest.name:SetRegionSize(300, 40)
+    dest.name:SetHAlign(ANCHOR_MIDDLE)
+    dest.name:SetPosition(0, 18, 0)
+    dest.name:SetRegionSize(190, 40)
 
-    local cost_py = -20
+    local cost_py = -10
     local cost_font = UIFONT
     local cost_fontsize = 20
 
     dest.cost_hunger = dest:AddChild(Text(cost_font, cost_fontsize))
     dest.cost_hunger:SetVAlign(ANCHOR_MIDDLE)
-    dest.cost_hunger:SetHAlign(ANCHOR_LEFT)
-    dest.cost_hunger:SetPosition(-100, cost_py, 0)
-    dest.cost_hunger:SetRegionSize(100, 30)
+    dest.cost_hunger:SetHAlign(ANCHOR_MIDDLE)
+    dest.cost_hunger:SetPosition(0, -10, 0)
+    dest.cost_hunger:SetRegionSize(190, 30)
 
-    dest.cost_sanity = dest:AddChild(Text(cost_font, cost_fontsize))
-    dest.cost_sanity:SetVAlign(ANCHOR_MIDDLE)
-    dest.cost_sanity:SetHAlign(ANCHOR_LEFT)
-    dest.cost_sanity:SetPosition(-30, cost_py, 0)
-    dest.cost_sanity:SetRegionSize(100, 30)
+    --dest.cost_sanity = dest:AddChild(Text(cost_font, cost_fontsize))
+    --dest.cost_sanity:SetVAlign(ANCHOR_MIDDLE)
+    --dest.cost_sanity:SetHAlign(ANCHOR_LEFT)
+    --dest.cost_sanity:SetPosition(-30, cost_py, 0)
+    --dest.cost_sanity:SetRegionSize(100, 30)
 
-    dest.status = dest:AddChild(Text(cost_font, cost_fontsize))
-    dest.status:SetVAlign(ANCHOR_MIDDLE)
-    dest.status:SetHAlign(ANCHOR_LEFT)
-    dest.status:SetPosition(150, cost_py, 0)
-    dest.status:SetRegionSize(100, 30)
+    --dest.status = dest:AddChild(Text(cost_font, cost_fontsize))
+    --dest.status:SetVAlign(ANCHOR_MIDDLE)
+    --dest.status:SetHAlign(ANCHOR_LEFT)
+    --dest.status:SetPosition(150, cost_py, 0)
+    --dest.status:SetRegionSize(100, 30)
 
     dest.SetInfo = function(_, info)
         if info.name and info.name ~= "" then
             dest.name:SetString(info.name)
             dest.name:SetColour(1, 1, 1, 1)
         else
-            dest.name:SetString("未知")
+            dest.name:SetString(STRINGS.NANA_TELEPORT_UNKNOWN_DESTINATION)
             dest.name:SetColour(1, 1, 0, 0.6)
         end
 
         dest.cost_hunger:Show()
-        dest.cost_hunger:SetString("饥饿消耗: " .. math.ceil(info.cost_hunger))
+        --▪•
+        dest.cost_hunger:SetString(STRINGS.NANA_TELEPORT_HUNGER.." -" .. math.ceil(info.cost_hunger).."  "..STRINGS.NANA_TELEPORT_SANITY.." -"..math.ceil(info.cost_sanity).."")
         dest.cost_hunger:SetColour(1, 1, 1, 0.8)
 
-        dest.cost_sanity:Show()
-        dest.cost_sanity:SetString("精神消耗: " .. math.ceil(info.cost_sanity))
-        dest.cost_sanity:SetColour(1, 1, 1, 0.8)
+        --dest.cost_sanity:Show()
+        --dest.cost_sanity:SetString("[-]理智: " .. math.ceil(info.cost_sanity))
+        --dest.cost_sanity:SetColour(1, 1, 1, 0.8)
 
         if info.cost_hunger < 0 or info.cost_sanity < 0 then
             dest.backing:SetOnClick(nil)
             if info.cost_hunger < -1 or info.cost_sanity < -1 then
                 dest.name:SetColour(1, 0, 0, 0.4)
                 dest.cost_hunger:SetColour(1, 0, 0, 0.4)
-                dest.cost_sanity:SetColour(1, 0, 0, 0.4)
+                --dest.cost_sanity:SetColour(1, 0, 0, 0.4)
             else
                 dest.name:SetColour(0, 1, 0, 0.6)
-                dest.cost_hunger:SetString("现在的位置")
+                dest.cost_hunger:SetString(STRINGS.NANA_TELEPORT_CURRENT_POSITION)
                 dest.cost_hunger:SetColour(0, 1, 0, 0.4)
-                dest.cost_sanity:Hide()
+                --dest.cost_sanity:Hide()
 
-                if info.name and info.name ~= "" then
-                    self.current:SetString(info.name)
-                    self.current:SetColour(1, 1, 1, 1)
-                else
-                    self.current:SetString("未知")
-                    self.current:SetColour(1, 0, 0, 0.4)
-                end
+                -- if info.name and info.name ~= "" then
+                -- self.current:SetString("当前站点："..info.name)
+                -- self.current:SetColour(1, 1, 0, 1)
+                -- else
+                -- self.current:SetString("当前站点：未知站名")
+                -- self.current:SetColour(1, 0, 0, 0.4)
+                -- end
             end
         else
             dest.backing:SetOnClick(function()

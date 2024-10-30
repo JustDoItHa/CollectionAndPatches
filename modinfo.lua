@@ -10,7 +10,7 @@ description = [[
 --1.黑色法杖（手动清理神器）2.小穹补丁(zymod) 3.全图定位 4.影藏管理员标志
 --5.蘑菇农场增强 6.简单血量条 7.ShowMe 8.死亡不掉落 9.五格装备栏 10.二本垃圾箱
 --11.掉落自动堆叠 12.最大堆叠个数限制 13.更多堆叠 14.帐篷耐久 15.木棚耐久
---16.木牌传送 17.死亡复活按钮 18.死亡复活指令 19.冰箱反鲜 20.快速工作 21.陷阱增强
+--16.木牌传送 and 木牌传送（皮肤版） 17.死亡复活按钮 18.死亡复活指令 19.冰箱反鲜 20.快速工作 21.陷阱增强
 --22.霓庭灯 23.兔子喷泉 24.智能小木牌 25.小房子种植 26.让每个人都可以使用烹饪锅
 --27.额外装备栏plus+ 28.秘玥 29.消失咒 30.浅的工具包 31.反作弊mod
 --32.删除默认人物RemoveDefaultCharacter 33.萝卜冰箱 34.large boats
@@ -759,6 +759,8 @@ configuration_options[#configuration_options + 1] = AddConfigOption("slots_bg_le
 ---木牌传送设置
 configuration_options[#configuration_options + 1] = AddOptionHeader("木牌传送设置")
 configuration_options[#configuration_options + 1] = AddOption("fast_travel", "木牌传送-总开关", "设置是否开启木牌传送", true)
+
+configuration_options[#configuration_options + 1] = AddOption("HomesignEnable", "原版木牌可传送", "设置原版木牌是否可传送", true)
 configuration_options[#configuration_options + 1] = AddConfigOption("set_wait_second", "设置等待时长", "修改传送时等待的时长（秒）", { { description = "直接传送", data = 0 }, { description = "1秒", data = 1 }, { description = "3秒", data = 3 }, { description = "5秒", data = 5, hover = "默认" }, }, 0)
 configuration_options[#configuration_options + 1] = AddConfigOption("Hunger_Cost", "饥饿消耗", "修改传送时饥饿消耗倍率", { { description = "无消耗", data = 0 }, { description = "X0.25", data = 0.25 }, { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 }, { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 } }, 1)
 configuration_options[#configuration_options + 1] = AddConfigOption("Sanity_Cost", "精神消耗", "修改传送时精神消耗倍率", { { description = "无消耗", data = 0 }, { description = "X0.25", data = 0.25 }, { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 }, { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 } }, 1)

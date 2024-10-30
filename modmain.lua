@@ -279,6 +279,13 @@ end
 
 -- 木牌传送
 if GetModConfigData("fast_travel") == true then
+    local locale_l = GLOBAL.LOC.GetLocaleCode()
+    if locale_l == "zht" or locale_l == "zh" then
+        require 'lang/nana_teleport_cn'
+    else
+        require 'lang/nana_teleport_en'
+    end
+
     modimport("scripts/fast_travel.lua")
 end
 
