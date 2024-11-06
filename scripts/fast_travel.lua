@@ -35,17 +35,21 @@ modimport("scripts/skin/lantu.lua")
 AddMinimapAtlas("images/inventoryimages/teleportation.xml")
 
 
---注册配方
-AddRecipe2("teleportation",{Ingredient("boards", 1)},
-        TECH.SCIENCE_ONE,
-        {
-            atlas = "images/inventoryimages/teleportation.xml",
-            image = "teleportation.tex",
-            placer = "teleportation_placer",    --放置虚影
-            min_spacing = 1,             --建筑最小建造间距
-        },
-        {"LIGHT","DECOR","STRUCTURES","MODS"}
-)
+if GetModConfigData("NewWoodTravelSignEnable") then
+    --注册配方
+    AddRecipe2("teleportation",{Ingredient("boards", 1)},
+            TECH.SCIENCE_ONE,
+            {
+                atlas = "images/inventoryimages/teleportation.xml",
+                image = "teleportation.tex",
+                placer = "teleportation_placer",    --放置虚影
+                min_spacing = 1,             --建筑最小建造间距
+            },
+            {"LIGHT","DECOR","STRUCTURES","MODS"}
+    )
+end
+
+
 local writeables = require("writeables")
 writeables.AddLayout("teleportation", {
     prompt = "", -- Unused

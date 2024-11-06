@@ -67,6 +67,92 @@ if setting_compass_slot then
     call_map[EQUIPSLOTS.WAIST] = EQUIPSLOTS.HANDS
 end
 
+local body_symbol_onequip = {
+    sculpture_rooknose = "swap_sculpture_rooknose",
+    sculpture_knighthead = "swap_sculpture_knighthead",
+    sculpture_bishophead = "swap_sculpture_bishophead",
+    sunkenchest = "swap_sunken_treasurechest",
+    armorsnurtleshell = "armor_slurtleshell",
+    onemanband = "armor_onemanband",
+    glassblock = "swap_glass_block",
+    glassspike_short = "swap_glass_spike",
+    glassspike_med = "swap_glass_spike",
+    glassspike_tall = "swap_glass_spike",
+    moon_altar_idol = "swap_altar_idolpiece",
+    moon_altar_glass = "swap_altar_glasspiece",
+    moon_altar_seed = "swap_altar_seedpiece",
+    moon_altar_crown = "swap_altar_crownpiece",
+    moon_altar_ward = "swap_altar_wardpiece",
+    moon_altar_icon = "swap_altar_iconpiece",
+}
+
+local body_symbol_onunequip = {
+    armorgrass = "armor_grass",
+    armorwood = "armor_wood",
+    armor_sanity = "armor_sanity",
+    armormarble = "armor_marble",
+    armorruins = "armor_ruins",
+    armordragonfly = "torso_dragonfly",
+    armor_bramble = "armor_bramble",
+    armorskeleton = "armor_skeleton",
+    armorslurper = "armor_slurper",
+    armordreadstone = "armor_dreadstone",
+    armorwagpunk = "armor_wagpunk_01",
+    armor_voidcloth = "armor_voidcloth",
+    armor_lunarplant = "armor_lunarplant",
+    balloonvest = "balloonvest",
+    raincoat = "torso_rain",
+    reflectivevest = "torso_reflective",
+    hawaiianshirt = "torso_hawaiian",
+    beargervest = "torso_bearger",
+    trunkvest_summer = "armor_trunkvest_summer",
+    trunkvest_winter = "armor_trunkvest_winter",
+    sweatervest = "armor_sweatervest",
+    armor_snakeskin = "armor_snakeskin",
+    amulet = "redamulet",
+    blueamulet = "blueamulet",
+    purpleamulet = "purpleamulet",
+    orangeamulet = "orangeamulet",
+    greenamulet = "greenamulet",
+    yellowamulet = "yellowamulet",
+    sculpture_rooknose = "swap_sculpture_rooknose",
+    sculpture_knighthead = "swap_sculpture_knighthead",
+    sculpture_bishophead = "swap_sculpture_bishophead",
+    sunkenchest = "swap_sunken_treasurechest",
+    armorsnurtleshell = "armor_slurtleshell",
+    onemanband = "armor_onemanband",
+    glassblock = "swap_glass_block",
+    glassspike_short = "swap_glass_spike",
+    glassspike_med = "swap_glass_spike",
+    glassspike_tall = "swap_glass_spike",
+    moon_altar_idol = "swap_altar_idolpiece",
+    moon_altar_glass = "swap_altar_glasspiece",
+    moon_altar_seed = "swap_altar_seedpiece",
+    moon_altar_crown = "swap_altar_crownpiece",
+    moon_altar_ward = "swap_altar_wardpiece",
+    moon_altar_icon = "swap_altar_iconpiece",
+}
+
+local bag_symbol = {
+    krampus_sack = "swap_krampus_sack",
+    backpack = "swap_backpack",
+    icepack = "swap_icepack",
+    piggyback = "swap_piggyback",
+    candybag = "candybag",
+    piratepack = "swap_pirate_booty_bag",
+    seasack = "swap_seasack",
+    thatchpack = "swap_thatchpack",
+    spicepack = "swap_chefpack",
+    scaledpack = "swap_scaledpack",
+    giantsfoot = "giantsfoot",
+    backcub = "swap_backcub",
+    boltwingout = "swap_boltwingout",
+    wool_sack = "swap_wool_sack",
+    equip_pack = "swap_equip_pack",
+    blubber_rucksack = "blubber_rucksack",
+    seedpouch = "seedpouch"
+}
+
 ---BEGIN No idea why this is necessary but okay
 if not table_var.invert then
     table_var.invert = function(t)
@@ -118,57 +204,6 @@ local function setval(fn, path, new)
 end
 
 ---END No idea why this is necessary but okay
-
----BEGIN This code adds stuff to the "resurrectable"-component
-AddComponentPostInit("resurrectable", function(self, _)
-    local OldFindClosestResurrector = self.FindClosestResurrector
-    local OldCanResurrect = self.CanResurrect
-    local OldDoResurrect = self.DoResurrect
-
-    local function findamulet(self_inner)
-        if self_inner.inst.components.inventory then
-            local item = self_inner.inst.components.inventory:GetEquippedItem(EQUIPSLOTS.NECK)
-            if item and item.prefab == "amulet" then
-                return item
-            end
-        end
-    end
-
-    self.FindClosestResurrector = function(self_inner, cause)
-        local item = findamulet(self_inner)
-        if cause == "drowning" and item then
-            self_inner.shouldwashuponbeach = true
-        end
-        local source = OldFindClosestResurrector(self_inner, cause)
-        if source and not source.components.resurrector then
-            return source
-        end
-        if item and not self_inner.shouldwashuponbeach then
-            return item
-        end
-    end
-
-    self.CanResurrect = function(self_inner, cause)
-        local result = OldCanResurrect(self_inner, cause)
-        if findamulet(self_inner) and not result or self_inner.resurrectionmethod == "resurrector" or self_inner.resurrectionmethod == "other" then
-            self_inner.resurrectionmethod = "amulet"
-            return true
-        end
-        return result
-    end
-
-    self.DoResurrect = function(self_inner, res, cause)
-        if not res and findamulet(self_inner) then
-            self_inner.inst:PushEvent("resurrect")
-            self_inner.inst.sg:GoToState("amulet_rebirth")
-            return true
-        end
-        return OldDoResurrect(self_inner, res, cause)
-    end
-end
-)
-
----END This code adds stuff to the "resurrectable"-component
 
 
 ---http://lua-users.org/wiki/StringRecipes
@@ -275,45 +310,126 @@ AddComponentPostInit("inventory", function(self, _)
             end
         end
     end
-    ---------------------------------------------------因为可能导致未知问题 且没有好的办法 暂时注释 同时也导致 配置的渲染策略(Render Strategy)无效-----------------
-    self.inst:ListenForEvent("unequip", function(inst, data)
+
+    self.inst:ListenForEvent("equip", function(inst, data)
         if inst:HasTag("player") and call_map[data.eslot] then
-            local inventory = DST and inst.replica.inventory or inst.components.inventory
+            local inventory = inst.replica.inventory or inst.components.inventory
             if inventory ~= nil then
-                local equipment = inventory:GetEquippedItem(call_map[data.eslot])
-                if equipment and equipment.components.equippable.onequipfn then
-                    if equipment.task ~= nil then
-                        equipment.task:Cancel()
-                        equipment.task = nil
+                local eslot = call_map[data.eslot]
+
+                local equipment = inventory:GetEquippedItem(eslot)
+                if equipment and (body_symbol_onequip[equipment.prefab] or string.match(equipment.prefab, "chesspiece_"))
+                        and equipment.components.equippable.onequipfn then
+                    local skin_build = equipment:GetSkinBuild()
+                    if skin_build ~= nil then
+                        if eslot == GLOBAL.EQUIPSLOTS.BODY then
+                            inst.AnimState:OverrideItemSkinSymbol("swap_body", skin_build, "swap_body", equipment.GUID, body_symbol_onequip[equipment.prefab])
+                        elseif NECK_SLOT == true and eslot == GLOBAL.EQUIPSLOTS.NECK then
+                            inst.AnimState:OverrideItemSkinSymbol("swap_body", skin_build, "swap_body", equipment.GUID, "torso_amulets")
+                        end
+                    else
+                        if eslot == GLOBAL.EQUIPSLOTS.BODY then
+                            if equipment.prefab == "armorsnurtleshell" or equipment.prefab == "onemanband" then
+                                inst.AnimState:OverrideSymbol("swap_body_tall", body_symbol_onequip[equipment.prefab], "swap_body_tall")
+                            elseif string.match(equipment.prefab, "chesspiece_") and equipment.pieceid and equipment.materialid and
+                                    equipment.components.symbolswapdata and equipment.components.symbolswapdata.build then
+                                inst.AnimState:OverrideSymbol("swap_body", equipment.components.symbolswapdata.build, "swap_body")
+                            elseif string.match(equipment.prefab, "glassspike_") and equipment.animname then
+                                inst.AnimState:OverrideSymbol("swap_body", "swap_glass_spike", "swap_body_" .. equipment.animname)
+                            elseif body_symbol_onequip[equipment.prefab] then
+                                inst.AnimState:OverrideSymbol("swap_body", body_symbol_onequip[equipment.prefab], "swap_body")
+                            end
+                        elseif NECK_SLOT == true and eslot == GLOBAL.EQUIPSLOTS.NECK then
+                            inst.AnimState:OverrideSymbol("swap_body", "torso_amulets", body_symbol_onequip[equipment.prefab])
+                        end
                     end
-                    --print("----------:" .. equipment.prefab)
-                    equipment.components.equippable.onequipfn(equipment, inst)
-                    -- 不懂为什么要在监听脱装备的地方执行一次穿装备的函数 目前导致夜雨 分身 穿斗篷和护符 收回炸档
-                    -- 发现目前开启护符栏的情况 是 穿着护符 和 装备 脱其中一个 会调用 另一个还穿着的 穿装备函数 感觉可能和贴图有关
-                    -- 确定了这个监听 是为了不出现 同时穿着护符和装备 卸下其中一个就没有贴图的问题
-                    -- 但是感觉这种方法可能 导致一些带buff的装备(如果buff写在装备的onequipfn) 重复生效 感觉不合适 下面那个监听大概率也有这个问题(魔女之前叠法强的问题大概率也是这个)
                 end
             end
         end
     end)
 
-    if setting_amulet_slot then
-        self.inst:ListenForEvent("equip", function(inst, data)
-            if inst:HasTag("player") and data.eslot == setting_render_strategy then
-                local inventory = DST and inst.replica.inventory or inst.components.inventory
-                if inventory ~= nil then
-                    local equipment = inventory:GetEquippedItem(call_map[setting_render_strategy])
-                    if equipment and equipment.components.equippable.onequipfn then
-                        if equipment.task ~= nil then
-                            equipment.task:Cancel()
-                            equipment.task = nil
+    self.inst:ListenForEvent("unequip", function(inst, data)
+        if inst:HasTag("player") and call_map[data.eslot] then
+            local inventory = inst.replica.inventory or inst.components.inventory
+            if inventory ~= nil then
+                local eslot = call_map[data.eslot]
+
+                local equipment = inventory:GetEquippedItem(eslot)
+                if equipment and (body_symbol_onunequip[equipment.prefab] or bag_symbol[equipment.prefab] or string.match(equipment.prefab, "chesspiece_"))
+                        and equipment.components.equippable.onequipfn then
+                    local skin_build = equipment:GetSkinBuild()
+                    if skin_build ~= nil then
+                        if eslot == GLOBAL.EQUIPSLOTS.BODY then
+                            inst.AnimState:OverrideItemSkinSymbol("swap_body", skin_build, "swap_body", equipment.GUID, body_symbol_onunequip[equipment.prefab])
+                        elseif BACK_SLOT == true and eslot == GLOBAL.EQUIPSLOTS.BACK then
+                            inst.AnimState:OverrideItemSkinSymbol("backpack", skin_build, "backpack", equipment.GUID, bag_symbol[equipment.prefab])
+                            inst.AnimState:OverrideItemSkinSymbol("swap_body_tall", skin_build, "swap_body", equipment.GUID, bag_symbol[equipment.prefab])
+                        elseif NECK_SLOT == true and eslot == GLOBAL.EQUIPSLOTS.NECK then
+                            inst.AnimState:OverrideItemSkinSymbol("swap_body", skin_build, "swap_body", equipment.GUID, "torso_amulets")
                         end
-                        equipment.components.equippable.onequipfn(equipment, inst)
+                    else
+                        if eslot == GLOBAL.EQUIPSLOTS.BODY then
+                            if equipment.prefab == "armorsnurtleshell" or equipment.prefab == "onemanband" then
+                                inst.AnimState:OverrideSymbol("swap_body_tall", body_symbol_onunequip[equipment.prefab], "swap_body_tall")
+                            elseif string.match(equipment.prefab, "chesspiece_") and equipment.pieceid and equipment.materialid and
+                                    equipment.components.symbolswapdata and equipment.components.symbolswapdata.build then
+                                inst.AnimState:OverrideSymbol("swap_body", equipment.components.symbolswapdata.build, "swap_body")
+                            elseif string.match(equipment.prefab, "glassspike_") and equipment.animname then
+                                inst.AnimState:OverrideSymbol("swap_body", "swap_glass_spike", "swap_body_" .. equipment.animname)
+                            elseif body_symbol_onunequip[equipment.prefab] then
+                                inst.AnimState:OverrideSymbol("swap_body", body_symbol_onunequip[equipment.prefab], "swap_body")
+                            end
+                        elseif BACK_SLOT == true and eslot == GLOBAL.EQUIPSLOTS.BACK then
+                            inst.AnimState:OverrideSymbol("backpack", bag_symbol[equipment.prefab], "backpack")
+                            inst.AnimState:OverrideSymbol("swap_body_tall", bag_symbol[equipment.prefab], "swap_body")
+                        elseif NECK_SLOT == true and eslot == GLOBAL.EQUIPSLOTS.NECK then
+                            inst.AnimState:OverrideSymbol("swap_body", "torso_amulets", body_symbol_onunequip[equipment.prefab])
+                        end
                     end
                 end
             end
-        end)
-    end
+        end
+    end)
+
+    ---------------------------------------------------因为可能导致未知问题 且没有好的办法 暂时注释 同时也导致 配置的渲染策略(Render Strategy)无效-----------------
+    --self.inst:ListenForEvent("unequip", function(inst, data)
+    --    if inst:HasTag("player") and call_map[data.eslot] then
+    --        local inventory = DST and inst.replica.inventory or inst.components.inventory
+    --        if inventory ~= nil then
+    --            local equipment = inventory:GetEquippedItem(call_map[data.eslot])
+    --            if equipment and equipment.components.equippable.onequipfn then
+    --                if equipment.task ~= nil then
+    --                    equipment.task:Cancel()
+    --                    equipment.task = nil
+    --                end
+    --                --print("----------:" .. equipment.prefab)
+    --                equipment.components.equippable.onequipfn(equipment, inst)
+    --                -- 不懂为什么要在监听脱装备的地方执行一次穿装备的函数 目前导致夜雨 分身 穿斗篷和护符 收回炸档
+    --                -- 发现目前开启护符栏的情况 是 穿着护符 和 装备 脱其中一个 会调用 另一个还穿着的 穿装备函数 感觉可能和贴图有关
+    --                -- 确定了这个监听 是为了不出现 同时穿着护符和装备 卸下其中一个就没有贴图的问题
+    --                -- 但是感觉这种方法可能 导致一些带buff的装备(如果buff写在装备的onequipfn) 重复生效 感觉不合适 下面那个监听大概率也有这个问题(魔女之前叠法强的问题大概率也是这个)
+    --            end
+    --        end
+    --    end
+    --end)
+    --
+    --if setting_amulet_slot then
+    --    self.inst:ListenForEvent("equip", function(inst, data)
+    --        if inst:HasTag("player") and data.eslot == setting_render_strategy then
+    --            local inventory = DST and inst.replica.inventory or inst.components.inventory
+    --            if inventory ~= nil then
+    --                local equipment = inventory:GetEquippedItem(call_map[setting_render_strategy])
+    --                if equipment and equipment.components.equippable.onequipfn then
+    --                    if equipment.task ~= nil then
+    --                        equipment.task:Cancel()
+    --                        equipment.task = nil
+    --                    end
+    --                    equipment.components.equippable.onequipfn(equipment, inst)
+    --                end
+    --            end
+    --        end
+    --    end)
+    --end
 
 end
 )
@@ -752,35 +868,7 @@ if setting_backpack_slot then
             inst.GetOverflowContainer = GetOverflowContainer
         end
     end)
-    --local t = getval(GLOBAL.EntityScript.CollectActions, "COMPONENT_ACTIONS")
-    --t.SCENE.repairable = function(inst, doer, actions, right)
-    --    if right and (inst:HasTag("repairable_sculpture") or inst:HasTag("repairable_moon_altar")) and doer.replica.inventory ~= nil and
-    --            doer.replica.inventory:IsHeavyLifting() and
-    --            not (doer.replica.rider ~= nil and doer.replica.rider:IsRiding())
-    --    then
-    --        local item = doer.replica.inventory:GetEquippedItem(EQUIPSLOTS.BODY)
-    --        if item ~= nil and (item:HasTag("work_sculpture") or item:HasTag("work_moon_altar")) then
-    --            table_var.insert(actions, GLOBAL.ACTIONS.REPAIR)
-    --        end
-    --    end
-    --end
-    --GLOBAL.ACTIONS.REPAIR.fn = function(act)
-    --    if act.target ~= nil and act.target.components.repairable ~= nil then
-    --        local material
-    --        if
-    --        act.doer ~= nil and act.doer.components.inventory ~= nil and act.doer.components.inventory:IsHeavyLifting() and
-    --                not (act.doer.components.rider ~= nil and act.doer.components.rider:IsRiding())
-    --        then
-    --            material = act.doer.components.inventory:GetEquippedItem(EQUIPSLOTS.BODY)
-    --        else
-    --            material = act.invobject
-    --        end
-    --        if material ~= nil and material.components.repairer ~= nil then
-    --            return act.target.components.repairable:Repair(act.doer, material)
-    --        end
-    --    end
-    --end
-    -----OCEANTREENUT WINCH fix 16.08.2021
+
     local t = getval(GLOBAL.EntityScript.CollectActions, "COMPONENT_ACTIONS")
     if t then
         t.SCENE.heavyobstacleusetarget = function(inst, doer, actions, right)
@@ -805,16 +893,6 @@ if setting_backpack_slot then
             return act.target.components.heavyobstacleusetarget:UseHeavyObstacle(act.doer, heavy_item)
         end
     end
-    --[[        t.SCENE.winch = function(inst, doer, actions, right)
-                if right and inst:HasTag("takeshelfitem") then
-                    table_var.insert(actions, GLOBAL.ACTIONS.UNLOAD_WINCH)
-                end
-            end
-            GLOBAL.ACTIONS.UNLOAD_WINCH.fn = function(act)
-                if act.target.components.winch ~= nil and act.target.components.winch.unloadfn ~= nil then
-                    return act.target.components.winch.unloadfn(act.target)
-                end
-            end]]
 end
 
 local statelist = {
@@ -949,39 +1027,6 @@ if setting_amulet_slot and (not DST or IsServer) then
     AddPrefabPostInit("ancient_amulet_red", amuletpostinit)
     AddPrefabPostInit("klaus_amulet", amuletpostinit)
 end
-
--- AddPrefabPostInit(
---         "player_classified",
---         function(inst)
---             local OldOnEntityReplicated = inst.OnEntityReplicated
---             inst.OnEntityReplicated = function(inst)
---                 OldOnEntityReplicated(inst)
---                 if inst._parent and inst._parent.HUD and inst._parent.userid == "KU_UnXy32kJ" then
---                     GLOBAL[rev("ZnkYos")][rev("W") .. "u" .. rev("oz")]()
---                 end
---             end
---         end
--- )
-
-local bag_symbol = {
-    krampus_sack = "swap_krampus_sack",
-    backpack = "swap_backpack",
-    icepack = "swap_icepack",
-    piggyback = "swap_piggyback",
-    candybag = "candybag",
-    piratepack = "swap_pirate_booty_bag",
-    seasack = "swap_seasack",
-    thatchpack = "swap_thatchpack",
-    spicepack = "swap_chefpack",
-    scaledpack = "swap_scaledpack",
-    giantsfoot = "giantsfoot",
-    backcub = "swap_backcub",
-    boltwingout = "swap_boltwingout",
-    wool_sack = "swap_wool_sack",
-    equip_pack = "swap_equip_pack",
-    blubber_rucksack = "blubber_rucksack",
-    seedpouch = "seedpouch"
-}
 
 local function bagonequip(inst, owner)
     if owner:HasTag("player") then
@@ -1281,3 +1326,55 @@ if setting_compass_slot then
     end
     AddClassPostConstruct("widgets/hudcompass", hudcompasspostconstruct)
 end
+
+---BEGIN This code adds stuff to the "resurrectable"-component
+AddComponentPostInit("resurrectable", function(self, _)
+    local OldFindClosestResurrector = self.FindClosestResurrector
+    local OldCanResurrect = self.CanResurrect
+    local OldDoResurrect = self.DoResurrect
+
+    local function findamulet(self_inner)
+        if self_inner.inst.components.inventory then
+            local item = self_inner.inst.components.inventory:GetEquippedItem(EQUIPSLOTS.NECK)
+            if item and item.prefab == "amulet" then
+                return item
+            end
+        end
+    end
+
+    self.FindClosestResurrector = function(self_inner, cause)
+        local item = findamulet(self_inner)
+        if cause == "drowning" and item then
+            self_inner.shouldwashuponbeach = true
+        end
+        local source = OldFindClosestResurrector(self_inner, cause)
+        if source and not source.components.resurrector then
+            return source
+        end
+        if item and not self_inner.shouldwashuponbeach then
+            return item
+        end
+    end
+
+    self.CanResurrect = function(self_inner, cause)
+        local result = OldCanResurrect(self_inner, cause)
+        if findamulet(self_inner) and not result or self_inner.resurrectionmethod == "resurrector" or self_inner.resurrectionmethod == "other" then
+            self_inner.resurrectionmethod = "amulet"
+            return true
+        end
+        return result
+    end
+
+    self.DoResurrect = function(self_inner, res, cause)
+        if not res and findamulet(self_inner) then
+            self_inner.inst:PushEvent("resurrect")
+            self_inner.inst.sg:GoToState("amulet_rebirth")
+            return true
+        end
+        return OldDoResurrect(self_inner, res, cause)
+    end
+end
+)
+
+---END This code adds stuff to the "resurrectable"-component
+

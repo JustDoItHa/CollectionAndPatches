@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "13.15.4.0"
+version = "13.15.5.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -761,6 +761,7 @@ configuration_options[#configuration_options + 1] = AddOptionHeader("木牌传�
 configuration_options[#configuration_options + 1] = AddOption("fast_travel", "木牌传送-总开关", "设置是否开启木牌传送", true)
 
 configuration_options[#configuration_options + 1] = AddOption("HomesignEnable", "原版木牌可传送", "设置原版木牌是否可传送", true)
+configuration_options[#configuration_options + 1] = AddOption("NewWoodTravelSignEnable", "制作新的传送木牌", "设置可否制作新的传送木牌", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("set_wait_second", "设置等待时长", "修改传送时等待的时长（秒）", { { description = "直接传送", data = 0 }, { description = "1秒", data = 1 }, { description = "3秒", data = 3 }, { description = "5秒", data = 5, hover = "默认" }, }, 0)
 configuration_options[#configuration_options + 1] = AddConfigOption("Hunger_Cost", "饥饿消耗", "修改传送时饥饿消耗倍率", { { description = "无消耗", data = 0 }, { description = "X0.25", data = 0.25 }, { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 }, { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 } }, 1)
 configuration_options[#configuration_options + 1] = AddConfigOption("Sanity_Cost", "精神消耗", "修改传送时精神消耗倍率", { { description = "无消耗", data = 0 }, { description = "X0.25", data = 0.25 }, { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 }, { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 } }, 1)
