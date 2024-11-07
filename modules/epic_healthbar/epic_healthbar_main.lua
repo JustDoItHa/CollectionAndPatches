@@ -26,7 +26,8 @@ local function memset(value, ...) mem[argtohash(...)] = value end
 Tykvesh =
 {
 	Dummy = function() end,
-	InLimbo = { "INLIMBO" },
+	True = function() return true end,
+	ClampRemap = function(v, ...) return Remap(Clamp(v, ...), ...) end,
 
 	Parallel = function(root, key, fn, lowprio)
 		if type(root) == "table" then
@@ -41,6 +42,25 @@ Tykvesh =
 					root[key] = function(...) fn(...) return oldfn(...) end
 				end
 				memset(root[key], "PARALLEL", oldfn, fn)
+			end
+		end
+	end,
+
+	Sequence = function(root, key, fn, noselect)
+		if type(root) == "table" then
+			local oldfn = root[key] or Tykvesh.Dummy
+			local newfn = memget("SEQUENCE", oldfn, fn)
+			if newfn then
+				root[key] = newfn
+			else
+				root[key] = function(...)
+					local ret = { oldfn(...) }
+					for i, v in pairs({ fn(ret[1], ...) }) do
+						ret[i] = v
+					end
+					return unpack(ret)
+				end
+				memset(root[key], "SEQUENCE", oldfn, fn)
 			end
 		end
 	end,
@@ -115,8 +135,12 @@ else
 end
 
 for index, module in ipairs(Modules) do
-	local result = kleiloadlua(MODROOT .. "modules/epic_healthbar/" .. module .. ".lua")
+	local result = kleiloadlua(MODROOT .. "scripts/" .. module .. ".lua")
 	if type(result) == "function" then
 		RunInEnvironment(result, env)
 	end
 end
+
+Tykvesh.Parallel(_G, "TranslateStringTable", function()
+	pcall(modinfo.SetLocaleMod, env)
+end)
