@@ -58,8 +58,6 @@ if max_player_num > 0 then
     TheNet:SetDefaultMaxPlayers(max_player_num)
 end
 
-modimport("scripts/limit_vote.lua")
-
 -- [TUNING -- big bag]--------------------
 TUNING.ROOMCAR_BIGBAG_BAGSIZE = GetModConfigData("BAGSIZE")
 TUNING.ROOMCAR_BIGBAG_LANG = GetModConfigData("BIG_BAG_LANG")
@@ -81,7 +79,6 @@ TUNING.OPTIMISE_ANNOUNCEMENT = GetModConfigData("optimiseAnnouncement")
 -- [TUNING -- big bag end]--------------------
 TUNING.FUNCTIONAL_MEDAL_ENABLE = modenable({ "1909182187", "能力勋章", "Functional Medal" })
 TUNING.YEYU_NILXIN_ENABLE = modenable({ "2736985627", "2626800998", "夜雨心空" })
-TUNING.QIONG_ENABLE = modenable({ "1638724235", "小穹" })
 TUNING.YEYU_NILXIN_XIUXIAN_ENABLE = modenable({ "2736985627", "2626800998", "夜雨心空" }) and modenable("修仙世界额外")
 TUNING.ELAINA_ENABLE = modenable({ "2578692071", "魔女之旅" })
 TUNING.SORA_ENABLE = modenable({ "1638724235", "小穹" })
@@ -190,6 +187,33 @@ function testCantPackItem(target, forbidTable)
     return false
 end
 
+--隐藏管理员
+if GetModConfigData("hide_admin_switch") then
+    modimport("scripts/server_basic_setting/hide_admin.lua")
+end
+
+--投票限制
+modimport("scripts/server_basic_setting/limit_vote.lua")
+
+-- 一键挂机
+if GetModConfigData("invincible_status_switch") then
+    modimport("scripts/invincible_status_main.lua")
+end
+
+--宣告优化
+if TUNING.OPTIMISE_ANNOUNCEMENT then
+    modimport("scripts/server_basic_setting/optimise_announcement.lua")
+end
+
+--监控玩家行为
+modimport("scripts/server_basic_setting/spy_player_action.lua")
+
+
+--堆叠指令
+if GetModConfigData("command_stack") == true then
+    modimport("scripts/server_basic_setting/manager_players.lua")
+end
+
 --修复标签问题
 if GetModConfigData("beta_function_switch") and GetModConfigData("fix_tags_overflow_switch") then
 
@@ -209,10 +233,6 @@ end
 -- 鼠标滚轮控制拿起的物品的数量
 if GetModConfigData("change_stack_num_by_mousewheel_switch") then
     modimport("scripts/change_stack_num_by_mousewheel.lua")
-end
--- 一键挂机
-if GetModConfigData("invincible_status_switch") then
-    modimport("scripts/invincible_status_main.lua")
 end
 
 -- 死亡不掉落
@@ -259,12 +279,6 @@ if GetModConfigData("death_counter_switch") then
     modimport("scripts/death_counter_main.lua")
 end
 
---隐藏管理员
-if GetModConfigData("hide_admin_switch") then
-    modimport("scripts/hide_admin.lua")
-end
---宣告优化
-modimport("scripts/optimise_announcement.lua")
 
 -- 防止生物灭绝
 if GetModConfigData("prevent_creature_extinction_switch") then
@@ -322,13 +336,7 @@ end
 
 --黑色法杖
 modimport("scripts/blackstaff_main.lua")
---监控
-modimport("scripts/spy_player_action.lua")
 
---堆叠指令
-if GetModConfigData("command_stack") == true then
-    modimport("scripts/manager_players.lua")
-end
 --小穹开始自带打包风铃草
 --if GetModConfigData("bellflower_pack_start") then
 --    modimport("scripts/bellflower_pack.lua")
@@ -338,7 +346,7 @@ end
 --    modimport("scripts/limit_sorapacker.lua")
 --end
 --小穹补丁
-if GetModConfigData("sora_patches_switch") and TUNING.QIONG_ENABLE then
+if GetModConfigData("sora_patches_switch") and TUNING.SORA_ENABLE then
     modimport("scripts/sora_patches.lua")
 end
 --夜雨心空补丁

@@ -622,11 +622,12 @@ configuration_options = {
         { description = "128", data = 128, hover = "你是认真的么..." }, { description = "256", data = 256, hover = "你是认真的么..." }, { description = "512", data = 512, hover = "你是认真的么..." }, { description = "1024", data = 1024, hover = "你是认真的么..." },
     }, 0),
     AddOption("hide_admin_switch", "隐藏管理员-开关", "是否隐藏管理员标志", false),
-    AddOption("invincible_status_switch", "P键无敌挂机-开关", "", false),
+
     AddConfigOption("no_rollback", "禁止『发起投票->回滚世界』", "", { { description = "禁止投票回滚", data = true, hover = "不能发起投票回滚世界" },
                                                                      { description = "不禁止投票回滚", data = false, hover = "可以发起投票回滚世界" }, }, true),
     AddConfigOption("no_regenerate", "禁止『发起投票->重置世界』", "", { { description = "禁止投票重置", data = true, hover = "不可以发起投票重置世界" },
                                                                        { description = "不禁止投票重置", data = false, hover = "可以发起投票重置世界" }, }, true),
+    AddOption("invincible_status_switch", "J键无敌挂机-开关", "", false),
     AddConfigOption("optimiseAnnouncement", "优化重复宣告导致的刷屏", "统一文本宣告只会在设定值内显示一次", { { description = "关闭", data = 0 },
                                                                                                               { description = "1s内", data = 1 },
                                                                                                               { description = "5s内", data = 5 },

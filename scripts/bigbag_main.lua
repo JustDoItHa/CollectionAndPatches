@@ -135,7 +135,7 @@ if TUNING.ROOMCAR_BIGBAG_FRESH and TUNING.ROOMCAR_BIGBAG_STACK then
 end
 
 local RcpVE_MODs = {}
-if TUNING.QIONG_ENABLE then
+if TUNING.SORA_ENABLE then
     table.insert(RcpVE_MODs, Ingredient("sorahat", 1, "images/inventoryimages/sorahat.xml"))
     table.insert(RcpVE_MODs, Ingredient("sorahealing", 1, "images/inventoryimages/sorahealing.xml"))
     table.insert(RcpVE_MODs, Ingredient("soramagic", 1, "images/inventoryimages/soramagic.xml"))

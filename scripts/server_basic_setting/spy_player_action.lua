@@ -18,8 +18,6 @@ local _G = GLOBAL
 -- Assets = {
 -- }
 
-TUNING.MOD_SECRETMOON = true --设置全局标识，让其他mod也能检测到，以此做一些兼容吧
-
 local IsServer = TheNet:GetIsServer() or TheNet:IsDedicated()
 
 --------------------------------------------------------------------------
