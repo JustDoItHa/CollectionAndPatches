@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "13.16.0.0"
+version = "13.17.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -973,6 +973,15 @@ configuration_options[#configuration_options + 1] = AddConfigOption("reset_h", "
 ---Show me
 configuration_options[#configuration_options + 1] = AddOptionHeader("Show me")
 configuration_options[#configuration_options + 1] = AddOption("show_me_switch", "show me-开关", "是否开启show me", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("show_me_lang", "语言(Language)", "", { { description = "Auto(自动)", data = "auto", hover = "Detect Language Pack(检测语言包)" },
+                                                                                                            { description = "en(英语)", data = "en", hover = "English(英语)" },
+                                                                                                            { description = "ru(俄语)", data = "ru", hover = "Russian(俄语)" },
+                                                                                                            { description = "chs(简体中文)", data = "chs", hover = "Simplified Chinese(简体中文)" },
+                                                                                                            { description = "cht(繁体中文)", data = "cht", hover = "Traditional Chinese(繁体中文)" },
+                                                                                                            { description = "br(葡萄牙语)", data = "br", hover = "Brazilian Portuguese(葡萄牙语)" },
+                                                                                                            { description = "pl(波兰语)", data = "pl", hover = "Polish(波兰语)" },
+                                                                                                            { description = "kr(韩语)", data = "kr", hover = "Korean(韩语)" },
+                                                                                                            { description = "es(西班牙语)", data = "es", hover = "Spanish(西班牙语)" }, }, "auto")
 --[[AddConfigOption("message_style", "Style", "", {
     {description = "Isolation ->", data = 1},
     {description = "isolation ->", data = 2},
@@ -998,19 +1007,26 @@ configuration_options[#configuration_options + 1] = AddConfigOption("show_uses",
                                                                                                                         { description = "否(No)", data = 0, hover = "No, but users may override this option.(否)" },
                                                                                                                         { description = "是(Yes)", data = 1, hover = "Yes, but users may override this option.(是)" },
                                                                                                                         { description = "禁止(Forbidden)", data = 2, hover = "Server won't send this info to the clients and their settings will not matter.\n服务端不会发送属性信息给客户端" }, }, -1)
-configuration_options[#configuration_options + 1] = AddConfigOption("show_me_lang", "语言(Language)", "", { { description = "Auto(自动)", data = "auto", hover = "Detect Language Pack(检测语言包)" },
-                                                                                                            { description = "en(英语)", data = "en", hover = "English(英语)" },
-                                                                                                            { description = "ru(俄语)", data = "ru", hover = "Russian(俄语)" },
-                                                                                                            { description = "chs(简体中文)", data = "chs", hover = "Simplified Chinese(简体中文)" },
-                                                                                                            { description = "cht(繁体中文)", data = "cht", hover = "Traditional Chinese(繁体中文)" },
-                                                                                                            { description = "br(葡萄牙语)", data = "br", hover = "Brazilian Portuguese(葡萄牙语)" },
-                                                                                                            { description = "pl(波兰语)", data = "pl", hover = "Polish(波兰语)" },
-                                                                                                            { description = "kr(韩语)", data = "kr", hover = "Korean(韩语)" },
-                                                                                                            { description = "es(西班牙语)", data = "es", hover = "Spanish(西班牙语)" }, }, "auto")
+
+configuration_options[#configuration_options + 1] = AddConfigOption("show_nutrients", "显示肥料值", "", {{description = "关闭", data = false, hover = ""},
+                                                                                                   	{description = "详细", data = 1, hover = "催长剂: 8 / 堆肥: 8 / 粪肥: 32"},
+                                                                                                   	{description = "简洁", data = 2, hover = "肥料: 8 / 8 / 32"},}, 1)
+
+
+
 configuration_options[#configuration_options + 1] = AddConfigOption("display_hp", "显示血量(Display HP)", "", { { description = "Auto(自动)", data = -1, hover = "Depends on installed mods.(取决于安装的模组)" },
                                                                                                                 { description = "No(否)", data = 0, hover = "No, but users may override this option.(否，但用户可以覆盖此选项。)" },
                                                                                                                 { description = "Yes(是)", data = 1, hover = "Yes, but users may override this option.(是，但用户可以覆盖此选项。)" },
                                                                                                                 { description = "Forbidden(禁止)", data = 2, hover = "Server won't send this info to the clients and their settings will not matter.(服务端将不会发送属性信息给客户端)" }, }, -1)
+configuration_options[#configuration_options + 1] = AddConfigOption("show_fueled", "穿戴装备天数", "", {{description = "关闭", data = false, hover = "不显示"},
+                                                                                                 	{description = "时间", data = 1, hover = "耐久: 1:19"},
+                                                                                                 	{description = "天数", data = 2, hover = "耐久: 6.8 天"},
+                                                                                                 	{description = "两者", data = 3, hover = "耐久: 3:59 ( 0.5 天 )"},}, 3)
+configuration_options[#configuration_options + 1] = AddConfigOption("show_fuel", "物品燃料值", "", {{description = "关闭", data = false, hover = "关闭后火堆的燃烧效率也将隐藏"},
+                                                                                              	{description = "开启", data = true, hover = "燃料值: 0:30"},}, true)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("show_planar_resist", "显示位面抵抗", "在显示工具、武器攻击附加显示位面抵抗造成的伤害", {{description = "关闭", data = false, hover = "关闭后生物上显示“拥有位面抵抗”也将隐藏"},
+                                                                                                                               		{description = "开启", data = true, hover = "攻击力: 68 ( 位抗: 41.3 )"},}, true)
 
 configuration_options[#configuration_options + 1] = AddOption("T_crop", "农作物状态显示", "例如缺肥料、水分、家族、有杂草等，成长计时不受影响", true)
 --AddConfigOption("naughtiness", "顽皮值", "", {
@@ -1829,6 +1845,37 @@ function SetLocale(locale)
 end
 SetLocale(locale)
 
+function SetLocaleMod(env)
+    if env.TheNet:IsDedicated() then
+        return
+    end
+
+    local locale = env.LanguageTranslator.defaultlang or env.TheNet:GetLanguageCode()
+    if env.type(locale) == "string" then
+        SetLocale(locale, env)
+    end
+
+    if env.IsInFrontEnd() then
+        return
+    end
+
+    if STRINGS.COMMANDS then
+        for name, alias in env.pairs(STRINGS.COMMANDS) do
+            local data = env.require("usercommands").GetCommandFromName(name)
+            data.displayname = alias
+            data.aliases[#data.aliases + 1] = alias
+            env.AddUserCommand(name, data)
+        end
+    end
+    if STRINGS.LOADING_TIPS then
+        local tab = { username = env.TheNet:GetLocalUserName() }
+        for id, tip in env.pairs(STRINGS.LOADING_TIPS) do
+            local category = "LOADING_SCREEN_" .. id:match("%a+") .. "_TIPS"
+            local key = "EPICHEALTHBAR" .. (id:match("%d+") or "")
+            env.AddLoadingTip(env.STRINGS.UI[category], key, env.subfmt(tip, tab))
+        end
+    end
+end
 ---纯净辅助
 configuration_options[#configuration_options + 1] = AddOptionHeader("微小游戏体验提升")
 configuration_options[#configuration_options + 1] = AddOption("little_modify_for_pure_switch", "总开关", "一些提升纯净档的微小功能", false)
