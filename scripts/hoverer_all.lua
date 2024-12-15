@@ -171,6 +171,7 @@ local JLCOx_ak = {
             table["insert"](lw4Q7kbl, { "攻击距离", qW0lRiD1(nHlJ["attackrange"], tonumber("1")) })
         end
     end },
+
     { com = "weapon", fn = function(IN, QYf1)
         if not IN["inst"]["components"]["weapon_fumo"] and IN["damage"] ~= nil and type(IN["damage"]) == "number" then
             table["insert"](QYf1, { "伤害", qW0lRiD1(IN["damage"], tonumber("1")) })
@@ -179,6 +180,17 @@ local JLCOx_ak = {
             end
         end
     end },
+    { com = "planardamage", fn = function(inst, lw4Q7kbl)
+        if inst["basedamage"] > tonumber("0") then
+            table["insert"](lw4Q7kbl, { "位面伤害: ", qW0lRiD1(inst["basedamage"]) })
+        end ;
+    end },
+    { com = "planarentity", fn = function(inst, lw4Q7kbl)
+        if inst["dmgresist"] > tonumber("0") then
+            table["insert"](lw4Q7kbl, { "生物位面抵抗: ", qW0lRiD1(inst["dmgresist"]) })
+        end ;
+    end },
+
     { com = "armor", fn = function(RfsnisO, lvW2ga)
         if not RfsnisO["inst"]["components"]["armor_fumo"] and not RfsnisO["inst"]["components"]["hat_fumo"] then
             if "absorb_percent" == nil or RfsnisO["absorb_percent"] == nil then
@@ -373,11 +385,11 @@ local JLCOx_ak = {
     end },
     { com = "saya_potions", fn = function(inst, _)
 
-        local magic = inst.magic
-        local absurd = inst.absurd
-        local food = inst.food
-        local herbs = inst.herbs
-        local magical = inst.magical
+        local magic = inst.magic:value()
+        local absurd = inst.absurd:value()
+        local food = inst.food:value()
+        local herbs = inst.herbs:value()
+        local magical = inst.magical:value()
         if magic > 0 then
             table["insert"](_, { "魔法度", ""..magic })
         end
@@ -393,7 +405,25 @@ local JLCOx_ak = {
         if magical > 0 then
             table["insert"](_, { "神奇度", ""..magical })
         end
-    end } }
+    end },
+    { com = "elaina_autumn_fun", fn = function(inst, _)
+        local magic = inst:GetDu1()
+        local absurd = inst:GetDu2()
+        local herbs = inst:GetDu3()
+        local magical = inst:GetDu4()
+        if magic > 0 then
+            table["insert"](_, { "已强化魔法度", ""..magic })
+        end
+        if absurd > 0 then
+            table["insert"](_, { "已强化荒诞度", ""..absurd })
+        end
+        if herbs > 0 then
+            table["insert"](_, { "已强化草药度", ""..herbs })
+        end
+        if magical > 0 then
+            table["insert"](_, { "已强化神奇度", ""..magical })
+        end
+     end } }
 local function hPQ(B7SHDx7h, EEpoeR)
     local _k = {}
     for k, v in ipairs(JLCOx_ak) do
