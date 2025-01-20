@@ -14,6 +14,7 @@ local remove_table = {
     remove_aria_medal_alter = { "aria_medal_alter" },
     --伊蕾娜
     remove_elaina_bq = { "elaina_bq" },
+    remove_saya_potions_grow = { "saya_potions_grow" },
     --奇幻降临阿比
     remove_abigail_williams_atrium_light_moon = { "atrium_light_moon" },
     remove_abigail_williams_black_gold = { "abigail_williams_black_gold" },
