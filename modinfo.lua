@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "13.17.6.0"
+version = "13.17.7.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1492,7 +1492,7 @@ CAP_REMOVE_SOMETHING_LIST_CONFIG = {
     { "remove_aria_blackhole", "aria的深空黑点", "让aria的深空黑点消失！", disappear_magic, 0 },
     { "remove_aria_medal_alter", "aria的暴君勋章", "让aria的暴君勋章消失！", disappear_magic, 0 },
     { "remove_elaina_bq", "伊蕾娜的释槐留仙裙", "让伊蕾娜的释槐留仙裙消失！", disappear_magic, -1 },
-    { "remove_saya_potions_grow", "魔女的创造模式药水", "让魔女的创造模式药水消失！", disappear_magic, -1 },
+    { "remove_saya_potions_happiness", "魔女的创造模式药水", "让魔女的创造模式药水消失！", disappear_magic, -1 },
     { "remove_abigail_williams_black_gold", "阿比盖尔威廉姆斯的暗金", "让阿比盖尔威廉姆斯的暗金消失！", disappear_magic, -1 },
     { "remove_abigail_williams_psionic_bobbin_c", "阿比盖尔威廉姆斯的彩虹线轴", "让阿比盖尔威廉姆斯的彩虹线轴消失！", disappear_magic, 0 },
     { "remove_abigail_williams_ab_lnhx", "阿比盖尔威廉姆斯的灵能核心", "让阿比盖尔威廉姆斯的灵能核心消失！", disappear_magic, -1 },
