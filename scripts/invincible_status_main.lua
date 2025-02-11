@@ -107,7 +107,7 @@ local function clientpausefn(inst)
 
         --recover preserver
         local function recover(v)
-            if v and v.components.container ~= nil then
+            if v and v.components.container ~= nil and v.components.preserver ~= nil then
                 if preservertb[v.prefab] ~= nil then
                     if preservertb[v.prefab] ~= 1 then
                         v.components.preserver:SetPerishRateMultiplier(preservertb[v.prefab])
