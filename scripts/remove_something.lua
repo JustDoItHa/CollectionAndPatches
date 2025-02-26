@@ -100,7 +100,8 @@ local remove_table = {
                                        "tz_fh_ht",
                                        "tz_fh_hf",
                                        "tz_fh_nx",
-                                       "tz_fh_fishgirl" },
+                                       "tz_fh_fishgirl",
+                                       "tz_hong"},
 
 
     --remove_heap_of_food_bird = { "quagmire_pigeon", "toucan", "kingfisher" },
