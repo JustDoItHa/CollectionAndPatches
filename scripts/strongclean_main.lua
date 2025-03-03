@@ -184,6 +184,62 @@ if GetModConfigData("use_for_tumbleweed") then
     --
     --table.insert(strongcleanlist, "tacklecontainer")--钓具箱
     --table.insert(strongcleanlist, "supertacklecontainer")--超级钓具箱
+
+    --table.insert(strongcleanlist, "killerbee")
+    table.insert(strongcleanlist, "frog")
+    table.insert(strongcleanlist, "mosquito")
+    table.insert(strongcleanlist, "grassgekko")
+    table.insert(strongcleanlist, "bird_mutant")
+    table.insert(strongcleanlist, "bird_mutant_spitter")
+    table.insert(strongcleanlist, "hound")
+    table.insert(strongcleanlist, "bat")
+    table.insert(strongcleanlist, "firehound")
+    table.insert(strongcleanlist, "icehound")
+    table.insert(strongcleanlist, "penguin")
+    table.insert(strongcleanlist, "mutatedhound")
+    table.insert(strongcleanlist, "squid")
+    table.insert(strongcleanlist, "molebat")
+    table.insert(strongcleanlist, "tallbird")
+    table.insert(strongcleanlist, "deer")
+    table.insert(strongcleanlist, "worm")
+    table.insert(strongcleanlist, "mutated_penguin")
+    table.insert(strongcleanlist, "mushgnome")
+    table.insert(strongcleanlist, "fruitdragon")
+    table.insert(strongcleanlist, "wobster_moonglass_land")
+    table.insert(strongcleanlist, "oceanfish_medium_6_inv")
+    table.insert(strongcleanlist, "oceanfish_medium_7_inv")
+    --table.insert(strongcleanlist, "bee")
+    --table.insert(strongcleanlist, "bunnyman")
+    table.insert(strongcleanlist, "merm")
+    --table.insert(strongcleanlist, "monkey") --
+    table.insert(strongcleanlist, "rabbit")
+    table.insert(strongcleanlist, "spider")
+    table.insert(strongcleanlist, "spider_dropper")
+    table.insert(strongcleanlist, "spider_hider")
+    table.insert(strongcleanlist, "spider_spitter")
+    table.insert(strongcleanlist, "spider_warrior")
+    table.insert(strongcleanlist, "spider_moon")
+    table.insert(strongcleanlist, "rocky")
+    table.insert(strongcleanlist, "mossling")
+    --table.insert(strongcleanlist, "beefalo")
+    table.insert(strongcleanlist, "slurtle")
+    table.insert(strongcleanlist, "snurtle")
+    --table.insert(strongcleanlist, "pigman") --猪人
+    table.insert(strongcleanlist, "lightflier")
+    table.insert(strongcleanlist, "fireflies")
+    table.insert(strongcleanlist, "tentacle")
+    table.insert(strongcleanlist, "powder_monkey")
+    table.insert(strongcleanlist, "prime_mate")
+    table.insert(strongcleanlist, "trap_starfish")
+    table.insert(strongcleanlist, "dustmoth")
+    table.insert(strongcleanlist, "spiderqueen")
+    table.insert(strongcleanlist, "lordfruitfly")
+    table.insert(strongcleanlist, "fruitfly")
+    table.insert(strongcleanlist, "spider_water")
+    table.insert(strongcleanlist, "grassgator")
+
+
+
 end
 
 if strong_clean_white_list_additional_l and type(strong_clean_white_list_additional_l) == "table" then

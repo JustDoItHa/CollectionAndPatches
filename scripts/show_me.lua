@@ -120,7 +120,7 @@ local show_fueled = GetModConfigData("show_fueled")
 local show_planar_resist = GetModConfigData("show_planar_resist")
 
 local MY_STRINGS =
-{ 
+{
 	{ armor = "防御: " }, --A
 	{ aggro = "攻击: " }, --B
 	{ cookpot = "正在烹饪: " }, --C (Crock Pot)
@@ -155,13 +155,13 @@ local MY_STRINGS =
 	{ temperature = "温度: " }, --a
 	{ hp= "生命值: " }, --for characters
 	{ armor_character = "基础防御: " },
-	{ sanity_character = "基础精神: " }, --S	
+	{ sanity_character = "基础精神: " }, --S
 	{ fuel = "燃料: " }, --F --for firepit
-	{ speed = "移速: " }, 
+	{ speed = "移速: " },
 	{ uses_of = "次可使用,总次数" },
 	{ obedience = "顺从: " },
-	{ S1 = "现在是冬天" }, 
-	{ dmg_character = "基础伤害: " }, 
+	{ S1 = "现在是冬天" },
+	{ dmg_character = "基础伤害: " },
 	{ power="造成伤害: "},-- 通常意味着武器的强度而不是物理伤害
 	{ cooldown="冷却: "},
 	{ domest = "驯服: " }, -- "Domestication:"
@@ -421,7 +421,7 @@ OTHER_TAGS = {	--拿不到的数值先写死吧
 	wx78module_taser = "提供防雷保护\n提供感电攻击BUFF",
 	wx78module_nightvision = "提供夜视能力",
 	wx78module_light = "提供发光光环",
-	
+
 	--万圣节
 	halloweenpotion_health = "生命恢复 +1/秒, 持续 60 秒",
 	halloweenpotion_sanity = "精神恢复 +1/秒, 持续 60 秒",
@@ -473,7 +473,7 @@ OTHER_TITLES = {	--%s 是获取官方tuning.lua的对应值，如果模组不是
 	sammo_slow = "目标移速 %s, 持续 %s 秒",
 	resist = "位抗: ",
 	dmgresist = "拥有位面抵抗",
-	point = " 点", 
+	point = " 点",
 	grow_in = "距离成长：",
 	grow_time = "@成长时间：",
 	energytime = "能量剩余: ",
@@ -555,7 +555,7 @@ CallDefaultDisplayFn = DefaultDisplayFn --用于语言模块。
 
 local function DefaultFraction(arr) --典型输出：“名称：cur / max”
 	local cur,mx = arr.param[1], arr.param[2]
-	return arr.data.desc .. " " .. cur .. " / " .. mx 
+	return arr.data.desc .. " " .. cur .. " / " .. mx
 end
 
 --农作物tag
@@ -621,14 +621,14 @@ end
 
 MY_DATA.hp.fn = function(arr)
 	local cur,mx = arr.param[1], arr.param[2]
-	return cur .. " / " .. mx 
+	return cur .. " / " .. mx
 end
 MY_DATA.owner.fn = function(arr)
 	return arr.data.desc .. " " .. arr.param_str  --如果名称中有逗号，将忽略逗号。
 end
 MY_DATA.loyal.fn = function(arr)
 	if (tonumber(arr.param[1]) or 0) > 9000 then --忠诚大于9000
-		return arr.data.desc .. " " .. SHOWME_STRINGS.loyal 
+		return arr.data.desc .. " " .. SHOWME_STRINGS.loyal
 	end
 	return DefaultDisplayFn(arr)
 end
@@ -650,7 +650,7 @@ local function DataTimerFn(seconds)
 	local hours = math.floor(total * 0.0002777777777777) --整小时数。 1/3600
 	local mins = math.floor((total - (hours * 3600)) * 0.01666666666666) --分钟。 1/60
 	local secs = math.floor(total - (hours * 3600) - (mins * 60)) --秒整数
-	return 
+	return
 		(hours > 0 and (hours .. ':'
 			.. (mins > 9 and mins or ('0' .. mins)) .. ':'
 			.. (secs > 9 and secs or ('0' .. secs))
@@ -745,7 +745,7 @@ local function ConvertTemperature(val)
 		return "???"
 	end
 	if is_Fahrenheit then
-		return math.floor(1.8*(val) + 32.5).."\176F" 
+		return math.floor(1.8*(val) + 32.5).."\176F"
 	else
 		return math.floor(val*0.5 + 0.5) .. "\176C"
 	end
@@ -858,12 +858,12 @@ MY_DATA.frigde.fn = function(arr)
 end
 
 local CONST_COUNT = { ['1'] = '(1)', ['2'] = '(2)', ['3'] = '(3)', ['4'] = '(4)', ['5'] = '(5)', ['6'] = '(6)', ['7'] = '(7)',
-	 ['8'] = '(8)', ['9'] = '(9)', ['10'] = '(10)', ['11'] = '(11)', ['12'] = '(12)', ['13'] = '(13)', ['14'] = '(14)', 
-	 ['15'] = '(15)', ['16'] = '(16)', ['17'] = '(17)', ['18'] = '(18)', ['19'] = '(19)', ['20'] = '(20)', 
-	 ['21'] = '(21)', ['22'] = '(22)', ['23'] = '(23)', ['24'] = '(24)', ['25'] = '(25)', 
-	 ['26'] = '(26)', ['27'] = '(27)', ['28'] = '(28)', ['29'] = '(29)', ['30'] = '(30)', 
-	 ['31'] = '(31)', ['32'] = '(32)', ['33'] = '(33)', ['34'] = '(34)', ['35'] = '(35)', 
-	 ['36'] = '(36)', ['37'] = '(37)', ['38'] = '(38)', ['39'] = '(39)', ['40'] = '(40)', 
+	 ['8'] = '(8)', ['9'] = '(9)', ['10'] = '(10)', ['11'] = '(11)', ['12'] = '(12)', ['13'] = '(13)', ['14'] = '(14)',
+	 ['15'] = '(15)', ['16'] = '(16)', ['17'] = '(17)', ['18'] = '(18)', ['19'] = '(19)', ['20'] = '(20)',
+	 ['21'] = '(21)', ['22'] = '(22)', ['23'] = '(23)', ['24'] = '(24)', ['25'] = '(25)',
+	 ['26'] = '(26)', ['27'] = '(27)', ['28'] = '(28)', ['29'] = '(29)', ['30'] = '(30)',
+	 ['31'] = '(31)', ['32'] = '(32)', ['33'] = '(33)', ['34'] = '(34)', ['35'] = '(35)',
+	 ['36'] = '(36)', ['37'] = '(37)', ['38'] = '(38)', ['39'] = '(39)', ['40'] = '(40)',
 	 ['0'] = '', --如果没有可堆叠的组件，那么根本不会显示数量。
 }
 
@@ -948,7 +948,7 @@ end
 
 do --适配语言
 	local support_languages = { ru = true, chs = true, cht = true, br = true, pl = true,
-		tw="cht", zh_cn="chs", ch="chs", kr=true, ko="kr", es = true,} 
+		tw="cht", zh_cn="chs", ch="chs", kr=true, ko="kr", es = true,}
 	--For override: name=file. Example: ,cht="chs",
 	local lang = GetModConfigData("show_me_lang", true) or "auto"
 	if lang == "auto" then
@@ -992,7 +992,7 @@ AddModRPCHandler("ShowMe","Estimate",function(inst)
 	inst.should_Estimate_Stale = true
 end)
 
---local AOS_Temperature_fn --客户端转换游戏温度的功能。 
+--local AOS_Temperature_fn --客户端转换游戏温度的功能。
 
 --We climb into the client interface in order to reduce the displayed temperature
 if CLIENT_SIDE then
@@ -1048,9 +1048,9 @@ if CLIENT_SIDE then
 			end)
 		end
 	end)
-	
+
 	--А вот и не угадали. Не трогаем интерфейс. Вместо этого определяем настройки и лишь в случае их отсутствия трогаем интерфейс.
-	
+
 	--温度检查。 反向格式和转换为通用摄氏度。
 	local tonumber = _G.tonumber
 	local function FixTemperature(s)
@@ -1077,21 +1077,21 @@ if CLIENT_SIDE then
 			return ConvertTemperature(pre) --TODO：减少中有一个小错误。 在 5.1 的温度下，数字 2 将出现，尽管它应该是 3。
 		end
 	end
-	
+
 	local AOS_UNITS, AOS_UNIT
-	
+
 	--Interface patching feature on the client. Triggered for all players upon spawn.
 	local function FixClient(inst)
 		if inst ~= _G.ThePlayer then
 			return
 		end
-		
+
 		--以一种 hacky 的方式添加发送食物显示偏好设置
 		if food_estimation == 1 then
 			--print("SendRPC")
 			SendModRPCToServer(MOD_RPC.ShowMe.Estimate)
 		end
-		
+
 		local status = inst.HUD and inst.HUD.controls and inst.HUD.controls.status
 		if not status then
 			print("ERROR SHOW_ME: Can't fix client side status!")
@@ -1123,7 +1123,7 @@ if CLIENT_SIDE then
 			SendModRPCToServer(MOD_RPC.ShowMe.AOS)
 		end
 	end
-	AddPlayersAfterInit(FixClient) 
+	AddPlayersAfterInit(FixClient)
 end
 
 -------------------------------------------------------------------------------------------------------------------------
@@ -1182,15 +1182,15 @@ local function SearchForModsByName()
 			local real_name = mod.modinfo.name
 			if real_name == nil then
 				print("SHOW_ME ERROR: real_name of a mod is nil,",tostring(name))
-				--TODO: error if TUNING.STAR_DEBUG 
+				--TODO: error if TUNING.STAR_DEBUG
 			else
 				mods.active_mods_by_name[real_name] = true
 			end
 		end
 	end
-end	
+end
 SearchForModsByName()
-	
+
 local is_HealthInfo = nil --Check it to decide, is there a reason to show hp in description.检查客机血量显示模组
 for name in pairs(mods.active_mods_by_name) do
 	if name:find("Health Info",1,true) or name:find("Health Bar",1,true) then
@@ -1240,7 +1240,7 @@ local function GetPerishTime(inst, c)
 		elseif owner:HasTag("cage") and inst:HasTag("small_livestock") then
 			modifier = TUNING.PERISH_CAGE_MULT
 		end
-		
+
 		if owner:HasTag("spoiler") then
 			modifier = modifier * TUNING.PERISH_GROUND_MULT
 		end
@@ -1301,18 +1301,18 @@ local function old_v38_GetPerishTime(inst,c)
 				modifier = TUNING.PERISH_FRIDGE_MULT
 			end
 		elseif owner:HasTag("spoiler") then
-			modifier = TUNING.PERISH_GROUND_MULT 
+			modifier = TUNING.PERISH_GROUND_MULT
 		--elseif owner:HasTag("cage") and inst:HasTag("small_livestock") then
 		--	modifier = TUNING.PERISH_CAGE_MULT
 		end
 	else
-		modifier = TUNING.PERISH_GROUND_MULT 
+		modifier = TUNING.PERISH_GROUND_MULT
 	end
 
 	if inst:GetIsWet() then
 		modifier = modifier * TUNING.PERISH_WET_MULT
 	end
-	
+
 	if ww.temperature < 0 then
 		if inst:HasTag("frozen") and not c.perishable.frozenfiremult then
 			modifier = TUNING.PERISH_COLD_FROZEN_MULT
@@ -1334,7 +1334,7 @@ local function old_v38_GetPerishTime(inst,c)
 	end
 
 	modifier = modifier * TUNING.PERISH_GLOBAL_MULT
-	
+
 	local old_val = c.perishable.perishremainingtime
 	if old_val ~= nil then
 		local delta = old_val / modifier
@@ -1356,11 +1356,11 @@ local function cn(key,param1,param2,param3,param4,param5)
 	end
 	if param1 == nil then
 		table.insert(desc_table, data.sym)
-		return 
+		return
 	end
 	if param2 == nil then
 		table.insert(desc_table, data.sym ..tostring(param1))
-		return 
+		return
 	end
 	if param3 == nil then
 		table.insert(desc_table, data.sym ..tostring(param1) .. "," ..tostring(param2))
@@ -1377,7 +1377,7 @@ local function cn(key,param1,param2,param3,param4,param5)
 	end
 	table.insert(desc_table, data.sym ..tostring(param1) .. "," ..tostring(param2) .. "," ..tostring(param3)
 		.. "," ..tostring(param4) .. "," ..tostring(param5))
-	return 
+	return
 end
 
 local is_admin
@@ -1523,7 +1523,7 @@ end
 function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 	--line_cnt = 0
 	desc_table = {} --старый desc отменяется
-			
+
 	is_admin = nil
 	local prefab = item.prefab
 	local c=item.components
@@ -1563,7 +1563,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 			if (h.minhealth ~= nil and h ~= nil) then
 				mx=math.ceil(h.maxhealth-h.minhealth)
 				cur=math.ceil(h.currenthealth-h.minhealth)
-				
+
 				if cur>mx then cur=mx end
 				cn("hp",cur,mx)
 			end
@@ -1634,20 +1634,20 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 				end
 			end
 			cn("strength", tostring(round2(dmg,1)), pvp_perc)
-			
+
 			if c.planardamage and c.planardamage.basedamage and c.planardamage.basedamage > 0 then		--生物位面伤害
 				cn("basedmg", math.floor(c.planardamage.basedamage))	--位面伤害不计算小数？向下整取试试, 不知有没pvp
 			end
-			
+
 			if show_planar_resist and c.planarentity then	--生物位面抵抗
 				table.insert(desc_table, "@"..o_t.dmgresist)
 			end
-			
+
 			if com.areahitdamagepercent then --AoE
 				cn("aoe", math.floor( dmg * com.areahitdamagepercent + 0.5))
 			end
 		end
-		
+
 		--防御
 		if h.absorb~=0 or h.playerabsorb~=0 then
 			local perc = 1-(1-h.absorb)*(1-h.playerabsorb)
@@ -1775,7 +1775,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 				local pr_val = ""
 				if show_planar_resist then pr_val = " ( "..o_t.resist..prval.." )" end
 				cn("dmg",round2(r,1)..pr_val, tm_buff and round2(tm_buff))
-				
+
 				if c.planardamage ~= nil and c.planardamage.basedamage and type(c.planardamage.basedamage)=="number" and c.planardamage.basedamage>0 then
 					cn("basedmg",round2(math.floor(c.planardamage.basedamage)))	--武器/工具的位面伤害，不吃BUFF
 				end
@@ -1974,7 +1974,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 						end
 						local delta, duration = ed.temperaturedelta * (1 - ed.chill) * delta_multiplier, ed.temperatureduration * duration_multiplier
 						cn('food_temperature',round2(delta), round2(duration))
-					end				
+					end
 				end
 				if base_mult ~= 1 then --食物储存，例如厨子
 					local fm = viewer.components.foodmemory
@@ -2112,7 +2112,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 		end
 		--建筑燃料
 		if c.fueled and c.fueled:GetPercent()>0 and (SPICIAL_STRUCTURES[prefab] or item:HasTag("structure")) then
-			--cn("fuel",round2(c.fueled:GetPercent()*100,0)) 
+			--cn("fuel",round2(c.fueled:GetPercent()*100,0))
 			if c.fueled.currentfuel ~= nil then
 				table.insert(desc_table, "@"..o_t.ot_fuel..DataTimerFn(c.fueled.currentfuel).." ( "..math.floor(c.fueled:GetPercent()*100).."% )")
 			end
@@ -2124,7 +2124,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 		if c.compostingbin and c.compostingbin ~= nil then
 			table.insert(desc_table, "@"..o_t.capacity..c.compostingbin:GetMaterialTotal().." / "..c.compostingbin.max_materials)
 		end
-		
+
 		if c.instrument and type(c.instrument.range)=="number" and c.instrument.range>0.4 then
 			cn("range",round2(c.instrument.range,0))
 		end
@@ -2203,7 +2203,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 		end
 		--服饰耐久
 		if show_fueled ~= false then --if c.fueled.rate --效率
-			if c.fueled ~= nil and not item:HasTag("hide_percentage") then 
+			if c.fueled ~= nil and not item:HasTag("hide_percentage") then
 				local FueledTime = DataTimerFn(c.fueled.currentfuel)
 				local FueledDay = tostring(round2(c.fueled.currentfuel / TUNING.TOTAL_DAY_TIME,1))
 				local FDays = SHOWME_STRINGS.days
@@ -2274,10 +2274,12 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 				if v.fn and _G.debug.getinfo(v.fn, "S").source == "scripts/prefabs/slingshotammo.lua" then
 					if v.name:sub(-5) == "_proj" then
 						local ammo_data = UpvalueHacker.GetUpvalue(v.fn, "v")
-						SLINGSHOT_AMMO_DATA[ammo_data.name] = ammo_data
+						if ammo_data ~= nill then
+							SLINGSHOT_AMMO_DATA[ammo_data.name] = ammo_data
+						end
 					end
 				end
-				
+
 			end
 			local function GetSlingshotAmmoData(inst)
 				return SLINGSHOT_AMMO_DATA[prefab]
@@ -2323,8 +2325,8 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 			local function inSine(t, b, c, d)
 				return -c * math.cos(t / d * (math.pi / 2)) + c + b
 			end
-			cn("precipitationrate",round2(inSine(_G.TheWorld.state.precipitationrate, 0, 0.75, 1),3).."/s") 
-			cn("wetness",round2(_G.TheWorld.state.wetness,1)) 
+			cn("precipitationrate",round2(inSine(_G.TheWorld.state.precipitationrate, 0, 0.75, 1),3).."/s")
+			cn("wetness",round2(_G.TheWorld.state.wetness,1))
 		elseif prefab=="winterometer" then --温度计
 			local w=_G.TheWorld.state
 			local tt=round2(w.temperature,1)
@@ -2365,7 +2367,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 			-- table.insert(desc_table, "@"..string.format(o_t.book_hlt, TUNING.BOOK_GARDENING_UPGRADED_MAX_TARGETS))
 		end
 		--其他物品添加标签
-		local o_t_list = { 
+		local o_t_list = {
 		"orchitwigs",	--1
 		"halloweenpotion_health_large", "halloweenpotion_health_small",	--2~3
 		"halloweenpotion_sanity_large", "halloweenpotion_sanity_small",	--4~5
@@ -2416,7 +2418,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 				table.insert(desc_table, "@"..string.format(o_t.ghost_shd, g_pt.DURATION/day_time))
 			end
 		end
-		
+
 		if item:HasTag("battlesong") then	--女武神书
 			local song_tunings = require("prefabs/battlesongdefs").song_defs
 			if item.songdata == song_tunings.battlesong_durability then
@@ -2493,7 +2495,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 			cn("other_tag", "amulet")
 		end
 		--Charges: lightning rod / lamp
-		if item.chargeleft and item.chargeleft > 0 then	
+		if item.chargeleft and item.chargeleft > 0 then
 			table.insert(desc_table, "@"..o_t.will_other..tostring(math.floor(item.chargeleft+0.5))..SHOWME_STRINGS.days) --避雷针
 		end
 		if show_fuel ~= false and c.fuel ~= nil then	--燃料信息
@@ -2580,7 +2582,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 					end
 				end
 			end
-			
+
 			--棱镜已做显示, 则全部已废弃
 			--[[local legion_c1, legion_c2 = c.perennialcrop, c.perennialcrop2
 			local function legion_pc(inst)
@@ -2609,10 +2611,10 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 				table.insert(desc_table, "@" .. SHOWME_STRINGS.jieduan .. "["..inst.stage.."/"..inst.stage_max.."]:  "	--o_t.grow_in
 					.. tostring(round2((lgpc_time1 / lgpc_time2) / TUNING.TOTAL_DAY_TIME + 0.1,1)) .. SHOWME_STRINGS.days .. mult)
 			end
-			
+
 			if legion_c1 then  --子圭垄
 				legion_pc(legion_c1)
-				
+
 				--压力计算
 				if legion_c1.stage_max and legion_c1.regrowstage and legion_c1.stage and legion_c1.stage < legion_c1.stage_max then
 					local lost = 0
@@ -2628,13 +2630,13 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 						return 0
 					end
 					if legion_c1.num_moisture then
-						lost = lost + count_lostFN(legion_c1.num_moisture) 
+						lost = lost + count_lostFN(legion_c1.num_moisture)
 					end
 					if legion_c1.num_nutrient then
 						lost = lost + count_lostFN(legion_c1.num_nutrient)
 					end
-					if legion_c1.num_tended then 
-						lost = lost + count_lostFN(legion_c1.num_tended) 
+					if legion_c1.num_tended then
+						lost = lost + count_lostFN(legion_c1.num_tended)
 					end
 					cn("stress", lost)
 				end
@@ -2644,7 +2646,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 				if legion_c1.sickness > 0 then
 					cn("sickness", round2(legion_c1.sickness, 2))	--疏忽了，病害居然有无尽的小数
 				end
-				
+
 				if legion_c1.nutrient and legion_c1.cost_nutrient then
 					if legion_c1.nutrient < legion_c1.cost_nutrient then
 						cn("stress_tag", "nutrients")
@@ -2663,7 +2665,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 			--perennialcrop 2 异作
 			if legion_c2 then
 				legion_pc(legion_c2)
-				
+
 				if legion_c2.pollinated then
 					cn("pollinated", legion_c2.pollinated)
 				end
@@ -2694,7 +2696,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 		if lg_y.energytime <= 0 or lg_y.seednum <= 0 then
 			paused = ' ('..SHOWME_STRINGS.paused..')'
 		end
-		if lg_y.timedata_fast.now ~= nil then 
+		if lg_y.timedata_fast.now ~= nil then
 			lg_fast= " ↓"
 			lg_tup = " ↑"
 			lg_upx = 2
@@ -2705,7 +2707,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 			string.gsub(string.format("%.1f", lg_y.energytime / TUNING.TOTAL_DAY_TIME),".0","")
 			table.insert(desc_table, "@"..o_t.energytime .. tostring(round2(lg_y.energytime / TUNING.TOTAL_DAY_TIME,1)) .. SHOWME_STRINGS.days .. lg_fast .. paused)
 		end
-		
+
 		if lg_y.seednum ~= nil and lg_y.seednum > 0 then  --正在转化
 			table.insert(desc_table, "@"..o_t.seednum .. lg_y.seednum)
 		end
@@ -2886,7 +2888,7 @@ function GetTestString(item,viewer) --从这里开始，与Tell Me区分
 	--for i=1,line_cnt do
 	--	desc = desc .. "\n" --Поднимаем описание предмета, чтобы оно было НАД предметом. Но лучше это сделать на клиенте.
 	--end
-	
+
 	return table.concat(desc_table,"\2") --an error with no info
 end
 
@@ -2926,7 +2928,7 @@ AddPrefabPostInit("wes",function(wes)
 end)
 
 GetGlobal("fol",function()
-	
+
 end)
 --]]
 
@@ -2993,7 +2995,7 @@ do
 			local str2 = CheckUserHint(self)
 			return old_name .. str2
 		end--]]
-		
+
 		--让我们看一下需要发送有关鼠标下的对象的 guid 的情况。
 		local old_inst --我们记住不要多次向同一个inst发送无用信息
 		--[[AddWorldPostInit(function(w)
@@ -3012,7 +3014,7 @@ do
 				end
 			end)
 		end)--]]
-		
+
 		local function UnpackData(str,div)
 			local pos,arr = 0,{}
 			-- for each divider found
@@ -3022,7 +3024,7 @@ do
 			end
 			table.insert(arr,string.sub(str,pos)) -- 在最后一个分隔符右侧附加字符
 			return arr
-		end		
+		end
 
 		local save_target
 		local last_check_time = 0 --最后一次查看时间, 每 2 秒过期一次。
@@ -3052,7 +3054,7 @@ do
 				if target ~= nil then
 					--target.widget.parent -- 这是项目图层
 					--target = target.widget ~= nil and target.widget.parent ~= nil and target.widget.parent.item --实体物品（在客户端）
-					
+
 					-- local tar = target.widget ~= nil and target.widget.parent ~= nil and target.widget.parent.item
 					-- if tar ~= nil then	--多加一层判断
 						-- target = tar
@@ -3094,13 +3096,13 @@ do
 						if string.find(str,"\n\n",1,true) ~= nil then
 							str = str:gsub("[\n]+","\n")
 						end
-						
+
 						if string.find(str,"\n",1,true) ~= nil then
 							_,cnt_newlines = str:gsub("\n","\n") --计算内部的转换数量（如果有的话）
 						else
 							cnt_newlines = 0
 						end
-						
+
 
 						--从生成的打包字符串中提取数据。
 						str2 = UnpackData(str2,"\2")
@@ -3124,9 +3126,9 @@ do
 							if v.data ~= nil then
 								if v.data.hidden == nil then
 									if v.data.fn ~= nil then
-										arr2[i] = v.data.fn(v) 
+										arr2[i] = v.data.fn(v)
 									else
-										arr2[i] = DefaultDisplayFn(v) 
+										arr2[i] = DefaultDisplayFn(v)
 									end
 								else
 									table.remove(arr2,i)
@@ -3140,7 +3142,7 @@ do
 						--table.insert(arr2,"aaabbbccc")
 						--table.insert(arr2,"dddddd123")
 						str2 = table.concat(arr2,'\n')
-						
+
 						--_G.arr({inst=text.inst,hover=text.parent},5)
 						--print("-----"..str.."-----")
 						--local sss=""
@@ -3156,7 +3158,7 @@ do
 						--print(#str,"test cache")
 						--print("count new cache")
 						--print("newlines",#str2)
-						
+
 						--str2 = str2 .. _debug_info
 						--local scale = text:GetScale()
 						--str2 = str2 .. 'scale = ' .. scale.x .. ';' .. scale.y .. '\n'
@@ -3165,7 +3167,7 @@ do
 
 						text.cnt_lines = cnt_newlines + #arr2 + 1
 
-						
+
 						str = str .. '\n' .. str2 .. (NEWLINES_SHIFT[text.cnt_lines] or InitNewLinesShift(text.cnt_lines))
 					end
 					--print("Check User Hint: "..str2)
@@ -3231,7 +3233,7 @@ do
 
 		end)
 	end
-	
+
 	--服务器上的处理程序
 	AddModRPCHandler("ShowMeSHint", "Hint", function(player, guid, item)	--服务器RPC执行客户端发来的请求
 		if player.player_classified == nil then

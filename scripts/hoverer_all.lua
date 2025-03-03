@@ -186,7 +186,7 @@ local JLCOx_ak = {
         end ;
     end },
     { com = "planarentity", fn = function(inst, lw4Q7kbl)
-        if inst["dmgresist"] > tonumber("0") then
+        if inst["dmgresist"] ~= nil and inst["dmgresist"] > tonumber("0") then
             table["insert"](lw4Q7kbl, { "生物位面抵抗: ", qW0lRiD1(inst["dmgresist"]) })
         end ;
     end },
