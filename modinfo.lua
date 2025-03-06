@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "13.18.3.0"
+version = "14.1.1.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1052,14 +1052,18 @@ configuration_options[#configuration_options + 1] = AddConfigOption("show_info_b
 ---全图定位
 configuration_options[#configuration_options + 1] = AddOptionHeader("全图定位")
 configuration_options[#configuration_options + 1] = AddOption("global_position_switch", "全图定位-开关", "是否开启全图定位", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("GLOBAL_POSITION_LANG", "语言(language)", "选择你想要使用的语言.", { {description = "English(英语)", data = "en", hover = ""}, {description = "中文(Chinese)", data = "zh", hover = ""}, {description = "自动", data = "auto", hover = "根据游戏语言自动设置"},}, "auto")
 configuration_options[#configuration_options + 1] = AddConfigOption("SHOWPLAYERSOPTIONS", "玩家指示器(Player Indicators)", "The arrow things that show players past the edge of the screen.", { { description = "Always", data = 3 }, { description = "Scoreboard", data = 2 }, { description = "Never", data = 1 }, }, 2)
 configuration_options[#configuration_options + 1] = AddConfigOption("SHOWPLAYERICONS", "玩家图标(Player Icons)", "The player icons on the map.", { { description = "显示(Show)", data = true }, { description = "隐藏(Hide)", data = false }, }, true)
 configuration_options[#configuration_options + 1] = AddConfigOption("FIREOPTIONS", "火堆指示器(Show Fires)", "Show fires with indicators like players." .. "\nThey will smoke when they are visible this way.", { { description = "Always", data = 1 }, { description = "Charcoal", data = 2 }, { description = "Disabled", data = 3 }, }, 2)
 configuration_options[#configuration_options + 1] = AddConfigOption("SHOWFIREICONS", "火堆图标(Fire Icons)", "Show fires globally on the map (this will only work if fires are set to show)." .. "\nThey will smoke when they are visible this way.", { { description = "显示(Show)", data = true }, { description = "隐藏(Hide)", data = false }, }, true)
 configuration_options[#configuration_options + 1] = AddOption("SHAREMINIMAPPROGRESS", "共享地图(Share Map)", "Share map exploration between players. This will only work if" .. "\n'Player Indicators' and 'Player Icons' are not both disabled.", true)
+configuration_options[#configuration_options + 1] = AddOption("REMOVE_GHOST_ICONS", "移除残影", "玩家移动过快，跟随玩家的伯尼或者皮弗娄牛会在地图上留下残影，开启本选项来消除残影.", true)
+configuration_options[#configuration_options + 1] = AddOption("STOPSAVEMAPEXPLORER", "减少卡顿", "实验性功能，尝试减少上下洞穴时的卡顿。通过修改人物存档来实现，我不确定这是否安全.", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("UPDADTEFREQUENCY", "共享地图时间间隔", "共享地图的时间间隔, 增加该间隔可能可以减少服务器的负担.", { {description = "5", data = 5}, {description = "2", data = 2}, {description = "0.5", data = 0.5},}, 5)
 configuration_options[#configuration_options + 1] = AddOption("OVERRIDEMODE", "荒野覆盖(Wilderness Override)", "If enabled, it will use the other options you set in Wilderness mode." .. "\nOtherwise, it will not show players, but all fires will smoke and be visible.", false)
 configuration_options[#configuration_options + 1] = AddOption("ENABLEPINGS", "点位标记(Pings)", "Whether to allow players to ping (alt+click) the map.", true)
-configuration_options[#configuration_options + 1] = AddOption("map_on_Cartography", "在制图桌上共享地图", "", false)
+--configuration_options[#configuration_options + 1] = AddOption("map_on_Cartography", "在制图桌上共享地图", "", false)
 
 ---指南针
 configuration_options[#configuration_options + 1] = AddOptionHeader("指南针")

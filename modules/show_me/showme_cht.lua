@@ -138,7 +138,7 @@ INTERNAL_TIMERS = {
 	--树木, 幽灵ghostly_elixirs.lua
 	decay = "消失",
 	--草蜥蜴grassgekko
-	morphing = "生成",  morphrelay = "傳達", morphdelay = "生成延遲", growTail = "長草",
+	morphing = "生成", growTail = "長草",
 	--飞荧光果lightflier_flower.lua, flower_cave.lua
 	recharge = "蓄能", turnoff = "釋放能量", Pickable_RegenTime = "再生",
 	--鱼人王mermking.lua
@@ -146,7 +146,7 @@ INTERNAL_TIMERS = {
 	--裸鼹鼠蝙蝠molebat.lua
 	resetnap = "睡覺", cleannest_timer = "打掃蝠窩", resetallysummon = "召喚同伴", rememberinitiallocation = "標記位置",
 	--海象营地的计时器名称：Timer names for warlus_camp:
-    walrus = "海象刷新", little_walrus = "小海象刷新", icehound = "冰狗刷新",
+	walrus = "海象刷新", little_walrus = "小海象刷新", icehound = "冰狗刷新",
 	--寄居蟹hermitcrab.lua:
 	speak_time = "發牢騷", complain_time = "抱怨", salad = "花沙拉", bottledelay = "扔瓶子", fishingtime = "釣魚",
 	--hermit_grannied plus GUID -- 该词条会动态添加GUID，无法翻译
@@ -227,11 +227,10 @@ INTERNAL_TIMERS = {
 	rotting = "枯萎", --农作物plant_normal.lua
 	grow = "種苗", --树、石果planted_tree.lua, rock_avocado_fruit.lua
 	remove = "消除", --fishschoolspawnblocker.lua
-	dominant = "󰀍", --crittertraits.lua (component)
 	Spawner_SpawnDelay = "生成", --pighouse
 	blink = "閃爍", flamethrower_cd = "極寒冰焰", ash = "燃盡",
 	infest_cd = "感染冷卻",
-	disappear = "消失",
+	disappear = "消失", errode = "消失",
 	--机器人扫描仪
 	toplightflash_tick = "正在扫描", onsucceeded_flashtick = "完成捕獲", onsucceeded_timeout = "捕獲冷卻", chargeregenupdate = "電量增加", ANNOUNCE_WX_SCANNER_NEW_FOUND = "宣佈新發現",
 	--植物人契约
@@ -299,6 +298,10 @@ OTHER_TAGS = {	--拿不到的数值先写死吧
 	wx78module_taser = "提供防雷保護\n提供感電攻擊BUFF",
 	wx78module_nightvision = "提供夜視能力",
 	wx78module_light = "提供發光光環",
+	slingshot_frame_bone = "彈藥框 +1",
+	slingshot_frame_gems = "彈藥框 +1\n炮擊特效子彈群傷範圍 3.5",
+	slingshot_frame_wagpunk_0 = "蓄力傷害 1~2 倍\n蓄力位面傷害 1~2 倍\n蓄力子彈速度 1~1.25 倍",
+	slingshot_handle_voidcloth = "風帽加強絕望石、純粹恐懼彈藥\n傷害 +10%\n位面傷害 +5\n群聚恐怖 +2次",
 
 	--万圣节
 	halloweenpotion_health = "生命恢復 +1/秒, 持續 30 秒",
@@ -349,7 +352,7 @@ OTHER_TITLES = {
 	bs_lunar2 = "受到月亮陣營生物傷害 %s",
 	hpotion_bravery = "抵抗砍樹和開寶箱產生蝙蝠, 持續 %s 天",
 	sammo_slow = "目標移速 %s, 持續 %s 秒",
-	resist = "位抗: ",
+	resist = "對位面抵抗: ",
 	dmgresist = "擁有位面抵抗",
 	point = " 點",
 	grow_in = "距離成長：",
@@ -373,13 +376,22 @@ OTHER_TITLES = {
 	ot_fuel = "燃料: ",
 	ot_fuelval = "燃料值: ",
 	lg_moon = "鑲嵌: ",
+	sammo_honey = "目標移速 %s",
+	ot_pickable = "採摘次數: ",
+	mpl_hit = "位面加深 %s/擊，持續 %s 秒",
+	shf_hit = "群聚恐怖 %s/次，共 %s 次",
+	slingshot_range = "彈弓範圍: +%s",
+	ammo_speed = "子彈速度: +%s",
+	slingshot_speed = "%s 概率不消耗子彈",
+	critterhunger = "飢餓剩餘: ",
+
 	beerpowerpower = "不靈電力: ",
 	waterpowerpower = "不靈水量: ",
 	gaspowerpower = "不靈氣體: ",
 }
 
 -- MY_DATA.perish.fn = function(arr)
-	-- return "將會在 " .. arr.param[1] .. SHOWME_STRINGS.days .. "時" .. arr.data.desc
+-- return "將會在 " .. arr.param[1] .. SHOWME_STRINGS.days .. "時" .. arr.data.desc
 -- end
 
 MY_DATA.uses_of.fn = function(arr)

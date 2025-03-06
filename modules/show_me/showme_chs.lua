@@ -139,7 +139,7 @@ INTERNAL_TIMERS = {
 	--树木, 幽灵ghostly_elixirs.lua
 	decay = "消失",
 	--草蜥蜴grassgekko
-	morphing = "生成",  morphrelay = "传达", morphdelay = "生成延迟", growTail = "长草",
+	morphing = "生成", growTail = "长草",
 	--飞荧光果lightflier_flower.lua, flower_cave.lua
 	recharge = "蓄能", turnoff = "释放能量", Pickable_RegenTime = "再生",
 	--鱼人王mermking.lua
@@ -147,7 +147,7 @@ INTERNAL_TIMERS = {
 	--裸鼹鼠蝙蝠molebat.lua
 	resetnap = "睡觉", cleannest_timer = "打扫蝠窝", resetallysummon = "召唤同伴", rememberinitiallocation = "标记位置",
 	--海象营地的计时器名称：Timer names for warlus_camp:
-    walrus = "海象刷新", little_walrus = "小海象刷新", icehound = "冰狗刷新",
+	walrus = "海象刷新", little_walrus = "小海象刷新", icehound = "冰狗刷新",
 	--寄居蟹hermitcrab.lua:
 	speak_time = "发牢骚", complain_time = "诉说", salad = "花沙拉", bottledelay = "扔瓶子", fishingtime = "钓鱼",
 	--hermit_grannied plus GUID -- 该词条会动态添加GUID，无法翻译
@@ -228,11 +228,10 @@ INTERNAL_TIMERS = {
 	rotting = "枯萎", --农作物plant_normal.lua
 	grow = "种苗", --树、石果planted_tree.lua, rock_avocado_fruit.lua
 	remove = "消除", --fishschoolspawnblocker.lua
-	dominant = "󰀍", --crittertraits.lua (component)
 	Spawner_SpawnDelay = "生成", --pighouse
 	blink = "闪烁", flamethrower_cd = "极寒冰焰", ash = "燃尽",
 	infest_cd = "感染冷却",
-	disappear = "消失",
+	disappear = "消失", errode = "消失",
 	--机器人扫描仪
 	toplightflash_tick = "正在扫描", onsucceeded_flashtick = "完成捕获", onsucceeded_timeout = "捕获冷却", chargeregenupdate = "电量增加", ANNOUNCE_WX_SCANNER_NEW_FOUND = "宣布新发现",
 	--植物人契约
@@ -300,6 +299,10 @@ OTHER_TAGS = {	--拿不到的数值先写死吧
 	wx78module_taser = "提供防雷保护\n提供感电攻击BUFF",
 	wx78module_nightvision = "提供夜视能力",
 	wx78module_light = "提供发光光环",
+	slingshot_frame_bone = "弹药框 +1",
+	slingshot_frame_gems = "弹药框 +1\n炮击特效弹药群体范围 3.5",
+	slingshot_frame_wagpunk_0 = "蓄力伤害 1~2 倍\n蓄力位面伤害 1~2 倍\n蓄力子弹速度 1~1.25 倍",
+	slingshot_handle_voidcloth = "风帽加强绝望石、纯粹恐惧弹药\n伤害 +10%\n位面伤害 +5\n群聚恐怖 +2次",
 
 	--万圣节
 	halloweenpotion_health = "生命恢复 +1/秒, 持续 60 秒",
@@ -350,7 +353,7 @@ OTHER_TITLES = {	--%s 是获取官方tuning.lua的对应值，如果模组不是
 	bs_lunar2 = "受到月亮阵营生物伤害 %s",
 	hpotion_bravery = "抵抗砍树和开宝箱产生蝙蝠, 持续 %s 天",
 	sammo_slow = "目标移速 %s, 持续 %s 秒",
-	resist = "位抗: ",
+	resist = "对位面抵抗: ",
 	dmgresist = "拥有位面抵抗",
 	point = " 点",
 	grow_in = "距离成长：",
@@ -374,6 +377,15 @@ OTHER_TITLES = {	--%s 是获取官方tuning.lua的对应值，如果模组不是
 	ot_fuel = "燃料: ",
 	ot_fuelval = "燃料值: ",
 	lg_moon = "镶嵌: ",
+	sammo_honey = "目标移速 %s",
+	ot_pickable = "采摘次数: ",
+	mpl_hit = "位面加深 %s/击，持续 %s 秒",
+	shf_hit = "群聚恐怖 %s/次，共 %s 次",
+	slingshot_range = "弹弓范围: +%s",
+	ammo_speed = "子弹速度: +%s",
+	slingshot_speed = "%s 概率不消耗子弹",
+	critterhunger = "饥饿剩余: ",
+
 	beerpowerpower = "不灵电力: ",
 	waterpowerpower = "不灵水量: ",
 	gaspowerpower = "不灵气体: ",

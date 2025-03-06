@@ -2,6 +2,7 @@ local Widget = require "widgets/widget"
 local PingBadge = require("widgets/pingbadge")
 
 -- local ATLAS = "images/avatars.xml"
+local CH = TUNING.Global_Positions_CompleteSync_LANGUAGE == 'zh'
 
 local PingWheel = Class(Widget, function(self)
     Widget._ctor(self, "PingWheel")
@@ -16,10 +17,10 @@ local PingWheel = Class(Widget, function(self)
 	self.gestures = {}
 	
 	local pings = {
-		{name = "omw", image = "Omw", text = "On My Way"},
-		{name = "gohere", image = "GoHere", text = "Go Here"},
-		{name = "explore", image = "Explore", text = "Explore"},
-		{name = "danger", image = "Danger", text = "Danger"},
+		{name = "omw", image = "Omw", text = CH and "正在路上" or "On My Way"},
+		{name = "gohere", image = "GoHere", text = CH and "去这里" or "Go Here"},
+		{name = "explore", image = "Explore", text = CH and "探索这里" or "Explore"},
+		{name = "danger", image = "Danger", text = CH and "这里危险" or "Danger"},
 	}
 	local function build_wheel(pings)
 		local count = #pings
@@ -36,10 +37,10 @@ local PingWheel = Class(Widget, function(self)
 	build_wheel(pings)
 	local specialdist = 150
 	local specials = {
-		{name = "generic", image = "", text = "Ping", x = 0, y = 0},
-		{name = "cancel", image = "Cancel", text = "Cancel", x = -specialdist, y = -specialdist},
-		{name = "delete", image = "Delete", text = "Delete", x = specialdist, y = specialdist},
-		{name = "clear", image = "Clear", text = "Clear All", x = specialdist, y = -specialdist},
+		{name = "generic", image = "", text = CH and "集合" or "Ping", x = 0, y = 0},
+		{name = "cancel", image = "Cancel", text = CH and "取消" or "Cancel", x = -specialdist, y = -specialdist},
+		{name = "delete", image = "Delete", text = CH and "删除此信号" or "Delete", x = specialdist, y = specialdist},
+		{name = "clear", image = "Clear", text = CH and "清除所有信号" or "Clear All", x = specialdist, y = -specialdist},
 	}
 	for _,v in ipairs(specials) do
 		self.gestures[v.name] = self.icon:AddChild(PingBadge(v.image, v.text))

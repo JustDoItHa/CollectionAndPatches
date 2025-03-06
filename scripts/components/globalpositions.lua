@@ -14,47 +14,57 @@ local GlobalPositions = Class(function(self, inst)
 	if not TheWorld.ismastersim
 	or not _GLOBALPOSITIONS_SHAREMINIMAPPROGRESS
 	or not TheNet:IsDedicated() then return end
+	-- or not false then return end
 	-- Players will wait to get their map from here until this says it's loaded
 	self.map_loaded = false
+	self.player_have_learned = {}
 end)
 
 function GlobalPositions:OnSave()
 	if not TheNet:IsDedicated() then return end
+	-- if not false then return end
 	local data = {}
-	if TheWorld.worldmapexplorer and TheWorld.worldmapexplorer.MapExplorer then
-		data.worldmap = TheWorld.worldmapexplorer.MapExplorer:RecordMap()
-	elseif self.cached_worldmap then
-		-- They had map sharing enabled before but disabled it,
-		-- cache the map and pass it along in case they reenable it later
-		data.worldmap = self.cached_worldmap
-	end
+	-- if TheWorld.worldmapexplorer and TheWorld.worldmapexplorer.MapExplorer then
+	-- 	data.worldmap = TheWorld.worldmapexplorer.MapExplorer:RecordMap()
+	-- elseif self.cached_worldmap then
+	-- 	-- They had map sharing enabled before but disabled it,
+	-- 	-- cache the map and pass it along in case they reenable it later
+	-- 	data.worldmap = self.cached_worldmap
+	-- end
+	data.player_have_learned = self.player_have_learned
 	return data
 end
 
 function GlobalPositions:OnLoad(data)
 	-- TheWorld can't have its own map on non-dedicated servers
-	if TheNet:IsDedicated() and data and data.worldmap then
-		if TheWorld.worldmapexplorer and TheWorld.worldmapexplorer.MapExplorer then
-			-- This seems to depend on some networking before it can succeed
-			-- However, it always in my testing succeeds before it tries to load the player map
-			-- So that's good enough, I suppose?
-			local function TryLoadingWorldMap()
-				-- if TheNet:IsDedicated() then
-				if TheWorld.worldmapexplorer.MapExplorer:LearnRecordedMap(data.worldmap) then
-					-- print("Succeeded at loading the world map.")
-					self.map_loaded = true
-				else
-					-- print("Failed to load world map, trying again...")
-					self.inst:DoTaskInTime(0, TryLoadingWorldMap)
-				end
-				-- end
-			end
-			TryLoadingWorldMap()
-		else
-			-- Pass it along in case they reenable map sharing later
-			self.cached_worldmap = data.worldmap
-		end
-	end
+	-- if false and data and data.worldmap then
+	self.restore_old_world_saved_with_this_mod = true  -- Is true if loading old save, false if creating with this mod
+	-- self.created_using_this_mod = data.created_using_this_mod
+	-- if TheNet:IsDedicated() and data and data.worldmap then
+	-- 	if TheWorld.worldmapexplorer.MapExplorer then
+	-- 		-- This seems to depend on some networking before it can succeed
+	-- 		-- However, it always in my testing succeeds before it tries to load the player map
+	-- 		-- So that's good enough, I suppose?
+	-- 		local function TryLoadingWorldMap()
+	-- 			print("in GlobalPositions loading")
+	-- 			-- if TheNet:IsDedicated() then
+	-- 			if TheWorld.worldmapexplorer.MapExplorer:LearnRecordedMap(data.worldmap) then
+	-- 				print("Succeeded at loading the world map.")
+	-- 				self.map_loaded = true
+	-- 				print(data.worldmap)
+	-- 			else
+	-- 				print("Failed to load world map, trying again...")
+	-- 				self.inst:DoTaskInTime(0, TryLoadingWorldMap)
+	-- 			end
+	-- 			-- end
+	-- 		end
+	-- 		TryLoadingWorldMap()
+	-- 	else
+	-- 		-- Pass it along in case they reenable map sharing later
+	-- 		self.cached_worldmap = data.worldmap
+	-- 	end
+	-- end
+	self.player_have_learned = data.player_have_learned or {}
 end
 
 function GlobalPositions:UpdatePortrait(inst)

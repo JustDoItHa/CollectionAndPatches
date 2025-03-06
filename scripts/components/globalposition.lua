@@ -3,9 +3,17 @@ local function AddGlobalIcon(inst, isplayer, classified)
 	classified.icon = SpawnPrefab("globalmapicon_noproxy")
 	classified.icon.MiniMapEntity:SetPriority(10)
 	classified.icon.MiniMapEntity:SetRestriction("player")
+	if isplayer and not inst:HasTag("playerghost") then
+		classified.icon.MiniMapEntity:SetIsFogRevealer(true)
+		classified.icon:AddTag("fogrevealer")
+	end
 	classified.icon2 = SpawnPrefab("globalmapicon")
 	classified.icon2.MiniMapEntity:SetPriority(10)
 	classified.icon2.MiniMapEntity:SetRestriction("player")
+	if isplayer and not inst:HasTag("playerghost") then
+		classified.icon2.MiniMapEntity:SetIsFogRevealer(true)
+		classified.icon2:AddTag("fogrevealer")
+	end
 	if inst.MiniMapEntity then
 		inst.MiniMapEntity:SetEnabled(false)
 		classified.icon.MiniMapEntity:CopyIcon(inst.MiniMapEntity)
@@ -22,11 +30,15 @@ local function AddMapRevealer(inst)
 	if not inst.components.maprevealer then
 		inst:AddComponent("maprevealer")
 	end
-	inst.components.maprevealer.revealperiod = 0.5
-	inst.components.maprevealer:Stop()
-	if _GLOBALPOSITIONS_SHAREMINIMAPPROGRESS then
-		inst.components.maprevealer:Start()
+	if _GLOBALPOSITIONS_COMPLETESYNC_UPDADTEFREQUENCY then
+		inst.components.maprevealer.revealperiod = _GLOBALPOSITIONS_COMPLETESYNC_UPDADTEFREQUENCY
+	else
+		print("[global position (CompleteSync)] failed to set custom revealperiod")
 	end
+	-- inst.components.maprevealer:Stop()
+	-- if _GLOBALPOSITIONS_SHAREMINIMAPPROGRESS then
+	-- 	inst.components.maprevealer:Start()
+	-- end
 end
 
 local GlobalPosition = Class(function(self, inst)
@@ -38,10 +50,18 @@ local GlobalPosition = Class(function(self, inst)
 	if isplayer then
 		AddMapRevealer(inst)
 		self.respawnedfromghostfn = function()
+			if self.classified~=nil then
+				self.classified.icon.MiniMapEntity:SetIsFogRevealer(true) self.classified.icon:AddTag("fogrevealer")
+				self.classified.icon2.MiniMapEntity:SetIsFogRevealer(true) self.classified.icon2:AddTag("fogrevealer")
+			end
 			self:SetMapSharing(_GLOBALPOSITIONS_SHAREMINIMAPPROGRESS)
 			self:PushPortraitDirty()
 		end
 		self.becameghostfn = function()
+			if self.classified~=nil then
+				self.classified.icon.MiniMapEntity:SetIsFogRevealer(false) self.classified.icon:RemoveTag("fogrevealer")
+				self.classified.icon2.MiniMapEntity:SetIsFogRevealer(false) self.classified.icon2:RemoveTag("fogrevealer")
+			end
 			self:SetMapSharing(false)
 			self:PushPortraitDirty()
 		end
