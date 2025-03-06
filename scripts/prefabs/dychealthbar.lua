@@ -1,1 +1,640 @@
-local _Ccyv = require "widgets/followtext" local _4IvQ = {Asset( "ATLAS" , "images/dyc_white.xml" ), Asset( "IMAGE" , "images/dyc_white.tex" ), Asset( "ATLAS" , "images/dyc_shb_icon.xml" ), Asset( "IMAGE" , "images/dyc_shb_icon.tex" ), Asset( "ATLAS" , "images/dyc_button_close.xml" ), Asset( "IMAGE" , "images/dyc_button_close.tex" ), Asset( "ATLAS" , "images/dycghb_claw.xml" ), Asset( "IMAGE" , "images/dycghb_claw.tex" ), Asset( "ATLAS" , "images/dycghb_shadow.xml" ), Asset( "IMAGE" , "images/dycghb_shadow.tex" ), Asset( "ATLAS" , "images/dycghb_shadow_i.xml" ), Asset( "IMAGE" , "images/dycghb_shadow_i.tex" ), Asset( "ATLAS" , "images/dycghb_round.xml" ), Asset( "IMAGE" , "images/dycghb_round.tex" ), Asset( "ATLAS" , "images/dycghb_panel.xml" ), Asset( "IMAGE" , "images/dycghb_panel.tex" ), Asset( "ATLAS" , "images/dycghb_pixel.xml" ), Asset( "IMAGE" , "images/dycghb_pixel.tex" ), Asset( "ATLAS" , "images/dycghb_pixel_i.xml" ), Asset( "IMAGE" , "images/dycghb_pixel_i.tex" ), Asset( "ATLAS" , "images/dycghb_buckhorn.xml" ), Asset( "IMAGE" , "images/dycghb_buckhorn.tex" ), Asset( "ATLAS" , "images/dycghb_victorian.xml" ), Asset( "IMAGE" , "images/dycghb_victorian.tex" ), Asset( "ATLAS" , "images/dycghb_victorian_i.xml" ), Asset( "IMAGE" , "images/dycghb_victorian_i.tex" ), } local _oe0E = {} local _VVRk = SimpleHealthBar.Color local _QePY = SimpleHealthBar.lib.TableRemoveValue local _MEoY = SimpleHealthBar.lib.TableContains local function _oqjq() return TheSim:GetGameID() == "DST" end local function _Cwob() return _oqjq() and not TheWorld.ismastersim end local function _R9E2() return PLATFORM == "WIN32_STEAM" or PLATFORM == "OSX_STEAM" or PLATFORM == "LINUX_STEAM" end local function _MFWa() if _oqjq() then return ThePlayer else return GetPlayer() end end local function _P3Rl(_R9Bi) local _Yt5M = _MFWa() if _Yt5M == _R9Bi then return true end if not _Yt5M or not _Yt5M:IsValid() or not _R9Bi:IsValid() then return false end local _xyi7 = _Yt5M:GetPosition():Dist(_R9Bi:GetPosition()) return _xyi7 <= TUNING.DYC_HEALTHBAR_MAXDIST end local function _XKhN(_yeo1) if TheSim.GetCameraPos ~= nil then local _0YWW = Vector3(TheSim:GetCameraPos()) return _0YWW:Dist(_yeo1:GetPosition()) else local _rYIl = TheCamera.pitch * DEGREES local _sPiS = TheCamera.heading * DEGREES local _Xcgp = math.cos(_rYIl) local _YbCj = math.cos(_sPiS) local _AMOt = math.sin(_sPiS) local _1Gec = - _Xcgp * _YbCj local _xiLK = - math.sin(_rYIl) local _PZv3 = - _Xcgp * _AMOt local _nP09, zoffs = 0x0, 0x0 if TheCamera.currentscreenxoffset ~= 0x0 then local _VUuS = 0x2 * TheCamera.currentscreenxoffset / RESOLUTION_Y local _pzjV = 1.03 local _D2Zx = math.tan(TheCamera.fov * .5 * DEGREES) * TheCamera.distance * _pzjV _nP09 = - _VUuS * _AMOt * _D2Zx zoffs = _VUuS * _YbCj * _D2Zx end local _MfAn = Vector3(TheCamera.currentpos.x - _1Gec * TheCamera.distance + _nP09, TheCamera.currentpos.y - _xiLK * TheCamera.distance, TheCamera.currentpos.z - _PZv3 * TheCamera.distance + zoffs) return _MfAn:Dist(_yeo1:GetPosition()) end end local _kC4U = SimpleHealthBar.ds( "kti!" ) local _UFXj = SimpleHealthBar.ds( "~qk|wzqiv" ) local _dHc8 = SimpleHealthBar.ds( "xq\"mt" ) local _Rncj = SimpleHealthBar.ds( "j}kspwzv" ) local _kCxQ = SimpleHealthBar.ds( "{pilw!" ) local _s6dC = "images/dyc_white.xml" local _wtIF = "dyc_white.tex" local _tn7K = - 0x2d local _yhSU = 0x3c local _Ugpp = {["heart"] = {c1 = "♡" , c2 = "♥" , }, ["circle"] = {c1 = "○" , c2 = "●" , }, ["square"] = {c1 = "□" , c2 = "■" , }, ["diamond"] = {c1 = "◇" , c2 = "◆" , }, ["star"] = {c1 = "☆" , c2 = "★" , }, ["square2"] = {c1 = "░" , c2 = "▓" , }, ["basic"] = {c1 = "=" , c2 = "#" , numCoeff = 1.6, }, ["hidden"] = {c1 = " " , c2 = " " , }, ["chinese"] = {c1 = "口" , c2 = "回" , }, ["standard"] = {c1 = " " , c2 = " " , graphic = {basic = {atlas = "images/dyc_white.xml" , texture = "dyc_white.tex" , }, }, }, ["simple"] = {c1 = " " , c2 = " " , graphic = {bg = {atlas = "images/ui.xml" , texture = "bg_plain.tex" , color = _VVRk.New(0.3, 0.3, 0.3)}, bar = {atlas = "images/ui.xml" , texture = "bg_plain.tex" , margin = {x1 = 0x0, x2 = 0x0, y1 = 0x0, y2 = 0x0, }, }, basic = {atlas = "images/dyc_white.xml" , texture = "dyc_white.tex" , }, }, }, [_kC4U] = { c1 = " " , c2 = " " , graphic = {basic = {atlas = "images/dyc_white.xml" , texture = "dyc_white.tex" , }, bgSkn = {mode = "slice13" , atlas = "images/dycghb_".._kC4U..".xml" , texname = "dycghb_".._kC4U, texScale = 0x3e7, margin = {x1 = - 0.75, x2 = - 0.75, y1 = - 0.225, y2 = - 0.225, fixed = false}, }, barSkn = {mode = "slice33" , atlas = "images/dycghb_round.xml" , texname = "dycghb_round" , texScale = 0x1, margin = {x1 = 0.015, x2 = 0.015, y1 = 0.06, y2 = 0.06, fixed = false}, }, }, }, [_UFXj] = { c1 = " " , c2 = " " , graphic = {basic = {atlas = "images/dyc_white.xml" , texture = "dyc_white.tex" , }, bgSkn = {mode = "slice13" , atlas = "images/dycghb_".._UFXj..".xml" , texname = "dycghb_".._UFXj, texScale = 0x3e7, margin = {x1 = - 1.7, x2 = - 1.7, y1 = - 0.45, y2 = - 0.55, fixed = false}, }, barSkn = {mode = "slice33" , atlas = "images/dycghb_".._UFXj.."_i.xml" , texname = "dycghb_".._UFXj.."_i" , texScale = 0.25, margin = {x1 = 0.03, x2 = 0.03, y1 = 0.15, y2 = 0.15, fixed = false}, }, }, }, [_Rncj] = { c1 = " " , c2 = " " , graphic = {basic = {atlas = "images/dyc_white.xml" , texture = "dyc_white.tex" , }, bgSkn = {mode = "slice13" , atlas = "images/dycghb_".._Rncj..".xml" , texname = "dycghb_".._Rncj, texScale = 0x3e7, margin = {x1 = - 1.2, x2 = - 1.2, y1 = - 0.43, y2 = - 0.48, fixed = false}, }, bar = {atlas = "images/ui.xml" , texture = "bg_plain.tex" , margin = {x1 = 0x0, x2 = 0x0, y1 = 0x0, y2 = 0x0, fixed = false}, }, }, }, [_dHc8] = { c1 = " " , c2 = " " , graphic = {basic = {atlas = "images/dyc_white.xml" , texture = "dyc_white.tex" , }, bgSkn = {mode = "slice13" , atlas = "images/dycghb_".._dHc8..".xml" , texname = "dycghb_".._dHc8, texScale = 0x3e7, margin = {x1 = - 1.1, x2 = - 0.4, y1 = - 0.365, y2 = - 0.285, fixed = false}, }, barSkn = {mode = "slice13" , atlas = "images/dycghb_".._dHc8.."_i.xml" , texname = "dycghb_".._dHc8.."_i" , texScale = 0x3e7, margin = {x1 = - 1.1, x2 = - 0.4, y1 = - 0.365, y2 = - 0.285, fixed = false}, vmargin = {x1 = 0.675, x2 = - 0.075, y1 = 0.1, y2 = 0.13, fixed = false}, }, hrUseBarColor = true, }, }, [_kCxQ] = { c1 = " " , c2 = " " , graphic = {basic = {atlas = "images/dyc_white.xml" , texture = "dyc_white.tex" , }, bgSkn = {mode = "slice33" , atlas = "images/dycghb_".._kCxQ..".xml" , texname = "dycghb_".._kCxQ, texScale = 0.5, margin = {x1 = - 0xb, x2 = - 0xb, y1 = - 0x9, y2 = - 0xb, fixed = true}, }, barSkn = {mode = "slice33" , atlas = "images/dycghb_".._kCxQ.."_i.xml" , texname = "dycghb_".._kCxQ.."_i" , texScale = 0.3, }, }, }, } local _6kOS = {{prefab = "shadowtentacle" , width = 0.5, height = 0x2, }, {prefab = "mean_flytrap" , width = 0.9, height = 2.3, }, {prefab = "thunderbird" , width = 0.85, height = 2.05, }, {prefab = "glowfly" , width = 0.6, height = 0x2, }, {prefab = "peagawk" , width = 0.85, height = 2.1, }, {prefab = "krampus" , width = 0x1, height = 3.75, }, {prefab = "nightmarebeak" , width = 0x1, height = 4.5, }, {prefab = "terrorbeak" , width = 0x1, height = 4.5, }, {prefab = "spiderqueen" , width = 0x2, height = 4.5, }, {prefab = "warg" , width = 1.7, height = 0x5, }, {prefab = "pumpkin_lantern" , width = 0.7, height = 1.5, }, {prefab = "jellyfish_planted" , width = 0.7, height = 1.5, }, {prefab = "babybeefalo" , width = 0x1, height = 2.2, }, {prefab = "beeguard" , width = 0.65, height = 0x2, }, {prefab = "shadow_rook" , width = 1.8, height = 3.5, }, {prefab = "shadow_bishop" , width = 0.9, height = 3.2, }, {prefab = "walrus" , width = 1.1, height = 3.2, }, {prefab = "teenbird" , width = 1.0, height = 3.6, }, {tag = "player" , width = 0x1, height = 2.65, }, {tag = "ancient_hulk" , width = 1.85, height = 4.5, }, {tag = "antqueen" , width = 2.4, height = 0x8, }, {tag = "ro_bin" , width = 0.9, height = 2.8, }, {tag = "gnat" , width = 0.75, height = 0x3, }, {tag = "spear_trap" , width = 0.75, height = 0x3, }, {tag = "hangingvine" , width = 0.85, height = 0x4, }, {tag = "weevole" , width = 0.6, height = 1.2, }, {tag = "flytrap" , width = 0x1, height = 3.4, }, {tag = "vampirebat" , width = 0x1, height = 0x3, }, {tag = "pangolden" , width = 1.4, height = 3.8, }, {tag = "spider_monkey" , width = 1.6, height = 0x4, }, {tag = "hippopotamoose" , width = 1.35, height = 3.1, }, {tag = "piko" , width = 0.5, height = 0x1, }, {tag = "pog" , width = 0.85, height = 0x2, }, {tag = "ant" , width = 0.8, height = 2.3, }, {tag = "scorpion" , width = 0.85, height = 0x2, }, {tag = "dungbeetle" , width = 0.8, height = 2.3, }, {tag = "civilized" , width = 0x1, height = 3.2, }, {tag = "koalefant" , width = 1.7, height = 0x4, }, {tag = "spat" , width = 1.5, height = 3.5, }, {tag = "lavae" , width = 0.8, height = 1.5, }, {tag = "glommer" , width = 0.9, height = 2.9, }, {tag = "deer" , width = 0x1, height = 3.1, }, {tag = "snake" , width = 0.85, height = 1.7, }, {tag = "eyeturret" , width = 0x1, height = 4.5, }, {tag = "primeape" , width = 0.85, height = 1.5, }, {tag = "monkey" , width = 0.85, height = 1.5, }, {tag = "ox" , width = 1.5, height = 3.75, }, {tag = "beefalo" , width = 1.5, height = 3.75, }, {tag = "kraken" , width = 0x2, height = 5.5, }, {tag = "nightmarecreature" , width = 1.25, height = 3.5, }, {tag = "bishop" , width = 0x1, height = 0x4, }, {tag = "rook" , width = 1.25, height = 0x4, }, {tag = "knight" , width = 0x1, height = 0x3, }, {tag = "bat" , width = 0.8, height = 0x3, }, {tag = "minotaur" , width = 1.75, height = 4.5, }, {tag = "packim" , width = 0.9, height = 3.75, }, {tag = "stungray" , width = 0.9, height = 3.75, }, {tag = "ghost" , width = 0.9, height = 3.75, }, {tag = "tallbird" , width = 1.25, height = 0x5, }, {tag = "chester" , width = 0.85, height = 1.5, }, {tag = "hutch" , width = 0.85, height = 1.5, }, {tag = "wall" , width = 0.5, height = 1.5, }, {tag = "largecreature" , width = 0x2, height = 7.2, }, {tag = "insect" , width = 0.5, height = 1.6, }, {tag = "smallcreature" , width = 0.85, height = 1.5, }, } local function _wleq(_ZQnk) if _ZQnk < 0x0 then _ZQnk = 0x0 elseif _ZQnk > 0x1 then _ZQnk = 0x1 end return _ZQnk end local function _RU5o(_zCxA, _7r0Z) local _JCJJ = _MFWa() local _Esyd = _7r0Z or (_zCxA and _JCJJ == _zCxA and _G["TUNING"]["DYC_HEALTHBAR_STYLE_CHAR"]) or (_zCxA and _zCxA["dycshb_cstyle_net"] and _zCxA["dycshb_cstyle_net"]:value()) or (_zCxA and _zCxA:HasTag( "epic" ) and _G["TUNING"]["DYC_HEALTHBAR_STYLE_BOSS"]) or _G["TUNING"]["DYC_HEALTHBAR_STYLE"] if type(_Esyd) == "table" and _Esyd.c1 and _Esyd.c2 then return _Esyd end return _Ugpp[_Esyd] or _Ugpp["standard"] end SimpleHealthBar.GetHBStyle = _RU5o local function _niTi(_rvfk, _psPN, _aX3O) local _lEus = _MFWa() local _SYsO = _RU5o(_aX3O) local _tZi4 = _SYsO.c1 local _MEWH = _SYsO.c2 local _rj6J = TUNING.DYC_HEALTHBAR_CNUM * (_SYsO.numCoeff or 0x1) local _aX6e = "" if TUNING.DYC_HEALTHBAR_POSITION == 0x0 then _aX6e = "  \n  \n  \n  \n" end local _wmlP = _rvfk / _psPN for _LnZV = 0x1, _rj6J do if _wmlP == 0x0 or (_LnZV ~= 0x1 and _LnZV * 1.0 / _rj6J > _wmlP) then _aX6e = _aX6e.._tZi4 else _aX6e = _aX6e.._MEWH end end return _aX6e end local function _I4x9(_7guz) if not _7guz then return 0x1 end for _ZeYC, _mlIU in pairs(_6kOS) do if _mlIU.width and (_7guz.prefab == _mlIU.prefab or (_mlIU.tag and _7guz:HasTag(_mlIU.tag))) then return _mlIU.width end end return 0x1 end local function _Giv0(_0uOy) if not _0uOy then return 2.65 end for _Iq5G, _MNdg in pairs(_6kOS) do if _MNdg.height and (_0uOy.prefab == _MNdg.prefab or (_MNdg.tag and _0uOy:HasTag(_MNdg.tag))) then return _MNdg.height end end return 2.65 end local function _awvS(_gWKl) _gWKl = _gWKl or {} local _YHT5 = _gWKl.owner local _8E1l = _gWKl.info or TUNING.DYC_HEALTHBAR_COLOR local _OBjD = _gWKl.hpp local _185o = _MFWa() if type(_8E1l) == "table" and _8E1l.Get then return _8E1l:Get() elseif type(_8E1l) == "table" and _8E1l.r and _8E1l.g and _8E1l.b then return _8E1l.r, _8E1l.g, _8E1l.b, _8E1l.a or 0x1 elseif type(_8E1l) == "string" and (_8E1l == "dynamic_dark" or _8E1l == "dark" ) and _OBjD then local _p9BQ, g = _wleq((0x1 - _OBjD) * 0x2), _wleq(_OBjD * 0x2) return _p9BQ * 0.7, g * 0.5, 0x0, 0x1 elseif type(_8E1l) == "string" and (_8E1l == "dynamic_hostility" or _8E1l == "hostility" or _8E1l == "dynamic2" ) then if _YHT5 and _YHT5 == _185o then return 0.15, 0.55, 0.7, 0x1 end if _YHT5 and _YHT5.components.combat then local _kYWm = _YHT5.components.combat.defaultdamage if _YHT5.components.combat.target == _185o and not _YHT5:HasTag( "chester" ) and _kYWm and type(_kYWm) == "number" and _kYWm > 0x0 then return 0.8, 0x0, 0x0, 0x1 end end if _YHT5 and _YHT5.replica and _YHT5.replica.combat and _YHT5.replica.combat.GetTarget then if _YHT5.replica.combat:GetTarget() == _185o then return 0.8, 0x0, 0x0, 0x1 end end if _YHT5 and _YHT5.components.follower then if _YHT5.components.follower.leader == _185o then return 0.1, 0.7, 0.2, 0x1 end end if _YHT5 and _YHT5.replica and _YHT5.replica.follower and _YHT5.replica.follower.GetLeader then if _YHT5.replica.follower:GetLeader() == _185o then return 0.1, 0.7, 0.2, 0x1 end end if _YHT5 and _YHT5:HasTag( "hostile" ) then return 0.8, 0.5, 0.1, 0x1 end if _YHT5 and _YHT5:HasTag( "monster" ) then return 0.7, 0.7, 0.1, 0x1 end if _YHT5 and (_YHT5:HasTag( "chester" ) or _YHT5:HasTag( "companion" )) then return 0.1, 0.7, 0.2, 0x1 end if _YHT5 and _YHT5:HasTag( "player" ) then return 0x75 / 0xff, 0x1b / 0xff, 0xc6 / 0xff, 0x1 end return 0.7, 0.7, 0.7, 0x1 elseif type(_8E1l) == "string" and SimpleHealthBar.Color:GetColor(_8E1l) then return SimpleHealthBar.Color:GetColor(_8E1l) elseif _OBjD then local _bSCZ, g = _wleq((0x1 - _OBjD) * 0x2), _wleq(_OBjD * 0x2) return _bSCZ, g, 0x0, 0x1 end return 0x1, 0x1, 0x1, 0x1 end SimpleHealthBar.GetEntHBColor = _awvS local function _ZZNT(_Hkbs) return _Hkbs:HasTag( "wall" ) or _Hkbs:HasTag( "spear_trap" ) or (_Hkbs.prefab and _Hkbs.prefab == "shadowtentacle" ) end local function _KSze(_zT1l) local _EJob = nil if not _zT1l.dychbowner then _zT1l.dychbowner = _zT1l.entity:GetParent() if not _zT1l.dychbowner then _zT1l:Remove() return end _zT1l.dychbowner.dychealthbar = _zT1l end _EJob = _zT1l.dychbowner if _oqjq() or TUNING.DYC_HEALTHBAR_POSITION == 0x0 then _zT1l.dychbtext = _zT1l.dychbowner:SpawnChild( "dyc_healthbarchild" ) else _zT1l.dychbtext = _zT1l:SpawnChild( "dyc_healthbarchild" ) end _zT1l:EnableText(false) _zT1l.dychbtext:EnableText(false) _zT1l.SetHBHeight = function(_BhCh, _v4aa) if TUNING.DYC_HEALTHBAR_POSITION == 0x0 then _v4aa = 0x0 end if _oqjq() then _BhCh:SetOffset(0x0, _v4aa, 0x0) _BhCh.dychbtext:SetOffset(0x0, _v4aa, 0x0) else _BhCh.dychbheight = _v4aa * 1.5 end end _zT1l.dychbheightconst = _Giv0(_zT1l.dychbowner) _zT1l:SetHBHeight(_zT1l.dychbheightconst) _zT1l.SetHBSize = function(_VH3q, _bbwY) local _Xz6R = math.max(0x1, (0xd - TUNING.DYC_HEALTHBAR_CNUM) / 0x5) * 0xf * _bbwY _VH3q:SetFontSize(_Xz6R) _VH3q.dychbtext:SetFontSize(0x14 * _bbwY) local _6MOG = _VH3q.graphicHealthbar if _6MOG then if not TUNING.DYC_HEALTHBAR_FIXEDTHICKNESS then local _KxrB = TUNING.DYC_HEALTHBAR_THICKNESS or 0x1 _6MOG:SetHBSize(0x78 * TUNING.DYC_HEALTHBAR_CNUM / 0xa, 0x12 * _KxrB) _6MOG:SetHBScale(_bbwY) else local _6LSC = TUNING.DYC_HEALTHBAR_THICKNESS or 0x12 _6MOG:SetHBSize(0x78 * TUNING.DYC_HEALTHBAR_CNUM / 0xa * _bbwY, _6LSC) end end end _zT1l:SetHBSize(_I4x9(_zT1l.dychbowner)) if _zT1l.graphicHealthbar then local _EAyR = _zT1l.graphicHealthbar _EAyR:SetTarget(_EJob) local _xFxN = _RU5o(_EJob).graphic if _xFxN then _EAyR:SetData(_xFxN) _EAyR:SetOpacity(TUNING.DYC_HEALTHBAR_OPACITY or _xFxN.opacity or 0.8) _EAyR:SetHBScale() end if _xFxN and not _EAyR.shown then local _jbHd = not TUNING.DYC_HEALTHBAR_WALLHB and _EAyR.target and _ZZNT(_EAyR.target) if not _jbHd then _EAyR:Show() end end if TUNING.DYC_HEALTHBAR_ANIMATION then if _EJob:HasTag( "largecreature" ) then _EAyR:AnimateIn(0x2) else _EAyR:AnimateIn(0x8) end end end _zT1l.dycHbStarted = true end shb[SimpleHealthBar.ds( "wv]xli|mPJ" )] = function() for _Yjcx, _wdxe in pairs(SimpleHealthBar.GHB.ghbs) do local _NHeZ = _RU5o(_wdxe.target).graphic local _D5H8 = TUNING.DYC_HEALTHBAR_WALLHB ~= true and _wdxe.target and _wdxe.target:HasTag( "wall" ) if _NHeZ and not _D5H8 and not _wdxe.shown then _wdxe:Show() elseif(not _NHeZ or _D5H8) and _wdxe.shown then _wdxe:Hide() end if _NHeZ then _wdxe:SetData(_NHeZ) _wdxe:SetOpacity(TUNING.DYC_HEALTHBAR_OPACITY or _NHeZ.opacity or 0.8) _wdxe:SetHBScale() end end end local function _MJdk(_ZBWL) local _NOBr = CreateEntity() _NOBr.entity:AddTransform() _NOBr:AddTag( "FX" ) local _bsH5 = not _ZBWL local _eKRA = _NOBr.entity:AddLabel() _eKRA:SetFont(NUMBERFONT) _eKRA:SetFontSize(0x1c) _eKRA:SetColour(0x1, 0x1, 0x1) _eKRA:SetText( " " ) _eKRA:Enable(true) _NOBr.text = _eKRA _NOBr.SetFontSize = function(_u4e3, _nNZ6) _u4e3.text:SetFontSize(_nNZ6) end _NOBr.SetOffset = function(_vJoB, _8zaK, _8xox, _wBTR) _vJoB.text:SetWorldOffset(_8zaK, _8xox, _wBTR) end _NOBr.SetText = function(_Mfcu, _9jU2) _Mfcu.text:SetText(_9jU2) end _NOBr.EnableText = function(_ngNS, _Ej6l) _ngNS.text:Enable(_Ej6l) end local _MZpe = _NOBr.Remove _NOBr.persists = false _NOBr.InitHB = _KSze return _NOBr end local function _A9tL(_s66R) if not _MFWa() or not _MFWa().HUD then return end local _wud3 = _RU5o().graphic local _kwrh = _MFWa().HUD.overlayroot:AddChild(SimpleHealthBar.GHB(_wud3 or {basic = {atlas = _s6dC, texture = _wtIF, }})) _kwrh:MoveToBack() _kwrh:Hide() _kwrh:SetFontSize(0x20) _kwrh:SetYOffSet(_tn7K, true) _kwrh:SetTextColor(0x1, 0x1, 0x1, 0x1) _kwrh:SetOpacity(TUNING.DYC_HEALTHBAR_OPACITY or _wud3.opacity or 0.8) _kwrh:SetStyle( "textoverbar" ) _kwrh.preUpdateFn = function(_KE6m) if _RU5o(_kwrh.target).graphic and _KE6m > 0x0 and _kwrh.target and TUNING.DYC_HEALTHBAR_POSITION == 0x1 then local _Ywn1 = 0x1e / _XKhN(_kwrh.target) _kwrh:SetYOffSet(_s66R.dychbheightconst * _yhSU * _Ywn1) _kwrh:SetStyle( "textoverbar" ) if _kwrh.fontSize ~= 0x20 then _kwrh:SetFontSize(0x20) end elseif _RU5o(_kwrh.target).graphic and _KE6m > 0x0 and _kwrh.target and TUNING.DYC_HEALTHBAR_POSITION == 0x2 then local _WsgZ = 0x1e / _XKhN(_kwrh.target) _kwrh:SetYOffSet(_s66R.dychbheightconst * _yhSU * _WsgZ) _kwrh:SetStyle( "" ) if _kwrh.fontSize ~= 0x18 then _kwrh:SetFontSize(0x18) end elseif _RU5o(_kwrh.target).graphic and _KE6m > 0x0 and _kwrh.target and TUNING.DYC_HEALTHBAR_POSITION == 0x0 then _kwrh:SetYOffSet(_tn7K, true) _kwrh:SetStyle( "textoverbar" ) if _kwrh.fontSize ~= 0x20 then _kwrh:SetFontSize(0x20) end end end _s66R.graphicHealthbar = _kwrh end local function _AcUH(_lOrM) table.insert(SimpleHealthBar.hbs, _lOrM) if TUNING.DYC_HEALTHBAR_LIMIT > 0x0 and #SimpleHealthBar.hbs > TUNING.DYC_HEALTHBAR_LIMIT then local _WBcd = SimpleHealthBar.hbs[0x1] table.remove(SimpleHealthBar.hbs, 0x1) end end local function _ndF3() local _cTHh = _MJdk() if _oqjq() then _cTHh.entity:AddNetwork() end _cTHh:SetFontSize(0xf) if _oqjq() then _cTHh.dychpini = - 0x1 _cTHh.dychp = 0x0 _cTHh.dychp_net = net_float(_cTHh.GUID, "dyc_healthbar.hp" , "dychpdirty" ) _cTHh:ListenForEvent( "dychpdirty" , function(_1YKh) local _2dpe = _1YKh.dychp_net:value() if _1YKh.dychpini == - 0x1 then _1YKh.dychpini = _2dpe if not TUNING.DYC_HEALTHBAR_DDON then _1YKh.dychpini = - 0x2 end end if TUNING.DYC_HEALTHBAR_DDON then if _1YKh.dychbowner and _P3Rl(_1YKh.dychbowner) then local _WBZ9 = SpawnPrefab( "dyc_damagedisplay" ) if _1YKh.dychpini > 0x0 then _WBZ9:DamageDisplay(_1YKh.dychbowner, {hpOld = _1YKh.dychpini, hpNewDefault = _2dpe}) _1YKh.dychpini = - 0x2 else _WBZ9:DamageDisplay(_1YKh.dychbowner, {hpNewDefault = _2dpe}) end end end _1YKh.dychp = _2dpe end) _cTHh.dychpmax = 0x0 _cTHh.dychpmax_net = net_float(_cTHh.GUID, "dyc_healthbar.hpmax" , "dychpmaxdirty" ) _cTHh:ListenForEvent( "dychpmaxdirty" , function(_0hqu) _0hqu.dychpmax = _0hqu.dychpmax_net:value() end) end local _JGRG = - 0x1 local _fPvj = - 0x1 local _C38V = 0x0 local _0uZd = true local _U87M = false _cTHh.dycHbStarted = false _cTHh.OnRemoveEntity = function(_BNOi) if _oqjq() and _BNOi.dychbowner and TUNING.DYC_HEALTHBAR_DDON and _P3Rl(_BNOi.dychbowner) then local _yn0u = SpawnPrefab( "dyc_damagedisplay" ) _yn0u:DamageDisplay(_BNOi.dychbowner, {hpNewDefault = _BNOi.dychp}) end _BNOi.Label:SetText( " " ) if _BNOi.dychbowner then _BNOi.dychbowner.dychealthbar = nil end if _BNOi.dychbtext then _BNOi.dychbtext:Remove() end if _BNOi.dychbtask then _BNOi.dychbtask:Cancel() end if _BNOi.graphicHealthbar then if TUNING.DYC_HEALTHBAR_ANIMATION then _BNOi.graphicHealthbar:AnimateOut(0x6) else _BNOi.graphicHealthbar:Kill() end end _QePY(SimpleHealthBar.hbs, _BNOi) end function _cTHh:DYCHBSetTimer(_Lcmg) _C38V = _Lcmg _U87M = true end _A9tL(_cTHh) _AcUH(_cTHh) _cTHh.dychbtask = _cTHh:DoPeriodicTask(FRAMES, function() if not _cTHh.dycHbStarted then return end local _WltG = _cTHh.dychbowner if not _WltG then return end local _bbcm = _cTHh.dychbattacker local _DBO9 = nil if not _Cwob() then _DBO9 = _WltG.components.health else _DBO9 = _WltG.replica.health end if not _WltG:IsValid() or _WltG.inlimbo or _WltG:HasTag( "playerghost" ) or (not _oqjq() and not _P3Rl(_WltG)) or (_Cwob() and not _WltG:HasTag( "player" )) or _DBO9 == nil or _DBO9:IsDead() or _C38V >= TUNING.DYC_HEALTHBAR_DURATION then if not _Cwob() then _cTHh:Remove() return end end if _WltG.dychealthbar ~= _cTHh then _cTHh:Remove() return end if not _WltG:IsValid() then return end local _eEnB = 0x0 local _MVo1 = 0x0 if not _oqjq() then _eEnB = _DBO9.currenthealth _MVo1 = _DBO9.maxhealth else _eEnB = _cTHh.dychp _MVo1 = _cTHh.dychpmax end if _DBO9 ~= nil and (TUNING.DYC_HEALTHBAR_FORCEUPDATE == true or _JGRG ~= _eEnB or _fPvj ~= _MVo1 or _U87M) then _U87M = false _JGRG = _eEnB _fPvj = _MVo1 local _jO26 = not TUNING.DYC_HEALTHBAR_WALLHB and _WltG and _WltG:HasTag( "wall" ) if _jO26 then _cTHh:EnableText(false) _cTHh.dychbtext:EnableText(false) else _cTHh:EnableText(true) _cTHh.dychbtext:EnableText(true) end _cTHh:SetText(_niTi(_JGRG, _fPvj, _WltG)) if TUNING.DYC_HEALTHBAR_VALUE and not _RU5o(_WltG).graphic then if TUNING.DYC_HEALTHBAR_POSITION ~= 0x0 then _cTHh.dychbtext:SetText(string.format( " %d/%d\n   " , _JGRG, _fPvj)) else _cTHh.dychbtext:SetText(string.format( "  \n  \n %d/%d\n   " , _JGRG, _fPvj)) end else _cTHh.dychbtext:SetText( "" ) end if _cTHh.SetHBHeight and _cTHh.dychbheightconst then _cTHh:SetHBHeight(_cTHh.dychbheightconst) end local _1Ih1 = _JGRG / _fPvj _cTHh.text:SetColour(_awvS({owner = _WltG, hpp = _1Ih1, })) if _cTHh.graphicHealthbar then local _ZaHA = _cTHh.graphicHealthbar local _Q29O = _RU5o(_WltG).graphic if _Q29O then _ZaHA.showValue = TUNING.DYC_HEALTHBAR_VALUE _ZaHA:SetValue(_JGRG, _fPvj, _0uZd) _ZaHA:SetBarColor(_awvS({owner = _WltG, hpp = _1Ih1, })) end end _0uZd = false end local _bsbT = true local _6Uja = nil if not _Cwob() then _6Uja = _WltG.components.combat else _6Uja = _WltG.replica.combat end if _6Uja and _6Uja.target then _bsbT = false else if _bbcm and _bbcm:IsValid() then local _8Pe4 = nil local _ayS0 = nil if not _Cwob() then _8Pe4 = _bbcm.components.health _ayS0 = _bbcm.components.combat else _8Pe4 = _bbcm.replica.health _ayS0 = _bbcm.replica.combat end if _8Pe4 and not _8Pe4:IsDead() and _ayS0 and _ayS0.target == _WltG then _bsbT = false end end end if _bsbT then _C38V = _C38V + FRAMES else _C38V = 0x0 end if _oqjq() or TUNING.DYC_HEALTHBAR_POSITION == 0x0 then else local _Xv6i = _WltG:GetPosition() _Xv6i.y = _cTHh.dychbheight or 0x0 _cTHh.Transform:SetPosition(_Xv6i:Get()) end end) if _Cwob() then _cTHh:DoTaskInTime(0x0, function() _cTHh:InitHB() end) end return _cTHh end local function _txOC(_3kxC, _3osl, _FIAt) if not _3kxC:IsValid() or not _3osl:IsValid() or _3osl.dycddcd == true then _3kxC:Remove() return end _3osl.dycddcd = true local _TF5z = nil if not _Cwob() then _TF5z = _3osl.components.health else _TF5z = _3osl.replica.health end _3kxC.Transform:SetPosition((_3osl:GetPosition() + Vector3(0x0, _Giv0(_3osl) * 0.65, 0x0)):Get()) local _E17l = (_FIAt and _FIAt.hpOld) or (not _oqjq() and _3osl.components.health.currenthealth) or (_3osl.dychealthbar and _3osl.dychealthbar.dychp) or (_TF5z and _TF5z:IsDead() and 0x0) or (_FIAt and _FIAt.hpOldDefault) or 0x0 local _En1A = false local _rRMv = math.random() * 0x168 local _60vO = TUNING.DYC_HEALTHBAR_DDDURATION / 0x2 local _OJ0V = 0x1 local _xQgT = 0x2 local _w3zB = 0x2 * _xQgT / _60vO / _60vO local _8zgs = 0x0 local _AHNB = _OJ0V / _60vO local _zC8Q = math.sqrt(0x2 * _w3zB * _xQgT) local _t6kl = _60vO * 0x2 local _M7pO = false local _nVPk = TUNING.DYC_HEALTHBAR_DDDELAY local _OjbY = 0x0 _3kxC.dycddtask = _3kxC:DoPeriodicTask(FRAMES, function() if not _3kxC:IsValid() or not _3osl:IsValid() then _3kxC.dycddtask:Cancel() _3kxC:Remove() return end _OjbY = _OjbY + FRAMES _8zgs = _OjbY - _nVPk if _OjbY > _nVPk then if _En1A == false then _3osl.dycddcd = false local _UoZL = (_FIAt and _FIAt.hpNew) or (not _oqjq() and _3osl.components.health.currenthealth) or (_3osl.dychealthbar and _3osl.dychealthbar.dychp) or (_TF5z and _TF5z:IsDead() and 0x0) or (_FIAt and _FIAt.hpNewDefault) or 0x0 local _YAC2 = _UoZL - _E17l local _Lt4z = math.abs(_YAC2) if _Lt4z < TUNING.DYC_HEALTHBAR_DDTHRESHOLD then _3kxC.dycddtask:Cancel() _3kxC:Remove() return else _En1A = true _3kxC.Label:Enable(true) local _m3pl = "" if _YAC2 > 0x0 then _3kxC.Label:SetColour(0x0, 0x1, 0x0) _m3pl = "+" else _3kxC.Label:SetColour(0x1, 0x0, 0x0) _M7pO = true end if _Lt4z < 0x1 then _3kxC.Label:SetText(_m3pl..string.format( "%.2f" , _YAC2)) elseif _Lt4z < 0x64 then _3kxC.Label:SetText(_m3pl..string.format( "%.1f" , _YAC2)) else _3kxC.Label:SetText(_m3pl..string.format( "%d" , _YAC2)) end end end local _LjCB = _3kxC:GetPosition() local _F5hz = Vector3(_AHNB * FRAMES * math.cos(_rRMv), _zC8Q * FRAMES, _AHNB * FRAMES * math.sin(_rRMv)) _3kxC.Transform:SetPosition(_LjCB.x + _F5hz.x, _LjCB.y + _F5hz.y, _LjCB.z + _F5hz.z) _zC8Q = _zC8Q - _w3zB * FRAMES local _NUom = (0x1 - math.abs(_8zgs / _60vO - 0x1)) * (TUNING.DYC_HEALTHBAR_DDSIZE2 - TUNING.DYC_HEALTHBAR_DDSIZE1) + TUNING.DYC_HEALTHBAR_DDSIZE1 _3kxC.Label:SetFontSize(_NUom) if _M7pO then local _T5Nr = 0x1 - _wleq(_8zgs / _60vO - 0.5) _3kxC.Label:SetColour(0x1, _T5Nr, _T5Nr) end if _8zgs >= _t6kl then _3kxC.dycddtask:Cancel() _3kxC:Remove() end end end) end local function _FZQl() local _Nx23 = _MJdk(true) _Nx23.Label:SetFontSize(TUNING.DYC_HEALTHBAR_DDSIZE1) _Nx23.Label:Enable(false) _Nx23.InitHB = nil _Nx23.DamageDisplay = _txOC return _Nx23 end return Prefab( "common/dyc_damagedisplay" , _FZQl, _4IvQ, _oe0E), Prefab( "common/dyc_healthbarchild" , _MJdk, _4IvQ, _oe0E), Prefab( "common/dyc_healthbar" , _ndF3, _4IvQ, _oe0E) 
+local _tBsO = require "widgets/followtext"
+local _z3w0 = { Asset("ATLAS", "images/dyc_white.xml"), Asset("IMAGE", "images/dyc_white.tex"), Asset("ATLAS", "images/dyc_shb_icon.xml"), Asset("IMAGE", "images/dyc_shb_icon.tex"), Asset("ATLAS", "images/dyc_button_close.xml"), Asset("IMAGE", "images/dyc_button_close.tex"), Asset("ATLAS", "images/dycghb_claw.xml"), Asset("IMAGE", "images/dycghb_claw.tex"), Asset("ATLAS", "images/dycghb_shadow.xml"), Asset("IMAGE", "images/dycghb_shadow.tex"), Asset("ATLAS", "images/dycghb_shadow_i.xml"), Asset("IMAGE", "images/dycghb_shadow_i.tex"), Asset("ATLAS", "images/dycghb_round.xml"), Asset("IMAGE", "images/dycghb_round.tex"), Asset("ATLAS", "images/dycghb_panel.xml"), Asset("IMAGE", "images/dycghb_panel.tex"), Asset("ATLAS", "images/dycghb_pixel.xml"), Asset("IMAGE", "images/dycghb_pixel.tex"), Asset("ATLAS", "images/dycghb_pixel_i.xml"), Asset("IMAGE", "images/dycghb_pixel_i.tex"), Asset("ATLAS", "images/dycghb_buckhorn.xml"), Asset("IMAGE", "images/dycghb_buckhorn.tex"), Asset("ATLAS", "images/dycghb_victorian.xml"), Asset("IMAGE", "images/dycghb_victorian.tex"), Asset("ATLAS", "images/dycghb_victorian_i.xml"), Asset("IMAGE", "images/dycghb_victorian_i.tex"), }
+local _7PKa = {}
+local _wuH7 = SimpleHealthBar
+local _kJO7 = SimpleHealthBar.Color
+local _iRjQ = SimpleHealthBar.lib.TableRemoveValue
+local function _XtUU()
+    return TheSim:GetGameID() == "DST"
+end
+local function _OSVB()
+    return _XtUU() and not TheWorld.ismastersim
+end
+local function _E7Km()
+    return PLATFORM == "WIN32_STEAM" or PLATFORM == "OSX_STEAM" or PLATFORM == "LINUX_STEAM"
+end
+local function _qOob()
+    if _XtUU() then
+        return ThePlayer
+    else
+        return GetPlayer()
+    end
+end
+local function _wvbi(_YdTY)
+    local _WqNB = _qOob()
+    if _WqNB == _YdTY then
+        return true
+    end
+    if not _WqNB or not _WqNB:IsValid() or not _YdTY:IsValid() then
+        return false
+    end
+    local _ZPsL = _WqNB:GetPosition():Dist(_YdTY:GetPosition())
+    return _ZPsL <= _wuH7.hbMaxDist
+end
+local function _rL1g(_jMlp)
+    if TheSim.GetCameraPos ~= nil then
+        local _3jFz = Vector3(TheSim:GetCameraPos())
+        return _3jFz:Dist(_jMlp:GetPosition())
+    else
+        local _UuRF = TheCamera.pitch * DEGREES
+        local _uMKW = TheCamera.heading * DEGREES
+        local _Qb2U = math.cos(_UuRF)
+        local _J58y = math.cos(_uMKW)
+        local _euMZ = math.sin(_uMKW)
+        local _O85P = -_Qb2U * _J58y
+        local _Xh2U = -math.sin(_UuRF)
+        local _kVoO = -_Qb2U * _euMZ
+        local _HudB, zoffs = 0x0, 0x0
+        if TheCamera.currentscreenxoffset ~= 0x0 then
+            local _Jigm = 0x2 * TheCamera.currentscreenxoffset / RESOLUTION_Y
+            local _eF5p = 1.03
+            local _ShGn = math.tan(TheCamera.fov * .5 * DEGREES) * TheCamera.distance * _eF5p
+            _HudB = -_Jigm * _euMZ * _ShGn
+            zoffs = _Jigm * _J58y * _ShGn
+        end
+        local _OWkJ = Vector3(TheCamera.currentpos.x - _O85P * TheCamera.distance + _HudB, TheCamera.currentpos.y - _Xh2U * TheCamera.distance, TheCamera.currentpos.z - _kVoO * TheCamera.distance + zoffs)
+        return _OWkJ:Dist(_jMlp:GetPosition())
+    end
+end
+local _HPUV = SimpleHealthBar.ds("kti!")
+local _zbSn = SimpleHealthBar.ds("~qk|wzqiv")
+local _UZM4 = SimpleHealthBar.ds("xq\"mt")
+local _Xomp = SimpleHealthBar.ds("j}kspwzv")
+local _2GZ6 = SimpleHealthBar.ds("{pilw!")
+local _oAUi = "images/dyc_white.xml"
+local _dP7Q = "dyc_white.tex"
+local _LOgx = -0x2d
+local _LOh2 = 0x3c
+local _KscH = { ["heart"] = { c1 = "♡", c2 = "♥", }, ["circle"] = { c1 = "○", c2 = "●", }, ["square"] = { c1 = "□", c2 = "■", }, ["diamond"] = { c1 = "◇", c2 = "◆", }, ["star"] = { c1 = "☆", c2 = "★", }, ["square2"] = { c1 = "░", c2 = "▓", }, ["basic"] = { c1 = "=", c2 = "#", numCoeff = 1.6, }, ["hidden"] = { c1 = " ", c2 = " ", }, ["chinese"] = { c1 = "口", c2 = "回", }, ["standard"] = { c1 = " ", c2 = " ", graphic = { basic = { atlas = "images/dyc_white.xml", texture = "dyc_white.tex", }, }, }, ["simple"] = { c1 = " ", c2 = " ", graphic = { bg = { atlas = "images/ui.xml", texture = "bg_plain.tex", color = _kJO7(0.3, 0.3, 0.3) }, bar = { atlas = "images/ui.xml", texture = "bg_plain.tex", margin = { x1 = 0x0, x2 = 0x0, y1 = 0x0, y2 = 0x0, }, }, basic = { atlas = "images/dyc_white.xml", texture = "dyc_white.tex", }, }, }, [_HPUV] = { c1 = " ", c2 = " ", graphic = { basic = { atlas = "images/dyc_white.xml", texture = "dyc_white.tex", }, bgSkn = { mode = "slice13", atlas = "images/dycghb_" .. _HPUV .. ".xml", texname = "dycghb_" .. _HPUV, texScale = 0x3e7, margin = { x1 = -0.75, x2 = -0.75, y1 = -0.225, y2 = -0.225, fixed = false }, }, barSkn = { mode = "slice33", atlas = "images/dycghb_round.xml", texname = "dycghb_round", texScale = 0x1, margin = { x1 = 0.015, x2 = 0.015, y1 = 0.06, y2 = 0.06, fixed = false }, }, }, }, [_zbSn] = { c1 = " ", c2 = " ", graphic = { basic = { atlas = "images/dyc_white.xml", texture = "dyc_white.tex", }, bgSkn = { mode = "slice13", atlas = "images/dycghb_" .. _zbSn .. ".xml", texname = "dycghb_" .. _zbSn, texScale = 0x3e7, margin = { x1 = -1.7, x2 = -1.7, y1 = -0.45, y2 = -0.55, fixed = false }, }, barSkn = { mode = "slice33", atlas = "images/dycghb_" .. _zbSn .. "_i.xml", texname = "dycghb_" .. _zbSn .. "_i", texScale = 0.25, margin = { x1 = 0.03, x2 = 0.03, y1 = 0.15, y2 = 0.15, fixed = false }, }, }, }, [_Xomp] = { c1 = " ", c2 = " ", graphic = { basic = { atlas = "images/dyc_white.xml", texture = "dyc_white.tex", }, bgSkn = { mode = "slice13", atlas = "images/dycghb_" .. _Xomp .. ".xml", texname = "dycghb_" .. _Xomp, texScale = 0x3e7, margin = { x1 = -1.2, x2 = -1.2, y1 = -0.43, y2 = -0.48, fixed = false }, }, bar = { atlas = "images/ui.xml", texture = "bg_plain.tex", margin = { x1 = 0x0, x2 = 0x0, y1 = 0x0, y2 = 0x0, fixed = false }, }, }, }, [_UZM4] = { c1 = " ", c2 = " ", graphic = { basic = { atlas = "images/dyc_white.xml", texture = "dyc_white.tex", }, bgSkn = { mode = "slice13", atlas = "images/dycghb_" .. _UZM4 .. ".xml", texname = "dycghb_" .. _UZM4, texScale = 0x3e7, margin = { x1 = -1.1, x2 = -0.4, y1 = -0.365, y2 = -0.285, fixed = false }, }, barSkn = { mode = "slice13", atlas = "images/dycghb_" .. _UZM4 .. "_i.xml", texname = "dycghb_" .. _UZM4 .. "_i", texScale = 0x3e7, margin = { x1 = -1.1, x2 = -0.4, y1 = -0.365, y2 = -0.285, fixed = false }, vmargin = { x1 = 0.675, x2 = -0.075, y1 = 0.1, y2 = 0.13, fixed = false }, }, hrUseBarColor = true, }, }, [_2GZ6] = { c1 = " ", c2 = " ", graphic = { basic = { atlas = "images/dyc_white.xml", texture = "dyc_white.tex", }, bgSkn = { mode = "slice33", atlas = "images/dycghb_" .. _2GZ6 .. ".xml", texname = "dycghb_" .. _2GZ6, texScale = 0.5, margin = { x1 = -0xb, x2 = -0xb, y1 = -0x9, y2 = -0xb, fixed = true }, }, barSkn = { mode = "slice33", atlas = "images/dycghb_" .. _2GZ6 .. "_i.xml", texname = "dycghb_" .. _2GZ6 .. "_i", texScale = 0.3, }, }, }, }
+local _z3Bp = { { prefab = "shadowtentacle", width = 0.5, height = 0x2, }, { prefab = "mean_flytrap", width = 0.9, height = 2.3, }, { prefab = "thunderbird", width = 0.85, height = 2.05, }, { prefab = "glowfly", width = 0.6, height = 0x2, }, { prefab = "peagawk", width = 0.85, height = 2.1, }, { prefab = "krampus", width = 0x1, height = 3.75, }, { prefab = "nightmarebeak", width = 0x1, height = 4.5, }, { prefab = "terrorbeak", width = 0x1, height = 4.5, }, { prefab = "spiderqueen", width = 0x2, height = 4.5, }, { prefab = "warg", width = 1.7, height = 0x5, }, { prefab = "pumpkin_lantern", width = 0.7, height = 1.5, }, { prefab = "jellyfish_planted", width = 0.7, height = 1.5, }, { prefab = "babybeefalo", width = 0x1, height = 2.2, }, { prefab = "beeguard", width = 0.65, height = 0x2, }, { prefab = "shadow_rook", width = 1.8, height = 3.5, }, { prefab = "shadow_bishop", width = 0.9, height = 3.2, }, { prefab = "walrus", width = 1.1, height = 3.2, }, { prefab = "teenbird", width = 1.0, height = 3.6, }, { tag = "player", width = 0x1, height = 2.65, }, { tag = "ancient_hulk", width = 1.85, height = 4.5, }, { tag = "antqueen", width = 2.4, height = 0x8, }, { tag = "ro_bin", width = 0.9, height = 2.8, }, { tag = "gnat", width = 0.75, height = 0x3, }, { tag = "spear_trap", width = 0.75, height = 0x3, }, { tag = "hangingvine", width = 0.85, height = 0x4, }, { tag = "weevole", width = 0.6, height = 1.2, }, { tag = "flytrap", width = 0x1, height = 3.4, }, { tag = "vampirebat", width = 0x1, height = 0x3, }, { tag = "pangolden", width = 1.4, height = 3.8, }, { tag = "spider_monkey", width = 1.6, height = 0x4, }, { tag = "hippopotamoose", width = 1.35, height = 3.1, }, { tag = "piko", width = 0.5, height = 0x1, }, { tag = "pog", width = 0.85, height = 0x2, }, { tag = "ant", width = 0.8, height = 2.3, }, { tag = "scorpion", width = 0.85, height = 0x2, }, { tag = "dungbeetle", width = 0.8, height = 2.3, }, { tag = "civilized", width = 0x1, height = 3.2, }, { tag = "koalefant", width = 1.7, height = 0x4, }, { tag = "spat", width = 1.5, height = 3.5, }, { tag = "lavae", width = 0.8, height = 1.5, }, { tag = "glommer", width = 0.9, height = 2.9, }, { tag = "deer", width = 0x1, height = 3.1, }, { tag = "snake", width = 0.85, height = 1.7, }, { tag = "eyeturret", width = 0x1, height = 4.5, }, { tag = "primeape", width = 0.85, height = 1.5, }, { tag = "monkey", width = 0.85, height = 1.5, }, { tag = "ox", width = 1.5, height = 3.75, }, { tag = "beefalo", width = 1.5, height = 3.75, }, { tag = "kraken", width = 0x2, height = 5.5, }, { tag = "nightmarecreature", width = 1.25, height = 3.5, }, { tag = "bishop", width = 0x1, height = 0x4, }, { tag = "rook", width = 1.25, height = 0x4, }, { tag = "knight", width = 0x1, height = 0x3, }, { tag = "bat", width = 0.8, height = 0x3, }, { tag = "minotaur", width = 1.75, height = 4.5, }, { tag = "packim", width = 0.9, height = 3.75, }, { tag = "stungray", width = 0.9, height = 3.75, }, { tag = "ghost", width = 0.9, height = 3.75, }, { tag = "tallbird", width = 1.25, height = 0x5, }, { tag = "chester", width = 0.85, height = 1.5, }, { tag = "hutch", width = 0.85, height = 1.5, }, { tag = "wall", width = 0.5, height = 1.5, }, { tag = "largecreature", width = 0x2, height = 7.2, }, { tag = "insect", width = 0.5, height = 1.6, }, { tag = "smallcreature", width = 0.85, height = 1.5, }, }
+local function _3aCD(_5rvh)
+    if _5rvh < 0x0 then
+        _5rvh = 0x0
+    elseif _5rvh > 0x1 then
+        _5rvh = 0x1
+    end
+    return _5rvh
+end
+local function _7ovh(_4LST, _dcLg)
+    local _Toti = _qOob()
+    local _guPJ = _dcLg or (_4LST and _Toti == _4LST and _wuH7.hbStyleChar) or (_4LST and _4LST["dycshb_cstyle_net"] and _4LST["dycshb_cstyle_net"]:value()) or (_4LST and _4LST:HasTag("epic") and _wuH7.hbStyleBoss) or _wuH7.hbStyle
+    if type(_guPJ) == "table" and _guPJ.c1 and _guPJ.c2 then
+        return _guPJ
+    end
+    return _KscH[_guPJ] or _KscH["standard"]
+end
+SimpleHealthBar.GetHBStyle = _7ovh
+local function _ErGv(_8Fpc, _mDVu, _t8Ax)
+    local _ta78 = _qOob()
+    local _JsEx = _7ovh(_t8Ax)
+    local _rvFP = _JsEx.c1
+    local _RuwL = _JsEx.c2
+    local _MVNQ = _wuH7.hbCNum * (_JsEx.numCoeff or 0x1)
+    local _Raiz = ""
+    if _wuH7.hbPosition == "bottom" then
+        _Raiz = "  \n  \n  \n  \n"
+    end
+    local _wQHJ = _8Fpc / _mDVu
+    for _qrWU = 0x1, _MVNQ do
+        if _wQHJ == 0x0 or (_qrWU ~= 0x1 and _qrWU * 1.0 / _MVNQ > _wQHJ) then
+            _Raiz = _Raiz .. _rvFP
+        else
+            _Raiz = _Raiz .. _RuwL
+        end
+    end
+    return _Raiz
+end
+local function _Y6Zg(_wQam)
+    if not _wQam then
+        return 0x1
+    end
+    for _XjdN, _9Ju2 in pairs(_z3Bp) do
+        if _9Ju2.width and (_wQam.prefab == _9Ju2.prefab or (_9Ju2.tag and _wQam:HasTag(_9Ju2.tag))) then
+            return _9Ju2.width
+        end
+    end
+    return 0x1
+end
+local function _hkRI(_vTPs)
+    if not _vTPs then
+        return 2.65
+    end
+    for _1HM3, _U4g9 in pairs(_z3Bp) do
+        if _U4g9.height and (_vTPs.prefab == _U4g9.prefab or (_U4g9.tag and _vTPs:HasTag(_U4g9.tag))) then
+            return _U4g9.height
+        end
+    end
+    return 2.65
+end
+local function _IU1V(_Fqo6)
+    _Fqo6 = _Fqo6 or {}
+    local _VA3I = _Fqo6.owner
+    local _6EzW = _Fqo6.info or _wuH7.hbColor
+    local _vPCg = _Fqo6.hpp
+    local _Joze = _qOob()
+    if type(_6EzW) == "table" and _6EzW.Get then
+        return _6EzW:Get()
+    elseif type(_6EzW) == "table" and _6EzW.r and _6EzW.g and _6EzW.b then
+        return _6EzW.r, _6EzW.g, _6EzW.b, _6EzW.a or 0x1
+    elseif type(_6EzW) == "string" and (_6EzW == "dynamic_dark" or _6EzW == "dark") and _vPCg then
+        local _qGoZ, g = _3aCD((0x1 - _vPCg) * 0x2), _3aCD(_vPCg * 0x2)
+        return _qGoZ * 0.7, g * 0.5, 0x0, 0x1
+    elseif type(_6EzW) == "string" and (_6EzW == "dynamic_hostility" or _6EzW == "hostility" or _6EzW == "dynamic2") then
+        if _VA3I and _VA3I == _Joze then
+            return 0.15, 0.55, 0.7, 0x1
+        end
+        if _VA3I and _VA3I.components.combat then
+            local _dgB2 = _VA3I.components.combat.defaultdamage
+            if _VA3I.components.combat.target == _Joze and not _VA3I:HasTag("chester") and _dgB2 and type(_dgB2) == "number" and _dgB2 > 0x0 then
+                return 0.8, 0x0, 0x0, 0x1
+            end
+        end
+        if _VA3I and _VA3I.replica and _VA3I.replica.combat and _VA3I.replica.combat.GetTarget then
+            if _VA3I.replica.combat:GetTarget() == _Joze then
+                return 0.8, 0x0, 0x0, 0x1
+            end
+        end
+        if _VA3I and _VA3I.components.follower then
+            if _VA3I.components.follower.leader == _Joze then
+                return 0.1, 0.7, 0.2, 0x1
+            end
+        end
+        if _VA3I and _VA3I.replica and _VA3I.replica.follower and _VA3I.replica.follower.GetLeader then
+            if _VA3I.replica.follower:GetLeader() == _Joze then
+                return 0.1, 0.7, 0.2, 0x1
+            end
+        end
+        if _VA3I and _VA3I:HasTag("hostile") then
+            return 0.8, 0.5, 0.1, 0x1
+        end
+        if _VA3I and _VA3I:HasTag("monster") then
+            return 0.7, 0.7, 0.1, 0x1
+        end
+        if _VA3I and (_VA3I:HasTag("chester") or _VA3I:HasTag("companion")) then
+            return 0.1, 0.7, 0.2, 0x1
+        end
+        if _VA3I and _VA3I:HasTag("player") then
+            return 0x75 / 0xff, 0x1b / 0xff, 0xc6 / 0xff, 0x1
+        end
+        return 0.7, 0.7, 0.7, 0x1
+    elseif type(_6EzW) == "string" and type(SimpleHealthBar.Color[_6EzW]) == "table" then
+        return SimpleHealthBar.Color[_6EzW]:Get()
+    elseif _vPCg then
+        local _cefo, g = _3aCD((0x1 - _vPCg) * 0x2), _3aCD(_vPCg * 0x2)
+        return _cefo, g, 0x0, 0x1
+    end
+    return 0x1, 0x1, 0x1, 0x1
+end
+SimpleHealthBar.GetEntHBColor = _IU1V
+local function _SIx0(_5VW4)
+    return _5VW4:HasTag("wall") or _5VW4:HasTag("spear_trap") or (_5VW4.prefab and _5VW4.prefab == "shadowtentacle")
+end
+local function _0hwx(_iZIf)
+    local _B9zt = nil
+    if not _iZIf.dychbowner then
+        _iZIf.dychbowner = _iZIf.entity:GetParent()
+        if not _iZIf.dychbowner then
+            _iZIf:Remove()
+            return
+        end
+        _iZIf.dychbowner.dychealthbar = _iZIf
+    end
+    _B9zt = _iZIf.dychbowner
+    if _XtUU() or _wuH7.hbPosition == "bottom" then
+        _iZIf.dychbtext = _iZIf.dychbowner:SpawnChild("dyc_healthbarchild")
+    else
+        _iZIf.dychbtext = _iZIf:SpawnChild("dyc_healthbarchild")
+    end
+    _iZIf:EnableText(false)
+    _iZIf.dychbtext:EnableText(false)
+    _iZIf.SetHBHeight = function(_vWF8, _bz2O)
+        if _wuH7.hbPosition == "bottom" then
+            _bz2O = 0x0
+        end
+        if _XtUU() then
+            _vWF8:SetOffset(0x0, _bz2O, 0x0)
+            _vWF8.dychbtext:SetOffset(0x0, _bz2O, 0x0)
+        else
+            _vWF8.dychbheight = _bz2O * 1.5
+        end
+    end
+    _iZIf.dychbheightconst = _hkRI(_iZIf.dychbowner)
+    _iZIf:SetHBHeight(_iZIf.dychbheightconst)
+    _iZIf.SetHBSize = function(_9aG2, _ykeW)
+        local _rLlY = math.max(0x1, (0xd - _wuH7.hbCNum) / 0x5) * 0xf * _ykeW
+        _9aG2:SetFontSize(_rLlY)
+        _9aG2.dychbtext:SetFontSize(0x14 * _ykeW)
+        local _BFoj = _9aG2.graphicHealthbar
+        if _BFoj then
+            if not _wuH7.hbFixedThickness then
+                local _k1Qn = _wuH7.hbThickness or 0x1
+                _BFoj:SetHBSize(0x78 * _wuH7.hbCNum / 0xa, 0x12 * _k1Qn)
+                _BFoj:SetHBScale(_ykeW)
+            else
+                local _IvAc = _wuH7.hbThickness or 0x12
+                _BFoj:SetHBSize(0x78 * _wuH7.hbCNum / 0xa * _ykeW, _IvAc)
+            end
+        end
+    end
+    _iZIf:SetHBSize(_Y6Zg(_iZIf.dychbowner))
+    if _iZIf.graphicHealthbar then
+        local _OW35 = _iZIf.graphicHealthbar
+        _OW35:SetTarget(_B9zt)
+        local _dyZG = _7ovh(_B9zt).graphic
+        if _dyZG then
+            _OW35:SetData(_dyZG)
+            _OW35:SetOpacity(_wuH7.hbOpacity or _dyZG.opacity or 0.8)
+            _OW35:SetHBScale()
+        end
+        if _dyZG and not _OW35.shown then
+            local _3h4Z = not _wuH7.hbWallHb and _OW35.target and _SIx0(_OW35.target)
+            if not _3h4Z then
+                _OW35:Show()
+            end
+        end
+        if _wuH7.hbAnimation then
+            if _B9zt:HasTag("largecreature") then
+                _OW35:AnimateIn(0x2)
+            else
+                _OW35:AnimateIn(0x8)
+            end
+        end
+    end
+    _iZIf.dycHbStarted = true
+end
+SimpleHealthBar[SimpleHealthBar.ds("wv]xli|mPJ")] = function()
+    for _KD87, _VVX0 in pairs(SimpleHealthBar.GHB.ghbs) do
+        local _YL10 = _7ovh(_VVX0.target).graphic
+        local _IvYk = _wuH7.hbWallHb ~= true and _VVX0.target and _VVX0.target:HasTag("wall")
+        if _YL10 and not _IvYk and not _VVX0.shown then
+            _VVX0:Show()
+        elseif (not _YL10 or _IvYk) and _VVX0.shown then
+            _VVX0:Hide()
+        end
+        if _YL10 then
+            _VVX0:SetData(_YL10)
+            _VVX0:SetOpacity(_wuH7.hbOpacity or _YL10.opacity or 0.8)
+            _VVX0:SetHBScale()
+        end
+    end
+end
+local function _SOgN(_KDnM)
+    local _rjT3 = CreateEntity()
+    _rjT3.entity:AddTransform()
+    _rjT3:AddTag("FX")
+    _rjT3:AddTag("NOCLICK")
+    _rjT3:AddTag("notarget")
+    local _WO4u = not _KDnM
+    local _KyIQ = _rjT3.entity:AddLabel()
+    _KyIQ:SetFont(NUMBERFONT)
+    _KyIQ:SetFontSize(0x1c)
+    _KyIQ:SetColour(0x1, 0x1, 0x1)
+    _KyIQ:SetText(" ")
+    _KyIQ:Enable(true)
+    _rjT3.text = _KyIQ
+    _rjT3.SetFontSize = function(_2TCW, _HKnd)
+        _2TCW.text:SetFontSize(_HKnd)
+    end
+    _rjT3.SetOffset = function(_4cxR, _JPYo, _arpg, _qvPL)
+        _4cxR.text:SetWorldOffset(_JPYo, _arpg, _qvPL)
+    end
+    _rjT3.SetText = function(_b4dk, _QHqj)
+        _b4dk.text:SetText(_QHqj)
+    end
+    _rjT3.EnableText = function(_Xir9, _luf9)
+        _Xir9.text:Enable(_luf9)
+    end
+    local _qkSo = _rjT3.Remove
+    _rjT3.persists = false
+    _rjT3.InitHB = _0hwx
+    return _rjT3
+end
+local function _Wcuh(_0Qts)
+    if not _qOob() or not _qOob().HUD then
+        return
+    end
+    local _jBAG = _7ovh().graphic
+    local _d0UN = _qOob().HUD.overlayroot:AddChild(SimpleHealthBar.GHB(_jBAG or { basic = { atlas = _oAUi, texture = _dP7Q, } }))
+    _d0UN:MoveToBack()
+    _d0UN:Hide()
+    _d0UN:SetFontSize(0x20)
+    _d0UN:SetYOffSet(_LOgx, true)
+    _d0UN:SetTextColor(0x1, 0x1, 0x1, 0x1)
+    _d0UN:SetOpacity(_wuH7.hbOpacity or (_jBAG and _jBAG.opacity) or 0.8)
+    _d0UN:SetStyle("textoverbar")
+    _d0UN.preUpdateFn = function(_Hdxx)
+        if _7ovh(_d0UN.target).graphic and _Hdxx > 0x0 and _d0UN.target and _wuH7.hbPosition == "overhead" then
+            local _Wn4B = 0x1e / _rL1g(_d0UN.target)
+            _d0UN:SetYOffSet(_0Qts.dychbheightconst * _LOh2 * _Wn4B)
+            _d0UN:SetStyle("textoverbar")
+            if _d0UN.fontSize ~= 0x20 then
+                _d0UN:SetFontSize(0x20)
+            end
+        elseif _7ovh(_d0UN.target).graphic and _Hdxx > 0x0 and _d0UN.target and _wuH7.hbPosition == "overhead2" then
+            local _xYcQ = 0x1e / _rL1g(_d0UN.target)
+            _d0UN:SetYOffSet(_0Qts.dychbheightconst * _LOh2 * _xYcQ)
+            _d0UN:SetStyle("")
+            if _d0UN.fontSize ~= 0x18 then
+                _d0UN:SetFontSize(0x18)
+            end
+        elseif _7ovh(_d0UN.target).graphic and _Hdxx > 0x0 and _d0UN.target and _wuH7.hbPosition == "bottom" then
+            _d0UN:SetYOffSet(_LOgx, true)
+            _d0UN:SetStyle("textoverbar")
+            if _d0UN.fontSize ~= 0x20 then
+                _d0UN:SetFontSize(0x20)
+            end
+        end
+    end
+    _0Qts.graphicHealthbar = _d0UN
+end
+local function _lq0g(_NBZ9)
+    table.insert(SimpleHealthBar.hbs, _NBZ9)
+    if _wuH7.hbLimit > 0x0 and #SimpleHealthBar.hbs > _wuH7.hbLimit then
+        local _J6t9 = SimpleHealthBar.hbs[0x1]
+        table.remove(SimpleHealthBar.hbs, 0x1)
+    end
+end
+local function _o7av()
+    local _SU5u = _SOgN()
+    if _XtUU() then
+        _SU5u.entity:AddNetwork()
+    end
+    _SU5u:SetFontSize(0xf)
+    if _XtUU() then
+        _SU5u.dychpini = -0x1
+        _SU5u.dychp = 0x0
+        _SU5u.dychp_net = net_float(_SU5u.GUID, "dyc_healthbar.hp", "dychpdirty")
+        _SU5u:ListenForEvent("dychpdirty", function(_JCCn)
+            local _WuCI = _JCCn.dychp_net:value()
+            if _JCCn.dychpini == -0x1 then
+                _JCCn.dychpini = _WuCI
+                if not _wuH7.hbDDOn then
+                    _JCCn.dychpini = -0x2
+                end
+            end
+            if _wuH7.hbDDOn then
+                if _JCCn.dychbowner and _wvbi(_JCCn.dychbowner) then
+                    local _i2Tb = SpawnPrefab("dyc_damagedisplay")
+                    if _JCCn.dychpini > 0x0 then
+                        _i2Tb:DamageDisplay(_JCCn.dychbowner, { hpOld = _JCCn.dychpini, hpNewDefault = _WuCI })
+                        _JCCn.dychpini = -0x2
+                    else
+                        _i2Tb:DamageDisplay(_JCCn.dychbowner, { hpNewDefault = _WuCI })
+                    end
+                end
+            end
+            _JCCn.dychp = _WuCI
+        end)
+        _SU5u.dychpmax = 0x0
+        _SU5u.dychpmax_net = net_float(_SU5u.GUID, "dyc_healthbar.hpmax", "dychpmaxdirty")
+        _SU5u:ListenForEvent("dychpmaxdirty", function(_NMh3)
+            _NMh3.dychpmax = _NMh3.dychpmax_net:value()
+        end)
+    end
+    local _Lt3M = -0x1
+    local _bVdK = -0x1
+    local _TxiY = 0x0
+    local _mITM = true
+    local _3RhT = false
+    _SU5u.dycHbStarted = false
+    _SU5u.OnRemoveEntity = function(_YNts)
+        if _XtUU() and _YNts.dychbowner and _wuH7.hbDDOn and _wvbi(_YNts.dychbowner) then
+            local _8r1R = SpawnPrefab("dyc_damagedisplay")
+            _8r1R:DamageDisplay(_YNts.dychbowner, { hpNewDefault = _YNts.dychp })
+        end
+        _YNts.Label:SetText(" ")
+        if _YNts.dychbowner then
+            _YNts.dychbowner.dychealthbar = nil
+        end
+        if _YNts.dychbtext then
+            _YNts.dychbtext:Remove()
+        end
+        if _YNts.dychbtask then
+            _YNts.dychbtask:Cancel()
+        end
+        if _YNts.graphicHealthbar then
+            if _wuH7.hbAnimation then
+                _YNts.graphicHealthbar:AnimateOut(0x6)
+            else
+                _YNts.graphicHealthbar:Kill()
+            end
+        end
+        _iRjQ(SimpleHealthBar.hbs, _YNts)
+    end
+    function _SU5u:DYCHBSetTimer(_mswL)
+        _TxiY = _mswL
+        _3RhT = true
+    end
+    _Wcuh(_SU5u)
+    _lq0g(_SU5u)
+    _SU5u.dychbtask = _SU5u:DoPeriodicTask(FRAMES, function()
+        if not _SU5u.dycHbStarted then
+            return
+        end
+        local _ZhUy = _SU5u.dychbowner
+        if not _ZhUy then
+            return
+        end
+        local _1ttX = _SU5u.dychbattacker
+        local _y1Ez = nil
+        if not _OSVB() then
+            _y1Ez = _ZhUy.components.health
+        else
+            _y1Ez = _ZhUy.replica.health
+        end
+        local _mNvJ = _wuH7.hbDuration
+        if not _ZhUy:IsValid() or _ZhUy.inlimbo or _ZhUy:HasTag("playerghost") or (not _XtUU() and not _wvbi(_ZhUy)) or (_OSVB() and not _ZhUy:HasTag("player")) or _y1Ez == nil or _y1Ez:IsDead() or (_mNvJ > 0x0 and _TxiY >= _mNvJ) then
+            if not _OSVB() then
+                _SU5u:Remove()
+                return
+            end
+        end
+        if _ZhUy.dychealthbar ~= _SU5u then
+            _SU5u:Remove()
+            return
+        end
+        if not _ZhUy:IsValid() then
+            return
+        end
+        local _jhi6 = 0x0
+        local _Eyf7 = 0x0
+        if not _XtUU() then
+            _jhi6 = _y1Ez.currenthealth
+            _Eyf7 = _y1Ez.maxhealth
+        else
+            _jhi6 = _SU5u.dychp
+            _Eyf7 = _SU5u.dychpmax
+        end
+        if _y1Ez ~= nil and (_wuH7.hbForceUpdate == true or _Lt3M ~= _jhi6 or _bVdK ~= _Eyf7 or _3RhT) then
+            _3RhT = false
+            _Lt3M = _jhi6
+            _bVdK = _Eyf7
+            local _aKNT = not _wuH7.hbWallHb and _ZhUy and _ZhUy:HasTag("wall")
+            if _aKNT then
+                _SU5u:EnableText(false)
+                _SU5u.dychbtext:EnableText(false)
+            else
+                _SU5u:EnableText(true)
+                _SU5u.dychbtext:EnableText(true)
+            end
+            _SU5u:SetText(_ErGv(_Lt3M, _bVdK, _ZhUy))
+            if _wuH7.hbValue and not _7ovh(_ZhUy).graphic then
+                if _wuH7.hbPosition ~= "bottom" then
+                    _SU5u.dychbtext:SetText(string.format(" %d/%d\n   ", _Lt3M, _bVdK))
+                else
+                    _SU5u.dychbtext:SetText(string.format("  \n  \n %d/%d\n   ", _Lt3M, _bVdK))
+                end
+            else
+                _SU5u.dychbtext:SetText("")
+            end
+            if _SU5u.SetHBHeight and _SU5u.dychbheightconst then
+                _SU5u:SetHBHeight(_SU5u.dychbheightconst)
+            end
+            local _4wyA = _Lt3M / _bVdK
+            _SU5u.text:SetColour(_IU1V({ owner = _ZhUy, hpp = _4wyA, }))
+            if _SU5u.graphicHealthbar then
+                local _aH8f = _SU5u.graphicHealthbar
+                local _XuUJ = _7ovh(_ZhUy).graphic
+                if _XuUJ then
+                    _aH8f.showValue = _wuH7.hbValue
+                    _aH8f:SetValue(_Lt3M, _bVdK, _mITM)
+                    _aH8f:SetBarColor(_IU1V({ owner = _ZhUy, hpp = _4wyA, }))
+                end
+            end
+            _mITM = false
+        end
+        local _xtu6 = true
+        local _j3gu = nil
+        if not _OSVB() then
+            _j3gu = _ZhUy.components.combat
+        else
+            _j3gu = _ZhUy.replica.combat
+        end
+        if _j3gu and _j3gu.target then
+            _xtu6 = false
+        else
+            if _1ttX and _1ttX:IsValid() then
+                local _5rHe = nil
+                local _kAgB = nil
+                if not _OSVB() then
+                    _5rHe = _1ttX.components.health
+                    _kAgB = _1ttX.components.combat
+                else
+                    _5rHe = _1ttX.replica.health
+                    _kAgB = _1ttX.replica.combat
+                end
+                if _5rHe and not _5rHe:IsDead() and _kAgB and _kAgB.target == _ZhUy then
+                    _xtu6 = false
+                end
+            end
+        end
+        if _xtu6 then
+            _TxiY = _TxiY + FRAMES
+        else
+            _TxiY = 0x0
+        end
+        if _XtUU() or _wuH7.hbPosition == "bottom" then
+        else
+            local _cWxr = _ZhUy:GetPosition()
+            _cWxr.y = _SU5u.dychbheight or 0x0
+            _SU5u.Transform:SetPosition(_cWxr:Get())
+        end
+    end)
+    if _OSVB() then
+        _SU5u:DoTaskInTime(0x0, function()
+            _SU5u:InitHB()
+        end)
+    end
+    return _SU5u
+end
+local function _PK3b(_CdzO, _OqWY, _wIIl)
+    if not _CdzO:IsValid() or not _OqWY:IsValid() or _OqWY.dycddcd == true then
+        _CdzO:Remove()
+        return
+    end
+    _OqWY.dycddcd = true
+    local _diYh = nil
+    if not _OSVB() then
+        _diYh = _OqWY.components.health
+    else
+        _diYh = _OqWY.replica.health
+    end
+    _CdzO.Transform:SetPosition((_OqWY:GetPosition() + Vector3(0x0, _hkRI(_OqWY) * 0.65, 0x0)):Get())
+    local _DtYM = (_wIIl and _wIIl.hpOld) or (not _XtUU() and _OqWY.components.health.currenthealth) or (_OqWY.dychealthbar and _OqWY.dychealthbar.dychp) or (_diYh and _diYh:IsDead() and 0x0) or (_wIIl and _wIIl.hpOldDefault) or 0x0
+    local _ZtqK = false
+    local _AHda = math.random() * 0x168
+    local _7D4X = _wuH7.hbDDDuration / 0x2
+    local _ztEg = 0x1
+    local _EBPP = 0x2
+    local _FSSL = 0x2 * _EBPP / _7D4X / _7D4X
+    local _15y4 = 0x0
+    local _8qXw = _ztEg / _7D4X
+    local _Vrmi = math.sqrt(0x2 * _FSSL * _EBPP)
+    local _WYoh = _7D4X * 0x2
+    local _mV12 = false
+    local _OUVU = _wuH7.hbDDDelay
+    local _NSMc = 0x0
+    _CdzO.dycddtask = _CdzO:DoPeriodicTask(FRAMES, function()
+        if not _CdzO:IsValid() or not _OqWY:IsValid() then
+            _CdzO.dycddtask:Cancel()
+            _CdzO:Remove()
+            return
+        end
+        _NSMc = _NSMc + FRAMES
+        _15y4 = _NSMc - _OUVU
+        if _NSMc > _OUVU then
+            if _ZtqK == false then
+                _OqWY.dycddcd = false
+                local _Nigg = (_wIIl and _wIIl.hpNew) or (not _XtUU() and _OqWY.components.health.currenthealth) or (_OqWY.dychealthbar and _OqWY.dychealthbar.dychp) or (_diYh and _diYh:IsDead() and 0x0) or (_wIIl and _wIIl.hpNewDefault) or 0x0
+                local _LPTE = _Nigg - _DtYM
+                local _jjcQ = math.abs(_LPTE)
+                if _jjcQ < _wuH7.hbDDThreshold then
+                    _CdzO.dycddtask:Cancel()
+                    _CdzO:Remove()
+                    return
+                else
+                    _ZtqK = true
+                    _CdzO.Label:Enable(true)
+                    local _QHbi = ""
+                    if _LPTE > 0x0 then
+                        _CdzO.Label:SetColour(0x0, 0x1, 0x0)
+                        _QHbi = "+"
+                    else
+                        _CdzO.Label:SetColour(0x1, 0x0, 0x0)
+                        _mV12 = true
+                    end
+                    if _jjcQ < 0x1 then
+                        _CdzO.Label:SetText(_QHbi .. string.format("%.2f", _LPTE))
+                    elseif _jjcQ < 0x64 then
+                        _CdzO.Label:SetText(_QHbi .. string.format("%.1f", _LPTE))
+                    else
+                        _CdzO.Label:SetText(_QHbi .. string.format("%d", _LPTE))
+                    end
+                end
+            end
+            local _hwtQ = _CdzO:GetPosition()
+            local _nICU = Vector3(_8qXw * FRAMES * math.cos(_AHda), _Vrmi * FRAMES, _8qXw * FRAMES * math.sin(_AHda))
+            _CdzO.Transform:SetPosition(_hwtQ.x + _nICU.x, _hwtQ.y + _nICU.y, _hwtQ.z + _nICU.z)
+            _Vrmi = _Vrmi - _FSSL * FRAMES
+            local _0Z7g = (0x1 - math.abs(_15y4 / _7D4X - 0x1)) * (_wuH7.hbDDSize2 - _wuH7.hbDDSize1) + _wuH7.hbDDSize1
+            _CdzO.Label:SetFontSize(_0Z7g)
+            if _mV12 then
+                local _kNqq = 0x1 - _3aCD(_15y4 / _7D4X - 0.5)
+                _CdzO.Label:SetColour(0x1, _kNqq, _kNqq)
+            end
+            if _15y4 >= _WYoh then
+                _CdzO.dycddtask:Cancel()
+                _CdzO:Remove()
+            end
+        end
+    end)
+end
+local function _NVTM()
+    local _kfGh = _SOgN(true)
+    _kfGh.Label:SetFontSize(_wuH7.hbDDSize1)
+    _kfGh.Label:Enable(false)
+    _kfGh.InitHB = nil
+    _kfGh.DamageDisplay = _PK3b
+    return _kfGh
+end
+return Prefab("common/dyc_damagedisplay", _NVTM, _z3w0, _7PKa), Prefab("common/dyc_healthbarchild", _SOgN, _z3w0, _7PKa), Prefab("common/dyc_healthbar", _o7av, _z3w0, _7PKa)

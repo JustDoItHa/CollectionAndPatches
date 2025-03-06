@@ -1,3 +1,14 @@
+local GLOBAL = _G or GLOBAL
+local env = GLOBAL and GLOBAL.getfenv and GLOBAL.getfenv() or GLOBAL or {}
+if env == GLOBAL then
+	-- disable strict mode so that there is no crash
+	if GLOBAL.getmetatable then
+		GLOBAL.getmetatable(GLOBAL).__index = function(t, k)
+			return GLOBAL.rawget(t, k)
+		end
+	end
+end
+SpawnPrefab = GLOBAL.SpawnPrefab
 local siwangjishu = Class(function(self, inst)
     self.inst = inst
 	self.num = 0

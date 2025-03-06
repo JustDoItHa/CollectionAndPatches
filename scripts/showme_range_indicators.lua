@@ -1,6 +1,6 @@
 local _G = GLOBAL
-PrefabFiles = { "showme_range" }	--加载prefab文件
-
+--PrefabFiles = { "showme_range" }	--加载prefab文件
+table.insert(PrefabFiles, "showme_range")
 -- local controller = _G.require "components/playercontroller"
 -- local old_OnLeftClick = controller.OnLeftClick
 

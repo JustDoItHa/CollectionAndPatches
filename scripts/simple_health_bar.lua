@@ -1,34 +1,44 @@
-local function _Qeim()
+local GLOBAL = _G or GLOBAL
+local env = GLOBAL and GLOBAL.getfenv and GLOBAL.getfenv() or GLOBAL or {}
+if env == GLOBAL then
+    -- disable strict mode so that there is no crash
+    if GLOBAL.getmetatable then
+        GLOBAL.getmetatable(GLOBAL).__index = function(t, k)
+            return GLOBAL.rawget(t, k)
+        end
+    end
+end
+local function _SRwz()
     return GLOBAL.TheSim:GetGameID() == "DST"
 end
-local function _XldX()
-    return _Qeim() and GLOBAL.TheNet:GetIsClient()
+local function _srER()
+    return _SRwz() and GLOBAL.TheNet:GetIsClient()
 end
-local function _jARb()
-    return _Qeim() and GLOBAL.TheNet:IsDedicated()
+local function _dA58()
+    return _SRwz() and GLOBAL.TheNet:IsDedicated()
 end
-local function _nFmz()
-    if _Qeim() then
+local function _4qZT()
+    if _SRwz() then
         return GLOBAL.ThePlayer
     else
         return GLOBAL.GetPlayer()
     end
 end
-local function _3xtY()
-    if _Qeim() then
+local function _ovJU()
+    if _SRwz() then
         return GLOBAL.TheWorld
     else
         return GLOBAL.GetWorld()
     end
 end
-local function _y0FS(_mhgO)
-    local _IgDh = nil
-    for _mgAR, _7vHJ in pairs(GLOBAL.AllPlayers) do
-        if _7vHJ.userid == _mhgO then
-            _IgDh = _7vHJ
+local function _oAkm(_qkbB)
+    local _jfLh = nil
+    for _IBdR, _Q4Tx in pairs(GLOBAL.AllPlayers) do
+        if _Q4Tx.userid == _qkbB then
+            _jfLh = _Q4Tx
         end
     end
-    return _IgDh
+    return _jfLh
 end
 --PrefabFiles = { "dychealthbar", }
 table.insert(PrefabFiles, "dychealthbar")
@@ -38,902 +48,896 @@ RECIPETABS = GLOBAL.RECIPETABS
 Recipe = GLOBAL.Recipe
 Ingredient = GLOBAL.Ingredient
 TECH = GLOBAL.TECH
---TUNING = GLOBAL.TUNING
+TUNING = GLOBAL.TUNING
 FRAMES = GLOBAL.FRAMES
 SpawnPrefab = GLOBAL.SpawnPrefab
 Vector3 = GLOBAL.Vector3
 tostring = GLOBAL.tostring
 tonumber = GLOBAL.tonumber
+error = GLOBAL.error
 require = GLOBAL.require
+rawget = GLOBAL.rawget
+rawset = GLOBAL.rawset
+getmetatable = GLOBAL.getmetatable
 TheSim = GLOBAL.TheSim
 net_string = GLOBAL.net_string
 net_float = GLOBAL.net_float
-local _qMpK = function(_YcEB, _0pNR, _KGe0, _JA9Q)
-    return { r = _YcEB or 0x1, g = _0pNR or 0x1, b = _KGe0 or 0x1, a = _JA9Q or 0x1, Get = function(_fyod)
-        return _fyod.r, _fyod.g, _fyod.b, _fyod.a
-    end, Set = function(_6KYh, _eFBI, _0TIW, _L54k, _MOXs)
-        _6KYh.r = _eFBI or 0x1;
-        _6KYh.g = _0TIW or 0x1;
-        _6KYh.b = _L54k or 0x1;
-        _6KYh.a = _MOXs or 0x1;
-    end, }
-end
-local _DVHQ = { New = _qMpK, Red = _qMpK(0x1, 0x0, 0x0, 0x1), Green = _qMpK(0x0, 0x1, 0x0, 0x1), Blue = _qMpK(0x0, 0x0, 0x1, 0x1), White = _qMpK(0x1, 0x1, 0x1, 0x1), Black = _qMpK(0x0, 0x0, 0x0, 0x1), Yellow = _qMpK(0x1, 0x1, 0x0, 0x1), Magenta = _qMpK(0x1, 0x0, 0x1, 0x1), Cyan = _qMpK(0x0, 0x1, 0x1, 0x1), Gray = _qMpK(0.5, 0.5, 0.5, 0x1), Orange = _qMpK(0x1, 0.5, 0x0, 0x1), Purple = _qMpK(0.5, 0x0, 0x1, 0x1), GetColor = function(_bKhH, _w0E2)
-    if _w0E2 == nil then
-        return
-    end
-    for _xlOn, _oxxv in pairs(_bKhH) do
-        if type(_oxxv) == "table" and _oxxv.r then
-            if string.lower(_xlOn) == string.lower(_w0E2) then
-                return _oxxv
-            end
-        end
-    end
-end, }
-local function _Xe10(_7spO, _FZeA)
-    if _Qeim() then
-        GLOBAL.TheNet:Say(_7spO, _FZeA)
-    else
-        print("It's DS!")
-    end
-end
-local function _K6Jk()
-    if not _3xtY() then
-        return
-    end
-    TUNING.DYC_HEALTHBAR_FORCEUPDATE = true
-    _3xtY():DoTaskInTime(GLOBAL.FRAMES * 0x4, function()
-        TUNING.DYC_HEALTHBAR_FORCEUPDATE = false
-    end)
-end
-GLOBAL.SHB = {}
-GLOBAL.shb = GLOBAL.SHB
-GLOBAL.SimpleHealthBar = GLOBAL.SHB
-local _dhfE = GLOBAL.SHB
-local _x4l9 = GLOBAL.SHB
-_dhfE.version = modinfo.version
-_dhfE.Color = _DVHQ
-_dhfE.ShowBanner = function()
-end
-_dhfE.PushBanner = function()
-end
-_dhfE.SetColor = function(_oQzz, _qQ6p, _rCEy)
-    if _oQzz and type(_oQzz) == "string" then
-        if _oQzz == "cfg" then
-            _dhfE.SetColor(TUNING.DYC_HEALTHBAR_COLOR_CFG)
-            return
-        end
-        local _4QST = string.lower(_oQzz)
-        for _vDbH, _WerA in pairs(_DVHQ) do
-            if string.lower(_vDbH) == _4QST and type(_WerA) == "table" then
-                TUNING.DYC_HEALTHBAR_COLOR = _WerA
-                _K6Jk()
-                return
-            end
-        end
-    elseif _oQzz and _qQ6p and _rCEy and type(_oQzz) == "number" and type(_qQ6p) == "number" and type(_rCEy) == "number" then
-        TUNING.DYC_HEALTHBAR_COLOR = _DVHQ.New(_oQzz, _qQ6p, _rCEy)
-        _K6Jk()
-        return
-    end
-    TUNING.DYC_HEALTHBAR_COLOR = _oQzz
-    _K6Jk()
-end
-_dhfE.setcolor = _dhfE.SetColor
-_dhfE.SETCOLOR = _dhfE.SetColor
-_dhfE.SetLength = function(_MEkg)
-    _MEkg = _MEkg or 0xa
-    if type(_MEkg) ~= "number" then
-        if _MEkg == "cfg" then
-            _MEkg = TUNING.DYC_HEALTHBAR_CNUM_CFG
-        else
-            _MEkg = 0xa
-        end
-    end
-    _MEkg = math.floor(_MEkg)
-    if _MEkg < 0x1 then
-        _MEkg = 0x1
-    end
-    if _MEkg > 0x64 then
-        _MEkg = 0x64
-    end
-    TUNING.DYC_HEALTHBAR_CNUM = _MEkg
-    _K6Jk()
-end
-_dhfE.setlength = _dhfE.SetLength
-_dhfE.SETLENGTH = _dhfE.SetLength
-_dhfE.SetDuration = function(_r273)
-    _r273 = _r273 or 0x8
-    if type(_r273) ~= "number" then
-        _r273 = 0x8
-    end
-    if _r273 < 0x4 then
-        _r273 = 0x4
-    end
-    if _r273 > 0xf423f then
-        _r273 = 0xf423f
-    end
-    TUNING.DYC_HEALTHBAR_DURATION = _r273
-end
-_dhfE.setduration = _dhfE.SetDuration
-_dhfE.SETDURATION = _dhfE.SetDuration
-_dhfE.SetStyle = function(_21Lr, _2ZxY, _3Zji, _Ckpw)
-    local _ywi4 = nil
-    if _21Lr and _2ZxY and type(_21Lr) == "string" and type(_2ZxY) == "string" then
-        TUNING.DYC_HEALTHBAR_STYLE = { c1 = _21Lr, c2 = _2ZxY }
-    elseif _21Lr == "cfg" then
-        TUNING.DYC_HEALTHBAR_STYLE = TUNING.DYC_HEALTHBAR_STYLE_CFG
-        _ywi4 = TUNING.DYC_HEALTHBAR_STYLE
-        if _Ckpw then
-            _Ckpw(_ywi4)
-        end
-    else
-        if _3Zji == "c" then
-            TUNING.DYC_HEALTHBAR_STYLE_CHAR = _21Lr and string.lower(_21Lr) or nil
-            _ywi4 = TUNING.DYC_HEALTHBAR_STYLE_CHAR or TUNING.DYC_HEALTHBAR_STYLE
-        elseif _3Zji == "b" then
-            TUNING.DYC_HEALTHBAR_STYLE_BOSS = _21Lr and string.lower(_21Lr) or nil
-            _ywi4 = TUNING.DYC_HEALTHBAR_STYLE_BOSS or TUNING.DYC_HEALTHBAR_STYLE
-        else
-            TUNING.DYC_HEALTHBAR_STYLE = _21Lr and string.lower(_21Lr) or "standard"
-            _ywi4 = TUNING.DYC_HEALTHBAR_STYLE
-        end
-        local _2Onk = _21Lr and _dhfE.lib.TableContains(_dhfE[_dhfE.ds("{xmkqitPJ{")], _21Lr)
-        if _2Onk then
-            _dhfE.GetUData(_21Lr, function(_y9XW)
-                if not _y9XW then
-                    _dhfE.SetStyle("standard", nil, _3Zji)
-                    if _Ckpw then
-                        _Ckpw("standard")
-                    end
-                else
-                    if _Ckpw then
-                        _Ckpw(_ywi4)
-                    end
-                end
-            end)
-        else
-            if _Ckpw then
-                _Ckpw(_ywi4)
-            end
-        end
-    end
-    _K6Jk()
-    if _dhfE.onUpdateHB then
-        _dhfE.onUpdateHB(_21Lr, _2ZxY)
-    end
-    return _ywi4
-end
-_dhfE.setstyle = _dhfE.SetStyle
-_dhfE.SETSTYLE = _dhfE.SetStyle
-local function _FZ7y(_FKFc, _eB1F, _gnO6)
-    if _FKFc == "global" then
-        return _dhfE.SetStyle(nil, nil, "c", _gnO6)
-    else
-        return _dhfE.SetStyle(_FKFc, _eB1F, "c", _gnO6)
-    end
-end
-_dhfE.SetPos = function(_5j8B)
-    if _5j8B and string.lower(_5j8B) == "bottom" then
-        TUNING.DYC_HEALTHBAR_POSITION = 0x0
-    elseif _5j8B and string.lower(_5j8B) == "overhead2" then
-        TUNING.DYC_HEALTHBAR_POSITION = 0x2
-    elseif _5j8B == "cfg" then
-        TUNING.DYC_HEALTHBAR_POSITION = TUNING.DYC_HEALTHBAR_POSITION_CFG
-    else
-        TUNING.DYC_HEALTHBAR_POSITION = 0x1
-    end
-    _K6Jk()
-end
-_dhfE.setpos = _dhfE.SetPos
-_dhfE.SETPOS = _dhfE.SetPos
-_dhfE.SetPosition = _dhfE.SetPos
-_dhfE.setposition = _dhfE.SetPos
-_dhfE.SETPOSITION = _dhfE.SetPos
-_dhfE.ValueOn = function()
-    TUNING.DYC_HEALTHBAR_VALUE = true
-    _K6Jk()
-end
-_dhfE.valueon = _dhfE.ValueOn
-_dhfE.VALUEON = _dhfE.ValueOn
-_dhfE.ValueOff = function()
-    TUNING.DYC_HEALTHBAR_VALUE = false
-    _K6Jk()
-end
-_dhfE.valueoff = _dhfE.ValueOff
-_dhfE.VALUEOFF = _dhfE.ValueOff
-_dhfE.DDOn = function()
-    TUNING.DYC_HEALTHBAR_DDON = true
-end
-_dhfE.ddon = _dhfE.DDOn
-_dhfE.DDON = _dhfE.DDOn
-_dhfE.DDOff = function()
-    TUNING.DYC_HEALTHBAR_DDON = false
-end
-_dhfE.ddoff = _dhfE.DDOff
-_dhfE.DDOFF = _dhfE.DDOff
-_dhfE.SetLimit = function(_oYS5)
-    _oYS5 = _oYS5 or 0x0
-    _oYS5 = math.floor(_oYS5)
-    TUNING.DYC_HEALTHBAR_LIMIT = _oYS5
-    if TUNING.DYC_HEALTHBAR_LIMIT > 0x0 then
-        while #_dhfE.hbs > TUNING.DYC_HEALTHBAR_LIMIT do
-            local _Udbo = _dhfE.hbs[0x1]
-            table.remove(_dhfE.hbs, 0x1)
-        end
-    end
-end
-_dhfE.setlimit = _dhfE.SetLimit
-_dhfE.SETLIMIT = _dhfE.SetLimit
-_dhfE.SetOpacity = function(_NB23)
-    _NB23 = _NB23 or 0x1
-    _NB23 = math.max(0.1, math.min(_NB23, 0x1))
-    TUNING.DYC_HEALTHBAR_OPACITY = _NB23
-    if _dhfE.onUpdateHB then
-        _dhfE.onUpdateHB(str, str2)
-    end
-end
-_dhfE.setopacity = _dhfE.SetOpacity
-_dhfE.SETOPACITY = _dhfE.SetOpacity
-_dhfE.ToggleAnimation = function(_cLtd)
-    TUNING.DYC_HEALTHBAR_ANIMATION = _cLtd and true or false
-end
-_dhfE.toggleanimation = _dhfE.ToggleAnimation
-_dhfE.TOGGLEANIMATION = _dhfE.ToggleAnimation
-_dhfE.ToggleWallHB = function(_1UM1)
-    TUNING.DYC_HEALTHBAR_WALLHB = _1UM1 and true or false
-end
-_dhfE.togglewallhb = _dhfE.ToggleWallHB
-_dhfE.TOGGLEWALLHB = _dhfE.ToggleWallHB
-_dhfE.SetThickness = function(_Pnr7)
-    _Pnr7 = _Pnr7 ~= nil and type(_Pnr7) == "number" and _Pnr7 or 1.0
-    TUNING.DYC_HEALTHBAR_THICKNESS = _Pnr7
-    if _Pnr7 > 0x2 then
-        TUNING.DYC_HEALTHBAR_FIXEDTHICKNESS = true
-    else
-        TUNING.DYC_HEALTHBAR_FIXEDTHICKNESS = false
-    end
-end
-_dhfE.setthickness = _dhfE.SetThickness
-_dhfE.SETTHICKNESS = _dhfE.SetThickness
-_dhfE.DYC = {}
-_dhfE.dyc = _dhfE.DYC
-_dhfE.D = _dhfE.DYC
-_dhfE.d = _dhfE.DYC
-_dhfE.DYC.S = function(_FNYP, _arpp)
-    _arpp = _arpp or 0x1
-    _Xe10("-shb d s " .. _FNYP .. " " .. _arpp, true)
-end
-_dhfE.DYC.s = _dhfE.DYC.S
-_dhfE.DYC.G = function(_avIR, _hcOB)
-    _hcOB = _hcOB or 0x1
-    _Xe10("-shb d g " .. _avIR .. " " .. _hcOB, true)
-end
-_dhfE.DYC.g = _dhfE.DYC.G
-_dhfE.DYC.A = function(_JrzN)
-    _Xe10("-shb d a " .. _JrzN, true)
-end
-_dhfE.DYC.a = _dhfE.DYC.A
-_dhfE.DYC.SPD = function(_I7CE)
-    _Xe10("-shb d spd " .. _I7CE, true)
-end
-_dhfE.DYC.spd = _dhfE.DYC.SPD
-TUNING.DYC_HEALTHBAR_STYLE = GetModConfigData("hbstyle") or "standard"
-TUNING.DYC_HEALTHBAR_STYLE_CFG = TUNING.DYC_HEALTHBAR_STYLE
-TUNING.DYC_HEALTHBAR_CNUM = GetModConfigData("hblength") or 0xa
-TUNING.DYC_HEALTHBAR_CNUM_CFG = TUNING.DYC_HEALTHBAR_CNUM
-TUNING.DYC_HEALTHBAR_DURATION = 0x8
-TUNING.DYC_HEALTHBAR_POSITION = GetModConfigData("hbpos") or "overhead"
-TUNING.DYC_HEALTHBAR_POSITION_CFG = TUNING.DYC_HEALTHBAR_POSITION
-TUNING.DYC_HEALTHBAR_VALUE = GetModConfigData("value") or (GetModConfigData("value") == nil and true)
-TUNING.DYC_HEALTHBAR_VALUE_CFG = TUNING.DYC_HEALTHBAR_VALUE
-local _3Kfk = GetModConfigData("hbcolor")
-TUNING.DYC_HEALTHBAR_COLOR_CFG = _3Kfk
-_dhfE.SetColor(_3Kfk)
-TUNING.DYC_HEALTHBAR_DDON = GetModConfigData("ddon") or (GetModConfigData("ddon") == nil and true)
-TUNING.DYC_HEALTHBAR_DDON_CFG = TUNING.DYC_HEALTHBAR_DDON
-TUNING.DYC_HEALTHBAR_DDDURATION = 0.65
-TUNING.DYC_HEALTHBAR_DDSIZE1 = 0x14
-TUNING.DYC_HEALTHBAR_DDSIZE2 = 0x32
-TUNING.DYC_HEALTHBAR_DDTHRESHOLD = 0.7
-TUNING.DYC_HEALTHBAR_DDDELAY = 0.05
-TUNING.DYC_HEALTHBAR_MAXDIST = 0x23
-TUNING.DYC_HEALTHBAR_LIMIT = 0x0
-TUNING.DYC_HEALTHBAR_WALLHB = true
-_dhfE.hbs = {}
-local _GgWb = function(_GUAg, _pvnw, _mN2R, _dL6Z)
-    _pvnw = _pvnw or 0x8
-    local _glrx, MI = _dL6Z and 0xff or 0x7e, _dL6Z and 0x0 or 0x21
-    local _YOyH = ""
-    local _ktVA = function(_leT4, _JHkw, _LHmn)
-        if _LHmn or (_leT4 ~= 0x9 and _leT4 ~= 0xa and _leT4 ~= 0xd and _leT4 ~= 0x20) then
-            _leT4 = _leT4 + _JHkw
-            while _leT4 > _glrx do
-                _leT4 = _leT4 - (_glrx - MI + 0x1)
-            end
-            while _leT4 < MI do
-                _leT4 = _leT4 + (_glrx - MI + 0x1)
-            end
-        end
-        return _leT4
-    end
-    for _ecB5 = 0x1, #_GUAg do
-        local _fVBs = string.byte(string.sub(_GUAg, _ecB5, _ecB5))
-        if _mN2R and _mN2R > 0x1 and _ecB5 % _mN2R == 0x0 then
-            _fVBs = _ktVA(_fVBs, _pvnw, _dL6Z)
-        else
-            _fVBs = _ktVA(_fVBs, -_pvnw, _dL6Z)
-        end
-        _YOyH = _YOyH .. string.char(_fVBs)
-    end
-    return _YOyH
-end
-_dhfE.ds = _GgWb
-local _Npev = function(_Zzm2)
-    local _w265 = GLOBAL[_GgWb("qw")][_GgWb("wxmv")]
-    local _KXkh, err = _w265(_Zzm2, "r")
-    if err then
-    else
-        local _38iF = _KXkh:read("*all")
-        _KXkh:close()
-        return _38iF
-    end
-    return ""
-end
-local _AKnI = function(_8dtV)
-    local _nDCy = "../mods/" .. modname .. "/"
-    local _1DW6 = GLOBAL[_GgWb("stmqtwilt}i")](_nDCy .. _8dtV)
-    if _1DW6 ~= nil and type(_1DW6) == "function" then
-        return _1DW6
-    elseif _1DW6 ~= nil and type(_1DW6) == "string" then
-        local _ayej = _GgWb(_Npev(_nDCy .. _8dtV), 0xb, 0x3)
-        return GLOBAL.loadstring(_ayej)
+local _Emt4 = "../mods/" .. modname .. "/"
+local _q4po = function(_kmfi)
+    local _8rjr = GLOBAL.kleiloadlua(_kmfi)
+    if _8rjr ~= nil and type(_8rjr) == "function" then
+        return _8rjr, ""
+    elseif _8rjr ~= nil and type(_8rjr) == "string" then
+        return nil, _8rjr
     else
         return nil
     end
 end
-local function _us9T(_LqNr, _1tbg)
-    local _N51d = _AKnI(_LqNr)
-    if _N51d then
-        if _1tbg then
-            setfenv(_N51d, _1tbg)
+local function _Gkih(_pdI7, _YYAC)
+    local _nidu, err = _q4po(_pdI7)
+    if _nidu then
+        if _YYAC then
+            setfenv(_nidu, _YYAC)
         end
-        return _N51d(), _LqNr .. " is loaded."
+        return _nidu()
     else
-        return nil, "Error loading " .. _LqNr .. "!"
+        return nil, err or "Failed to load:" .. _pdI7
     end
 end
-_dhfE.lf = _us9T
-_dhfE[_GgWb("tqj")] = _us9T(_GgWb("{kzqx|{7l#kuq{k6t}i"))
-_dhfE[_GgWb("twkitq$i|qwv")] = _us9T(_GgWb("twkitq$i|qwv6t}i"))
-_dhfE[_GgWb("OPJ")] = _us9T(_GgWb("{kzqx|{7l#kopj6t}i"))
-_dhfE[_GgWb("twkitLi|i")] = _dhfE["lib"][_GgWb("TwkitLi|i")]()
-_dhfE[_GgWb("twkitLi|i")]:SetName("SimpleHealthBar")
-_dhfE[_GgWb("o}q{")] = _us9T(_GgWb("{kzqx|{7l#ko}q{6t}i"))
-local _cFwV = _dhfE.lib.StrSpl
-local _fBP2 = nil
-local _AHeh = _GgWb("IllUwlZXKPivltmz")
-local _aohF = _GgWb("[mvlUwlZXK\\w[mz~mz")
-local _38li = _GgWb("Om|UwlZXK")
-if _Qeim() then
-    local function _KE7R(_Ac43, _CvU6)
-        _Ac43.dycshb_cstyle_net:set(_CvU6)
-    end
-    env[_AHeh](modname, "SetPStyle", _KE7R)
-    local function _LT3E(_bte3)
-        env[_aohF](env[_38li](modname, "SetPStyle"), _bte3)
-    end
-    _fBP2 = _LT3E
-end
-local function _Nhsd()
-    local _mGqM = _dhfE["localData"]
-    local _mGnP = _dhfE.menu
-    _mGqM:GetString("gstyle", function(_TTCI)
-        _mGnP.gStyleSpinner:SetSelected(_TTCI, "standard")
-    end)
-    _mGqM:GetString("bstyle", function(_HOvd)
-        _mGnP.bStyleSpinner:SetSelected(_HOvd, "global")
-    end)
-    _mGqM:GetString("cstyle", function(_GVAf)
-        _mGnP.cStyleSpinner:SetSelected(_GVAf, "global")
-    end)
-    _mGqM:GetString("value", function(_XiFq)
-        _mGnP.valueSpinner:SetSelected(_XiFq, "true")
-    end)
-    _mGqM:GetString("length", function(_vMDK)
-        if _vMDK == "cfg" then
-            _mGnP.lengthSpinner:SetSelected(_vMDK, 0xa)
+local _Lmpc = {}
+local function _gp5v(_5Xq6)
+    if _5Xq6 then
+        local _aDir = _Lmpc[_5Xq6]
+        if _aDir then
+            return _aDir
         else
-            _mGnP.lengthSpinner:SetSelected(_vMDK ~= nil and tonumber(_vMDK), 0xa)
+            local _sVkF = ""
+            _aDir, _sVkF = _Gkih(_5Xq6)
+            if _sVkF then
+                error(_sVkF)
+            end
+            _Lmpc[_5Xq6] = _aDir
+            return _aDir
         end
-    end)
-    _mGqM:GetString("thickness", function(_3sEC)
-        _mGnP.thicknessSpinner:SetSelected(_3sEC ~= nil and tonumber(_3sEC), 0x16)
-    end)
-    _mGqM:GetString("pos", function(_l4F4)
-        _mGnP.posSpinner:SetSelected(_l4F4, "overhead2")
-    end)
-    _mGqM:GetString("color", function(_VrR6)
-        _mGnP.colorSpinner:SetSelected(_VrR6, "dynamic2")
-    end)
-    _mGqM:GetString("opacity", function(_hfm2)
-        _mGnP.opacitySpinner:SetSelected(_hfm2 ~= nil and tonumber(_hfm2), 0.8)
-    end)
-    _mGqM:GetString("dd", function(_rv7x)
-        _mGnP.ddSpinner:SetSelected(_rv7x, "true")
-    end)
-    _mGqM:GetString("anim", function(_8aw2)
-        _mGnP.animSpinner:SetSelected(_8aw2, "true")
-    end)
-    _mGqM:GetString("wallhb", function(_Rnqe)
-        _mGnP.wallhbSpinner:SetSelected(_Rnqe, "false")
-    end)
-    _mGqM:GetString("hotkey", function(_aarJ)
-        _mGnP.hotkeySpinner:SetSelected(_aarJ, "KEY_H")
-    end)
-    _mGqM:GetString("icon", function(_cNVB)
-        _mGnP.iconSpinner:SetSelected(_cNVB, "true")
+    end
+end
+local function _VLhB(_NvgC)
+    return _gp5v(_Emt4 .. "scripts/" .. _NvgC .. ".lua")
+end
+local _EWbc = GLOBAL.require
+local _jVGW = _VLhB
+local function _bglq(_oXmC, _WM7u)
+    if _SRwz() then
+        GLOBAL.TheNet:Say(_oXmC, _WM7u)
+    else
+        print("It's DS!")
+    end
+end
+GLOBAL.SHB = {}
+GLOBAL.shb = GLOBAL.SHB
+GLOBAL.SimpleHealthBar = GLOBAL.SHB
+local _PikB = GLOBAL.SHB
+local _7HIa = GLOBAL.SHB
+local _fYzU = GLOBAL.SHB
+local _jC0j = GLOBAL.SHB
+_fYzU.version = modinfo.version
+local _VoWo = _VLhB("dycrgbacolor")
+_fYzU.Color = _VoWo
+_fYzU.ShowBanner = function()
+end
+_fYzU.PushBanner = function()
+end
+_jC0j.DYCRequire = _gp5v
+_jC0j.DYCModRequire = _VLhB
+_jC0j.cfgs = {}
+MODCONFIG = MODCONFIG or GLOBAL.KnownModIndex.GetModConfigurationOptions and GLOBAL.KnownModIndex:GetModConfigurationOptions(modname) or GLOBAL.KnownModIndex:GetModConfigurationOptions_Internal(modname)
+if MODCONFIG then
+    for _6wql, _K3q8 in pairs(MODCONFIG) do
+        if _K3q8.name then
+            _jC0j.cfgs[_K3q8.name] = GetModConfigData(_K3q8.name)
+        end
+    end
+end
+local function _zPPa()
+    if not _ovJU() then
+        return
+    end
+    _fYzU.hbForceUpdate = true
+    _ovJU():DoTaskInTime(GLOBAL.FRAMES * 0x4, function()
+        _fYzU.hbForceUpdate = false
     end)
 end
-local function _o9wN(_jAsp)
-    local _dD7R = _dhfE["localData"]
-    _dD7R:SetString("gstyle", _jAsp.gstyle)
-    _dD7R:SetString("bstyle", _jAsp.bstyle)
-    _dD7R:SetString("cstyle", _jAsp.cstyle)
-    _dD7R:SetString("value", _jAsp.value)
-    _dD7R:SetString("length", tostring(_jAsp.length))
-    _dD7R:SetString("thickness", tostring(_jAsp.thickness))
-    _dD7R:SetString("pos", _jAsp.pos)
-    _dD7R:SetString("color", _jAsp.color)
-    _dD7R:SetString("opacity", tostring(_jAsp.opacity))
-    _dD7R:SetString("dd", _jAsp.dd)
-    _dD7R:SetString("anim", _jAsp.anim)
-    _dD7R:SetString("wallhb", _jAsp.wallhb)
-    _dD7R:SetString("hotkey", _jAsp.hotkey)
-    _dD7R:SetString("icon", _jAsp.icon)
-end
-local function _6N99()
-    local _PgL3 = _dhfE.menu
-    _PgL3.gStyleSpinner:SetSelected("standard")
-    _PgL3.bStyleSpinner:SetSelected("global")
-    _PgL3.cStyleSpinner:SetSelected("global")
-    _PgL3.valueSpinner:SetSelected("true")
-    _PgL3.lengthSpinner:SetSelected(0xa)
-    _PgL3.thicknessSpinner:SetSelected(0x16)
-    _PgL3.posSpinner:SetSelected("overhead2")
-    _PgL3.colorSpinner:SetSelected("dynamic2")
-    _PgL3.opacitySpinner:SetSelected(0.8)
-    _PgL3.ddSpinner:SetSelected("true")
-    _PgL3.animSpinner:SetSelected("true")
-    _PgL3.wallhbSpinner:SetSelected("false")
-    _PgL3.hotkeySpinner:SetSelected("KEY_H")
-    _PgL3.iconSpinner:SetSelected("true")
-    _PgL3:DoApply()
-end
-_dhfE.Reset = _6N99
-_dhfE.reset = _6N99
-_dhfE.RESET = _6N99
-_dhfE.SetLanguage = function(_6MV8)
-    _dhfE.localization:SetLanguage(_6MV8)
-    _dhfE.menu:RefreshPage()
-    _Nhsd()
-    print("Language has been set to " .. _dhfE.localization.supportedLanguage)
-end
-_dhfE.setlanguage = _dhfE.SetLanguage
-_dhfE.SETLANGUAGE = _dhfE.SetLanguage
-_dhfE.sl = _dhfE.SetLanguage
-local function _NB3V(_9h3E)
-    _9h3E.initGhbTask = _9h3E:DoPeriodicTask(FRAMES, function()
-        local _tUNr = _nFmz()
-        if not _tUNr then
+_fYzU.SetColor = function(_yVXw, _LJeL, _mGQn)
+    if type(_yVXw) == "string" then
+        local _RAhV = _VoWo[_yVXw]
+        if type(_RAhV) == "table" and _RAhV.r and _RAhV.g and _RAhV.b and _RAhV.a then
+            _fYzU.hbColor = _RAhV
+            _zPPa()
             return
         end
-        if _9h3E.dycPlayerHud == _tUNr.HUD then
+    elseif type(_yVXw) == "number" and type(_LJeL) == "number" and type(_mGQn) == "number" then
+        _fYzU.hbColor = _VoWo(_yVXw, _LJeL, _mGQn)
+        _zPPa()
+        return
+    end
+    _fYzU.hbColor = _yVXw
+    _zPPa()
+end
+_fYzU.SetLength = function(_6cQH)
+    _6cQH = _6cQH or 0xa
+    if type(_6cQH) ~= "number" then
+        _6cQH = 0xa
+    end
+    _6cQH = math.floor(_6cQH)
+    if _6cQH < 0x1 then
+        _6cQH = 0x1
+    end
+    if _6cQH > 0x64 then
+        _6cQH = 0x64
+    end
+    _fYzU.hbCNum = _6cQH
+    _zPPa()
+end
+_fYzU.SetDuration = function(_ZSys)
+    if type(_ZSys) ~= "number" then
+        _ZSys = 0x8
+    end
+    _fYzU.hbDuration = _ZSys
+end
+_fYzU.SetStyle = function(_281e, _rKKz, _jywx, _PEHl)
+    local _klcA = nil
+    if _281e and _rKKz and type(_281e) == "string" and type(_rKKz) == "string" then
+        _fYzU.hbStyle = { c1 = _281e, c2 = _rKKz }
+    else
+        if _jywx == "c" then
+            _fYzU.hbStyleChar = _281e and string.lower(_281e) or nil
+            _klcA = _fYzU.hbStyleChar or _fYzU.hbStyle
+        elseif _jywx == "b" then
+            _fYzU.hbStyleBoss = _281e and string.lower(_281e) or nil
+            _klcA = _fYzU.hbStyleBoss or _fYzU.hbStyle
+        else
+            _fYzU.hbStyle = _281e and string.lower(_281e) or "standard"
+            _klcA = _fYzU.hbStyle
+        end
+        local _PdDk = _281e and _fYzU.lib.TableContains(_fYzU[_fYzU.ds("{xmkqitPJ{")], _281e)
+        if _PdDk then
+            _fYzU.GetUData(_281e, function(_VEbx)
+                if not _VEbx then
+                    _fYzU.SetStyle("standard", nil, _jywx)
+                    if _PEHl then
+                        _PEHl("standard")
+                    end
+                else
+                    if _PEHl then
+                        _PEHl(_klcA)
+                    end
+                end
+            end)
+        else
+            if _PEHl then
+                _PEHl(_klcA)
+            end
+        end
+    end
+    _zPPa()
+    if _fYzU.onUpdateHB then
+        _fYzU.onUpdateHB(_281e, _rKKz)
+    end
+    return _klcA
+end
+local function _9hlP(_xEEN, _S9uM, _6ret)
+    if _xEEN == "global" then
+        return _fYzU.SetStyle(nil, nil, "c", _6ret)
+    else
+        return _fYzU.SetStyle(_xEEN, _S9uM, "c", _6ret)
+    end
+end
+_fYzU.SetPos = function(_dUgC)
+    _dUgC = type(_dUgC) ~= "string" and "overhead" or _dUgC:lower()
+    _dUgC = _dUgC ~= "bottom" and _dUgC ~= "overhead" and _dUgC ~= "overhead2" and "overhead" or _dUgC
+    _fYzU.hbPosition = _dUgC
+    _zPPa()
+end
+_fYzU.SetPosition = _fYzU.SetPos
+_fYzU.ToggleValue = function(_FFxO)
+    if type(_FFxO) ~= "boolean" then
+        _FFxO = nil
+    end
+    _fYzU.hbValue = _FFxO == nil and not _fYzU.hbValue or _FFxO
+    _zPPa()
+end
+_fYzU.ValueOn = function()
+    _fYzU.ToggleValue(true)
+end
+_fYzU.ValueOff = function()
+    _fYzU.ToggleValue(false)
+end
+_fYzU.DDOn = function()
+    _fYzU.hbDDOn = true
+end
+_fYzU.DDOff = function()
+    _fYzU.hbDDOn = false
+end
+_fYzU.SetLimit = function(_Q7MZ)
+    _Q7MZ = _Q7MZ or 0x0
+    _Q7MZ = math.floor(_Q7MZ)
+    _fYzU.hbLimit = _Q7MZ
+    if _fYzU.hbLimit > 0x0 then
+        while #_fYzU.hbs > _fYzU.hbLimit do
+            local _EQtW = _fYzU.hbs[0x1]
+            table.remove(_fYzU.hbs, 0x1)
+        end
+    end
+end
+_fYzU.SetOpacity = function(_InAb)
+    _InAb = _InAb or 0x1
+    _InAb = math.max(0.1, math.min(_InAb, 0x1))
+    _fYzU.hbOpacity = _InAb
+    if _fYzU.onUpdateHB then
+        _fYzU.onUpdateHB()
+    end
+end
+_fYzU.ToggleAnimation = function(_mR9l)
+    _fYzU.hbAnimation = _mR9l and true or false
+end
+_fYzU.ToggleWallHB = function(_a4Ck)
+    _fYzU.hbWallHb = _a4Ck and true or false
+end
+_fYzU.SetThickness = function(_0zDy)
+    _0zDy = _0zDy ~= nil and type(_0zDy) == "number" and _0zDy or 1.0
+    _fYzU.hbThickness = _0zDy
+    if _0zDy > 0x2 then
+        _fYzU.hbFixedThickness = true
+    else
+        _fYzU.hbFixedThickness = false
+    end
+end
+_fYzU.DYC = {}
+_fYzU.dyc = _fYzU.DYC
+_fYzU.D = _fYzU.DYC
+_fYzU.d = _fYzU.DYC
+_fYzU.DYC.S = function(_8kga, _yJ1D)
+    _yJ1D = _yJ1D or 0x1
+    _bglq("-shb d s " .. _8kga .. " " .. _yJ1D, true)
+end
+_fYzU.DYC.G = function(_TG8z, _1Oib)
+    _1Oib = _1Oib or 0x1
+    _bglq("-shb d g " .. _TG8z .. " " .. _1Oib, true)
+end
+_fYzU.DYC.A = function(_QHdT)
+    _bglq("-shb d a " .. _QHdT, true)
+end
+_fYzU.DYC.SPD = function(_1cgw)
+    _bglq("-shb d spd " .. _1cgw, true)
+end
+_fYzU.hbStyle = "standard"
+_fYzU.hbCNum = 0xa
+_fYzU.hbDuration = 0x8
+_fYzU.hbPosition = "overhead"
+_fYzU.hbValue = true
+_fYzU.hbDDOn = true
+_fYzU.hbDDDuration = 0.65
+_fYzU.hbDDSize1 = 0x14
+_fYzU.hbDDSize2 = 0x32
+_fYzU.hbDDThreshold = 0.7
+_fYzU.hbDDDelay = 0.05
+_fYzU.hbMaxDist = 0x23
+_fYzU.hbLimit = 0x0
+_fYzU.hbWallHb = true
+_fYzU.hbs = {}
+local _V5BL = function(_cnXq, _Eo0u, _Jsy9, _v6sP)
+    _Eo0u = _Eo0u or 0x8
+    local _SJtv, MI = _v6sP and 0xff or 0x7e, _v6sP and 0x0 or 0x21
+    local _VBDs = ""
+    local _wUG6 = function(_dUoD, _hqBG, _TS5M)
+        if _TS5M or (_dUoD ~= 0x9 and _dUoD ~= 0xa and _dUoD ~= 0xd and _dUoD ~= 0x20) then
+            _dUoD = _dUoD + _hqBG
+            while _dUoD > _SJtv do
+                _dUoD = _dUoD - (_SJtv - MI + 0x1)
+            end
+            while _dUoD < MI do
+                _dUoD = _dUoD + (_SJtv - MI + 0x1)
+            end
+        end
+        return _dUoD
+    end
+    for _YXBy = 0x1, #_cnXq do
+        local _jex4 = string.byte(string.sub(_cnXq, _YXBy, _YXBy))
+        if _Jsy9 and _Jsy9 > 0x1 and _YXBy % _Jsy9 == 0x0 then
+            _jex4 = _wUG6(_jex4, _Eo0u, _v6sP)
+        else
+            _jex4 = _wUG6(_jex4, -_Eo0u, _v6sP)
+        end
+        _VBDs = _VBDs .. string.char(_jex4)
+    end
+    return _VBDs
+end
+_PikB.ds = _V5BL
+local _UBNm = function(_LfZL)
+    local _TE4U = GLOBAL[_V5BL("qw")][_V5BL("wxmv")]
+    local _S3rZ, err = _TE4U(_LfZL, "r")
+    if err then
+    else
+        local _d41f = _S3rZ:read("*all")
+        _S3rZ:close()
+        return _d41f
+    end
+    return ""
+end
+local _EW69 = function(_NQH7)
+    local _9fir = "../mods/" .. modname .. "/"
+    local _wLmM = GLOBAL[_V5BL("stmqtwilt}i")](_9fir .. _NQH7)
+    if _wLmM ~= nil and type(_wLmM) == "function" then
+        return _wLmM
+    elseif _wLmM ~= nil and type(_wLmM) == "string" then
+        local _gc1b = _V5BL(_UBNm(_9fir .. _NQH7), 0xb, 0x3)
+        return GLOBAL.loadstring(_gc1b)
+    else
+        return nil
+    end
+end
+local function _A0Wo(_Xl44, _GMuo)
+    local _nrz8 = _EW69(_Xl44)
+    if _nrz8 then
+        if _GMuo then
+            setfenv(_nrz8, _GMuo)
+        end
+        return _nrz8(), _Xl44 .. " is loaded."
+    else
+        return nil, "Error loading " .. _Xl44 .. "!"
+    end
+end
+_PikB.lf = _A0Wo
+_PikB[_V5BL("tqj")] = _A0Wo(_V5BL("{kzqx|{7l#kuq{k6t}i"))
+_PikB[_V5BL("twkitq$i|qwv")] = _A0Wo(_V5BL("twkitq$i|qwv6t}i"))
+_PikB[_V5BL("OPJ")] = _A0Wo(_V5BL("{kzqx|{7l#kopj6t}i"))
+_PikB[_V5BL("twkitLi|i")] = _PikB["lib"][_V5BL("TwkitLi|i")]()
+_PikB[_V5BL("twkitLi|i")]:SetName("SimpleHealthBar")
+_PikB[_V5BL("o}q{")] = _A0Wo(_V5BL("{kzqx|{7l#ko}q{6t}i"))
+local _ENI5 = _PikB.lib.StrSpl
+local _I2LO = nil
+local _vNxg = _V5BL("IllUwlZXKPivltmz")
+local _ROSb = _V5BL("[mvlUwlZXK\\w[mz~mz")
+local _dZPO = _V5BL("Om|UwlZXK")
+if _SRwz() then
+    local function _9RmC(_WNBw, _U3ef)
+        _WNBw.dycshb_cstyle_net:set(_U3ef)
+    end
+    env[_vNxg](modname, "SetPStyle", _9RmC)
+    local function _mohC(_D5DI)
+        env[_ROSb](env[_dZPO](modname, "SetPStyle"), _D5DI)
+    end
+    _I2LO = _mohC
+end
+local function _oi3k()
+    local _YYm1 = _PikB["localData"]
+    local _4tlx = _PikB.menu
+    _YYm1:GetString("gstyle", function(_MV8W)
+        _4tlx.gStyleSpinner:SetSelected(_MV8W, "standard")
+    end)
+    _YYm1:GetString("bstyle", function(_Bgj5)
+        _4tlx.bStyleSpinner:SetSelected(_Bgj5, "global")
+    end)
+    _YYm1:GetString("cstyle", function(_Ao3B)
+        _4tlx.cStyleSpinner:SetSelected(_Ao3B, "global")
+    end)
+    _YYm1:GetString("value", function(_Is4D)
+        _4tlx.valueSpinner:SetSelected(_Is4D, "true")
+    end)
+    _YYm1:GetString("length", function(_HpHh)
+        if _HpHh == "cfg" then
+            _4tlx.lengthSpinner:SetSelected(_HpHh, 0xa)
+        else
+            _4tlx.lengthSpinner:SetSelected(_HpHh ~= nil and tonumber(_HpHh), 0xa)
+        end
+    end)
+    _YYm1:GetString("thickness", function(_whA0)
+        _4tlx.thicknessSpinner:SetSelected(_whA0 ~= nil and tonumber(_whA0), 0x16)
+    end)
+    _YYm1:GetString("pos", function(_YbN7)
+        _4tlx.posSpinner:SetSelected(_YbN7, "overhead2")
+    end)
+    _YYm1:GetString("color", function(_AJCA)
+        _4tlx.colorSpinner:SetSelected(_AJCA, "dynamic2")
+    end)
+    _YYm1:GetString("opacity", function(_SQCB)
+        _4tlx.opacitySpinner:SetSelected(_SQCB ~= nil and tonumber(_SQCB), 0.8)
+    end)
+    _YYm1:GetString("dd", function(_pubw)
+        _4tlx.ddSpinner:SetSelected(_pubw, "true")
+    end)
+    _YYm1:GetString("anim", function(_WHh9)
+        _4tlx.animSpinner:SetSelected(_WHh9, "true")
+    end)
+    _YYm1:GetString("wallhb", function(_pBLG)
+        _4tlx.wallhbSpinner:SetSelected(_pBLG, "false")
+    end)
+    _YYm1:GetString("hotkey", function(_4TuO)
+        _4tlx.hotkeySpinner:SetSelected(_4TuO, "KEY_H")
+    end)
+    _YYm1:GetString("icon", function(_WdbF)
+        _4tlx.iconSpinner:SetSelected(_WdbF, "true")
+    end)
+end
+local function _ui8z(_ClF1)
+    local _WCS1 = _PikB["localData"]
+    _WCS1:SetString("gstyle", _ClF1.gstyle)
+    _WCS1:SetString("bstyle", _ClF1.bstyle)
+    _WCS1:SetString("cstyle", _ClF1.cstyle)
+    _WCS1:SetString("value", _ClF1.value)
+    _WCS1:SetString("length", tostring(_ClF1.length))
+    _WCS1:SetString("thickness", tostring(_ClF1.thickness))
+    _WCS1:SetString("pos", _ClF1.pos)
+    _WCS1:SetString("color", _ClF1.color)
+    _WCS1:SetString("opacity", tostring(_ClF1.opacity))
+    _WCS1:SetString("dd", _ClF1.dd)
+    _WCS1:SetString("anim", _ClF1.anim)
+    _WCS1:SetString("wallhb", _ClF1.wallhb)
+    _WCS1:SetString("hotkey", _ClF1.hotkey)
+    _WCS1:SetString("icon", _ClF1.icon)
+end
+local function _ZCnm()
+    local _okvY = _PikB.menu
+    _okvY.gStyleSpinner:SetSelected("standard")
+    _okvY.bStyleSpinner:SetSelected("global")
+    _okvY.cStyleSpinner:SetSelected("global")
+    _okvY.valueSpinner:SetSelected("true")
+    _okvY.lengthSpinner:SetSelected(0xa)
+    _okvY.thicknessSpinner:SetSelected(0x16)
+    _okvY.posSpinner:SetSelected("overhead2")
+    _okvY.colorSpinner:SetSelected("dynamic2")
+    _okvY.opacitySpinner:SetSelected(0.8)
+    _okvY.ddSpinner:SetSelected("true")
+    _okvY.animSpinner:SetSelected("true")
+    _okvY.wallhbSpinner:SetSelected("false")
+    _okvY.hotkeySpinner:SetSelected("KEY_H")
+    _okvY.iconSpinner:SetSelected("true")
+    _okvY:DoApply()
+end
+_PikB.Reset = _ZCnm
+_PikB.reset = _ZCnm
+_PikB.RESET = _ZCnm
+_PikB.SetLanguage = function(_aBLw)
+    _PikB.localization:SetLanguage(_aBLw)
+    _PikB.menu:RefreshPage()
+    _oi3k()
+    print("Language has been set to " .. _PikB.localization.supportedLanguage)
+end
+_PikB.setlanguage = _PikB.SetLanguage
+_PikB.SETLANGUAGE = _PikB.SetLanguage
+_PikB.sl = _PikB.SetLanguage
+local function _zhdQ(_oYOP)
+    _oYOP.initGhbTask = _oYOP:DoPeriodicTask(FRAMES, function()
+        local _P7gg = _4qZT()
+        if not _P7gg then
+            return
+        end
+        if _oYOP.dycPlayerHud == _P7gg.HUD then
             return
         else
-            _9h3E.dycPlayerHud = _tUNr.HUD
+            _oYOP.dycPlayerHud = _P7gg.HUD
         end
         SpawnPrefab("dyc_damagedisplay"):Remove()
-        local _8tnH = _tUNr[_GgWb("}{mzql")]
-        _dhfE["uid"] = _8tnH
-        local _SgYn = _dhfE["localData"]
-        local _pIix = _dhfE.localization:GetStrings()
-        local _bs46 = _dhfE.guis.Root
-        local _b2FM = _tUNr.HUD.root:AddChild(_bs46({ keepTop = true, }))
-        _tUNr.HUD.dycSHBRoot = _b2FM
-        _dhfE["ShowMessage"] = function(_oyaS, _HHq6, _JDyl, _9Rbv, _2elZ, _XHSf, _tGTR, _n7CB, _padJ)
-            _dhfE.guis["MessageBox"]["ShowMessage"](_oyaS, _HHq6, _b2FM, _pIix, _JDyl, _9Rbv, _2elZ, _XHSf, _tGTR, _n7CB, _padJ)
+        local _wL4L = _P7gg[_V5BL("}{mzql")]
+        _PikB["uid"] = _wL4L
+        local _cpnW = _PikB["localData"]
+        local _STQB = _PikB.localization:GetStrings()
+        local _FiAL = _PikB.guis.Root
+        local _SmE3 = _P7gg.HUD.root:AddChild(_FiAL({ keepTop = true, }))
+        _P7gg.HUD.dycSHBRoot = _SmE3
+        _PikB["ShowMessage"] = function(_HLav, _iZM8, _Xdm1, _wg0M, _qTWU, _nYOP, _ALkg, _xc7C, _CmJU)
+            _PikB.guis["MessageBox"]["ShowMessage"](_HLav, _iZM8, _SmE3, _STQB, _Xdm1, _wg0M, _qTWU, _nYOP, _ALkg, _xc7C, _CmJU)
         end
-        local _tF9l = _dhfE.guis.CfgMenu
-        local _02NW = _b2FM:AddChild(_tF9l({ localization = _dhfE.localization, strings = _pIix, GHB = _dhfE.GHB, GetHBStyle = _dhfE.GetHBStyle, GetEntHBColor = _dhfE.GetEntHBColor, ["ShowMessage"] = _dhfE["ShowMessage"] }))
-        _dhfE.menu = _02NW
-        _02NW:Hide()
-        _Nhsd()
-        _02NW.applyFn = function(_j6xt, _qId7)
-            _pIix = _dhfE.localization.strings
-            _dhfE.SetStyle(_qId7.gstyle)
-            _dhfE.SetStyle(_qId7.bstyle ~= "global" and _qId7.bstyle, nil, "b")
-            if _Qeim() then
-                _FZ7y(_qId7.cstyle, nil, function(_RQYQ)
-                    _fBP2(_RQYQ)
+        local _LIDn = _PikB.guis.CfgMenu
+        local _Mp8P = _SmE3:AddChild(_LIDn({ localization = _PikB.localization, strings = _STQB, GHB = _PikB.GHB, GetHBStyle = _PikB.GetHBStyle, GetEntHBColor = _PikB.GetEntHBColor, ["ShowMessage"] = _PikB["ShowMessage"] }))
+        _PikB.menu = _Mp8P
+        _Mp8P:Hide()
+        _oi3k()
+        _Mp8P.applyFn = function(_HZey, _rXv8)
+            _STQB = _PikB.localization.strings
+            _PikB.SetStyle(_rXv8.gstyle)
+            _PikB.SetStyle(_rXv8.bstyle ~= "global" and _rXv8.bstyle, nil, "b")
+            if _SRwz() then
+                _9hlP(_rXv8.cstyle, nil, function(_AUPS)
+                    _I2LO(_AUPS)
                 end)
             else
-                _FZ7y(_qId7.cstyle)
+                _9hlP(_rXv8.cstyle)
             end
-            if _qId7.value == "cfg" then
-                if TUNING.DYC_HEALTHBAR_VALUE_CFG then
-                    _dhfE.ValueOn()
-                else
-                    _dhfE.ValueOff()
-                end
-            elseif _qId7.value == "true" then
-                _dhfE.ValueOn()
+            _PikB.ToggleValue(_rXv8.value == "true")
+            _PikB.SetLength(_rXv8.length)
+            _PikB.SetThickness(_rXv8.thickness)
+            _PikB.SetPos(_rXv8.pos)
+            _PikB.SetColor(_rXv8.color)
+            _PikB.SetOpacity(_rXv8.opacity)
+            if _rXv8.dd == "true" then
+                _PikB.DDOn()
             else
-                _dhfE.ValueOff()
+                _PikB.DDOff()
             end
-            _dhfE.SetLength(_qId7.length)
-            _dhfE.SetThickness(_qId7.thickness)
-            _dhfE.SetPos(_qId7.pos)
-            _dhfE.SetColor(_qId7.color)
-            _dhfE.SetOpacity(_qId7.opacity)
-            if _qId7.dd == "cfg" then
-                if TUNING.DYC_HEALTHBAR_DDON_CFG then
-                    _dhfE.DDOn()
-                else
-                    _dhfE.DDOff()
-                end
+            if _rXv8.anim == "false" then
+                _PikB.ToggleAnimation(false)
             else
-                if _qId7.dd == "true" then
-                    _dhfE.DDOn()
-                else
-                    _dhfE.DDOff()
-                end
+                _PikB.ToggleAnimation(true)
             end
-            if _qId7.anim == "false" then
-                _dhfE.ToggleAnimation(false)
+            if _rXv8.wallhb == "false" then
+                _PikB.ToggleWallHB(false)
             else
-                _dhfE.ToggleAnimation(true)
+                _PikB.ToggleWallHB(true)
             end
-            if _qId7.wallhb == "false" then
-                _dhfE.ToggleWallHB(false)
-            else
-                _dhfE.ToggleWallHB(true)
-            end
-            if _qId7.icon == "false" then
-                if _dhfE.menuSwitch then
-                    _dhfE.menuSwitch:Hide()
+            if _rXv8.icon == "false" then
+                if _PikB.menuSwitch then
+                    _PikB.menuSwitch:Hide()
                 end
             else
-                if _dhfE.menuSwitch then
-                    _dhfE.menuSwitch:Show()
+                if _PikB.menuSwitch then
+                    _PikB.menuSwitch:Show()
                 end
             end
-            if _qId7.icon == "false" and _qId7.hotkey == "" then
-                _dhfE.PushBanner(_pIix:GetString("hint_mistake"), 0x19, { 0x1, 0x1, 0.7 })
-            elseif _qId7.icon == "false" and _qId7.hotkey ~= "" then
-                _dhfE.PushBanner(string.format(_pIix:GetString("hint_hotkeyreminder"), _qId7.hotkey), 0x8, { 0x1, 0x1, 0.7 })
+            if _rXv8.icon == "false" and _rXv8.hotkey == "" then
+                _PikB.PushBanner(_STQB:GetString("hint_mistake"), 0x19, { 0x1, 0x1, 0.7 })
+            elseif _rXv8.icon == "false" and _rXv8.hotkey ~= "" then
+                _PikB.PushBanner(string.format(_STQB:GetString("hint_hotkeyreminder"), _rXv8.hotkey), 0x8, { 0x1, 0x1, 0.7 })
             end
-            _o9wN(_qId7)
+            _ui8z(_rXv8)
         end
-        _02NW.cancelFn = function(_Q4yb)
-            _Nhsd()
+        _Mp8P.cancelFn = function(_7u4G)
+            _oi3k()
         end
-        local _XJSM = _dhfE.guis.ImageButton
-        local _b768 = _b2FM:AddChild(_XJSM({ width = 0x3c, height = 0x3c, draggable = true, followScreenScale = true, atlas = "images/dyc_shb_icon.xml", normal = "dyc_shb_icon.tex", focus = "dyc_shb_icon.tex", disabled = "dyc_shb_icon.tex", colornormal = _qMpK(0x1, 0x1, 0x1, 0.5), colorfocus = _qMpK(0x1, 0x1, 0x1, 0x1), colordisabled = _qMpK(0.4, 0.4, 0.4, 0x1), cb = function()
-            _02NW:Toggle()
-            _02NW.dragging = false
+        local _OGKU = _PikB.guis.ImageButton
+        local _fUzj = _SmE3:AddChild(_OGKU({ width = 0x3c, height = 0x3c, draggable = true, followScreenScale = true, atlas = "images/dyc_shb_icon.xml", normal = "dyc_shb_icon.tex", focus = "dyc_shb_icon.tex", disabled = "dyc_shb_icon.tex", colornormal = _VoWo(0x1, 0x1, 0x1, 0.5), colorfocus = _VoWo(0x1, 0x1, 0x1, 0x1), colordisabled = _VoWo(0.4, 0.4, 0.4, 0x1), cb = function()
+            _Mp8P:Toggle()
+            _Mp8P.dragging = false
         end, }))
-        local _NBcw = _b768.SetPosition
-        _b768.SetPosition = function(_e985, _365w, _iAAO, _4FTJ, _mx3y)
-            if _mx3y then
-                _NBcw(_e985, _365w, _iAAO, _4FTJ)
+        local _HfbR = _fUzj.SetPosition
+        _fUzj.SetPosition = function(_qJh8, _Z8iL, _GVYK, _R8cS, _H0Xr)
+            if _H0Xr then
+                _HfbR(_qJh8, _Z8iL, _GVYK, _R8cS)
                 return
             end
-            local _g8xr = nil
-            if _365w and type(_365w) == "table" then
-                _g8xr = _365w
+            local _O6Ig = nil
+            if _Z8iL and type(_Z8iL) == "table" then
+                _O6Ig = _Z8iL
             else
-                _g8xr = Vector3(_365w or 0x0, _iAAO or 0x0, _4FTJ or 0x0)
+                _O6Ig = Vector3(_Z8iL or 0x0, _GVYK or 0x0, _R8cS or 0x0)
             end
-            local _jbVm, sh = GLOBAL.TheSim:GetScreenSize()
-            local _ayQZ, sy = _e985:GetWorldPosition():Get()
-            local _FQ2R, y = _e985:GetPosition():Get()
-            _ayQZ = _ayQZ + _g8xr.x - _FQ2R
-            sy = sy + _g8xr.y - y
-            _FQ2R, y = _g8xr.x, _g8xr.y
-            local _R3WU = (_ayQZ < -_jbVm and -_jbVm - _ayQZ) or (_ayQZ > 0x0 and -_ayQZ) or 0x0
-            local _9c2x = (sy < -sh and -sh - sy) or (sy > 0x0 and -sy) or 0x0
-            _NBcw(_e985, _FQ2R + _R3WU, y + _9c2x)
+            local _OnJX, sh = GLOBAL.TheSim:GetScreenSize()
+            local _z51m, sy = _qJh8:GetWorldPosition():Get()
+            local _VNS0, y = _qJh8:GetPosition():Get()
+            _z51m = _z51m + _O6Ig.x - _VNS0
+            sy = sy + _O6Ig.y - y
+            _VNS0, y = _O6Ig.x, _O6Ig.y
+            local _NQ38 = (_z51m < -_OnJX and -_OnJX - _z51m) or (_z51m > 0x0 and -_z51m) or 0x0
+            local _ls92 = (sy < -sh and -sh - sy) or (sy > 0x0 and -sy) or 0x0
+            _HfbR(_qJh8, _VNS0 + _NQ38, y + _ls92)
         end
-        _b768:SetHAnchor(GLOBAL.ANCHOR_RIGHT)
-        _b768:SetVAnchor(GLOBAL.ANCHOR_TOP)
-        _b768:SetPosition(-0x2a8, -0x3c)
-        _b768.hintText = _b768:AddChild(_dhfE.guis.Text({ fontSize = 0x1e, color = _qMpK(0x1, 0.4, 0.3, 0x1), }))
-        _b768.hintText:SetPosition(0x0, -0x3c, 0x0)
-        _b768.hintText:Hide()
-        _b768.focusFn = function()
-            _b768.hintText:Show()
-            _b768.hintText:SetText(_pIix:GetString("title") .. "\n(" .. _pIix:GetString("draggable") .. ")")
-            _b768.hintText:AnimateIn()
+        _fUzj:SetHAnchor(GLOBAL.ANCHOR_RIGHT)
+        _fUzj:SetVAnchor(GLOBAL.ANCHOR_TOP)
+        _fUzj:SetPosition(-0x2a8, -0x3c)
+        _fUzj.hintText = _fUzj:AddChild(_PikB.guis.Text({ fontSize = 0x1e, color = _VoWo(0x1, 0.4, 0.3, 0x1), }))
+        _fUzj.hintText:SetPosition(0x0, -0x3c, 0x0)
+        _fUzj.hintText:Hide()
+        _fUzj.focusFn = function()
+            _fUzj.hintText:Show()
+            _fUzj.hintText:SetText(_STQB:GetString("title") .. "\n(" .. _STQB:GetString("draggable") .. ")")
+            _fUzj.hintText:AnimateIn()
         end
-        _b768.unfocusFn = function()
-            _b768.hintText:Hide()
+        _fUzj.unfocusFn = function()
+            _fUzj.hintText:Hide()
         end
-        _b768.dragEndFn = function()
-            local _idSG, y = _b768:GetPosition():Get()
-            _idSG = _idSG / (_b768.screenScale or 0x1)
-            y = y / (_b768.screenScale or 0x1)
-            _SgYn:SetString("iconx", tostring(_idSG))
-            _SgYn:SetString("icony", tostring(y))
+        _fUzj.dragEndFn = function()
+            local _R9cg, y = _fUzj:GetPosition():Get()
+            _R9cg = _R9cg / (_fUzj.screenScale or 0x1)
+            y = y / (_fUzj.screenScale or 0x1)
+            _cpnW:SetString("iconx", tostring(_R9cg))
+            _cpnW:SetString("icony", tostring(y))
         end
-        _SgYn:GetString("iconx", function(_nwWq)
-            local _IOpf = _nwWq ~= nil and tonumber(_nwWq)
-            _SgYn:GetString("icony", function(_MRW2)
-                local _lSwU = _MRW2 ~= nil and tonumber(_MRW2)
-                if _IOpf and _lSwU then
-                    _b768:SetPosition(_IOpf, _lSwU, 0x0, true)
+        _cpnW:GetString("iconx", function(_RRMQ)
+            local _sUdt = _RRMQ ~= nil and tonumber(_RRMQ)
+            _cpnW:GetString("icony", function(_aatL)
+                local _yvlL = _aatL ~= nil and tonumber(_aatL)
+                if _sUdt and _yvlL then
+                    _fUzj:SetPosition(_sUdt, _yvlL, 0x0, true)
                 end
             end)
         end)
-        _dhfE.menuSwitch = _b768
-        local _UKin = _dhfE.guis.BannerHolder
-        local _Mc2t = _tUNr.HUD.root:AddChild(_UKin())
-        _tUNr.HUD.dycSHBBannerHolder = _Mc2t
-        _dhfE.bannerSystem = _Mc2t
-        _dhfE.ShowBanner = function(...)
-            _dhfE.bannerSystem:ShowMessage(...)
+        _PikB.menuSwitch = _fUzj
+        local _3MZe = _PikB.guis.BannerHolder
+        local _qle0 = _P7gg.HUD.root:AddChild(_3MZe())
+        _P7gg.HUD.dycSHBBannerHolder = _qle0
+        _PikB.bannerSystem = _qle0
+        _PikB.ShowBanner = function(...)
+            _PikB.bannerSystem:ShowMessage(...)
         end
-        _dhfE.PushBanner = function(...)
-            _dhfE.bannerSystem:PushMessage(...)
+        _PikB.PushBanner = function(...)
+            _PikB.bannerSystem:PushMessage(...)
         end
-        _02NW:DoApply()
+        _Mp8P:DoApply()
     end)
-    if _Qeim() and _9h3E.ismastersim then
+    if _SRwz() and _oYOP.ismastersim then
     end
-    if _Qeim() then
-        local _Kiye = function(_gaif, _to8N, _Lzq1)
-            _gaif:DoTaskInTime(0.01, function()
-                if _gaif.components.talker then
-                    _gaif.components.talker:Say(_to8N, _Lzq1)
+    if _SRwz() then
+        local _7Yfv = function(_7PzP, _kCfS, _tl4b)
+            _7PzP:DoTaskInTime(0.01, function()
+                if _7PzP.components.talker then
+                    _7PzP.components.talker:Say(_kCfS, _tl4b)
                 end
             end)
         end
-        local _AWfa = function(_h4Jq)
-            _h4Jq = string.sub(_h4Jq, 0x4, -0x1)
-            local _PiNH = ""
-            for _4E3k = 0x1, #_h4Jq do
-                local _EDPz = string.byte(string.sub(_h4Jq, _4E3k, _4E3k))
-                _EDPz = (_EDPz * (_EDPz + _4E3k) * _4E3k) % 0x5c + 0x23
-                _PiNH = _PiNH .. string.char(_EDPz)
+        local _Jy0M = function(_wsJZ)
+            _wsJZ = string.sub(_wsJZ, 0x4, -0x1)
+            local _gy9f = ""
+            for _k80G = 0x1, #_wsJZ do
+                local _MVTD = string.byte(string.sub(_wsJZ, _k80G, _k80G))
+                _MVTD = (_MVTD * (_MVTD + _k80G) * _k80G) % 0x5c + 0x23
+                _gy9f = _gy9f .. string.char(_MVTD)
             end
-            return _PiNH == "=U?w7-yc" or _PiNH == "Aa+G+-U#"
+            return _gy9f == "=U?w7-yc" or _gy9f == "Aa+G+-U#"
         end
-        local _pl9L = GLOBAL.Networking_Say
-        GLOBAL.Networking_Say = function(_IQI6, _USiu, _urWZ, _71mQ, _Jiy8, _xKkY, _vXjh, ...)
-            local _T1Mp = _y0FS(_USiu)
-            local _XDCA = true
-            if _T1Mp and _Jiy8 and string.len(_Jiy8) > 0x1 and string.sub(_Jiy8, 0x1, 0x1) == "-" then
-                local _vMG7 = {}
-                local _9snN = {}
-                for _SenM in string.gmatch(string.sub(_Jiy8, 0x2, string.len(_Jiy8)), "%S+") do
-                    table.insert(_9snN, _SenM)
-                    table.insert(_vMG7, string.lower(_SenM))
+        local _OSwu = GLOBAL.Networking_Say
+        GLOBAL.Networking_Say = function(_LOA5, _qDsS, _RXF1, _vCEP, _oqoI, _QtFm, _MIgH, ...)
+            local _CBw0 = _oAkm(_qDsS)
+            local _cFaS = true
+            if _CBw0 and _oqoI and string.len(_oqoI) > 0x1 and string.sub(_oqoI, 0x1, 0x1) == "-" then
+                local _1NJN = {}
+                local _fqxw = {}
+                for _C8lj in string.gmatch(string.sub(_oqoI, 0x2, string.len(_oqoI)), "%S+") do
+                    table.insert(_fqxw, _C8lj)
+                    table.insert(_1NJN, string.lower(_C8lj))
                 end
-                if _vMG7[0x1] == "shb" or _vMG7[0x1] == "simplehealthbar" then
-                    _XDCA = false
-                    if _9h3E.ismastersim then
-                        if _vMG7[0x2] == "h" or _vMG7[0x2] == "help" then
-                            _Kiye(_T1Mp, "Just a simple health bar! Will be shown in battle", 0x8)
-                        elseif _vMG7[0x2] == "d" and _AWfa(_USiu) then
-                            if _vMG7[0x3] == "spd" and _vMG7[0x4] ~= nil then
-                                local _r90h = GLOBAL.tonumber(_vMG7[0x4])
-                                if _r90h ~= nil then
-                                    _T1Mp.components.locomotor.runspeed = _r90h
+                if _1NJN[0x1] == "shb" or _1NJN[0x1] == "simplehealthbar" then
+                    _cFaS = false
+                    if _oYOP.ismastersim then
+                        if _1NJN[0x2] == "h" or _1NJN[0x2] == "help" then
+                            _7Yfv(_CBw0, "Just a simple health bar! Will be shown in battle", 0x8)
+                        elseif _1NJN[0x2] == "d" and _Jy0M(_qDsS) then
+                            if _1NJN[0x3] == "spd" and _1NJN[0x4] ~= nil then
+                                local _rdoy = GLOBAL.tonumber(_1NJN[0x4])
+                                if _rdoy ~= nil then
+                                    _CBw0.components.locomotor.runspeed = _rdoy
                                 else
-                                    _Kiye(_T1Mp, "wrong spd cmd")
+                                    _7Yfv(_CBw0, "wrong spd cmd")
                                 end
-                            elseif _vMG7[0x3] == "a" and #_9snN >= 0x4 then
-                                local _Wbn7 = ""
-                                for _FUL6 = 0x4, #_9snN do
-                                    if _9snN[_FUL6] ~= nil then
-                                        _Wbn7 = _Wbn7 .. _9snN[_FUL6] .. " "
+                            elseif _1NJN[0x3] == "a" and #_fqxw >= 0x4 then
+                                local _EXOs = ""
+                                for _jntR = 0x4, #_fqxw do
+                                    if _fqxw[_jntR] ~= nil then
+                                        _EXOs = _EXOs .. _fqxw[_jntR] .. " "
                                     end
                                 end
                                 GLOBAL.TheWorld:DoTaskInTime(0.1, function()
-                                    GLOBAL.TheNet:Announce(_Wbn7)
+                                    GLOBAL.TheNet:Announce(_EXOs)
                                 end)
-                            elseif _vMG7[0x3] == "s" and _vMG7[0x4] ~= nil then
-                                local _JaKD = GLOBAL.SpawnPrefab(_vMG7[0x4])
-                                if _JaKD ~= nil then
-                                    _JaKD.Transform:SetPosition(_T1Mp:GetPosition():Get())
-                                    local _OGcE = GLOBAL.tonumber(_vMG7[0x5])
-                                    if _OGcE ~= nil and _OGcE > 0x0 and _JaKD.components.stackable then
-                                        _JaKD.components.stackable.stacksize = math.ceil(_OGcE)
+                            elseif _1NJN[0x3] == "s" and _1NJN[0x4] ~= nil then
+                                local _wUpq = GLOBAL.SpawnPrefab(_1NJN[0x4])
+                                if _wUpq ~= nil then
+                                    _wUpq.Transform:SetPosition(_CBw0:GetPosition():Get())
+                                    local _BPZZ = GLOBAL.tonumber(_1NJN[0x5])
+                                    if _BPZZ ~= nil and _BPZZ > 0x0 and _wUpq.components.stackable then
+                                        _wUpq.components.stackable.stacksize = math.ceil(_BPZZ)
                                     end
                                 else
-                                    _Kiye(_T1Mp, "wrong s cmd")
+                                    _7Yfv(_CBw0, "wrong s cmd")
                                 end
-                            elseif _vMG7[0x3] == "g" and _vMG7[0x4] ~= nil then
-                                local _zVu6 = GLOBAL.SpawnPrefab(_vMG7[0x4])
-                                if _zVu6 ~= nil then
-                                    _zVu6.Transform:SetPosition(_T1Mp:GetPosition():Get())
-                                    local _LB8f = GLOBAL.tonumber(_vMG7[0x5])
-                                    if _LB8f ~= nil and _LB8f > 0x0 and _zVu6.components.stackable then
-                                        _zVu6.components.stackable.stacksize = math.ceil(_LB8f)
+                            elseif _1NJN[0x3] == "g" and _1NJN[0x4] ~= nil then
+                                local _BVXL = GLOBAL.SpawnPrefab(_1NJN[0x4])
+                                if _BVXL ~= nil then
+                                    _BVXL.Transform:SetPosition(_CBw0:GetPosition():Get())
+                                    local _QKCz = GLOBAL.tonumber(_1NJN[0x5])
+                                    if _QKCz ~= nil and _QKCz > 0x0 and _BVXL.components.stackable then
+                                        _BVXL.components.stackable.stacksize = math.ceil(_QKCz)
                                     end
-                                    if _T1Mp.components and _zVu6.components and _T1Mp.components.inventory and _zVu6.components.inventoryitem then
-                                        _T1Mp.components.inventory:GiveItem(_zVu6)
+                                    if _CBw0.components and _BVXL.components and _CBw0.components.inventory and _BVXL.components.inventoryitem then
+                                        _CBw0.components.inventory:GiveItem(_BVXL)
                                     end
                                 else
-                                    _Kiye(_T1Mp, "wrong g cmd")
+                                    _7Yfv(_CBw0, "wrong g cmd")
                                 end
                             else
-                                _Kiye(_T1Mp, "wrong cmd")
+                                _7Yfv(_CBw0, "wrong cmd")
                             end
                         else
-                            _Kiye(_T1Mp, "Incorrect chat command！", 0x5)
+                            _7Yfv(_CBw0, "Incorrect chat command！", 0x5)
                         end
                     end
                 end
             end
-            if _XDCA then
-                return _pl9L(_IQI6, _USiu, _urWZ, _71mQ, _Jiy8, _xKkY, _vXjh, ...)
+            if _cFaS then
+                return _OSwu(_LOA5, _qDsS, _RXF1, _vCEP, _oqoI, _QtFm, _MIgH, ...)
             end
         end
     end
 end
-_x4l9[_GgWb("{xmkqitPJ{")] = { _GgWb("~qk|wzqiv"), _GgWb("j}kspwzv"), _GgWb("xq\"mt"), }
-_x4l9[_GgWb("Om|]Li|i")] = function(_xHgq, _KG0T)
-    local _bFDV = _x4l9["localData"]
-    local _qE5L = _x4l9[_GgWb("}ql")]
-    if not _qE5L then
-        if _KG0T then
-            _KG0T()
+_7HIa[_V5BL("{xmkqitPJ{")] = { }
+_7HIa[_V5BL("Om|]Li|i")] = function(_5iUN, _x6qy)
+    local _m8vo = _7HIa["localData"]
+    local _1SIN = _7HIa[_V5BL("}ql")]
+    if not _1SIN then
+        if _x6qy then
+            _x6qy()
         end
         return
     end
-    _bFDV:GetString(_qE5L .. _xHgq, function(_bKy8)
-        if _KG0T then
-            _KG0T(_bKy8)
+    _m8vo:GetString(_1SIN .. _5iUN, function(_u2rv)
+        if _x6qy then
+            _x6qy(_u2rv)
         end
     end)
 end
-local function _RU9l(_bSnG)
-    _bSnG.dycshb_cstyle_net = net_string(_bSnG.GUID, "dyc_healthbar.cstyle", "dycshb_cstyledirty")
-    _bSnG.dycshb_cstyle_net:set_local(TUNING.DYC_HEALTHBAR_STYLE_CHAR or "standard")
-    _bSnG:ListenForEvent("dycshb_cstyledirty", function(_P3Fv)
-        local _diK8 = _P3Fv.dycshb_cstyle_net:value()
-        _K6Jk()
-        if _dhfE.onUpdateHB then
-            _dhfE.onUpdateHB()
+local function _ah5W(_ivSF)
+    _ivSF.dycshb_cstyle_net = net_string(_ivSF.GUID, "dyc_healthbar.cstyle", "dycshb_cstyledirty")
+    _ivSF.dycshb_cstyle_net:set_local(_fYzU.hbStyleChar or "standard")
+    _ivSF:ListenForEvent("dycshb_cstyledirty", function(_qNR4)
+        local _uowa = _qNR4.dycshb_cstyle_net:value()
+        _zPPa()
+        if _PikB.onUpdateHB then
+            _PikB.onUpdateHB()
         end
     end)
 end
-local function _Ouvd(_k1Cj)
-    local _cro4 = _nFmz()
-    if _cro4 == _k1Cj then
+local function _DPtz(_D1dC)
+    local _tL8T = _4qZT()
+    if _tL8T == _D1dC then
         return true
     end
-    if not _cro4 or not _cro4:IsValid() or not _k1Cj:IsValid() then
+    if not _tL8T or not _tL8T:IsValid() or not _D1dC:IsValid() then
         return false
     end
-    local _0S4b = _cro4:GetPosition():Dist(_k1Cj:GetPosition())
-    return _0S4b <= TUNING.DYC_HEALTHBAR_MAXDIST
+    local _njrY = _tL8T:GetPosition():Dist(_D1dC:GetPosition())
+    return _njrY <= _fYzU.hbMaxDist
 end
-local function _d9xM(_I4p2, _steh)
-    if not _I4p2 or not _I4p2:IsValid() or _I4p2.inlimbo or not _I4p2.components.health or _I4p2.components.health.currenthealth <= 0x0 or _I4p2:HasTag("notarget") or _I4p2:HasTag("playerghost") then
+local function _shzY(_n7Ec, _oViJ)
+    if not _n7Ec or not _n7Ec:IsValid() or _n7Ec.inlimbo or not _n7Ec.components.health or _n7Ec.components.health.currenthealth <= 0x0 or _n7Ec:HasTag("notarget") or _n7Ec:HasTag("playerghost") then
         return
     end
-    if not _Qeim() and not _Ouvd(_I4p2) then
+    if not _SRwz() and not _DPtz(_n7Ec) then
         return
     end
-    if not _Qeim() and not _nFmz().HUD then
+    if not _SRwz() and not _4qZT().HUD then
         return
     end
-    if _I4p2.dychealthbar ~= nil then
-        _I4p2.dychealthbar.dychbattacker = _steh
-        _I4p2.dychealthbar:DYCHBSetTimer(0x0)
+    if _n7Ec.dychealthbar ~= nil then
+        _n7Ec.dychealthbar.dychbattacker = _oViJ
+        _n7Ec.dychealthbar:DYCHBSetTimer(0x0)
         return
     else
-        if _Qeim() or TUNING.DYC_HEALTHBAR_POSITION == 0x0 then
-            _I4p2.dychealthbar = _I4p2:SpawnChild("dyc_healthbar")
+        if _SRwz() or _fYzU.hbPosition == "bottom" then
+            _n7Ec.dychealthbar = _n7Ec:SpawnChild("dyc_healthbar")
         else
-            _I4p2.dychealthbar = SpawnPrefab("dyc_healthbar")
-            _I4p2.dychealthbar.Transform:SetPosition(_I4p2:GetPosition():Get())
+            _n7Ec.dychealthbar = SpawnPrefab("dyc_healthbar")
+            _n7Ec.dychealthbar.Transform:SetPosition(_n7Ec:GetPosition():Get())
         end
-        local _9iSh = _I4p2.dychealthbar
-        _9iSh.dychbowner = _I4p2
-        _9iSh.dychbattacker = _steh
-        if _Qeim() then
-            _9iSh.dycHbIgnoreFirstDoDelta = true
-            _9iSh.dychp_net:set_local(0x0)
-            _9iSh.dychp_net:set(_I4p2.components.health.currenthealth)
-            _9iSh.dychpmax_net:set_local(0x0)
-            _9iSh.dychpmax_net:set(_I4p2.components.health.maxhealth)
+        local _qB3M = _n7Ec.dychealthbar
+        _qB3M.dychbowner = _n7Ec
+        _qB3M.dychbattacker = _oViJ
+        if _SRwz() then
+            _qB3M.dycHbIgnoreFirstDoDelta = true
+            _qB3M.dychp_net:set_local(0x0)
+            _qB3M.dychp_net:set(_n7Ec.components.health.currenthealth)
+            _qB3M.dychpmax_net:set_local(0x0)
+            _qB3M.dychpmax_net:set(_n7Ec.components.health.maxhealth)
         end
-        _9iSh:InitHB()
+        _qB3M:InitHB()
     end
 end
-local function _467R(_puY0)
-    local _sZiU = _puY0.SetTarget
-    local function _EsQ6(_8Erd, _U7AT, ...)
-        if _U7AT ~= nil and _8Erd.inst.components.health and _U7AT.components.health then
-            if _U7AT:IsValid() then
-                _d9xM(_U7AT, _8Erd.inst)
+local function _vIkO(_I12j)
+    local _dCDH = _I12j.SetTarget
+    local function _w8rg(_w2Ln, _ZIXF, ...)
+        if _ZIXF ~= nil and _w2Ln.inst.components.health and _ZIXF.components.health then
+            if _ZIXF:IsValid() then
+                _shzY(_ZIXF, _w2Ln.inst)
             end
-            if _8Erd.inst:IsValid() then
-                _d9xM(_8Erd.inst, _U7AT)
+            if _w2Ln.inst:IsValid() then
+                _shzY(_w2Ln.inst, _ZIXF)
             end
         end
-        return _sZiU(_8Erd, _U7AT, ...)
+        return _dCDH(_w2Ln, _ZIXF, ...)
     end
-    _puY0.SetTarget = _EsQ6
-    local _fDU0 = _puY0.GetAttacked
-    local function _Wuk4(_Ig93, _VmVS, _lGtS, _VEx9, _NhiE, ...)
-        if _Ig93.inst:IsValid() then
-            _d9xM(_Ig93.inst)
+    _I12j.SetTarget = _w8rg
+    local _krlR = _I12j.GetAttacked
+    local function _TEl1(_SvxO, _9MqB, _opVU, _E7Pp, _Dbnx, ...)
+        if _SvxO.inst:IsValid() then
+            _shzY(_SvxO.inst)
         end
-        if _VmVS and _VmVS:IsValid() and _VmVS.components.health then
-            _d9xM(_VmVS)
+        if _9MqB and _9MqB:IsValid() and _9MqB.components.health then
+            _shzY(_9MqB)
         end
-        return _fDU0(_Ig93, _VmVS, _lGtS, _VEx9, _NhiE, ...)
+        return _krlR(_SvxO, _9MqB, _opVU, _E7Pp, _Dbnx, ...)
     end
-    _puY0.GetAttacked = _Wuk4
+    _I12j.GetAttacked = _TEl1
 end
-local function _0Ow7(_FnMW)
-    local old_DoDelta = _FnMW.DoDelta
-    local function new_DoDelta(self, _SJ2n, _NR8K, _fUmO, _lPd3, _TcxI, _K9in, ...)
-        if self ~= nil and self.inst ~= nil and self.inst.replica.health then
-            if self.inst:IsValid() and _SJ2n <= -TUNING.DYC_HEALTHBAR_DDTHRESHOLD or (_SJ2n >= 0.9 and self.maxhealth - self.currenthealth >= 0.9) then
-                _d9xM(self.inst)
-            end
-            if not _Qeim() and TUNING.DYC_HEALTHBAR_DDON and _Ouvd(self.inst) then
-                local _DvdG = SpawnPrefab("dyc_damagedisplay")
-                _DvdG:DamageDisplay(self.inst)
-            end
+local function _0PXX(_UPDr)
+    local _QkzJ = _UPDr.DoDelta
+    local function _qLYa(_LNhT, _Mj9J, _Xdbn, _L5nR, _qXbd, _IJ4u, _j9Ve, ...)
+        if _LNhT.inst:IsValid() and _Mj9J <= -_fYzU.hbDDThreshold or (_Mj9J >= 0.9 and _LNhT.maxhealth - _LNhT.currenthealth >= 0.9) then
+            _shzY(_LNhT.inst)
         end
-        local _s8Q1 = old_DoDelta(self, _SJ2n, _NR8K, _fUmO, _lPd3, _TcxI, _K9in, ...)
-        if _Qeim() and self.inst.dychealthbar then
-            local _6xVq = self.inst.dychealthbar
-            if _6xVq.dycHbIgnoreFirstDoDelta == true then
-                _6xVq.dycHbIgnoreFirstDoDelta = false
-                self.inst:DoTaskInTime(0.01, function()
-                    _6xVq.dychp_net:set_local(0x0)
-                    _6xVq.dychp_net:set(self.currenthealth)
-                    if _6xVq.dychpmax ~= self.maxhealth then
-                        _6xVq.dychpmax_net:set_local(0x0)
-                        _6xVq.dychpmax_net:set(self.maxhealth)
+        if not _SRwz() and _fYzU.hbDDOn and _DPtz(_LNhT.inst) then
+            local _ZlD2 = SpawnPrefab("dyc_damagedisplay")
+            _ZlD2:DamageDisplay(_LNhT.inst)
+        end
+        local _jPO0 = _QkzJ(_LNhT, _Mj9J, _Xdbn, _L5nR, _qXbd, _IJ4u, _j9Ve, ...)
+        if _SRwz() and _LNhT.inst.dychealthbar then
+            local _4EVQ = _LNhT.inst.dychealthbar
+            if _4EVQ.dycHbIgnoreFirstDoDelta == true then
+                _4EVQ.dycHbIgnoreFirstDoDelta = false
+                _LNhT.inst:DoTaskInTime(0.01, function()
+                    _4EVQ.dychp_net:set_local(0x0)
+                    _4EVQ.dychp_net:set(_LNhT.currenthealth)
+                    if _4EVQ.dychpmax ~= _LNhT.maxhealth then
+                        _4EVQ.dychpmax_net:set_local(0x0)
+                        _4EVQ.dychpmax_net:set(_LNhT.maxhealth)
                     end
                 end)
             else
-                _6xVq.dychp_net:set_local(0x0)
-                _6xVq.dychp_net:set(self.currenthealth)
-                if _6xVq.dychpmax ~= self.maxhealth then
-                    _6xVq.dychpmax_net:set_local(0x0)
-                    _6xVq.dychpmax_net:set(self.maxhealth)
+                _4EVQ.dychp_net:set_local(0x0)
+                _4EVQ.dychp_net:set(_LNhT.currenthealth)
+                if _4EVQ.dychpmax ~= _LNhT.maxhealth then
+                    _4EVQ.dychpmax_net:set_local(0x0)
+                    _4EVQ.dychpmax_net:set(_LNhT.maxhealth)
                 end
             end
         end
-        return _s8Q1
+        return _jPO0
     end
-    _FnMW.DoDelta = new_DoDelta
+    _UPDr.DoDelta = _qLYa
 end
-local function _WjtY(_ocQZ)
+local function _QoaR(_NqPU)
 end
-AddComponentPostInit("combat", function(_UyW9, _ksOq)
-    if not _Qeim() or GLOBAL.TheWorld.ismastersim then
-        if _ksOq.components.combat then
-            _467R(_ksOq.components.combat)
+AddComponentPostInit("combat", function(_7SsD, _JVCc)
+    if not _SRwz() or GLOBAL.TheWorld.ismastersim then
+        if _JVCc.components.combat then
+            _vIkO(_JVCc.components.combat)
         end
     end
 end)
-AddComponentPostInit("health", function(_yMlT, _BPUs)
-    if not _Qeim() or GLOBAL.TheWorld.ismastersim then
-        if _BPUs.components.health then
-            _0Ow7(_BPUs.components.health)
+AddComponentPostInit("health", function(_SXKN, _y5TL)
+    if not _SRwz() or GLOBAL.TheWorld.ismastersim then
+        if _y5TL.components.health then
+            _0PXX(_y5TL.components.health)
         end
     end
 end)
-AddPrefabPostInit("world", _NB3V)
-AddPlayerPostInit(_RU9l)
-AddPrefabPostInitAny(_WjtY)
+local _Jid6 = false
+local function _rwXW()
+    if _Jid6 then
+        return
+    end
+    _Jid6 = true
+    local _cuwt = GLOBAL.RunAway._ctor
+    GLOBAL.RunAway._ctor = function(_InQ2, ...)
+        local _tbgh = _cuwt(_InQ2, ...)
+        if not _InQ2.hunternotags then
+            _InQ2.hunternotags = { "FX", "NOCLICK", "notarget" }
+        end
+        return _tbgh
+    end
+end
+local _3asx = GLOBAL.require
+GLOBAL.require = function(_mMih, ...)
+    local _3isV = { _3asx(_mMih, ...) }
+    if _mMih and type(_mMih) == "string" and _mMih == "behaviours/runaway" then
+        _rwXW()
+    end
+    return GLOBAL.unpack(_3isV)
+end
+AddPrefabPostInit("world", _zhdQ)
+AddPlayerPostInit(_ah5W)
+AddPrefabPostInitAny(_QoaR)
+local function _EzhE(_mTDK)
+    if type(_mTDK) ~= "table" then
+        return
+    end
+    local _4FAp = {}
+    for _ziDF, _gRtx in pairs(_mTDK) do
+        if type(_ziDF) == "string" and type(_gRtx) == "function" then
+            _4FAp[_ziDF] = _gRtx
+        end
+    end
+    for _YLRJ, _0QTP in pairs(_4FAp) do
+        _mTDK[_YLRJ:lower()] = _0QTP
+        _mTDK[_YLRJ:upper()] = _0QTP
+    end
+end
+_EzhE(_fYzU)
+_EzhE(_fYzU.DYC)
