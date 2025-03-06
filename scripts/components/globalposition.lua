@@ -73,11 +73,13 @@ local GlobalPosition = Class(function(self, inst)
 		self.inittask = nil
 		self.globalpositions = TheWorld.net.components.globalpositions
 		self.classified = self.globalpositions:AddServerEntity(self.inst)
-		if ((isplayer and _GLOBALPOSITIONS_SHOWPLAYERICONS)
+		if self.classified and ((isplayer and _GLOBALPOSITIONS_SHOWPLAYERICONS)
 		or (not isplayer and (self.inst.prefab:find("ping_") or _GLOBALPOSITIONS_SHOWFIREICONS))) then
 			AddGlobalIcon(inst, isplayer, self.classified)
 		end
-		self.inst:StartUpdatingComponent(self)			
+		if self.classified then
+			self.inst:StartUpdatingComponent(self)
+		end
 	end)
 end,
 nil,

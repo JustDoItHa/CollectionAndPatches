@@ -90,6 +90,9 @@ end
 
 function GlobalPositions:AddServerEntity(inst)
 	local classified = SpawnPrefab("globalposition_classified")
+	if not classified then
+		return classified
+	end
 	self.positions[inst.GUID] = classified
 	classified.parentprefab:set(inst.prefab or "")
 	classified.parententity:set(inst)
