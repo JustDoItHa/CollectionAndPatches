@@ -130,10 +130,10 @@ end
 _jC0j.DYCRequire = _gp5v
 _jC0j.DYCModRequire = _VLhB
 _jC0j.cfgs = {}
-MODCONFIG = MODCONFIG or GLOBAL.KnownModIndex.GetModConfigurationOptions and GLOBAL.KnownModIndex:GetModConfigurationOptions(modname) or GLOBAL.KnownModIndex:GetModConfigurationOptions_Internal(modname)
+MODCONFIG = MODCONFIG or GLOBAL.KnownModIndex.GetModConfigurationOptions and GLOBAL.KnownModIndex:GetModConfigurationOptions(TUNING.CAP_MOD_NAME) or GLOBAL.KnownModIndex:GetModConfigurationOptions_Internal(TUNING.CAP_MOD_NAME)
 if MODCONFIG then
     for _6wql, _K3q8 in pairs(MODCONFIG) do
-        if _K3q8.name then
+        if _K3q8 and type(_K3q8) == "table" and _K3q8.name then
             _jC0j.cfgs[_K3q8.name] = GetModConfigData(_K3q8.name)
         end
     end
