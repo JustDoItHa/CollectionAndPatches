@@ -1,5 +1,9 @@
 local function AddGlobalIcon(inst, isplayer, classified)
-	if not (_GLOBALPOSITIONS_MAP_ICONS[inst.prefab] or inst.MiniMapEntity) then return end
+	if not TUNING._GLOBALPOSITIONS_MAP_ICONS then
+		return
+	end
+
+	if not (TUNING._GLOBALPOSITIONS_MAP_ICONS[inst.prefab] or inst.MiniMapEntity) then return end
 	classified.icon = SpawnPrefab("globalmapicon_noproxy")
 	classified.icon.MiniMapEntity:SetPriority(10)
 	classified.icon.MiniMapEntity:SetRestriction("player")
@@ -19,8 +23,8 @@ local function AddGlobalIcon(inst, isplayer, classified)
 		classified.icon.MiniMapEntity:CopyIcon(inst.MiniMapEntity)
 		classified.icon2.MiniMapEntity:CopyIcon(inst.MiniMapEntity)
 	else
-		classified.icon.MiniMapEntity:SetIcon(_GLOBALPOSITIONS_MAP_ICONS[inst.prefab])
-		classified.icon2.MiniMapEntity:SetIcon(_GLOBALPOSITIONS_MAP_ICONS[inst.prefab])
+		classified.icon.MiniMapEntity:SetIcon(TUNING._GLOBALPOSITIONS_MAP_ICONS[inst.prefab])
+		classified.icon2.MiniMapEntity:SetIcon(TUNING._GLOBALPOSITIONS_MAP_ICONS[inst.prefab])
 	end
 	classified:AddChild(classified.icon)
 	classified:AddChild(classified.icon2)
@@ -30,8 +34,8 @@ local function AddMapRevealer(inst)
 	if not inst.components.maprevealer then
 		inst:AddComponent("maprevealer")
 	end
-	if _GLOBALPOSITIONS_COMPLETESYNC_UPDADTEFREQUENCY then
-		inst.components.maprevealer.revealperiod = _GLOBALPOSITIONS_COMPLETESYNC_UPDADTEFREQUENCY
+	if TUNING._GLOBALPOSITIONS_COMPLETESYNC_UPDADTEFREQUENCY then
+		inst.components.maprevealer.revealperiod = TUNING._GLOBALPOSITIONS_COMPLETESYNC_UPDADTEFREQUENCY
 	else
 		print("[global position (CompleteSync)] failed to set custom revealperiod")
 	end
@@ -50,15 +54,15 @@ local GlobalPosition = Class(function(self, inst)
 	if isplayer then
 		AddMapRevealer(inst)
 		self.respawnedfromghostfn = function()
-			if self.classified~=nil then
+			if self.classified~=nil and self.classified.icon ~=nil then
 				self.classified.icon.MiniMapEntity:SetIsFogRevealer(true) self.classified.icon:AddTag("fogrevealer")
 				self.classified.icon2.MiniMapEntity:SetIsFogRevealer(true) self.classified.icon2:AddTag("fogrevealer")
 			end
-			self:SetMapSharing(_GLOBALPOSITIONS_SHAREMINIMAPPROGRESS)
+			self:SetMapSharing(TUNING._GLOBALPOSITIONS_SHAREMINIMAPPROGRESS)
 			self:PushPortraitDirty()
 		end
 		self.becameghostfn = function()
-			if self.classified~=nil then
+			if self.classified~=nil and self.classified.icon then
 				self.classified.icon.MiniMapEntity:SetIsFogRevealer(false) self.classified.icon:RemoveTag("fogrevealer")
 				self.classified.icon2.MiniMapEntity:SetIsFogRevealer(false) self.classified.icon2:RemoveTag("fogrevealer")
 			end
@@ -73,8 +77,8 @@ local GlobalPosition = Class(function(self, inst)
 		self.inittask = nil
 		self.globalpositions = TheWorld.net.components.globalpositions
 		self.classified = self.globalpositions:AddServerEntity(self.inst)
-		if self.classified and ((isplayer and _GLOBALPOSITIONS_SHOWPLAYERICONS)
-		or (not isplayer and (self.inst.prefab:find("ping_") or _GLOBALPOSITIONS_SHOWFIREICONS))) then
+		if self.classified and ((isplayer and TUNING._GLOBALPOSITIONS_SHOWPLAYERICONS)
+		or (not isplayer and (self.inst.prefab:find("ping_") or TUNING._GLOBALPOSITIONS_SHOWFIREICONS))) then
 			AddGlobalIcon(inst, isplayer, self.classified)
 		end
 		if self.classified then
