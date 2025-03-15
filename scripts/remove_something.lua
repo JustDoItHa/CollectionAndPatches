@@ -103,6 +103,21 @@ local remove_table = {
                                        "tz_fh_fishgirl",
                                        "tz_hong"},
 
+    remove_xukongyijie_taila_baoshishu = { "baoshijingcu",
+                                       "hongbaoshiguo",
+                                       "chengbaoshiguo",
+                                       "huangbaoshiguo",
+                                       "lvbaoshiguo",
+                                       "lanbaoshiguo",
+                                       "zibaoshiguo",
+                                       "hongbaoshishu",
+                                       "chengbaoshishu",
+                                       "huangbaoshishu",
+                                       "lvbaoshishu",
+                                       "lanbaoshishu",
+                                       "zibaoshishu",},
+
+
 
     --remove_heap_of_food_bird = { "quagmire_pigeon", "toucan", "kingfisher" },
 }

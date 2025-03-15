@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.2.13.0"
+version = "14.2.14.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1540,6 +1540,7 @@ CAP_REMOVE_SOMETHING_LIST_CONFIG = {
     { "remove_krm_spirit_crystal", "时崎狂三的二亚的灵结晶", "可开启创造模式", disappear_magic, 300 },
     { "remove_krm_book", "时崎狂三的嗫眚篇帙", "随机效果", disappear_magic, 300 },
     { "remove_taizhen_personal_fanhao", "太真专属番号", "限制太真的专属番号", disappear_magic, -1 },
+    { "remove_xukongyijie_taila_baoshishu", "虚空异界(泰拉)", "限制泰拉的宝石/树", disappear_magic, -1 },
 }
 
 configuration_options[#configuration_options + 1] = AddOptionHeader("物品/生物禁用")
