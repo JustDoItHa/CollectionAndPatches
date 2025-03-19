@@ -44,45 +44,52 @@ if chestB == -1 then
 	if (chestB == -1) then chestB = 1 end
 end
 --print('RGB CHEST',chestR,chestG,chestB)
---new derived from id=2188103687
-local show_buddle_item = tonumber(GetModConfigData("show_buddle_item",true)) or 1
-if show_buddle_item == 1 then
-	show_buddle_item = tonumber(GetModConfigData("show_buddle_item")) or 1
-end
-local item_info_mod = tonumber(GetModConfigData("item_info_mod",true)) or 0
-if item_info_mod == 0 then
-	item_info_mod = tonumber(GetModConfigData("item_info_mod")) or 0
-end
---Название на английском, краткая сетевая строка-алиас (для пересылки).
---Если алиас начинается с маленькой буквы, то он обязан быть длиной в 1 букву. Если с большой, то 2 (вторая буква может быть любого регистра).
-
-
 
 ----------------------------傳說覺悟 翻译，请勿搬运WeGame，为避免出现多个相同模组----------------------------
 ------------------------------------------- HOST & CLIENT AGAIN ---------------------------------------------
 
---Обработка сундуков
+--处理箱子模块
 do
 	local MAIN_VAR_NAME = 'net_ShowMe_chest';
 	local NETVAR_NAME = 'ShowMe_chestlq_.'; -- hash value: 983115,  Ratio: 0.000983115
 	local EVENT_NAME = 'ShowMe_chest_dirty';
 	--[[
-	If you want add your custom chest, use this code:
+	--致模组开发者: 你的模组容器可使用以下代码，实现与ShowMe联动容器高亮。	--源开发者 Star 留
 		TUNING.MONITOR_CHESTS = TUNING.MONITOR_CHESTS or {}
-		TUNING.MONITOR_CHESTS.chestprefab = true
+		TUNING.MONITOR_CHESTS.chestprefab = true	-- chestprefab 即你的容器代码名称
+
+	--多容器模式, 优先级高低判断可同时加上
+	--优先级高于 ShowMe
+		TUNING.MONITOR_CHESTS = TUNING.MONITOR_CHESTS or {}
+		for _, v in ipairs(容器列表) do
+			TUNING.MONITOR_CHESTS[v] = true
+		end
+
+	--优先级低于 ShowMe
+		for k, m in pairs(ModManager.mods) do
+			if m and _G.rawget(m, "SHOWME_STRINGS") then
+				if m.postinitfns and m.postinitfns.PrefabPostInit and m.postinitfns.PrefabPostInit.treasurechest then
+					for _,v in ipairs(容器列表) do
+						m.postinitfns.PrefabPostInit[v] = m.postinitfns.PrefabPostInit.treasurechest
+					end
+				end
+				break
+			end
+		end
 	--]]
-	local MONITOR_CHESTS = { treasurechest=1, dragonflychest=1, skullchest=1, pandoraschest=1, minotaurchest=1,
+	--拿起物品箱子颜色显示的容器列表
+	local MONITOR_CHESTS = { treasurechest=1, dragonflychest=1, pandoraschest=1, minotaurchest=1, --skullchest=1,
 		--bundle=1, --No container component. =\
-							 icebox=1, cookpot=1, -- No cookpot because it may be changed.
-							 chester=1, hutch=1,
-							 largechest=1, largeicebox=1, --Large Chest mod.
+							 icebox=1, cookpot=1, -- 冰箱、烹饪锅.
+							 chester=1, hutch=1, beargerfur_sack=1,  --小妾、哈奇、极地熊灌桶
+							 largechest=1, largeicebox=1, bookstation=1, wardrobe=1, --暗妾(已失效)、冰妾、书架、衣柜.
 							 safebox=1, safechest=1, safeicebox=1, --Safe mod.
 							 red_treasure_chest=1, purple_treasure_chest=1, green_treasure_chest=1, blue_treasure_chest=1, --Treasure Chests mod.
-							 backpack=1, candybag=1, icepack=1, piggyback=1, krampus_sack=1, seedpouch=1,
+							 backpack=1, candybag=1, icepack=1, piggyback=1, krampus_sack=1, seedpouch=1, spicepack=1,
 							 venus_icebox=1, chesterchest=1, --SL mod
 							 saltbox=1, wobybig=1, wobysmall=1, mushroom_light=1, mushroom_light2=1, fish_box=1, supertacklecontainer=1, tacklecontainer=1, archive_cookpot=1,
-							 portablecookpot=1, sacred_chest=1,  --new
-							 storeroom=1, alchmy_fur=1, myth_granary=1, hiddenmoonlight=1,--myth mod -- pill_bottle_gourd=1丹药葫芦,
+							 portablecookpot=1, portablespicer=1, sacred_chest=1, boat_ancient_container=1, --便携锅, 香料站, 远古箱, 古董船
+							 storeroom=1, alchmy_fur=1, myth_granary=1, hiddenmoonlight=1, coffin=1, grave=1, musha_rpice=1, musha_tallrrrrrice=1, musha_tallrrrrice=1, musha_tallrrrice=1, hiddenmoonlight_inf=1, chest_whitewood_inf=1, chest_whitewood_big_inf=1, --pill_bottle_gourd=1, --丹药葫芦会崩 神话代码加密 无解
 							 ro_bin=1, roottrunk_child=1, corkchest=1, smelter=1, --Hamlet
 							 thatchpack=1, packim=1, cargoboat=1, piratepack=1, --SW
 	}
@@ -91,10 +98,10 @@ do
 			MONITOR_CHESTS[k] = 1
 		end
 	end
-	local _active --Текущий предмет в курсоре (на клиенте).
-	local _ing_prefab --Ингредиент. Через 5 секунд убирается.
+	local _active --光标中的当前项目（在客户端上）。
+	local _ing_prefab --成分，5 秒后将其移除。
 	local net_string = _G.net_string
-	local chests_around = {} --Массив всех сундуков в радиусе видимости клиента. Для хоста - все сундуки, но это норм.
+	local chests_around = {} --客户端可见范围内的所有箱子的数组。 对于主机来说——都是箱子，但这很正常。
 
 	--[[
 	_G.showme_count_chests = function() --debug function
@@ -106,7 +113,7 @@ do
 	end
 	--]]
 
-	local function OnClose(inst) --,err) --При закрытии сундука посылаем новые данные клиенту о его содержимом.
+	local function OnClose(inst) --,err) --关闭箱子时，我们会向客户端发送有关其内容的新数据。
 		local c = inst.components.container
 		if not c then
 			--[[if type(err) ~= "number" then err=nil end
@@ -135,7 +142,7 @@ do
 			inst[MAIN_VAR_NAME]:set('')
 			return
 		end
-		local arr = {} -- [префаб]=true
+		local arr = {} -- [预制件]=true
 		--[[ Отрывок из предыдущего сочинения (чтобы знать, что там происходит):
 		if c.unwrappable and c.unwrappable.itemdata and type(c.unwrappable.itemdata) == 'table' then
 			--По одной строке на каждый предмет.
@@ -153,22 +160,21 @@ do
 			local u = v.components and v.components.unwrappable
 			if u and u.itemdata then
 				for i,v in ipairs(u.itemdata) do
-					arr[v.prefab] = true --Добавляем префаб в упаковке.
+					arr[v.prefab] = true --将预制件添加到包中。
 				end
 			end
 		end
 		local s
 		for k in pairs(arr) do
 			if s then
-				s = s .. ' ' .. k --Только пробельные символы будут далее работать.
+				s = s .. ' ' .. k --只有空白字符才可以继续工作。
 			else
 				s = k
 			end
 		end
-		inst[MAIN_VAR_NAME]:set(s) --Посылаем данные.
+		inst[MAIN_VAR_NAME]:set(s) --发送数据
 	end
-
-	--Обновляет подсветку сундука. Функция должна сама узнавать, что в руке игрока.
+	--更新箱子高亮，该功能本身必须识别玩家手中的东西。
 	local function UpdateChestColor(inst)
 		local in_container = inst.ShowMe_chest_table and (
 				(_active and inst.ShowMe_chest_table[_active.prefab])
@@ -179,7 +185,10 @@ do
 				if inst.ShowMeColor then
 					inst.ShowMeColor(true)
 				else
-					inst.AnimState:SetMultColour(1,1,1,1) --По умолчанию.
+					if inst.AnimState ~= nil then
+						inst.AnimState:SetMultColour(1,1,1,1) --默认颜色RGBA
+						inst.AnimState:SetLightOverride(0)
+					end
 					inst.b_ShowMe_changed_color = nil
 				end
 			end
@@ -188,7 +197,10 @@ do
 				if inst.ShowMeColor then
 					inst.ShowMeColor(false)
 				else
-					inst.AnimState:SetMultColour(chestR,chestG,chestB,1)
+					if inst.AnimState ~= nil then
+						inst.AnimState:SetMultColour(chestR,chestG,chestB,1)
+						inst.AnimState:SetLightOverride(.5)		--给箱子添加光覆盖，让夜间也能看清，50%亮度可以在月圆或去色夜空中还能有显示
+					end
 					inst.b_ShowMe_changed_color = true
 				end
 			end
@@ -207,7 +219,7 @@ do
 		for w in string.gmatch(str, "%S+") do
 			t[w] = true
 		end
-		UpdateChestColor(inst) --Перерисовывает данный конкретный сундук, если изменилось его содержимое.
+		UpdateChestColor(inst) --如果其内容发生变化，则重新绘制该特定箱子。
 	end
 
 	local function InitChest(inst)
@@ -225,15 +237,15 @@ do
 			return
 		end
 		inst:ListenForEvent("onclose", OnClose)
-		inst:ListenForEvent("itemget", OnClose) --Для рюкзаков.
+		inst:ListenForEvent("itemget", OnClose) --用于背包
 		--There is inject in SmarterCrockPot!! : ContainerWidget.old_on_item_lose = ContainerWidget.OnItemLose
 		inst:ListenForEvent("itemlose", OnClose)
 		inst:DoTaskInTime(0,function(inst)
-			OnClose(inst) --Изначально тоже посылаем данные, а не только при закрытии. Ведь сундук мог быть загружен.
+			OnClose(inst) --不仅仅只在关闭时发送数据，毕竟箱子本来可以装东西的。
 		end)
 	end
 
-	for k in pairs(MONITOR_CHESTS) do
+	for k in pairs(MONITOR_CHESTS) do	--添加API
 		AddPrefabPostInit(k,InitChest)
 	end
 	--Фиксим игрока, чтобы мониторить действия курсора.
@@ -270,8 +282,38 @@ do
 		local old_OnGainFocus = ingredientui.OnGainFocus
 
 		function ingredientui:OnGainFocus(...)
-			local prefab = self.ing and self.ing.texture and self.ing.texture:match('[^/]+$'):gsub('%.tex$', '')
-			local player = self.parent and self.parent.parent and self.parent.parent.owner
+			--print("self.ing.texture:", self.ing.texture, type(self.ing.texture))
+			--从 self.ing.texture 中提取文件名，并去掉 .tex 扩展名
+			--'[^/]+$' 是一个正则表达式，它的含义是：
+			--[^/]: 匹配除了 / 之外的任意字符。
+			--+: 匹配前面的模式（[^/]）一次或多次。
+			--$: 匹配字符串的末尾，就是文件名（包括扩展名）。
+			--'%.tex$' 是一个正则表达式，它的含义是：
+			--%.: 匹配一个点（.），因为 . 在正则表达式中有特殊含义，所以需要用 % 转义。
+			--tex: 匹配字符串 tex。
+			--$: 匹配字符串的末尾，gsub('%.tex$', '')是将匹配的.tex转换为空字符串''
+			local prefab
+			if self.ing and self.ing.texture and type(self.ing.texture) == "string" then
+				prefab = self.ing.texture:match('[^/]+$'):gsub('%.tex$', '')
+			end
+			--处理多层parent
+			local function gfpar(obj, visited)
+				visited = visited or {}  -- 初始化访问记录表
+				if not obj then
+					return nil	--如果 obj 是 nil，表示已经到达链的末尾，返回 nil
+				end
+				if visited[obj] then
+					return nil  -- 如果已经访问过该对象，避免循环
+				end
+				visited[obj] = true  -- 标记当前对象为已访问
+				if obj.owner then
+					return obj.owner	--如果 obj.owner 存在，直接返回 owner
+				end
+				return gfpar(obj.parent, visited)  -- 如果没找到owner，则继续递归查找
+			end
+
+			-- 使用递归函数, 通过 gfpar(self) 从当前对象 self 开始查找 owner
+			local player = gfpar(self)
 
 			if prefab and player then
 				--print("INGREDIENT:",prefab)
