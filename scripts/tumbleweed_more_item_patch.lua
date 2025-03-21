@@ -339,6 +339,81 @@ cap_yln_resources = {--魔女
 cap_yyxk_resources = {--夜雨心空
     { chance = .001, item = "yyxk_magic_seal", aggro = false, announce = true }, --魔法豹印
 }
+
+cap_mcw_resources = {
+    { chance = .0001, item = "mcw_skirt", aggro = false, announce = true }, --镜华的时装
+    { chance = .0001, item = "mcw_hat", aggro = false, announce = true },--镜华的变装帽
+    { chance = .0001, item = "mcw_icetearribbon", aggro = false, announce = true },--细冰姬的蝴蝶结
+    { chance = .0001, item = "mcw_bag", aggro = false, announce = true },--镜华的包
+    { chance = .0001, item = "mcw_magic_armor", aggro = false, announce = true },--魔力轻甲
+    { chance = .0001, item = "mcw_nocturne_brooch", aggro = false, announce = true },--新月的叹息
+    { chance = .0001, item = "mcw_medal_maigo", aggro = false, announce = true },--迷子勋章
+    { chance = .0001, item = "mcw_rankfragment", aggro = false, announce = true },--rank装备碎片
+    { chance = .0001, item = "mcw_masterfragment", aggro = false, announce = true },--大师宝珠碎片
+
+    { chance = .00001, item = "mcw_exequipmentmid", aggro = false, announce = true },--无尽蚀月礼服
+    --{ chance = .00001, item = "mcw_nebia", aggro = false, announce = true },--涅比亚
+    { chance = .00001, item = "mcw_exequipmentleft", aggro = false, announce = true },--霸瞳神杖_杖
+
+    { chance = .0001, item = "mcw_jadestaff", aggro = false, announce = true },--翠灵杖符文之雪
+    { chance = .0001, item = "mcw_lollipopstaff", aggro = false, announce = true },--棒棒糖手杖
+    { chance = .0001, item = "mcw_magicbow", aggro = false, announce = true },--破邪灵弓
+    { chance = .0001, item = "mcw_cosmobluestaff", aggro = false, announce = true },--宇宙之蓝法杖
+    { chance = .0001, item = "mcw_blossomstaff", aggro = false, announce = true },--春日繁花之杖
+    { chance = .0001, item = "mcw_snowflakestaff", aggro = false, announce = true },--冰雪花晶之杖
+    { chance = .0001, item = "mcw_kirakira", aggro = false, announce = true },--奇迹♬KIRA☆KIRA☆棱镜棒
+    { chance = .0001, item = "mcw_elementspear", aggro = false, announce = true },--元素战矛
+    { chance = .0001, item = "mcw_bunnyblade", aggro = false, announce = true },--兔子先生之刃
+    { chance = .0001, item = "mcw_elementsword", aggro = false, announce = true },--元素升腾者
+    { chance = .0001, item = "mcw_butterflystaff", aggro = false, announce = true },--优雅翠蝶之杖
+    { chance = .0001, item = "mcw_queen_console", aggro = false, announce = true },--仿·迷宫女王的操作盘
+    { chance = .0001, item = "mcw_catstaff", aggro = false, announce = true },--万圣猫咪先生扫帚
+
+    { chance = .0001, item = "mcw_messagebottle", aggro = false, announce = true },--漂流瓶
+    { chance = .0001, item = "mcw_snack_sack", aggro = false, announce = true },--镜华的魔法零食袋
+    { chance = .0001, item = "mcw_gembox", aggro = false, announce = true },--神秘宝石箱
+    { chance = .0001, item = "mcw_cheapbesom", aggro = false, announce = true },--更便宜的清洁扫把
+    { chance = .0001, item = "mcw_battlescroll_sj", aggro = false, announce = true },--战技卷轴-未鉴定
+    { chance = .0001, item = "mcw_skillbook_sj", aggro = false, announce = true },--护盾技能书-未鉴定
+
+    { chance = .0001, item = "mcw_birthdaycake", aggro = false, announce = true },--镜华的生日蛋糕
+    { chance = .0001, item = "mcw_bonsai", aggro = false, announce = true },--枫树盆栽
+    { chance = .0001, item = "mcw_vase", aggro = false, announce = true },--花盆
+    { chance = .001, item = "mcw_desk_lamp", aggro = false, announce = true },--精致的蔷薇灯
+    { chance = .0001, item = "mcw_icebox", aggro = false, announce = true },--贝壳冰箱
+    { chance = .0001, item = "mcw_ street _lamp", aggro = false, announce = true },--童话街灯
+    { chance = .0001, item = "mcw_desk_lamp", aggro = false, announce = true },--精致的玫瑰灯
+    { chance = .0001, item = "mcw_bubble", aggro = false, announce = true },--海洋泡泡
+    { chance = .0001, item = "mcw_cookpot_item", aggro = false, announce = true },--深海魔珠
+    { chance = .0001, item = "mcw_phonograph", aggro = false, announce = true },--记忆留声机
+    { chance = .0001, item = "mcw_sculpture_carmina", aggro = false, announce = true },--慈乐之音雕像
+    { chance = .0001, item = "mcw_giftcase", aggro = false, announce = true },--镜华的礼物盒
+    { chance = .0001, item = "mcw_worldtree_branch", aggro = false, announce = true },--世界树之枝
+
+    { chance = .0001, item = "turf_mcw_carmina", aggro = false, announce = true },--慈乐之音地板
+    { chance = .0001, item = "turf_mcw_road", aggro = false, announce = true },--石砖地板
+    { chance = .0001, item = "turf_mc_mangrove", aggro = false, announce = true },--红树林地板
+    { chance = .0001, item = "turf_mc_grass", aggro = false, announce = true },--草地地皮
+
+    { chance = .0005, item = "mcw_fruit_tea", aggro = false, announce = true },--鲜花果茶
+    { chance = .0005, item = "mcw_seafood_boxedmeal", aggro = false, announce = true },--海鲜便当
+    { chance = .0005, item = "mcw_schnitzel", aggro = false, announce = true },--炸肉排
+    { chance = .0005, item = "mcw_fruit_icecream", aggro = false, announce = true },--水果冰淇淋
+    { chance = .0005, item = "mcw_pudding", aggro = false, announce = true },--镜华布丁
+    { chance = .0005, item = "mcw_lovecake", aggro = false, announce = true },--爱心蛋糕
+    { chance = .0005, item = "mcw_cupcake", aggro = false, announce = true },--纸杯蛋糕
+    { chance = .0005, item = "mcw_shrimp_rice_ball", aggro = false, announce = true },--虾饭团
+    { chance = .0005, item = "mcw_braised_thick_fish", aggro = false, announce = true },--歪嘴鲷鱼烧
+}
+
+-- 传奇武器 附魔
+cap_chuanqiwuqi_resources = {
+    { chance = .001, item = "hh_remove_stone", announce = true }, --洗蕴石
+    { chance = .001, item = "hh_effect_tally", announce = true }, --普通附魔卷轴
+    { chance = .001, item = "hh_essence", announce = true }, --水晶道具
+    --{ chance = .001, item = "hh_duck_box", announce = true }, --鸭鸭盒子
+    --{ chance = .001, item = "hh_cat_box", announce = true }, --附魔盒子
+}
 --TUNING.TUMBLEWEED_RESOURCES_EXPAND.lengjing_resources = {--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
 --    resourcesList = {
 --        --资源列表，可加多条，每条之间用英文逗号隔开
@@ -502,8 +577,51 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
             weightClass = "goodMax", --权重等级(选填，填了后掉率会随玩家幸运值变化,不填掉率不会随幸运值浮动)
         }
     end
+    ------------------------------------------------------------------------------
+    if TUNING.MCW_MOD_ENABLE then
+        local cap_mcw_resources_tmp = {}
+        for i, v in pairs(cap_yln_resources) do
+            local innner_item = {}
+            innner_item.chance = tumbleweed_item_rates_l * v.chance
+            innner_item.item = v.item
+            innner_item.aggro = v.aggro
+            innner_item.announce = v.announce
+            if v.season ~= nil then
+                innner_item.season = v.season
+            else
+                innner_item.season = 15
+            end
+            cap_mcw_resources_tmp[i] = innner_item
+        end
+        TUNING.TUMBLEWEED_RESOURCES_EXPAND.cap_mcw_resources = {--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
+            resourcesList = cap_mcw_resources_tmp,
+            multiple = 1, --倍率(选填，不填默认为1)
+            weightClass = "goodMax", --权重等级(选填，填了后掉率会随玩家幸运值变化,不填掉率不会随幸运值浮动)
+        }
+    end
+    ------------------------------------------------------------------------------
+    if TUNING.CHUANQIWUQI_MOD_ENABLE then
+        local cap_chuanqiwuqi_resources_tmp = {}
+        for i, v in pairs(cap_yln_resources) do
+            local innner_item = {}
+            innner_item.chance = tumbleweed_item_rates_l * v.chance
+            innner_item.item = v.item
+            innner_item.aggro = v.aggro
+            innner_item.announce = v.announce
+            if v.season ~= nil then
+                innner_item.season = v.season
+            else
+                innner_item.season = 15
+            end
+            cap_chuanqiwuqi_resources_tmp[i] = innner_item
+        end
+        TUNING.TUMBLEWEED_RESOURCES_EXPAND.cap_chuanqiwuqi_resources = {--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
+            resourcesList = cap_chuanqiwuqi_resources_tmp,
+            multiple = 1, --倍率(选填，不填默认为1)
+            weightClass = "goodMax", --权重等级(选填，填了后掉率会随玩家幸运值变化,不填掉率不会随幸运值浮动)
+        }
+    end
 end
-
 --
 -----极地诅咒，清空物品栏
 --function test_remove(player)

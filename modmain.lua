@@ -104,6 +104,7 @@ TUNING.MIAO_PACKBOX_ENABLE = modenable({ "1545370686", "Packbox(miao) (sua khoan
 --TUNING.TROPICAL_ENABLE = modenable({ "1505270912", "热带体验 | 海难哈姆雷特生态：来自域外" },{"2986194136","热带冒险：乘风破浪！"})
 TUNING.TROPICAL_ENABLE = modenable({"2986194136","热带冒险：乘风破浪！"})
 TUNING.LEGEND_AND_SEA_ENABLE = modenable({"2979177306","[DST]海洋传说-Legend and sea"})
+TUNING.CHUANQIWUQI_MOD_ENABLE = modenable({"3096210166","传奇武器-附魔强化"})
 -----------------------------
 TUNING.DEATH_COUNTER_SHOW_TITLE = GetModConfigData("death_counter_show_title")
 ---限制打包物品
