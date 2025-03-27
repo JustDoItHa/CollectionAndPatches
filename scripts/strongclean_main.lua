@@ -107,12 +107,7 @@ local strongcleanlist = {
     -- "shyerrytree3", --颤栗树
     -- "shyerrytree4", --颤栗树
     "redpouch_yot_catcoon",
-    -- "alterguardian_phase1",            --天体英雄形态1
-    -- "alterguardian_phase2",            --天体英雄形态2
-    -- "alterguardian_phase3",            --天体英雄形态3
-    -- "alterguardian_phase3dead",        --被击败的天体英雄
-    -- "dustmothde", --尘蛾的窝
-    -- "malbatross", --邪天翁
+
 }
 
 local cleanmaxnum = { --世界保留数量最大值 堆叠物判断懒得写了 目前按组判断 所以别加可堆叠和可以拿起来的物品
@@ -128,20 +123,20 @@ local cleanmaxnum = { --世界保留数量最大值 堆叠物判断懒得写了 
     kyno_adai_spider_monkey = { max = 10 }, --
     kyno_adai_wargfant = { max = 10 }, --
     kyno_adai_merm = { max = 20 }, --
+    moonrockseed = { max = 1 },
+    atrium_key = { max = 1 },
 
 }
 if GetModConfigData("use_for_tumbleweed") then
     -- table.insert(strongcleanlist, "tumbleweed")--风滚草
-    table.insert(strongcleanlist, "alterguardian_phase1")--天体英雄形态1
-    table.insert(strongcleanlist, "alterguardian_phase2")--天体英雄形态2
-    table.insert(strongcleanlist, "alterguardian_phase3")--天体英雄形态3
+    --table.insert(strongcleanlist, "alterguardian_phase1")--天体英雄形态1
+    --table.insert(strongcleanlist, "alterguardian_phase2")--天体英雄形态2
+    --table.insert(strongcleanlist, "alterguardian_phase3")--天体英雄形态3
     table.insert(strongcleanlist, "alterguardian_phase3dead")--被击败的天体英雄
     table.insert(strongcleanlist, "dustmothden")--尘蛾的窝
     table.insert(strongcleanlist, "dustmoth")--尘蛾的窝
-    table.insert(strongcleanlist, "malbatross")--邪天翁
-    table.insert(strongcleanlist, "rocky")--石虾
     table.insert(strongcleanlist, "minotaurchest") --华丽的箱子
-    table.insert(strongcleanlist, "moonrockseed") --天体宝珠
+    --table.insert(strongcleanlist, "moonrockseed") --天体宝珠
     table.insert(strongcleanlist, "moon_altar_glass") --天体祭坛底座
     table.insert(strongcleanlist, "moon_altar_seed") --天体祭坛宝珠
     table.insert(strongcleanlist, "moon_altar_idol") --天体祭坛雕像
@@ -186,57 +181,125 @@ if GetModConfigData("use_for_tumbleweed") then
     --table.insert(strongcleanlist, "supertacklecontainer")--超级钓具箱
 
     --table.insert(strongcleanlist, "killerbee")
-    table.insert(strongcleanlist, "frog")
-    table.insert(strongcleanlist, "mosquito")
-    table.insert(strongcleanlist, "grassgekko")
-    table.insert(strongcleanlist, "bird_mutant")
-    table.insert(strongcleanlist, "bird_mutant_spitter")
-    table.insert(strongcleanlist, "hound")
-    table.insert(strongcleanlist, "bat")
-    table.insert(strongcleanlist, "firehound")
-    table.insert(strongcleanlist, "icehound")
-    table.insert(strongcleanlist, "penguin")
-    table.insert(strongcleanlist, "mutatedhound")
-    table.insert(strongcleanlist, "squid")
-    table.insert(strongcleanlist, "molebat")
-    table.insert(strongcleanlist, "tallbird")
-    table.insert(strongcleanlist, "deer")
-    table.insert(strongcleanlist, "worm")
-    table.insert(strongcleanlist, "mutated_penguin")
-    table.insert(strongcleanlist, "mushgnome")
-    table.insert(strongcleanlist, "fruitdragon")
-    table.insert(strongcleanlist, "wobster_moonglass_land")
-    table.insert(strongcleanlist, "oceanfish_medium_6_inv")
-    table.insert(strongcleanlist, "oceanfish_medium_7_inv")
-    --table.insert(strongcleanlist, "bee")
-    --table.insert(strongcleanlist, "bunnyman")
-    table.insert(strongcleanlist, "merm")
-    --table.insert(strongcleanlist, "monkey") --
-    table.insert(strongcleanlist, "rabbit")
-    table.insert(strongcleanlist, "spider")
-    table.insert(strongcleanlist, "spider_dropper")
-    table.insert(strongcleanlist, "spider_hider")
-    table.insert(strongcleanlist, "spider_spitter")
-    table.insert(strongcleanlist, "spider_warrior")
-    table.insert(strongcleanlist, "spider_moon")
-    table.insert(strongcleanlist, "rocky")
-    table.insert(strongcleanlist, "mossling")
-    --table.insert(strongcleanlist, "beefalo")
-    table.insert(strongcleanlist, "slurtle")
-    table.insert(strongcleanlist, "snurtle")
-    --table.insert(strongcleanlist, "pigman") --猪人
-    table.insert(strongcleanlist, "lightflier")
-    table.insert(strongcleanlist, "fireflies")
-    table.insert(strongcleanlist, "tentacle")
-    table.insert(strongcleanlist, "powder_monkey")
-    table.insert(strongcleanlist, "prime_mate")
-    table.insert(strongcleanlist, "trap_starfish")
-    table.insert(strongcleanlist, "dustmoth")
-    table.insert(strongcleanlist, "spiderqueen")
-    table.insert(strongcleanlist, "lordfruitfly")
-    table.insert(strongcleanlist, "fruitfly")
-    table.insert(strongcleanlist, "spider_water")
-    table.insert(strongcleanlist, "grassgator")
+    table.insert(strongcleanlist, "robin")--红鸟
+    table.insert(strongcleanlist, "crow")--乌鸦
+    table.insert(strongcleanlist, "butterfly")--蝴蝶
+    table.insert(strongcleanlist, "spider")--蜘蛛
+    table.insert(strongcleanlist, "killerbee")--杀人蜂
+    table.insert(strongcleanlist, "frog")--青蛙
+    --table.insert(strongcleanlist, "bee")--蜜蜂
+    table.insert(strongcleanlist, "mosquito")--蚊子
+    table.insert(strongcleanlist, "rabbit")--兔子
+    table.insert(strongcleanlist, "mole")--鼹鼠
+    table.insert(strongcleanlist, "perd")--火鸡
+    table.insert(strongcleanlist, "grassgekko")--草蜥蜴
+    table.insert(strongcleanlist, "buzzard")--秃鹫
+    table.insert(strongcleanlist, "catcoon")--浣猫
+    table.insert(strongcleanlist, "fireflies")--萤火虫
+    table.insert(strongcleanlist, "carrat")--胡萝卜鼠
+    table.insert(strongcleanlist, "pondfish")--淡水鱼
+    table.insert(strongcleanlist, "moonbutterfly")-- 月蛾
+    table.insert(strongcleanlist, "robin_winter")--雪雀
+    table.insert(strongcleanlist, "lightflier")--荧光虫
+    table.insert(strongcleanlist, "pondeel")--活鳗鱼
+    table.insert(strongcleanlist, "canary")--金丝雀
+    table.insert(strongcleanlist, "bird_mutant")--月盲乌鸦
+    table.insert(strongcleanlist, "bird_mutant_spitter")--奇行鸟
+
+
+    table.insert(strongcleanlist, "hound")--猎狗
+    table.insert(strongcleanlist, "bat")--蝙蝠
+    --table.insert(strongcleanlist, "pigman")--猪人
+    table.insert(strongcleanlist, "crawlinghorror")--暗影爬行怪
+    table.insert(strongcleanlist, "spider_moon")--月岛蜘蛛
+    table.insert(strongcleanlist, "spider_hider")--洞穴蜘蛛
+    table.insert(strongcleanlist, "spider_spitter")--喷吐蜘蛛
+    table.insert(strongcleanlist, "spider_dropper")--悬挂蜘蛛
+    table.insert(strongcleanlist, "firehound")--火狗
+    table.insert(strongcleanlist, "fruitfly")--果蝇
+    table.insert(strongcleanlist, "icehound")--冰狗
+    table.insert(strongcleanlist, "spider_warrior")--蜘蛛战士
+    table.insert(strongcleanlist, "merm")--鱼人
+    table.insert(strongcleanlist, "terrorbeak")--尖嘴暗影怪
+    table.insert(strongcleanlist, "slurtle")--尖壳蜗牛
+    table.insert(strongcleanlist, "penguin")--企鹅
+    table.insert(strongcleanlist, "pigguard")--猪人守卫
+    table.insert(strongcleanlist, "mutatedhound")--僵尸狗
+    table.insert(strongcleanlist, "koalefant_summer")--夏象
+    table.insert(strongcleanlist, "squid")--鱿鱼
+    table.insert(strongcleanlist, "molebat")--鼹鼠蝙蝠
+    --table.insert(strongcleanlist, "beefalo")--牛
+    table.insert(strongcleanlist, "bunnyman")--兔人
+    table.insert(strongcleanlist, "tallbird")--高鸟
+    --table.insert(strongcleanlist, "monkey")--猴子
+    table.insert(strongcleanlist, "rocky")--石虾
+    table.insert(strongcleanlist, "krampus")--坎普斯
+    table.insert(strongcleanlist, "deer")--无眼鹿
+    table.insert(strongcleanlist, "snurtle")--圆壳蜗牛
+    table.insert(strongcleanlist, "tentacle")--触手
+    table.insert(strongcleanlist, "worm")--洞穴蠕虫
+    table.insert(strongcleanlist, "mutated_penguin")--月岛企鹅
+    table.insert(strongcleanlist, "knight")--发条骑士
+    table.insert(strongcleanlist, "bishop")--发条主教
+    table.insert(strongcleanlist, "mushgnome")--蘑菇地精
+    --table.insert(strongcleanlist, "lightninggoat")--闪电羊
+    table.insert(strongcleanlist, "koalefant_winter")--冬象
+    table.insert(strongcleanlist, "mermguard")--鱼人守卫
+    table.insert(strongcleanlist, "fruitdragon")--沙拉蝾螈
+    table.insert(strongcleanlist, "rook")--发条战车
+    table.insert(strongcleanlist, "mossling")--小鸭
+    table.insert(strongcleanlist, "walrus")--海象
+    table.insert(strongcleanlist, "knight_nightmare")--破损的发条骑士
+    table.insert(strongcleanlist, "bishop_nightmare")--破损的发条主教
+    table.insert(strongcleanlist, "oceanfish_medium_1_inv")--泥鱼
+    table.insert(strongcleanlist, "oceanfish_medium_2_inv")--斑鱼
+    table.insert(strongcleanlist, "oceanfish_medium_3_inv")--浮夸狮子鱼
+    table.insert(strongcleanlist, "oceanfish_medium_4_inv")--黑鲶鱼
+    table.insert(strongcleanlist, "oceanfish_small_2_inv")--针鼻喷墨鱼
+    table.insert(strongcleanlist, "oceanfish_small_1_inv")--小孔雀鱼
+    table.insert(strongcleanlist, "oceanfish_small_3_inv")--小饵鱼
+    table.insert(strongcleanlist, "oceanfish_small_4_inv")--三文鱼苗
+    table.insert(strongcleanlist, "oceanfish_medium_5_inv")--玉米鳕鱼
+    table.insert(strongcleanlist, "oceanfish_small_5_inv")--爆米花鱼
+    table.insert(strongcleanlist, "wobster_sheller_land")--龙虾
+    table.insert(strongcleanlist, "little_walrus")--小海象
+    table.insert(strongcleanlist, "rook_nightmare")--破损的发条战车
+    table.insert(strongcleanlist, "wobster_moonglass_land")--月光龙虾
+    table.insert(strongcleanlist, "oceanfish_medium_6_inv")--花锦鲤
+    table.insert(strongcleanlist, "oceanfish_medium_7_inv")--金锦鲤
+
+    table.insert(strongcleanlist, "spiderqueen")--蜘蛛女王
+    table.insert(strongcleanlist, "leif")--树精
+    table.insert(strongcleanlist, "leif_sparse")--稀有树精
+    table.insert(strongcleanlist, "lordfruitfly")--果蝇王
+    table.insert(strongcleanlist, "warg")--座狼
+    table.insert(strongcleanlist, "spat")--钢羊
+    table.insert(strongcleanlist, "deer_red")--红宝石鹿
+    table.insert(strongcleanlist, "deer_blue")--蓝宝石鹿
+    table.insert(strongcleanlist, "moose")--鹿鸭
+    table.insert(strongcleanlist, "deerclops")--巨鹿
+    table.insert(strongcleanlist, "bearger")--熊大
+    table.insert(strongcleanlist, "shadow_rook")--暗影战车
+    table.insert(strongcleanlist, "shadow_knight")--暗影骑士
+    table.insert(strongcleanlist, "shadow_bishop")--暗影主教
+    table.insert(strongcleanlist, "oceanfish_medium_8_inv")--冰鲷鱼
+    table.insert(strongcleanlist, "oceanfish_small_6_inv")--比目鱼
+    table.insert(strongcleanlist, "oceanfish_small_7_inv")--花朵金枪鱼
+    table.insert(strongcleanlist, "oceanfish_small_8_inv")--炽热太阳鱼
+    table.insert(strongcleanlist, "dragonfly")--龙蝇
+    table.insert(strongcleanlist, "beequeen")--蜂后
+    table.insert(strongcleanlist, "klaus")--克劳斯
+    table.insert(strongcleanlist, "antlion")--蚁狮
+    table.insert(strongcleanlist, "malbatross")--邪天翁
+    table.insert(strongcleanlist, "stalker")--召唤之骨
+    table.insert(strongcleanlist, "stalker_forest")--森林召唤之骨
+    table.insert(strongcleanlist, "minotaur")--远古守护者
+    table.insert(strongcleanlist, "toadstool")--蘑菇蛤
+    table.insert(strongcleanlist, "stalker_atrium")--暗影编制者
+    table.insert(strongcleanlist, "alterguardian_phase1")--天体英雄1阶段
+    table.insert(strongcleanlist, "alterguardian_phase2")--天体英雄2阶段
+    table.insert(strongcleanlist, "alterguardian_phase3")--天体英雄3阶段
+
 
 
 
