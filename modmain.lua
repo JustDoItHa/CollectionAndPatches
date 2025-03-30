@@ -107,6 +107,7 @@ TUNING.LEGEND_AND_SEA_ENABLE = modenable({"2979177306","[DST]海洋传说-Legend
 TUNING.CHUANQIWUQI_MOD_ENABLE = modenable({"3096210166","传奇武器-附魔强化"})
 -----------------------------
 TUNING.DEATH_COUNTER_SHOW_TITLE = GetModConfigData("death_counter_show_title")
+TUNING.ELAINA_START_MONV_FAVORITE_LIMIT = GetModConfigData("elaina_start_monv_favorite_limit") or 50
 ---限制打包物品
 TUNING.CANT_PACK_ITEMS = {
     multiplayer_portal = true, --天体门

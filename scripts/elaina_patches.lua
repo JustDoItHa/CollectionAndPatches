@@ -80,11 +80,12 @@ local function CheckElaina()
                 end
             end
         end
-        for k, v in pairs(topush) do TheFrontEnd:PopScreen(k) end
+        for k, v in pairs(topush) do
+            TheFrontEnd:PopScreen(k)
+        end
     end)
 end
 AddClassPostConstruct("widgets/controls", CheckElaina)
-
 
 if GetModConfigData("ban_brooch") then
     -- table.insert(PrefabFiles, "star_monv")
@@ -95,7 +96,7 @@ if GetModConfigData("ban_brooch") then
                 --if (string.find(k.PrefabFiles[i], "brooch") and k.PrefabFiles[i] ~= "star_brooch" and k.PrefabFiles[i] ~= "elaina_most_brooch")
                 --知非的id：KU_cg2vTe-X  专属胸针3和24
                 if (string.find(k.PrefabFiles[i], "brooch") and k.PrefabFiles[i] ~= "star_brooch" and k.PrefabFiles[i] ~= "brooch3" and k.PrefabFiles[i] ~= "brooch24" and k.PrefabFiles[i] ~= "elaina_most_brooch")
-                        -- or k.PrefabFiles[i] == "elaina_yin_tiger"
+                -- or k.PrefabFiles[i] == "elaina_yin_tiger"
                 then
                     table.remove(k.PrefabFiles, i)
                 end
@@ -184,7 +185,7 @@ if GetModConfigData("ban_brooch") then
 
     --table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch26.tex"))
     --table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch26.xml"))
-    table.insert(Assets, Asset( "SOUND", "sound/elaina_brooch12.fsb" ))
+    table.insert(Assets, Asset("SOUND", "sound/elaina_brooch12.fsb"))
 
     table.insert(Assets, Asset("IMAGE", "images/inventoryimages/brooch27.tex"))
     table.insert(Assets, Asset("ATLAS", "images/inventoryimages/brooch27.xml"))
@@ -236,8 +237,14 @@ if GetModConfigData("ban_brooch") then
             local old_DoDelta = self.DoDelta
             self.DoDelta = function(self, delta, ...)
                 delta = tonumber(delta)
-                if delta and delta < 12 then
-                    if old_DoDelta then old_DoDelta(self, delta, ...) end
+
+                if delta then
+                    if (TUNING.ELAINA_START_MONV_FAVORITE_LIMIT <= 0) or (TUNING.ELAINA_START_MONV_FAVORITE_LIMIT > 0 and delta <= TUNING.ELAINA_START_MONV_FAVORITE_LIMIT) then
+                        if old_DoDelta then
+                            old_DoDelta(self, delta, ...)
+                        end
+                    end
+
                 end
 
                 -- if self.jilu < 8 and self.hgd >= items[self.jilu+1].hgd then
@@ -252,8 +259,10 @@ if GetModConfigData("ban_brooch") then
         AddPrefabPostInit("star_monv", function(inst)
             local AcceptTest = inst.components.trader.test
             if AcceptTest then
-                local ts = upvaluehelper.Get(AcceptTest,"ts")
-                if ts then  local params = upvaluehelper.Set(AcceptTest,"ts",{})  end
+                local ts = upvaluehelper.Get(AcceptTest, "ts")
+                if ts then
+                    local params = upvaluehelper.Set(AcceptTest, "ts", {})
+                end
             end
         end)
 
@@ -275,15 +284,14 @@ if GetModConfigData("ban_brooch") then
     end
 end
 local elaina_valid2 = require "components/elaina_valid2" --伊蕾娜 开局礼包 修改
-local zslist = upvaluehelper.Get(elaina_valid2.InIt,"zslist")
+local zslist = upvaluehelper.Get(elaina_valid2.InIt, "zslist")
 local newtable = {}
-for k,v in pairs(zslist) do
+for k, v in pairs(zslist) do
     if v.id and v.item then
-        newtable[k] = {id = v.id ,item = {"elaina_blue_rose2"}}
+        newtable[k] = { id = v.id, item = { "elaina_blue_rose2" } }
     end
 end
-local params = upvaluehelper.Set(elaina_valid2.InIt,"zslist",newtable)
-
+local params = upvaluehelper.Set(elaina_valid2.InIt, "zslist", newtable)
 
 if GetModConfigData("ban_most_brooch") then
     AddPrefabPostInit("elaina_most_brooch", function(inst)
@@ -291,11 +299,12 @@ if GetModConfigData("ban_most_brooch") then
     end)
 end
 
-local Elaina_rpc = {"Eaina_YinTiger_Copy","Eaina_YinTiger_Infiniteuse"}
+local Elaina_rpc = { "Eaina_YinTiger_Copy", "Eaina_YinTiger_Infiniteuse" }
 
-for _,v in pairs(Elaina_rpc) do
+for _, v in pairs(Elaina_rpc) do
     if MOD_RPC_HANDLERS["Elaina"] and MOD_RPC["Elaina"] and MOD_RPC["Elaina"][v] and MOD_RPC["Elaina"][v].id then
-        MOD_RPC_HANDLERS["Elaina"][MOD_RPC["Elaina"][v].id] = function(...) end
+        MOD_RPC_HANDLERS["Elaina"][MOD_RPC["Elaina"][v].id] = function(...)
+        end
     end
 end
 

@@ -3,6 +3,10 @@ GLOBAL.setmetatable(env, { __index = function(t, k)
 end })
 
 local remove_table = {
+    --原版
+    remove_ancienttree_seed = { "ancienttree_seed", "ancienttree_gem", "ancienttree_gem_sapling", "ncienttree_gem_sapling_item", "ancientfruit_gem" },
+    remove_ancienttree_nightvision = { "ancienttree_nightvision", "ancienttree_nightvision_sapling", "ancienttree_nightvision_sapling_item", "ancientfruit_nightvision" },
+
     --神话
     remove_myth_mooncake = { "myth_mooncake_ice", "myth_mooncake_lotus", "myth_mooncake_nuts" },
     remove_myth_qxj = { "myth_qxj" },
@@ -101,21 +105,27 @@ local remove_table = {
                                        "tz_fh_hf",
                                        "tz_fh_nx",
                                        "tz_fh_fishgirl",
-                                       "tz_hong"},
+                                       "tz_hong" },
 
     remove_xukongyijie_taila_baoshishu = { "baoshijingcu",
-                                       "hongbaoshiguo",
-                                       "chengbaoshiguo",
-                                       "huangbaoshiguo",
-                                       "lvbaoshiguo",
-                                       "lanbaoshiguo",
-                                       "zibaoshiguo",
-                                       "hongbaoshishu",
-                                       "chengbaoshishu",
-                                       "huangbaoshishu",
-                                       "lvbaoshishu",
-                                       "lanbaoshishu",
-                                       "zibaoshishu",},
+                                           "hongbaoshiguo",
+                                           "chengbaoshiguo",
+                                           "huangbaoshiguo",
+                                           "lvbaoshiguo",
+                                           "lanbaoshiguo",
+                                           "zibaoshiguo",
+                                           "hongbaoshishu",
+                                           "chengbaoshishu",
+                                           "huangbaoshishu",
+                                           "lvbaoshishu",
+                                           "lanbaoshishu",
+                                           "zibaoshishu", },
+    remove_xukongyijie_taila_other = { "antman2",
+                                           "zhandouyaoshui",
+                                           "tr_xiaoxiongdiaosu", },
+    remove_xukongyijie_zhijiang_other = { "goodies_moon",
+                                           "goodies_bamboon",
+                                           "zhijiang_trash_bin", },
 
 
 

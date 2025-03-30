@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.2.19.0"
+version = "14.5.0.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1171,6 +1171,18 @@ configuration_options[#configuration_options + 1] = AddOption("elaina_patches_sw
 configuration_options[#configuration_options + 1] = AddOption("elaina_additional_skin_switch", "魔女额外皮肤", "是否开启魔女额外皮肤", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("ban_brooch", "禁用专属胸针", "禁用伊蕾娜专属胸针(都乖乖舔老师去)", optionsYesNo, false)
 configuration_options[#configuration_options + 1] = AddConfigOption("ban_most_brooch", "禁用最强胸针", "禁用伊蕾娜的最强胸针", optionsYesNo, false)
+configuration_options[#configuration_options + 1] = AddConfigOption("elaina_start_monv_favorite_limit", "送老师好感物品上限", "单个物品好感上限，防止开挂！！舔老师过快", { { description = "不限制", data = -1, },
+                                                                                                                                                                         { description = "5", data = 5, },
+                                                                                                                                                                         { description = "10", data = 10, },
+                                                                                                                                                                         { description = "12", data = 12, },
+                                                                                                                                                                         { description = "20", data = 20, },
+                                                                                                                                                                         { description = "30", data = 30, },
+                                                                                                                                                                         { description = "40", data = 40, },
+                                                                                                                                                                         { description = "50", data = 50, },
+                                                                                                                                                                         { description = "100", data = 100, },
+                                                                                                                                                                         { description = "200", data = 200, },
+                                                                                                                                                                         { description = "300", data = 300, },
+                                                                                                                                                                         { description = "500", data = 500, } }, 50)
 ---夜雨空心补丁
 configuration_options[#configuration_options + 1] = AddOptionHeader("夜雨空心补丁")
 configuration_options[#configuration_options + 1] = AddOption("yeyu_nilxin_patches_switch", "夜雨空心补丁总开关", "是否开启夜雨空心补丁", false)
@@ -1488,7 +1500,9 @@ configuration_options[#configuration_options + 1] = AddOption("mod_change_part_s
 
 ---限制级物品列表
 CAP_REMOVE_SOMETHING_LIST_CONFIG = {
-    { "remove_myth_mooncake", "神话的月饼", "让神话的月饼消失！", disappear_magic, -1 },
+    { "remove_ancienttree_seed", "惊喜种子(原版)", "限制惊喜种子(原版)及其产物可用的时间！", disappear_magic, 0 },
+    { "remove_ancienttree_nightvision", "阴郁之棘(原版)", "限制阴郁之棘(原版)及其产物可用的时间！", disappear_magic, 0 },
+
     { "remove_myth_qxj", "神话的七星剑", "让神话的七星剑消失！", disappear_magic, -1 },
     { "remove_myth_bigpeach", "神话的大蟠桃", "让神话的大蟠桃消失！", disappear_magic, 0 },
     { "remove_aria_tower", "aria的领主之怒", "让aria的领主之怒消失！", disappear_magic, 0 },
@@ -1540,7 +1554,9 @@ CAP_REMOVE_SOMETHING_LIST_CONFIG = {
     { "remove_krm_spirit_crystal", "时崎狂三的二亚的灵结晶", "可开启创造模式", disappear_magic, 300 },
     { "remove_krm_book", "时崎狂三的嗫眚篇帙", "随机效果", disappear_magic, 300 },
     { "remove_taizhen_personal_fanhao", "太真专属番号", "限制太真的专属番号", disappear_magic, -1 },
-    { "remove_xukongyijie_taila_baoshishu", "虚空异界(泰拉)", "限制泰拉的宝石/树", disappear_magic, -1 },
+    { "remove_xukongyijie_taila_baoshishu", "虚空异界(泰拉)宝石/树", "限制泰拉的宝石/树", disappear_magic, -1 },
+    { "remove_xukongyijie_taila_other", "虚空异界(泰拉)其他", "限制泰拉的其他物品", disappear_magic, -1 },
+    { "remove_xukongyijie_zhijiang_other", "枝江往事其他", "限制枝江的其他物品", disappear_magic, -1 },
 }
 
 configuration_options[#configuration_options + 1] = AddOptionHeader("物品/生物禁用")
@@ -1885,7 +1901,7 @@ end
 ---纯净辅助
 configuration_options[#configuration_options + 1] = AddOptionHeader("微小游戏体验提升")
 configuration_options[#configuration_options + 1] = AddOption("little_modify_for_pure_switch", "总开关", "一些提升纯净档的微小功能", false)
-configuration_options[#configuration_options + 1] = AddOption("show_bundle_content_switch", "显示包裹内的东西", "可以看到打包内的东西，提升一点体验，只会显示包裹内前四个东西", false)
+configuration_options[#configuration_options + 1] = AddOption("show_bundle_content_switch", "显示包裹内的东西(慎用)", "可以看到打包内的东西，提升一点体验，只会显示包裹内前四个东西", false)
 configuration_options[#configuration_options + 1] = AddOption("smart_unwrap_bundle_switch", "拆包裹进入物品栏", "拆开包裹会进物品栏或箱子而不是掉落在地上", false)
 configuration_options[#configuration_options + 1] = AddOption("combinable_equipment_switch", "装备耐久合并", "同类装备可以互相合并耐久", false)
 configuration_options[#configuration_options + 1] = AddOption("naming_for_watches_switch", "旺达表可以命名", "旺达的溯源表和裂缝表可以用羽毛笔命名", false)
