@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.5.0.0"
+version = "14.5.1.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -759,7 +759,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("slots_bg_le
 
 ---木牌传送设置
 configuration_options[#configuration_options + 1] = AddOptionHeader("木牌传送设置")
-configuration_options[#configuration_options + 1] = AddOption("fast_travel", "木牌传送-总开关", "设置是否开启木牌传送", true)
+configuration_options[#configuration_options + 1] = AddOption("fast_travel", "木牌传送-总开关", "设置是否开启木牌传送", false)
 
 configuration_options[#configuration_options + 1] = AddOption("HomesignEnable", "原版木牌可传送", "设置原版木牌是否可传送", true)
 configuration_options[#configuration_options + 1] = AddOption("NewWoodTravelSignEnable", "制作新的传送木牌", "设置可否制作新的传送木牌", false)
@@ -770,14 +770,14 @@ configuration_options[#configuration_options + 1] = AddConfigOption("Ownership",
 
 ---死亡复活按钮
 configuration_options[#configuration_options + 1] = AddOptionHeader("死亡复活按钮设置")
-configuration_options[#configuration_options + 1] = AddOption("death_resurrection_button", "死亡复活按钮-总开关", "设置是否开启死亡复活按钮", true)
+configuration_options[#configuration_options + 1] = AddOption("death_resurrection_button", "死亡复活按钮-总开关", "设置是否开启死亡复活按钮", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("CD", "设置冷却时间", "", { { description = "0分钟", hover = "无CD", data = 0 }, { description = "1分钟", hover = "游戏中一天为8分钟", data = 60 }, { description = "2分钟", hover = "游戏中一天为8分钟", data = 120 }, { description = "4分钟", hover = "游戏中一天为8分钟", data = 240 }, { description = "8分钟", hover = "游戏中一天为8分钟", data = 480 }, { description = "12分钟", hover = "游戏中一天为8分钟", data = 720 }, { description = "2天", hover = "游戏中一天为8分钟", data = 960 }, { description = "3天", hover = "游戏中一天为8分钟", data = 1440 }, { description = "4天", hover = "游戏中一天为8分钟", data = 1920 } }, 0)
 configuration_options[#configuration_options + 1] = AddConfigOption("Health_Penalty", "血量上限惩罚设置", "俗称黑血", { { description = "0%", hover = "无惩罚", data = 0 }, { description = "5%", hover = "5%", data = 0.05 }, { description = "15%", hover = "15%", data = 0.15 }, { description = "25%", hover = "25%", data = 0.25 }, { description = "35%", hover = "35%", data = 0.35 }, { description = "45%", hover = "45%", data = 0.45 }, { description = "55%", hover = "55%", data = 0.55 }, { description = "65%", hover = "65%", data = 0.65 }, { description = "75%", hover = "75%", data = 0.75 } }, 0)
 configuration_options[#configuration_options + 1] = AddConfigOption("UI", "按钮位置", "", { { description = "中心点", hover = "中心点", data = "center" }, { description = "中心偏下", hover = "中心偏下", data = "center_offset_down" }, { description = "正上方", hover = "正上方", data = "right_above" }, { description = "左上角", hover = "左上角", data = "upper_left" }, { description = "左下角", hover = "左下角", data = "lower_left" } }, "center_offset_down")
 
 ---死亡复活重生指令
 configuration_options[#configuration_options + 1] = AddOptionHeader("死亡复活重生指令设置")
-configuration_options[#configuration_options + 1] = AddOption("restart_set", "死亡复活重生指令-总开关", "设置是否开启重生功能", true)
+configuration_options[#configuration_options + 1] = AddOption("restart_set", "死亡复活重生指令-总开关", "设置是否开启重生功能", false)
 configuration_options[#configuration_options + 1] = AddOption("MOD_RESTART_ALLOW_RESTART", "重生", "", false)
 configuration_options[#configuration_options + 1] = AddOption("MOD_RESTART_ALLOW_RESURRECT", "复活", "", true)
 configuration_options[#configuration_options + 1] = AddOption("MOD_RESTART_ALLOW_KILL", "自杀", "", false)
@@ -830,7 +830,7 @@ configuration_options[#configuration_options + 1] = AddOption("BundleItems", "�
 configuration_options[#configuration_options + 1] = AddOption("Digornot", "小木牌挖除(CanbeDug)", "Can be Dug/是否可以被挖", false)
 ---原版通用容器返鲜设置
 configuration_options[#configuration_options + 1] = AddOptionHeader("原版通用容器返鲜设置")
-configuration_options[#configuration_options + 1] = AddOption("common_container_preserve", "冰箱返鲜-总开关", "设置是否开原版通用容器返鲜功能", true)
+configuration_options[#configuration_options + 1] = AddOption("common_container_preserve", "冰箱返鲜-总开关", "设置是否开原版通用容器返鲜功能", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("icebox_freeze", "腐烂速度", "", { { description = "正常腐烂", data = "0.5" },
                                                                                                        { description = "缓慢腐烂", data = "0.3" },
                                                                                                        { description = "保鲜", data = "0" },
@@ -853,7 +853,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("buyuqi_pres
 
 ---快速工作设置
 configuration_options[#configuration_options + 1] = AddOptionHeader("快速工作设置")
-configuration_options[#configuration_options + 1] = AddOption("quick_work", "快速工作-总开关", "设置是否开启快速工作功能", true)
+configuration_options[#configuration_options + 1] = AddOption("quick_work", "快速工作-总开关", "设置是否开启快速工作功能", false)
 configuration_options[#configuration_options + 1] = AddOption("Pick", "采集类", "采集、捡起、收获", true)
 configuration_options[#configuration_options + 1] = AddOption("BuildRepair", "建造修复类", "建造、装饰、绘画、修复、缝补、灭火", true)
 configuration_options[#configuration_options + 1] = AddOption("HSHU", "三围升级类", "食用、治疗、学习、升级", true)
@@ -972,7 +972,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("reset_h", "
 
 ---Show me
 configuration_options[#configuration_options + 1] = AddOptionHeader("Show me")
-configuration_options[#configuration_options + 1] = AddOption("show_me_switch", "show me-开关", "是否开启show me", true)
+configuration_options[#configuration_options + 1] = AddOption("show_me_switch", "show me-开关", "是否开启show me", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("show_me_lang", "语言(Language)", "", { { description = "Auto(自动)", data = "auto", hover = "Detect Language Pack(检测语言包)" },
                                                                                                             { description = "en(英语)", data = "en", hover = "English(英语)" },
                                                                                                             { description = "ru(俄语)", data = "ru", hover = "Russian(俄语)" },
@@ -1051,7 +1051,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("showtype", 
 configuration_options[#configuration_options + 1] = AddConfigOption("show_info_bg", "显示背景", "", { { description = "显示", data = true, hover = "会显示背景及边框" }, { description = "不显示", data = false, hover = "不会显示背景及边框" }, }, false)
 ---全图定位
 configuration_options[#configuration_options + 1] = AddOptionHeader("全图定位")
-configuration_options[#configuration_options + 1] = AddOption("global_position_switch", "全图定位-开关", "是否开启全图定位", true)
+configuration_options[#configuration_options + 1] = AddOption("global_position_switch", "全图定位-开关", "是否开启全图定位", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("GLOBAL_POSITION_LANG", "语言(language)", "选择你想要使用的语言.", { {description = "English(英语)", data = "en", hover = ""}, {description = "中文(Chinese)", data = "zh", hover = ""}, {description = "自动", data = "auto", hover = "根据游戏语言自动设置"},}, "auto")
 configuration_options[#configuration_options + 1] = AddConfigOption("SHOWPLAYERSOPTIONS", "玩家指示器(Player Indicators)", "The arrow things that show players past the edge of the screen.", { { description = "Always", data = 3 }, { description = "Scoreboard", data = 2 }, { description = "Never", data = 1 }, }, 2)
 configuration_options[#configuration_options + 1] = AddConfigOption("SHOWPLAYERICONS", "玩家图标(Player Icons)", "The player icons on the map.", { { description = "显示(Show)", data = true }, { description = "隐藏(Hide)", data = false }, }, true)
@@ -1071,7 +1071,7 @@ configuration_options[#configuration_options + 1] = AddOption("compass_switch", 
 configuration_options[#configuration_options + 1] = AddConfigOption("compass_refresh_interval", "刷新间隔", "", { { description = "0", data = 0 }, { description = "0.1", data = 0.1 }, { description = "0.2", data = 0.2 }, { description = "0.5", data = 0.5 }, { description = "1", data = 1 }, { description = "2", data = 2 }, { description = "5", data = 5 } }, 0.2)
 ---蘑菇农场
 configuration_options[#configuration_options + 1] = AddOptionHeader("蘑菇农场")
-configuration_options[#configuration_options + 1] = AddOption("improve_mushroom_planters_switch", "蘑菇农场增强-开关", "是否开启蘑菇农场增强", true)
+configuration_options[#configuration_options + 1] = AddOption("improve_mushroom_planters_switch", "蘑菇农场增强-开关", "是否开启蘑菇农场增强", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("max_harvests", "Maximum Fertilization(最大收获数量)", "Maximum amount of fertilizer value the planter can store. Living logs restore this many harvests.", { { description = "Unlimited", data = -1, hover = "Default, but never decrease" }, { description = "Default", data = 0, hover = "4 unless modded" }, { description = "8", data = 8, hover = "8 harvests" }, { description = "16", data = 16, hover = "16 harvests" }, { description = "32", data = 32, hover = "32 harvests" }, }, 0)
 configuration_options[#configuration_options + 1] = AddConfigOption("easy_fert", "Allow Fertilizers(允许使用肥料)", "If fertilizers can be used in place of living logs", { { description = "No", data = false, hover = "Living logs only" }, { description = "Yes", data = true, hover = "Fertilizes by the sum of all nutrients divided by 8" }, }, false)
 configuration_options[#configuration_options + 1] = AddConfigOption("snow_grow", "Grow When Snow-covered(被雪覆盖是否允许生长)", "Whether to continue growing in winter or pause growth until snow melts", { { description = "No", data = false, hover = "Pause growth" }, { description = "Yes", data = true, hover = "Keep growing" }, }, false)
@@ -1307,7 +1307,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("m_98k_BAYON
 
 ---神话书说
 configuration_options[#configuration_options + 1] = AddOptionHeader("神话书说补丁")
-configuration_options[#configuration_options + 1] = AddOption("myth_patches_switch", "神话书说补丁-总开关", "是否开启神话书说补丁", true)
+configuration_options[#configuration_options + 1] = AddOption("myth_patches_switch", "神话书说补丁-总开关", "是否开启神话书说补丁", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("timeleft_tips", "BOSS刷新提醒", "", { { description = "不提醒", data = 1 },
                                                                                                            { description = "自动提醒", data = 2 },
                                                                                                            { description = "热键提醒", data = 3 } }, 2)
@@ -1392,7 +1392,7 @@ configuration_options[#configuration_options + 1] = AddOption("medal_book_read_o
 
 ---码头套装增强
 configuration_options[#configuration_options + 1] = AddOptionHeader("码头套装增强")
-configuration_options[#configuration_options + 1] = AddOption("dock_kit_enhance_switch", "码头套装增强开关", "码头套装增强", true)
+configuration_options[#configuration_options + 1] = AddOption("dock_kit_enhance_switch", "码头套装增强开关", "码头套装增强", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("DockKitNum", "码头套装制作数", "设置 制作码头套装时会得到的数量。", { { description = "2个", data = 2 },
                                                                                                                                           { description = "4个(官方)", data = 4 }, { description = "6个", data = 6 }, { description = "8个", data = 8 }, { description = "10个", data = 10 }, { description = "12个", data = 12 },
                                                                                                                                           { description = "16个(默认)", data = 16 }, { description = "20个", data = 20 } }, 16)
@@ -1662,7 +1662,7 @@ configuration_options[#configuration_options + 1] = { name = "blockmods", descri
 
 ---血量条
 configuration_options[#configuration_options + 1] = AddOptionHeader("血量条显示")
-configuration_options[#configuration_options + 1] = AddOption("simple_health_bar_switch", "1.简单血量条-开关", "是否显示简单血量条", true)
+configuration_options[#configuration_options + 1] = AddOption("simple_health_bar_switch", "1.简单血量条-开关", "是否显示简单血量条", false)
 configuration_options[#configuration_options + 1] = AddOption("epic_health_bar_switch", "2.史诗级血量条-开关", "是否显示史诗级血量条\n此选项开启简单血量条不生效", false)
 local LOCALE = {
     EN = {
