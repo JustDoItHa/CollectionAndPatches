@@ -533,7 +533,7 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
     end
 
     ------------------------------------------------------------------------------
-    if TUNING.SORA_ENABLE then
+    if TUNING.ELAINA_ENABLE then
         local cap_yln_resources_tmp = {}
         for i, v in pairs(cap_yln_resources) do
             local innner_item = {}
@@ -558,7 +558,7 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
     ------------------------------------------------------------------------------
     if TUNING.YEYU_NILXIN_ENABLE then
         local cap_yyxk_resources_tmp = {}
-        for i, v in pairs(cap_yln_resources) do
+        for i, v in pairs(cap_yyxk_resources) do
             local innner_item = {}
             innner_item.chance = tumbleweed_item_rates_l * v.chance
             innner_item.item = v.item
@@ -580,7 +580,7 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
     ------------------------------------------------------------------------------
     if TUNING.MCW_MOD_ENABLE then
         local cap_mcw_resources_tmp = {}
-        for i, v in pairs(cap_yln_resources) do
+        for i, v in pairs(cap_mcw_resources) do
             local innner_item = {}
             innner_item.chance = tumbleweed_item_rates_l * v.chance
             innner_item.item = v.item
@@ -602,7 +602,7 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
     ------------------------------------------------------------------------------
     if TUNING.CHUANQIWUQI_MOD_ENABLE then
         local cap_chuanqiwuqi_resources_tmp = {}
-        for i, v in pairs(cap_yln_resources) do
+        for i, v in pairs(cap_chuanqiwuqi_resources) do
             local innner_item = {}
             innner_item.chance = tumbleweed_item_rates_l * v.chance
             innner_item.item = v.item
