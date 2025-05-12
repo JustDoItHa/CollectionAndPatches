@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.5.2.0"
+version = "14.6.0.1"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1615,6 +1615,12 @@ configuration_options[#configuration_options + 1] = AddConfigOption("checking_da
           { description = "1500", data = 1500, hover = "" },
           { description = "2000", data = 2000, hover = "" },
         }, 2)
+configuration_options[#configuration_options + 1] = AddConfigOption("usage_scenario", "使用场景", "普通档：普通的黑白名单模式\n风滚草档：加强清理，清除开出来的怪物等\n超强清理档：可能卡服的统统清理",
+        { { description = "普通档", data = 1, hover = "" },
+          { description = "海钓或风滚草档", data = 2, hover = "" },
+          { description = "海钓或风滚草建家档", data = 3, hover = "" },
+          { description = "超强清理档", data = 4, hover = "" },
+        }, 1)
 configuration_options[#configuration_options + 1] = AddConfigOption("clean_mode", "清理模式(Clean Mode)", "白名单模式或者黑名单模式(Whitelist mode or Blacklist mode)", {
     { description = "Whitelist", data = 0, hover = "" },
     { description = "Blacklist", data = 1, hover = "" }, }, 0)
@@ -1642,7 +1648,6 @@ configuration_options[#configuration_options + 1] = AddConfigOption("boat_clean"
     { description = "游戏内360天(360 days in game)", data = 360, hover = "" },
     { description = "游戏内540天(540 days in game)", data = 540, hover = "" },
     { description = "游戏内720天(720 days in game)", data = 720, hover = "" }, }, false)
-configuration_options[#configuration_options + 1] = AddConfigOption("use_for_tumbleweed", "花样风滚草档使用(Use For Tumbleweed)", "花样风滚草会清理开出的天体等.(Would clean tumbleweed,alterguardian,et.)", optionsYesNo, false)
 
 configuration_options[#configuration_options + 1] = AddOptionHeader("反作弊")
 configuration_options[#configuration_options + 1] = AddOption("anti_cheat_switch", "开启反作弊", "是否开启反作弊功能", false)

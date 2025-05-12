@@ -18,97 +18,137 @@ local strong_clean_white_tag_list_additional_l = GetModConfigData("strong_clean_
 local strong_clean_half_white_list_additional_l = GetModConfigData("strong_clean_half_white_list_additional_option")
 local strong_clean_strong_clean_list_additional_l = GetModConfigData("strong_clean_strong_clean_list_additional_option")
 
+--local use_for_tumbleweed_l = GetModConfigData("use_for_tumbleweed") or false
+local usage_scenario_l = GetModConfigData("usage_scenario") or false
+
+if type(usage_scenario_l) ~= "number" then
+    usage_scenario_l = 1
+end
+local whitelist = {}
+local blacklist = {}
+local whitetag = {}
+local halfwhitelist = {}
+local strongcleanlist = {}
 
 local lightbulb = "󰀏"
 
-local whitelist = {
-    "book", --奶奶的书(关键词)
-    "mooneye", --月眼(关键词)
-    -- "saddle",                   --鞍(关键词)
-    "powcake", --芝士蛋糕(关键词)
-    "waxwelljournal", --老麦的书
-    "fireflies", --萤火虫
-    "slurper", --啜食者
-    "pumpkin_lantern", --南瓜灯
-    "bullkelp_beachedroot", --海带
-    "driftwood_log", --浮木桩
-    "panflute", --排箫
-    -- "skeletonhat",              --骨盔
-    -- "armorskeleton",            --骨甲
-    "thurible", --香炉
-    "fossil_piece", --化石碎片
-    -- "shadowheart",              --心脏
-    "amulet", --生命护符
-    "reviver", --救赎之心
-    "heatrock", --暖石
-    "dug_trap_starfish", --挖起的海星
-    "yellowstaff", --唤星法杖
-    "opalstaff", --喚月法杖
-    "cane", --步行手杖
-    "orangestaff", --瞬移手杖
-    "glommerfuel", --格罗姆燃料
-    "lureplantbulb", --食人花种子
-    -- "tentaclespots",            --触手皮
-    -- "hivehat",                  --蜂王帽
-    -- "tentaclespike",            --狼牙棒
-    -- "nightsword",               --影刀
-    -- "armor_sanity",             --影甲
-    "tacklecontainer", --钓具箱
-    "supertacklecontainer", --超级钓具箱
-    "singingshell_octave", --贝壳钟(关键词 有3 4 5)
-    "atrium_light_moon", --阿比的灯柱
-    "nilxin_fox", -- 夜雨团子
-    "sora_pot", --
-    "doydoy",
-    "doydoybaby",
-    "dubloon",
-    "ia_messagebottle",
-    "ia_messagebottleempty"
-}
+------------白名单-------------------------
+table.insert(whitelist, "book")--奶奶的书(关键词)
+table.insert(whitelist, "mooneye") --月眼(关键词)
+--table.insert(whitelist, "saddle") --鞍(关键词)
+--table.insert(whitelist, "powcake") --芝士蛋糕(关键词)
+table.insert(whitelist, "waxwelljournal") --老麦的书
+--table.insert(whitelist, "fireflies") --萤火虫
+table.insert(whitelist, "slurper") --啜食者
+--table.insert(whitelist, "pumpkin_lantern") --南瓜灯
+table.insert(whitelist, "bullkelp_beachedroot") --海带根
+table.insert(whitelist, "driftwood_log")
+---浮木桩
+table.insert(whitelist, "panflute") --排箫
+--table.insert(whitelist, "skeletonhat")  --骨盔
+--table.insert(whitelist, "armorskeleton") --骨甲
+--table.insert(whitelist, "thurible") --香炉
+--table.insert(whitelist, "fossil_piece") --化石碎片
+--table.insert(whitelist, "shadowheart") --心脏
+--table.insert(whitelist, "amulet") --生命护符
+--table.insert(whitelist, "reviver") --救赎之心
+table.insert(whitelist, "heatrock") --暖石
+--table.insert(whitelist, "dug_trap_starfish") --挖起的海星
+table.insert(whitelist, "yellowstaff") --唤星法杖
+table.insert(whitelist, "opalstaff") --喚月法杖
+--table.insert(whitelist, "cane") --步行手杖
+--table.insert(whitelist, "orangestaff") --瞬移手杖
+table.insert(whitelist, "glommerfuel") --格罗姆燃料
+table.insert(whitelist, "lureplantbulb") --食人花种子
+--table.insert(whitelist, "tentaclespots") --触手皮
+--table.insert(whitelist, "hivehat") --蜂王帽
+--table.insert(whitelist, "tentaclespike") --狼牙棒
+--table.insert(whitelist, "nightsword") --影刀
+--table.insert(whitelist, "armor_sanity") --影甲
+--table.insert(whitelist, "tacklecontainer") --钓具箱
+--table.insert(whitelist, "supertacklecontainer") --超级钓具箱
+table.insert(whitelist, "singingshell_octave") --贝壳钟(关键词 有3 4 5)
+table.insert(whitelist, "atrium_light_moon") --阿比的灯柱
+table.insert(whitelist, "nilxin_fox") --夜雨团子
+table.insert(whitelist, "sora_pot")
+table.insert(whitelist, "doydoy")
+table.insert(whitelist, "doydoybaby")
+table.insert(whitelist, "dubloon")
+table.insert(whitelist, "ia_messagebottle")
+table.insert(whitelist, "ia_messagebottleempty")
 
-local blacklist = {
-    "twigs", --树枝
-    "cutgrass", --割下的草
-    "spoiled_food", --腐烂食物
-    "houndstooth", --狗牙
-    "stinger", --蜂刺
-    "bookinfo_myth", --天书
-    "shyerrytree1",
-    "shyerrytree2",
-    "shyerrytree3",
-    "shyerrytree4",
-    "redpouch_yot_catcoon",
-    "dummytarget",
-}
+------------黑名单-------------------------
+table.insert(blacklist, "twigs")--树枝
+table.insert(blacklist, "cutgrass") --割下的草
+table.insert(blacklist, "spoiled_food") --腐烂食物
+table.insert(blacklist, "houndstooth") --狗牙
+table.insert(blacklist, "stinger") --蜂刺
+table.insert(blacklist, "bookinfo_myth") --天书
+table.insert(blacklist, "shyerrytree1")
+table.insert(blacklist, "shyerrytree2")
+table.insert(blacklist, "shyerrytree3")
+table.insert(blacklist, "shyerrytree4")
+table.insert(blacklist, "redpouch_yot_catcoon")
+table.insert(blacklist, "dummytarget")
 
-local whitetag = {
-    "smallcreature", --鸟、兔子、鼹鼠
-    "irreplaceable", --可疑的大理石、远古钥匙、眼骨、星空、天体灵球、格罗姆花
-    "heavy", --雕像
-    "backpack", --背包、小猪包、小偷包
-    "bundle", --包裹、礼物
-    "deerantler", --鹿角
-    "trap", --陷阱、狗牙陷阱、海星
+------------白名单标签-------------------------
+--table.insert(whitetag, "smallcreature")--鸟、兔子、鼹鼠
+table.insert(whitetag, "irreplaceable")--可疑的大理石、远古钥匙、眼骨、星空、天体灵球、格罗姆花
+table.insert(whitetag, "heavy")--雕像
+--table.insert(whitetag, "backpack")--背包、小猪包、小偷包
+--table.insert(whitetag, "bundle")--包裹、礼物
+table.insert(whitetag, "deerantler")--鹿角
+--table.insert(whitetag, "trap")--陷阱、狗牙陷阱、海星
+table.insert(whitetag, "personal_possession") --猴子宝藏
 
-    "personal_possession", --猴子宝藏
-}
+------------半白名单标签-------------------------
+table.insert(halfwhitelist, "tentaclespike") --狼牙棒
+table.insert(halfwhitelist, "nightsword") --影刀
+table.insert(halfwhitelist, "armor_sanity") --影甲
 
-local halfwhitelist = {
-    "tentaclespike", --狼牙棒
-    "nightsword", --影刀
-    "armor_sanity", --影甲
-}
+------------强力清理名单：无视白名单，直接清理-------------------------
+table.insert(strongcleanlist, "bookinfo_myth") --天书
+table.insert(strongcleanlist, "redpouch_yot_catcoon") --猫年红包，太多卡服
 
-local strongcleanlist = {
-    --"tumbleweed",                    --风滚草
-    "bookinfo_myth", --天书
-    -- "shyerrytree1", --颤栗树
-    -- "shyerrytree2", --颤栗树
-    -- "shyerrytree3", --颤栗树
-    -- "shyerrytree4", --颤栗树
-    "redpouch_yot_catcoon",
 
-}
+if usage_scenario_l == 1 then
+    ------------白名单-------------------------
+    table.insert(whitelist, "saddle") --鞍(关键词)
+    table.insert(whitelist, "powcake") --芝士蛋糕(关键词)
+    table.insert(whitelist, "fireflies") --萤火虫
+    table.insert(whitelist, "pumpkin_lantern") --南瓜灯
+    table.insert(whitelist, "skeletonhat")  --骨盔
+    table.insert(whitelist, "armorskeleton") --骨甲
+    table.insert(whitelist, "thurible") --香炉
+    table.insert(whitelist, "fossil_piece") --化石碎片
+    table.insert(whitelist, "shadowheart") --心脏
+    table.insert(whitelist, "amulet") --生命护符
+    table.insert(whitelist, "reviver") --救赎之心
+    table.insert(whitelist, "dug_trap_starfish") --挖起的海星
+    table.insert(whitelist, "cane") --步行手杖
+    table.insert(whitelist, "orangestaff") --瞬移手杖
+    table.insert(whitelist, "tentaclespots") --触手皮
+    table.insert(whitelist, "hivehat") --蜂王帽
+    table.insert(whitelist, "tentaclespike") --狼牙棒
+    table.insert(whitelist, "nightsword") --影刀
+    table.insert(whitelist, "armor_sanity") --影甲
+    table.insert(whitelist, "tacklecontainer") --钓具箱
+    table.insert(whitelist, "supertacklecontainer") --超级钓具箱
+
+    ------------黑名单-------------------------
+
+    ------------白名单标签-------------------------
+    table.insert(whitetag, "smallcreature")--鸟、兔子、鼹鼠
+    table.insert(whitetag, "backpack")--背包、小猪包、小偷包
+    table.insert(whitetag, "bundle")--包裹、礼物
+    table.insert(whitetag, "trap")--陷阱、狗牙陷阱、海星
+
+    ------------半白名单标签-------------------------
+
+
+    ------------强力清理名单：无视白名单，直接清理-------------------------
+
+end
 
 local cleanmaxnum = { --世界保留数量最大值 堆叠物判断懒得写了 目前按组判断 所以别加可堆叠和可以拿起来的物品
 
@@ -127,7 +167,7 @@ local cleanmaxnum = { --世界保留数量最大值 堆叠物判断懒得写了 
     atrium_key = { max = 1 },
 
 }
-if GetModConfigData("use_for_tumbleweed") then
+if usage_scenario_l == 2 or usage_scenario_l == 3 or usage_scenario_l == 4 then
     -- table.insert(strongcleanlist, "tumbleweed")--风滚草
     --table.insert(strongcleanlist, "alterguardian_phase1")--天体英雄形态1
     --table.insert(strongcleanlist, "alterguardian_phase2")--天体英雄形态2
@@ -144,44 +184,16 @@ if GetModConfigData("use_for_tumbleweed") then
     table.insert(strongcleanlist, "moon_altar_icon") --天体圣殿象征
     table.insert(strongcleanlist, "moon_altar_ward") --天体圣殿卫戍
     table.insert(strongcleanlist, "resurrectionstone") --复活台
-    table.insert(strongcleanlist, "gift")
+    --table.insert(strongcleanlist, "gift")
     table.insert(strongcleanlist, "mokuangshi")
 
-    table.insert(strongcleanlist, "asparagus_oversized")
-    table.insert(strongcleanlist, "carrot_oversized")
-    table.insert(strongcleanlist, "corn_oversized")
-    table.insert(strongcleanlist, "eggplant_oversized")
-    table.insert(strongcleanlist, "garlic_oversized")
-    table.insert(strongcleanlist, "onion_oversized")
-    table.insert(strongcleanlist, "pepper_oversized")
-    table.insert(strongcleanlist, "potato_oversized")
-    table.insert(strongcleanlist, "pumpkin_oversized")
-    table.insert(strongcleanlist, "tomato_oversized")
-    table.insert(strongcleanlist, "dragonfruit_oversized")
-    table.insert(strongcleanlist, "durian_oversized")
-    table.insert(strongcleanlist, "pomegranate_oversized")
-    table.insert(strongcleanlist, "watermelon_oversized")
 
-    table.insert(strongcleanlist, "asparagus_oversized_rotten")
-    table.insert(strongcleanlist, "carrot_oversized_rotten")
-    table.insert(strongcleanlist, "corn_oversized_rotten")
-    table.insert(strongcleanlist, "eggplant_oversized_rotten")
-    table.insert(strongcleanlist, "garlic_oversized_rotten")
-    table.insert(strongcleanlist, "onion_oversized_rotten")
-    table.insert(strongcleanlist, "pepper_oversized_rotten")
-    table.insert(strongcleanlist, "potato_oversized_rotten")
-    table.insert(strongcleanlist, "pumpkin_oversized_rotten")
-    table.insert(strongcleanlist, "tomato_oversized_rotten")
-    table.insert(strongcleanlist, "dragonfruit_oversized_rotten")
-    table.insert(strongcleanlist, "durian_oversized_rotten")
-    table.insert(strongcleanlist, "pomegranate_oversized_rotten")
-    table.insert(strongcleanlist, "watermelon_oversized_rotten")
     --
     --table.insert(strongcleanlist, "tacklecontainer")--钓具箱
     --table.insert(strongcleanlist, "supertacklecontainer")--超级钓具箱
 
     --table.insert(strongcleanlist, "killerbee")
-    table.insert(strongcleanlist, "robin")--红鸟
+    --table.insert(strongcleanlist, "robin")--红鸟
     table.insert(strongcleanlist, "crow")--乌鸦
     table.insert(strongcleanlist, "butterfly")--蝴蝶
     table.insert(strongcleanlist, "spider")--蜘蛛
@@ -190,13 +202,13 @@ if GetModConfigData("use_for_tumbleweed") then
     --table.insert(strongcleanlist, "bee")--蜜蜂
     table.insert(strongcleanlist, "mosquito")--蚊子
     table.insert(strongcleanlist, "rabbit")--兔子
-    table.insert(strongcleanlist, "mole")--鼹鼠
+    --table.insert(strongcleanlist, "mole")--鼹鼠
     table.insert(strongcleanlist, "perd")--火鸡
     table.insert(strongcleanlist, "grassgekko")--草蜥蜴
     table.insert(strongcleanlist, "buzzard")--秃鹫
     table.insert(strongcleanlist, "catcoon")--浣猫
-    table.insert(strongcleanlist, "fireflies")--萤火虫
-    table.insert(strongcleanlist, "carrat")--胡萝卜鼠
+    --table.insert(strongcleanlist, "fireflies")--萤火虫
+    --table.insert(strongcleanlist, "carrat")--胡萝卜鼠
     table.insert(strongcleanlist, "pondfish")--淡水鱼
     table.insert(strongcleanlist, "moonbutterfly")-- 月蛾
     table.insert(strongcleanlist, "robin_winter")--雪雀
@@ -251,22 +263,22 @@ if GetModConfigData("use_for_tumbleweed") then
     table.insert(strongcleanlist, "walrus")--海象
     table.insert(strongcleanlist, "knight_nightmare")--破损的发条骑士
     table.insert(strongcleanlist, "bishop_nightmare")--破损的发条主教
-    table.insert(strongcleanlist, "oceanfish_medium_1_inv")--泥鱼
-    table.insert(strongcleanlist, "oceanfish_medium_2_inv")--斑鱼
-    table.insert(strongcleanlist, "oceanfish_medium_3_inv")--浮夸狮子鱼
-    table.insert(strongcleanlist, "oceanfish_medium_4_inv")--黑鲶鱼
-    table.insert(strongcleanlist, "oceanfish_small_2_inv")--针鼻喷墨鱼
-    table.insert(strongcleanlist, "oceanfish_small_1_inv")--小孔雀鱼
-    table.insert(strongcleanlist, "oceanfish_small_3_inv")--小饵鱼
-    table.insert(strongcleanlist, "oceanfish_small_4_inv")--三文鱼苗
-    table.insert(strongcleanlist, "oceanfish_medium_5_inv")--玉米鳕鱼
-    table.insert(strongcleanlist, "oceanfish_small_5_inv")--爆米花鱼
-    table.insert(strongcleanlist, "wobster_sheller_land")--龙虾
+    --table.insert(strongcleanlist, "oceanfish_medium_1_inv")--泥鱼
+    --table.insert(strongcleanlist, "oceanfish_medium_2_inv")--斑鱼
+    --table.insert(strongcleanlist, "oceanfish_medium_3_inv")--浮夸狮子鱼
+    --table.insert(strongcleanlist, "oceanfish_medium_4_inv")--黑鲶鱼
+    --table.insert(strongcleanlist, "oceanfish_small_2_inv")--针鼻喷墨鱼
+    --table.insert(strongcleanlist, "oceanfish_small_1_inv")--小孔雀鱼
+    --table.insert(strongcleanlist, "oceanfish_small_3_inv")--小饵鱼
+    --table.insert(strongcleanlist, "oceanfish_small_4_inv")--三文鱼苗
+    --table.insert(strongcleanlist, "oceanfish_medium_5_inv")--玉米鳕鱼
+    --table.insert(strongcleanlist, "oceanfish_small_5_inv")--爆米花鱼
+    --table.insert(strongcleanlist, "wobster_sheller_land")--龙虾
     table.insert(strongcleanlist, "little_walrus")--小海象
     table.insert(strongcleanlist, "rook_nightmare")--破损的发条战车
-    table.insert(strongcleanlist, "wobster_moonglass_land")--月光龙虾
-    table.insert(strongcleanlist, "oceanfish_medium_6_inv")--花锦鲤
-    table.insert(strongcleanlist, "oceanfish_medium_7_inv")--金锦鲤
+    --table.insert(strongcleanlist, "wobster_moonglass_land")--月光龙虾
+    --table.insert(strongcleanlist, "oceanfish_medium_6_inv")--花锦鲤
+    --table.insert(strongcleanlist, "oceanfish_medium_7_inv")--金锦鲤
 
     table.insert(strongcleanlist, "spiderqueen")--蜘蛛女王
     table.insert(strongcleanlist, "leif")--树精
@@ -282,27 +294,66 @@ if GetModConfigData("use_for_tumbleweed") then
     table.insert(strongcleanlist, "shadow_rook")--暗影战车
     table.insert(strongcleanlist, "shadow_knight")--暗影骑士
     table.insert(strongcleanlist, "shadow_bishop")--暗影主教
-    table.insert(strongcleanlist, "oceanfish_medium_8_inv")--冰鲷鱼
-    table.insert(strongcleanlist, "oceanfish_small_6_inv")--比目鱼
-    table.insert(strongcleanlist, "oceanfish_small_7_inv")--花朵金枪鱼
-    table.insert(strongcleanlist, "oceanfish_small_8_inv")--炽热太阳鱼
-    table.insert(strongcleanlist, "dragonfly")--龙蝇
+    --table.insert(strongcleanlist, "oceanfish_medium_8_inv")--冰鲷鱼
+    --table.insert(strongcleanlist, "oceanfish_small_6_inv")--比目鱼
+    --table.insert(strongcleanlist, "oceanfish_small_7_inv")--花朵金枪鱼
+    --table.insert(strongcleanlist, "oceanfish_small_8_inv")--炽热太阳鱼
+    --table.insert(strongcleanlist, "dragonfly")--龙蝇
     table.insert(strongcleanlist, "beequeen")--蜂后
     table.insert(strongcleanlist, "klaus")--克劳斯
-    table.insert(strongcleanlist, "antlion")--蚁狮
+    --table.insert(strongcleanlist, "antlion")--蚁狮
     table.insert(strongcleanlist, "malbatross")--邪天翁
     table.insert(strongcleanlist, "stalker")--召唤之骨
     table.insert(strongcleanlist, "stalker_forest")--森林召唤之骨
     table.insert(strongcleanlist, "minotaur")--远古守护者
     table.insert(strongcleanlist, "toadstool")--蘑菇蛤
     table.insert(strongcleanlist, "stalker_atrium")--暗影编制者
+
+    table.insert(strongcleanlist, "twinofterror1_mini")--恐怖之眼
+    table.insert(strongcleanlist, "eyeofterror")--恐怖之眼
+    table.insert(strongcleanlist, "twinofterror1")--恐怖之眼
+    table.insert(strongcleanlist, "twinofterror2")--恐怖之眼
+
     table.insert(strongcleanlist, "alterguardian_phase1")--天体英雄1阶段
     table.insert(strongcleanlist, "alterguardian_phase2")--天体英雄2阶段
     table.insert(strongcleanlist, "alterguardian_phase3")--天体英雄3阶段
 
+end
 
+--- 不建家
+if usage_scenario_l == 2 then
+    table.insert(strongcleanlist, "asparagus_oversized")
+    table.insert(strongcleanlist, "carrot_oversized")
+    table.insert(strongcleanlist, "corn_oversized")
+    table.insert(strongcleanlist, "eggplant_oversized")
+    table.insert(strongcleanlist, "garlic_oversized")
+    table.insert(strongcleanlist, "onion_oversized")
+    table.insert(strongcleanlist, "pepper_oversized")
+    table.insert(strongcleanlist, "potato_oversized")
+    table.insert(strongcleanlist, "pumpkin_oversized")
+    table.insert(strongcleanlist, "tomato_oversized")
+    table.insert(strongcleanlist, "dragonfruit_oversized")
+    table.insert(strongcleanlist, "durian_oversized")
+    table.insert(strongcleanlist, "pomegranate_oversized")
+    table.insert(strongcleanlist, "watermelon_oversized")
 
-
+    table.insert(strongcleanlist, "asparagus_oversized_rotten")
+    table.insert(strongcleanlist, "carrot_oversized_rotten")
+    table.insert(strongcleanlist, "corn_oversized_rotten")
+    table.insert(strongcleanlist, "eggplant_oversized_rotten")
+    table.insert(strongcleanlist, "garlic_oversized_rotten")
+    table.insert(strongcleanlist, "onion_oversized_rotten")
+    table.insert(strongcleanlist, "pepper_oversized_rotten")
+    table.insert(strongcleanlist, "potato_oversized_rotten")
+    table.insert(strongcleanlist, "pumpkin_oversized_rotten")
+    table.insert(strongcleanlist, "tomato_oversized_rotten")
+    table.insert(strongcleanlist, "dragonfruit_oversized_rotten")
+    table.insert(strongcleanlist, "durian_oversized_rotten")
+    table.insert(strongcleanlist, "pomegranate_oversized_rotten")
+    table.insert(strongcleanlist, "watermelon_oversized_rotten")
+end
+if usage_scenario_l == 4 then
+    --table.insert(strongcleanlist, "watermelon_oversized_rotten")
 end
 
 if strong_clean_white_list_additional_l and type(strong_clean_white_list_additional_l) == "table" then
@@ -336,8 +387,6 @@ if strong_clean_strong_clean_list_additional_l and type(strong_clean_strong_clea
         table.insert(strongcleanlist, v)
     end
 end
-
-
 
 if clean_mode == 0 then
     local readtxt, err = io.open(MODROOT .. "/modules/strongclean/whitelist.txt", "r")
@@ -678,7 +727,7 @@ local function AutoDoRemove()
             end
             local strong_clean = isStrongcleanlist(v_prefab)
             local inventoryitem_v = v.components.inventoryitem and v.components.inventoryitem.owner == nil
-            if v and v:IsValid() and ( inventoryitem_v or strong_clean or max_clean ) then
+            if v and v:IsValid() and (inventoryitem_v or strong_clean or max_clean) then
                 if (clean_mode == 0 and not isWhitelist(v_prefab) and not isWhiteTag(v))
                         or (clean_mode == 1 and isBlacklist(v_prefab))
                         or isHalfWhitelist(v) or isFloat(v) or strong_clean or max_clean then
