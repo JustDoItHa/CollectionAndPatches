@@ -123,9 +123,20 @@ local remove_table = {
     remove_xukongyijie_taila_other = { "antman2",
                                            "zhandouyaoshui",
                                            "tr_xiaoxiongdiaosu", },
-    remove_xukongyijie_zhijiang_other = { "goodies_moon",
+    remove_zhijiang_medals = { "zhijiang_medal_asuol",
+                                           "zhijiang_medal_a",
+                                           "zhijiang_medal_s",
+                                           "zhijiang_medal_o",
+                                           "zhijiang_medal_u",
+                                           "zhijiang_medal_l",
+                                           "zhijiang_magicbundle_1", },
+
+    remove_zhijiang_other = { "goodies_moon",
                                            "goodies_bamboon",
                                            "zhijiang_trash_bin", },
+
+    remove_fairytales_other = { "ft_zhaozi",
+                              "ft_homesign", },
 
 
 

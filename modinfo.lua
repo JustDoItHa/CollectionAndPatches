@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.6.0.1"
+version = "14.7.0.1"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -444,6 +444,10 @@ MOD_CHARACTERLIST = {
     "ccs", -- 魔法少女小樱
     "binglinger", -- 冰凌儿
     "mcw", -- 冰川镜华
+    "diana", -- 嘉然
+    "bella", -- 贝拉
+    "avava", -- 向晚
+    "eileen", -- 乃琳
 
 }
 --自定义配置请修改：
@@ -494,6 +498,10 @@ MOD_CHARACTERNAMES = {
     "魔法少女小樱-ccs", -- 魔法少女小樱
     "冰凌儿-binglinger", -- 冰凌儿
     "冰川镜华-mcw", -- 冰川镜华
+    "枝江嘉然-diana", -- 枝江嘉然
+    "枝江贝拉-bella", -- 枝江贝拉
+    "枝江向晚-avava", -- 枝江向晚
+    "枝江乃琳-eileen", -- 枝江乃琳
 }
 
 DST_CHARACTERLIST = {
@@ -1556,7 +1564,9 @@ CAP_REMOVE_SOMETHING_LIST_CONFIG = {
     { "remove_taizhen_personal_fanhao", "太真专属番号", "限制太真的专属番号", disappear_magic, -1 },
     { "remove_xukongyijie_taila_baoshishu", "虚空异界(泰拉)宝石/树", "限制泰拉的宝石/树", disappear_magic, -1 },
     { "remove_xukongyijie_taila_other", "虚空异界(泰拉)其他", "限制泰拉的其他物品", disappear_magic, -1 },
-    { "remove_xukongyijie_zhijiang_other", "枝江往事其他", "限制枝江的其他物品", disappear_magic, -1 },
+    { "remove_zhijiang_medals", "枝江往事徽章", "限制枝江的徽章", disappear_magic, -1 },
+    { "remove_zhijiang_other", "枝江往事其他", "限制枝江的其他物品", disappear_magic, -1 },
+    { "remove_fairytales_other", "童话世界其他", "限制童话世界的其他物品", disappear_magic, -1 },
 }
 
 configuration_options[#configuration_options + 1] = AddOptionHeader("物品/生物禁用")

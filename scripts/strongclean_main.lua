@@ -318,6 +318,29 @@ if usage_scenario_l == 2 or usage_scenario_l == 3 or usage_scenario_l == 4 then
     table.insert(strongcleanlist, "alterguardian_phase2")--天体英雄2阶段
     table.insert(strongcleanlist, "alterguardian_phase3")--天体英雄3阶段
 
+    table.insert(strongcleanlist, "fossil_stalker") --奇异的骨架
+    table.insert(strongcleanlist, "daywalker") --梦魇疯猪
+    table.insert(strongcleanlist, "daywalker2") --拾荒疯猪
+    table.insert(strongcleanlist, "mutatedwarg") --附身座狼
+    table.insert(strongcleanlist, "mutatedbearger") --装甲熊
+    table.insert(strongcleanlist, "mutateddeerclops") --晶体独眼巨鹿
+    table.insert(strongcleanlist, "prime_mate") --大副
+    table.insert(strongcleanlist, "powder_monkey") --火药猴
+    table.insert(strongcleanlist, "gelblob") --恶液
+    table.insert(strongcleanlist, "lunarthrall_plant") --致命亮茄
+    table.insert(strongcleanlist, "ruinsnightmare") --潜伏梦魇
+    table.insert(strongcleanlist, "clayhound") --粘土猎犬
+    table.insert(strongcleanlist, "claywarg") --粘土座狼
+    table.insert(strongcleanlist, "eyeofterror_mini") --可疑窥视者
+    table.insert(strongcleanlist, "sharkboi") --大霜鲨
+    table.insert(strongcleanlist, "shadowthrall_hands") --墨荒之手
+    table.insert(strongcleanlist, "shadowthrall_horns") --墨荒之角
+    table.insert(strongcleanlist, "shadowthrall_wings") --墨荒之翼
+    table.insert(strongcleanlist, "shadowthrall_mouth") --墨荒-狞笑
+    table.insert(strongcleanlist, "crabking_mob") --蟹卫
+    table.insert(strongcleanlist, "crabking_mob_knight") --蟹骑士
+    table.insert(strongcleanlist, "warglet") --青年座狼
+
 end
 
 --- 不建家
