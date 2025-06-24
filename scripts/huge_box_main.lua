@@ -306,7 +306,7 @@ end)
 
 local tumbleweed_item_rates_l = GetModConfigData("tumbleweed_item_rates")
 local tumbleweed_item_multiple_l = GetModConfigData("tumbleweed_item_multiple")
-local cap_item_multiple_l  = GetModConfigData("cap_item_multiple_l")
+local cap_item_multiple_l  = GetModConfigData("cap_item_multiple")
 if tumbleweed_item_multiple_l == nil or tumbleweed_item_multiple_l < 0 then
     tumbleweed_item_multiple_l = 1
 end
@@ -319,7 +319,7 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
     TUNING.TUMBLEWEED_RESOURCES_EXPAND.huge_box_resources = {--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
         resourcesList = {
             --资源列表，可加多条，每条之间用英文逗号隔开
-            { chance = tumbleweed_item_rates_l * 0.003 * cap_item_multiple_l, --权重(必填)
+            { chance = tumbleweed_item_rates_l * 0.0003 * cap_item_multiple_l, --权重(必填)
               item = "_big_box", --掉落物(选填，item和pickfn最好至少填一个)
               aggro = false, --是否仇视玩家(选填，一般是生成生物的时候用)
               announce = true, --开出道具是否发公告(选填，默认false)

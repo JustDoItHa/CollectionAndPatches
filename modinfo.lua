@@ -123,22 +123,29 @@ local color_options = {
 
 local tumbleweed_item_rates_options = {
     { description = "无", data = false, },
-    { description = "极高", data = 1, },
-    { description = "高", data = 0.5, },
-    { description = "一般", data = 0.2, },
-    { description = "低", data = 0.05, },
-    { description = "极低", data = 0.01, },
-    { description = "巨低", data = 0.005, },
+    { description = "10000", data = 10000, },
+    { description = "1000", data = 1000, },
+    { description = "100", data = 100, },
+    { description = "10", data = 10, },
+    { description = "5", data = 5, },
+    { description = "2", data = 2, },
+    { description = "1", data = 1, },
+    { description = "0.5", data = 0.5, },
+    { description = "0.2", data = 0.2, },
+    { description = "0.1", data = 0.1, },
+    { description = "0.05", data = 0.05, },
+    { description = "0.01", data = 0.01, },
+    { description = "0.01", data = 0.01, },
 }
 local tumbleweed_item_multiple_options = {
     { description = "无", data = false, },
-    { description = "极高", data = 1000, },
-    { description = "高", data = 100, },
-    { description = "一般", data = 10, },
+    { description = "1000倍", data = 1000, },
+    { description = "100倍", data = 100, },
+    { description = "10倍", data = 10, },
     { description = "默认", data = 1, },
-    { description = "降低", data = 0.1, },
-    { description = "加倍降低", data = 0.01, },
-    { description = "超级降低", data = 0.001, },
+    { description = "0.1倍", data = 0.1, },
+    { description = "0.01倍", data = 0.01, },
+    { description = "0.001倍", data = 0.001, },
 }
 
 local disappear_magic = {
@@ -829,7 +836,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("MOD_RESTART
 configuration_options[#configuration_options + 1] = AddConfigOption("MOD_RESTART_TRIGGER_MODE", "触发模式", "公聊或者私聊触发指令.", { { description = "公&私聊", data = 1 }, { description = "仅公聊", data = 2 }, { description = "仅私聊", data = 3 }, }, 1)
 ---智能小木牌
 configuration_options[#configuration_options + 1] = AddOptionHeader("智能小木牌")
-configuration_options[#configuration_options + 1] = AddOption("smart_minisign_switch", "智能小木牌-总开关", "设置是否开启智能小木牌", true)
+configuration_options[#configuration_options + 1] = AddOption("smart_minisign_switch", "智能小木牌-总开关", "设置是否开启智能小木牌", false)
 configuration_options[#configuration_options + 1] = AddOption("Icebox", "冰箱(Icebox)", "Minisign for icebox/允许冰箱添加小木牌", false)
 configuration_options[#configuration_options + 1] = AddOption("ChangeSkin", "换肤功能(ChangeSkin)", "Minisign can change skin\n允许小木牌切换皮肤", true)
 configuration_options[#configuration_options + 1] = AddOption("DragonflyChest", "龙鳞宝箱(DragonflyChest)", "Minisign for DragonflyChest\n允许龙鳞箱子添加小木牌", false)
@@ -1384,10 +1391,10 @@ configuration_options[#configuration_options + 1] = AddOption("AutoCook", AutoCo
 configuration_options[#configuration_options + 1] = AddOptionHeader("风滚草补丁")
 configuration_options[#configuration_options + 1] = AddOption("interesting_tumbleweed_switch", "总开关", "", false)
 configuration_options[#configuration_options + 1] = AddOption("tumbleweed_prevent_error_patch_switch", "风滚草防错补丁", "防止一些有关风滚草的mod的问题", true)
-configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_item_rates", "花样风滚草中可以开出一些物品", "花样风滚草可以开出一些其他物品", tumbleweed_item_rates_options, 0.2)
-configuration_options[#configuration_options + 1] = AddConfigOption("cap_item_multiple_l", "本MOD物品倍率", "本MOD物品倍率", tumbleweed_item_multiple_options, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_item_rates", "开出MOD物品几率", "花样风滚草可以开出其他MOD物品几率", tumbleweed_item_rates_options, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("cap_item_multiple", "本MOD物品倍率", "本MOD物品权重=基础权重*几率*倍率", tumbleweed_item_multiple_options, 1)
 configuration_options[#configuration_options + 1] = AddOption("tumbleweed_add_more_item_switch", "风滚草开出更多物品", "风滚草开出更多物品", false)
-configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_item_multiple", "开出更多物品倍率", "开出更多物品倍率", tumbleweed_item_multiple_options, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_item_multiple", "开出更多物品倍率", "更多物品权重=基础权重*几率*更多物品倍率", tumbleweed_item_multiple_options, 1)
 ---樱花林补丁
 configuration_options[#configuration_options + 1] = AddOptionHeader("樱花林补丁")
 configuration_options[#configuration_options + 1] = AddOption("cherry_forest_patch_switch", "总开关", "", false)
