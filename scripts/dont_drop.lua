@@ -114,8 +114,10 @@ AddComponentPostInit("inventory", function(Inventory, inst)
     end
 
     function Inventory:DropEverything(ondeath, keepequip)
-        if not inst:HasTag("player") or inst:HasTag("player") and not inst.components.health  --不是玩家或玩家有血则掉落全部物品
-                or inst:HasTag("player") and inst.components.health and inst.components.health.currenthealth > 0 then
+        --不是玩家或玩家有血则掉落全部物品
+        if not inst:HasTag("player")
+                or (inst:HasTag("player") and not inst.components.health)
+                or (inst:HasTag("player") and inst.components.health and inst.components.health.currenthealth > 0) then
             --兼容换人
             return Inventory:oldDropEverythingFn(ondeath, keepequip)
         else
