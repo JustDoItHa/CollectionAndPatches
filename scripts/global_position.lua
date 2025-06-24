@@ -37,8 +37,11 @@ if GLOBAL_POSITIONS then
     end)
 end
 ]]
-
-local TUNING = GLOBAL.TUNING
+GLOBAL.setmetatable(env, { __index = function(t, k)
+    return GLOBAL.rawget(GLOBAL, k)
+end })
+TUNING = TUNING or GLOBAL.TUNING
+TheNet = TheNet or GLOBAL.TheNet
 TUNING.REMAPPED_MODE = TUNING.REMAPPED_MODE or GetModConfigData("mode") -- Ignore config if already set via other mods
 
 local lang = GetModConfigData("GLOBAL_POSITION_LANG") or "auto"
@@ -112,7 +115,7 @@ local SHOWPLAYERSALWAYS = SHOWPLAYERINDICATORS and CLIENTSHOWPLAYERSOPTIONS == 3
 local NETWORKPLAYERPOSITIONS = SHOWPLAYERICONS or SHOWPLAYERINDICATORS
 local SHAREMINIMAPPROGRESS = NETWORKPLAYERPOSITIONS and GetModConfigData("SHAREMINIMAPPROGRESS")
 local COMPLETESYNC = SHAREMINIMAPPROGRESS and GetModConfigData("COMPLETESYNC")
-TUNING._GLOBALPOSITIONS_COMPLETESYNC_UPDADTEFREQUENCY = GetModConfigData("UPDADTEFREQUENCY")
+GLOBAL._GLOBALPOSITIONS_COMPLETESYNC_UPDADTEFREQUENCY = GetModConfigData("UPDADTEFREQUENCY")
 local FIREOPTIONS = GetModConfigData("FIREOPTIONS")
 local SHOWFIRES = FIREOPTIONS < 3
 local NEEDCHARCOAL = FIREOPTIONS == 2
@@ -145,7 +148,6 @@ if mode == "wilderness" and not OVERRIDEMODE then --by default, have different s
     SHAREMINIMAPPROGRESS = false
     COMPLETESYNC = false
 end
-
 
 -- ************************ Functions about mapdata update************************
 local function save_to_buffer(world, player)
@@ -543,6 +545,10 @@ end)
 
 AddComponentPostInit("maprevealer", function(inst)
     inst.RevealMapToPlayer = function(self, player)
+        if player._PostActivateHandshakeState_Server ~= GLOBAL.POSTACTIVATEHANDSHAKE.READY then
+            return -- Wait until the player client is ready and has received the world size info.
+        end
+
         if player.player_classified ~= nil then
             if player.client_is_ready then
                 player.player_classified.MapExplorer:RevealArea(self.inst.Transform:GetWorldPosition())
@@ -550,6 +556,21 @@ AddComponentPostInit("maprevealer", function(inst)
         end
     end
 end)
+
+if GLOBAL_COURIER then
+    AddPlayerPostInit(function(player)
+        local maprevealable = player.components.maprevealable
+        if maprevealable then
+            if maprevealable.task ~= nil then
+                maprevealable.task:Cancel()
+                maprevealable.task = nil
+            end
+            maprevealable:StartRevealing()
+        else
+            print("[global position (CompleteSync)] Why? maprevealable is nil")
+        end
+    end)
+end
 -- ************************ end of code for debug the maprevealer ************************
 
 -- ************************ code for sharing the map from mapspotrevealer ************************
@@ -708,13 +729,6 @@ GLOBAL._GLOBALPOSITIONS_SHAREMINIMAPPROGRESS = SHAREMINIMAPPROGRESS
 GLOBAL._GLOBALPOSITIONS_SHOWPLAYERICONS = SHOWPLAYERICONS
 GLOBAL._GLOBALPOSITIONS_SHOWFIREICONS = SHOWFIREICONS
 GLOBAL._GLOBALPOSITIONS_SHOWPLAYERINDICATORS = SHOWPLAYERINDICATORS
-
-
-TUNING._GLOBALPOSITIONS_SHAREMINIMAPPROGRESS = GLOBAL._GLOBALPOSITIONS_SHAREMINIMAPPROGRESS
-TUNING._GLOBALPOSITIONS_SHOWPLAYERICONS = GLOBAL._GLOBALPOSITIONS_SHOWPLAYERICONS
-TUNING._GLOBALPOSITIONS_SHOWFIREICONS = GLOBAL._GLOBALPOSITIONS_SHOWFIREICONS
-TUNING._GLOBALPOSITIONS_SHOWPLAYERINDICATORS = GLOBAL._GLOBALPOSITIONS_SHOWPLAYERINDICATORS
-
 
 --#rezecib this is needed to make sure the normal ones disappear when you get far enough
 -- (don't want to be clogging the screen with arrows, so only show the global ones
@@ -985,7 +999,7 @@ if SHOWFIRES then
 end
 -- Expose this so that other mods can add data for things they want to have icons/indicators for
 GLOBAL._GLOBALPOSITIONS_TARGET_INDICATOR_ICONS = TARGET_INDICATOR_ICONS
-TUNING._GLOBALPOSITIONS_TARGET_INDICATOR_ICONS =GLOBAL._GLOBALPOSITIONS_TARGET_INDICATOR_ICONS
+
 local CH = lang == 'zh'
 if ENABLEPINGS then
     GLOBAL.STRINGS.NAMES.PING_GENERIC = CH and "兴趣点" or "Point of Interest"
@@ -1523,6 +1537,5 @@ for prefab,data in pairs(TARGET_INDICATOR_ICONS) do
 end
 
 for _,prefab in pairs(GLOBAL.DST_CHARACTERLIST) do
-    GLOBAL._GLOBALPOSITIONS_MAP_ICONS[prefab] = prefab .. ".tex"
+    GLOBAL._GLOBALPOSITIONS_MAP_ICONS[prefab] = prefab .. ".png"
 end
-TUNING._GLOBALPOSITIONS_MAP_ICONS =  GLOBAL._GLOBALPOSITIONS_MAP_ICONS
