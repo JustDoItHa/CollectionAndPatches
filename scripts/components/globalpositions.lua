@@ -12,7 +12,7 @@ local GlobalPositions = Class(function(self, inst)
 	self.inst = inst
 	self.positions = {}
 	if not TheWorld.ismastersim
-	or not TUNING._GLOBALPOSITIONS_SHAREMINIMAPPROGRESS
+	or not _GLOBALPOSITIONS_SHAREMINIMAPPROGRESS
 	or not TheNet:IsDedicated() then return end
 	-- or not false then return end
 	-- Players will wait to get their map from here until this says it's loaded
@@ -83,8 +83,8 @@ function GlobalPositions:UpdatePortrait(inst)
 end
 
 function shouldShowIndicator(gpc)
-	local show = gpc.userid:value() ~= "nil" and TUNING._GLOBALPOSITIONS_SHOWPLAYERINDICATORS
-	show = show or (gpc.userid:value() == "nil" and TUNING._GLOBALPOSITIONS_TARGET_INDICATOR_ICONS[gpc.parentprefab:value()])
+	local show = gpc.userid:value() ~= "nil" and _GLOBALPOSITIONS_SHOWPLAYERINDICATORS
+	show = show or (gpc.userid:value() == "nil" and _GLOBALPOSITIONS_TARGET_INDICATOR_ICONS[gpc.parentprefab:value()])
 	return show
 end
 

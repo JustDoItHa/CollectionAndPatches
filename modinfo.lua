@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.7.0.1"
+version = "14.8.0.1"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2451,7 +2451,7 @@ configuration_options[#configuration_options + 1] = AddOption("ui_button_badge_t
 
 ---Beta功能
 configuration_options[#configuration_options + 1] = AddOptionHeader("Beta功能(非必要可选择关闭)")
-configuration_options[#configuration_options + 1] = AddOption("beta_function_switch", "总开关", "是否开启Beta的一些功能", true)
+configuration_options[#configuration_options + 1] = AddOption("beta_function_switch", "总开关", "是否开启Beta的一些功能", false)
 
 --configuration_options[#configuration_options + 1] = AddOption("medal_ab_drrn_patches_switch", "装备栏优化", "对于开 阿比 度日如年 玩家物品栏 勋章栏异常的权宜之计", true)
 --configuration_options[#configuration_options + 1] = AddOption("repeat_death_fix", "鞭尸修复", "修复鞭尸怪物(理论上应该也能阻止玩家被鞭尸)", true)
