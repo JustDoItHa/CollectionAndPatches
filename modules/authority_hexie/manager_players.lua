@@ -8,7 +8,7 @@ local GetTaskRemaining = _G.GetTaskRemaining
 local cant_destroyby_monster = GetModConfigData("cant_destroyby_monster")
 local remove_owner_time = GetModConfigData("remove_owner_time")
 --TheShard:StartMigration(migrationdata.player.userid, migrationdata.worldid)
--- 掉落物品自动堆叠
+-- 掉落物品自动
 local auto_stack = GetModConfigData("auto_stack")
 
 --local AllPlayers = _G.AllPlayers
