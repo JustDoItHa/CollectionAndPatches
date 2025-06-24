@@ -201,8 +201,8 @@ AddModRPCHandler("CAP_BUTTON", "pick", function(player, inst)
 end)
 
 local function huge_box_pick(inst, doer)
-    if not inst.cap_pick then
-        inst.cap_pick = true
+    if not inst.cap_pick_f then
+        inst.cap_pick_f = true
         if inst.components.container ~= nil then
             if inst.components.container ~= nil and not inst.components.container:IsEmpty() then
                 ptask(inst)
@@ -215,7 +215,7 @@ local function huge_box_pick(inst, doer)
             end
         end
         inst:DoTaskInTime(0.5, function()
-            inst.cap_pick = false
+            inst.cap_pick_f = false
         end)
     end
 end
