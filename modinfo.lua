@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.8.0.2"
+version = "14.9.0.1"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -658,7 +658,7 @@ configuration_options = {
     AddOptionHeader("堆叠修改"),
     AddOption("cap_stack_size_switch", "总开关", "是否开启堆叠修改", false),
     AddConfigOption("cap_stack_size", "物品堆叠数量", "设置物品堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 },  { description = "1000", data = 1000 }, { description = "无限堆叠", data = 2147483647 },}, 40),
-    AddConfigOption("cap_soul_stack_size", "灵魂堆叠数量", "设置灵魂堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 },  { description = "1000", data = 1000 },}, 40),
+    AddConfigOption("cap_soul_stack_size", "灵魂堆叠数量", "设置灵魂堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 },  { description = "1000", data = 1000 },{ description = "无限堆叠", data = 2147483647 },}, 40),
     AddOptionHeader("更多堆叠及细项(堆叠修改总开关需打开)"),
     AddOption("cap_stack_more", "更多可堆叠", "使鸟、兔子、地鼠、鱼等生物变得可堆叠", true),
 
@@ -1395,6 +1395,9 @@ configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_
 configuration_options[#configuration_options + 1] = AddConfigOption("cap_item_multiple", "本MOD物品倍率", "本MOD物品权重=基础权重*几率*倍率", tumbleweed_item_multiple_options, 1)
 configuration_options[#configuration_options + 1] = AddOption("tumbleweed_add_more_item_switch", "风滚草开出更多物品", "风滚草开出更多物品", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_item_multiple", "开出更多物品倍率", "更多物品权重=基础权重*几率*更多物品倍率", tumbleweed_item_multiple_options, 1)
+configuration_options[#configuration_options + 1] = AddOption("tumbleweed_add_more_easter_egg_switch", "风滚草开出更多彩蛋", "风滚草开出更多彩蛋", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_add_more_easter_egg_multiple", "开出更多彩蛋倍率", "", tumbleweed_item_multiple_options, 1)
+
 ---樱花林补丁
 configuration_options[#configuration_options + 1] = AddOptionHeader("樱花林补丁")
 configuration_options[#configuration_options + 1] = AddOption("cherry_forest_patch_switch", "总开关", "", false)
@@ -1951,6 +1954,8 @@ configuration_options[#configuration_options + 1] = AddConfigOption("CREATURE_DI
                                                                                                                                                               { description = "八天（64分钟）", data = 60 * 64, hover = "8d(64min)" },
                                                                                                                                                               { description = "九天（72分钟）", data = 60 * 72, hover = "9d(72min)" },
                                                                                                                                                               { description = "十天（80分钟）", data = 60 * 80, hover = "10d(80min)" }, }, false)
+configuration_options[#configuration_options + 1] = AddOption("beefalo_storage_switch", "牛牛可收入牛铃", "把牛收入牛铃，可召唤出来", false)
+
 local beefalo_status_bar_colors = { { name = "ORANGE", description = "Orange(橘色)" }, { name = "ORANGE_ALT", description = "Orange Alt(橘色高亮)" }, { name = "BLUE", description = "Blue(蓝色)" }, { name = "BLUE_ALT", description = "Blue Alt(蓝色高亮)" }, { name = "PURPLE", description = "Purple(紫色)" }, { name = "PURPLE_ALT", description = "Purple Alt(紫色高亮)" }, { name = "RED", description = "Red(红色)" }, { name = "RED_ALT", description = "Red Alt(红色高亮)" }, { name = "GREEN", description = "Green(绿色)" }, { name = "GREEN_ALT", description = "Green Alt(绿色高亮)" }, { name = "WHITE", description = "White(白色)" }, { name = "YELLOW", description = "Yellow(白色高亮)" } }
 
 local function GenerateCommonOptions(start, count, step, default, prefix, suffix)

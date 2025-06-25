@@ -102,9 +102,9 @@ TUNING.DENGXIAN_ENABLE = modenable({ "3235319974", "登仙" })
 TUNING.ADDITIONAL_ITEM_PACKAGE_ENABLE = modenable({ "1085586145", "额外物品包" })
 TUNING.MIAO_PACKBOX_ENABLE = modenable({ "1545370686", "Packbox(miao) (sua khoang cach )" })
 --TUNING.TROPICAL_ENABLE = modenable({ "1505270912", "热带体验 | 海难哈姆雷特生态：来自域外" },{"2986194136","热带冒险：乘风破浪！"})
-TUNING.TROPICAL_ENABLE = modenable({"2986194136","热带冒险：乘风破浪！"})
-TUNING.LEGEND_AND_SEA_ENABLE = modenable({"2979177306","[DST]海洋传说-Legend and sea"})
-TUNING.CHUANQIWUQI_MOD_ENABLE = modenable({"3096210166","传奇武器-附魔强化"})
+TUNING.TROPICAL_ENABLE = modenable({ "2986194136", "热带冒险：乘风破浪！" })
+TUNING.LEGEND_AND_SEA_ENABLE = modenable({ "2979177306", "[DST]海洋传说-Legend and sea" })
+TUNING.CHUANQIWUQI_MOD_ENABLE = modenable({ "3096210166", "传奇武器-附魔强化" })
 TUNING.ZHIJIANGWANGSHI_MOD_ENABLE = modenable({ "2992200942", "枝江往事" })
 TUNING.TONGHUASHIJIE_MOD_ENABLE = modenable({ "3288149713", "童话世界", "Fairy Tales" })
 TUNING.JIANJIADANGKUANGXI_MOD_ENABLE = modenable({ "2928810007", "建家党狂喜" })
@@ -488,6 +488,10 @@ end
 if GetModConfigData("interesting_tumbleweed_switch") and GetModConfigData("tumbleweed_prevent_error_patch_switch") then
     modimport("scripts/tumbleweed_prevent_error_patch.lua")
 end
+if GetModConfigData("interesting_tumbleweed_switch") and GetModConfigData("tumbleweed_add_more_easter_egg_switch") then
+    modimport("scripts/tumbleweed_add_more_easter_egg.lua")
+end
+
 
 if GetModConfigData("interesting_tumbleweed_switch") and GetModConfigData("tumbleweed_add_more_item_switch") then
     modimport("scripts/tumbleweed_more_item_patch.lua")
@@ -627,6 +631,10 @@ if GetModConfigData("little_modify_for_pure_switch") then
     -- 亮茄定期死亡
     if GetModConfigData("CREATURE_DIE_TIME") then
         modimport("scripts/creature_die_time_patches.lua")
+    end
+
+    if GetModConfigData("beefalo_storage_switch") then
+        modimport("scripts/beefalo_storage_main.lua")
     end
 
 end
