@@ -84,9 +84,9 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
     TUNING.TUMBLEWEED_RESOURCES_EXPAND.more_easter_egg_god_resources = {--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
         resourcesList = {
             --猫神祝福0.05 赠送小猫包三个
-            {chance = 0.05,pickfn = function(inst,picker)
+            {chance = 0.001,pickfn = function(inst,picker)
                 local spawnLoot={
-                    {item="catbag",num=3,radius=4},--高鸟
+                    {item="catback",num=3,radius=4},--小猫包
                 }
                 spawnCircleItem(picker,spawnLoot,"MSZF")
             end},
@@ -98,7 +98,7 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
     TUNING.TUMBLEWEED_RESOURCES_EXPAND.more_easter_egg_bad_resources = {--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
         resourcesList = {
             --盐都不盐 怪物成群
-            {chance = 0.05,pickfn = function(inst,picker)
+            {chance = 0.001,pickfn = function(inst,picker)
                 local spawnLoot={
                     {item="bearger",num=3,radius=8},--熊大
                     {item="minotaur",num=3,radius=12},--犀牛
