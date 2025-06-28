@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.9.0.2"
+version = "14.9.0.3"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1225,7 +1225,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("yeyu_nilxin
                                                                                                                                  { description = "大门洞穴和有structure标签附近无法造海", data = 1, } }, 0)
 
 --configuration_options[#configuration_options + 1] = AddOption("everyone_is_yeyu_nilxin", "人人都是夜雨", "每个角色都可以使用当夜雨", false),
-configuration_options[#configuration_options + 1] = AddOption("yeyu_nilxin_island_generate_no", "不生成夜雨岛", "给无资源档使用", false)
+--configuration_options[#configuration_options + 1] = AddOption("yeyu_nilxin_island_generate_no", "不生成夜雨岛", "给无资源档使用", false)
 ---奇幻降临补丁
 configuration_options[#configuration_options + 1] = AddOptionHeader("奇幻降临补丁")
 configuration_options[#configuration_options + 1] = AddOption("ab_patches_switch", "总开关", "是否开启奇幻降临补丁", false)

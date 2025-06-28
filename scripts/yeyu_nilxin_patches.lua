@@ -214,23 +214,23 @@ end
 
 
 ---不生成资源岛
-if GetModConfigData("yeyu_nilxin_island_generate_no") then
-    AddPrefabPostInit("yyxk_san_base_layout",function (inst)
-        inst:Remove()
-        --地图随机生成魔力花(nilxin_lifeplant)星光之石(yyxk_san_layout) 任务中心(yyxk_homesign)
-        SpawnAt("nilxin_lifeplant",findSpawnPoint())
-        SpawnAt("nilxin_lifeplant",findSpawnPoint())
-        SpawnAt("nilxin_lifeplant",findSpawnPoint())
-        SpawnAt("nilxin_lifeplant",findSpawnPoint())
-        SpawnAt("nilxin_lifeplant",findSpawnPoint())
-        SpawnAt("nilxin_lifeplant",findSpawnPoint())
-        SpawnAt("nilxin_lifeplant",findSpawnPoint())
-        SpawnAt("nilxin_lifeplant",findSpawnPoint())
-        SpawnAt("nilxin_lifeplant",findSpawnPoint())
-        SpawnAt("nilxin_lifeplant",findSpawnPoint())
-        SpawnAt("yyxk_san_layout",findSpawnPoint())
-        SpawnAt("yyxk_homesign",findSpawnPoint())
-
-    end)
-
-end
+--if GetModConfigData("yeyu_nilxin_island_generate_no") then
+--    AddPrefabPostInit("yyxk_san_base_layout",function (inst)
+--        inst:Remove()
+--        --地图随机生成魔力花(nilxin_lifeplant)星光之石(yyxk_san_layout) 任务中心(yyxk_homesign)
+--        SpawnAt("nilxin_lifeplant",findSpawnPoint())
+--        SpawnAt("nilxin_lifeplant",findSpawnPoint())
+--        SpawnAt("nilxin_lifeplant",findSpawnPoint())
+--        SpawnAt("nilxin_lifeplant",findSpawnPoint())
+--        SpawnAt("nilxin_lifeplant",findSpawnPoint())
+--        SpawnAt("nilxin_lifeplant",findSpawnPoint())
+--        SpawnAt("nilxin_lifeplant",findSpawnPoint())
+--        SpawnAt("nilxin_lifeplant",findSpawnPoint())
+--        SpawnAt("nilxin_lifeplant",findSpawnPoint())
+--        SpawnAt("nilxin_lifeplant",findSpawnPoint())
+--        SpawnAt("yyxk_san_layout",findSpawnPoint())
+--        SpawnAt("yyxk_homesign",findSpawnPoint())
+--
+--    end)
+--
+--end

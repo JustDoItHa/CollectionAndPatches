@@ -8,7 +8,7 @@ end
 STRINGS.TUMBLEWEEDANNOUNCE_MOD= {
     QIAN="【",
     MSZF = "】在开风滚草时得到了【猫神祝福】", --猫神祝福
-    YDBY = "】在开风滚草时遇到了【盐都不盐了的诅咒】", --猫神祝福
+    YDBY = "】在开风滚草时遇到了【盐都不盐了的诅咒】", --盐都不盐了的诅咒
 }
 ----------------生成各种怪圈(玩家,预置物列表,公告)-----------------
 local function spawnCircleItem(player,spawnLoot,announce)
