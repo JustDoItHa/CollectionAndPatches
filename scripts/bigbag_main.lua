@@ -353,3 +353,22 @@ end
 --
 --    end)
 --end
+
+-- 不被蘑菇云腐坏
+if GetModConfigData("BIG_BAG_FRESH_RESIST") then
+    local function ttperishable(self)
+        local OldReducePercent = self.ReducePercent
+        function self:ReducePercent(amount, ...)
+            local item = self.inst
+            if item and item:IsInLimbo() then
+                local owner = item.components.inventoryitem ~= nil and item.components.inventoryitem.owner or nil
+                if owner and owner.components.container ~= nil and amount > 0 and
+                        owner:HasOneOfTags({"catback", "nicebigbag", "catbigbag"}) then
+                    return
+                end
+            end
+            OldReducePercent(self, amount, ...)
+        end
+    end
+    AddComponentPostInit("perishable", ttperishable)
+end

@@ -8,6 +8,7 @@ end
 STRINGS.TUMBLEWEEDANNOUNCE_MOD= {
     QIAN="【",
     MSZF = "】在开风滚草时得到了【猫神祝福】", --猫神祝福
+    CSCK = "】在开风滚草时遇到了【仓鼠仓库】", --仓鼠仓库
     YDBY = "】在开风滚草时遇到了【盐都不盐了的诅咒】", --盐都不盐了的诅咒
 }
 ----------------生成各种怪圈(玩家,预置物列表,公告)-----------------
@@ -83,12 +84,19 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
     TUNING.TUMBLEWEED_RESOURCES_EXPAND = TUNING.TUMBLEWEED_RESOURCES_EXPAND or {}
     TUNING.TUMBLEWEED_RESOURCES_EXPAND.more_easter_egg_god_resources = {--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
         resourcesList = {
-            --猫神祝福0.05 赠送小猫包三个
+            --猫神祝福0.001 赠送小猫包三个
             {chance = 0.001,pickfn = function(inst,picker)
                 local spawnLoot={
                     {item="catback",num=3,radius=4},--小猫包
                 }
                 spawnCircleItem(picker,spawnLoot,"MSZF")
+            end},
+            --大箱子
+            {chance = 0.001,pickfn = function(inst,picker)
+                local spawnLoot={
+                    {item="_big_box",num=3,radius=4},--大箱子
+                }
+                spawnCircleItem(picker,spawnLoot,"CSCK")
             end},
         },
         multiple = tumbleweed_add_more_easter_egg_multiple_l, --倍率(选填，不填默认为1)

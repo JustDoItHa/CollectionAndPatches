@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.9.0.3"
+version = "14.9.1.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1459,6 +1459,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("WALKSPEED",
 configuration_options[#configuration_options + 1] = AddOption("BIG_BAG_STACK", "Full Stack (自动堆满)", "Get full stack when reopen the bag.(放一个重新打开会变堆叠满个数哦，慎用)", false)
 configuration_options[#configuration_options + 1] = AddOption("BIG_BAG_FRESH", "ReFresh (恢复新鲜)", "ReFresh food and tools when reopen the bag.", false)
 --configuration_options[#configuration_options + 1] = AddOption("GIVE", "Give Items (获得物品)", "!!! SEVER ONLY !!!  Give Items Directly If Can't Build Something. !!! SEVER ONLY !!!", false)
+configuration_options[#configuration_options + 1] = AddOption("BIG_BAG_FRESH_RESIST", "ReFresh Resist (防孢子云破坏)", "防止包裹内物品新鲜度被孢子云破坏.", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("RECIPE", "Recipe (耗材)", "Recipe cost.", { { description = "Very Cheap(超便宜)", data = 1, },
                                                                                                                  { description = "Cheap(便宜)", data = 2, },
                                                                                                                  { description = "Normal(正常)", data = 3, },
@@ -1506,6 +1507,8 @@ configuration_options[#configuration_options + 1] = AddConfigOption("SET_HUGE_BO
           option("-4", -4, Language_cn and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
           option("-16", -16, Language_cn and "返鲜。参考：锡鱼罐返鲜效果为-0.333" or "Return fresh. Reference: Fresh return effect of tin fish can is -0.333"),
         }, -1)
+configuration_options[#configuration_options + 1] = AddOption("HUGE_BOX_FRESH_RESIST", "Fresh Resist (防孢子云破坏)", "防止包裹内物品新鲜度被孢子云破坏.", false)
+
 configuration_options[#configuration_options + 1] = AddOptionHeader("月亮控制书籍")
 configuration_options[#configuration_options + 1] = AddOption("add_moon_book_switch", "月亮控制相关书籍开关", "是否可以制作月亮控制相关书籍", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("moon_book_language", "语言/Language", "", { { description = "中文", data = "zhs", hover = "" }, { description = "English", data = "en", hover = "" } }, "zhs")
@@ -2116,7 +2119,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("player_auth
           { description = "不限制", data = 0 }, }, 180)
 --移到公用池
 --configuration_options[#configuration_options + 1] = AddOption("player_authority_stack", "#stack指令", "输入指令自动堆叠玩家范围内的物品", true)
-configuration_options[#configuration_options + 1] = AddOption("player_authority_SaveInfo", "主世界换人保留全部数据", "支持#restart，其它世界换人不保留数据", true)
+configuration_options[#configuration_options + 1] = AddOption("player_authority_SaveInfo", "主世界换人保留全部", "支持#restart，其它世界换人不保留数据", true)
 configuration_options[#configuration_options + 1] = AddOption("player_authority_adduserid", "装备绑定", "使用暗影之心绑定", true)
 configuration_options[#configuration_options + 1] = AddOption("player_authority_canburnable", "有权限建筑防止一切物品的恶意燃烧", "目前在测试阶段，只有火把能点燃建筑", false)
 

@@ -332,3 +332,21 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
         weightClass = "goodMax", --权重等级(选填，填了后掉率会随玩家幸运值变化,不填掉率不会随幸运值浮动)
     }
 end
+-- 不被蘑菇云腐坏
+if GetModConfigData("HUGE_BOX_FRESH_RESIST") then
+    local function ttperishable(self)
+        local OldReducePercent = self.ReducePercent
+        function self:ReducePercent(amount, ...)
+            local item = self.inst
+            if item and item:IsInLimbo() then
+                local owner = item.components.inventoryitem ~= nil and item.components.inventoryitem.owner or nil
+                if owner and owner.components.container ~= nil and amount > 0 and
+                        owner:HasOneOfTags({ "_big_box_chest", "_big_box", "huge_box" }) then
+                    return
+                end
+            end
+            OldReducePercent(self, amount, ...)
+        end
+    end
+    AddComponentPostInit("perishable", ttperishable)
+end
