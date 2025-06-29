@@ -2119,7 +2119,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("player_auth
           { description = "不限制", data = 0 }, }, 180)
 --移到公用池
 --configuration_options[#configuration_options + 1] = AddOption("player_authority_stack", "#stack指令", "输入指令自动堆叠玩家范围内的物品", true)
-configuration_options[#configuration_options + 1] = AddOption("player_authority_SaveInfo", "主世界换人保留全部", "支持#restart，其它世界换人不保留数据", true)
+configuration_options[#configuration_options + 1] = AddOption("player_authority_SaveInfo", "主世界换人保留全部数据", "支持#restart，其它世界换人不保留数据", true)
 configuration_options[#configuration_options + 1] = AddOption("player_authority_adduserid", "装备绑定", "使用暗影之心绑定", true)
 configuration_options[#configuration_options + 1] = AddOption("player_authority_canburnable", "有权限建筑防止一切物品的恶意燃烧", "目前在测试阶段，只有火把能点燃建筑", false)
 
