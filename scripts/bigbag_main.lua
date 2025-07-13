@@ -53,6 +53,46 @@ table.insert(Assets, Asset("ATLAS", "images/minimap/nicebigbag.xml"))
 table.insert(Assets, Asset("IMAGE", "images/minimap/catback.tex"))
 table.insert(Assets, Asset("ATLAS", "images/minimap/catback.xml"))
 
+
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/cbdz0.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/cbdz0.xml"))
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/cbdz1.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/cbdz1.xml"))
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/cbdz2.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/cbdz2.xml"))
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/cbdz3.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/cbdz3.xml"))
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/cbdz4.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/cbdz4.xml"))
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/cbdz5.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/cbdz5.xml"))
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/cbdz6.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/cbdz6.xml"))
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/cbdz7.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/cbdz7.xml"))
+table.insert(Assets, Asset("IMAGE", "images/inventoryimages/cbdz8.tex"))
+table.insert(Assets, Asset("ATLAS", "images/inventoryimages/cbdz8.xml"))
+
+table.insert(Assets, Asset("ANIM", "anim/cbdz0.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_cbdz0.zip"))
+table.insert(Assets, Asset("ANIM", "anim/cbdz1.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_cbdz1.zip"))
+table.insert(Assets, Asset("ANIM", "anim/cbdz2.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_cbdz2.zip"))
+table.insert(Assets, Asset("ANIM", "anim/cbdz3.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_cbdz3.zip"))
+table.insert(Assets, Asset("ANIM", "anim/cbdz4.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_cbdz4.zip"))
+table.insert(Assets, Asset("ANIM", "anim/cbdz5.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_cbdz5.zip"))
+table.insert(Assets, Asset("ANIM", "anim/cbdz6.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_cbdz6.zip"))
+table.insert(Assets, Asset("ANIM", "anim/cbdz7.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_cbdz7.zip"))
+table.insert(Assets, Asset("ANIM", "anim/cbdz8.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_cbdz8.zip"))
+
+
 --table.insert(Assets, Asset("IMAGE", "images/bigbagbg.tex"))
 --table.insert(Assets, Asset("ATLAS", "images/bigbagbg.xml"))
 
@@ -279,6 +319,7 @@ AddPrefabPostInit("bluebigbag", function(inst)
     end
 end)
 
+modimport("scripts/skin/catback_skin_list.lua")
 --------------------------------------------------------------------------------------------------------------------------
 --[[如果想在风滚草中添加你想加的资源，可在mod中加入下面代码
 TUNING.TUMBLEWEED_RESOURCES_EXPAND=TUNING.TUMBLEWEED_RESOURCES_EXPAND or {}

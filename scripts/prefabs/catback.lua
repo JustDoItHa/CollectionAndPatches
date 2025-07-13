@@ -11,6 +11,43 @@ local assets = {
     Asset("ANIM", "anim/catback.zip"),
     Asset("ANIM", "anim/swap_catback.zip"),
     Asset("ATLAS", "images/inventoryimages/catback.xml"),
+    Asset("IMAGE", "images/minimap/catback.tex"),
+    Asset("IMAGE", "images/inventoryimages/cbdz0.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz0.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz1.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz1.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz2.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz2.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz3.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz3.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz4.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz4.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz5.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz5.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz6.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz6.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz7.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz7.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz8.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz8.xml"),
+    Asset("ANIM", "anim/cbdz0.zip"),
+    Asset("ANIM", "anim/ui_cbdz0.zip"),
+    Asset("ANIM", "anim/cbdz1.zip"),
+    Asset("ANIM", "anim/ui_cbdz1.zip"),
+    Asset("ANIM", "anim/cbdz2.zip"),
+    Asset("ANIM", "anim/ui_cbdz2.zip"),
+    Asset("ANIM", "anim/cbdz3.zip"),
+    Asset("ANIM", "anim/ui_cbdz3.zip"),
+    Asset("ANIM", "anim/cbdz4.zip"),
+    Asset("ANIM", "anim/ui_cbdz4.zip"),
+    Asset("ANIM", "anim/cbdz5.zip"),
+    Asset("ANIM", "anim/ui_cbdz5.zip"),
+    Asset("ANIM", "anim/cbdz6.zip"),
+    Asset("ANIM", "anim/ui_cbdz6.zip"),
+    Asset("ANIM", "anim/cbdz7.zip"),
+    Asset("ANIM", "anim/ui_cbdz7.zip"),
+    Asset("ANIM", "anim/cbdz8.zip"),
+    Asset("ANIM", "anim/ui_cbdz8.zip")
 }
 
 local function getitem_catback(inst, data)
@@ -57,10 +94,6 @@ local function getitem_catback(inst, data)
         end
 
     end
-    if inst.components.inventoryitem then
-        inst.components.inventoryitem.imagename = "catback"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
-    end
 end
 
 local function insulatorstate(inst)
@@ -75,10 +108,6 @@ local function insulatorstate(inst)
         inst:AddComponent("insulator")
         inst.components.insulator:SetSummer()
         inst.components.insulator:SetInsulation(500)
-    end
-    if inst.components.inventoryitem then
-        inst.components.inventoryitem.imagename = "catback"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
     end
 
 end
@@ -185,8 +214,20 @@ local function doBenefit_catback(inst)
 end
 
 local function onequip(inst, owner)
-    owner.AnimState:OverrideSymbol("backpack", "swap_catback", "backpack")
-    owner.AnimState:OverrideSymbol("swap_body", "swap_catback", "swap_body")
+    --owner.AnimState:OverrideSymbol("backpack", "swap_catback", "backpack")
+    --owner.AnimState:OverrideSymbol("swap_body", "swap_catback", "swap_body")
+
+    local skin_build = inst:GetSkinBuild()
+    if skin_build ~= nil then
+        owner:PushEvent("equipskinneditem", inst:GetSkinName())
+        --owner.AnimState:OverrideItemSkinSymbol("backpack", skin_build, "backpack", inst.GUID, bag_symbol[inst.prefab])
+        owner.AnimState:OverrideItemSkinSymbol("swap_body", skin_build, "swap_body", inst.GUID, "swap_backpack")
+    else
+        --owner.AnimState:OverrideSymbol("backpack", bag_symbol[inst.prefab], "backpack")
+        owner.AnimState:OverrideSymbol("swap_body", "swap_catback", "swap_body")
+    end
+
+
     inst.components.container:Open(owner)
     if owner.components.health ~= nil then
         owner.components.health.externalabsorbmodifiers:SetModifier(inst, .9)
@@ -198,10 +239,6 @@ local function onequip(inst, owner)
     inst.light = SpawnPrefab("lifelight")
     inst.light.entity:SetParent(owner.entity)
 
-    if inst.components.inventoryitem then
-        inst.components.inventoryitem.imagename = "catback"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
-    end
 end
 
 local function onunequip(inst, owner)
@@ -218,21 +255,10 @@ local function onunequip(inst, owner)
         inst.light:Remove()
     end
 
-    if inst.components.inventoryitem then
-        inst.components.inventoryitem.imagename = "catback"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
-    end
 end
 local function ondropped(inst)
     if inst.components.container ~= nil then
         inst.components.container:Close()
-    end
-    inst.AnimState:SetBank("catback")
-    inst.AnimState:SetBuild("catback")
-    inst.AnimState:PlayAnimation("idle")
-    if inst.components.inventoryitem then
-        inst.components.inventoryitem.imagename = "catback"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
     end
 end
 local function onequiptomodel(inst, owner)
@@ -271,6 +297,7 @@ local function fn()
     inst.entity:AddNetwork()
 
     MakeInventoryPhysics(inst)
+    inst.MiniMapEntity:SetIcon("catback.tex")
 
     inst.AnimState:SetBank("catback")
     inst.AnimState:SetBuild("catback")
@@ -296,8 +323,6 @@ local function fn()
     --waterproofer (from waterproofer component) added to pristine state for optimization
     --inst:AddTag("waterproofer")
 
-    local swap_data = { bank = "backpack1", anim = "anim" }
-    MakeInventoryFloatable(inst, "med", 0.1, 0.65, nil, nil, swap_data)
 
     inst.entity:SetPristine()
 
@@ -315,9 +340,6 @@ local function fn()
 
     inst:AddComponent("inspectable")
 
-    inst:AddComponent("inventoryitem")
-    inst.components.inventoryitem.cangoincontainer = false
-    inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
     --[[
     inst:AddComponent("insulator")
     inst.components.insulator:SetInsulation(TUNING.INSULATION_LARGE)
@@ -350,6 +372,7 @@ local function fn()
     inst:AddComponent("inspectable")
     inst:AddComponent("inventoryitem")
     inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
+    inst.components.inventoryitem.imagename = "catback"
     inst.components.inventoryitem:SetOnDroppedFn(ondropped)
     inst.components.inventoryitem.cangoincontainer = true -- [[can be carried]]!!!!!!!!!!!!!!!!!!!!
     inst.components.inventoryitem.foleysound = "dontstarve/movement/foley/marblearmour"

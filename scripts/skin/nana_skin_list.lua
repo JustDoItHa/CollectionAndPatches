@@ -17,11 +17,7 @@ local pifu_list =            --对应的皮肤
 	{"teleportation","t6",STRINGS.NANA_TELEPORT_KGLXZ},
 	{"teleportation","t7",STRINGS.NANA_TELEPORT_T7},
 	{"teleportation","t8",STRINGS.NANA_TELEPORT_T8},
-
-
-	
 }
-
 
 
 --开始注册:
