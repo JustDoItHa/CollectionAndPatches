@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.9.3.0"
+version = "14.9.4.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -657,6 +657,7 @@ configuration_options = {
 
     AddOptionHeader("堆叠修改"),
     AddOption("cap_stack_size_switch", "总开关", "是否开启堆叠修改", false),
+    AddOption("cap_stack_show_real_num", "显示真实堆叠数量", "超过999不是显示999+", false),
     AddConfigOption("cap_stack_size", "物品堆叠数量", "设置物品堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 },  { description = "无限堆叠", data = 2147483647 },}, 40),
     AddConfigOption("cap_soul_stack_size", "灵魂堆叠数量", "设置灵魂堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 },  { description = "无限堆叠", data = 2147483647 },}, 40),
     AddOptionHeader("更多堆叠及细项(堆叠修改总开关需打开)"),
