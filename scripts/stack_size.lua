@@ -462,9 +462,9 @@ if cap_stack_show_real_num_l then
             return
         end
 
-        if quantity < 10000 then
-            return tostring(quantity)
-        end
+        --if quantity < 10000 then
+        --    return tostring(quantity)
+        --end
 
         local index = #SUFFIXES
 
