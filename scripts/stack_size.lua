@@ -89,8 +89,8 @@ if (stack_size > 4096 or stack_size1 > 4096) and cap_stack_show_real_num_l then
     stackable_replica._ctor = function(self, inst)
         self.inst = inst
 
-        self._stacksize = net_ushortint(inst.GUID, "stackable._stacksize", "stacksizedirty")
-        self._stacksizeupper = net_ushortint(inst.GUID, "stackable._stacksizeupper", "stacksizedirty")
+        self._stacksize = net_uint(inst.GUID, "stackable._stacksize", "stacksizedirty")
+        self._stacksizeupper = net_uint(inst.GUID, "stackable._stacksizeupper", "stacksizedirty")
         self._ignoremaxsize = net_bool(inst.GUID, "stackable._ignoremaxsize")
         self._maxsize = net_tinybyte(inst.GUID, "stackable._maxsize")
 
@@ -103,25 +103,25 @@ if (stack_size > 4096 or stack_size1 > 4096) and cap_stack_show_real_num_l then
 
     stackable_replica.SetStackSize = function(self, stacksize)
         stacksize = stacksize - 1
-        if stacksize <= 65535 then
+        if stacksize <= 4294967295 then
             self._stacksizeupper:set(0)
             self._stacksize:set(stacksize)
         elseif stacksize >= 4095 then
-            if self._stacksizeupper:value() ~= 65535 then
-                self._stacksizeupper:set(65535)
+            if self._stacksizeupper:value() ~= 4294967295 then
+                self._stacksizeupper:set(4294967295)
             else
-                self._stacksize:set_local(65535) --force sync to trigger UI events even when capped
+                self._stacksize:set_local(4294967295) --force sync to trigger UI events even when capped
             end
-            self._stacksize:set(65535)
+            self._stacksize:set(4294967295)
         else
-            local upper = math.floor(stacksize / 65536)
+            local upper = math.floor(stacksize / 4294967296)
             self._stacksizeupper:set(upper)
-            self._stacksize:set(stacksize - upper * 65536)
+            self._stacksize:set(stacksize - upper * 4294967296)
         end
     end
 
     stackable_replica.StackSize = function(self)
-        return self:GetPreviewStackSize() or (self._stacksizeupper:value() * 65536 + self._stacksize:value() + 1)
+        return self:GetPreviewStackSize() or (self._stacksizeupper:value() * 4294967296 + self._stacksize:value() + 1)
     end
 
     AddClassPostConstruct("widgets/controls", function()
@@ -131,7 +131,7 @@ if (stack_size > 4096 or stack_size1 > 4096) and cap_stack_show_real_num_l then
         function ItemTile:SetQuantity(quantity, ...)
             local quantityString = formatQuantity(quantity)
             oldSetQuantity(self, quantity, ...)
-            if (quantity > 65535 and quantityString == nil) or quantityString =="4.2B" then
+            if quantity > 4294967295 then
                 self.quantity:SetString("+∞")
             elseif quantityString ~= nil then
                 self.quantity:SetString(quantityString)
