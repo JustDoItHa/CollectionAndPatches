@@ -77,7 +77,7 @@ local function getitem_catback(inst, data)
             end
         end
 
-        if data.item.components.stackable and not data.item.components.stackable:IsFull() and TUNING.ROOMCAR_BIGBAG_STACK and inst:HasTag("catbigbag") then
+        if data.item.components.stackable and not data.item.components.stackable:IsFull() and TUNING.ROOMCAR_BIGBAG_STACK and inst:HasTag("catback") then
             inst.SoundEmitter:PlaySound("dontstarve/wilson/plant_seeds")
             data.item.components.stackable:SetStackSize(data.item.components.stackable.maxsize)
         end
