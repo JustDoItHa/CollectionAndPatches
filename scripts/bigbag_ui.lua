@@ -10,6 +10,7 @@ local default_pos_bigbag={
 	bluebigbag = Vector3(-180,-75,0),
 	nicebigbag = Vector3(-150, -120, 0),
 	catbigbag = Vector3(-150, -120, 0),
+	catback = Vector3(-150, -120, 0),
 }
 --大背包
 local params = {}
@@ -850,6 +851,7 @@ params.catback =
 		animbank = "ui_krampusbag_2x8",
 		animbuild = "ui_krampusbag_2x8",
 		pos = Vector3(-5, -120, 0),
+		--pos = default_pos_bigbag.catback,
 	},
 	issidewidget = true,
 	type = "pack",
