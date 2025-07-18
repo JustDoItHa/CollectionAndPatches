@@ -1,7 +1,7 @@
 local AllUpgradeRecipes = ChestUpgrade.AllUpgradeRecipes
 local COMMONLV = {3,3}
 
-local UpgradeRecipe = Class(function(self, prefab, params, lv, degrade)
+local UpgradeRecipe = Class(function(self, prefab, params, upgradefn, prop)
 	self.prefab = prefab
 
 	if params == nil then
@@ -19,17 +19,27 @@ local UpgradeRecipe = Class(function(self, prefab, params, lv, degrade)
 		slot 	= params.slot,
 	}
 
-	if params.degrade ~= nil or degrade ~= nil then
-		self.degrade = degrade or params.degrade or nil
+	self.upgradefn = upgradefn
+
+	if prop ~= nil and prop.degrade ~= nil or params.degrade ~= nil then
+		self.degrade = prop ~= nil and prop.degrade or params.degrade or nil
 	end
 
-	lv = lv or params.lv or COMMONLV
+	local lv = prop ~= nil and prop.lv or params.lv or COMMONLV
 	self.lv = Vector3(lv.x or lv[1], lv.y or lv[2], lv.z or lv[3] or 1)
 
 	self.isupgraderecipe = true
 
 	self:AddRecipe()
 end)
+
+function UpgradeRecipe:SetUpgradeFn(fn)
+	self.upgradefn = fn
+end
+
+function UpgradeRecipe:Upgrade(chest, data)
+	return self.upgradefn(chest, self.params, data)
+end
 
 function UpgradeRecipe:GetParams()
 	return self.params

@@ -10,10 +10,20 @@ local chests = {
 	"shadow_container",
 	"beargerfur_sack",
 	"battlesong_container",
+	"offering_pot",
+	"offering_pot_upgraded",
+	"boat_ancient_container",
+	"slingshotammo_container",
+	"elixir_container",
+	--"rabbitkinghorn_container",
 }
 
+if CurrentRelease.GreaterOrEqualTo("R35_SANITYTROUBLES") then
+	table.insert(chests, "rabbitkinghorn_container")
+end
+
 for _, prefab in pairs(chests) do
-	if GetModConfigData("C_"..prefab:upper()) or (prefab == "supertacklecontainer" and GetModConfigData("C_TACKLECONTAINER")) then
+	if GetModConfigData("C_"..prefab:upper()) then
 		local recipe = AllUpgradeRecipes[prefab]
 		ChestUpgrade.ChestSetUp(prefab, recipe.params, recipe.lv)
 	end
@@ -80,9 +90,10 @@ if GetModConfigData("C_OCEAN_TRAWLER") then
 		end
 	end
 
-	util.MakeTempContainable("ocean_trawler", OTRecipe.params)
 
 	special["ocean_trawler"] = function(inst)
+		util.CanTakeTempItem(inst, OTRecipe.params)
+
 		if not GLOBAL.TheWorld.ismastersim then return end
 
 		util.MakeUpgradeable(inst, OTRecipe.lv)
@@ -113,9 +124,7 @@ if GetModConfigData("BACKPACK") then
 			local chestupgrade = inst.components.chestupgrade
 			local x, y, z = chestupgrade:GetLv()
 
-			if z < TUNING.CHESTUPGRADE.MAXPACKPAGE + 4 then
-				chestupgrade:SpecialUpgrade(KSSpecialParams, data.doer, {z = 1})
-			end
+			chestupgrade:SpecialUpgrade(KSSpecialParams, data.doer, {z = 1}, {z = TUNING.CHESTUPGRADE.MAXPACKPAGE + 4})
 		end
 	end
 

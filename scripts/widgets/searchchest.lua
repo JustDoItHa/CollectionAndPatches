@@ -18,14 +18,9 @@ local texture = {
 local SHOWMAX = 5
 
 local ChestSearcher = Class(Widget, function(self, container, rotate)
-    Widget._ctor(self, "ChestSearcher")
+	Widget._ctor(self, "ChestSearcher")
 
-	self.bganim = self:AddChild(UIAnim())
-	self.bganim:SetPosition(100, 0, 0)
-	self.bganim:GetAnimState():SetBank(texture.bg.atlas)
-	self.bganim:GetAnimState():SetBuild(texture.bg.image)
-    self.bganim:GetAnimState():AnimateWhilePaused(false)
-	self.bganim:GetAnimState():PlayAnimation("open")
+	self.bg = self:AddChild(Image())
 
 	self.container = container
 
@@ -35,7 +30,7 @@ local ChestSearcher = Class(Widget, function(self, container, rotate)
 	self.itemlist = self:CreateItemList()
 	self.selected = {}
 
-	self.inv = {}
+	self.items = {}
 
 	self.queue = {add = {}, kill = {}}
 end)
@@ -52,6 +47,80 @@ itemlist[item.prefab] = {
 }
 ]]
 
+local oneditsearcher = function(self, control, down)
+	if not self:IsEnabled() then return end
+	if self.editing and self.prediction_widget ~= nil and self.prediction_widget:OnControl(control, down) then
+		return true
+	end
+
+	if self.ignore_controls[control] then
+		return false
+	end
+
+	if self._base.OnControl(self, control, down) then return true end
+
+	--gobble up extra controls
+	if self.editing and (control ~= CONTROL_CANCEL and control ~= CONTROL_OPEN_DEBUG_CONSOLE and control ~= CONTROL_ACCEPT) then
+		return not self.pass_controls_to_screen[control]
+	end
+
+	if self.editing and not down and control == CONTROL_CANCEL then
+		self:SetEditing(false)
+		TheInput:EnableDebugToggle(true)
+		return not self.pass_controls_to_screen[control]
+	end
+
+	if self.enable_accept_control and control == CONTROL_ACCEPT then
+		if not down then
+			if not self.editing then
+				self:SetEditing(true)
+				return not self.pass_controls_to_screen[control]
+			else
+				-- Previously this was being done only in the OnRawKey, but that doesnt handle controllers very well, this does.
+				self:OnProcess()
+				return not self.pass_controls_to_screen[control]
+			end
+		end
+		return true
+	end
+
+	return false
+end
+
+function ChestSearcher:CreateNameSearcher()
+	self.namesearcher = self:AddChild(TEMPLATES.StandardSingleLineTextEntry("", 300, 60, CHATFONT, 35, ""))
+	local textbox = self.namesearcher.textbox
+	textbox:SetTextLengthLimit(50)
+	textbox:SetForceEdit(true)
+	textbox:EnableWordWrap(false)
+	textbox:SetHelpTextEdit("")
+	textbox:SetHelpTextApply(STRINGS.UI.MODSSCREEN.SEARCH)
+	textbox:SetTextPrompt(STRINGS.UI.MODSSCREEN.SEARCH, UICOLOURS.GREY)
+	function textbox.OnTextEntered(name)
+		if name == nil or not name:find("[^%s]") then
+			textbox:SetString()
+			self.spinner:SetList(self.items, true)
+			return
+		end
+		local list = {}
+		for prefab, v in pairs(self.itemlist) do
+			if name and v._name and v._name:find(name:lower()) then
+				for _, item in ipairs(self.items) do
+					if item.item == prefab then
+						table.insert(list, item)
+						break
+					end
+				end
+			end
+		end
+		for k, v in pairs(self.items) do
+			v:Hide()
+		end
+		self.spinner:SetList(list, true)
+	end
+	textbox.OnControl = oneditsearcher
+end
+
 function ChestSearcher:CreateItemList()
 	local itemlist = {}
 	local allitems = self.container.replica.container:GetItems()
@@ -62,6 +131,7 @@ function ChestSearcher:CreateItemList()
 				itemlist[item.prefab] = {
 					_image = inventoryitem:GetImage(),
 					_atlas = inventoryitem:GetAtlas(),
+					_name = string.lower(inventoryitem.inst:GetDisplayName()),
 				}
 			end
 			local stack = GetStackSize(item)
@@ -154,7 +224,12 @@ function ChestSearcher:OnItemGet(data)
 	--end
 	local t = self.itemlist[prefab]
 	if t == nil then
-		self.itemlist[prefab] = {}
+		local inventoryitem = data.item.replica.inventoryitem
+		self.itemlist[prefab] = {
+			_image = inventoryitem:GetImage(),
+			_atlas = inventoryitem:GetAtlas(),
+			_name = string.lower(data.item:GetDisplayName()),
+		}
 		t = self.itemlist[prefab]
 		if self:IsVisible() then
 			self.spinner:AddItem(self:MakeListItem(prefab))
@@ -220,8 +295,10 @@ function ChestSearcher:RelocateParent(init)
 
 	local lv_x, lv_y = chestupgrade:GetLv()
 
-	local parent_pos_x = (self.rotate and -190) or 0
-	local parent_pos_y = (not self.rotate and 230) or 0
+	--local parent_pos_x = (self.rotate and -190) or 0
+	--local parent_pos_y = (not self.rotate and 230) or 0
+	local parent_pos_x = (not self.rotate and 0) or (lv_x > SHOWMAX and -190) or parent:GetPosition().x
+	local parent_pos_y = (self.rotate and 0) or (lv_y > SHOWMAX and 230) or parent:GetPosition().y
 	local parent_pos = (init and widget.pos) or Vector3(parent_pos_x, parent_pos_y, 0)
 
 	parent:SetPosition(parent_pos)
@@ -240,7 +317,7 @@ function ChestSearcher:RelocateParent(init)
 	parent.bgimage:SetScale(scale)
 
 	local pos_x = (not self.rotate and 260 + 40 * show_x) or 0
-	local pos_y = (self.rotate and 200 + 40 * show_y) or 0
+	local pos_y = (self.rotate and 200 + 40 * show_y) or -30
 
 	self:SetPosition(pos_x, pos_y, 0)
 end
@@ -294,15 +371,15 @@ function ChestSearcher:Reset()
 end
 
 local function DoDragScroll(self)
-    -- Near the scroll bar, keep drag-scrolling
-    local marker = self.position_marker:GetWorldPosition()
-    if self.dragging and math.abs(TheFrontEnd.lasty - marker.y) <= 150 then
-        local pos = self:GetWorldPosition()
+	-- Near the scroll bar, keep drag-scrolling
+	local marker = self.position_marker:GetWorldPosition()
+	if self.dragging and math.abs(TheFrontEnd.lasty - marker.y) <= 150 then
+		local pos = self:GetWorldPosition()
 
 		local _,scaleY,_ = self:GetHierarchicalScale()
 
-        local click_y = TheFrontEnd.lastx
-        local prev_step = self:GetNearestStep()
+		local click_y = TheFrontEnd.lastx
+		local prev_step = self:GetNearestStep()
 
 		local scaledHalflength = (self.height/2) * scaleY
 		local scaledArrowHeight = 40 * scaleY
@@ -312,32 +389,49 @@ local function DoDragScroll(self)
 
 		click_y = click_y / scaleY
 
-        self.position_marker:SetPosition(self.width/2, click_y + self.y_adjustment)
-        local curr_step = self:GetNearestStep()
-        if curr_step ~= prev_step then
-            self:Scroll(prev_step - curr_step, false)
-        end
-    else -- Far away from the scroll bar, revert to original pos
-        local prev_step = self:GetNearestStep()
-        if self.position_marker.o_pos then
-            self.position_marker:SetPosition(self.position_marker.o_pos)
-        end
-        local curr_step = self:GetNearestStep()
-        if curr_step ~= prev_step then
-            self:Scroll(prev_step - curr_step, false)
-        end
-        self:MoveMarkerToNearestStep()
-    end
+		self.position_marker:SetPosition(self.width/2, click_y + self.y_adjustment)
+		local curr_step = self:GetNearestStep()
+		if curr_step ~= prev_step then
+			self:Scroll(prev_step - curr_step, false)
+		end
+	else -- Far away from the scroll bar, revert to original pos
+		local prev_step = self:GetNearestStep()
+		if self.position_marker.o_pos then
+			self.position_marker:SetPosition(self.position_marker.o_pos)
+		end
+		local curr_step = self:GetNearestStep()
+		if curr_step ~= prev_step then
+			self:Scroll(prev_step - curr_step, false)
+		end
+		self:MoveMarkerToNearestStep()
+	end
 end
 
 function ChestSearcher:Initialize()
 	for k, v in pairs(self.itemlist) do
 		local slot = self:MakeListItem(k)
-		table.insert(self.inv, slot)
+		table.insert(self.items, slot)
 	end
-	self.spinner = self:AddChild(ScrollableList(self.inv, 80, 280, 75, 0, nil, nil, 20, nil, 0, -10, nil, nil, "GOLD"))
+	self.spinner = self:AddChild(ScrollableList(self.items, 80, 280, 75, 0, nil, nil, 20, nil, 0, -10, nil, nil, "GOLD"))
+	self:CreateNameSearcher()
 	if self.rotate then
+		self:SetPosition(0, 320, 0)
+		self.bg:SetTexture("images/hud.xml", "craftingsubmenu_fullvertical.tex")
+		self.bg:SetScale(1.33, -.75, 1)
+		self.bg:SetPosition(0, 35, 0)
+		self.spinner:SetScale(-1, 1, 1)
+		self.spinner:SetRotation(90)
 		self.spinner.DoDragScroll = DoDragScroll
+		self.namesearcher:SetPosition(0, 140, 0)
+	else
+		self:SetPosition(460, 0, 0)
+		self.bg:SetTexture("images/hud.xml", "craftingsubmenu_fullhorizontal.tex")
+		self.bg:SetScale(.75, 1.2, 1)
+		self.bg:SetPosition(-45, 30, 0)
+		self.namesearcher:SetPosition(-20, 180, 0)
+		self.namesearcher.textbox_bg:ScaleToSize(160, 60, 0)
+		self.namesearcher.textbox:SetRegionSize(130, 60, 0)
+		self.namesearcher.textbox.prompt:SetRegionSize(130, 60, 0)
 	end
 end
 

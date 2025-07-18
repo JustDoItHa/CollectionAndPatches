@@ -27,8 +27,8 @@ local DragContainer = Class(Widget, function(self, altas, texture, scale, show, 
 	self.bgimg:SetWhileDown(function()
 		if self.selsec and self.ondrag then
 			if self.cursor_now == nil
-			or math.abs(TheFrontEnd.lastx - self.cursor_now.x) >= (steps_x / 2)
-			or math.abs(TheFrontEnd.lasty - self.cursor_now.y) >= (steps_y / 2) then
+					or math.abs(TheFrontEnd.lastx - self.cursor_now.x) >= (steps_x / 2)
+					or math.abs(TheFrontEnd.lasty - self.cursor_now.y) >= (steps_y / 2) then
 				self:GoSection(TheFrontEnd.lastx, TheFrontEnd.lasty)
 			end
 		end

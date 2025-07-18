@@ -333,13 +333,13 @@ end
 function ChestUpgrade:PrintSlotProps(slot)
 	local target, isside, iscenter, page, row, column = self:SlotProps(slot)
 	local str = string.format(
-		"Slot: %d\tIs Side: %s\tIs Center: %s\nPage: %d\tRow: %d\tColumn: %d",
-		slot,
-		tostring(isside),
-		tostring(iscenter),
-		page,
-		row,
-		column
+			"Slot: %d\tIs Side: %s\tIs Center: %s\nPage: %d\tRow: %d\tColumn: %d",
+			slot,
+			tostring(isside),
+			tostring(iscenter),
+			page,
+			row,
+			column
 	)
 	print(str)
 	return str
@@ -411,7 +411,9 @@ function ChestUpgrade:CreateCheckTable(data)
 		data = AllUpgradeRecipes:GetParams(self.inst.prefab)		--self.ingredient
 	end
 
-	if data == nil then return {} end
+	if data == nil or self.inst.components.container == nil then
+		return {}
+	end
 
 	local slots = {}
 	local slotprops = self:SlotProps()
@@ -442,35 +444,51 @@ function ChestUpgrade:CreateCheckTable(data)
 	return slots
 end
 
-function ChestUpgrade:Upgrade(lv, data, doer, fn, fnonly)
+function ChestUpgrade:Upgrade(maxlv, data, doer, fn, fnonly)
 	local container = self.inst.components.container
 	local x, y, z = self:GetLv()
-	if lv ~= nil and (x * y >= lv * lv) or container == nil then return end 	--check for max lv
-	if not self:CheckItem(container.slots, data, self.inst, doer) then
-		return
+	--if lv ~= nil and (x * y >= lv * lv) or container == nil then return end 	--check for max lv
+	if container ~= nil then
+		if maxlv ~= nil then
+			local maxlv_x = (type(maxlv) == "number" and maxlv) or maxlv.x or math.huge
+			local maxlv_y = (type(maxlv) == "number" and maxlv) or maxlv.y or math.huge
+			local maxlv_z = (type(maxlv) == "number" and maxlv) or maxlv.z or math.huge
+			if x >= maxlv_x or y >= maxlv_y or z >= maxlv_z then
+				return false
+			end
+		end
+
+		if not self:CheckItem(container.slots, data, self.inst, doer) then
+			return false
+		end
+
+		container:DestroyContents()
+
+		if not fnonly then
+			self:SetChestLv(x + 2, y + 2)
+		end
+
+		local oldlv = {x, y, z}
+		local newlv = {self:GetLv()}
+		if self.onupgradefn ~= nil then
+			self.onupgradefn(self.inst, doer, data, newlv, oldlv)
+		end
+
+		if fn ~= nil then
+			fn(self.inst, doer, data, newlv, oldlv)
+		end
+
+		self.inst:PushEvent("onchestupgraded", {doer = doer, newlv = newlv, oldlv = oldlv})
+
+		return true
 	end
-
-	container:DestroyContents()
-
-	if not fnonly then
-		self:SetChestLv(x + 2, y + 2)
-	end
-
-	local oldlv = {x, y, z}
-	local newlv = {self:GetLv()}
-	if self.onupgradefn ~= nil then
-		self.onupgradefn(self.inst, doer, data, newlv, oldlv)
-	end
-
-	if fn ~= nil then
-		fn(self.inst, doer, data, newlv, oldlv)
-	end
-
-	self.inst:PushEvent("onchestupgraded", {doer = doer, newlv = newlv, oldlv = oldlv})
+	return false
 end
 
 function ChestUpgrade:Degrade(ratio, fn)
-	if self.chestlv == self.baselv then return end
+	if self.chestlv == self.baselv or self.inst.components.container == nil then
+		return false
+	end
 
 	local x, y, z = self:GetLv()
 
@@ -536,13 +554,17 @@ function ChestUpgrade:Degrade(ratio, fn)
 	end
 
 	self.inst:PushEvent("onchestdegraded", {oldlv = {x,y,z}})
+
+	return true
 end
 
-function ChestUpgrade:SpecialUpgrade(data, doer, delta)
+function ChestUpgrade:SpecialUpgrade(data, doer, delta, maxlv)
 	local x, y, z = self:GetLv()
-	self:Upgrade(nil, data, doer, function()
+	local fn = function()
 		self:SetChestLv(x + (delta.x or 0), y + (delta.y or 0), z + (delta.z or 0))
-	end, true)
+	end
+
+	return self:Upgrade(maxlv, data, doer, fn, true)
 end
 
 function ChestUpgrade:OnSave()

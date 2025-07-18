@@ -14,8 +14,6 @@ local function IsTypeAllowed(container_type)
 end
 
 local function CalSize(container)
-	local params = util.RegisterParams(container.inst.prefab) or {}
-	--if params == nil then return end
 	local widget = params.widget or container:GetWidget()
 	local slotpos = widget ~= nil and widget.slotpos or {}
 	local init_vec = slotpos[1]
@@ -108,6 +106,10 @@ local function MakeUpgradeable(inst)
 
 	local container = inst.components.container
 
+	if container == nil then return end
+
+	if util.RegisterParams(prefab) == nil then return end
+
 	if AllUpgradeRecipes[prefab] == nil then
 		if IsTypeAllowed(container.type) then
 			UpgradeRecipe(prefab, GetPara(prefab), {CalSize(container)})
@@ -131,7 +133,7 @@ local function MakeUpgradeable(inst)
 	end
 
 	local params = AllUpgradeRecipes[prefab].params
-	if util.IsSideWidget(prefab) then
+	if container:IsSideWidget() then
 		util.PackClose(inst, params)
 	else
 		util.CommonClose(inst, params)

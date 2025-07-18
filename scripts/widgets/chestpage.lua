@@ -15,32 +15,62 @@ local defaultatlas = {
 
 local HORIZONTAL = 3
 
+local oneditpage = function(self, control, down)
+	if not self:IsEnabled() then return end
+	if self.editing and self.prediction_widget ~= nil and self.prediction_widget:OnControl(control, down) then
+		return true
+	end
+
+	if self.ignore_controls[control] then
+		return false
+	end
+
+	if TextEdit._base.OnControl(self, control, down) then return true end
+
+	--gobble up extra controls
+	if self.editing and (control ~= CONTROL_CANCEL and control ~= CONTROL_OPEN_DEBUG_CONSOLE and control ~= CONTROL_ACCEPT) then
+		return not self.pass_controls_to_screen[control]
+	end
+
+	if self.editing and not down and control == CONTROL_CANCEL then
+		self:SetEditing(false)
+		TheInput:EnableDebugToggle(true)
+		return not self.pass_controls_to_screen[control]
+	end
+
+	if self.enable_accept_control and control == CONTROL_ACCEPT then
+		if not down then
+			if not self.editing then
+				self:SetEditing(true)
+				return not self.pass_controls_to_screen[control]
+			else
+				-- Previously this was being done only in the OnRawKey, but that doesnt handle controllers very well, this does.
+				self:OnProcess()
+				return not self.pass_controls_to_screen[control]
+			end
+		end
+		return true
+	end
+
+	return false
+end
+
 local ChestPage = Class(Widget, function(self, inv, show, total, container)
-    Widget._ctor(self, "ChestPage")
+	Widget._ctor(self, "ChestPage")
 
 	self.container = container
 
-	self.pagebg = self:AddChild(ImageButton("images/hud.xml", "craft_slot.tex"))
+	self.pagebg = self:AddChild(Image("images/hud.xml", "craft_slot.tex"))
 	self.pagebg:SetScale(.8)
-	self.pagebg.scale_on_focus = false
-	self.pagebg.move_on_click = false
-	-- self.pagebg:SetOnClick(function()
-	-- 	SendModRPCToServer(GetModRPC("RPC_UPGCHEST", "fillcontent"), self.container)
-	-- 	--[[
-	-- 	if self.allpage then
-	-- 		self:ShowOnePage()
-	-- 	else
-	-- 		self:ShowAllPage()
-	-- 	end
-	-- 	]]
-	-- end)
 
-	self.pgupbtn = self:AddChild(ImageButton())
+	self.pgupbtn = self:AddChild(ImageButton("images/hud.xml", "craft_end_normal.tex", "craft_end_normal_mouseover.tex"))
+	self.pgupbtn:SetScale(-.7)
 	self.pgupbtn:SetOnClick(function()
 		self:PageChange(-1)
 	end)
 
-	self.pgdnbtn = self:AddChild(ImageButton())
+	self.pgdnbtn = self:AddChild(ImageButton("images/hud.xml", "craft_end_normal.tex", "craft_end_normal_mouseover.tex"))
+	self.pgdnbtn:SetScale(.7)
 	self.pgdnbtn:SetOnClick(function()
 		self:PageChange(1)
 	end)
@@ -52,8 +82,17 @@ local ChestPage = Class(Widget, function(self, inv, show, total, container)
 	self.allpage = false
 	--self.defaultpos = nil
 
-	self.pagenum = self:AddChild(Text(TALKINGFONT, 35, string.format("%2d", self.currentpage), UICOLOURS.SILVER))
+	self.pagenum = self:AddChild(TextEdit(TALKINGFONT, 35, string.format("%2d", self.currentpage), UICOLOURS.SILVER))
 	self.pagenum:SetPosition(0, -3, 0)
+	self.pagenum:SetForceEdit(true)
+	self.pagenum:SetCharacterFilter("1234567890")
+	self.pagenum:SetTextLengthLimit(2)
+	self.pagenum:SetEditTextColour(UICOLOURS.SILVER)
+	self.pagenum:SetIdleTextColour(UICOLOURS.SILVER)
+	function self.pagenum.OnTextEntered(string)
+		self:SetPage(tonumber(string) or self.currentpage)
+	end
+	self.pagenum.OnControl = oneditpage
 
 	self:ReBuild()
 
@@ -61,17 +100,17 @@ local ChestPage = Class(Widget, function(self, inv, show, total, container)
 end)
 
 function ChestPage:OnControl(control, down, force)
-    if ChestPage._base.OnControl(self, control, down) then return true end
+	if ChestPage._base.OnControl(self, control, down) then return true end
 
-    if down and ((self.focus and self:IsVisible()) or force) then
-        if control == CONTROL_SCROLLBACK then
+	if down and ((self.focus and self:IsVisible()) or force) then
+		if control == CONTROL_SCROLLBACK then
 			self:PageChange(-1)
-            return true
-        elseif control == CONTROL_SCROLLFWD then
+			return true
+		elseif control == CONTROL_SCROLLFWD then
 			self:PageChange(1)
-            return true
-        end
-    end
+			return true
+		end
+	end
 end
 
 local function SetJumpWidgetPos(widget, page_numslots, currentpage, allslots)
@@ -134,20 +173,20 @@ function ChestPage:ShowAllPage()
 		self:SetPosition(position_x, 0, 0)
 		parent:SetPosition(0, 0, 0)
 	end
---[[
-	self.jumpwidget = self:AddChild(Image("images/plantregistry.xml", "oversizedpicturefilter.tex"))
-	self.jumpwidget:SetScale(lv_x / 3, lv_y / 3, 1)
-	SetJumpWidgetPos(self.jumpwidget, page_numslots, self.currentpage, self.inv)
+	--[[
+        self.jumpwidget = self:AddChild(Image("images/plantregistry.xml", "oversizedpicturefilter.tex"))
+        self.jumpwidget:SetScale(lv_x / 3, lv_y / 3, 1)
+        SetJumpWidgetPos(self.jumpwidget, page_numslots, self.currentpage, self.inv)
 
-	local parent_onclick = parent.onclick
-	self.jumpwidget.parent_onclick = parent_onclick
-	parent.onclick = function()
-		local page = 1
-		self:SetPage(page)
-		self:ShowOnePage()
-		parent.onclick = self.jumpwidget.parent_onclick
-	end
-]]
+        local parent_onclick = parent.onclick
+        self.jumpwidget.parent_onclick = parent_onclick
+        parent.onclick = function()
+            local page = 1
+            self:SetPage(page)
+            self:ShowOnePage()
+            parent.onclick = self.jumpwidget.parent_onclick
+        end
+    ]]
 	local blv = self.container.replica.chestupgrade.baselv
 	local xoffset, yoffset = (zx - 1) * blv.x / 20, (zy - 1) * blv.y / 12
 
@@ -206,10 +245,9 @@ function ChestPage:ReBuild(integrated)
 	if integrated then
 		self.integrated = true
 
-		if self.pagebg then
-			self.pagebg:Kill()
-			self.pagebg = nil
-		end
+		self.pagebg:Hide()
+
+		self.pagenum:SetPosition(0, -3, 0)
 
 		self.pgupbtn:SetTextures("images/hud.xml", "turnarrow_icon.tex", "turnarrow_icon_over.tex")
 		self.pgupbtn:SetScale(-1)
@@ -219,58 +257,25 @@ function ChestPage:ReBuild(integrated)
 		self.pgdnbtn:SetScale(1)
 		self.pgdnbtn:SetPosition(60, 0, 0)
 
-		if not self.pagenum then
-			self.pagenum = self:AddChild(Text(TALKINGFONT, 35, string.format("%2d", self.currentpage), UICOLOURS.SILVER))
-			self.pagenum:SetPosition(0, -3, 0)
-		end
-
 	elseif self.container ~= nil and self.container.replica.container:IsSideWidget() then
-		if self.pagebg then
-			self.pagebg:Kill()
-			self.pagebg = nil
-		end
-
+		local x = self.inv[1]:GetPosition().x
 		local y_first = self.inv[1]:GetPosition().y
 		local y_last = self.inv[self.show]:GetPosition().y
 		local y_top = math.max(y_first, y_last)
 		local y_bot = math.min(y_first, y_last)
 
-		self.pgupbtn:SetTextures("images/hud.xml", "craft_end_normal.tex", "craft_end_normal_mouseover.tex")
-		self.pgupbtn:SetScale(-.7)
-		self.pgupbtn:SetPosition(0, y_top + 75, 0)
+		local pos_pagenum = Vector3(x - 60, (y_first + y_last)/2, 0)
+		self.pagenum:SetPosition(pos_pagenum)
 
-		self.pgdnbtn:SetTextures("images/hud.xml", "craft_end_normal.tex", "craft_end_normal_mouseover.tex")
-		self.pgdnbtn:SetScale(.7)
+		self.pagebg:SetPosition(pos_pagenum)
+		self.pagebg:SetRotation(90)
+
+		self.pgupbtn:SetPosition(0, y_top + 75, 0)
 		self.pgdnbtn:SetPosition(0, y_bot - 75, 0)
 
-		if self.pagenum then
-			self.pagenum:Kill()
-			self.pagenum = nil
-		end
-
 	else
-		if not self.pagebg then
-			self.pagebg = self:AddChild(ImageButton("images/hud.xml", "craft_slot.tex"))
-			self.pagebg:SetScale(.8)
-			self.pagebg.scale_on_focus = false
-			self.pagebg.move_on_click = false
-			self.pagebg:SetOnClick(function()
-				SendModRPCToServer(GetModRPC("RPC_UPGCHEST", "sortcontent"), self.container)
-			end)
-		end
-
-		self.pgupbtn:SetTextures("images/hud.xml", "craft_end_normal.tex", "craft_end_normal_mouseover.tex")
-		self.pgupbtn:SetScale(-.7)
 		self.pgupbtn:SetPosition(0, 60, 0)
-
-		self.pgdnbtn:SetTextures("images/hud.xml", "craft_end_normal.tex", "craft_end_normal_mouseover.tex")
-		self.pgdnbtn:SetScale(.7)
 		self.pgdnbtn:SetPosition(0, -60, 0)
-
-		if not self.pagenum then
-			self.pagenum = self:AddChild(Text(TALKINGFONT, 35, string.format("%2d", self.currentpage), UICOLOURS.SILVER))
-			self.pagenum:SetPosition(0, -3, 0)
-		end
 	end
 end
 

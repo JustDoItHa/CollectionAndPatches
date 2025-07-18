@@ -1,4 +1,26 @@
-local checkentity = GLOBAL.checkentity
+--local checkentity = GLOBAL.checkentity
+
+local function checkentity(inst)
+	return GLOBAL.checkentity(inst)
+			and inst.components ~= nil
+			and inst.components.container ~= nil
+			and inst.components.chestupgrade ~= nil
+end
+
+----------------------------------------------------------------
+local function GetStackSize(item)
+	if item.components.stackable then
+		return item.components.stackable:StackSize()
+	end
+	return 1
+end
+local function GetFromStack(item, num)
+	if item.components.stackable then
+		return item.components.stackable:Get(num)
+	end
+	return item
+end
+
 ----------------------------------------------------------------
 --sync items between server and client
 local function sync(inst)
@@ -249,9 +271,9 @@ local function FillContent(doer, inst)
 							if collected_items[item.prefab] == nil then
 								collected_items[item.prefab] = {}
 							end
-							local stacksize = item.components.stackable:StackSize()
+							local stacksize = GetStackSize(item)
 							if stacksize > t[item.prefab] then
-								table.insert(collected_items[item.prefab], item.components.stackable:Get(t[item.prefab]))
+								table.insert(collected_items[item.prefab], GetFromStack(item, t[item.prefab]))
 								--table.insert(other_items, item)
 								container:DropItemBySlot(slot, doer:GetPosition())
 							else
@@ -273,18 +295,20 @@ local function FillContent(doer, inst)
 						local item
 						repeat
 							local lastitem = collected_items[prefab][1]
-							local stacksize = lastitem.components.stackable:StackSize()
+							local stacksize = GetStackSize(lastitem)
 							local num = math.min(amount, stacksize)
-							local itemget = lastitem.components.stackable:Get(num)
+							local itemget = GetFromStack(lastitem, num)
 							if num == stacksize then
 								table.remove(collected_items[prefab], 1)
 							end
 							if item == nil then
 								item = itemget
-							else
+							elseif item.components.stackable then
 								item.components.stackable:Put(itemget)
+							else	--break if item is non stackable while amount > 1
+								break
 							end
-						until item == nil or item.components.stackable:StackSize() >= amount
+						until item == nil or GetStackSize(item) >= amount
 						container:GiveItem(item, slot)
 					end
 				end
@@ -305,13 +329,13 @@ local function FillContent(doer, inst)
 			local numtoget = x * y
 			for k, v in pairs(container.slots) do
 				if numtoget ~= 0 and v.prefab == prefab then
-					local size = v.components.stackable:StackSize()
+					local size = GetStackSize(v)
 					if size <= numtoget then		--get the entire stack
 						table.insert(t, container:RemoveItem(v, true))
 						numtoget = numtoget - size
 					else							--get just enough, and drop the excess
 						local item = container:RemoveItem(v, true)
-						table.insert(t, item.components.stackable:Get(numtoget))
+						table.insert(t, GetFromStack(item, numtoget))
 						numtoget = 0
 						item.Transform:SetPosition(inst:GetPosition():Get())
 						if item.components.inventoryitem ~= nil then
@@ -327,9 +351,9 @@ local function FillContent(doer, inst)
 				end
 			end
 			for i, v in ipairs(t) do
-				local size = v.components.stackable:StackSize()
+				local size = GetStackSize(v)
 				while size >= 2 do
-					table.insert(t, v.components.stackable:Get())
+					table.insert(t, GetFromStack(v))
 					size = size - 1
 				end
 				container:GiveItem(v, i)
@@ -409,14 +433,12 @@ local function DropContent(doer, inst)
 	end
 end
 
-local function rpcwrap(fn)
-	return function(doer, inst)
-		if checkentity(inst)
-				and inst.components ~= nil
-				and (inst.components.container ~= nil
-				or inst.components.chestupgrade ~= nil) then
-			fn(doer, inst)
-		end
+local function UpgradeChest(doer, inst)
+	if not checkentity(inst) then return end
+	FillContent(doer, inst)
+	local recipe = AllUpgradeRecipes[inst.prefab]
+	if recipe and recipe.upgradefn ~= nil and recipe.params ~= nil then
+		recipe.upgradefn(inst, recipe.params, {doer = doer})
 	end
 end
 
@@ -424,3 +446,4 @@ AddModRPCHandler("RPC_UPGCHEST", "fillcontent", FillContent)
 --AddModRPCHandler("RPC_UPGCHEST", "sortcontent", FillOrSort)
 AddModRPCHandler("RPC_UPGCHEST", "stackandsort", StackAndSort)
 AddModRPCHandler("RPC_UPGCHEST", "dropcontent", DropContent)
+AddModRPCHandler("RPC_UPGCHEST", "upgradechest", UpgradeChest)

@@ -1,7 +1,9 @@
 local AddRecipe = require("utils/chestupgrade_recipe")
 
 local function MakePackRecipe(prefab, amount, lv)
-	if GetModConfigData("EXPENSIVE_BACKPACK") then
+	if TUNING.CAP_BACKPACKMODE ~= 2 then
+		return {side = Ingredient(prefab, amount), lv = lv}
+	elseif TUNING.CAP_EXPENSIVE_BACKPACK then
 		return {all = Ingredient(prefab, amount), lv = lv}
 	else
 		return {page = {[1] = Ingredient(prefab, amount)}, lv = lv}
@@ -21,13 +23,19 @@ local ALL_RECIPES = {
 	["ocean_trawler"]	= {all = Ingredient("malbatross_feather", 1), lv = {1,4}},
 	["beargerfur_sack"] = {side = Ingredient("purebrilliance", 1), column = {[1] = Ingredient("bearger_fur", 1)}, lv = {2,3}},
 	["battlesong_container"] 	= {side = Ingredient("boards", 1), lv = {2,4}},
+	["offering_pot"]	= {side = Ingredient("boards"), row = {[1] = Ingredient("cutreeds", 1)}, lv = {2,2}},
+	["offering_pot_upgraded"]	= {side = Ingredient("boards"), row = {[1] = Ingredient("cutreeds", 1)}, lv = {3,2}},
+	["rabbitkinghorn_container"] = {side = Ingredient("rabbitkingspear", 1), lv = {3,4}, degrade = false},
+	["boat_ancient_container"] = {side = Ingredient("boards", 1), lv = {4,4}},
+	["slingshotammo_container"] = {side = Ingredient("pigskin", 1), lv = {3,2}},
+	["elixir_container"] = {side = Ingredient("ghostflower", 1), lv = {3,3}},
 
 	--backpack
 	["backpack"]		= MakePackRecipe("rope", 1, {2,4}),		--{page = {[1] = Ingredient("rope", 1)}, lv = {2,4}},
 	["icepack"]			= MakePackRecipe("transistor", 1, {2,4}),--{page = {[1] = Ingredient("transistor", 1)}, lv = {2,4}},
 	["spicepack"]		= MakePackRecipe("nitre", 1, {2,3}),		--{page = {[1] = Ingredient("nitre", 1)}, lv = {2,3}},
 	["krampus_sack"]	= MakePackRecipe("rope", 1, {2,7}),		--{page = {[1] = Ingredient("rope", 1)}, lv = {2,7}},
-	["catback"]         = {page = {[1] = Ingredient("opalpreciousgem", 1)}, lv = {2,7}},
+	["catback"]         = MakePackRecipe("opalpreciousgem", 1, {2,7}),
 	["piggyback"]		= MakePackRecipe("pigskin", 1, {2,6}),	--{page = {[1] = Ingredient("pigskin", 1)}, lv = {2,6}},
 	--	["seedpouch"] = "slurtle_shellpieces",
 	--	["candybag"] = "rope",

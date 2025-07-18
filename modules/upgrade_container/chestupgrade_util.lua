@@ -3,12 +3,14 @@ local containers = require("containers")
 local containers_mt = {__index = {inst = {components = {}}, SetNumSlots = function() end}}
 local function RegisterParams(prefab)
 	if containers.params[prefab] == nil then
-		containers.params[prefab] = {}
-		local container = containers.params[prefab]
-		container.modded = true
+		local container = {}
 		setmetatable(container, containers_mt)
 		containers.widgetsetup(container, prefab)
 		setmetatable(container, nil)
+		if next(container) ~= nil then
+			container.modded = true
+			containers.params[prefab] = container
+		end
 	end
 	return containers.params[prefab]
 end
@@ -24,6 +26,9 @@ local function GetContainerType(prefab)
 end
 
 local function WidgetPos(prefab, enable, pos)
+	local params = RegisterParams(prefab)
+	if not params then return end
+
 	if enable then
 		if not pos then
 			pos = Vector3(-140, 0, 0)
@@ -31,12 +36,15 @@ local function WidgetPos(prefab, enable, pos)
 			pos = Vector3(pos)
 		end
 
-		containers.params[prefab].widget.pos = pos
+		params.widget.pos = pos
 	end
 end
 
 local function BGImage(prefab, enable, build, bank, isimage)
-	local widget = containers.params[prefab].widget
+	local params = RegisterParams(prefab)
+	if not params then return end
+
+	local widget = params.widget
 	if enable ~= false then
 		if build and bank then
 			if isimage then
@@ -66,9 +74,9 @@ local function ChangeSize(inst, factor)
 		local clv = cupg.chestlv
 		local blv = cupg.baselv
 		chest.Transform:SetScale(
-			((clv.x / blv.x - 1) / TUNING.CHESTUPGRADE.SCALE_FACTOR + 1),
-			((clv.y / blv.y - 1) / TUNING.CHESTUPGRADE.SCALE_FACTOR + 1),
-			1
+				((clv.x / blv.x - 1) / TUNING.CHESTUPGRADE.SCALE_FACTOR + 1),
+				((clv.y / blv.y - 1) / TUNING.CHESTUPGRADE.SCALE_FACTOR + 1),
+				1
 		)
 		if factor then
 			local x, y = chest.Transform:GetScale()
@@ -101,35 +109,36 @@ local function itemtest(temp_items, item, ...)
 	end
 end
 
-local function MakeTempContainable(prefab, temp_items)
-	local params = containers.params[prefab] or {}
-
-	if params.itemtestfn == nil then
-		return
-	elseif params.olditemtestfn == nil then
-		params.olditemtestfn = params.itemtestfn
+local function makecantaketempitem(container, params)
+	if container ~= nil then
+		local oldCanTakeItemInSlot = container.CanTakeItemInSlot
+		function container:CanTakeItemInSlot(item, slot, ...)
+			if item == nil then return false end
+			return oldCanTakeItemInSlot(container, item, slot, ...)
+					or itemtest(params, item, slot, container, ...)
+					or item:HasTag("HAMMER_tool")
+		end
 	end
+end
 
-	containers.params[prefab].itemtestfn = function(cont, item, slot)
-		if params.olditemtestfn(cont, item, slot) then
-			return true
-		end
-
-		if itemtest(temp_items, item, slot, cont) then
-			return true
-		end
-
-		return item:HasTag("HAMMER_tool")
+local function CanTakeTempItem(inst, params)
+	if TheWorld.ismastersim then
+		makecantaketempitem(inst.components.container, params)
+		makecantaketempitem(inst.replica.container, params)
+	else
+		inst:DoTaskInTime(0, function()
+			makecantaketempitem(inst.replica.container, params)
+		end)
 	end
 end
 
 local function DropTempItem(inst, data)
 	local container = inst.components.container
-	if container.olditemtestfn ~= nil and container.opencount == 0 then
+	if container.itemtestfn ~= nil and container.opencount == 0 then
 		local itemtodrop = {}
-		for i = 1, container:GetNumSlots() do 
+		for i = 1, container:GetNumSlots() do
 			local item = container.slots[i]
-			if item ~= nil and not container.olditemtestfn(container, item, i) then
+			if item ~= nil and not container:itemtestfn(item, i) then
 				--stack all stackable to make the floor tidy
 				local stackable = item.components.stackable
 				if item.components.stackable then
@@ -156,9 +165,19 @@ local function DropTempItem(inst, data)
 	end
 end
 
-local function NormalUpgrade(inst, data, params)
+local function NormalUpgrade(inst, params, data)
 	local chestupgrade = inst.components.chestupgrade
-	chestupgrade:Upgrade(TUNING.CHESTUPGRADE.MAX_LV, params, data.doer)
+	return chestupgrade:Upgrade(TUNING.CHESTUPGRADE.MAX_LV, params, data.doer)
+end
+
+local function NormalPackUpgrade(inst, params, data)
+	local chestupgrade = inst.components.chestupgrade
+	local x, y = chestupgrade.baselv.x, chestupgrade.baselv.y
+	local maxsize = {
+		x = x + TUNING.CHESTUPGRADE.MAXPACKSIZE * 2,
+		y = y + TUNING.CHESTUPGRADE.MAXPACKSIZE * 2,
+	}
+	return chestupgrade:Upgrade(maxsize, params, data.doer)
 end
 
 local nextval = function(t, i)
@@ -167,17 +186,17 @@ local nextval = function(t, i)
 	return v
 end
 
-local function RowColumnUpgrade(inst, data, params)
+local function RowColumnUpgrade(inst, params, data)
 	local chestupgrade = inst.components.chestupgrade
 	local x, y, z = chestupgrade:GetLv()
 
 	local major = params.side or params.all or nil
 	local minor = (
-		params.center or
-		nextval(params.column) or
-		nextval(params.row) or
-		nextval(params.slot) or
-		nil
+			params.center or
+					nextval(params.column) or
+					nextval(params.row) or
+					nextval(params.slot) or
+					nil
 	)
 
 	if major == nil then
@@ -199,29 +218,32 @@ local function RowColumnUpgrade(inst, data, params)
 	end
 
 	--column upg
-	if x < TUNING.CHESTUPGRADE.MAX_LV then
-		chestupgrade:SpecialUpgrade(column, data.doer, {x = 1})
+	if chestupgrade:SpecialUpgrade(column, data.doer, {x = 1}, {x = TUNING.CHESTUPGRADE.MAX_LV}) then
+		return true
 	end
 	--row upg
-	if y < TUNING.CHESTUPGRADE.MAX_LV then
-		chestupgrade:SpecialUpgrade(row, data.doer, {y = 1})  
+	if chestupgrade:SpecialUpgrade(row, data.doer, {y = 1}, {y = TUNING.CHESTUPGRADE.MAX_LV}) then
+		return true
 	end
+
+	return false
 end
 
-local function PageUpgrade(inst, data, params, nomult)
+local function PageUpgrade(inst, params, data, nomult)
 	local chestupgrade = inst.components.chestupgrade
 	local ispack = inst.components.container.type == "pack"
 	local z_max = ispack and (TUNING.CHESTUPGRADE.MAXPACKPAGE or 0) or TUNING.CHESTUPGRADE.MAX_PAGE
 	local ingr = (params.page and params.page[1]) or params.side or params.all or nil
 	local x, y, z = chestupgrade:GetLv()
-	if ingr ~= nil and (ispack or x * y >= TUNING.CHESTUPGRADE.MAX_LV ^ 2) and z < z_max then
-		if nomult or ispack and TUNING.CAP_EXPENSIVE_BACKPACK then
-			chestupgrade:SpecialUpgrade(params, data.doer, {z = 1})
-			return
+	if ingr ~= nil then
+		if nomult then
+			return chestupgrade:SpecialUpgrade(params, data.doer, {z = 1}, {z = z_max})
 		end
 
 		local firstitem = inst.components.container.slots[1]
-		if firstitem == nil then return end
+		if firstitem == nil then
+			return false
+		end
 
 		local amount = type(ingr) == "string" and 1 or ingr.amount or ingr[2]
 		local stacksize = firstitem.components.stackable ~= nil and firstitem.components.stackable:StackSize() or 1
@@ -232,13 +254,43 @@ local function PageUpgrade(inst, data, params, nomult)
 		local page_ingr = Ingredient(page_prefab, page_amount)
 		local page_params = {page = {[1] = page_ingr}}
 
-		chestupgrade:SpecialUpgrade(page_params, data.doer, {z = times})
+		if ispack and TUNING.CAP_EXPENSIVE_BACKPACK then
+			times = 1
+			page_params = {all = page_ingr}
+		end
+
+		return chestupgrade:SpecialUpgrade(page_params, data.doer, {z = times}, {z = z_max})
 	end
+	return false
 end
 
-local function CustomUpgrade(inst, data, params, fn)
+local function CustomUpgrade(inst, params, data, fn, maxlv)
 	local chestupgrade = inst.components.chestupgrade
-	chestupgrade:Upgrade(TUNING.CHESTUPGRADE.MAX_LV, params, data.doer, true, fn)
+	return chestupgrade:Upgrade(maxlv, params, data.doer, true, fn)
+end
+
+local function ChestUpgradeFn(inst, params, data)
+	local x, y, z = inst.components.chestupgrade:GetLv()
+	local pageable = x >= TUNING.CHESTUPGRADE.MAX_LV and y >= TUNING.CHESTUPGRADE.MAX_LV
+	return TUNING.CAP_UPG_MODE ~= 1 and inst.components.container.slots[1] == nil and RowColumnUpgrade(inst, params, data)
+			or TUNING.CAP_UPG_MODE ~= 2 and NormalUpgrade(inst, params, data)
+			or TUNING.CAP_PAGEABLE and pageable and PageUpgrade(inst, params, data)
+end
+
+local function PackUpgradeFn(inst, params, data)
+	if TUNING.CAP_BACKPACKMODE == 2 then
+		return PageUpgrade(inst, params, data)
+	elseif TUNING.CAP_BACKPACKMODE == 1 then
+		return TUNING.CAP_UPG_MODE ~= 1 and inst.components.container.slots[1] == nil and RowColumnUpgrade(inst, params, data)
+				or TUNING.CAP_UPG_MODE ~= 2 and NormalPackUpgrade(inst, params, data)
+	else
+		local x, y = inst.components.chestupgrade:GetLv()
+		local xx, yy = inst.components.chestupgrade.baselv:Get()
+		local pageable = x >= xx + TUNING.CHESTUPGRADE.MAXPACKSIZE * 2 and y >= yy + TUNING.CHESTUPGRADE.MAXPACKSIZE * 2
+		return TUNING.CAP_UPG_MODE ~= 1 and inst.components.container.slots[1] == nil and RowColumnUpgrade(inst, params, data)
+				or TUNING.CAP_UPG_MODE ~= 2 and NormalPackUpgrade(inst, params, data)
+				or pageable and PageUpgrade(inst, params, data)
+	end
 end
 
 local function Degrade(inst, ratio, fn)
@@ -247,8 +299,9 @@ local function Degrade(inst, ratio, fn)
 	local blv = chestupgrade.baselv
 
 	if x > blv.x or y > blv.y or z > blv.z then
-		chestupgrade:Degrade(ratio, fn)
+		return chestupgrade:Degrade(ratio, fn)
 	end
+	return false
 end
 
 local function Deconstruct(inst)
@@ -259,6 +312,9 @@ local function Deconstruct(inst)
 	end
 	local ondeconstructstructure = function(inst, data)
 		Degrade(inst, 1)
+		if inst.components.container ~= nil then
+			inst.components.container:DropEverything()
+		end
 	end
 	inst:ListenForEvent("worked", worked)
 	inst:ListenForEvent("ondeconstructstructure", ondeconstructstructure)
@@ -267,18 +323,22 @@ end
 local function DegradeByHammer(inst, data)
 	local container = inst.components.container
 
-	if container == nil then return end
+	if container == nil then
+		return false
+	end
 
 	local idx = next(container.slots)
 	if idx == nil or next(container.slots, idx) ~= nil then	--make sure only one item in chest
-		return
+		return false
 	end
 
 	local chestupgrade = inst.components.chestupgrade
 	local x, y, z = chestupgrade:GetLv()
 	local blv = chestupgrade.baselv
 
-	if not (x > blv.x or y > blv.y or z > blv.z) then return end
+	if not (x > blv.x or y > blv.y or z > blv.z) then
+		return false
+	end
 
 	for i = 1, container:GetNumSlots() do
 		local hammer = container.slots[i]
@@ -288,34 +348,26 @@ local function DegradeByHammer(inst, data)
 				hammer.components.finiteuses:Use(USES * TUNING.CHESTUPGRADE.DEGRADE_USE)
 			end
 			container:DropItemBySlot(i, data.doer:GetPosition())
-			Degrade(inst)
-			break
+			return Degrade(inst)
 		end
 	end
+	return false
 end
 
 local function CommonClose(chest, params)
 	local onclose = function(inst, data)
-		local container = inst.components.container
 		--upgrade only if all player close the container
-		if container.opencount ~= 0 then return end
+		if inst.components.container.opencount == 0 then
+			if TUNING.CAP_DEGRADABLE then
+				if DegradeByHammer(inst, data) then
+					return
+				end
+			end
 
-		if TUNING.CAP_DEGRADABLE then
-			DegradeByHammer(inst, data)
-		end
+			ChestUpgradeFn(inst, params, data)
 
-		--upgd mode: 1: normal; 2: row/column; 3: both 1 & 2
-		if TUNING.CAP_UPG_MODE ~= 1 and container.slots[1] == nil then
-			RowColumnUpgrade(inst, data, params)
+			DropTempItem(inst, data)
 		end
-		if TUNING.CAP_UPG_MODE ~= 2 then
-			NormalUpgrade(inst, data, params)
-		end
-		if TUNING.CAP_PAGEABLE then
-			PageUpgrade(inst, data, params)
-		end
-
-		DropTempItem(inst, data)
 	end
 
 	chest:ListenForEvent("onclose", onclose)
@@ -323,28 +375,21 @@ end
 
 local function PackClose(pack, params)
 	local onclose = function(inst, data)
-		local container = inst.components.container
-		if container.opencount == 0 then
-			local chestupgrade = inst.components.chestupgrade
-			local x, y, z = chestupgrade:GetLv()
-
-			if z < TUNING.CHESTUPGRADE.MAXPACKPAGE then
-				--chestupgrade:SpecialUpgrade(params, data.doer, {z = 1})
-				PageUpgrade(inst, data, params)
-			end
+		if inst.components.container.opencount == 0 then
+			PackUpgradeFn(inst, params, data)
 		end
 	end
 
 	pack:ListenForEvent("onclose", onclose)
 end
 
-local function CustomClose(chest, params, fn, fnonly)
+local function CustomClose(chest, params, fn, fnonly, maxlv)
 	fnonly = fnonly ~= false
 	local onclose = function(inst, data)
 		local container = inst.components.container
 		if container.opencount == 0 then
 			local chestupgrade = inst.components.chestupgrade
-			chestupgrade:Upgrade(nil, params, data.doer, fnonly, fn)
+			chestupgrade:Upgrade(maxlv, params, data.doer, fnonly, fn)
 		end
 	end
 
@@ -373,13 +418,17 @@ return {
 
 	ChangeSize = ChangeSize,
 
-	MakeTempContainable = MakeTempContainable,
+	CanTakeTempItem = CanTakeTempItem,
 	DropTempItem = DropTempItem,
 
 	NormalUpgrade = NormalUpgrade,
+	NormalPackUpgrade = NormalPackUpgrade,
 	RowColumnUpgrade = RowColumnUpgrade,
 	PageUpgrade = PageUpgrade,
 	CustomUpgrade = CustomUpgrade,
+
+	ChestUpgradeFn = ChestUpgradeFn,
+	PackUpgradeFn = PackUpgradeFn,
 
 	Degrade = Degrade,
 	DegradeByHammer = DegradeByHammer,

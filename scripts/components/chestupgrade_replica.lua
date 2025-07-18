@@ -1,6 +1,7 @@
 local AllUpgradeRecipes = ChestUpgrade.AllUpgradeRecipes or {}
 --net_byte: 8; net_ushortint: 16
-local use_net_byte = TUNING.CHESTUPGRADE.MAX_PAGE == 1 and TUNING.CHESTUPGRADE.MAX_LV <= 15 and TUNING.CHESTUPGRADE.MAXPACKPAGE == nil
+local use_net_byte = TUNING.CHESTUPGRADE.MAX_LV <= 15 and TUNING.CHESTUPGRADE.MAX_PAGE == 1 and TUNING.CHESTUPGRADE.MAXPACKPAGE == 1
+local use_ushort = TUNING.CHESTUPGRADE.MAX_LV <= 63 and TUNING.CHESTUPGRADE.MAX_PAGE <= 15 and TUNING.CHESTUPGRADE.MAXPACKPAGE <= 15
 
 local function OnBaseLv(inst)
 	local chestupgrade = inst.replica.chestupgrade
@@ -40,7 +41,7 @@ local ChestUpgrade = Class(function(self, inst)
 	self.chestlv = Vector3(3, 3, 1)
 	if use_net_byte then
 		self.net_clv = net_byte(self.inst.GUID, "chestlv", "onchestlv")
-	elseif TUNING.CHESTUPGRADE.MAX_LV <= 63 then
+	elseif use_ushort then
 		self.net_clv = net_ushortint(self.inst.GUID, "chestlv", "onchestlv")
 	else
 		self.net_lvx = net_ushortint(self.inst.GUID, "chestlvx", "onchestlvdirty")
@@ -72,7 +73,7 @@ function ChestUpgrade:SetChestLv(chestlv)
 	if use_net_byte then
 		local clv = chestlv.x + bit.lshift(chestlv.y, 4)
 		self.net_clv:set(clv)
-	elseif TUNING.CHESTUPGRADE.MAX_LV <= 63 then
+	elseif use_ushort then
 		local clv = chestlv.x + bit.lshift(chestlv.y, 6) + bit.lshift(chestlv.z, 12)
 		self.net_clv:set(clv)
 	else
