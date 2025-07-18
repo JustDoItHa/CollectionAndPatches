@@ -10,11 +10,10 @@ TUNING.CHESTUPGRADE = {	--add to tuning so that they can be easily tuned
 	DEGRADE_USE		= 1,						--GetModConfigData("DEGRADE_USE")
 
 	SCALE_FACTOR	= GetModConfigData("SCALE_FACTOR"),
-}
 
-if GetModConfigData("BACKPACK") then
-	TUNING.CHESTUPGRADE.MAXPACKPAGE = GetModConfigData("BACKPACKPAGE") or 3
-end
+	MAXPACKSIZE		= GetModConfigData("BACKPACK") and GetModConfigData("BACKPACKSIZE") or 0,
+	MAXPACKPAGE 	= GetModConfigData("BACKPACK") and GetModConfigData("BACKPACKPAGE") or 1,
+}
 
 AddReplicableComponent("chestupgrade")
 
@@ -26,10 +25,16 @@ env.AllUpgradeRecipes = ChestUpgrade.AllUpgradeRecipes
 
 AllUpgradeRecipes.GetParams = function(allrecipes, prefab)
 	local recipe = allrecipes[prefab]
-	if recipe ~= nil then
-		return recipe.GetParams ~= nil and recipe:GetParams()
+	if recipe ~= nil and recipe.GetParams ~= nil then
+		return recipe:GetParams()
 	end
 end
+
+local containers = require("containers")
+
+local chestmaxlv = (TUNING.CHESTUPGRADE.MAX_LV + 1) * (TUNING.CHESTUPGRADE.MAX_LV + 2) * TUNING.CHESTUPGRADE.MAX_PAGE
+local packmaxlv = (TUNING.CHESTUPGRADE.MAXPACKSIZE * 2 + 3) * (TUNING.CHESTUPGRADE.MAXPACKSIZE * 2 + 8) * TUNING.CHESTUPGRADE.MAXPACKPAGE
+containers.MAXITEMSLOTS = math.max(containers.MAXITEMSLOTS, chestmaxlv, GetModConfigData("BACKPACK") and packmaxlv or 0)
 
 modimport("modules/upgrade_container/main/strings.lua")
 modimport("modules/upgrade_container/main/setup.lua")
@@ -47,15 +52,14 @@ modimport("modules/upgrade_container/main/widgets/inventorybar.lua")
 --custom change
 GLOBAL.ChestUpgrade.DISABLERS = {
 	INV = false,				--widgets/inventorybar
-	CONTAINER = false,			--components/container
-	CONTAINER_C = false,		--prefabs/container_classifier
-	INVENTORY = false,			--prefabs/inventory_classifier
+	CONTAINER = GetModConfigData("COMPATIBLE_MODE"),--false,			--components/container
+	INVENTORY = GetModConfigData("COMPATIBLE_MODE"),--false,			--prefabs/inventory_classifier
 }
 
 modimport("modules/upgrade_container/main/modules/inventorybar.lua")
 modimport("modules/upgrade_container/main/modules/container.lua")
-modimport("modules/upgrade_container/main/modules/container_classifier.lua")
+--modimport("modules/upgrade_container/main/modules/container_classifier.lua")
 modimport("modules/upgrade_container/main/modules/inventory_classifier.lua")
---modimport("main/modules/chestupgrade_replica.lua")
+
 
 ChestUpgradePostInit()

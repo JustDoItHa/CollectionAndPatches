@@ -178,6 +178,7 @@ TUNING.CANT_PACK_ITEMS = {
     statueglommer = true,
     -- wormhole= true,
     -- minotaur_spawner= true,
+    xd_llbx= true, --试炼宝箱
 }
 
 function testCantPackItem(target, forbidTable)

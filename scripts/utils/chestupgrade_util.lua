@@ -1,11 +1,5 @@
 local containers = require("containers")
 
-local fancyname = TUNING.CAP_MOD_NAME
-local modname = KnownModIndex:GetModActualName(fancyname)
-local GetThisModConfigData = function(optionname, get_local_config)
-	return GetModConfigData(optionname, modname, get_local_config)
-end
-
 local containers_mt = {__index = {inst = {components = {}}, SetNumSlots = function() end}}
 local function RegisterParams(prefab)
 	if containers.params[prefab] == nil then
@@ -260,7 +254,7 @@ local function PageUpgrade(inst, params, data, nomult)
 		local page_ingr = Ingredient(page_prefab, page_amount)
 		local page_params = {page = {[1] = page_ingr}}
 
-		if ispack and GetThisModConfigData("EXPENSIVE_BACKPACK") then
+		if ispack and TUNING.CAP_EXPENSIVE_BACKPACK then
 			times = 1
 			page_params = {all = page_ingr}
 		end
@@ -278,23 +272,23 @@ end
 local function ChestUpgradeFn(inst, params, data)
 	local x, y, z = inst.components.chestupgrade:GetLv()
 	local pageable = x >= TUNING.CHESTUPGRADE.MAX_LV and y >= TUNING.CHESTUPGRADE.MAX_LV
-	return GetThisModConfigData("UPG_MODE") ~= 1 and inst.components.container.slots[1] == nil and RowColumnUpgrade(inst, params, data)
-			or GetThisModConfigData("UPG_MODE") ~= 2 and NormalUpgrade(inst, params, data)
-			or GetThisModConfigData("PAGEABLE") and pageable and PageUpgrade(inst, params, data)
+	return TUNING.CAP_UPG_MODE ~= 1 and inst.components.container.slots[1] == nil and RowColumnUpgrade(inst, params, data)
+			or TUNING.CAP_UPG_MODE ~= 2 and NormalUpgrade(inst, params, data)
+			or TUNING.CAP_PAGEABLE and pageable and PageUpgrade(inst, params, data)
 end
 
 local function PackUpgradeFn(inst, params, data)
-	if GetThisModConfigData("BACKPACKMODE") == 2 then
+	if TUNING.CAP_BACKPACKMODE == 2 then
 		return PageUpgrade(inst, params, data)
-	elseif GetThisModConfigData("BACKPACKMODE") == 1 then
-		return GetThisModConfigData("UPG_MODE") ~= 1 and inst.components.container.slots[1] == nil and RowColumnUpgrade(inst, params, data)
-				or GetThisModConfigData("UPG_MODE") ~= 2 and NormalPackUpgrade(inst, params, data)
+	elseif TUNING.CAP_BACKPACKMODE == 1 then
+		return TUNING.CAP_UPG_MODE ~= 1 and inst.components.container.slots[1] == nil and RowColumnUpgrade(inst, params, data)
+				or TUNING.CAP_UPG_MODE ~= 2 and NormalPackUpgrade(inst, params, data)
 	else
 		local x, y = inst.components.chestupgrade:GetLv()
 		local xx, yy = inst.components.chestupgrade.baselv:Get()
 		local pageable = x >= xx + TUNING.CHESTUPGRADE.MAXPACKSIZE * 2 and y >= yy + TUNING.CHESTUPGRADE.MAXPACKSIZE * 2
-		return GetThisModConfigData("UPG_MODE") ~= 1 and inst.components.container.slots[1] == nil and RowColumnUpgrade(inst, params, data)
-				or GetThisModConfigData("UPG_MODE") ~= 2 and NormalPackUpgrade(inst, params, data)
+		return TUNING.CAP_UPG_MODE ~= 1 and inst.components.container.slots[1] == nil and RowColumnUpgrade(inst, params, data)
+				or TUNING.CAP_UPG_MODE ~= 2 and NormalPackUpgrade(inst, params, data)
 				or pageable and PageUpgrade(inst, params, data)
 	end
 end
@@ -364,7 +358,7 @@ local function CommonClose(chest, params)
 	local onclose = function(inst, data)
 		--upgrade only if all player close the container
 		if inst.components.container.opencount == 0 then
-			if GetThisModConfigData("DEGRADABLE") then
+			if TUNING.CAP_DEGRADABLE then
 				if DegradeByHammer(inst, data) then
 					return
 				end

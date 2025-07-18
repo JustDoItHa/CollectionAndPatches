@@ -2561,25 +2561,55 @@ if lang == "zh" then
                 AddOptionShort(2, "复杂模式", "升级材料放最右列 / 最下行储存格以进行横向 / 纵向升级"),
                 AddOptionShort(3, "混合模式", "我全都要"),
             }, "变更升级模式")
-    AddNewConfig("PAGEABLE", "翻页升级", false,
-            AddHoverBoolOpt("满级以后，把升级材料放满第 1 页"),
-            "让箱子可翻页的升级")
-    AddNewConfig("BACKPACK", "背包可升级", false,
-            AddHoverBoolOpt("把升级材料放满第 1 页"))
+    AddNewConfig("PAGEABLE", "翻页升级", false, AddHoverBoolOpt("满级以后，把升级材料放满第 1 页"), "让箱子可翻页的升级")
+
     AddNewConfig("CHANGESIZE", "改变大小", false, BoolOpt, "根据箱子等级改变箱子大小")
-
     configuration_options[#configuration_options + 1] = AddOptionHeader("可升级的容器:")
-
     AddNewConfig("C_TREASURECHEST", "Chest", true, AddHoverBoolOpt("1 木板到每一个最外层储存格"))
     AddNewConfig("C_ICEBOX", "冰箱", true, AddHoverBoolOpt("1 齿轮到每一个最上层储存格，1 石砖到其他最外层储存格"))
     AddNewConfig("C_SALTBOX", "盐盒", true, AddHoverBoolOpt("1 盐晶到每一个最外层储存格，1 蓝宝石到最中间储存格"))
     AddNewConfig("C_DRAGONFLYCHEST", "龙鳞宝箱", true, AddHoverBoolOpt("1 木板到每一个最外层储存格"))
     AddNewConfig("C_FISH_BOX", "锡鱼罐", true, AddHoverBoolOpt("1 绳子到每一个最外层储存格"))
     AddNewConfig("C_BOOKSTATION", "书架", false, AddHoverBoolOpt("1 活木到每一个最外层储存格"))
-    AddNewConfig("C_TACKLECONTAINER", "钓具箱", false, AddHoverBoolOpt("1 饼干切割机壳到每一个最外层储存格"), "钓具箱 和 超级钓具箱")
+    AddNewConfig("C_TACKLECONTAINER", "钓具箱", false, AddHoverBoolOpt("1 饼干切割机壳到每一个最外层储存格"), "钓具箱")
+    AddNewConfig("C_SUPERTACKLECONTAINER", "超级钓具箱", false, AddHoverBoolOpt("1 饼干切割机壳到每一个最外层储存格"), "超级钓具箱")
     AddNewConfig("C_OCEAN_TRAWLER", "拖网捕鱼器", false, AddHoverBoolOpt("1 邪天翁羽毛到每一个储存格"))
     AddNewConfig("C_SHADOW_CONTAINER", "魔术师的容器", true, AddHoverBoolOpt("1 暗影之心到每一个最外层储存格"), "魔术师的礼帽, 魔术师的盒子, 暗影切斯特")
     AddNewConfig("C_BEARGERFUR_SACK", "极地熊獾桶", true, AddHoverBoolOpt("1 熊皮到每一个最左储存格，1 纯粹辉煌到每一个最外层储存格"), "1 熊皮到每一个最左储存格，1 纯粹辉煌到每一个最外层储存格")
+    AddNewConfig("C_BATTLESONG_CONTAINER", "战斗号子罐", true, AddHoverBoolOpt("1 木板到每一个最外层储存格"), "1 木板到每一个最外层储存格")
+    AddNewConfig("C_CHESTER", "切斯特", true, AddHoverBoolOpt("切斯特: 1 鳞片 到每一个最外层储存格\n哈奇: 1 蘑菇皮 到每一个最外层储存格"), "切斯特: 1 鳞片 到每一个最外层储存格\n哈奇: 1 蘑菇皮 到每一个最外层储存格")
+    AddNewConfig("C_OFFERING_POT", "食堂海带盘", true, AddHoverBoolOpt("1 芦苇到每一个最上层储存格，1 木板到其他最外层储存格"), "仅食堂海带盘")
+    AddNewConfig("C_OFFERING_POT_UPGRADED", "高级食堂海带盘", true, AddHoverBoolOpt("1 芦苇到每一个最上层储存格，1 木板到其他最外层储存格"), "仅高级食堂海带盘")
+    AddNewConfig("C_BOAT_ANCIENT_CONTAINER", "古董船", true, AddHoverBoolOpt("1 木板到每一个最外层储存格"), "古董船")
+    AddNewConfig("C_RABBITKINGHORN_CONTAINER", "挖洞兔号角", true, AddHoverBoolOpt("1 兔王棍到每一个最外层储存格"), "挖洞兔号角")
+    AddNewConfig("C_SLINGSHOTAMMO_CONTAINER", "弹药袋", true, AddHoverBoolOpt("1 木板到每一个最外层储存格"), "弹药袋")
+    AddNewConfig("C_ELIXIR_CONTAINER", "野餐盒", true, AddHoverBoolOpt("1 哀悼荣耀到每一个最外层储存格"), "野餐盒")
+
+    configuration_options[#configuration_options + 1] = AddOptionHeader("可升级的背包:")
+    AddNewConfig("BACKPACK", "背包可升级", false, AddHoverBoolOpt("把升级材料放满第 1 页"))
+    AddNewConfig("BACKPACKMODE", "背包升级模式", 2, { AddOptionShort(1, "仅普通升级"), AddOptionShort(2, "仅翻页升级"), AddOptionShort(3, "混合模式"), },"背包升级模式")
+    AddNewConfig("BACKPACKSIZE", "背包最大尺寸", 2, { AddOptionShort(1, "扩大 1 圈"), AddOptionShort(2, "扩大 2 圈"), AddOptionShort(3, "扩大 3 圈"), AddOptionShort(4, "扩大 4 圈"), },"背包最大尺寸")
+    AddNewConfig("EXPENSIVE_BACKPACK", "昂贵的背包升级", false, AddHoverBoolOpt("每一格各 1 个物品增加 1 页", "第一页各 1 个物品增加 1 页"),"调整背包升级需求")
+    AddNewConfig("BACKPACKPAGE", "背包最大页数", 3,
+            {
+                AddOptionShort(1, "1"),
+                AddOptionShort(2, "2"),
+                AddOptionShort(3, "3"),
+                AddOptionShort(4, "4"),
+                AddOptionShort(5, "5"),
+                AddOptionShort(6, "6"),
+                AddOptionShort(7, "7"),
+                AddOptionShort(8, "8"),
+                AddOptionShort(9, "9"),
+                AddOptionShort(10, "10"),
+                AddOptionShort(11, "11"),
+                AddOptionShort(12, "12"),
+                AddOptionShort(13, "13"),
+                AddOptionShort(14, "14"),
+                AddOptionShort(15, "15"), })
+    AddNewConfig("KRAMPUS_ONLY", "仅坎普斯背包", false, BoolOpt, "*禁止* 所有其他背包升级, 除了坎普斯背包\n坎普斯背包升级需求改为 蜡纸 到第 1 页每个格子")
+
+
     configuration_options[#configuration_options + 1] = AddOptionHeader("UI设置:")
     AddNewConfig("SHOWGUIDE", "显示升级需求", 2,
             {
@@ -2604,23 +2634,18 @@ if lang == "zh" then
                 AddOptionShort(6, "6x6", "显示6x6的数量"),
                 AddOptionShort(7, "7x7", "显示7x7的数量"),
             }, nil, true)
-    AddNewConfig("PACKSTYLE", "背包样式", true,
-            {
-                AddOptionShort(false, "合并"),
-                AddOptionShort(true, "整页"), }, "\"融合\"背包样式\n只在\"背包可升级\"选项开启时有效", true)
+    AddNewConfig("PACKSTYLE", "背包样式", true, { AddOptionShort(false, "合并"), AddOptionShort(true, "整页"), }, "\"融合\"背包样式\n只在\"背包可升级\"选项开启时有效", true)
     AddNewConfig("OVERFLOW", "智能分页", true, BoolOpt, "\"融合\" 背包样式\n把溢出的格子挪到下一页", true)
     AddNewConfig("UI_ICEBOX", "冰箱UI左移", true, BoolOpt, "UI左移使UI不会遮挡烹饪锅", true)
     AddNewConfig("DROPALL", "\"清空\"按钮", false, BoolOpt, "一个能把箱子里所有物品扔到地上的按钮", true)
     AddNewConfig("SORTITEM", "\"整理\"按钮", false, BoolOpt, "一个能帮你整理内容物的按钮\n按我的使用习惯做的，未必适合所有人", true)
+    AddNewConfig("CLOSEBTN", "\"关闭\"按钮", false, BoolOpt, "一个能关闭箱子的按钮", true)
+    AddNewConfig("FILLBTN", "\"填充\"按钮", false, BoolOpt, "一个自动填充升级材料的按钮", true)
+    AddNewConfig("UPGBTN", "\"升级\"按钮", false, BoolOpt, "一个无需主动关闭箱子就能升级的按钮", true)
     AddNewConfig("UI_BGIMAGE", "隐藏UI背景", false, BoolOpt, nil, true)
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("其他功能:")
-    AddNewConfig("EXPENSIVE_BACKPACK", "Expensive Backpack", false,
-            AddHoverBoolOpt(
-                    "item to all slots for 1 page upgrade",
-                    "item to 1st page for 1 page upgrade"
-            )
-    )
+
     AddNewConfig("SCALE_FACTOR", "大小比例", 3,
             {
                 AddOptionShort(1, "2", "1:2, ie. 6x6箱子2倍大(半径)"),
@@ -2631,33 +2656,19 @@ if lang == "zh" then
                 AddOptionShort(6, "1.16"),
                 AddOptionShort(10, "1.1")
             }, "改变箱子大小的比例\n只在\"改变大小\"选项开启时有效")
-    AddNewConfig("BACKPACKPAGE", "背包最大页数", 3,
-            {
-                AddOptionShort(1, "1"),
-                AddOptionShort(2, "2"),
-                AddOptionShort(3, "3"),
-                AddOptionShort(4, "4"),
-                AddOptionShort(5, "5"),
-                AddOptionShort(6, "6"),
-                AddOptionShort(7, "7"),
-                AddOptionShort(8, "8"),
-                AddOptionShort(9, "9"),
-                AddOptionShort(10, "10"),
-                AddOptionShort(11, "11"),
-                AddOptionShort(12, "12"),
-                AddOptionShort(13, "13"),
-                AddOptionShort(14, "14"),
-                AddOptionShort(15, "15"), })
-    AddNewConfig("ALLCANUPG", "(测试中)全容器升级", false, AddHoverBoolOpt("制作该容器所需材料中消耗最大的材料到每一格最外圈储存格"), "让大部分模组容器也能升级\n不建议用经常玩的档进行测试")
+
+    --AddNewConfig("ALLCANUPG", "(测试中)全容器升级", false, AddHoverBoolOpt("制作该容器所需材料中消耗最大的材料到每一格最外圈储存格"), "让大部分模组容器也能升级\n不建议用经常玩的档进行测试")
     AddNewConfig("DEGRADABLE", "可降级", true, BoolOpt, "箱子可降级\n放一个锤子进空箱子")
     AddNewConfig("INSIGHT", "Insight资讯", true, BoolOpt, "模组: Insight 会为你显示更多资讯")
     AddNewConfig("UNCOM_MODE", "永不妥协", false, BoolOpt, "调整与 模组: Uncompomising Mode(永不妥协) 同时使用时的设定")
-    AddNewConfig("KRAMPUS_ONLY", "仅坎普斯背包", false, BoolOpt, "*禁止* 所有其他背包升级, 除了坎普斯背包\n坎普斯背包升级需求改为 蜡纸 到第 1 页每个格子")
-    AddNewConfig("RETURNITEM", "拆除返还材料", false, BoolOpt, "测试中\n拆除时返还升级材料")
+    AddNewConfig("RETURNITEM", "拆除返还材料", false, BoolOpt, "拆除时返还升级材料")
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("除错模式:")
     AddNewConfig("DEBUG_MAXLV", "满级", false, BoolOpt, "容器在建造的时候就已经满级")
     AddNewConfig("DEBUG_IIC", "自带升级材料", false, BoolOpt, "容器在建造时自带升级材料和锤子")
+
+    configuration_options[#configuration_options + 1] = AddOptionHeader("兼容模式:")
+    AddNewConfig("COMPATIBLE_MODE", "兼容模式", false, BoolOpt, "开启这个选项可以提升这个模组的兼容性")
 else
     AddNewConfig("MAX_LV", "Max upgrade", 9,
             {
@@ -2681,8 +2692,6 @@ else
     AddNewConfig("PAGEABLE", "Pageable Upgrade", false,
             AddHoverBoolOpt("After the chest is in max level, put the upgrade items to all the slots in 1st page"),
             "Make the Chest Pageable")
-    AddNewConfig("BACKPACK", "Backpack Upgrade-able", false,
-            AddHoverBoolOpt("put items into every slots of the backpack"))
     AddNewConfig("CHANGESIZE", "Change Size", false, BoolOpt, "Change the chest size scale to its level")
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("Upgradeable Containers:")
@@ -2692,10 +2701,44 @@ else
     AddNewConfig("C_DRAGONFLYCHEST", "Dragonfly Chest", true, AddHoverBoolOpt("1 boards in each outermost slots"))
     AddNewConfig("C_FISH_BOX", "Fish Box", true, AddHoverBoolOpt("1 rope in each outermost slots"))
     AddNewConfig("C_BOOKSTATION", "Bookcase", false, AddHoverBoolOpt("1 living log in each outermost slots"))
-    AddNewConfig("C_TACKLECONTAINER", "Tackle Box", false, AddHoverBoolOpt("1 cookie cutter shell in each outermost slots"), "tackle box and super tackle box")
+    AddNewConfig("C_TACKLECONTAINER", "Tackle Box", false, AddHoverBoolOpt("1 cookie cutter shell in each outermost slots"), "Tackle Box")
+    AddNewConfig("C_SUPERTACKLECONTAINER", "Super Tackle Box", false, AddHoverBoolOpt("1 cookie cutter shell in each outermost slots"), "Super Tackle Box")
     AddNewConfig("C_OCEAN_TRAWLER", "Ocean Trawler", false, AddHoverBoolOpt("1 malbatross feather in each slots"))
     AddNewConfig("C_SHADOW_CONTAINER", "Magician's Containers", true, AddHoverBoolOpt("1 shadow heart in each outermost slots"), "Magician's Hat, Magician's Box, Shadow Chester")
     AddNewConfig("C_BEARGERFUR_SACK", "Polar Bearger Bin", true, AddHoverBoolOpt("1 thick fur in each left-most slots, 1 pure brilliance in other outermost slots"))
+    AddNewConfig("C_BATTLESONG_CONTAINER", "Battle Call Canister", true, AddHoverBoolOpt("1 boards in each outermost slots"), "1 boards in each outermost slots")
+    AddNewConfig("C_CHESTER", "Chester", true, AddHoverBoolOpt("Chester: 1 Scale in each outermost slots\nHutch: 1 Shroom Skin in each outermost slots"), "Chester: 1 Scale in each outermost slots\nHutch: 1 Shroom Skin in each outermost slots")
+    AddNewConfig("C_OFFERING_POT", "Communal Kelp Dish", true, AddHoverBoolOpt("1 Cut Reeds in each top-most slots, 1 Boards in each other outermost slots"), "Communal Kelp Dish")
+    AddNewConfig("C_OFFERING_POT_UPGRADED", "Superior Communal Kelp Dish", true, AddHoverBoolOpt("1 Cut Reeds in each top-most slots, 1 Boards in each other outermost slots"), "Superior Communal Kelp Dish")
+    AddNewConfig("C_BOAT_ANCIENT_CONTAINER", "Archaic Boat", true, AddHoverBoolOpt("1 boards in each outermost slots"), "Archaic Boat")
+    AddNewConfig("C_RABBITKINGHORN_CONTAINER", "Burrowing Horn", true, AddHoverBoolOpt("1 Rabbit King Cudgel in each outermost slots"), "Burrowing Horn")
+    AddNewConfig("C_SLINGSHOTAMMO_CONTAINER", "Ammo Pouch", true, AddHoverBoolOpt("1 Pig Skin in each outermost slots"), "Ammo Pouch")
+    AddNewConfig("C_ELIXIR_CONTAINER", "Picnic Casket", true, AddHoverBoolOpt("1 Mourning Glories in each outermost slots"), "Picnic Casket")
+
+    configuration_options[#configuration_options + 1] = AddOptionHeader("Backpack Upgrade:")
+    AddNewConfig("BACKPACK", "Backpack Upgrade-able", false, AddHoverBoolOpt("put items into every slots of the backpack"))
+    AddNewConfig("BACKPACKMODE", "Backpack Upgrade Mode", 2, { AddOptionShort(1, "Normal Only"), AddOptionShort(2, "Page Only"), AddOptionShort(3, "Both"), },"Backpack Upgrade Mode")
+    AddNewConfig("BACKPACKSIZE", "Backpack Max Size", 2, { AddOptionShort(1, "Expand 1 Unit Size"), AddOptionShort(2, "Expand 2 Unit Size"), AddOptionShort(3, "Expand 3 Unit Size"), AddOptionShort(4, "Expand 4 Unit Size"), },"Backpack Max Size")
+    AddNewConfig("EXPENSIVE_BACKPACK", "Expensive Backpack", false,AddHoverBoolOpt("item to all slots for 1 page upgrade", "item to 1st page for 1 page upgrade"),"Change backpack upgrade requirement")
+    AddNewConfig("BACKPACKPAGE", "Backpack Max Page", 3,
+            {
+                AddOptionShort(1, "1", "Why will you turn backpack upgrade on"),
+                AddOptionShort(2, "2"),
+                AddOptionShort(3, "3"),
+                AddOptionShort(4, "4"),
+                AddOptionShort(5, "5"),
+                AddOptionShort(6, "6"),
+                AddOptionShort(7, "7"),
+                AddOptionShort(8, "8"),
+                AddOptionShort(9, "9"),
+                AddOptionShort(10, "10"),
+                AddOptionShort(11, "11"),
+                AddOptionShort(12, "12"),
+                AddOptionShort(13, "13"),
+                AddOptionShort(14, "14"),
+                AddOptionShort(15, "15"), })
+    AddNewConfig("KRAMPUS_ONLY", "Krampus Sack Only", false, BoolOpt, "*DISABLE* all other backpack' upgrade, except Krampus Sack\nwax paper to all slots in first page for upgrading Krampus Sack")
+
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("Widget UI Settings:")
     AddNewConfig("SHOWGUIDE", "Shows Guide", 3,
@@ -2707,11 +2750,7 @@ else
             }, "Show you the upgrade requirement\nWon't show for Column/Row Upgrade(expensive mode)", true)
     AddNewConfig("SEARCHBAR", "Search UI", true, BoolOpt, "double click the background to open/close the search UI", true)
     AddNewConfig("SHOWALLPAGE", "Show All Page", false, BoolOpt, "(testing)show all page when you open your container", true)
-    AddNewConfig("UI_WIDGETPOS", "Widget Position", true,
-            {
-                AddOptionShort(false, "top", "unchange, above the character"),
-                AddOptionShort(true, "left", "next to the character"),
-            }, nil, true)
+    AddNewConfig("UI_WIDGETPOS", "Widget Position", true, { AddOptionShort(false, "top", "unchange, above the character"), AddOptionShort(true, "left", "next to the character"), }, nil, true)
     AddNewConfig("DRAGGABLE", "Partial Display", false,
             {
                 AddOptionShort(false, "disable(default)"),
@@ -2730,6 +2769,9 @@ else
     AddNewConfig("UI_ICEBOX", "Ice Box Leftward", true, BoolOpt, "shift the ui of ice box leftward so that it won't block your cooker", true)
     AddNewConfig("DROPALL", "\"Drop All\" Button", false, BoolOpt, "a button allow you dropping the entire content to the ground", true)
     AddNewConfig("SORTITEM", "\"Sort Item\" Button", false, BoolOpt, "a button allow you sorting the content quickly\nMy sorting style. You may not like it.", true)
+    AddNewConfig("CLOSEBTN", "\"Close\" Button", false, BoolOpt, "a button allow close the chest.", true)
+    AddNewConfig("FILLBTN", "\"Auto Fill\" Button", false, BoolOpt, "a button allow fill the item for upgrade.", true)
+    AddNewConfig("UPGBTN", "\"Upgrade\" Button", false, BoolOpt, "a button allow upgrade without closing.", true)
     AddNewConfig("UI_BGIMAGE", "Hide Background Image", false, BoolOpt, nil, true)
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("Other Functions:")
@@ -2743,35 +2785,22 @@ else
                 AddOptionShort(6, "1.16"),
                 AddOptionShort(10, "1.1")
             }, "The scale for upgraded chest(in radius)\nActivate only if \"Change Size\" option on.")
-    AddNewConfig("BACKPACKPAGE", "Backpack Max Page", 3,
-            {
-                AddOptionShort(1, "1", "Why will you turn backpack upgrade on"),
-                AddOptionShort(2, "2"),
-                AddOptionShort(3, "3"),
-                AddOptionShort(4, "4"),
-                AddOptionShort(5, "5"),
-                AddOptionShort(6, "6"),
-                AddOptionShort(7, "7"),
-                AddOptionShort(8, "8"),
-                AddOptionShort(9, "9"),
-                AddOptionShort(10, "10"),
-                AddOptionShort(11, "11"),
-                AddOptionShort(12, "12"),
-                AddOptionShort(13, "13"),
-                AddOptionShort(14, "14"),
-                AddOptionShort(15, "15"), })
-    AddNewConfig("ALLCANUPG", "(testing)All Upgrade-able", false, AddHoverBoolOpt("item consumed the most when crafting to each outermost slots"), "Allow most of the modded containers upgradable")
+
+    --AddNewConfig("ALLCANUPG", "(testing)All Upgrade-able", false, AddHoverBoolOpt("item consumed the most when crafting to each outermost slots"), "Allow most of the modded containers upgradable")
     AddNewConfig("DEGRADABLE", "Downgrade-able", true, BoolOpt, "Enable downgrading the chest\nPut a hammer in the empty container")
     AddNewConfig("INSIGHT", "Insight", true, BoolOpt,
             "Mod: Insight will shows the detailed info for chest level"
     )
     AddNewConfig("UNCOM_MODE", "Uncompomising Mode", false, BoolOpt, "Adjust some setting when use with Mod: Uncompomising Mode")
-    AddNewConfig("KRAMPUS_ONLY", "Krampus Sack Only", false, BoolOpt, "*DISABLE* all other backpack' upgrade, except Krampus Sack\nwax paper to all slots in first page for upgrading Krampus Sack")
     AddNewConfig("RETURNITEM", "Deconstruct Return Items", false, BoolOpt, "Testing function\nReturn items when decontrution")
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("DEBUG:")
     AddNewConfig("DEBUG_MAXLV", "Max Level", false, BoolOpt, "Containers are in max lv once builded")
     AddNewConfig("DEBUG_IIC", "Item in Container", false, BoolOpt, "Put upgrade material and hammer into container once builded")
+
+
+    configuration_options[#configuration_options + 1] = AddOptionHeader("Compatible Mode:")
+    AddNewConfig("COMPATIBLE_MODE", "Compatible Mode", false, BoolOpt, "Make this mod more compatible with other mods")
 end
 
 ----------------------------
