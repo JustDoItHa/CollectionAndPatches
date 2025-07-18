@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.9.7.0"
+version = "14.9.8.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -127,22 +127,34 @@ local tumbleweed_item_rates_options = {
     { description = "1000", data = 1000, },
     { description = "100", data = 100, },
     { description = "10", data = 10, },
+    { description = "8", data = 8, },
     { description = "5", data = 5, },
+    { description = "3", data = 3, },
     { description = "2", data = 2, },
     { description = "1", data = 1, },
+    { description = "0.8", data = 0.8, },
     { description = "0.5", data = 0.5, },
+    { description = "0.3", data = 0.3, },
     { description = "0.2", data = 0.2, },
     { description = "0.1", data = 0.1, },
     { description = "0.05", data = 0.05, },
     { description = "0.01", data = 0.01, },
-    { description = "0.01", data = 0.01, },
+    { description = "0.001", data = 0.001, },
 }
 local tumbleweed_item_multiple_options = {
     { description = "无", data = false, },
     { description = "1000倍", data = 1000, },
     { description = "100倍", data = 100, },
     { description = "10倍", data = 10, },
+    { description = "8倍", data = 8, },
+    { description = "5倍", data = 5, },
+    { description = "3倍", data = 3, },
+    { description = "2倍", data = 2, },
     { description = "默认", data = 1, },
+    { description = "0.8倍", data = 0.8, },
+    { description = "0.5倍", data = 0.5, },
+    { description = "0.3倍", data = 0.3, },
+    { description = "0.2倍", data = 0.2, },
     { description = "0.1倍", data = 0.1, },
     { description = "0.01倍", data = 0.01, },
     { description = "0.001倍", data = 0.001, },
