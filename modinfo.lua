@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.9.8.0"
+version = "14.9.9.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1459,6 +1459,8 @@ configuration_options[#configuration_options + 1] = AddConfigOption("CATBIGBAGSI
                                                                                                                                                     { description = "8x4", data = 2, },
                                                                                                                                                     { description = "8x6", data = 3, },
                                                                                                                                                     { description = "8x8", data = 4, }, }, 2)
+
+configuration_options[#configuration_options + 1] = AddOption("CATBACK_TO_CATBIGBAG", "Catback Transfer (小猫包兑换猫包)", "Catback to catbigbag (小猫包兑换猫包).", false)
 configuration_options[#configuration_options + 1] = AddOption("KEEPFRESH", "KeepFresh (保鲜)", "Keep the food fresh.", false)
 configuration_options[#configuration_options + 1] = AddOption("LIGHT", "Light (保命微光)", "Let the bag give off light.", false)
 configuration_options[#configuration_options + 1] = AddOption("BIGBAGWATER", "Rainproof(防雨)", "Protect you from the rain.", false)

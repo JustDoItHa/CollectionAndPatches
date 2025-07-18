@@ -294,6 +294,13 @@ if not GetModConfigData("BIG_BAG_ONLY_IN_TUMBLEWEED") and GetModConfigData("BIG_
     end
 end
 
+if TUNING.CATBACK_TO_CATBIGBAG then
+    AddRecipe2("catbigbag_n2", -- name
+            { Ingredient("catback", 2)},
+            tec,
+            { no_deconstruction = true, atlas = "images/inventoryimages/catback.xml", image = "catback.tex", product = "catbigbag" },
+            { "CONTAINERS" })
+end
 --------------------------------------------------------------------------------------------------------------------------
 modimport("scripts/strings_bigbag.lua")
 modimport("scripts/bigbag_rpc.lua")
