@@ -1455,10 +1455,16 @@ configuration_options[#configuration_options + 1] = AddConfigOption("BIG_BAG_LAN
 configuration_options[#configuration_options + 1] = AddConfigOption("BAGSIZE", "Size of bag(背包大小)", "Size of bag", { { description = "8x3", data = 4, }, { description = "8x4", data = 1, }, { description = "8x6", data = 2, }, { description = "8x8", data = 3, }, }, 1)
 configuration_options[#configuration_options + 1] = AddConfigOption("NICEBIGBAGSIZE", "Size of haversack(挎包大小)", "Choose your size of haversack.", { { description = "8x3", data = 1, },
                                                                                                                                                          { description = "8x4", data = 2, }, }, 2)
-configuration_options[#configuration_options + 1] = AddConfigOption("CATBIGBAGSIZE", "Size of catback(猫包大小)", "Choose your size of catback.", { { description = "8x3", data = 1, },
+configuration_options[#configuration_options + 1] = AddConfigOption("CATBIGBAGSIZE", "Size of catbigbag(猫咪包大小)", "Choose your size of catbigbag.", { { description = "8x3", data = 1, },
                                                                                                                                                     { description = "8x4", data = 2, },
                                                                                                                                                     { description = "8x6", data = 3, },
                                                                                                                                                     { description = "8x8", data = 4, }, }, 2)
+configuration_options[#configuration_options + 1] = AddConfigOption("CATBACK_SIZE", "Size of catback(小猫包大小)", "Choose your size of catback.", { { description = "8x2", data = 0, },
+                                                                                                                                                     { description = "8x3", data = 1, },
+                                                                                                                                                    { description = "8x4", data = 2, },
+                                                                                                                                                    { description = "8x6", data = 3, },
+                                                                                                                                                    { description = "8x8", data = 4, },
+                                                                                                                                                     { description = "7x2", data = 11, }, }, 0)
 
 configuration_options[#configuration_options + 1] = AddOption("CATBACK_TO_CATBIGBAG", "Catback Transfer (小猫包兑换猫包)", "Catback to catbigbag (小猫包兑换猫包).", false)
 configuration_options[#configuration_options + 1] = AddOption("KEEPFRESH", "KeepFresh (保鲜)", "Keep the food fresh.", false)

@@ -59,6 +59,7 @@ if max_player_num > 0 then
 end
 
 -- [TUNING -- big bag]--------------------
+TUNING.BIGBAG_SWITCH = GetModConfigData("bigbag_switch")
 TUNING.ROOMCAR_BIGBAG_BAGSIZE = GetModConfigData("BAGSIZE")
 TUNING.ROOMCAR_BIGBAG_LANG = GetModConfigData("BIG_BAG_LANG")
 --TUNING.ROOMCAR_BIGBAG_GIVE = GetModConfigData("GIVE")
@@ -75,6 +76,7 @@ TUNING.ROOMCAR_BIGBAG_WATER = GetModConfigData("BIGBAGWATER")
 TUNING.ROOMCAR_BIGBAG_PICK = GetModConfigData("BIGBAGPICK")
 TUNING.NICE_BIGBAGSIZE = GetModConfigData("NICEBIGBAGSIZE")
 TUNING.CATBACK_BIGBAGSIZE = GetModConfigData("CATBIGBAGSIZE")
+TUNING.CATBACK_CATBACK_SIZE = GetModConfigData("CATBACK_SIZE")
 TUNING.CATBACK_TO_CATBIGBAG = GetModConfigData("CATBACK_TO_CATBIGBAG")
 TUNING.OPTIMISE_ANNOUNCEMENT = GetModConfigData("optimiseAnnouncement")
 -- [TUNING -- big bag end]--------------------

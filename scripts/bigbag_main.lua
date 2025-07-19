@@ -102,6 +102,15 @@ table.insert(Assets, Asset("ATLAS", "images/bigbagbg_8x8.xml"))
 table.insert(Assets, Asset("IMAGE", "images/bigbagbg_8x6.tex"))
 table.insert(Assets, Asset("ATLAS", "images/bigbagbg_8x6.xml"))
 
+table.insert(Assets, Asset("ANIM", "anim/ui_chest_4x5.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_chest_5x8.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_chest_5x12.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_musha_2x8.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_musha_3x8.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_musha_4x8.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_mushab_2x3.zip"))
+table.insert(Assets, Asset("ANIM", "anim/ui_chest_yamche4x4.zip"))
+
 
 -- [Miniap Icon]--------------------
 AddMinimapAtlas("images/minimap/bigbag.xml")

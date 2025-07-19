@@ -35,10 +35,14 @@ local packs = {
 	"icepack",
 	"spicepack",
 	"krampus_sack",
-	"catback",
+	--"catback",
+	--"catbigbag",
 	"piggyback",
 }
-
+if TUNING.BIGBAG_SWITCH then
+	table.insert(packs,"catback")
+	table.insert(packs,"catbigbag")
+end
 if GetModConfigData("KRAMPUS_ONLY") then
 	local prefab = "krampus_sack"
 	local recipe = AllUpgradeRecipes[prefab]

@@ -35,7 +35,8 @@ local ALL_RECIPES = {
 	["icepack"]			= MakePackRecipe("transistor", 1, {2,4}),--{page = {[1] = Ingredient("transistor", 1)}, lv = {2,4}},
 	["spicepack"]		= MakePackRecipe("nitre", 1, {2,3}),		--{page = {[1] = Ingredient("nitre", 1)}, lv = {2,3}},
 	["krampus_sack"]	= MakePackRecipe("rope", 1, {2,7}),		--{page = {[1] = Ingredient("rope", 1)}, lv = {2,7}},
-	["catback"]         = MakePackRecipe("opalpreciousgem", 1, {2,7}),
+	--["catback"]	        = MakePackRecipe("opalpreciousgem", 1, {2,7}),		--{page = {[1] = Ingredient("rope", 1)}, lv = {2,7}},
+	--["catbigbag"]	    = MakePackRecipe("opalpreciousgem", 1, {3,8}),		--{page = {[1] = Ingredient("rope", 1)}, lv = {2,7}},
 	["piggyback"]		= MakePackRecipe("pigskin", 1, {2,6}),	--{page = {[1] = Ingredient("pigskin", 1)}, lv = {2,6}},
 	--	["seedpouch"] = "slurtle_shellpieces",
 	--	["candybag"] = "rope",
@@ -46,6 +47,31 @@ local ALL_RECIPES = {
 	--	["wobybig"]			= {},
 	--	["wobysmall"]		= {},
 }
+if TUNING.BIGBAG_SWITCH then
+	if TUNING.CATBACK_CATBACK_SIZE == 0 then
+		ALL_RECIPES["catback"]=MakePackRecipe("opalpreciousgem", 1, {2,8})
+	elseif TUNING.CATBACK_CATBACK_SIZE == 1 then
+		ALL_RECIPES["catback"]=MakePackRecipe("opalpreciousgem", 1, {3,8})
+	elseif TUNING.CATBACK_CATBACK_SIZE == 2 then
+		ALL_RECIPES["catback"]=MakePackRecipe("opalpreciousgem", 1, {4,8})
+	elseif TUNING.CATBACK_CATBACK_SIZE == 3 then
+		ALL_RECIPES["catback"]=MakePackRecipe("opalpreciousgem", 1, {5,8})
+	elseif TUNING.CATBACK_CATBACK_SIZE == 4 then
+		ALL_RECIPES["catback"]=MakePackRecipe("opalpreciousgem", 1, {8,8})
+	elseif TUNING.CATBACK_CATBACK_SIZE == 11 then
+		ALL_RECIPES["catback"]=MakePackRecipe("opalpreciousgem", 1, {2,7})
+	end
+
+	if TUNING.CATBACK_BIGBAGSIZE == 1 then
+		ALL_RECIPES["catbigbag"]=MakePackRecipe("opalpreciousgem", 1, {3,8})
+	elseif TUNING.CATBACK_BIGBAGSIZE == 2 then
+		ALL_RECIPES["catbigbag"]=MakePackRecipe("opalpreciousgem", 1, {4,8})
+	elseif TUNING.CATBACK_BIGBAGSIZE == 3 then
+		ALL_RECIPES["catbigbag"]=MakePackRecipe("opalpreciousgem", 1, {6,8})
+	elseif TUNING.CATBACK_BIGBAGSIZE == 4 then
+		ALL_RECIPES["catbigbag"]=MakePackRecipe("opalpreciousgem", 1, {8,8})
+	end
+end
 
 for prefab, params in pairs(ALL_RECIPES) do
 	AddRecipe(prefab, params)
