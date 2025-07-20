@@ -48,7 +48,11 @@ if GetModConfigData("KRAMPUS_ONLY") then
 	local recipe = AllUpgradeRecipes[prefab]
 	recipe.params.page = {[1] = Ingredient("waxpaper", 1)}
 	ChestUpgrade.PackSetUp(prefab, recipe.params, recipe.lv)
-
+elseif TUNING.BIGBAG_SWITCH and GetModConfigData("CATBACK_ONLY")then
+	local prefab = "catback"
+	local recipe = AllUpgradeRecipes[prefab]
+	recipe.params.page = {[1] = Ingredient("opalpreciousgem", 1)}
+	ChestUpgrade.PackSetUp(prefab, recipe.params, recipe.lv)
 elseif GetModConfigData("BACKPACK") then
 	for _, prefab in pairs(packs) do
 		local recipe = AllUpgradeRecipes[prefab]

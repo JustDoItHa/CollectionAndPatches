@@ -317,6 +317,9 @@ if usage_scenario_l == 2 or usage_scenario_l == 3 or usage_scenario_l == 4 then
     table.insert(strongcleanlist, "alterguardian_phase1")--天体英雄1阶段
     table.insert(strongcleanlist, "alterguardian_phase2")--天体英雄2阶段
     table.insert(strongcleanlist, "alterguardian_phase3")--天体英雄3阶段
+    table.insert(strongcleanlist, "alterguardian_phase1_lunarrift")--天体仇灵
+    table.insert(strongcleanlist, "alterguardian_phase4_lunarrift")--天体后裔
+
 
     table.insert(strongcleanlist, "fossil_stalker") --奇异的骨架
     table.insert(strongcleanlist, "daywalker") --梦魇疯猪
