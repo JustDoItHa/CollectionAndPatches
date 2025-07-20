@@ -227,7 +227,6 @@ local function onequip(inst, owner)
         owner.AnimState:OverrideSymbol("swap_body", "swap_catback", "swap_body")
     end
 
-
     inst.components.container:Open(owner)
     if owner.components.health ~= nil then
         owner.components.health.externalabsorbmodifiers:SetModifier(inst, .9)
@@ -323,6 +322,8 @@ local function fn()
     --waterproofer (from waterproofer component) added to pristine state for optimization
     --inst:AddTag("waterproofer")
 
+    local swap_data = { bank = "backpack1", anim = "anim" }
+    MakeInventoryFloatable(inst, "med", 0.1, 0.65, nil, nil, swap_data)
 
     inst.entity:SetPristine()
 
@@ -330,32 +331,34 @@ local function fn()
         return inst
     end
 
-    if inst.components.preserver == nil then
-        inst:AddComponent("preserver")
-        inst.components.preserver:SetPerishRateMultiplier(0)---TUNING.PERISH_SALTBOX_MULT
-    end
-    inst.components.preserver:SetPerishRateMultiplier(function(inst, item)
-        return (item ~= nil) and 0 or nil
-    end)
+    --if inst.components.preserver == nil then
+    --    inst:AddComponent("preserver")
+    --    inst.components.preserver:SetPerishRateMultiplier(0)---TUNING.PERISH_SALTBOX_MULT
+    --end
+    --inst.components.preserver:SetPerishRateMultiplier(function(inst, item)
+    --    return (item ~= nil) and 0 or nil
+    --end)
 
     inst:AddComponent("inspectable")
+    inst:AddComponent("inventoryitem")
+    inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
+    inst.components.inventoryitem.imagename = "catback"
+    inst.components.inventoryitem:SetOnDroppedFn(ondropped)
+    inst.components.inventoryitem.cangoincontainer = true -- [[can be carried]]!!!!!!!!!!!!!!!!!!!!
+    inst.components.inventoryitem.foleysound = "dontstarve/movement/foley/marblearmour"
 
     --[[
     inst:AddComponent("insulator")
     inst.components.insulator:SetInsulation(TUNING.INSULATION_LARGE)
     ]]
 
-    if TUNING.ROOMCAR_BIGBAG_KEEPFRESH then
-        if inst.components.preserver == nil then
-            inst:AddComponent("preserver")
-        end
-        inst.components.preserver:SetPerishRateMultiplier(function(inst, item)
-            return (item ~= nil) and 0 or nil
-        end)
+    if inst.components.preserver == nil then
+        inst:AddComponent("preserver")
     end
-    if TUNING.ROOMCAR_BIGBAG_WATER then
-        inst:AddComponent("waterproofer")
-    end
+    inst.components.preserver:SetPerishRateMultiplier(function(inst, item)
+        return (item ~= nil) and 0 or nil
+    end)
+
     inst:AddComponent("named")
 
     inst:AddComponent("equippable")
@@ -368,14 +371,6 @@ local function fn()
 
     inst:AddComponent("waterproofer")
     inst.components.waterproofer:SetEffectiveness(1)
-
-    inst:AddComponent("inspectable")
-    inst:AddComponent("inventoryitem")
-    inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
-    inst.components.inventoryitem.imagename = "catback"
-    inst.components.inventoryitem:SetOnDroppedFn(ondropped)
-    inst.components.inventoryitem.cangoincontainer = true -- [[can be carried]]!!!!!!!!!!!!!!!!!!!!
-    inst.components.inventoryitem.foleysound = "dontstarve/movement/foley/marblearmour"
 
     inst:AddComponent("container")
     inst.components.container:WidgetSetup("catback")--krampus_sack

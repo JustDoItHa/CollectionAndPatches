@@ -4,7 +4,7 @@ ChestUpgradePreInit()
 
 TUNING.CHESTUPGRADE = {	--add to tuning so that they can be easily tuned
 	MAX_LV			= GetModConfigData("MAX_LV"),
-	MAX_PAGE		= GetModConfigData("PAGEABLE") and 10 or 1,
+	MAX_PAGE		= GetModConfigData("PAGEABLE") and 15 or 1,
 
 	DEGRADE_RATIO	= .5,						--math.min(GetModConfigData("DEGRADE_RATIO"), 1)
 	DEGRADE_USE		= 1,						--GetModConfigData("DEGRADE_USE")

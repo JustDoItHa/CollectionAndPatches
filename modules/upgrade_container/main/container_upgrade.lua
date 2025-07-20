@@ -41,18 +41,18 @@ local packs = {
 }
 if TUNING.BIGBAG_SWITCH then
 	table.insert(packs,"catback")
-	table.insert(packs,"catbigbag")
+	--table.insert(packs,"catbigbag")
 end
 if GetModConfigData("KRAMPUS_ONLY") then
 	local prefab = "krampus_sack"
 	local recipe = AllUpgradeRecipes[prefab]
 	recipe.params.page = {[1] = Ingredient("waxpaper", 1)}
 	ChestUpgrade.PackSetUp(prefab, recipe.params, recipe.lv)
-elseif TUNING.BIGBAG_SWITCH and GetModConfigData("CATBACK_ONLY")then
-	local prefab = "catback"
-	local recipe = AllUpgradeRecipes[prefab]
-	recipe.params.page = {[1] = Ingredient("opalpreciousgem", 1)}
-	ChestUpgrade.PackSetUp(prefab, recipe.params, recipe.lv)
+--elseif TUNING.BIGBAG_SWITCH and GetModConfigData("CATBACK_ONLY")then
+--	local prefab = "catback"
+--	local recipe = AllUpgradeRecipes[prefab]
+--	recipe.params.page = {[1] = Ingredient("opalpreciousgem", 1)}
+--	ChestUpgrade.PackSetUp(prefab, recipe.params, recipe.lv)
 elseif GetModConfigData("BACKPACK") then
 	for _, prefab in pairs(packs) do
 		local recipe = AllUpgradeRecipes[prefab]
@@ -132,7 +132,7 @@ if GetModConfigData("BACKPACK") then
 			local chestupgrade = inst.components.chestupgrade
 			local x, y, z = chestupgrade:GetLv()
 
-			chestupgrade:SpecialUpgrade(KSSpecialParams, data.doer, {z = 1}, {z = TUNING.CHESTUPGRADE.MAXPACKPAGE + 4})
+			chestupgrade:SpecialUpgrade(KSSpecialParams, data.doer, {z = 1}, {z = TUNING.CHESTUPGRADE.MAXPACKPAGE})
 		end
 	end
 

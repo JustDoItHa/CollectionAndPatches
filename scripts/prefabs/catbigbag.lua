@@ -10,11 +10,46 @@ local cooking = require("cooking")
 local assets = {
     Asset("ANIM", "anim/catback.zip"),
     Asset("ANIM", "anim/swap_catback.zip"),
-    Asset("IMAGE", "images/inventoryimages/catback.tex"), --物品栏贴图
     Asset("ATLAS", "images/inventoryimages/catback.xml"),
+    Asset("IMAGE", "images/minimap/catback.tex"),
+    Asset("IMAGE", "images/inventoryimages/cbdz0.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz0.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz1.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz1.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz2.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz2.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz3.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz3.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz4.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz4.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz5.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz5.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz6.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz6.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz7.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz7.xml"),
+    Asset("IMAGE", "images/inventoryimages/cbdz8.tex"),
+    Asset("ATLAS", "images/inventoryimages/cbdz8.xml"),
+    Asset("ANIM", "anim/cbdz0.zip"),
+    Asset("ANIM", "anim/ui_cbdz0.zip"),
+    Asset("ANIM", "anim/cbdz1.zip"),
+    Asset("ANIM", "anim/ui_cbdz1.zip"),
+    Asset("ANIM", "anim/cbdz2.zip"),
+    Asset("ANIM", "anim/ui_cbdz2.zip"),
+    Asset("ANIM", "anim/cbdz3.zip"),
+    Asset("ANIM", "anim/ui_cbdz3.zip"),
+    Asset("ANIM", "anim/cbdz4.zip"),
+    Asset("ANIM", "anim/ui_cbdz4.zip"),
+    Asset("ANIM", "anim/cbdz5.zip"),
+    Asset("ANIM", "anim/ui_cbdz5.zip"),
+    Asset("ANIM", "anim/cbdz6.zip"),
+    Asset("ANIM", "anim/ui_cbdz6.zip"),
+    Asset("ANIM", "anim/cbdz7.zip"),
+    Asset("ANIM", "anim/ui_cbdz7.zip"),
+    Asset("ANIM", "anim/cbdz8.zip"),
+    Asset("ANIM", "anim/ui_cbdz8.zip")
 }
 
---------------------------------------------------------------------------
 local function getitem_catbigbag(inst, data)
     if data and data.item ~= nil then
         if TUNING.ROOMCAR_BIGBAG_FRESH then
@@ -59,10 +94,6 @@ local function getitem_catbigbag(inst, data)
         end
 
     end
-    if inst.components.inventoryitem then
-        inst.components.inventoryitem.imagename = "catback"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
-    end
 end
 
 local function insulatorstate(inst)
@@ -78,10 +109,6 @@ local function insulatorstate(inst)
         inst.components.insulator:SetSummer()
         inst.components.insulator:SetInsulation(500)
     end
-    if inst.components.inventoryitem then
-        inst.components.inventoryitem.imagename = "catback"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
-    end
 
 end
 
@@ -89,8 +116,7 @@ end
 ---月圆时间 有概率
 --- 大背包中的物品，回满耐久值/回满新鲜度
 --- 有堆叠的物品变成两倍但不能超过最大堆叠数
-local function DoBenefit_catbigbag(inst)
-
+local function doBenefit_catbigbag(inst)
     if inst.last_do_cycle_day == nil then
         inst.last_do_cycle_day = TheWorld.state.cycles
     end
@@ -187,70 +213,62 @@ local function DoBenefit_catbigbag(inst)
 
 end
 
-local function onopen(inst)
-    inst.AnimState:PlayAnimation("open")
-    inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_open")
-    if inst.components.inventoryitem then
-        inst.components.inventoryitem.imagename = "catback"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
+local function onequip(inst, owner)
+    --owner.AnimState:OverrideSymbol("backpack", "swap_catback", "backpack")
+    --owner.AnimState:OverrideSymbol("swap_body", "swap_catback", "swap_body")
+
+    local skin_build = inst:GetSkinBuild()
+    if skin_build ~= nil then
+        owner:PushEvent("equipskinneditem", inst:GetSkinName())
+        --owner.AnimState:OverrideItemSkinSymbol("backpack", skin_build, "backpack", inst.GUID, bag_symbol[inst.prefab])
+        owner.AnimState:OverrideItemSkinSymbol("swap_body", skin_build, "swap_body", inst.GUID, "swap_backpack")
+    else
+        --owner.AnimState:OverrideSymbol("backpack", bag_symbol[inst.prefab], "backpack")
+        owner.AnimState:OverrideSymbol("swap_body", "swap_catback", "swap_body")
     end
+
+
+    inst.components.container:Open(owner)
+    if owner.components.health ~= nil then
+        owner.components.health.externalabsorbmodifiers:SetModifier(inst, .9)
+    end
+    if owner.components.temperature ~= nil then
+        owner.components.temperature:SetTemperature(TUNING.STARTING_TEMP)
+        owner.catbigbag_protect = true
+    end
+    inst.light = SpawnPrefab("lifelight")
+    inst.light.entity:SetParent(owner.entity)
+
 end
 
-local function onclose(inst)
-    inst.AnimState:PlayAnimation("closed")
-    inst.SoundEmitter:PlaySound("dontstarve/wilson/chest_close")
-    if inst.components.inventoryitem then
-        inst.components.inventoryitem.imagename = "catback"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
+local function onunequip(inst, owner)
+    owner.AnimState:ClearOverrideSymbol("swap_body")
+    owner.AnimState:ClearOverrideSymbol("backpack")
+    inst.components.container:Close(owner)
+    if owner.components.health ~= nil then
+        owner.components.health.externalabsorbmodifiers:RemoveModifier(inst)
     end
-end
+    if owner.components.temperature ~= nil then
+        owner.catbigbag_protect = nil
+    end
+    if inst.light ~= nil then
+        inst.light:Remove()
+    end
 
+end
 local function ondropped(inst)
     if inst.components.container ~= nil then
         inst.components.container:Close()
     end
-    inst.AnimState:SetBank("catback")
-    inst.AnimState:SetBuild("catback")
-    inst.AnimState:PlayAnimation("idle")
-    if inst.components.inventoryitem then
-        inst.components.inventoryitem.imagename = "catback"
-        inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
-    end
-end
---------------------
-
-
-local function onequip(inst, owner)
-    inst.Light:Enable(true)
-
-    owner.AnimState:OverrideSymbol("backpack", "swap_catback", "backpack")
-    owner.AnimState:OverrideSymbol("swap_body", "swap_catback", "swap_body")
-    owner:AddTag("fastpicker")  --蜘蛛快采
-    owner:AddTag("fastpick")    --成就快采
-    if inst.components.container ~= nil then
-        inst.components.container:Open(owner)
-    end
-
-    inst.components.inventoryitem.imagename = "catback"
-    inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
-    --insulatorstate(inst)
 end
 local function onequiptomodel(inst, owner)
     inst.components.container:Close(owner)
 end
-local function onunequip(inst, owner)
-    -- light
-    inst.Light:Enable(false)
-    owner.AnimState:ClearOverrideSymbol("swap_body")
-    owner.AnimState:ClearOverrideSymbol("backpack")
-    if inst.components.container ~= nil then
-        inst.components.container:Close(owner)
-    end
-    owner:RemoveTag("fastpick")
-    owner:RemoveTag("fastpicker")
 
-    inst.components.inventoryitem.imagename = "catback"
-    inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
+local function OnHaunt(inst, haunter)
+    if haunter:HasTag("playerghost") then
+        haunter:PushEvent("respawnfromghost")
+    end
 end
 local function onsave(inst, data)
     if inst.last_do_cycle_day ~= nil then
@@ -267,7 +285,7 @@ local function onload(inst, data)
     else
         inst.last_do_cycle_day = 1
     end
-    --inst.components.named:SetName(STRINGS.NAMES.CATBIGBAG .. "\n" .. "上次CD时间: 世界第" .. inst.last_do_cycle_day .. "天")
+    --inst.components.named:SetName(STRINGS.NAMES.CATBACK .. "\n" .. "上次CD时间: 世界第" .. inst.last_do_cycle_day .. "天")
 end
 local function fn()
     local inst = CreateEntity()
@@ -277,23 +295,9 @@ local function fn()
     inst.entity:AddSoundEmitter()
     inst.entity:AddMiniMapEntity()
     inst.entity:AddNetwork()
-    --------------------
-    -- This needs to be in any entity that you want to create on the server 
-    -- and have it show up for all players. 
-    -- Most things have this, but in a few cases you want things to 
-    -- only exist on the server (e.g. meteorspawners, which are invisible), 
-    -- and in some very rare cases you may want to create things independently on each client.
-    --------------------
+
     MakeInventoryPhysics(inst)
-
     inst.MiniMapEntity:SetIcon("catback.tex")
-
-    inst.entity:AddLight()
-    inst.Light:Enable(false)
-    inst.Light:SetRadius(0.25)
-    inst.Light:SetFalloff(0.5)
-    inst.Light:SetIntensity(0.25)
-    inst.Light:SetColour(255 / 255, 255 / 255, 255 / 255)
 
     inst.AnimState:SetBank("catback")
     inst.AnimState:SetBuild("catback")
@@ -302,77 +306,90 @@ local function fn()
     inst:AddTag("backpack")
     inst:AddTag("fridge")
     inst:AddTag("nocool")
-    inst:AddTag("umbrella")
+    if TUNING.ROOMCAR_BIGBAG_WATER then
+        inst:AddTag("umbrella")
+        inst:AddTag("waterproofer")
+    end
     inst:AddTag("catbigbag")
-    inst:AddTag("keepfresh")
 
-    inst.foleysound = "dontstarve/movement/foley/krampuspack"
+    --inst:AddTag("gemsocket")
+    --inst:AddTag("trader")
+    --inst:AddTag("give_dolongaction")
+
+    if TUNING.ROOMCAR_BIGBAG_KEEPFRESH then
+        inst:AddTag("keepfresh")
+    end
+
+    --waterproofer (from waterproofer component) added to pristine state for optimization
+    --inst:AddTag("waterproofer")
+
     local swap_data = { bank = "backpack1", anim = "anim" }
     MakeInventoryFloatable(inst, "med", 0.1, 0.65, nil, nil, swap_data)
 
-    --------------------
     inst.entity:SetPristine()
-    -- This basically says "everything above this was done on both the client or the server, 
-    -- so don't bother networking any of that". 
-    -- This reduces a bit of the bandwidth used by creating entities. 
-    -- I can't think of a case where you wouldn't want this immediately 
-    -- after the "if not TheWorld.ismastersim then return inst end" part, 
-    -- which is where you'll see it in the game's code.
-    --------------------
 
-    --------------------
     if not TheWorld.ismastersim then
-        inst.OnEntityReplicated = function(inst)
-            inst.replica.container:WidgetSetup("catbigbag")
-            inst.replica.container.onopenfn = onopen
-            inst.replica.container.onclosefn = onclose
-        end
         return inst
     end
 
-    inst:AddComponent("named")
+    --if inst.components.preserver == nil then
+    --    inst:AddComponent("preserver")
+    --    inst.components.preserver:SetPerishRateMultiplier(0)---TUNING.PERISH_SALTBOX_MULT
+    --end
+    --inst.components.preserver:SetPerishRateMultiplier(function(inst, item)
+    --    return (item ~= nil) and 0 or nil
+    --end)
 
-    -- This is really important for almost all prefabs. 
-    -- This essentially says "if this is running on the client, stop here". 
-    -- Almost all components should only be created on the server 
-    -- (the really important ones will get replicated to the client through the replica system). 
-    -- Visual things and tags that will always be added can go above this, though.
-    --------------------
+    inst:AddComponent("inspectable")
+
+    --[[
+    inst:AddComponent("insulator")
+    inst.components.insulator:SetInsulation(TUNING.INSULATION_LARGE)
+    ]]
+
     if inst.components.preserver == nil then
         inst:AddComponent("preserver")
     end
     inst.components.preserver:SetPerishRateMultiplier(function(inst, item)
         return (item ~= nil) and 0 or nil
     end)
+
+    inst:AddComponent("named")
+
     inst:AddComponent("equippable")
     inst.components.equippable.equipslot = EQUIPSLOTS.BACK or EQUIPSLOTS.BODY
+    inst.components.equippable.dapperness = 5.6
+    inst.components.equippable.walkspeedmult = 1.5
     inst.components.equippable:SetOnEquip(onequip)
     inst.components.equippable:SetOnUnequip(onunequip)
-    inst.components.equippable.walkspeedmult = 1.2
     inst.components.equippable:SetOnEquipToModel(onequiptomodel)
+
+    inst:AddComponent("waterproofer")
+    inst.components.waterproofer:SetEffectiveness(1)
 
     inst:AddComponent("inspectable")
     inst:AddComponent("inventoryitem")
     inst.components.inventoryitem.atlasname = "images/inventoryimages/catback.xml"
+    inst.components.inventoryitem.imagename = "catback"
+    inst.components.inventoryitem.cangoincontainer = false
     inst.components.inventoryitem:SetOnDroppedFn(ondropped)
     inst.components.inventoryitem.cangoincontainer = true -- [[can be carried]]!!!!!!!!!!!!!!!!!!!!
     inst.components.inventoryitem.foleysound = "dontstarve/movement/foley/marblearmour"
 
-    inst:AddComponent("waterproofer")
-    inst.components.waterproofer:SetEffectiveness(0)
-
-    insulatorstate(inst)
-
     inst:AddComponent("container")
-    inst.components.container:WidgetSetup("catbigbag")
+    inst.components.container:WidgetSetup("catbigbag")--krampus_sack
     inst.components.container.skipclosesnd = true
     inst.components.container.skipopensnd = true
-    inst.components.container.onopenfn = onopen
-    inst.components.container.onclosefn = onclose
+
+
+    inst:AddComponent("hauntable")
+    inst.components.hauntable:SetHauntValue(TUNING.HAUNT_INSTANT_REZ)
+    inst.components.hauntable:SetOnHauntFn(OnHaunt)
+
     inst:ListenForEvent("itemget", getitem_catbigbag)
     inst:AddTag("special_benefit_cd_days")
-    inst:WatchWorldState("isfullmoon", DoBenefit_catbigbag)
-    --inst:WatchWorldState("moonphase",DoBenefit_catbigbag)
+    inst:WatchWorldState("isfullmoon", doBenefit_catbigbag)
+    --inst:WatchWorldState("moonphase",doBenefit_catbigbag)
     inst:WatchWorldState("isday", insulatorstate)
 
     inst.OnSave = onsave
@@ -380,8 +397,5 @@ local function fn()
 
     return inst
 end
-
---------------------------------------------------------------------------
---------------------------------------------------------------------------
 
 return Prefab("catbigbag", fn, assets)

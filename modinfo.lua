@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.9.12.0"
+version = "14.9.13.7"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1459,12 +1459,12 @@ configuration_options[#configuration_options + 1] = AddConfigOption("CATBIGBAGSI
                                                                                                                                                     { description = "8x4", data = 2, },
                                                                                                                                                     { description = "8x6", data = 3, },
                                                                                                                                                     { description = "8x8", data = 4, }, }, 2)
-configuration_options[#configuration_options + 1] = AddConfigOption("CATBACK_SIZE", "Size of catback(小猫包大小)", "Choose your size of catback.", { { description = "8x2", data = 0, },
-                                                                                                                                                     { description = "8x3", data = 1, },
-                                                                                                                                                    { description = "8x4", data = 2, },
-                                                                                                                                                    { description = "8x6", data = 3, },
-                                                                                                                                                    { description = "8x8", data = 4, },
-                                                                                                                                                     { description = "7x2", data = 11, }, }, 0)
+--configuration_options[#configuration_options + 1] = AddConfigOption("CATBACK_SIZE", "Size of catback(小猫包大小)", "Choose your size of catback.", { { description = "8x2", data = 0, },
+--                                                                                                                                                     { description = "8x3", data = 1, },
+--                                                                                                                                                    { description = "8x4", data = 2, },
+--                                                                                                                                                    { description = "8x6", data = 3, },
+--                                                                                                                                                    { description = "8x8", data = 4, },
+--                                                                                                                                                     { description = "7x2", data = 11, }, }, 0)
 
 configuration_options[#configuration_options + 1] = AddOption("CATBACK_TO_CATBIGBAG", "Catback Transfer (小猫包兑换猫包)", "Catback to catbigbag (小猫包兑换猫包).", false)
 configuration_options[#configuration_options + 1] = AddOption("KEEPFRESH", "KeepFresh (保鲜)", "Keep the food fresh.", false)
@@ -2628,7 +2628,7 @@ if lang == "zh" then
                 AddOptionShort(14, "14"),
                 AddOptionShort(15, "15"), })
     AddNewConfig("KRAMPUS_ONLY", "仅坎普斯背包", false, BoolOpt, "*禁止* 所有其他背包升级, 除了坎普斯背包\n坎普斯背包升级需求改为 蜡纸 到第 1 页每个格子")
-    AddNewConfig("CATBACK_ONLY", "仅小猫包", false, BoolOpt, "*禁止* 所有其他背包升级, 除了小猫包\n坎普斯背包升级需求改为 蜡纸 到第 1 页每个格子")
+    --AddNewConfig("CATBACK_ONLY", "仅小猫包", false, BoolOpt, "*禁止* 所有其他背包升级, 除了小猫包\n坎普斯背包升级需求改为 蜡纸 到第 1 页每个格子")
 
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("UI设置:")
