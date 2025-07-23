@@ -6,7 +6,7 @@ local remove_table = {
     --原版
     remove_ancienttree_seed = { "ancienttree_seed", "ancienttree_gem", "ancienttree_gem_sapling", "ncienttree_gem_sapling_item", "ancientfruit_gem" },
     remove_ancienttree_nightvision = { "ancienttree_nightvision", "ancienttree_nightvision_sapling", "ancienttree_nightvision_sapling_item", "ancientfruit_nightvision" },
-    remove_itemmimic_revealed = {"itemmimic_revealed"},--拟态蠕虫
+    remove_itemmimic_revealed = { "itemmimic_revealed" },--拟态蠕虫
     --神话
     remove_myth_mooncake = { "myth_mooncake_ice", "myth_mooncake_lotus", "myth_mooncake_nuts" },
     remove_myth_qxj = { "myth_qxj" },
@@ -19,11 +19,11 @@ local remove_table = {
     --伊蕾娜
     remove_elaina_bq = { "elaina_bq" },
     remove_saya_potions_happiness = { "saya_potions_happiness" },--幸福魔药（根据魔药的等级，持续时间内的每次制作都会触发概率创造）
-    remove_saya_qh_platform = { "saya_qh_platform",},--魔法炼药台
-    remove_saya_potions_attack = { "saya_potions_attack",},--攻击魔药（百分比攻击伤害）
-    remove_saya_potions_reply = { "saya_potions_reply", },--回复魔药（锁血+百分比回三维，百分比回魔女魔力，魔女魔力消耗折扣）
-    remove_saya_potions_fluorescence = { "saya_potions_fluorescence",},--荧光魔药（全科技解锁）
-    remove_saya_potions_grow = { "saya_potions_grow",},--成长魔药（突破5级等级上限）
+    remove_saya_qh_platform = { "saya_qh_platform" },--魔法炼药台
+    remove_saya_potions_attack = { "saya_potions_attack" },--攻击魔药（百分比攻击伤害）
+    remove_saya_potions_reply = { "saya_potions_reply" },--回复魔药（锁血+百分比回三维，百分比回魔女魔力，魔女魔力消耗折扣）
+    remove_saya_potions_fluorescence = { "saya_potions_fluorescence" },--荧光魔药（全科技解锁）
+    remove_saya_potions_grow = { "saya_potions_grow" },--成长魔药（突破5级等级上限）
     remove_saya_potions_eternal = { "saya_potions_eternal"},--回溯魔药（使魔药可重复使用）
     --奇幻降临阿比
     remove_abigail_williams_atrium_light_moon = { "atrium_light_moon" },
