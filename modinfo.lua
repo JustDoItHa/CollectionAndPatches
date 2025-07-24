@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.9.13.7"
+version = "14.9.13.8"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1558,6 +1558,7 @@ CAP_REMOVE_SOMETHING_LIST_CONFIG = {
     { "remove_saya_potions_reply ", "魔女的回复魔药", "让魔女的百分比回复的魔药消失！", disappear_magic, 140 },
     { "remove_saya_potions_fluorescence ", "魔女的荧光魔药", "让魔女的全科技魔药消失！", disappear_magic, 210 },
     { "remove_saya_potions_grow ", "魔女的成长魔药", "让魔女突破等级上限的魔药消失！", disappear_magic, 175 },
+    { "remove_saya_potions_wonderful", "魔女的奇妙魔药", "让魔女藏宝图霸体魔药消失！", disappear_magic, 0 },
     { "remove_saya_potions_eternal", "魔女的永恒魔药", "让魔女可多次使用的魔药消失！", disappear_magic, 195 },
     { "remove_abigail_williams_black_gold", "阿比盖尔威廉姆斯的暗金", "让阿比盖尔威廉姆斯的暗金消失！", disappear_magic, -1 },
     { "remove_abigail_williams_psionic_bobbin_c", "阿比盖尔威廉姆斯的彩虹线轴", "让阿比盖尔威廉姆斯的彩虹线轴消失！", disappear_magic, 0 },
