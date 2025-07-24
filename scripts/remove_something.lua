@@ -24,6 +24,7 @@ local remove_table = {
     remove_saya_potions_reply = { "saya_potions_reply" },--回复魔药（锁血+百分比回三维，百分比回魔女魔力，魔女魔力消耗折扣）
     remove_saya_potions_fluorescence = { "saya_potions_fluorescence" },--荧光魔药（全科技解锁）
     remove_saya_potions_grow = { "saya_potions_grow" },--成长魔药（突破5级等级上限）
+    remove_saya_potions_wonderful= { "saya_potions_wonderful" },--奇妙魔药（吃下之后随机获得20藏宝图或霸体或99%攻击力加成）
     remove_saya_potions_eternal = { "saya_potions_eternal"},--回溯魔药（使魔药可重复使用）
     --奇幻降临阿比
     remove_abigail_williams_atrium_light_moon = { "atrium_light_moon" },
