@@ -137,10 +137,10 @@ local mainUIList = {
         erd_menu = "erd_menu",
         -- 太真
         -- kuojian = "kuojian"
-        uiseconomy = {
-            mainbutton = "uiseconomy_mainbutton",
-            coinamount = "coinamount"
-        },
+        --uiseconomy = {
+        --    mainbutton = "uiseconomy_mainbutton",
+        --    coinamount = "coinamount"
+        --},
     },
     ["screens/playerhud"] = {
         -- 地下狂暴指示器
