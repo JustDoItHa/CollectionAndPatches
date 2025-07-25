@@ -343,6 +343,8 @@ if usage_scenario_l == 2 or usage_scenario_l == 3 or usage_scenario_l == 4 then
     table.insert(strongcleanlist, "crabking_mob") --蟹卫
     table.insert(strongcleanlist, "crabking_mob_knight") --蟹骑士
     table.insert(strongcleanlist, "warglet") --青年座狼
+    table.insert(strongcleanlist, "myth_introduction_page") --
+    table.insert(strongcleanlist, "skeleton_player") --骷髅
 
 end
 
