@@ -48,6 +48,10 @@ GLOBAL.keepNDecimalPlaces = keepNDecimalPlaces
 TUNING.CAP_MOD_NAME = env.modname
 PrefabFiles = {}
 Assets = {}
+
+TUNING.cap_skin_item_list = {} --有皮肤的item列表
+
+TUNING.cap_skin_skin_list = {} --皮肤映射列表
 ------加载资源
 --modimport("scripts/mod_assets.lua")
 
@@ -181,7 +185,7 @@ TUNING.CANT_PACK_ITEMS = {
     statueglommer = true,
     -- wormhole= true,
     -- minotaur_spawner= true,
-    xd_llbx= true, --试炼宝箱
+    xd_llbx = true, --试炼宝箱
 }
 
 function testCantPackItem(target, forbidTable)
@@ -496,7 +500,6 @@ if GetModConfigData("interesting_tumbleweed_switch") and GetModConfigData("tumbl
     modimport("scripts/tumbleweed_add_more_easter_egg.lua")
 end
 
-
 if GetModConfigData("interesting_tumbleweed_switch") and GetModConfigData("tumbleweed_add_more_item_switch") then
     modimport("scripts/tumbleweed_more_item_patch.lua")
 end
@@ -787,6 +790,9 @@ end
 
 ---制作配方的修改
 modimport("scripts/items_recipe_modification.lua")
+
+---皮肤加载
+modimport("scripts/skin/cap_skin_load.lua")
 
 ----处理下重复加组件的问题 不知道放哪里 先写这里
 AddGlobalClassPostConstruct("entityscript", "EntityScript", function(self)

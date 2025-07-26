@@ -2,22 +2,6 @@ GLOBAL.setmetatable(env, { __index = function(t, k)
     return GLOBAL.rawget(GLOBAL, k)
 end })
 
--- [TUNING]--------------------
---TUNING.ROOMCAR_BIGBAG_BAGSIZE = GetModConfigData("BAGSIZE")
---TUNING.ROOMCAR_BIGBAG_LANG = GetModConfigData("LANG")
-----TUNING.ROOMCAR_BIGBAG_GIVE = GetModConfigData("GIVE")
---TUNING.ROOMCAR_BIGBAG_STACK = GetModConfigData("STACK")
---TUNING.ROOMCAR_BIGBAG_FRESH = GetModConfigData("FRESH")
---TUNING.ROOMCAR_BIGBAG_KEEPFRESH = GetModConfigData("KEEPFRESH")
---TUNING.ROOMCAR_BIGBAG_LIGHT = GetModConfigData("LIGHT")
---TUNING.ROOMCAR_BIGBAG_RECIPE = GetModConfigData("RECIPE")
---TUNING.ROOMCAR_BIGBAG_WALKSPEED = GetModConfigData("WALKSPEED")
---TUNING.ROOMCAR_BIGBAG_CONTAINERDRAG_SWITCH = GetModConfigData("CONTAINERDRAG_SWITCH")
---TUNING.ROOMCAR_BIGBAG_BAGINBAG = GetModConfigData("BAGINBAG")
---TUNING.ROOMCAR_BIGBAG_HEATROCKTEMPERATURE = GetModConfigData("HEATROCKTEMPERATURE")
---TUNING.ROOMCAR_BIGBAG_WATER = GetModConfigData("BIGBAGWATER")
---TUNING.ROOMCAR_BIGBAG_PICK = GetModConfigData("BIGBAGPICK")
---TUNING.NICE_BIGBAGSIZE = GetModConfigData("NICEBIGBAGSIZE")
 table.insert(PrefabFiles, "bigbag")
 table.insert(PrefabFiles, "gembigbag")
 table.insert(PrefabFiles, "nicebigbag")
@@ -335,7 +319,19 @@ AddPrefabPostInit("bluebigbag", function(inst)
     end
 end)
 
-modimport("scripts/skin/catback_skin_list.lua")
+--modimport("scripts/skin/catback_skin_list.lua")
+
+table.insert(TUNING.cap_skin_item_list,"catback")
+
+table.insert(TUNING.cap_skin_skin_list,{"catback","cbdz0","恶魔之翼","anim"})
+table.insert(TUNING.cap_skin_skin_list,{"catback","cbdz1","信仰之翼","anim"})
+table.insert(TUNING.cap_skin_skin_list,{"catback","cbdz2","炎热之火","anim"})
+table.insert(TUNING.cap_skin_skin_list,{"catback","cbdz3","电光飞驰","anim"})
+table.insert(TUNING.cap_skin_skin_list,{"catback","cbdz4","湛蓝天空","anim"})
+table.insert(TUNING.cap_skin_skin_list,{"catback","cbdz5","炎魔之翼","anim"})
+table.insert(TUNING.cap_skin_skin_list,{"catback","cbdz6","魅惑之光","anim"})
+table.insert(TUNING.cap_skin_skin_list,{"catback","cbdz7","阿波罗","anim"})
+table.insert(TUNING.cap_skin_skin_list,{"catback","cbdz8","紫蝶","anim"})
 --------------------------------------------------------------------------------------------------------------------------
 --[[如果想在风滚草中添加你想加的资源，可在mod中加入下面代码
 TUNING.TUMBLEWEED_RESOURCES_EXPAND=TUNING.TUMBLEWEED_RESOURCES_EXPAND or {}
@@ -393,23 +389,6 @@ if GetModConfigData("BIG_BAG_CAN_GET_MENU") then
         }
     end
 end
---for k, v in pairs({ "catback", "catbigbag", "nicebigbag" }) do
---    AddPrefabPostInit(v, function(inst)
---        inst:DoPeriodicTask(240, function(inst_inner_1, ...)
---            local displaynamefn_old = inst_inner_1.displaynamefn
---            if displaynamefn_old then
---                inst_inner_1.displaynamefn = function(inst_inner, ...)
---                    if inst_inner.last_do_cycle_day ~= nil then
---                        return (STRINGS.NAMES[string.upper(inst.prefab)] .. "-已激活")
---                    else
---                        return displaynamefn_old(inst_inner, ...)
---                    end
---                end
---            end
---        end)
---
---    end)
---end
 
 -- 不被蘑菇云腐坏
 if GetModConfigData("BIG_BAG_FRESH_RESIST") then

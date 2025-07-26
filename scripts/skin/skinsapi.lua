@@ -100,7 +100,8 @@ WeGame平台: 穹の空 模组ID：workshop-2199027653598519351
     --如果喜欢用  aaa_build配方来制作 aaa 之类的话
     请打开下面的开关 recipe_help
 
-    ]] local CreatePrefabSkin -- 重新定义一下自己的 试图绕过Modded API的截取 在文件结尾有重新定义
+    ]]
+local CreatePrefabSkin -- 重新定义一下自己的 试图绕过Modded API的截取 在文件结尾有重新定义
 local recipe_help = true
 local thank_help = true
 -- 人物皮肤API

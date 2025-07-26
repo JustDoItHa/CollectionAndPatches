@@ -25,13 +25,10 @@ local catback_skin_list =            --对应的皮肤
 
 --开始注册:
 for k,v in pairs (item_list) do  --注册默认皮肤
-	MakeItemSkinDefaultImage( v,"images/inventoryimages/"..v..".xml", v)
-	RegisterInventoryItemAtlas("images/inventoryimages/"..v..".xml", v..".tex")
 	MakeItemSkinDefaultData(v,{atlas="images/inventoryimages/"..v..".xml",image=v},{bank=v,build=v,anim="idle",animloop=false})
 end
 
 for k,v in pairs (catback_skin_list) do
-	RegisterInventoryItemAtlas("images/inventoryimages/"..v[2]..".xml", v[2]..".tex")  --注册皮肤
 	MakeItemSkin( v[1], v[2],--原名和皮肤名
     {
 		basebuild = v[1],    --原物品scml文件名字

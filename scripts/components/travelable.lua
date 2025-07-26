@@ -3,7 +3,7 @@ ALL_TRAVELABLES = {}
 local function ontraveller(self, traveller)
     self.inst.replica.travelable:SetTraveller(traveller)
 end
-local wait_second=TRAVEL_WAIT_SECOND
+local wait_second=TUNING.TRAVEL_WAIT_SECOND
 local max_time = nil
 local say_time = nil
 
@@ -68,8 +68,8 @@ local function DistToCost(dist)
         cost_sanity = cost_sanity * 0.75
     end
 
-    cost_hunger = math.ceil(cost_hunger * 1)
-    cost_sanity = math.ceil(cost_sanity * 1)
+    cost_hunger = math.ceil(cost_hunger * TRAVEL_HUNGER_COST)
+    cost_sanity = math.ceil(cost_sanity * TRAVEL_SANITY_COST)
     return cost_hunger, cost_sanity
 end
 

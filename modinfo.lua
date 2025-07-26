@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.9.15.0"
+version = "14.9.17.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -789,12 +789,16 @@ configuration_options[#configuration_options + 1] = AddConfigOption("slots_bg_le
 configuration_options[#configuration_options + 1] = AddOptionHeader("木牌传送设置")
 configuration_options[#configuration_options + 1] = AddOption("fast_travel", "木牌传送-总开关", "设置是否开启木牌传送", false)
 
-configuration_options[#configuration_options + 1] = AddOption("HomesignEnable", "原版木牌可传送", "设置原版木牌是否可传送", true)
-configuration_options[#configuration_options + 1] = AddOption("NewWoodTravelSignEnable", "制作新的传送木牌", "设置可否制作新的传送木牌", false)
-configuration_options[#configuration_options + 1] = AddConfigOption("set_wait_second", "设置等待时长", "修改传送时等待的时长（秒）", { { description = "直接传送", data = 0 }, { description = "1秒", data = 1 }, { description = "3秒", data = 3 }, { description = "5秒", data = 5, hover = "默认" }, }, 0)
-configuration_options[#configuration_options + 1] = AddConfigOption("Hunger_Cost", "饥饿消耗", "修改传送时饥饿消耗倍率", { { description = "无消耗", data = 0 }, { description = "X0.25", data = 0.25 }, { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 }, { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 } }, 1)
-configuration_options[#configuration_options + 1] = AddConfigOption("Sanity_Cost", "精神消耗", "修改传送时精神消耗倍率", { { description = "无消耗", data = 0 }, { description = "X0.25", data = 0.25 }, { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 }, { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 } }, 1)
-configuration_options[#configuration_options + 1] = AddConfigOption("Ownership", "权限修改", "所有权限制?", { { description = "启用", data = true }, { description = "不可用", data = false } }, false)
+configuration_options[#configuration_options + 1] = AddOption("FT_HomesignEnable", "原版木牌可传送", "设置原版木牌是否可传送", true)
+configuration_options[#configuration_options + 1] = AddOption("FT_NewWoodTravelSignEnable", "制作新的传送木牌", "设置可否制作新的传送木牌", false)
+configuration_options[#configuration_options + 1] = AddOption("FT_ArrowsignEnable", "原版指路木牌可传送", "设置原版指路木牌是否可传送", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("FT_set_wait_second", "设置等待时长", "修改传送时等待的时长（秒）", { { description = "直接传送", data = 0 }, { description = "1秒", data = 1 }, { description = "3秒", data = 3 }, { description = "5秒", data = 5, hover = "默认" }, }, 0)
+configuration_options[#configuration_options + 1] = AddConfigOption("FT_Hunger_Cost", "饥饿消耗", "修改传送时饥饿消耗倍率", { { description = "无消耗", data = 0 }, { description = "X0.25", data = 0.25 }, { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 }, { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 } }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("FT_Sanity_Cost", "精神消耗", "修改传送时精神消耗倍率", { { description = "无消耗", data = 0 }, { description = "X0.25", data = 0.25 }, { description = "X1.0", data = 1 }, { description = "X2.0", data = 2 }, { description = "X4.0", data = 4 }, { description = "X8.0", data = 8 } }, 1)
+configuration_options[#configuration_options + 1] = AddOption("FT_LightEnable", "传送木牌可发光", "设置原版木牌是否可发光", true)
+configuration_options[#configuration_options + 1] = AddOption("FT_ResurrectEnable", "传送木牌可复活", "设置原版木牌是否可作祟复活", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("FT_Ownership", "权限修改", "所有权限制?", { { description = "启用", data = true }, { description = "不可用", data = false } }, false)
+configuration_options[#configuration_options + 1] = AddOption("FT_TextEnable", "显示木牌名字", "显示木牌名字", true)
 
 ---死亡复活按钮
 configuration_options[#configuration_options + 1] = AddOptionHeader("死亡复活按钮设置")

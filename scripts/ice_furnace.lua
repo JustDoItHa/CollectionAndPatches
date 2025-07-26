@@ -1,26 +1,7 @@
+GLOBAL.setmetatable(env, {__index = function(t, k) return GLOBAL.rawget(GLOBAL, k) end})
 
---PrefabFiles =
---{
---	"icefurnace",
---	"furnace_transform_fx",
---}
 table.insert(PrefabFiles, "icefurnace")
 table.insert(PrefabFiles, "furnace_transform_fx")
---Assets =
---{
---    Asset("ANIM", "anim/ui_chest_3x1.zip"),
---	Asset("ANIM", "anim/ui_chest_3x2.zip"),
---	Asset("ANIM", "anim/ui_chest_3x3.zip"),
---	Asset("ANIM", "anim/ui_chester_shadow_3x4.zip"),
---	Asset("ANIM", "anim/ui_tacklecontainer_3x5.zip"),
---
---
---	Asset("IMAGE", "images/inventoryimages/icefurnace.tex"), Asset("ATLAS", "images/inventoryimages/icefurnace.xml"),
---	Asset("IMAGE", "images/inventoryimages/icefurnace_antique.tex"), Asset("ATLAS", "images/inventoryimages/icefurnace_antique.xml"),
---	Asset("IMAGE", "images/inventoryimages/icefurnace_crystal.tex"), Asset("ATLAS", "images/inventoryimages/icefurnace_crystal.xml"),
---
---	Asset("IMAGE", "images/minimap/icefurnace.tex"), Asset("ATLAS", "images/minimap/icefurnace.xml"),
---}
 
 table.insert(Assets, Asset("ANIM", "anim/ui_chest_3x1.zip"))
 table.insert(Assets, Asset("ANIM", "anim/ui_chest_3x2.zip"))
@@ -38,8 +19,6 @@ table.insert(Assets, Asset("ATLAS", "images/inventoryimages/icefurnace_crystal.x
 table.insert(Assets, Asset("IMAGE", "images/minimap/icefurnace.tex"))
 table.insert(Assets, Asset("ATLAS", "images/minimap/icefurnace.xml"))
 
-
-GLOBAL.setmetatable(env, {__index = function(t, k) return GLOBAL.rawget(GLOBAL, k) end})
 
 GLOBAL.is_english_icefurnace = GetModConfigData("lang")
 GLOBAL.heat_control_icefurnace = GetModConfigData("temp")
@@ -97,50 +76,47 @@ if GetModConfigData("ice_furnace_switch") then
 	end
 end
 
-
-	--Clean Sweeper
-
-local function spell_icefurnace(inst, target, pos, ...)
-	if target ~= nil and target:HasTag("icefurnace") and target.skinname ~= nil then
-		local fx_prefab = "explode_reskin"
-		local skin_fx = SKIN_FX_PREFAB[inst:GetSkinName()]
-		if skin_fx ~= nil and skin_fx[1] ~= nil then
-			fx_prefab = skin_fx[1]
-		end
-		local fx = SpawnPrefab(fx_prefab)
-		local x, y, z = target.Transform:GetWorldPosition()
-		fx.Transform:SetScale(1.8, 1.8, 1.8)
-		fx.Transform:SetPosition(x, y + 0.6, z)
-		if target.skinname == 1 then
-			target.skinname = 2
-			target.AnimState:SetBank("ice_furnace_antique")
-			target.AnimState:SetBuild("ice_furnace_antique")
-			return
-		elseif target.skinname == 2 then
-			target.skinname = 3
-			target.AnimState:SetBank("ice_furnace_crystal")
-			target.AnimState:SetBuild("ice_furnace_crystal")
-			return
-		else
-			target.skinname = 1
-			target.AnimState:SetBank("ice_furnace_default")
-			target.AnimState:SetBuild("ice_furnace_default")
-			return	
-		end
-	end
-	if inst.old_spell_icefurnace ~= nil then
-		return inst.old_spell_icefurnace(inst, target, pos, ...)
-	end
-end
 	
 AddPrefabPostInit("reskin_tool", function(inst)
-	if GLOBAL.TheWorld.ismastersim then
-		if inst.components.spellcaster ~= nil then
-			inst.old_spell_icefurnace = inst.components.spellcaster.spell
-			inst.components.spellcaster:SetSpellFn(spell_icefurnace)
+	if not TheWorld.ismastersim then
+		return
+	end
+	local oldSpellFn = inst.components.spellcaster.spell
+	inst.components.spellcaster.spell = function(inst, target, pos, doer)
+		if target ~= nil and target:HasTag("icefurnace") and target.skinname ~= nil then
+			local fx_prefab = "explode_reskin"
+			local skin_fx = SKIN_FX_PREFAB[inst:GetSkinName()]
+			if skin_fx ~= nil and skin_fx[1] ~= nil then
+				fx_prefab = skin_fx[1]
+			end
+			local fx = SpawnPrefab(fx_prefab)
+			local x, y, z = target.Transform:GetWorldPosition()
+			fx.Transform:SetScale(1.8, 1.8, 1.8)
+			fx.Transform:SetPosition(x, y + 0.6, z)
+			if target.skinname == 1 then
+				target.skinname = 2
+				target.AnimState:SetBank("ice_furnace_antique")
+				target.AnimState:SetBuild("ice_furnace_antique")
+				return
+			elseif target.skinname == 2 then
+				target.skinname = 3
+				target.AnimState:SetBank("ice_furnace_crystal")
+				target.AnimState:SetBuild("ice_furnace_crystal")
+				return
+			else
+				target.skinname = 1
+				target.AnimState:SetBank("ice_furnace_default")
+				target.AnimState:SetBuild("ice_furnace_default")
+				return
+			end
+		end
+		if oldSpellFn ~= nil then
+			return oldSpellFn(inst, target, pos, doer)
 		end
 	end
 end)
+
+
 
 	--Temperature
 
