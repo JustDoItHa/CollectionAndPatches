@@ -273,16 +273,7 @@ if GetModConfigData("cap_stack_size_switch") then
     modimport("scripts/stack_size.lua")
 end
 
----- 帐篷耐久
---if GetModConfigData("tent_uses") > 0 then
---    TUNING.TENT_USES = GetModConfigData("tent_uses")
---end
---
----- 木棚耐久
---if GetModConfigData("siesta_canopy_uses") > 0 then
---    TUNING.SIESTA_CANOPY_USES = GetModConfigData("siesta_canopy_uses")
---end
--- 木棚耐久
+-- 睡觉收益
 if GetModConfigData("sleeping_buff_switch") then
     modimport("scripts/sleeping_buff_main.lua")
 end

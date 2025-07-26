@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.9.17.0"
+version = "14.9.18.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -748,8 +748,6 @@ configuration_options[#configuration_options + 1] = AddConfigOption("leastnum_sl
 ---睡眠设备调整
 configuration_options[#configuration_options + 1] = AddOptionHeader("睡眠设备调整")
 configuration_options[#configuration_options + 1] = AddOption("sleeping_buff_switch", "总开关", "是否开启睡眠设备相关的调整", false)
---configuration_options[#configuration_options + 1] = AddConfigOption("tent_uses", "帐篷耐久", "改帐篷耐久", { { description = "关闭", data = 15 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30 }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "100", data = 100 }, { description = "200", data = 200 }, { description = "500", data = 500, hover = "默认" }, { description = "9999", data = 9999 }, }, 500)
---configuration_options[#configuration_options + 1] = AddConfigOption("siesta_canopy_uses", "木棚耐久", "改木棚耐久", { { description = "关闭", data = 16 }, { description = "10", data = 10 }, { description = "20", data = 20 }, { description = "30", data = 30 }, { description = "40", data = 40 }, { description = "50", data = 50 }, { description = "100", data = 100 }, { description = "200", data = 200 }, { description = "500", data = 500, hover = "默认" }, { description = "9999", data = 9999 }, }, 500)
 configuration_options[#configuration_options + 1] = AddConfigOption("sleeping_buff_uses", "帐篷耐久", "改帐篷耐久", sleeping_buff_hp_options, false)
 configuration_options[#configuration_options + 1] = AddConfigOption("sleeping_buff_uses2", "木棚耐久", "改木棚耐久", sleeping_buff_hp_options, false)
 configuration_options[#configuration_options + 1] = AddConfigOption("sleeping_buff_uses3", "便携帐篷耐久", "便携帐篷耐久", sleeping_buff_hp_options, false)
@@ -1014,14 +1012,6 @@ configuration_options[#configuration_options + 1] = AddConfigOption("show_me_lan
                                                                                                             { description = "pl(波兰语)", data = "pl", hover = "Polish(波兰语)" },
                                                                                                             { description = "kr(韩语)", data = "kr", hover = "Korean(韩语)" },
                                                                                                             { description = "es(西班牙语)", data = "es", hover = "Spanish(西班牙语)" }, }, "auto")
---[[AddConfigOption("message_style", "Style", "", {
-    {description = "Isolation ->", data = 1},
-    {description = "isolation ->", data = 2},
-    {description = "Isol ->", data = 3},
-    {description = "isol ->", data = 4},
-    {description = "<- Warm", data = 5},
-    {description = "<- warm", data = 6},
-},1),]]
 configuration_options[#configuration_options + 1] = AddConfigOption("food_style", "食物信息显示风格(Food Style)", "", { { description = "默认(undefined)", data = 0, hover = "Default is \"long\"\n默认是 \"详细\"" },
                                                                                                                         { description = "详细(long)", data = 1, hover = "Hunger: +12.5 / Sanity: -10 / Health: +3\n饥饿: +12.5 / 精神: -10 / 生命: +3" },
                                                                                                                         { description = "简洁(short)", data = 2, hover = "+12.5 / -10 / +3" }, }, 0)
@@ -1061,11 +1051,9 @@ configuration_options[#configuration_options + 1] = AddConfigOption("show_planar
                                                                                                                                		{description = "开启", data = true, hover = "攻击力: 68 ( 位抗: 41.3 )"},}, true)
 
 configuration_options[#configuration_options + 1] = AddOption("T_crop", "农作物状态显示", "例如缺肥料、水分、家族、有杂草等，成长计时不受影响", true)
---AddConfigOption("naughtiness", "顽皮值", "", {
---    { description = "禁用", data = 0 },
---    { description = "", data = 1 },
---    { description = "", data = 2 },
---}, 0),
+--configuration_options[#configuration_options + 1] = AddConfigOption("naughtiness", "顽皮值", "", {{ description = "禁用", data = 0 },{ description = "", data = 1 },{ description = "", data = 2 },}, 0)
+
+
 configuration_options[#configuration_options + 1] = AddConfigOption("show_buddle_item", "显示捆绑包物(品show bundle item)", "", { { description = "显示(YES)", data = 1 }, { description = "不显示(NO)", data = 0 }, }, 1)
 configuration_options[#configuration_options + 1] = AddConfigOption("item_info_mod", "兼容item info模组(compatible with item info)", "如果打开，Show me将不显示与item info相同的信息", { { description = "关闭(OFF)", data = 0 }, { description = "开启(ON)", data = 1 }, }, 0)
 
