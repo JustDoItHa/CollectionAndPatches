@@ -103,11 +103,11 @@ local function insulatorstate(inst)
     if TheWorld.state.iswinter then
         inst:AddComponent("insulator")
         inst.components.insulator:SetWinter()
-        inst.components.insulator:SetInsulation(500)
+        inst.components.insulator:SetInsulation(4800)
     elseif TheWorld.state.issummer then
         inst:AddComponent("insulator")
         inst.components.insulator:SetSummer()
-        inst.components.insulator:SetInsulation(500)
+        inst.components.insulator:SetInsulation(4800)
     end
 
 end
@@ -229,7 +229,7 @@ local function onequip(inst, owner)
 
     inst.components.container:Open(owner)
     if owner.components.health ~= nil then
-        owner.components.health.externalabsorbmodifiers:SetModifier(inst, .9)
+        owner.components.health.externalabsorbmodifiers:SetModifier(inst, .98)
     end
     if owner.components.temperature ~= nil then
         owner.components.temperature:SetTemperature(TUNING.STARTING_TEMP)
@@ -238,6 +238,9 @@ local function onequip(inst, owner)
     inst.light = SpawnPrefab("lifelight")
     inst.light.entity:SetParent(owner.entity)
 
+    if owner.components.hunger ~= nil then
+        owner.components.hunger.burnratemodifiers:SetModifier(inst, 0.5)
+    end
 end
 
 local function onunequip(inst, owner)
@@ -253,7 +256,9 @@ local function onunequip(inst, owner)
     if inst.light ~= nil then
         inst.light:Remove()
     end
-
+    if owner.components.hunger ~= nil then
+        owner.components.hunger.burnratemodifiers:RemoveModifier(inst)
+    end
 end
 local function ondropped(inst)
     if inst.components.container ~= nil then
@@ -310,7 +315,7 @@ local function fn()
         inst:AddTag("waterproofer")
     end
     inst:AddTag("catback")
-
+    inst:AddTag("special_benefit_cd_days")
     --inst:AddTag("gemsocket")
     --inst:AddTag("trader")
     --inst:AddTag("give_dolongaction")
@@ -351,19 +356,20 @@ local function fn()
     inst:AddComponent("insulator")
     inst.components.insulator:SetInsulation(TUNING.INSULATION_LARGE)
     ]]
-
-    if inst.components.preserver == nil then
-        inst:AddComponent("preserver")
+    if TUNING.ROOMCAR_BIGBAG_KEEPFRESH then
+        if inst.components.preserver==nil then
+            inst:AddComponent("preserver")
+        end
+        inst.components.preserver:SetPerishRateMultiplier(function(inst, item)
+            return (item ~= nil) and 0 or nil
+        end)
     end
-    inst.components.preserver:SetPerishRateMultiplier(function(inst, item)
-        return (item ~= nil) and 0 or nil
-    end)
 
     inst:AddComponent("named")
 
     inst:AddComponent("equippable")
     inst.components.equippable.equipslot = EQUIPSLOTS.BACK or EQUIPSLOTS.BODY
-    inst.components.equippable.dapperness = 5.6
+    inst.components.equippable.dapperness = 6.0
     inst.components.equippable.walkspeedmult = 1.5
     inst.components.equippable:SetOnEquip(onequip)
     inst.components.equippable:SetOnUnequip(onunequip)
@@ -382,7 +388,7 @@ local function fn()
     inst.components.hauntable:SetOnHauntFn(OnHaunt)
 
     inst:ListenForEvent("itemget", getitem_catback)
-    inst:AddTag("special_benefit_cd_days")
+
     inst:WatchWorldState("isfullmoon", doBenefit_catback)
     --inst:WatchWorldState("moonphase",doBenefit_catback)
     inst:WatchWorldState("isday", insulatorstate)

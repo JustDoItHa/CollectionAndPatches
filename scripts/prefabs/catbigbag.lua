@@ -230,7 +230,7 @@ local function onequip(inst, owner)
 
     inst.components.container:Open(owner)
     if owner.components.health ~= nil then
-        owner.components.health.externalabsorbmodifiers:SetModifier(inst, .9)
+        owner.components.health.externalabsorbmodifiers:SetModifier(inst, .98)
     end
     if owner.components.temperature ~= nil then
         owner.components.temperature:SetTemperature(TUNING.STARTING_TEMP)
@@ -319,7 +319,7 @@ local function fn()
     if TUNING.ROOMCAR_BIGBAG_KEEPFRESH then
         inst:AddTag("keepfresh")
     end
-
+    inst:AddTag("special_benefit_cd_days")
     --waterproofer (from waterproofer component) added to pristine state for optimization
     --inst:AddTag("waterproofer")
 
@@ -347,12 +347,14 @@ local function fn()
     inst.components.insulator:SetInsulation(TUNING.INSULATION_LARGE)
     ]]
 
-    if inst.components.preserver == nil then
-        inst:AddComponent("preserver")
+    if TUNING.ROOMCAR_BIGBAG_KEEPFRESH then
+        if inst.components.preserver==nil then
+            inst:AddComponent("preserver")
+        end
+        inst.components.preserver:SetPerishRateMultiplier(function(inst, item)
+            return (item ~= nil) and 0 or nil
+        end)
     end
-    inst.components.preserver:SetPerishRateMultiplier(function(inst, item)
-        return (item ~= nil) and 0 or nil
-    end)
 
     inst:AddComponent("named")
 
@@ -387,7 +389,6 @@ local function fn()
     inst.components.hauntable:SetOnHauntFn(OnHaunt)
 
     inst:ListenForEvent("itemget", getitem_catbigbag)
-    inst:AddTag("special_benefit_cd_days")
     inst:WatchWorldState("isfullmoon", doBenefit_catbigbag)
     --inst:WatchWorldState("moonphase",doBenefit_catbigbag)
     inst:WatchWorldState("isday", insulatorstate)
