@@ -430,7 +430,13 @@ cap_chuanqiwuqi_resources = {
 --    multiple = 1, --倍率(选填，不填默认为1)
 --    weightClass = "goodMax", --权重等级(选填，填了后掉率会随玩家幸运值变化,不填掉率不会随幸运值浮动)
 --}
-
+-- 简单经济学
+cap_se_mod_item_resources = {
+    { chance = .0005, item = "sora_exp_medicament", announce = true }, --穹妹的经验药水
+    { chance = .05, item = "sora_exp_medicament100", announce = true }, --100
+    { chance = .002, item = "sora_exp_medicament500", announce = true },  --500
+    { chance = .005, item = "sora_exp_medicament1000", announce = true }, --1000
+}
 
 local tumbleweed_item_rates_l = GetModConfigData("tumbleweed_item_rates")
 local tumbleweed_item_multiple_l = GetModConfigData("tumbleweed_item_multiple")
@@ -621,6 +627,31 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
             weightClass = "goodMax", --权重等级(选填，填了后掉率会随玩家幸运值变化,不填掉率不会随幸运值浮动)
         }
     end
+    ------------------------------------------------------------------------------
+    --TUNING.SORA_ENABLED 是经济学参数
+    if TUNING.SIMPLE_ECONOMY_FOR_RX and TUNING.SORA_ENABLED then
+        local cap_se_mod_item_resources_tmp = {}
+        for i, v in pairs(cap_se_mod_item_resources) do
+            local innner_item = {}
+            innner_item.chance = tumbleweed_item_rates_l * v.chance
+            innner_item.item = v.item
+            innner_item.aggro = v.aggro
+            innner_item.announce = v.announce
+            if v.season ~= nil then
+                innner_item.season = v.season
+            else
+                innner_item.season = 15
+            end
+            cap_se_mod_item_resources_tmp[i] = innner_item
+        end
+        TUNING.TUMBLEWEED_RESOURCES_EXPAND.cap_se_mod_item_resources = {--xxx_resources由你自己命名，尽量不要和别人的重复，可加多条不同类型资源
+            resourcesList = cap_se_mod_item_resources_tmp,
+            multiple = 1, --倍率(选填，不填默认为1)
+            weightClass = "goodMax", --权重等级(选填，填了后掉率会随玩家幸运值变化,不填掉率不会随幸运值浮动)
+        }
+    end
+
+
 end
 --
 -----极地诅咒，清空物品栏
