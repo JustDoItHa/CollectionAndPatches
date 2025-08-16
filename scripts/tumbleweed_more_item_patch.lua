@@ -446,6 +446,7 @@ end
 if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_rates_l) == "number" and tumbleweed_item_rates_l > 0 and TUNING.INTERESTING_TUMBLEWEED_ENABLE then
     TUNING.TUMBLEWEED_RESOURCES_EXPAND = TUNING.TUMBLEWEED_RESOURCES_EXPAND or {}
 
+    local tumbleweed_more_item_no_announce_l = GetModConfigData("interesting_tumbleweed_switch")
     ------------------------------------------------------------------------------
     if TUNING.LEGION_ENABLE then
         local cap_lengjing_resources_tmp = {}
@@ -454,7 +455,9 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
             innner_item.chance = tumbleweed_item_rates_l * v.chance
             innner_item.item = v.item
             innner_item.aggro = v.aggro
-            innner_item.announce = v.announce
+            if not tumbleweed_more_item_no_announce_l then
+                innner_item.announce = v.announce
+            end
             if v.season ~= nil then
                 innner_item.season = v.season
             else
@@ -477,7 +480,9 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
             innner_item.chance = tumbleweed_item_rates_l * v.chance
             innner_item.item = v.item
             innner_item.aggro = v.aggro
-            innner_item.announce = v.announce
+            if not tumbleweed_more_item_no_announce_l then
+                innner_item.announce = v.announce
+            end
             if v.season ~= nil then
                 innner_item.season = v.season
             else
@@ -500,7 +505,9 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
             innner_item.chance = tumbleweed_item_rates_l * v.chance
             innner_item.item = v.item
             innner_item.aggro = v.aggro
-            innner_item.announce = v.announce
+            if not tumbleweed_more_item_no_announce_l then
+                innner_item.announce = v.announce
+            end
             if v.season ~= nil then
                 innner_item.season = v.season
             else
@@ -523,7 +530,9 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
             innner_item.chance = tumbleweed_item_rates_l * v.chance
             innner_item.item = v.item
             innner_item.aggro = v.aggro
-            innner_item.announce = v.announce
+            if not tumbleweed_more_item_no_announce_l then
+                innner_item.announce = v.announce
+            end
             if v.season ~= nil then
                 innner_item.season = v.season
             else
@@ -546,7 +555,9 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
             innner_item.chance = tumbleweed_item_rates_l * v.chance
             innner_item.item = v.item
             innner_item.aggro = v.aggro
-            innner_item.announce = v.announce
+            if not tumbleweed_more_item_no_announce_l then
+                innner_item.announce = v.announce
+            end
             if v.season ~= nil then
                 innner_item.season = v.season
             else
@@ -569,7 +580,9 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
             innner_item.chance = tumbleweed_item_rates_l * v.chance
             innner_item.item = v.item
             innner_item.aggro = v.aggro
-            innner_item.announce = v.announce
+            if not tumbleweed_more_item_no_announce_l then
+                innner_item.announce = v.announce
+            end
             if v.season ~= nil then
                 innner_item.season = v.season
             else
@@ -591,7 +604,9 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
             innner_item.chance = tumbleweed_item_rates_l * v.chance
             innner_item.item = v.item
             innner_item.aggro = v.aggro
-            innner_item.announce = v.announce
+            if not tumbleweed_more_item_no_announce_l then
+                innner_item.announce = v.announce
+            end
             if v.season ~= nil then
                 innner_item.season = v.season
             else
@@ -613,7 +628,9 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
             innner_item.chance = tumbleweed_item_rates_l * v.chance
             innner_item.item = v.item
             innner_item.aggro = v.aggro
-            innner_item.announce = v.announce
+            if not tumbleweed_more_item_no_announce_l then
+                innner_item.announce = v.announce
+            end
             if v.season ~= nil then
                 innner_item.season = v.season
             else
@@ -628,8 +645,8 @@ if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_ra
         }
     end
     ------------------------------------------------------------------------------
-    --TUNING.SORA_ENABLED 是经济学参数
-    if TUNING.SIMPLE_ECONOMY_FOR_RX and TUNING.SORA_ENABLED then
+    --TUNING.SE_SORA_SWITCH 是经济学参数
+    if TUNING.SIMPLE_ECONOMY_FOR_RX and TUNING.SORA_ENABLED and TUNING.SE_SORA_SWITCH then
         local cap_se_mod_item_resources_tmp = {}
         for i, v in pairs(cap_se_mod_item_resources) do
             local innner_item = {}

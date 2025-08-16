@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.9.19.0"
+version = "14.9.21.0"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1402,6 +1402,17 @@ configuration_options[#configuration_options + 1] = AddOption("tumbleweed_add_mo
 configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_item_multiple", "开出更多物品倍率", "更多物品权重=基础权重*几率*更多物品倍率", tumbleweed_item_multiple_options, 1)
 configuration_options[#configuration_options + 1] = AddOption("tumbleweed_add_more_easter_egg_switch", "风滚草开出更多彩蛋", "风滚草开出更多彩蛋", false)
 configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_add_more_easter_egg_multiple", "开出更多彩蛋倍率", "", tumbleweed_item_multiple_options, 1)
+configuration_options[#configuration_options + 1] = AddOption("tumbleweed_more_item_no_announce", "开出更多噤声", "新加的基本物品不公告", true)
+
+configuration_options[#configuration_options + 1] = AddOptionHeader(" ")
+configuration_options[#configuration_options + 1] = AddOption("interesting_tumbleweed_refresh_switch", "刷新补丁开关", "风滚草刷新点补丁", false)
+--configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_prefab_test", "测试", "可以替换成月台来看测试结果", { {description = "风滚草刷新点", data = "tumbleweedspawner"}, {description = "月台", data = "moonbase"}, }, "tumbleweedspawner")
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_refresh_pattern", "模式", "风滚草数量单独设置", { {description = "传统", data = 1}, {description = "网格", data = 2}, {description = "网格2", data = 3}, }, 1)
+configuration_options[#configuration_options + 1] = AddOption("tumbleweed_refresh_cave", "洞穴开启风滚草", "使洞穴是否生成风滚草刷新点，对所有模式有效", true)
+configuration_options[#configuration_options + 1] = AddOption("tumbleweed_refresh_worldwind", "洞穴添加风", "使洞穴风滚草能够随风飘，而不是单一方向", true)
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_refresh_orders", "正常能够满足", "风滚草数量单独设置", { {description = "大量", data = 2}, {description = "普通", data = 1}, {description = "无", data = 0}, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_refresh_spacing", "间距", "地图上，每隔几块地皮有一个风滚草刷新点,数量越大，风滚草刷新点数量越少", { {description = "大量", data = 11}, {description = "普通", data = 16}, }, 16) --15块地皮，大概有200个左右风滚草刷新点{description = "少量", data = 21},
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_refresh_offset", "混乱程度", "数量越大，偏移原位置的上限越大", { {description = "混乱", data = 15}, {description = "正常", data = 10}, {description = "稍微偏离", data = 5}, {description = "没有偏离", data = 0}, }, 10)
 
 ---樱花林补丁
 configuration_options[#configuration_options + 1] = AddOptionHeader("樱花林补丁")

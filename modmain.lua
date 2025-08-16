@@ -494,6 +494,11 @@ end
 if GetModConfigData("interesting_tumbleweed_switch") and GetModConfigData("tumbleweed_add_more_item_switch") then
     modimport("scripts/tumbleweed_more_item_patch.lua")
 end
+
+if GetModConfigData("interesting_tumbleweed_switch") and GetModConfigData("interesting_tumbleweed_refresh_switch") then
+    modimport("scripts/tumbleweed_refresh_patch.lua")
+end
+
 --能力勋章补丁
 if TUNING.FUNCTIONAL_MEDAL_ENABLE and GetModConfigData("medal_patch_switch") then
     modimport("scripts/tumbleweed_prevent_error_patch.lua")
