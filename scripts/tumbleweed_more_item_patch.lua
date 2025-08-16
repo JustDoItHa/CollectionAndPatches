@@ -67,7 +67,7 @@ cap_lengjing_resources = {
     { chance = 0.003, item = "dish_roastedmarshmallows", aggro = false, announce = true }, --
     { chance = 0.003, item = "dish_bananamousse", aggro = false, announce = true }, --
     { chance = 0.003, item = "dish_sosweetjarkfruit", aggro = false, announce = true }, --
-    { chance = 0.003, item = "dish_flowermooncake", aggro = false, announce = true }, --
+    --{ chance = 0.003, item = "dish_flowermooncake", aggro = false, announce = true }, -- 鲜花月饼
 
     { chance = 0.002, item = "orchidbush", aggro = false, announce = true }, --兰花丛
     { chance = 0.002, item = "cutted_orchidbush", aggro = false, announce = true }, --兰花接穗
