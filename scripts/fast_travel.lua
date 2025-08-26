@@ -48,7 +48,7 @@ local Ownership = GetModConfigData("FT_Ownership")
 local LIGHT_ENABLE = GetModConfigData("FT_LightEnable")
 local RESURRECT_ENABLE = GetModConfigData("FT_ResurrectEnable")
 GLOBAL.TRAVEL_HUNGER_COST = GetModConfigData("FT_Hunger_Cost")
-GLOBAL.TRAVEL_SANITY_COST = GetModConfigData("FT_SanityCost")
+GLOBAL.TRAVEL_SANITY_COST = GetModConfigData("FT_Sanity_Cost")
 GLOBAL.TRAVEL_COUNTDOWN_ENABLE = GetModConfigData("FT_set_wait_second")--延时传送
 GLOBAL.TRAVEL_TEXT_ENABLE = GetModConfigData("FT_TextEnable")--显示木牌文字
 
