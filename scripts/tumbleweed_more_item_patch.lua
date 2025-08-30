@@ -107,7 +107,8 @@ cap_xunzhang_resources = {--勋章部分
     { chance = 0.002, item = "blue_crystal_certificate", announce = true }, --蓝晶勋章
     { chance = 0.007, item = "cook_certificate", announce = true }, --烹调勋章
     { chance = 0.0001, item = "chef_certificate", announce = true }, --主厨勋章
-
+    { chance = 0.00003, item = "origin_certificate", announce = true }, --本源勋章
+    
 
     { chance = 0.004, item = "smallchop_certificate", announce = true }, --伐木
     { chance = 0.004, item = "smallminer_certificate", announce = true }, --旷工考验
@@ -286,29 +287,12 @@ cap_yln_resources = {--魔女
     { chance = .001, item = "elaina_white_flower", aggro = false, announce = true }, --白花
     { chance = .001, item = "elaina_redhat", aggro = false, announce = true }, --普通的红帽
     { chance = .001, item = "elaina_lethe_stone", aggro = false, announce = true }, --忘川石
-    { chance = .001, item = "elaina_treasure_map", aggro = false, announce = true }, --藏宝图
-    { chance = .001, item = "elaina_pk_stone", aggro = false, announce = true }, --破空石
-    { chance = .001, item = "elaina_magic_stone", aggro = false, announce = true }, --精炼石头
-    { chance = .001, item = "tool_magic_wand", aggro = false, announce = true }, --工具棒
-    { chance = .002, item = "red_fairyskirt", aggro = false, announce = true }, --红裙子
-    { chance = .002, item = "bule_fairyskirt", aggro = false, announce = true }, --蓝裙子
-    { chance = .0001, item = "star_brooch", aggro = false, announce = true }, --星辰胸针
-    { chance = .001, item = "elaina_fragment", aggro = false, announce = true }, --魔力碎片
-    { chance = .001, item = "elaina_book2", aggro = false, announce = true }, --回脑书
-    { chance = .001, item = "elaina_lightstone", aggro = false, announce = true }, --雷石
-    { chance = .001, item = "magic_stone", aggro = false, announce = true }, --魔法石
-    { chance = .0001, item = "elaina_pk", aggro = false, announce = true }, --破空
-    { chance = .0001, item = "magic_core", aggro = false, announce = true }, --魔法核心
-    { chance = .001, item = "monvfu_blueprint", aggro = false, announce = true }, --法袍蓝图
-    { chance = .0001, item = "elaina_hlq", aggro = false, announce = true }, --百分比裙子
-    { chance = .0004, item = "magic_wand", aggro = false, announce = true }, --魔法棒
-    { chance = .001, item = "elaina_bundlewrap_blueprint", aggro = false, announce = true }, --一口炫
-    { chance = .001, item = "magic_music", aggro = false, announce = true }, --喇叭
     { chance = .001, item = "elaina_htxl", aggro = false, announce = true }, --海豚项链
     { chance = .001, item = "elaina_vampire_tooth", aggro = false, announce = true }, --长牙
     { chance = .001, item = "elaina_maid_hat", aggro = false, announce = true }, --女仆帽
     { chance = .001, item = "elaina_epiphyllum", aggro = false, announce = true }, --一叶昙花
-    { chance = .0001, item = "elaina_ysth_recall", aggro = false, announce = true }, --人间追忆
+    { chance = .0003, item = "elaina_ysth_recall", aggro = false, announce = true }, --人间追忆
+    { chance = .0003, item = "star_brooch", aggro = false, announce = true }, --星辰胸针
     { chance = .001, item = "elaina_miracle", aggro = false, announce = true }, --奇迹
     { chance = .001, item = "elaina_cupid", aggro = false, announce = true }, --爱神之箭
     { chance = .001, item = "elaina_cheap_love", aggro = false, announce = true }, --廉价爱意
@@ -316,11 +300,37 @@ cap_yln_resources = {--魔女
     { chance = .001, item = "elaina_avoid_evil", aggro = false, announce = true }, --辟邪
     { chance = .001, item = "elaina_due", aggro = false, announce = true }, --渡厄
     { chance = .001, item = "elaina_indestructible_light", aggro = false, announce = true }, --不灭的明灯
+    { chance = .0005, item = "elaina_most_brooch", aggro = false, announce = true }, --最强胸针（新加入）
+    
+    --{ chance = .001, item = "elaina_lightstone", aggro = false, announce = true }, --雷石
+    --{ chance = .001, item = "elaina_book4", aggro = false, announce = true }, --咒文书
+    --{ chance = .001, item = "elaina_book2", aggro = false, announce = true }, --回脑书
+
+    { chance = .001, item = "elaina_dtsp", aggro = false, announce = true }, --锻体碎片（新加入）
+    { chance = .001, item = "elaina_treasure_map", aggro = false, announce = true }, --藏宝图
+    { chance = .001, item = "elaina_pk_stone", aggro = false, announce = true }, --破空石
+    { chance = .001, item = "elaina_magic_stone", aggro = false, announce = true }, --精炼石头
+    { chance = .001, item = "elaina_fragment", aggro = false, announce = true }, --魔力碎片
+    { chance = .001, item = "magic_stone", aggro = false, announce = true }, --魔法石
+
+    { chance = .0001, item = "magic_core", aggro = false, announce = true }, --魔法核心
+    { chance = .001, item = "tiger_yin", announce = true }, --山宝
+    { chance = .0001, item = "saya_wand1", aggro = false, announce = true }, --小猪棒（新加入）
+    { chance = .0001, item = "elaina_pk", aggro = false, announce = true }, --破空
+    { chance = .0004, item = "magic_wand", aggro = false, announce = true }, --魔法棒
+    { chance = .001, item = "tool_magic_wand", aggro = false, announce = true }, --工具棒
+    { chance = .0001, item = "elaina_hlq", aggro = false, announce = true }, --百分比裙子
+    { chance = .002, item = "red_fairyskirt", aggro = false, announce = true }, --红裙子
+    { chance = .002, item = "bule_fairyskirt", aggro = false, announce = true }, --蓝裙子
     { chance = .001, item = "elaina_bq", aggro = false, announce = true }, --背包裙
-    { chance = .001, item = "elaina_book4", aggro = false, announce = true }, --咒文书
-    { chance = .001, item = "fig_pigeon_soup", aggro = false, announce = true }, --鸽子汤
+
+    { chance = .001, item = "monvfu_blueprint", aggro = false, announce = true }, --法袍蓝图
+    { chance = .001, item = "magic_sword2_blueprint", aggro = false, announce = true }, --万剑归宗聚蓝图	
+    { chance = .001, item = "elaina_bundlewrap_blueprint", aggro = false, announce = true }, --一口炫蓝图
+    { chance = .001, item = "magic_music", aggro = false, announce = true }, --喇叭
+
     { chance = .001, item = "saya_potions_material2", announce = true }, --焰丝草
-    { chance = .001, item = "saya_potions_material5", announce = true }, --翠霜藤
+    --{ chance = .001, item = "saya_potions_material5", announce = true }, --翠霜藤
     { chance = .001, item = "saya_potions_material3", announce = true }, --幻灵菇
     { chance = .001, item = "saya_potions_material1", announce = true }, --佛手乌
     { chance = .001, item = "saya_potions_material4", announce = true }, --散晖叶
@@ -331,9 +341,11 @@ cap_yln_resources = {--魔女
     { chance = .001, item = "saya_potions_happiness", announce = true }, --创造
     { chance = .001, item = "saya_potions_grow", announce = true }, --成长
     { chance = .001, item = "saya_potions_wonderful", announce = true }, --奇妙
-    { chance = .001, item = "cloud_hidden_moon", announce = true }, --回魔
-    { chance = .001, item = "fish_life", announce = true }, --余生
-    { chance = .001, item = "tiger_yin", announce = true }, --山宝
+
+    { chance = .001, item = "fig_pigeon_soup", aggro = false, announce = true }, --鸽子汤
+    --{ chance = .001, item = "cloud_hidden_moon", announce = true }, --云藏月（已删除）
+    --{ chance = .001, item = "fish_life", announce = true }, --余生（已删除）
+
 }
 
 cap_yyxk_resources = {--夜雨心空
@@ -351,23 +363,23 @@ cap_mcw_resources = {
     { chance = .001, item = "mcw_rankfragment", aggro = false, announce = true },--rank装备碎片
     { chance = .001, item = "mcw_masterfragment", aggro = false, announce = true },--大师宝珠碎片
 
-    { chance = .0001, item = "mcw_exequipmentmid", aggro = false, announce = true },--无尽蚀月礼服
+    --{ chance = .0001, item = "mcw_exequipmentmid", aggro = false, announce = true },--无尽蚀月礼服 非装备
     --{ chance = .00001, item = "mcw_nebia", aggro = false, announce = true },--涅比亚
-    { chance = .0001, item = "mcw_exequipmentleft", aggro = false, announce = true },--霸瞳神杖_杖
+    --{ chance = .0001, item = "mcw_exequipmentleft", aggro = false, announce = true },--霸瞳神杖_杖 非装备
 
-    { chance = .001, item = "mcw_jadestaff", aggro = false, announce = true },--翠灵杖符文之雪
+    --{ chance = .001, item = "mcw_jadestaff", aggro = false, announce = true },--翠灵杖符文之雪
     { chance = .001, item = "mcw_lollipopstaff", aggro = false, announce = true },--棒棒糖手杖
     { chance = .001, item = "mcw_magicbow", aggro = false, announce = true },--破邪灵弓
-    { chance = .001, item = "mcw_cosmobluestaff", aggro = false, announce = true },--宇宙之蓝法杖
+    { chance = .0001, item = "mcw_cosmobluestaff", aggro = false, announce = true },--宇宙之蓝法杖（下调毕业装备概率）
     { chance = .001, item = "mcw_blossomstaff", aggro = false, announce = true },--春日繁花之杖
     { chance = .001, item = "mcw_snowflakestaff", aggro = false, announce = true },--冰雪花晶之杖
     { chance = .001, item = "mcw_kirakira", aggro = false, announce = true },--奇迹♬KIRA☆KIRA☆棱镜棒
     { chance = .001, item = "mcw_elementspear", aggro = false, announce = true },--元素战矛
     { chance = .001, item = "mcw_bunnyblade", aggro = false, announce = true },--兔子先生之刃
-    { chance = .001, item = "mcw_elementsword", aggro = false, announce = true },--元素升腾者
+    { chance = .0001, item = "mcw_elementsword", aggro = false, announce = true },--元素升腾者（下调毕业装备概率）
     { chance = .001, item = "mcw_butterflystaff", aggro = false, announce = true },--优雅翠蝶之杖
     { chance = .001, item = "mcw_queen_console", aggro = false, announce = true },--仿·迷宫女王的操作盘
-    { chance = .001, item = "mcw_catstaff", aggro = false, announce = true },--万圣猫咪先生扫帚
+    { chance = .0003, item = "mcw_catstaff", aggro = false, announce = true },--万圣猫咪先生扫帚（下调毕业装备概率）
 
     { chance = .001, item = "mcw_messagebottle", aggro = false, announce = true },--漂流瓶
     { chance = .001, item = "mcw_snack_sack", aggro = false, announce = true },--镜华的魔法零食袋
