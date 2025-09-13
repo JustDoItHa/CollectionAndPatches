@@ -812,16 +812,16 @@ AddClassPostConstruct("widgets/inventorybar", function(inst)
     local oldRefresh = inst.Refresh
     local oldRebuild = inst.Rebuild
 
-    inst.Refresh = function(inst_inner)
+    inst.Refresh = function(inst_inner, ...)
         if oldRefresh then
-            oldRefresh(inst_inner)
+            oldRefresh(inst_inner, ...)
         end
         inst_inner:RefreshBgLength()
     end
 
-    inst.Rebuild = function(inst_inner)
+    inst.Rebuild = function(inst_inner, ...)
         if oldRebuild then
-            oldRebuild(inst_inner)
+            oldRebuild(inst_inner, ...)
         end
         inst_inner:RefreshBgLength()
     end

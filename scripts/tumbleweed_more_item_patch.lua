@@ -458,7 +458,7 @@ end
 if GetModConfigData("interesting_tumbleweed_switch") and type(tumbleweed_item_rates_l) == "number" and tumbleweed_item_rates_l > 0 and TUNING.INTERESTING_TUMBLEWEED_ENABLE then
     TUNING.TUMBLEWEED_RESOURCES_EXPAND = TUNING.TUMBLEWEED_RESOURCES_EXPAND or {}
 
-    local tumbleweed_more_item_no_announce_l = GetModConfigData("interesting_tumbleweed_switch")
+    local tumbleweed_more_item_no_announce_l = GetModConfigData("tumbleweed_more_item_no_announce")
     ------------------------------------------------------------------------------
     if TUNING.LEGION_ENABLE then
         local cap_lengjing_resources_tmp = {}
