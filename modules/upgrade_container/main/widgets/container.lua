@@ -6,12 +6,6 @@ local Text = require("widgets/text")
 local ChestSearcher = require("widgets/searchchest")
 
 local STRINGS = GLOBAL.STRINGS.UPGRADEABLECHEST
-local SORTTEXT = STRINGS.SORTTEXT
-local DROPALLTEXT = STRINGS.DROPALLTEXT
-local DROPHOVER = STRINGS.DROPHOVER
-local CLOSETEXT = STRINGS.CLOSETEXT
-local FILLTEXT = STRINGS.FILLTEXT
-local FILLHOVER = STRINGS.FILLHOVER
 
 local Vector3 = GLOBAL.Vector3
 local TheInput = GLOBAL.TheInput
@@ -83,12 +77,18 @@ end
 local function ShowGuide(self, container)
 	local chestupgrade = container.replica.chestupgrade
 	local lv_x, lv_y, lv_z = chestupgrade:GetLv()
-	if (
-			AllUpgradeRecipes[container.prefab] and
-					(lv_x < TUNING.CHESTUPGRADE.MAX_LV and lv_y < TUNING.CHESTUPGRADE.MAX_LV) and
-					not (container.replica.container:IsSideWidget() and lv_z >= TUNING.CHESTUPGRADE.MAXPACKPAGE)
-	) then
-
+	local shouldshow = false
+	if container.replica.container:IsSideWidget() then
+		local blv_x, blv_y = chestupgrade.baselv.x, chestupgrade.baselv.y
+		if GetModConfigData("BACKPACKMODE") == 2 then
+			shouldshow = lv_z < TUNING.CHESTUPGRADE.MAXPACKPAGE
+		else
+			shouldshow = lv_x < blv_x + TUNING.CHESTUPGRADE.MAXPACKSIZE * 2 and lv_y < blv_y + TUNING.CHESTUPGRADE.MAXPACKSIZE * 2
+		end
+	else
+		shouldshow = lv_x < TUNING.CHESTUPGRADE.MAX_LV and lv_y < TUNING.CHESTUPGRADE.MAX_LV
+	end
+	if AllUpgradeRecipes[container.prefab] and shouldshow then
 		local slots = chestupgrade:CreateCheckTable()
 		for i = 1, #self.inv do
 			if slots[i] then
@@ -162,9 +162,9 @@ local function AddSearchBar(self, container, uipos)
 		self.searchbar.container = container
 	end
 	if uipos then
-		self.searchbar:SetPosition(0, 400, 0)
-		self.searchbar:SetScale(-1, 1, 1)
-		self.searchbar:SetRotation(90)
+		self.searchbar:SetPosition(0, 320, 0)
+		--self.searchbar:SetScale(-1, 1, 1)
+		--self.searchbar:SetRotation(90)
 	else
 		self.searchbar:SetPosition(460, 0, 0)
 	end
@@ -176,38 +176,50 @@ end
 local function setholdfn(btn, fn, hover, delay)
 	btn:SetWhileDown(fn)
 	btn.countdown = 0
-	btn.holding = false
+	btn.stopwhiledown = false
 	btn.OnUpdate = function(btn, dt)
-		if not btn.holding and btn.whiledown then
-			if btn.down then
+		if btn.down then
+			if not btn.stopwhiledown then
 				if btn.countdown > (delay or 2) then
-					btn.holding = true
+					btn.stopwhiledown = true
 					btn.whiledown()
 				else
 					btn.countdown = btn.countdown + dt
 				end
-			else
-				btn.countdown = 0
-				btn.holding = false
 			end
 		end
 	end
+	local onclick = btn.onclick
+	local onreleasebtn = function()
+		btn.countdown = 0
+		btn.stopwhiledown = false
+	end
+	btn:SetOnClick(function()
+		if onclick ~= nil then
+			onclick()
+		end
+		onreleasebtn()
+	end)
 	if hover then
 		btn:SetHoverText(hover)
 	end
 end
 
 --Useless btn
-local UselessBtn = Class(Widget, function(self, button, sorting, dropall, close, fill)
-	Widget._ctor(self, "ChestUpgrade_ULB")
+local ContainerButtons = Class(Widget, function(self, buttons)
+	Widget._ctor(self, "ChestUpgrade_Buttons")
 
 	self.buttons = {}
-	if button then
-		button:GetParent():RemoveChild(button)
-		self.button = self:AddChild(button)
-		table.insert(self.buttons, button)
-	end
 
+	--delay btn relocation, make sure modded btn has added
+	self.inst:DoTaskInTime(0, function()
+		self:RelocateBtnPos()
+	end)
+	--self:RelocateBtnPos()
+end)
+
+function ContainerButtons:ApplyEnabledButtons(buttons)
+	local sorting, dropall, close, fill, upgrade = GLOBAL.unpack(buttons or {})
 	--sort content
 	if sorting then
 		local onclick = function()
@@ -216,18 +228,15 @@ local UselessBtn = Class(Widget, function(self, button, sorting, dropall, close,
 				SendModRPCToServer(GetModRPC("RPC_UPGCHEST", "stackandsort"), self:GetParent().container)
 			end
 		end
-		self:AddButton("sortitembtn", SORTTEXT, onclick)
+		self:AddButton("sortitembtn", STRINGS.SORTTEXT, onclick)
 	end
 
 	--drop content
 	if dropall then
-		local onclick = function()
-			self.dropallbtn.countdown = 0
-		end
 		local onhold = function()
 			SendModRPCToServer(GetModRPC("RPC_UPGCHEST", "dropcontent"), self:GetParent().container)
 		end
-		self:AddButton("dropallbtn", DROPALLTEXT, onclick, onhold, DROPHOVER)
+		self:AddButton("dropallbtn", STRINGS.DROPALLTEXT, nil, onhold, STRINGS.DROPHOVER)
 	end
 
 	if close then
@@ -235,26 +244,39 @@ local UselessBtn = Class(Widget, function(self, button, sorting, dropall, close,
 			local ThePlayer = GLOBAL.ThePlayer
 			if ThePlayer ~= nil and ThePlayer.components.playercontroller ~= nil then
 				local target = self:GetParent().container
-				local closeact = GLOBAL.BufferedAction(ThePlayer, target, GLOBAL.ACTIONS.RUMMAGE)
-				local pos_x, pos_y, pos_z = target.Transform:GetWorldPosition()
-				ThePlayer.components.playercontroller:DoAction(closeact)
-				GLOBAL.SendRPCToServer(GLOBAL.RPC.LeftClick, closeact.action.code, pos_x, pos_z, target, true)
+				if target:HasTag("pocketdimension_container") then
+					ThePlayer.HUD:CloseContainer(target)
+				else
+					local act = GLOBAL.BufferedAction(ThePlayer, target, GLOBAL.ACTIONS.RUMMAGE)
+					local pos_x, pos_y, pos_z = target.Transform:GetWorldPosition()
+					act.preview_cb = function()
+						GLOBAL.SendRPCToServer(GLOBAL.RPC.LeftClick, act.action.code, pos_x, pos_z, target, true)
+					end
+					ThePlayer.components.playercontroller:DoAction(act)
+				end
 			end
 		end
-		self:AddButton("closebtn", CLOSETEXT, onclick)
+		self:AddButton("closebtn", STRINGS.CLOSETEXT, onclick)
 	end
 
 	if fill then
 		local onhold = function()
 			SendModRPCToServer(GetModRPC("RPC_UPGCHEST", "fillcontent"), self:GetParent().container)
 		end
-		self:AddButton("fillbtn", FILLTEXT, nil, onhold, FILLHOVER)
+		self:AddButton("fillbtn", STRINGS.FILLTEXT, nil, onhold, STRINGS.FILLHOVER)
+	end
+
+	if upgrade then
+		local onhold = function()
+			SendModRPCToServer(GetModRPC("RPC_UPGCHEST", "upgradechest"), self:GetParent().container)
+		end
+		self:AddButton("upgradebtn", STRINGS.UPGRADETEXT, nil, onhold, STRINGS.UPGRADEHOVER)
 	end
 
 	self:RelocateBtnPos()
-end)
+end
 
-function UselessBtn:RelocateBtnPos()
+function ContainerButtons:RelocateBtnPos()
 	local SEP_X = 80
 	local SEP_Y = 60
 	local LINEMAX = 3
@@ -277,7 +299,7 @@ function UselessBtn:RelocateBtnPos()
 	-- end
 end
 
-function UselessBtn:AddButton(name, text, onclick, onhold, hover)
+function ContainerButtons:AddButton(name, text, onclick, onhold, hover)
 	self[name] = self:AddChild(ImageButton("images/ui.xml", "button_small.tex", "button_small_over.tex", "button_small_disabled.tex", nil, nil, {.8,1.2}, {0,0}))
 
 	local btn = self[name]
@@ -293,6 +315,8 @@ function UselessBtn:AddButton(name, text, onclick, onhold, hover)
 	btn:SetTextSize(30)
 	if hover then
 		btn:SetHoverText(hover)
+	elseif onhold then
+		btn:SetHoverText(STRINGS.BUTTONHOVER..text)
 	end
 
 	--self.buttons[name] = btn
@@ -312,7 +336,7 @@ local function NEW_Open(self, container, doer, ...)
 	--UnifySlotBg(self, widget)
 	if widget.slotbg ~= nil and widget.slotbg.generic then
 		for i, v in ipairs(self.inv) do
-			v.bgimage:SetTexture(widget.slotbg.atlas, widget.slotbg.image)
+			v.bgimage:SetTexture(widget.slotbg.atlas or "images/hud.xml", widget.slotbg.image or "inv_slot.tex")
 		end
 	end
 
@@ -324,7 +348,7 @@ local function NEW_Open(self, container, doer, ...)
 
 	--show upgrade requirment
 	local showguide = GetModConfigData("SHOWGUIDE", true) or 0
-	if TUNING.CAP_UPG_MODE ~= 2 and showguide ~= 0 then
+	if GetModConfigData("UPG_MODE") ~= 2 and showguide ~= 0 then
 		if showguide ~= 2 or container.replica.container:IsEmpty() then
 			ShowGuide(self, container)
 		end
@@ -355,18 +379,21 @@ local function NEW_Open(self, container, doer, ...)
 
 	--useless button
 	--AddUselessButton(self, container)
-	local buttons = {
-		GetModConfigData("SORTITEM", true),
-		GetModConfigData("DROPALL", true),
-		GetModConfigData("CLOSEBTN", true),
-		GetModConfigData("FILLBTN", true),
-	}
-	for _, v in ipairs(buttons) do
-		if v == true then
-			self.chestupgrade_ulb = self:AddChild(UselessBtn(self.button, GLOBAL.unpack(buttons)))
-			self.chestupgrade_ulb:SetPosition(GetAlignPos({lv_x, lv_y}, 3, 20))
-			break
+	if true then
+		local buttons = {
+			GetModConfigData("SORTITEM", true),
+			GetModConfigData("DROPALL", true),
+			GetModConfigData("CLOSEBTN", true),
+			GetModConfigData("FILLBTN", true),
+			GetModConfigData("UPGBTN", true)
+		}
+		self.container_buttons = self:AddChild(ContainerButtons())
+		for _, btn in pairs(self.buttons) do
+			table.insert(self.container_buttons.buttons, child)
+			self.container_buttons:AddChild(btn)
 		end
+		self.container_buttons:ApplyEnabledButtons(buttons)
+		self.container_buttons:SetPosition(GetAlignPos({lv_x, lv_y}, 3, 20))
 	end
 end
 
@@ -400,9 +427,9 @@ local function NEW_Close(self, ...)
 			self.chestpage:Kill()
 			self.chestpage = nil
 		end
-		if self.chestupgrade_ulb ~= nil then
-			self.chestupgrade_ulb:Kill()
-			self.chestupgrade_ulb = nil
+		if self.container_buttons ~= nil then
+			self.container_buttons:Kill()
+			self.container_buttons = nil
 		end
 		if self.searchbar ~= nil then
 			self.searchbar:Kill()
@@ -643,6 +670,24 @@ local function NEW_OnItemLose(self, data)
 	end
 end
 
+--------------------------------------------------
+local function NEW_AddChild(self, child)
+	if child.name == "BUTTON" or child.name == "ImageButton" then
+		if self.container_buttons ~= nil then
+			table.insert(self.container_buttons.buttons, child)
+			return self.container_buttons:AddChild(child)
+		end
+		table.insert(self.buttons, child)
+	end
+	return self._base.AddChild(self, child)
+end
+
+local function ButtonCollection(self)
+	--self.container_buttons = self:AddChild(ContainerButtons())
+	self.buttons = {}
+	self.AddChild = NEW_AddChild
+end
+
 AddClassPostConstruct("widgets/containerwidget", function(self)
 	local OLD_Open = self.Open
 	function self:Open(...)
@@ -675,5 +720,9 @@ AddClassPostConstruct("widgets/containerwidget", function(self)
 
 	if true then --GetModConfigData("DRAGWHOLE") then
 		MakeDraggable(self)
+	end
+
+	if true then
+		ButtonCollection(self)
 	end
 end)

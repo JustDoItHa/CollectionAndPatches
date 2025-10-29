@@ -87,6 +87,28 @@ local function ChangeSize(inst, factor)
 	inst:ListenForEvent("onchestlvchange", onchestlvchange)
 end
 
+local function CalSize(inst)
+	local container = inst.components.container
+	local widget = container:GetWidget()
+	if widget == nil then
+		return
+	end
+	local slotpos = widget.slotpos
+	local init_slot = slotpos[1]
+	local x, y = 0, 0
+	for slot, pos in iparis(slotpos) do
+		if pos.x == init_slot.x then
+			y = y + 1
+		end
+		if pos.y == init_slot.y then
+			x = x + 1
+		end
+	end
+	--local doublecheck = #slotpos == x * y
+	--return doublecheck and Vector3(x, y, 1) or nil
+	return Vector3(x, y, 1)
+end
+
 local function itemtest(temp_items, item, ...)
 	for k, v in pairs(temp_items) do
 		if type(v) == "string" then
@@ -234,7 +256,6 @@ local function PageUpgrade(inst, params, data, nomult)
 	local ispack = inst.components.container.type == "pack"
 	local z_max = ispack and (TUNING.CHESTUPGRADE.MAXPACKPAGE or 0) or TUNING.CHESTUPGRADE.MAX_PAGE
 	local ingr = (params.page and params.page[1]) or params.side or params.all or nil
-	local x, y, z = chestupgrade:GetLv()
 	if ingr ~= nil then
 		if nomult then
 			return chestupgrade:SpecialUpgrade(params, data.doer, {z = 1}, {z = z_max})
@@ -247,7 +268,7 @@ local function PageUpgrade(inst, params, data, nomult)
 
 		local amount = type(ingr) == "string" and 1 or ingr.amount or ingr[2]
 		local stacksize = firstitem.components.stackable ~= nil and firstitem.components.stackable:StackSize() or 1
-		local times = math.min(z_max - z, math.floor(stacksize / amount))
+		local times = math.min(z_max, math.floor(stacksize / amount))
 
 		local page_prefab = type(ingr) == "string" and ingr or ingr.type or ingr[1]
 		local page_amount = amount * times
@@ -417,6 +438,8 @@ return {
 	CustomUI = CustomUI,
 
 	ChangeSize = ChangeSize,
+
+	CalSize = CalSize,
 
 	CanTakeTempItem = CanTakeTempItem,
 	DropTempItem = DropTempItem,

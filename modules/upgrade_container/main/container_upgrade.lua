@@ -10,17 +10,13 @@ local chests = {
 	"shadow_container",
 	"beargerfur_sack",
 	"battlesong_container",
-	"offering_pot",
-	"offering_pot_upgraded",
+	--"offering_pot",
+	--"offering_pot_upgraded",
 	"boat_ancient_container",
 	"slingshotammo_container",
 	"elixir_container",
-	--"rabbitkinghorn_container",
+	"rabbitkinghorn_container",
 }
-
-if CurrentRelease.GreaterOrEqualTo("R35_SANITYTROUBLES") then
-	table.insert(chests, "rabbitkinghorn_container")
-end
 
 for _, prefab in pairs(chests) do
 	if GetModConfigData("C_"..prefab:upper()) then
@@ -35,8 +31,6 @@ local packs = {
 	"icepack",
 	"spicepack",
 	"krampus_sack",
-	--"catback",
-	--"catbigbag",
 	"piggyback",
 }
 if TUNING.BIGBAG_SWITCH then

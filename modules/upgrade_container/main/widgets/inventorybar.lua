@@ -10,10 +10,11 @@ local function NEW_Rebuild(self)
 	overflow = (overflow ~= nil and overflow:IsOpenedBy(self.owner)) and overflow or nil
 
 	if overflow	~= nil and self.integrated_backpack then
+		local chestupgrade = overflow.inst.replica.chestupgrade
+		if chestupgrade == nil then return end
 		local num = overflow:GetNumSlots()
 		local offset = #self.inv - num
-		local chestupgrade = overflow.inst.replica.chestupgrade
-		if GetModConfigData("PACKSTYLE", true) and chestupgrade ~= nil and not (chestupgrade.chestlv.x * chestupgrade.chestlv.y > #self.inv) and chestupgrade.chestlv.z > 1 then
+		if GetModConfigData("PACKSTYLE", true) and not (chestupgrade.chestlv.x * chestupgrade.chestlv.y > #self.inv) and chestupgrade.chestlv.z > 1 then
 			local x, y, z = chestupgrade:GetLv()
 			local show = x * y
 			local slottogo = num

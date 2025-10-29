@@ -670,14 +670,14 @@ configuration_options = {
     AddOptionHeader("堆叠修改"),
     AddOption("cap_stack_size_switch", "总开关", "是否开启堆叠修改", false),
     AddOption("cap_stack_show_real_num", "显示真实堆叠数量", "超过999不是显示999+", false),
-    AddConfigOption("cap_stack_size", "物品堆叠数量", "设置物品堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 },  { description = "无限堆叠", data = 4294967295 },}, 40),
-    AddConfigOption("cap_soul_stack_size", "灵魂堆叠数量", "设置灵魂堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 },  { description = "无限堆叠", data = 4294967295 },}, 40),
+    AddConfigOption("cap_stack_size", "物品堆叠数量", "设置物品堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 }, { description = "无限堆叠", data = 4294967295 }, }, 40),
+    AddConfigOption("cap_soul_stack_size", "灵魂堆叠数量", "设置灵魂堆叠数量", { { description = "关闭", data = 0 }, { description = "40", data = 40 }, { description = "63", data = 63, hover = "最佳堆叠上限" }, { description = "99", data = 99, hover = "默认，两位数堆叠上限" }, { description = "128", data = 128 }, { description = "200", data = 200 }, { description = "255", data = 255 }, { description = "300", data = 300 }, { description = "400", data = 400 }, { description = "500", data = 500 }, { description = "666", data = 666 }, { description = "888", data = 888 }, { description = "999", data = 999 }, { description = "无限堆叠", data = 4294967295 }, }, 40),
     AddOptionHeader("更多堆叠及细项(堆叠修改总开关需打开)"),
     AddOption("cap_stack_more", "更多可堆叠", "使鸟、兔子、地鼠、鱼等生物变得可堆叠", true),
 
     -- 分别为：配置名（modmain中配置用）,中文显示名,英文显示名,默认是否开启,中文备注提示,英文备注提示
     -- 若没有备注提示，则后两项可以不用写。也可以只写中文备注，不写英文备注。但是若是需要写英文备注，则中文备注必填
-    AddOption("stack_more_rabbit", "兔子","Rabbit",  true),
+    AddOption("stack_more_rabbit", "兔子", "Rabbit", true),
     AddOption("stack_more_mole", "鼹鼠", "Mole", true),
     AddOption("stack_more_bird", "鸟类", "Bird", true),
     AddOption("stack_more_crow", "月盲乌鸦", "月盲乌鸦", true),
@@ -691,15 +691,15 @@ configuration_options = {
     AddOption("stack_more_glommerwings", "格罗姆翅膀", "Glommerwings", true),
     AddOption("stack_more_moonrockidol", "月岩雕像,告密的心", "Moonrockidol and Reviver", true),
     AddOption("stack_more_horn", "牛角和独角鲸角", "Horn\n注意：只能作为材料堆叠，如需作为工具，请关闭选项\nNote: TURN OFF WHEN USE IT AS TOOL", false),
-    AddOption("stack_more_security_pulse_cage", "火花柜和约束静电", "Security Pulse Cage and Full Cage",true),
-    AddOption("stack_more_deer_antler","鹿角和克劳斯钥匙","Deer Antler and Klaussackkey",true),
-    AddOption("stack_more_chestupgrade_stacksize","箱子升级组件","箱子升级组件",true),
-    AddOption("stack_more_shell","贝壳钟","贝壳钟",true),
-    AddOption("stack_more_wally","厨师炊具","厨师炊具",true),
-    AddOption("stack_more_winona","女工的投石机和聚光灯","女工的投石机和聚光灯",true),
-    AddOption("stack_more_mooneye","月眼","月眼",true),
-    AddOption("stack_more_boat_stuff","船上用品","船上用品",true),
-    AddOption("stack_more_ancienttree_stuff","惊喜种子","惊喜种子",true),
+    AddOption("stack_more_security_pulse_cage", "火花柜和约束静电", "Security Pulse Cage and Full Cage", true),
+    AddOption("stack_more_deer_antler", "鹿角和克劳斯钥匙", "Deer Antler and Klaussackkey", true),
+    AddOption("stack_more_chestupgrade_stacksize", "箱子升级组件", "箱子升级组件", true),
+    AddOption("stack_more_shell", "贝壳钟", "贝壳钟", true),
+    AddOption("stack_more_wally", "厨师炊具", "厨师炊具", true),
+    AddOption("stack_more_winona", "女工的投石机和聚光灯", "女工的投石机和聚光灯", true),
+    AddOption("stack_more_mooneye", "月眼", "月眼", true),
+    AddOption("stack_more_boat_stuff", "船上用品", "船上用品", true),
+    AddOption("stack_more_ancienttree_stuff", "惊喜种子", "惊喜种子", true),
 
     --addConfig("sketch1", "常用草图","Sketch", true),
     --AddOption("stack_more_myth_lotusleaf", "荷叶和月饼(神话书说)", "Lotusleaf and Mooncake", true),
@@ -709,7 +709,7 @@ configuration_options = {
     --AddOption("stack_more_foliageath", "青枝绿叶（棱镜）", "Foliageath", true),
     --AddOption("stack_more_miao_packbox", "超级打包盒（超级打包盒）", "Miao packbox\n需单个使用，整组使用会整组消耗", true),
     AddOption("cap_stack_mod", "mod物品堆叠", "一些mod物品可堆叠", false),
-    AddOption("stack_more_reskin_tool", "其他自用", "For self use",false),
+    AddOption("stack_more_reskin_tool", "其他自用", "For self use", false),
 
 
 }
@@ -900,10 +900,10 @@ configuration_options[#configuration_options + 1] = AddOption("Animal", "动物�
 configuration_options[#configuration_options + 1] = AddOption("Others", "其他动作", "其他动作加快", true)
 
 configuration_options[#configuration_options + 1] = AddConfigOption("ChopTimes", "砍伐速率", "设置砍倒树木速率", { { description = "立刻", data = 0, hover = "默认" },
-                                                                                                                    { description = "0.25x", data = 0.25 },
-                                                                                                                    { description = "0.5x", data = 0.5 },
-                                                                                                                    { description = "2x", data = 2 },
-                                                                                                                    { description = "关闭", data = 999 }, }, 0)
+                                                                                                                   { description = "0.25x", data = 0.25 },
+                                                                                                                   { description = "0.5x", data = 0.5 },
+                                                                                                                   { description = "2x", data = 2 },
+                                                                                                                   { description = "关闭", data = 999 }, }, 0)
 configuration_options[#configuration_options + 1] = AddConfigOption("MineTime", "开采速率", "设置敲开矿物岩石速率", { { description = "立刻", data = 0, hover = "默认" },
                                                                                                                       { description = "0.25x", data = 0.25 },
                                                                                                                       { description = "0.5x", data = 0.5 },
@@ -916,16 +916,14 @@ configuration_options[#configuration_options + 1] = AddConfigOption("CookTime", 
                                                                                                                           { description = "1x", data = 1, hover = "不改变" },
                                                                                                                           { description = "2x", data = 2, hover = "2倍速度" }, }, 0)
 
-
 configuration_options[#configuration_options + 1] = AddConfigOption("FishTime", "钓鱼时间", "钓鱼时鱼按你设置的时间上钩", { { description = "立刻上钩", data = 0, hover = "默认" },
                                                                                                                             { description = "5 秒", data = 5 },
                                                                                                                             { description = "关闭", data = 999 }, }, 0)
 configuration_options[#configuration_options + 1] = AddConfigOption("QuickDry", "晾晒速率", "晾晒速率", { { description = "立刻", data = 0, hover = "默认" },
-                                                                                                                      { description = "0.25x", data = 0.25 },
-                                                                                                                      { description = "0.5x", data = 0.5 },
-                                                                                                                      { description = "2x", data = 2 },
-                                                                                                                      { description = "关闭", data = 999 }, }, 0)
-
+                                                                                                          { description = "0.25x", data = 0.25 },
+                                                                                                          { description = "0.5x", data = 0.5 },
+                                                                                                          { description = "2x", data = 2 },
+                                                                                                          { description = "关闭", data = 999 }, }, 0)
 
 ---陷阱增强
 configuration_options[#configuration_options + 1] = AddOptionHeader("陷阱增强")
@@ -1030,25 +1028,23 @@ configuration_options[#configuration_options + 1] = AddConfigOption("show_uses",
                                                                                                                         { description = "是(Yes)", data = 1, hover = "Yes, but users may override this option.(是)" },
                                                                                                                         { description = "禁止(Forbidden)", data = 2, hover = "Server won't send this info to the clients and their settings will not matter.\n服务端不会发送属性信息给客户端" }, }, -1)
 
-configuration_options[#configuration_options + 1] = AddConfigOption("show_nutrients", "显示肥料值", "", {{description = "关闭", data = false, hover = ""},
-                                                                                                   	{description = "详细", data = 1, hover = "催长剂: 8 / 堆肥: 8 / 粪肥: 32"},
-                                                                                                   	{description = "简洁", data = 2, hover = "肥料: 8 / 8 / 32"},}, 1)
-
-
+configuration_options[#configuration_options + 1] = AddConfigOption("show_nutrients", "显示肥料值", "", { { description = "关闭", data = false, hover = "" },
+                                                                                                          { description = "详细", data = 1, hover = "催长剂: 8 / 堆肥: 8 / 粪肥: 32" },
+                                                                                                          { description = "简洁", data = 2, hover = "肥料: 8 / 8 / 32" }, }, 1)
 
 configuration_options[#configuration_options + 1] = AddConfigOption("display_hp", "显示血量(Display HP)", "", { { description = "Auto(自动)", data = -1, hover = "Depends on installed mods.(取决于安装的模组)" },
                                                                                                                 { description = "No(否)", data = 0, hover = "No, but users may override this option.(否，但用户可以覆盖此选项。)" },
                                                                                                                 { description = "Yes(是)", data = 1, hover = "Yes, but users may override this option.(是，但用户可以覆盖此选项。)" },
                                                                                                                 { description = "Forbidden(禁止)", data = 2, hover = "Server won't send this info to the clients and their settings will not matter.(服务端将不会发送属性信息给客户端)" }, }, -1)
-configuration_options[#configuration_options + 1] = AddConfigOption("show_fueled", "穿戴装备天数", "", {{description = "关闭", data = false, hover = "不显示"},
-                                                                                                 	{description = "时间", data = 1, hover = "耐久: 1:19"},
-                                                                                                 	{description = "天数", data = 2, hover = "耐久: 6.8 天"},
-                                                                                                 	{description = "两者", data = 3, hover = "耐久: 3:59 ( 0.5 天 )"},}, 3)
-configuration_options[#configuration_options + 1] = AddConfigOption("show_fuel", "物品燃料值", "", {{description = "关闭", data = false, hover = "关闭后火堆的燃烧效率也将隐藏"},
-                                                                                              	{description = "开启", data = true, hover = "燃料值: 0:30"},}, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("show_fueled", "穿戴装备天数", "", { { description = "关闭", data = false, hover = "不显示" },
+                                                                                                         { description = "时间", data = 1, hover = "耐久: 1:19" },
+                                                                                                         { description = "天数", data = 2, hover = "耐久: 6.8 天" },
+                                                                                                         { description = "两者", data = 3, hover = "耐久: 3:59 ( 0.5 天 )" }, }, 3)
+configuration_options[#configuration_options + 1] = AddConfigOption("show_fuel", "物品燃料值", "", { { description = "关闭", data = false, hover = "关闭后火堆的燃烧效率也将隐藏" },
+                                                                                                     { description = "开启", data = true, hover = "燃料值: 0:30" }, }, true)
 
-configuration_options[#configuration_options + 1] = AddConfigOption("show_planar_resist", "显示位面抵抗", "在显示工具、武器攻击附加显示位面抵抗造成的伤害", {{description = "关闭", data = false, hover = "关闭后生物上显示“拥有位面抵抗”也将隐藏"},
-                                                                                                                               		{description = "开启", data = true, hover = "攻击力: 68 ( 位抗: 41.3 )"},}, true)
+configuration_options[#configuration_options + 1] = AddConfigOption("show_planar_resist", "显示位面抵抗", "在显示工具、武器攻击附加显示位面抵抗造成的伤害", { { description = "关闭", data = false, hover = "关闭后生物上显示“拥有位面抵抗”也将隐藏" },
+                                                                                                                                                             { description = "开启", data = true, hover = "攻击力: 68 ( 位抗: 41.3 )" }, }, true)
 
 configuration_options[#configuration_options + 1] = AddOption("T_crop", "农作物状态显示", "例如缺肥料、水分、家族、有杂草等，成长计时不受影响", true)
 --configuration_options[#configuration_options + 1] = AddConfigOption("naughtiness", "顽皮值", "", {{ description = "禁用", data = 0 },{ description = "", data = 1 },{ description = "", data = 2 },}, 0)
@@ -1063,6 +1059,25 @@ configuration_options[#configuration_options + 1] = AddOption("container_high_li
 configuration_options[#configuration_options + 1] = AddConfigOption("chestR", "参数-红(Red)", "This is red component of highlighted chests color.\n默认绿色，如果红绿蓝都设置为0%或100%，箱子就没有颜色", color_options, -1)
 configuration_options[#configuration_options + 1] = AddConfigOption("chestG", "参数-绿(Green)", "This is green component of highlighted chests color.\n默认绿色，如果红绿蓝都设置为0%或100%，箱子就没有颜色", color_options, -1)
 configuration_options[#configuration_options + 1] = AddConfigOption("chestB", "参数-蓝(Blue)", "This is blue component of highlighted chests color.\n默认绿色，如果红绿蓝都设置为0%或100%，箱子就没有颜色", color_options, -1)
+---容器拥有物品高亮显示
+configuration_options[#configuration_options + 1] = AddOptionHeader("容器拥有物品高亮显示")
+configuration_options[#configuration_options + 1] = AddOption("container_high_light_switch_2", "总开关", "容器拥有物品高亮显示2总开关", false)
+configuration_options[#configuration_options + 1] = AddConfigOption("Highlight_TINT", "色彩选择", "选择你想要的颜色", { --{ description = "White", data = 1 },
+    { description = "黄色", data = 2 },
+    { description = "橙色", data = 3 },
+    { description = "红色", data = 4 },
+    { description = "绿色", data = 5 },
+    { description = "蓝色", data = 6 },
+    { description = "亮蓝色", data = 7 },
+    { description = "粉红色", data = 8 }, }, 5)
+configuration_options[#configuration_options + 1] = AddConfigOption("Highlight_ingredientui", "制作配方", "制作配方高亮模式", { { description = "指向", hover = "指向配方即刻高亮", data = 1 },
+                                                                                                                                { description = "点击", hover = "指向并且点击右键指向配方就高亮", data = 2 },
+                                                                                                                                { description = "关闭", hover = "关闭制作配方高亮", data = 3 }, }, 1)
+
+configuration_options[#configuration_options + 1] = AddConfigOption("Highlight_craftingmenu_pinslot", "快捷制作栏", "快捷制作栏高亮模式", { { description = "指向", hover = "指向配方即刻高亮", data = 1 },
+                                                                                                                                { description = "点击", hover = "指向并且点击右键指向配方就高亮", data = 2 },
+                                                                                                                                { description = "关闭", hover = "关闭制作配方高亮", data = 3 }, }, 1)
+
 ---信息显示
 configuration_options[#configuration_options + 1] = AddOptionHeader("信息显示")
 configuration_options[#configuration_options + 1] = AddOption("cap_show_info_switch", "总开关", "物体信息详情显示总开关，开启此则show me不生效", false)
@@ -1072,7 +1087,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("show_info_b
 ---全图定位
 configuration_options[#configuration_options + 1] = AddOptionHeader("全图定位")
 configuration_options[#configuration_options + 1] = AddOption("global_position_switch", "全图定位-开关", "是否开启全图定位", false)
-configuration_options[#configuration_options + 1] = AddConfigOption("GLOBAL_POSITION_LANG", "语言(language)", "选择你想要使用的语言.", { {description = "English(英语)", data = "en", hover = ""}, {description = "中文(Chinese)", data = "zh", hover = ""}, {description = "自动", data = "auto", hover = "根据游戏语言自动设置"},}, "auto")
+configuration_options[#configuration_options + 1] = AddConfigOption("GLOBAL_POSITION_LANG", "语言(language)", "选择你想要使用的语言.", { { description = "English(英语)", data = "en", hover = "" }, { description = "中文(Chinese)", data = "zh", hover = "" }, { description = "自动", data = "auto", hover = "根据游戏语言自动设置" }, }, "auto")
 configuration_options[#configuration_options + 1] = AddConfigOption("SHOWPLAYERSOPTIONS", "玩家指示器(Player Indicators)", "The arrow things that show players past the edge of the screen.", { { description = "Always", data = 3 }, { description = "Scoreboard", data = 2 }, { description = "Never", data = 1 }, }, 2)
 configuration_options[#configuration_options + 1] = AddConfigOption("SHOWPLAYERICONS", "玩家图标(Player Icons)", "The player icons on the map.", { { description = "显示(Show)", data = true }, { description = "隐藏(Hide)", data = false }, }, true)
 configuration_options[#configuration_options + 1] = AddConfigOption("FIREOPTIONS", "火堆指示器(Show Fires)", "Show fires with indicators like players." .. "\nThey will smoke when they are visible this way.", { { description = "Always", data = 1 }, { description = "Charcoal", data = 2 }, { description = "Disabled", data = 3 }, }, 2)
@@ -1080,7 +1095,7 @@ configuration_options[#configuration_options + 1] = AddConfigOption("SHOWFIREICO
 configuration_options[#configuration_options + 1] = AddOption("SHAREMINIMAPPROGRESS", "共享地图(Share Map)", "Share map exploration between players. This will only work if" .. "\n'Player Indicators' and 'Player Icons' are not both disabled.", true)
 configuration_options[#configuration_options + 1] = AddOption("REMOVE_GHOST_ICONS", "移除残影", "玩家移动过快，跟随玩家的伯尼或者皮弗娄牛会在地图上留下残影，开启本选项来消除残影.", true)
 configuration_options[#configuration_options + 1] = AddOption("STOPSAVEMAPEXPLORER", "减少卡顿", "实验性功能，尝试减少上下洞穴时的卡顿。通过修改人物存档来实现，我不确定这是否安全.", true)
-configuration_options[#configuration_options + 1] = AddConfigOption("UPDADTEFREQUENCY", "共享地图时间间隔", "共享地图的时间间隔, 增加该间隔可能可以减少服务器的负担.", { {description = "5", data = 5}, {description = "2", data = 2}, {description = "0.5", data = 0.5},}, 5)
+configuration_options[#configuration_options + 1] = AddConfigOption("UPDADTEFREQUENCY", "共享地图时间间隔", "共享地图的时间间隔, 增加该间隔可能可以减少服务器的负担.", { { description = "5", data = 5 }, { description = "2", data = 2 }, { description = "0.5", data = 0.5 }, }, 5)
 configuration_options[#configuration_options + 1] = AddOption("OVERRIDEMODE", "荒野覆盖(Wilderness Override)", "If enabled, it will use the other options you set in Wilderness mode." .. "\nOtherwise, it will not show players, but all fires will smoke and be visible.", false)
 configuration_options[#configuration_options + 1] = AddOption("ENABLEPINGS", "点位标记(Pings)", "Whether to allow players to ping (alt+click) the map.", true)
 --configuration_options[#configuration_options + 1] = AddOption("map_on_Cartography", "在制图桌上共享地图", "", false)
@@ -1407,12 +1422,12 @@ configuration_options[#configuration_options + 1] = AddOption("tumbleweed_more_i
 configuration_options[#configuration_options + 1] = AddOptionHeader(" ")
 configuration_options[#configuration_options + 1] = AddOption("interesting_tumbleweed_refresh_switch", "刷新补丁开关", "风滚草刷新点补丁", false)
 --configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_prefab_test", "测试", "可以替换成月台来看测试结果", { {description = "风滚草刷新点", data = "tumbleweedspawner"}, {description = "月台", data = "moonbase"}, }, "tumbleweedspawner")
-configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_refresh_pattern", "模式", "风滚草数量单独设置", { {description = "传统", data = 1}, {description = "网格", data = 2}, {description = "网格2", data = 3}, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_refresh_pattern", "模式", "风滚草数量单独设置", { { description = "传统", data = 1 }, { description = "网格", data = 2 }, { description = "网格2", data = 3 }, }, 1)
 configuration_options[#configuration_options + 1] = AddOption("tumbleweed_refresh_cave", "洞穴开启风滚草", "使洞穴是否生成风滚草刷新点，对所有模式有效", true)
 configuration_options[#configuration_options + 1] = AddOption("tumbleweed_refresh_worldwind", "洞穴添加风", "使洞穴风滚草能够随风飘，而不是单一方向", true)
-configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_refresh_orders", "正常能够满足", "风滚草数量单独设置", { {description = "大量", data = 2}, {description = "普通", data = 1}, {description = "无", data = 0}, }, 1)
-configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_refresh_spacing", "间距", "地图上，每隔几块地皮有一个风滚草刷新点,数量越大，风滚草刷新点数量越少", { {description = "大量", data = 11}, {description = "普通", data = 16}, }, 16) --15块地皮，大概有200个左右风滚草刷新点{description = "少量", data = 21},
-configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_refresh_offset", "混乱程度", "数量越大，偏移原位置的上限越大", { {description = "混乱", data = 15}, {description = "正常", data = 10}, {description = "稍微偏离", data = 5}, {description = "没有偏离", data = 0}, }, 10)
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_refresh_orders", "正常能够满足", "风滚草数量单独设置", { { description = "大量", data = 2 }, { description = "普通", data = 1 }, { description = "无", data = 0 }, }, 1)
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_refresh_spacing", "间距", "地图上，每隔几块地皮有一个风滚草刷新点,数量越大，风滚草刷新点数量越少", { { description = "大量", data = 11 }, { description = "普通", data = 16 }, }, 16) --15块地皮，大概有200个左右风滚草刷新点{description = "少量", data = 21},
+configuration_options[#configuration_options + 1] = AddConfigOption("tumbleweed_refresh_offset", "混乱程度", "数量越大，偏移原位置的上限越大", { { description = "混乱", data = 15 }, { description = "正常", data = 10 }, { description = "稍微偏离", data = 5 }, { description = "没有偏离", data = 0 }, }, 10)
 
 ---樱花林补丁
 configuration_options[#configuration_options + 1] = AddOptionHeader("樱花林补丁")
@@ -1459,9 +1474,9 @@ configuration_options[#configuration_options + 1] = AddConfigOption("BAGSIZE", "
 configuration_options[#configuration_options + 1] = AddConfigOption("NICEBIGBAGSIZE", "Size of haversack(挎包大小)", "Choose your size of haversack.", { { description = "8x3", data = 1, },
                                                                                                                                                          { description = "8x4", data = 2, }, }, 2)
 configuration_options[#configuration_options + 1] = AddConfigOption("CATBIGBAGSIZE", "Size of catbigbag(猫咪包大小)", "Choose your size of catbigbag.", { { description = "8x3", data = 1, },
-                                                                                                                                                    { description = "8x4", data = 2, },
-                                                                                                                                                    { description = "8x6", data = 3, },
-                                                                                                                                                    { description = "8x8", data = 4, }, }, 2)
+                                                                                                                                                          { description = "8x4", data = 2, },
+                                                                                                                                                          { description = "8x6", data = 3, },
+                                                                                                                                                          { description = "8x8", data = 4, }, }, 2)
 --configuration_options[#configuration_options + 1] = AddConfigOption("CATBACK_SIZE", "Size of catback(小猫包大小)", "Choose your size of catback.", { { description = "8x2", data = 0, },
 --                                                                                                                                                     { description = "8x3", data = 1, },
 --                                                                                                                                                    { description = "8x4", data = 2, },
@@ -1556,7 +1571,7 @@ CAP_REMOVE_SOMETHING_LIST_CONFIG = {
     { "remove_aria_medal_alter", "aria的暴君勋章", "让aria的暴君勋章消失！", disappear_magic, 0 },
     { "remove_elaina_bq", "伊蕾娜的释槐留仙裙", "让伊蕾娜的释槐留仙裙消失！", disappear_magic, -1 },
     { "remove_saya_potions_happiness", "魔女的创造模式药水", "让魔女的创造模式药水消失！", disappear_magic, -1 },
-    { "remove_saya_qh_platform", "魔女的魔法炼药台", "让魔女魔法炼药台消失！", disappear_magic, 0 },--考虑到本来就存在的炼药指定季节满分，所以设置的时间和标准时间不太一致
+    { "remove_saya_qh_platform", "魔女的魔法炼药台", "让魔女魔法炼药台消失！", disappear_magic, 0 }, --考虑到本来就存在的炼药指定季节满分，所以设置的时间和标准时间不太一致
     { "remove_saya_potions_attack ", "魔女的进攻魔药", "让魔女的百分比伤害的魔药消失！", disappear_magic, 0 },
     { "remove_saya_potions_reply ", "魔女的回复魔药", "让魔女的百分比回复的魔药消失！", disappear_magic, 0 },
     { "remove_saya_potions_fluorescence ", "魔女的荧光魔药", "让魔女的全科技魔药消失！", disappear_magic, 0 },
@@ -2617,9 +2632,9 @@ if lang == "zh" then
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("可升级的背包:")
     AddNewConfig("BACKPACK", "背包可升级", false, AddHoverBoolOpt("把升级材料放满第 1 页"))
-    AddNewConfig("BACKPACKMODE", "背包升级模式", 2, { AddOptionShort(1, "仅普通升级"), AddOptionShort(2, "仅翻页升级"), AddOptionShort(3, "混合模式"), },"背包升级模式")
-    AddNewConfig("BACKPACKSIZE", "背包最大尺寸", 2, { AddOptionShort(1, "扩大 1 圈"), AddOptionShort(2, "扩大 2 圈"), AddOptionShort(3, "扩大 3 圈"), AddOptionShort(4, "扩大 4 圈"), },"背包最大尺寸")
-    AddNewConfig("EXPENSIVE_BACKPACK", "昂贵的背包升级", false, AddHoverBoolOpt("每一格各 1 个物品增加 1 页", "第一页各 1 个物品增加 1 页"),"调整背包升级需求")
+    AddNewConfig("BACKPACKMODE", "背包升级模式", 2, { AddOptionShort(1, "仅普通升级"), AddOptionShort(2, "仅翻页升级"), AddOptionShort(3, "混合模式"), }, "背包升级模式")
+    AddNewConfig("BACKPACKSIZE", "背包最大尺寸", 2, { AddOptionShort(1, "扩大 1 圈"), AddOptionShort(2, "扩大 2 圈"), AddOptionShort(3, "扩大 3 圈"), AddOptionShort(4, "扩大 4 圈"), }, "背包最大尺寸")
+    AddNewConfig("EXPENSIVE_BACKPACK", "昂贵的背包升级", false, AddHoverBoolOpt("每一格各 1 个物品增加 1 页", "第一页各 1 个物品增加 1 页"), "调整背包升级需求")
     AddNewConfig("BACKPACKPAGE", "背包最大页数", 3,
             {
                 AddOptionShort(1, "1"),
@@ -2748,9 +2763,9 @@ else
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("Backpack Upgrade:")
     AddNewConfig("BACKPACK", "Backpack Upgrade-able", false, AddHoverBoolOpt("put items into every slots of the backpack"))
-    AddNewConfig("BACKPACKMODE", "Backpack Upgrade Mode", 2, { AddOptionShort(1, "Normal Only"), AddOptionShort(2, "Page Only"), AddOptionShort(3, "Both"), },"Backpack Upgrade Mode")
-    AddNewConfig("BACKPACKSIZE", "Backpack Max Size", 2, { AddOptionShort(1, "Expand 1 Unit Size"), AddOptionShort(2, "Expand 2 Unit Size"), AddOptionShort(3, "Expand 3 Unit Size"), AddOptionShort(4, "Expand 4 Unit Size"), },"Backpack Max Size")
-    AddNewConfig("EXPENSIVE_BACKPACK", "Expensive Backpack", false,AddHoverBoolOpt("item to all slots for 1 page upgrade", "item to 1st page for 1 page upgrade"),"Change backpack upgrade requirement")
+    AddNewConfig("BACKPACKMODE", "Backpack Upgrade Mode", 2, { AddOptionShort(1, "Normal Only"), AddOptionShort(2, "Page Only"), AddOptionShort(3, "Both"), }, "Backpack Upgrade Mode")
+    AddNewConfig("BACKPACKSIZE", "Backpack Max Size", 2, { AddOptionShort(1, "Expand 1 Unit Size"), AddOptionShort(2, "Expand 2 Unit Size"), AddOptionShort(3, "Expand 3 Unit Size"), AddOptionShort(4, "Expand 4 Unit Size"), }, "Backpack Max Size")
+    AddNewConfig("EXPENSIVE_BACKPACK", "Expensive Backpack", false, AddHoverBoolOpt("item to all slots for 1 page upgrade", "item to 1st page for 1 page upgrade"), "Change backpack upgrade requirement")
     AddNewConfig("BACKPACKPAGE", "Backpack Max Page", 3,
             {
                 AddOptionShort(1, "1", "Why will you turn backpack upgrade on"),
@@ -2769,7 +2784,6 @@ else
                 AddOptionShort(14, "14"),
                 AddOptionShort(15, "15"), })
     AddNewConfig("KRAMPUS_ONLY", "Krampus Sack Only", false, BoolOpt, "*DISABLE* all other backpack' upgrade, except Krampus Sack\nwax paper to all slots in first page for upgrading Krampus Sack")
-
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("Widget UI Settings:")
     AddNewConfig("SHOWGUIDE", "Shows Guide", 3,
@@ -2828,7 +2842,6 @@ else
     configuration_options[#configuration_options + 1] = AddOptionHeader("DEBUG:")
     AddNewConfig("DEBUG_MAXLV", "Max Level", false, BoolOpt, "Containers are in max lv once builded")
     AddNewConfig("DEBUG_IIC", "Item in Container", false, BoolOpt, "Put upgrade material and hammer into container once builded")
-
 
     configuration_options[#configuration_options + 1] = AddOptionHeader("Compatible Mode:")
     AddNewConfig("COMPATIBLE_MODE", "Compatible Mode", false, BoolOpt, "Make this mod more compatible with other mods")

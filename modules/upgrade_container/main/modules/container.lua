@@ -5,6 +5,14 @@
 
 --local cleartable = GLOBAL.cleartable
 local GetStackSize = GLOBAL.GetStackSize
+
+local crafting_priority_fn = function(a,b)
+	if a.stacksize == b.stacksize then
+		return a.index < b.index
+	end
+	return a.stacksize < b.stacksize
+end
+
 AddComponentPostInit("container", function(self)
 	self.itemlist = nil
 
@@ -97,118 +105,140 @@ AddComponentPostInit("container", function(self)
 			return self:oldGetCraftingIngredient(ingr, amount, reverse_search_order, ...)
 		end
 
-		--build the list
 		if self.itemlist == nil then
 			self:CreateItemList()
 		end
 		local itemlist = self.itemlist
 
-		--sort the list by order of stacksize
-		--local items = self.itemlist[ingr]
 		local items = itemlist.prefabs[ingr]
 
 		if items == nil then return {} end
-		if not items.sorted then
-			table.sort(items, function(a, b)
-				local sa, sb = itemlist.stacksize[a], itemlist.stacksize[b]
-				if sa == sb then
-					if reverse_search_order then
-						return a > b
-					end
-					return a < b
-				end
-				return sa < sb
-			end)
-			items.sorted = true
+		--sort items, when:
+		--(1) it has never been sorted;
+		--(2) its current sorting is different from search order
+		if not items.sorted or ((items.sorted == "dec") == (not reverse_search_order)) then
+			local items_projection = {}
+			for i, v in ipairs(items) do
+				table.insert(items_projection, {
+					slot = v,
+					index = reverse_search_order and (#items - i + 1) or i,
+					stacksize = self.slots[v] and GetStackSize(self.slots[v]) or 0,
+				})
+			end
+			table.sort(items_projection, crafting_priority_fn)
+			for i, v in ipairs(items_projection) do
+				items[i] = v.slot
+			end
+			items.sorted = reverse_search_order and "dec" or "asc"
+			--elseif ((items.sorted == "dec") == (not reverse_search_order)) then
+			--	itemlist.prefabs[ingr] = table.reverse(items)
+			--	items = itemlist.prefabs[ingr]
+			--	items.sorted = reverse_search_order and "dec" or "asc"
 		end
 
 		local crafting_items = {}
-		local removelist = {}
-		local listoutdate = false
+		local is_itemlist_dirty
 		for i, slot in ipairs(items) do
 			local item = self.slots[slot]
-			if item ~= nil and item.prefab == ingr then
-				local stack = GetStackSize(item)
-				local v = itemlist.stacksize[slot]
-				if stack > v then
-					items.sorted = false
-				end
-				stack = math.min(stack, amount)
-				if v <= amount then
-					table.insert(removelist, 1, i)
-					itemlist.stacksize[slot] = 0
-				else
-					itemlist.stacksize[slot] = v - stack
-				end
-				crafting_items[item] = stack
-				amount = amount - stack
-				if amount <= 0 then
-					break
+			if item ~= nil then
+				if not item:HasTag("nocrafting") then
+					local stack = GetStackSize(item)
+					local stacksize = math.min(stack, amount)
+					crafting_items[item] = stacksize
+					amount = amount - stacksize
+					if amount <= 0 then
+						break
+					end
 				end
 			else
-				listoutdate = true
+				is_itemlist_dirty = true
 			end
 		end
 
-		if listoutdate then
-			self.itemlist = nil
-		elseif #removelist > 0 then
-			--table.sort(removelist, function(a, b) return a > b end)
-			for i, v in ipairs(removelist) do
-				table.remove(items, v)
-			end
-			if #items == 0 then
-				itemlist.prefabs[ingr] = nil
-				itemlist.species = itemlist.species - 1
+		if is_itemlist_dirty then
+			local i = 1
+			while true do
+				local slot = items[i]
+				if slot == nil then break end
+				if self.slots[slot] ~= nil then
+					i = i + 1
+				else
+					table.remove(items, i)
+				end
 			end
 		end
-
+		--[[
+		--this part is removed because order is sorted based on "reverse_search_order"
+		--"crafting_items" is now always selected from the beginning of "items"
+		--remove the 0 stacksize item from the end of "items" when "reverse_search_order" == true
+		if reverse_search_order then
+			local last_slot = items[#items] or 0
+			local last_item = self.slots[last_slot]
+			while last_item == nil do
+				if #items <= 0 then
+					return crafting_items
+				else
+					table.remove(items)
+					last_slot = items[#items] or 0
+					last_item = self.slots[last_slot]
+				end
+			end
+			local last_size = GetStackSize(last_item)
+			for i, v in ipairs(items) do
+				local item = self.slots[v]
+				local size = GetStackSize(item)
+				if last_size < size then
+					table.insert(items, i, table.remove(items))
+					break
+				end
+			end
+		end
+		]]
 		return crafting_items
 	end
 
 	--the list is outdated if someone put in or take out sth
 	--try to avoid put/take things while you are crafting
-	local old_giveitem = self.GiveItem
+	local oldGiveItem = self.GiveItem
 	function self:GiveItem(...)
 		if self.itemlist ~= nil then
 			self:ClearItemList()
 		end
-		return old_giveitem(self, ...)
+		return oldGiveItem(self, ...)
 	end
 
-	local old_removeitem = self.RemoveItemBySlot
+	local oldRemoveItemBySlot = self.RemoveItemBySlot
 	function self:RemoveItemBySlot(...)
 		if self.itemlist ~= nil then
 			self:ClearItemList()
 		end
-		return old_removeitem(self, ...)
+		return oldRemoveItemBySlot(self, ...)
 	end
 
 	--almost all put/take actions call this function
 	--so we empty the list when we call the function
-	local old_getitem = self.GetItemInSlot
+	local oldGetItemInSlot = self.GetItemInSlot
 	function self:GetItemInSlot(...)
 		if self.itemlist ~= nil then
 			self:ClearItemList()
 		end
-		return old_getitem(self, ...)
+		return oldGetItemInSlot(self, ...)
 	end
 
 	--clear the list after we close the container
-	local old_close = self.Close
+	local oldClose = self.Close
 	function self:Close(...)
-		local res = old_close(self, ...)
+		local res = oldClose(self, ...)
 		if self.itemlist ~= nil and self.opencount <= 0 then
 			self:ClearItemList()
 		end
 		return res
 	end
 
-	--to advoid issue when container load before chestupgrade
-	--i hate this, but i have no better idea
-	local old_save = self.OnSave
+	--let chestupgrade load before container
+	local oldOnSave = self.OnSave
 	function self:OnSave()
-		local data, refs = old_save(self)
+		local data, refs = oldOnSave(self)
 		local chestupgrade = self.inst.components.chestupgrade
 		if chestupgrade ~= nil then
 			data.chestupgrade = chestupgrade:OnSave()
@@ -216,12 +246,12 @@ AddComponentPostInit("container", function(self)
 		return data, refs
 	end
 
-	local old_load = self.OnLoad
+	local oldOnLoad = self.OnLoad
 	function self:OnLoad(data, ...)
 		local chestupgrade = self.inst.components.chestupgrade
 		if chestupgrade ~= nil and data.chestupgrade then
 			chestupgrade:OnLoad(data.chestupgrade)
 		end
-		old_load(self, data, ...)
+		oldOnLoad(self, data, ...)
 	end
 end)

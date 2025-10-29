@@ -458,6 +458,10 @@ if GetModConfigData("container_high_light_switch") then
     modimport("scripts/container_high_light.lua")
 end
 
+if GetModConfigData("container_high_light_switch_2") and (not GetModConfigData("container_high_light_switch")) then
+    modimport("scripts/container_highlight_2.lua")
+end
+
 --信息显示
 if GetModConfigData("cap_show_info_switch") then
     modimport("scripts/show_info_main.lua")
