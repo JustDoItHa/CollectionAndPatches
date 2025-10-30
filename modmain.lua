@@ -115,6 +115,7 @@ TUNING.CHUANQIWUQI_MOD_ENABLE = modenable({ "3096210166", "传奇武器-附魔�
 TUNING.ZHIJIANGWANGSHI_MOD_ENABLE = modenable({ "2992200942", "枝江往事" })
 TUNING.TONGHUASHIJIE_MOD_ENABLE = modenable({ "3288149713", "童话世界", "Fairy Tales" })
 TUNING.JIANJIADANGKUANGXI_MOD_ENABLE = modenable({ "2928810007", "建家党狂喜" })
+TUNING.DURIRUNIAN_MOD_ENABLE = modenable({ "2845206007", "如日如年" })
 -----------------------------
 TUNING.DEATH_COUNTER_SHOW_TITLE = GetModConfigData("death_counter_show_title")
 TUNING.ELAINA_START_MONV_FAVORITE_LIMIT = GetModConfigData("elaina_start_monv_favorite_limit") or 50
@@ -699,10 +700,11 @@ end
 --- beta功能
 if GetModConfigData("beta_function_switch") then
     modimport("scripts/sgdeath.lua")
-    --对于开 阿比 度日如年 玩家物品栏 勋章栏异常的权宜之计
+    -- 对于开 阿比 度日如年 玩家物品栏 勋章栏异常的权宜之计
     --if GetModConfigData("medal_ab_drrn_patches_switch") and modenable({ "2867435690", "2790273347", "奇幻降临：永恒终焉", "永恒终焉" }) and modenable("1909182187") and modenable("2845206007") then
-    --    modimport("scripts/medal_ab_drrn_patches.lua")
+    --    modimport("scripts/medal_fix_ab_drrn_eg_patches.lua")
     --end
+    modimport("scripts/medal_fix_ab_drrn_eg_patches.lua")
     --------鞭尸怪物修复 理论上应该也修复了玩家被鞭尸
     --if GetModConfigData("repeat_death_fix") then
     --    modimport("scripts/repeat_death_fix.lua")

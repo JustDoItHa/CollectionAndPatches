@@ -22,9 +22,19 @@ if TUNING.ADD_MEDAL_EQUIPSLOTS then
         GOBLET = true,
         FLOWER = true,
         PLUME = true,
-
-        ODOY_LIFEFUEL = true --度日如年
     }
+
+    if TUNING.DURIRUNIAN_MOD_ENABLE then
+        noslot = {--屏蔽元素反应模组的额外装备栏，防止装备栏UI异常增长
+            CIRCLET = true,
+            SANDS = true,
+            GOBLET = true,
+            FLOWER = true,
+            PLUME = true,
+            ODOY_LIFEFUEL = true --度日如年
+        }
+    end
+
     for k, v in pairs(GLOBAL.EQUIPSLOTS) do
         slot = slot + (noslot[k] and 0 or 1)
         GLOBAL.EQUIPSLOT_IDS[v] = slot
