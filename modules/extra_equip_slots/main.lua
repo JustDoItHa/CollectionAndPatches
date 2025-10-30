@@ -152,6 +152,7 @@ local bag_symbol = {
     blubber_rucksack = "blubber_rucksack",
     seedpouch = "seedpouch"
 }
+local upvaluehelper = require "utils/upvaluehelp_cap"
 
 ---BEGIN No idea why this is necessary but okay
 if not table_var.invert then
@@ -433,54 +434,6 @@ AddComponentPostInit("inventory", function(self, _)
 
 end
 )
----BEGIN This code resizes the Item bar.
---AddGlobalClassPostConstruct("widgets/inventorybar", "Inv", function()
---    local Inv_Refresh_base = Inv.Refresh or function()
---        return ""
---    end
---    local Inv_Rebuild_base = Inv.Rebuild or function()
---        return ""
---    end
---
---    function Inv:LoadExtraSlots(self)
---        local int = 1.215 + (setting_maxitemslots * 0.06) --1.35 - 0.1266666 + (setting_maxitemslots*0.0633333)
---
---        if setting_maxitemslots > 0 then
---            int = int + 0.015
---        elseif setting_maxitemslots == -5 then
---            int = int - 0.015
---        end
---        --if setting_compass_slot or setting_amulet_slot or setting_backpack_slot then int = int + 0.015 end
---        if setting_compass_slot then
---            int = int + 0.06
---        end
---        if setting_amulet_slot then
---            int = int + 0.06
---        end
---        if setting_backpack_slot then
---            int = int + 0.06
---        end
---        if TUNING.ADD_MEDAL_EQUIPSLOTS or (GLOBAL.EQUIPSLOTS and (GLOBAL.EQUIPSLOTS.MEDAL or GLOBAL.EQUIPSLOTS["MEDAL"])) then
---            int = int + 0.06
---        end
---        if not (GLOBAL.EQUIPSLOTS and GLOBAL.EQUIPSLOTS.NECK) and GLOBAL.EQUIPSLOTS and (TUNING.ADD_LUCKY_EQUIPSLOTS or GLOBAL.EQUIPSLOTS.LUCKY or GLOBAL.EQUIPSLOTS["LUCKY"]) then
---            int = int + 0.06
---        end
---
---        self.bg:SetScale(int, 1, 1.25)
---        self.bgcover:SetScale(int, 1, 1.25)
---    end
---
---    function Inv:Refresh()
---        Inv_Refresh_base(self)
---        Inv:LoadExtraSlots(self)
---    end
---
---    function Inv:Rebuild()
---        Inv_Rebuild_base(self)
---        Inv:LoadExtraSlots(self)
---    end
---end)
 
 AddClassPostConstruct("widgets/inventorybar", function(inst)
     if checkentity(inst.equipslotinfo) then
@@ -491,6 +444,9 @@ AddClassPostConstruct("widgets/inventorybar", function(inst)
             end
         end
     end
+
+    local Inv_Refresh_base = Inv.Refresh or function() return "" end
+    local Inv_Rebuild_base = Inv.Rebuild or function() return "" end
     --if setting_backpack_slot and not (GLOBAL.EQUIPSLOTS and GLOBAL.EQUIPSLOTS.BACK) then
     if setting_backpack_slot then
         inst:AddEquipSlot(EQUIPSLOTS.BACK, "modules/extra_equip_slots/images/inv_new.xml", "back.tex")
@@ -503,328 +459,44 @@ AddClassPostConstruct("widgets/inventorybar", function(inst)
     if setting_compass_slot then
         inst:AddEquipSlot(EQUIPSLOTS.WAIST, "modules/extra_equip_slots/images/inv_new.xml", "waist.tex")
     end
+    function Inv:RebuildExtraSlots(self)
+        local W = 68 -- 格子宽度
+        local SEP = 12 -- 格子间隙
+        local INTERSEP = 28 -- 组格子间隙 5个一组
 
-    local BackpackGet = getval(inst.Rebuild, "RebuildLayout.BackpackGet")
-    local BackpackLose = getval(inst.Rebuild, "RebuildLayout.BackpackLose")
-
-    local function RebuildLayout(self, inventory, overflow, do_integrated_backpack, do_self_inspect)
-        if self.int then
-            do_integrated_backpack = true
-        end
-        local InvSlot = require "widgets/invslot"
-        local Widget = require "widgets/widget"
-        local EquipSlot = require "widgets/equipslot"
-        local ItemTile = require "widgets/itemtile"
-
-        local TEMPLATES = require "widgets/templates"
-
-        local W = 68
-        local SEP = 12
-        local YSEP = 8
-        local INTERSEP = 28
-        local BASE_W = 1572
-
-        local SPACE = 1800
-        local UNIT = (W * 5 + SEP * 4 + INTERSEP) / 5
-        local MAX_SLOTS = math.floor(SPACE / (GLOBAL.TheFrontEnd:GetHUDScale() * UNIT))
-
-        --local y = overflow ~= nil and ((W + YSEP) / 2) or 0
-        local eslot_order = {}
-
-        self.bg:SetTexture("modules/extra_equip_slots/images/inv_new.xml", "inventory_bg.tex")
-
-        if self.bottomrow then
-            self.bottomrow:Kill()
+        local function CalcTotalWidth(num_slots, num_equip, num_buttons)
+            local slot_group = math.ceil(num_slots / 5)
+            local num_equipintersep = num_buttons > 0 and 1 or 0
+            local inventory_w = num_slots * W + (num_slots * SEP) + (slot_group - 1) * (INTERSEP - SEP) -- 物品栏宽度
+            local equip_w = num_equip * W + (num_equip - 1) * SEP -- 装备栏宽度
+            local buttons_w = num_equipintersep * W -- 最后的按钮宽度
+            local offset_x = inventory_w + equip_w + buttons_w -- 总宽度
+            return offset_x
         end
 
-        if self.rows then
-            for _, v in ipairs(self.rows) do
-                v:Kill()
-            end
-        end
-        self.rows = {}
+        local num_slots = self.owner.replica.inventory:GetNumSlots() -- 物品栏个数
+        local num_equip = #self.equipslotinfo -- 装备栏个数
+        local do_self_inspect = not (self.controller_build or GLOBAL.GetGameModeProperty("no_avatar_popup"))
+        local scale_default = 1.22 -- 原始缩放值
+        local total_w_default = CalcTotalWidth(num_slots, 3, 1) -- 默认宽度
+        local total_w_real = CalcTotalWidth(num_slots, num_equip, do_self_inspect and 1 or 0) -- 现在的宽度
+        local scale_real = scale_default / (total_w_default / total_w_real)
 
-        if self.bags then
-            for _, v in ipairs(self.bags) do
-                v:Kill()
-            end
-        end
-        self.bags = {}
-
-        local num_slots = inventory:GetNumSlots()
-        local num_equip = #self.equipslotinfo
-        local num_buttons = do_self_inspect and 1 or 0
-
-        local top_slots = MAX_SLOTS - num_buttons - num_equip
-        local rows = {}
-        if num_slots > top_slots then
-            top_slots = math.floor((MAX_SLOTS - num_buttons - num_equip) / 5) * 5
-            local remaining = num_slots - top_slots
-            while remaining > 0 do
-                if remaining > MAX_SLOTS then
-                    local slots = math.floor(MAX_SLOTS / 5) * 5
-                    table_var.insert(rows, slots)
-                    remaining = remaining - slots
-                else
-                    table_var.insert(rows, remaining)
-                    remaining = 0
-                end
-            end
-        else
-            top_slots = num_slots
-        end
-
-        local max_slots = 0
-        for _, v in ipairs(rows) do
-            if v > max_slots then
-                max_slots = v
-            end
-        end
-
-        local num_slotintersep = math.ceil(top_slots / 5)
-        local num_equipintersep = num_buttons > 0 and 1 or 0
-        local top_w = (top_slots + num_equip + num_buttons) * W +
-                (top_slots + num_equip + num_buttons - num_slotintersep - num_equipintersep - 1) * SEP +
-                (num_slotintersep + num_equipintersep) * INTERSEP
-
-        local max_w = math.max(top_w, max_slots * W + (max_slots - 1) * SEP + math.floor(max_slots / 5 - .1) * (INTERSEP - SEP))
-        local start_x = (W - max_w) * .5
-
-        local compass_x = 0
-        local x = start_x
-        for k = 1, top_slots do
-            local slot = InvSlot(k, HUD_ATLAS, "inv_slot.tex", self.owner, self.owner.replica.inventory)
-            self.inv[k] = self.toprow:AddChild(slot)
-            slot:SetPosition(x, 0, 0)
-            slot.top_align_tip = W * .5 + YSEP
-
-            local item = inventory:GetItemInSlot(k)
-            if item ~= nil then
-                slot:SetTile(ItemTile(item))
-            end
-
-            x = x + W + (k % 5 == 0 and INTERSEP or SEP)
-        end
-
-        if top_slots % 5 ~= 0 then
-            x = x + INTERSEP - SEP
-        end
-        for _, v in ipairs(self.equipslotinfo) do
-            local slot = EquipSlot(v.slot, v.atlas, v.image, self.owner)
-            self.equip[v.slot] = self.toprow:AddChild(slot)
-            slot:SetPosition(x, 0, 0)
-            table_var.insert(eslot_order, slot)
-
-            local item = inventory:GetEquippedItem(v.slot)
-            if item ~= nil then
-                slot:SetTile(ItemTile(item))
-            end
-
-            if v.slot == (setting_compass_slot and EQUIPSLOTS.WAIST or EQUIPSLOTS.HANDS) then
-                compass_x = x
-            end
-
-            x = x + W + SEP
-        end
-
-        local image_name = "self_inspect_" .. self.owner.prefab .. ".tex"
-        local atlas_name = "images/avatars/self_inspect_" .. self.owner.prefab .. ".xml"
-        if GLOBAL.softresolvefilepath(atlas_name) == nil then
-            atlas_name = "images/hud.xml"
-        end
-
-        if do_self_inspect then
-            x = x + INTERSEP - SEP
-            self.inspectcontrol = self.toprow:AddChild(
-                    TEMPLATES.IconButton(
-                            atlas_name,
-                            image_name,
-                            STRINGS.UI.HUD.INSPECT_SELF,
-                            false,
-                            false,
-                            function()
-                                self.owner.HUD:InspectSelf()
-                            end,
-                            nil,
-                            "self_inspect_mod.tex"
-                    )
-            )
-            self.inspectcontrol.icon:SetScale(.7)
-            self.inspectcontrol.icon:SetPosition(-4, 6)
-            self.inspectcontrol:SetScale(1.25)
-            self.inspectcontrol:SetPosition(x, -6, 0)
-        else
-            if self.inspectcontrol ~= nil then
-                self.inspectcontrol:Kill()
-                self.inspectcontrol = nil
-            end
-        end
-
-        local current_slot = top_slots
-        for i = 1, #rows, 1 do
-            table_var.insert(self.rows, self.root:AddChild(Widget("row" .. i)))
-            x = start_x
-            for j = 1, rows[i] do
-                local k = current_slot + j
-                local slot = InvSlot(k, HUD_ATLAS, "inv_slot.tex", self.owner, self.owner.replica.inventory)
-                self.inv[k] = self.rows[i]:AddChild(slot)
-                slot:SetPosition(x, 0, 0)
-                slot.top_align_tip = W * .5 + YSEP
-
-                local item = inventory:GetItemInSlot(k)
-                if item ~= nil then
-                    slot:SetTile(ItemTile(item))
-                end
-
-                x = x + W + (k % 5 == 0 and INTERSEP or SEP)
-            end
-            current_slot = current_slot + rows[i]
-        end
-
-        local hadbackpack = self.backpack ~= nil
-        if hadbackpack then
-            self.inst:RemoveEventCallback("itemget", BackpackGet, self.backpack)
-            self.inst:RemoveEventCallback("itemlose", BackpackLose, self.backpack)
-            self.backpack = nil
-        end
-
-        if do_integrated_backpack then
-            local num = overflow:GetNumSlots()
-            local prev_num = 0
-            local i = 1
-            while num > 0 do
-                table_var.insert(self.bags, self.root:AddChild(Widget("bag" .. i)))
-                local current_num = math.min(num, MAX_SLOTS - 2)
-                num = num - current_num
-                local x_inner = -(current_num * (W + SEP) / 2)
-                max_w = math.max(max_w, current_num * (W + SEP))
-
-                for k = 1, current_num do
-                    local slot = InvSlot(k, HUD_ATLAS, "inv_slot.tex", self.owner, overflow)
-                    self.backpackinv[prev_num + k] = self.bags[i]:AddChild(slot)
-                    slot:SetPosition(x_inner, 0, 0)
-                    slot.top_align_tip = W * 1.5 + YSEP * 2
-
-                    local item = overflow:GetItemInSlot(k)
-                    if item ~= nil then
-                        slot:SetTile(ItemTile(item))
-                    end
-
-                    x_inner = x_inner + W + SEP
-                end
-
-                prev_num = prev_num + current_num
-                i = i + 1
-            end
-
-            self.backpack = overflow.inst
-            self.inst:ListenForEvent("itemget", BackpackGet, self.backpack)
-            self.inst:ListenForEvent("itemlose", BackpackLose, self.backpack)
-        end
-
-        if hadbackpack and self.backpack == nil then
-            self:SelectDefaultSlot()
-            self.current_list = self.inv
-        end
-
-        if self.bg.Flow ~= nil then
-            -- note: Flow is a 3-slice function
-            self.bg:Flow(max_w + 60, 256, true)
-        end
-
-        local backpack_h = (#self.bags > 0 and 16 or 0) + #self.bags * (W + YSEP)
-        for i = 1, #self.bags, 1 do
-            self.bags[i]:SetPosition(0, -i * (W + YSEP) - 16)
-        end
-
-        self.bg:SetPosition(0, #self.rows * (W + YSEP) - 64)
-        self.bg:SetScale(1.22 / BASE_W * max_w, 1, 1)
-        self.bgcover:SetScale(1.22 / BASE_W * max_w, 1, 1)
-        self.bgcover:SetPosition(0, -100)
-        self.toprow:SetPosition(0, #self.rows * (W + YSEP))
-        for i = 1, #self.rows, 1 do
-            self.rows[i]:SetPosition(0, (#self.rows - i) * (W + YSEP))
-        end
-        self.hudcompass:SetPosition(compass_x, 40 + #self.rows * (W + YSEP), 0)
-
-        if do_integrated_backpack then
-            if self.rebuild_snapping then
-                self.root:SetPosition(self.out_pos + Vector3(0, backpack_h, 0))
-                self:UpdatePosition()
-            else
-                self.root:MoveTo(self.out_pos, self.out_pos + Vector3(0, backpack_h, 0), .5)
-            end
-        else
-            if self.controller_build and not self.rebuild_snapping then
-                self.root:MoveTo(self.out_pos + Vector3(0, backpack_h, 0), self.out_pos, .2)
-            else
-                self.root:SetPosition(self.out_pos)
-                self:UpdatePosition()
-            end
-        end
-        --self.inst:DoTaskInTime(0, function()
-        --    self.bg:SetScale(1.22 / BASE_W * max_w, 1, 1)
-        --    self.bgcover:SetScale(1.22 / BASE_W * max_w, 1, 1)
-        --end)
+        --更新物品栏背景长度
+        self.bg:SetScale(scale_real, 1, 1)
+        self.bgcover:SetScale(scale_real, 1, 1)
     end
 
-    --更新物品栏背景长度
-    inst.RefreshBgLength = function(inst_inner)
-        local bar_bg_length = 1.22 + (setting_maxitemslots * 0.06) --1.35 - 0.1266666 + (setting_maxitemslots*0.0633333)
-
-        local e_tmp = math.abs(setting_maxitemslots) % 5
-        local m_tmp = math.abs(setting_maxitemslots) / 5
-        if m_tmp > 0 then
-            e_tmp = e_tmp + 1
-        end
-        if setting_maxitemslots > 0 then
-            bar_bg_length = bar_bg_length + 0.015 * e_tmp
-        else
-            bar_bg_length = bar_bg_length - 0.015 * e_tmp
-        end
-        --if setting_compass_slot or setting_amulet_slot or setting_backpack_slot then int = int + 0.015 end
-        if setting_compass_slot then
-            bar_bg_length = bar_bg_length + 0.06
-        end
-        if setting_amulet_slot then
-            bar_bg_length = bar_bg_length + 0.06
-        end
-        if setting_backpack_slot then
-            bar_bg_length = bar_bg_length + 0.06
-        end
-        if TUNING.ADD_MEDAL_EQUIPSLOTS or (GLOBAL.EQUIPSLOTS and (GLOBAL.EQUIPSLOTS.MEDAL or GLOBAL.EQUIPSLOTS["MEDAL"])) then
-            bar_bg_length = bar_bg_length + 0.06
-        end
-        if not (GLOBAL.EQUIPSLOTS and GLOBAL.EQUIPSLOTS.NECK) and GLOBAL.EQUIPSLOTS and (TUNING.ADD_LUCKY_EQUIPSLOTS or GLOBAL.EQUIPSLOTS.LUCKY or GLOBAL.EQUIPSLOTS["LUCKY"]) then
-            bar_bg_length = bar_bg_length + 0.06
-        end
-
-        --自定义背景调整
-        bar_bg_length = bar_bg_length + setting_slots_bg_length_adapter * 0.06
-        if bar_bg_length < 0 or setting_slots_bg_length_adapter_no_bg then
-            bar_bg_length = 0
-        end
-
-        inst_inner.bg:SetScale(bar_bg_length, 1, 1)
-        inst_inner.bgcover:SetScale(bar_bg_length, 1, 1)
+    function Inv:Rebuild()
+        Inv_Rebuild_base(self)
+        Inv:RebuildExtraSlots(self)
     end
 
-    local oldRefresh = inst.Refresh
-    local oldRebuild = inst.Rebuild
-
-    inst.Refresh = function(inst_inner, ...)
-        if oldRefresh then
-            oldRefresh(inst_inner, ...)
-        end
-        inst_inner:RefreshBgLength()
+    function Inv:Refresh()
+        Inv_Refresh_base(self)
+        Inv:RebuildExtraSlots(self)
     end
 
-    inst.Rebuild = function(inst_inner, ...)
-        if oldRebuild then
-            oldRebuild(inst_inner, ...)
-        end
-        inst_inner:RefreshBgLength()
-    end
 end
 )
 

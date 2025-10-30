@@ -704,7 +704,7 @@ if GetModConfigData("beta_function_switch") then
     --if GetModConfigData("medal_ab_drrn_patches_switch") and modenable({ "2867435690", "2790273347", "奇幻降临：永恒终焉", "永恒终焉" }) and modenable("1909182187") and modenable("2845206007") then
     --    modimport("scripts/medal_fix_ab_drrn_eg_patches.lua")
     --end
-    modimport("scripts/medal_fix_ab_drrn_eg_patches.lua")
+    --modimport("scripts/medal_fix_ab_drrn_eg_patches.lua")
     --------鞭尸怪物修复 理论上应该也修复了玩家被鞭尸
     --if GetModConfigData("repeat_death_fix") then
     --    modimport("scripts/repeat_death_fix.lua")
