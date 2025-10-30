@@ -391,47 +391,6 @@ AddComponentPostInit("inventory", function(self, _)
             end
         end
     end)
-
-    ---------------------------------------------------因为可能导致未知问题 且没有好的办法 暂时注释 同时也导致 配置的渲染策略(Render Strategy)无效-----------------
-    --self.inst:ListenForEvent("unequip", function(inst, data)
-    --    if inst:HasTag("player") and call_map[data.eslot] then
-    --        local inventory = DST and inst.replica.inventory or inst.components.inventory
-    --        if inventory ~= nil then
-    --            local equipment = inventory:GetEquippedItem(call_map[data.eslot])
-    --            if equipment and equipment.components.equippable.onequipfn then
-    --                if equipment.task ~= nil then
-    --                    equipment.task:Cancel()
-    --                    equipment.task = nil
-    --                end
-    --                --print("----------:" .. equipment.prefab)
-    --                equipment.components.equippable.onequipfn(equipment, inst)
-    --                -- 不懂为什么要在监听脱装备的地方执行一次穿装备的函数 目前导致夜雨 分身 穿斗篷和护符 收回炸档
-    --                -- 发现目前开启护符栏的情况 是 穿着护符 和 装备 脱其中一个 会调用 另一个还穿着的 穿装备函数 感觉可能和贴图有关
-    --                -- 确定了这个监听 是为了不出现 同时穿着护符和装备 卸下其中一个就没有贴图的问题
-    --                -- 但是感觉这种方法可能 导致一些带buff的装备(如果buff写在装备的onequipfn) 重复生效 感觉不合适 下面那个监听大概率也有这个问题(魔女之前叠法强的问题大概率也是这个)
-    --            end
-    --        end
-    --    end
-    --end)
-    --
-    --if setting_amulet_slot then
-    --    self.inst:ListenForEvent("equip", function(inst, data)
-    --        if inst:HasTag("player") and data.eslot == setting_render_strategy then
-    --            local inventory = DST and inst.replica.inventory or inst.components.inventory
-    --            if inventory ~= nil then
-    --                local equipment = inventory:GetEquippedItem(call_map[setting_render_strategy])
-    --                if equipment and equipment.components.equippable.onequipfn then
-    --                    if equipment.task ~= nil then
-    --                        equipment.task:Cancel()
-    --                        equipment.task = nil
-    --                    end
-    --                    equipment.components.equippable.onequipfn(equipment, inst)
-    --                end
-    --            end
-    --        end
-    --    end)
-    --end
-
 end
 )
 
