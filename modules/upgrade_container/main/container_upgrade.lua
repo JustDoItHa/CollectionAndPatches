@@ -126,7 +126,7 @@ if GetModConfigData("BACKPACK") then
 			local chestupgrade = inst.components.chestupgrade
 			local x, y, z = chestupgrade:GetLv()
 
-			chestupgrade:SpecialUpgrade(KSSpecialParams, data.doer, {z = 1}, {z = TUNING.CHESTUPGRADE.MAXPACKPAGE})
+			chestupgrade:SpecialUpgrade(KSSpecialParams, data.doer, {z = 1}, {z = TUNING.CHESTUPGRADE.MAXPACKPAGE + 4})
 		end
 	end
 
