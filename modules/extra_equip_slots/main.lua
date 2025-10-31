@@ -441,9 +441,15 @@ AddClassPostConstruct("widgets/inventorybar", function(inst)
         local total_w_real = CalcTotalWidth(num_slots, num_equip, do_self_inspect and 1 or 0) -- 现在的宽度
         local scale_real = scale_default / (total_w_default / total_w_real)
 
+        --自定义背景调整
+        local bar_bg_length = scale_real + setting_slots_bg_length_adapter * 0.06
+        if bar_bg_length < 0 or setting_slots_bg_length_adapter_no_bg then
+            bar_bg_length = 0
+        end
+
         --更新物品栏背景长度
-        self.bg:SetScale(scale_real, 1, 1)
-        self.bgcover:SetScale(scale_real, 1, 1)
+        self.bg:SetScale(bar_bg_length, 1, 1)
+        self.bgcover:SetScale(bar_bg_length, 1, 1)
     end
 
     function Inv:Rebuild()
