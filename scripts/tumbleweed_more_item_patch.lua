@@ -107,7 +107,7 @@ cap_xunzhang_resources = {--勋章部分
     { chance = 0.002, item = "blue_crystal_certificate", announce = true }, --蓝晶勋章
     { chance = 0.007, item = "cook_certificate", announce = true }, --烹调勋章
     { chance = 0.0001, item = "chef_certificate", announce = true }, --主厨勋章
-    { chance = 0.00003, item = "origin_certificate", announce = true }, --本源勋章
+    { chance = 0.00006, item = "origin_certificate", announce = true }, --本源勋章
     
 
     { chance = 0.004, item = "smallchop_certificate", announce = true }, --伐木
@@ -155,6 +155,7 @@ cap_xunzhang_resources = {--勋章部分
     { chance = 0.003, item = "medal_treasure_map_scraps1", announce = true }, --藏宝图碎片·日出
     { chance = 0.003, item = "medal_treasure_map_scraps2", announce = true }, --藏宝图碎片·黄昏
     { chance = 0.003, item = "medal_treasure_map_scraps3", announce = true }, --藏宝图碎片·夜晚
+    { chance = 0.0002, item = "medal_origin_essence", announce = true }, --本源精华
     { chance = 0.0005, item = "medal_ammo_box", announce = true }, --弹药盒
     { chance = 0.0001, item = "medal_withered_heart", announce = true }, --凋零之心
     { chance = 0.0003, item = "medal_bee_larva", announce = true }, --育王蜂种
@@ -181,7 +182,7 @@ cap_xunzhang_resources = {--勋章部分
 
 
     { chance = 0.001, item = "medal_cookpot", aggro = false, announce = true }, --红晶锅
-    { chance = 0.0001, item = "medal_shadowthrall_screamer", aggro = false, announce = true }, --趋光遗骸
+    { chance = 0.0008, item = "medal_shadowthrall_screamer", aggro = false, announce = true }, --趋光遗骸  权重上调为之前的8倍
     { chance = 0.001, item = "medal_beeguard", aggro = false, announce = true }, --小蜜蜂
     { chance = 0.001, item = "medal_weed_seeds", aggro = false, announce = true }, --杂草种子
     { chance = 0.001, item = "medal_glassblock", aggro = false, announce = true }, --不朽晶塔
@@ -237,11 +238,11 @@ cap_shenhua_resources = {--神话书说
     { chance = 0.001, item = "rhino3_blue", aggro = true, announce = true }, --
     { chance = 0.001, item = "rhino3_red", aggro = true, announce = true }, --
     { chance = 0.001, item = "cold_resistant_pill", aggro = false, announce = true }, --避寒
-    { chance = 0.001, item = "heat_resistant_pill", aggro = false, announce = true }, --
+    { chance = 0.001, item = "heat_resistant_pill", aggro = false, announce = true }, --避暑
     { chance = 0.001, item = "condensed_pill", aggro = false, announce = true }, --凝味
     { chance = 0.001, item = "fly_pill", aggro = false, announce = true }, --起飞
     { chance = 0.001, item = "myth_passcard_jie", aggro = false, announce = true }, --通天敕令
-    { chance = 0.001, item = "laozi_sp", aggro = false, announce = true }, --通天敕令
+    { chance = 0.001, item = "laozi_sp", aggro = false, announce = true }, --急急如律令
 }
 
 cap_sora_resources = {--小穹
@@ -253,7 +254,7 @@ cap_sora_resources = {--小穹
     { chance = .002, item = "sora2plant", aggro = false, announce = true }, --扶光
     { chance = .0005, item = "sorabowknot", aggro = false, announce = true }, --蝴蝶结
     { chance = .0005, item = "sorapick", aggro = false, announce = true }, --穹采
-    { chance = .0005, item = "soratelt", aggro = false, announce = true }, --穹瞬
+    { chance = .0005, item = "soratele", aggro = false, announce = true }, --穹瞬
     { chance = .0005, item = "soraclothes", aggro = false, announce = true }, --穹护
     { chance = .0005, item = "sorahat", aggro = false, announce = true }, --穹冠
     { chance = .0005, item = "sorahealing", aggro = false, announce = true }, --穹愈
@@ -279,6 +280,7 @@ cap_sora_resources = {--小穹
     { chance = .0005, item = "sora_tochset", aggro = false, announce = true }, --原来你也有强迫症
     { chance = .002, item = "sora2pack", aggro = false, announce = true }, --打包纸
     { chance = .002, item = "sora_flh", aggro = false, announce = true }, --风铃花
+    { chance = .01, item = "sora_yaojing", aggro = false, announce = true }, --奇异甜食    
 }
 
 cap_yln_resources = {--魔女
@@ -361,7 +363,7 @@ cap_mcw_resources = {
     { chance = .001, item = "mcw_nocturne_brooch", aggro = false, announce = true },--新月的叹息
     { chance = .001, item = "mcw_medal_maigo", aggro = false, announce = true },--迷子勋章
     { chance = .001, item = "mcw_rankfragment", aggro = false, announce = true },--rank装备碎片
-    { chance = .001, item = "mcw_masterfragment", aggro = false, announce = true },--大师宝珠碎片
+    { chance = .0005, item = "mcw_masterfragment", aggro = false, announce = true },--大师宝珠碎片
 
     --{ chance = .0001, item = "mcw_exequipmentmid", aggro = false, announce = true },--无尽蚀月礼服 非装备
     --{ chance = .00001, item = "mcw_nebia", aggro = false, announce = true },--涅比亚
@@ -369,12 +371,12 @@ cap_mcw_resources = {
 
     --{ chance = .001, item = "mcw_jadestaff", aggro = false, announce = true },--翠灵杖符文之雪
     { chance = .001, item = "mcw_lollipopstaff", aggro = false, announce = true },--棒棒糖手杖
-    { chance = .001, item = "mcw_magicbow", aggro = false, announce = true },--破邪灵弓
+    --{ chance = .001, item = "mcw_magicbow", aggro = false, announce = true },--破邪灵弓 仅xcw使用的过渡装备
     { chance = .0001, item = "mcw_cosmobluestaff", aggro = false, announce = true },--宇宙之蓝法杖（下调毕业装备概率）
     { chance = .001, item = "mcw_blossomstaff", aggro = false, announce = true },--春日繁花之杖
     { chance = .001, item = "mcw_snowflakestaff", aggro = false, announce = true },--冰雪花晶之杖
     { chance = .001, item = "mcw_kirakira", aggro = false, announce = true },--奇迹♬KIRA☆KIRA☆棱镜棒
-    { chance = .001, item = "mcw_elementspear", aggro = false, announce = true },--元素战矛
+    --{ chance = .001, item = "mcw_elementspear", aggro = false, announce = true },--元素战矛  仅xcw使用的过渡装备
     { chance = .001, item = "mcw_bunnyblade", aggro = false, announce = true },--兔子先生之刃
     { chance = .0001, item = "mcw_elementsword", aggro = false, announce = true },--元素升腾者（下调毕业装备概率）
     { chance = .001, item = "mcw_butterflystaff", aggro = false, announce = true },--优雅翠蝶之杖
@@ -384,7 +386,7 @@ cap_mcw_resources = {
     { chance = .001, item = "mcw_messagebottle", aggro = false, announce = true },--漂流瓶
     { chance = .001, item = "mcw_snack_sack", aggro = false, announce = true },--镜华的魔法零食袋
     { chance = .001, item = "mcw_gembox", aggro = false, announce = true },--神秘宝石箱
-    { chance = .001, item = "mcw_cheapbesom", aggro = false, announce = true },--更便宜的清洁扫把
+    --{ chance = .001, item = "mcw_cheapbesom", aggro = false, announce = true },--更便宜的清洁扫把（制作无消耗，且全体开局可制作）
     { chance = .001, item = "mcw_battlescroll_sj", aggro = false, announce = true },--战技卷轴-未鉴定
     { chance = .001, item = "mcw_skillbook_sj", aggro = false, announce = true },--护盾技能书-未鉴定
 
