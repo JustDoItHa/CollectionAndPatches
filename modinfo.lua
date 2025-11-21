@@ -1626,6 +1626,7 @@ CAP_REMOVE_SOMETHING_LIST_CONFIG = {
     { "remove_zhijiang_medals", "枝江往事徽章", "限制枝江的徽章", disappear_magic, -1 },
     { "remove_zhijiang_other", "枝江往事其他", "限制枝江的其他物品", disappear_magic, -1 },
     { "remove_fairytales_other", "童话世界其他", "限制童话世界的其他物品", disappear_magic, -1 },
+    { "remove_t_hh_treasure_tally", "托托莉藏宝图制作", "限制托托莉藏宝图制作", disappear_magic, 200 },
 }
 
 configuration_options[#configuration_options + 1] = AddOptionHeader("物品/生物禁用")

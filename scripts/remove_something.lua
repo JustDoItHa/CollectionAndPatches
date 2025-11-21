@@ -146,6 +146,7 @@ local remove_table = {
                               "ft_homesign", },
 
 
+    remove_t_hh_treasure_tally = { "t_hh_treasure_tally"},
 
     --remove_heap_of_food_bird = { "quagmire_pigeon", "toucan", "kingfisher" },
 }
