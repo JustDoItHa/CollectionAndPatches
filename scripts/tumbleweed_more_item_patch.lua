@@ -277,7 +277,7 @@ cap_sora_resources = {--小穹
     { chance = .0005, item = "sora_pearl", aggro = false, announce = true }, --拟态珍珠
     { chance = .001, item = "sora_pickhat", aggro = false, announce = true }, --咸鱼咸鱼咸
     { chance = .0005, item = "sora_sign_item", aggro = false, announce = true }, --拟态木牌
-    { chance = .0005, item = "sora_tochset", aggro = false, announce = true }, --原来你也有强迫症
+    { chance = .0005, item = "sora_tochest", aggro = false, announce = true }, --原来你也有强迫症   代码修正 sora_tochset => sora_tochest
     { chance = .002, item = "sora2pack", aggro = false, announce = true }, --打包纸
     { chance = .002, item = "sora_flh", aggro = false, announce = true }, --风铃花
     { chance = .01, item = "sora_yaojing", aggro = false, announce = true }, --奇异甜食    
