@@ -116,6 +116,7 @@ TUNING.ZHIJIANGWANGSHI_MOD_ENABLE = modenable({ "2992200942", "枝江往事" })
 TUNING.TONGHUASHIJIE_MOD_ENABLE = modenable({ "3288149713", "童话世界", "Fairy Tales" })
 TUNING.JIANJIADANGKUANGXI_MOD_ENABLE = modenable({ "2928810007", "建家党狂喜" })
 TUNING.DURIRUNIAN_MOD_ENABLE = modenable({ "2845206007", "如日如年" })
+TUNING.TASTE_FUN_ENABLE = modenable({ "3347972161","趣味食物","食趣" })
 -----------------------------
 TUNING.DEATH_COUNTER_SHOW_TITLE = GetModConfigData("death_counter_show_title")
 TUNING.ELAINA_START_MONV_FAVORITE_LIMIT = GetModConfigData("elaina_start_monv_favorite_limit") or 50
