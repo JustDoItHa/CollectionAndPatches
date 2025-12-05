@@ -555,6 +555,16 @@ if Stack_other_objects then
 
             })
         end
+
+        if TUNING.TASTE_FUN_ENABLE then
+            --趣味食物
+            AddItemStackables({
+                --鱼类
+                "tf_crab","tf_dead_crab","tf_green_shrimp","tf_green_shrimp_meat",
+                --料理类
+                "tf_rainbow_apple",
+            })
+        end
     end
     if GetModConfigData("stack_more_reskin_tool") then
         --清洁扫把和提灯和陷阱【娜娜自用】
