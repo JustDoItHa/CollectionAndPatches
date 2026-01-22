@@ -4,7 +4,7 @@ end })
 
 local remove_table = {
     --原版
-    remove_ancienttree_seed = { "ancienttree_seed", "ancienttree_gem", "ancienttree_gem_sapling", "ncienttree_gem_sapling_item", "ancientfruit_gem" },
+    remove_ancienttree_seed = { "ancienttree_seed", "ancienttree_gem", "ancienttree_gem_sapling", "ancienttree_gem_sapling_item", "ancientfruit_gem" },
     remove_ancienttree_nightvision = { "ancienttree_nightvision", "ancienttree_nightvision_sapling", "ancienttree_nightvision_sapling_item", "ancientfruit_nightvision" },
     remove_itemmimic_revealed = { "itemmimic_revealed" },--拟态蠕虫
     --神话
@@ -16,6 +16,8 @@ local remove_table = {
     remove_aria_transfer = { "aria_transfer" },
     remove_aria_meteor = { "aria_meteor" },
     remove_aria_medal_alter = { "aria_medal_alter" },
+    --Sora
+    remove_sora_gemsign = { "sora_gemsign","sora_gemsign_item" },
     --伊蕾娜
     remove_elaina_bq = { "elaina_bq" },
     remove_saya_potions_happiness = { "saya_potions_happiness" },--幸福魔药（根据魔药的等级，持续时间内的每次制作都会触发概率创造）
