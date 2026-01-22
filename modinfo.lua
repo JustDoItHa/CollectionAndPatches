@@ -1570,6 +1570,7 @@ CAP_REMOVE_SOMETHING_LIST_CONFIG = {
     { "remove_aria_transfer", "aria的晶能转换站", "让aria的晶能转换站消失！", disappear_magic, 0 },
     { "remove_aria_blackhole", "aria的深空黑点", "让aria的深空黑点消失！", disappear_magic, 0 },
     { "remove_aria_medal_alter", "aria的暴君勋章", "让aria的暴君勋章消失！", disappear_magic, 0 },
+    { "remove_sora_gemsign", "小穹的拟造宝石牌", "让小穹的拟造宝石牌消失！", disappear_magic, 0 },
     { "remove_elaina_bq", "伊蕾娜的释槐留仙裙", "让伊蕾娜的释槐留仙裙消失！", disappear_magic, -1 },
     { "remove_saya_potions_happiness", "魔女的创造模式药水", "让魔女的创造模式药水消失！", disappear_magic, -1 },
     { "remove_saya_qh_platform", "魔女的魔法炼药台", "让魔女魔法炼药台消失！", disappear_magic, 0 }, --考虑到本来就存在的炼药指定季节满分，所以设置的时间和标准时间不太一致
