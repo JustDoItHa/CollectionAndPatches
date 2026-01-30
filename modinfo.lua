@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.10.2.1"
+version = "14.10.2.2"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1742,152 +1742,420 @@ configuration_options[#configuration_options + 1] = AddOptionHeader("血量条�
 configuration_options[#configuration_options + 1] = AddOption("simple_health_bar_switch", "1.简单血量条-开关", "是否显示简单血量条", false)
 configuration_options[#configuration_options + 1] = AddOption("epic_health_bar_switch", "2.史诗级血量条-开关", "是否显示史诗级血量条\n此选项开启简单血量条不生效", false)
 local LOCALE = {
-    EN = {
+    EN =
+    {
+        --TRANSLATOR = "Translated by You",
         NAME = name,
-        HEADER_SERVER = "(.a)Server",
-        HEADER_CLIENT = "(.b).Client",
+        DESCRIPTION_FMT = "Update %s:\n\n%s",
+        HEADER_SERVER = "Server",
+        HEADER_CLIENT = "Client",
         DISABLED = "Disabled",
         ENABLED = "Enabled",
-        NOEPIC = "Mob Health",
-        NOEPIC_HOVER = "Displays health of non-boss entities.",
-        NOEPIC_DISABLED = "Show bosses only",
-        NOEPIC_ENABLED = "Show mob health",
+
+        GLOBAL = "Mob Health",
+        GLOBAL_HOVER = "Enables clients to see health for all entities.\nClients must opt-in below.",
+        GLOBAL_DISABLED = "Show giants only",
+        GLOBAL_ENABLED = "Show mob health",
+
+        GLOBAL_NUMBERS = "Global Damage Numbers",
+        GLOBAL_NUMBERS_HOVER = "Displays damage numbers in the world instead of the widget.\nApplicable to any combat, not just giants.",
+        GLOBAL_NUMBERS_DISABLED = "Show damage on the bar",
+        GLOBAL_NUMBERS_ENABLED = "Show damage in the world",
+
+        CAPTURE = "Silent Capture Mode",
+        CAPTURE_HOVER = "Instead of displaying the bar, records all fights into a file.\nCaptures can be replayed from the Host Game screen.",
+
+        TAG = "Display Health For",
+        TAG_HOVER = "Enables health bars only for selected targets.",
+        TAG_NONE = "None",
+        TAG_NONE_HOVER = "Type /epic in the chat if you change your mind!",
+        TAG_EPIC = "Giants",
+        TAG_EPIC_HOVER = "The standard experience",
+        TAG_HEALTH = "All",
+        TAG_HEALTH_HOVER = "If supported by the server",
+
         FRAME_PHASES = "Combat Phases",
-        FRAME_PHASES_HOVER = "Separates bars of applicable bosses by phases.",
+        FRAME_PHASES_HOVER = "Separates bars of applicable giants by phases.",
         FRAME_PHASES_DISABLED = "Hide phases",
         FRAME_PHASES_ENABLED = "Show phases",
+
         DAMAGE_NUMBERS = "Damage Numbers",
         DAMAGE_NUMBERS_HOVER = "Displays received damage or healing with popup numbers.",
         DAMAGE_NUMBERS_DISABLED = "Hide numbers",
         DAMAGE_NUMBERS_ENABLED = "Show numbers",
+
         DAMAGE_RESISTANCE = "Damage Resistance",
-        DAMAGE_RESISTANCE_HOVER = "Displays a special effect when the boss receives\nless damage due to its defenses.",
+        DAMAGE_RESISTANCE_HOVER = "Displays a special effect when the target receives\nless damage due to its defenses.",
         DAMAGE_RESISTANCE_DISABLED = "Hide resistance",
         DAMAGE_RESISTANCE_ENABLED = "Show resistance",
+
         WETNESS_METER = "Wetness",
-        WETNESS_METER_HOVER = "Displays a special effect when the boss becomes wet.",
+        WETNESS_METER_HOVER = "Displays a special effect when the target becomes wet.",
         WETNESS_METER_DISABLED = "Hide wetness",
         WETNESS_METER_ENABLED = "Show wetness",
+
         HORIZONTAL_OFFSET = "Horizontal Offset",
         HORIZONTAL_OFFSET_HOVER = "Shifts the bar away from the center.",
         HORIZONTAL_OFFSET_LEFT = "%s units to the left",
         HORIZONTAL_OFFSET_NONE = "No offset",
         HORIZONTAL_OFFSET_RIGHT = "%s units to the right",
-        NONOEPIC = "Hide Mob Health",
-        NONOEPIC_HOVER = "Shows only bosses even if mob health is enabled.",
-        NONOEPIC_DISABLED = "Follow server settings",
-        NONOEPIC_ENABLED = "Override server settings",
+
+        CAMERA = "Combat Camera",
+        CAMERA_HOVER = "Allows the camera to focus on giants while in combat.\nSitting or hiding grants spectator view.",
+        CAMERA_OPTION = "Toggle",
+        CAMERA_OPTION_HOVER = "Hover over the health bar to toggle",
+        CAMERA_BUTTON = "Toggle Combat Camera",
+        CAMERA_BUTTON_ALT = "Toggle Spectator Camera",
+        CAMERA_BUTTON_FAR = "Too Far!",
+        CAMERA_BUTTON_BUSY = "Not Available!",
+
+        LOADING_TIPS =
+        {
+            SURVIVAL = [["We hope your boss rush goes well." -T]],
+            CONTROL1 = "If health bars draw too much of your attention, type /epic and set Display Health For to None to get rid of them.",
+            CONTROL2 = "Bring damage numbers straight to the battlefield with Global Damage Numbers! You can find it in Epic Healthbar's settings.",
+            CONTROL3 = "Hover over the health bar to toggle Combat Camera. You can also /sit to spectate the fight.",
+        },
     },
 
-    PT = {
+    DE =
+    {
+        TRANSLATOR = "Übersetzt von Bxucher",
+        NAME = "Epischelebensleiste",
+        DESCRIPTION_FMT = "Update %s:\n\n%s",
+        HEADER_SERVER = "Server",
+        HEADER_CLIENT = "Client",
+        DISABLED = "Deaktiviert",
+        ENABLED = "Aktiviert",
+
+        GLOBAL = "Monsterleben",
+        GLOBAL_HOVER = "Aktiviert das Clienten das Leben aller Monster sehen.\nClienten müssen beitreten hier drunter.",
+        GLOBAL_DISABLED = "Zeige nur Riesen",
+        GLOBAL_ENABLED = "Zeige alle Monster",
+
+        GLOBAL_NUMBERS = "Globale Schadenszahlen",
+        GLOBAL_NUMBERS_HOVER = "Zeigt Schadenszahlen in der Welt stat dem Widget.\nWirksam in jedem Kampf, nicht nur Riesen.",
+        GLOBAL_NUMBERS_DISABLED = "Zeige Schaden in der Anzeige",
+        GLOBAL_NUMBERS_ENABLED = "Zeige Schaden in der Welt",
+
+        CAPTURE = "Stiller Aufnahmemodus",
+        CAPTURE_HOVER = "Anstatt das Widget anzuzeigen, werden alle Kämpfe in einer Datei aufgezeichnet. Aufnahmen können über das Hauptmenü wiedergegeben werden.",
+
+        TAG = "Lebensleiste für",
+        TAG_HOVER = "Zeigt Lebensleiste für ausgewählte Moster.",
+        TAG_NONE = "Aus",
+        TAG_NONE_HOVER = "Schreibe /epic in den chat wenn du deine Meinung änderst!",
+        TAG_EPIC = "Riesen",
+        TAG_EPIC_HOVER = "Die Standard Erfahrung",
+        TAG_HEALTH = "Alle",
+        TAG_HEALTH_HOVER = "Wenn unterstützt vom Server",
+
+        FRAME_PHASES = "Kampfphasen",
+        FRAME_PHASES_HOVER = "Teil die Lebensleiste in Phasen auf bei zutreffenden Riesen.",
+        FRAME_PHASES_DISABLED = "Keine Phasen",
+        FRAME_PHASES_ENABLED = "Zeige Phasen",
+
+        DAMAGE_NUMBERS = "Schadenszahlen",
+        DAMAGE_NUMBERS_HOVER = "Zeigt bekommenen Schaden oder Heilung mit auftauchenden Zahlen.",
+        DAMAGE_NUMBERS_DISABLED = "Keine Zahlen",
+        DAMAGE_NUMBERS_ENABLED = "Zeige Zahlen",
+
+        DAMAGE_RESISTANCE = "Schadensresistenz",
+        DAMAGE_RESISTANCE_HOVER = "Zeigt einen Spezialeffekt wen das Ziel weniger\nSchaden bekommt durch desen Verteidigung.",
+        DAMAGE_RESISTANCE_DISABLED = "Kein Effekt",
+        DAMAGE_RESISTANCE_ENABLED = "Zeige Effekt",
+
+        WETNESS_METER = "Nässe",
+        WETNESS_METER_HOVER = "Zeigt einen Spezialeffekt wen das Ziel nass wird.",
+        WETNESS_METER_DISABLED = "Kein Effekt",
+        WETNESS_METER_ENABLED = "Zeige Effekt",
+
+        HORIZONTAL_OFFSET = "Horizontale Verschiebung",
+        HORIZONTAL_OFFSET_HOVER = "Verschiebt die Anzeige von der Mitte weg.",
+        HORIZONTAL_OFFSET_LEFT = "%s units nach Links",
+        HORIZONTAL_OFFSET_NONE = "Keine verschiebung",
+        HORIZONTAL_OFFSET_RIGHT = "%s units nach Rechts",
+
+        CAMERA = "Kampfkamera",
+        CAMERA_HOVER = "Erlaubt der Kamera auf Riesen zu fokussieren.\nSitzen oder verstecken gibt eine Zuschaueransicht.",
+        CAMERA_OPTION = "Knopf",
+        CAMERA_OPTION_HOVER = "Hover über die Lebensanzeige zum ändern",
+        CAMERA_BUTTON = "Aktiviere Kampfkamera",
+        CAMERA_BUTTON_ALT = "Aktiviere Zuschaueransicht",
+        CAMERA_BUTTON_FAR = "Zu weit weg!",
+        CAMERA_BUTTON_BUSY = "Nicht verfügbar!",
+    },
+
+    ES =
+    {
+        TRANSLATOR = "Traducido por RavenCorwen",
+        NAME = "Barra de Salud Épica",
+        DESCRIPTION_FMT = "Actualizar %s:\n\n%s",
+        HEADER_SERVER = "Servidor",
+        HEADER_CLIENT = "Cliente",
+        DISABLED = "Desactivado",
+        ENABLED = "Activado",
+
+        GLOBAL = "Salud de entidades",
+        GLOBAL_HOVER = "Permite ver la salud de todas las entidades en el cliente.\nDebes seleccionar una opcion mas abajo.",
+        GLOBAL_DISABLED = "Solo mostrar de gigantes",
+        GLOBAL_ENABLED = "Mostrar de todas las entidades",
+
+        GLOBAL_NUMBERS = "Números de daño global",
+        GLOBAL_NUMBERS_HOVER = "Muestra los numeros de daño en el mundo,en lugar de la barra.\nAplicable a cualquier combate, no solo gigantes.",
+        GLOBAL_NUMBERS_DISABLED = "Muestra el daño en la barra",
+        GLOBAL_NUMBERS_ENABLED = "Muestra el daño en el mundo",
+
+        CAPTURE = "Modo de captura discreta",
+        CAPTURE_HOVER = "Enseguida que se muestre la barra epica, graba todo dentro de un archivo.\nLas grabaciones se pueden ver en la pantalla de anfitrión de partida.",
+
+        TAG = "Mostrar salud para",
+        TAG_HOVER = "Activa las barras de salud solo para los objetivos seleccionados.",
+        TAG_NONE = "Ninguno",
+        TAG_NONE_HOVER = "¡Teclea /epic en el chat si cambias de opinión!",
+        TAG_EPIC = "Gigantes",
+        TAG_EPIC_HOVER = "La experiencia estándar",
+        TAG_HEALTH = "Todos",
+        TAG_HEALTH_HOVER = "Si lo admite el servidor",
+
+        FRAME_PHASES = "Fases de combate",
+        FRAME_PHASES_HOVER = "Separa las barras de salud en las distintas fases de la criatura.",
+        FRAME_PHASES_DISABLED = "Ocultar fases",
+        FRAME_PHASES_ENABLED = "Mostrar fases",
+
+        DAMAGE_NUMBERS = "Números de daño",
+        DAMAGE_NUMBERS_HOVER = "Muestra el daño o curación en números emergentes.",
+        DAMAGE_NUMBERS_DISABLED = "Ocultar números",
+        DAMAGE_NUMBERS_ENABLED = "Mostrar números",
+
+        DAMAGE_RESISTANCE = "Resistencia al daño",
+        DAMAGE_RESISTANCE_HOVER = "Muestra un efecto especial cuando el objetivo\nrecibe menos daño por su resistencia.",
+        DAMAGE_RESISTANCE_DISABLED = "Ocultar resistencia",
+        DAMAGE_RESISTANCE_ENABLED = "Mostrar resistencia",
+
+        WETNESS_METER = "Húmedad",
+        WETNESS_METER_HOVER = "Muestra un efecto especial cuando el objetivo esta empapado.",
+        WETNESS_METER_DISABLED = "Ocultar húmedad",
+        WETNESS_METER_ENABLED = "Mostrar húmedad",
+
+        HORIZONTAL_OFFSET = "Desplazamiento horizontal",
+        HORIZONTAL_OFFSET_HOVER = "Aleja la barra del centro.",
+        HORIZONTAL_OFFSET_LEFT = "%s unidades a la izquierda",
+        HORIZONTAL_OFFSET_NONE = "No desplazar",
+        HORIZONTAL_OFFSET_RIGHT = "%s unidades a la izquierda",
+
+        CAMERA = "Cámara de combate",
+        CAMERA_HOVER = "Permite que la cámara se enfoque en los gigantes durante el combate.\nSentarse o esconderse brinda visión de espectador.",
+        CAMERA_OPTION = "Alternar",
+        CAMERA_OPTION_HOVER = "Pasa por encima de la barra de salud el ratón para activar",
+        CAMERA_BUTTON = "Alternar cámara de combate",
+        CAMERA_BUTTON_ALT = "Alternar cámara de espectador",
+        CAMERA_BUTTON_FAR = "¡Muy lejos!",
+        CAMERA_BUTTON_BUSY = "¡No disponible!",
+    },
+
+    PT =
+    {
+        TRANSLATOR = "Traduzido por Pachibitalia",
         NAME = "Barra de Vida Épica",
-        HEADER_SERVER = "(.a).Servidor",
-        HEADER_CLIENT = "(.b).Cliente",
+        DESCRIPTION_FMT = "Atualização %s:\n\n%s",
+        HEADER_SERVER = "Servidor",
+        HEADER_CLIENT = "Cliente",
         DISABLED = "Desativado",
         ENABLED = "Ativado",
-        NOEPIC = "Vida do Mob",
-        NOEPIC_HOVER = "Mostrar vida de entidades não chefes.",
-        NOEPIC_DISABLED = "Mostrar apenas chefes",
-        NOEPIC_ENABLED = "Mostrar vida do mob",
+
+        GLOBAL = "Vida do Mob",
+        GLOBAL_HOVER = "Permite que os clientes vejam a integridade\nde todas as entidades.",
+        GLOBAL_DISABLED = "Mostrar apenas chefes",
+        GLOBAL_ENABLED = "Mostrar vida do mob",
+
+        GLOBAL_NUMBERS = "Números de Danos Globais",
+        GLOBAL_NUMBERS_HOVER = "Exibe números de danos no mundo em vez da barra.\nAdequado para qualquer combate, não só contra chefes.",
+        GLOBAL_NUMBERS_DISABLED = "Mostrar danos na barra",
+        GLOBAL_NUMBERS_ENABLED = "Mostrar danos no mundo",
+
+        CAPTURE = "Modo de Captura Silenciosa",
+        CAPTURE_HOVER = "Em vez de exibir o widget, registra todas as lutas em um arquivo.\nAs capturas podem ser reproduzidas no menu principal.",
+
+        TAG = "Exibir Saúde Para",
+        TAG_HOVER = "Habilita barras de saúde somente para alvos selecionados.",
+        TAG_NONE = "Nada",
+        TAG_NONE_HOVER = "Digite /epic no chat se mudar de ideia!",
+        TAG_EPIC = "Chefes",
+        TAG_EPIC_HOVER = "A experiência padrão",
+        TAG_HEALTH = "Tudo",
+        TAG_HEALTH_HOVER = "Se suportado pelo servidor",
+
         FRAME_PHASES = "Fases do Combate",
         FRAME_PHASES_HOVER = "Separar barras de chefes aplicáveis por fases.",
         FRAME_PHASES_DISABLED = "Ocultar fases",
         FRAME_PHASES_ENABLED = "Mostrar fases",
-        DAMAGE_NUMBERS = "Números de dano",
+
+        DAMAGE_NUMBERS = "Números de Dano",
         DAMAGE_NUMBERS_HOVER = "Mostrar dano recebido ou curado com números.",
         DAMAGE_NUMBERS_DISABLED = "Esconder números",
         DAMAGE_NUMBERS_ENABLED = "Mostrar números",
+
         DAMAGE_RESISTANCE = "Resistência a Dano",
         DAMAGE_RESISTANCE_HOVER = "Mostra um efeito especial quando o chefe recebe\nmenos dano de acordo com suas defesas.",
         DAMAGE_RESISTANCE_DISABLED = "Esconder resistência",
         DAMAGE_RESISTANCE_ENABLED = "Mostrar resistência",
-        WETNESS_METER = "Quão molhado está",
+
+        WETNESS_METER = "Quão Molhado Está",
         WETNESS_METER_HOVER = "Mostra um efeito especial quando o chefe fica molhado.",
         WETNESS_METER_DISABLED = "Esconder molhadeira",
         WETNESS_METER_ENABLED = "Mostrar molhadeira",
+
         HORIZONTAL_OFFSET = "Centralização Horizontal",
         HORIZONTAL_OFFSET_HOVER = "Move a barra para longe do centro.",
         HORIZONTAL_OFFSET_LEFT = "%s de unidades para a esquerda",
         HORIZONTAL_OFFSET_NONE = "Sem centralização",
         HORIZONTAL_OFFSET_RIGHT = "%s de unidades para a direita",
-        NONOEPIC = "Esconder Vida do Mob",
-        NONOEPIC_HOVER = "Mostrar apenas chefes mesmo se a vida de mobs estiver ativada.",
-        NONOEPIC_DISABLED = "Seguir configurações do servidor",
-        NONOEPIC_ENABLED = "Sobrepor configurações do servidor",
+
+        CAMERA = "Câmera de Combate",
+        CAMERA_HOVER = "Permite que a câmera foque nos chefes durante o combate.\nSentar ou se esconder concede a visão do espectador.",
+        CAMERA_OPTION = "Botão",
+        CAMERA_OPTION_HOVER = "Passe o mouse sobre a barra de saúde para alternar",
+        CAMERA_BUTTON = "Alternar Câmera de Combate",
+        CAMERA_BUTTON_ALT = "Alternar Câmera do Espectador",
+        CAMERA_BUTTON_FAR = "Muito Longe!",
+        CAMERA_BUTTON_BUSY = "Não Disponível!",
     },
 
-    RU = {
+    RU =
+    {
         NAME = name,
-        HEADER_SERVER = "(.a).Сервер",
-        HEADER_CLIENT = "(.b).Клиент",
+        DESCRIPTION_FMT = "Обновление %s:\n\n%s",
+        HEADER_SERVER = "Сервер",
+        HEADER_CLIENT = "Клиент",
         DISABLED = "Отключено",
         ENABLED = "Включено",
-        NOEPIC = "Здоровье мобов",
-        NOEPIC_HOVER = "Показывает здоровье существ не являющихся боссами.",
-        NOEPIC_DISABLED = "Показывать только боссов",
-        NOEPIC_ENABLED = "Показывать всех мобов",
+
+        GLOBAL = "Здоровье мобов",
+        GLOBAL_HOVER = "Позволяет клиентам видеть здоровье всех существ.",
+        GLOBAL_DISABLED = "Показывать только боссов",
+        GLOBAL_ENABLED = "Показывать всех мобов",
+
+        GLOBAL_NUMBERS = "Глобальные значения урона",
+        GLOBAL_NUMBERS_HOVER = "Показывает значения урона в самом мире вместо полоски.\nПрименимо к любому бою, а не только к боссам.",
+        GLOBAL_NUMBERS_DISABLED = "Показывать урон на полоске",
+        GLOBAL_NUMBERS_ENABLED = "Показывать урон в мире",
+
+        CAPTURE = "Режим тихой записи",
+        CAPTURE_HOVER = "Вместо отображения полоски, записывает все сражения в файл.\nЗаписи можно проиграть из меню создания мира.",
+
+        TAG = "Отображать здоровье для",
+        TAG_HOVER = "Включает полоску здоровья только для выбранных целей.",
+        TAG_NONE = "Ничего",
+        TAG_NONE_HOVER = "Напишите /epic в чат, если передумаете!",
+        TAG_EPIC = "Боссов",
+        TAG_EPIC_HOVER = "Режим по умолчанию",
+        TAG_HEALTH = "Всех",
+        TAG_HEALTH_HOVER = "Если поддерживается на сервере",
+
         FRAME_PHASES = "Фазы боя",
         FRAME_PHASES_HOVER = "Разделяет полоски применимых боссов по фазам.",
         FRAME_PHASES_DISABLED = "Не показывать фазы",
         FRAME_PHASES_ENABLED = "Показывать фазы",
-        DAMAGE_NUMBERS = "Цифры урона",
-        DAMAGE_NUMBERS_HOVER = "Показывает полученный урон или исцеление отдельными цифрами.",
-        DAMAGE_NUMBERS_DISABLED = "Не показывать цифры",
-        DAMAGE_NUMBERS_ENABLED = "Показывать цифры",
+
+        DAMAGE_NUMBERS = "Значения урона",
+        DAMAGE_NUMBERS_HOVER = "Отображает значения полученного урона и исцеления.",
+        DAMAGE_NUMBERS_DISABLED = "Не показывать значения",
+        DAMAGE_NUMBERS_ENABLED = "Показывать значения",
+
         DAMAGE_RESISTANCE = "Сопротивление урону",
-        DAMAGE_RESISTANCE_HOVER = "Показывает специальный эффект когда босс получает\nменьше урона из-за своей защиты.",
+        DAMAGE_RESISTANCE_HOVER = "Отображает специальный эффект когда босс получает\nменьше урона из-за своей защиты.",
         DAMAGE_RESISTANCE_DISABLED = "Не показывать сопротивление",
         DAMAGE_RESISTANCE_ENABLED = "Показывать сопротивление",
+
         WETNESS_METER = "Влажность",
-        WETNESS_METER_HOVER = "Показывает специальный эффект когда босс становится мокрым.",
+        WETNESS_METER_HOVER = "Отображает специальный эффект когда босс становится мокрым.",
         WETNESS_METER_DISABLED = "Не показывать влажность",
         WETNESS_METER_ENABLED = "Показывать влажность",
+
         HORIZONTAL_OFFSET = "Горизонтальное смещение",
         HORIZONTAL_OFFSET_HOVER = "Сдвигает полоску от центра экрана.",
         HORIZONTAL_OFFSET_LEFT = "%s единиц налево",
         HORIZONTAL_OFFSET_NONE = "Без смещения",
         HORIZONTAL_OFFSET_RIGHT = "%s единиц направо",
-        NONOEPIC = "Скрывать здоровье мобов",
-        NONOEPIC_HOVER = "Показывает только боссов даже если здоровье мобов включено.",
-        NONOEPIC_DISABLED = "Следовать настройкам сервера",
-        NONOEPIC_ENABLED = "Игнорировать настройки сервера",
+
+        CAMERA = "Боевая камера",
+        CAMERA_HOVER = "Позволяет камере фокусироваться на боссах во время боя.\nЗа сражением можно наблюдать сидя или спрятавшись.",
+        CAMERA_OPTION = "Кнопка",
+        CAMERA_OPTION_HOVER = "Чтобы переключить, наведите курсор на полосу здоровья",
+        CAMERA_BUTTON = "Переключить боевую камеру",
+        CAMERA_BUTTON_ALT = "Переключить камеру наблюдателя",
+        CAMERA_BUTTON_FAR = "Слишком далеко!",
+        CAMERA_BUTTON_BUSY = "Сейчас не доступно!",
     },
 
-    ZH = {
-        NAME = name,
-        HEADER_SERVER = "(.a)服务器",
-        HEADER_CLIENT = "(.b)客户端",
+    ZH =
+    {
+        TRANSLATOR = "由遇晚翻译",
+        NAME = "史诗血量条",
+        DESCRIPTION_FMT = "更新 %s:\n\n%s",
+        HEADER_SERVER = "服务器",
+        HEADER_CLIENT = "客户端",
         DISABLED = "关闭",
         ENABLED = "开启",
-        NOEPIC = "所有生物的血量条",
-        NOEPIC_HOVER = "显示非boss的血量条",
-        NOEPIC_DISABLED = "仅显示boss的血量条",
-        NOEPIC_ENABLED = "显示所有生物的血量条",
+        COMMANDS = { EPIC = "史诗" },
+
+        GLOBAL = "所有生物的血量条",
+        GLOBAL_HOVER = "显示非巨兽的血量条",
+        GLOBAL_DISABLED = "仅显示巨兽的血量条",
+        GLOBAL_ENABLED = "显示所有生物的血量条",
+
+        GLOBAL_NUMBERS = "全局伤害显示",
+        GLOBAL_NUMBERS_HOVER = "显示世界中的伤害数字而不是小部件\n适用于任何战斗情况",
+        GLOBAL_NUMBERS_DISABLED = "在小部件上显示损坏情况",
+        GLOBAL_NUMBERS_ENABLED = "在游戏世界中显示伤害",
+
+        CAPTURE = "静默拍摄模式",
+        CAPTURE_HOVER = "不是显示小部件，而是将所有战斗记录到一个文件中\n可以从主菜单重播捕获",
+
+        TAG = "显示健康状况用于",
+        TAG_HOVER = "仅对选定目标启用生命条",
+        TAG_NONE = "无",
+        TAG_NONE_HOVER = "如果您改变主意，请在聊天中输入 /史诗",
+        TAG_EPIC = "巨兽",
+        TAG_EPIC_HOVER = "标准体验",
+        TAG_HEALTH = "一切",
+        TAG_HEALTH_HOVER = "若服务器支持的话",
+
         FRAME_PHASES = "战斗机制阶段",
-        FRAME_PHASES_HOVER = "按阶段显示boss血量条",
+        FRAME_PHASES_HOVER = "按阶段显示巨兽的血量条",
         FRAME_PHASES_DISABLED = "隐藏阶段",
         FRAME_PHASES_ENABLED = "显示阶段",
-        DAMAGE_NUMBERS = "显示伤害&治疗量",
+
+        DAMAGE_NUMBERS = "伤害数字",
         DAMAGE_NUMBERS_HOVER = "以弹出数值的方式显示受到的伤害和治疗",
         DAMAGE_NUMBERS_DISABLED = "隐藏数值",
         DAMAGE_NUMBERS_ENABLED = "显示数值",
+
         DAMAGE_RESISTANCE = "抗损伤性",
         DAMAGE_RESISTANCE_HOVER = "显示抗损伤效果",
         DAMAGE_RESISTANCE_DISABLED = "隐藏抵抗",
         DAMAGE_RESISTANCE_ENABLED = "显示抵抗",
+
         WETNESS_METER = "潮湿度",
         WETNESS_METER_HOVER = "显示湿度效果",
         WETNESS_METER_DISABLED = "隐藏潮湿度",
         WETNESS_METER_ENABLED = "显示潮湿度",
+
         HORIZONTAL_OFFSET = "血量条X轴偏移",
         HORIZONTAL_OFFSET_HOVER = "将血量条进行X轴偏移",
         HORIZONTAL_OFFSET_LEFT = "往左调整 %s",
         HORIZONTAL_OFFSET_NONE = "无偏移",
         HORIZONTAL_OFFSET_RIGHT = "往右调整 %s",
-        NONOEPIC = "只显示boss血量",
-        NONOEPIC_HOVER = "即使服务器启用了所有怪物血量，也只显示BOSS",
-        NONOEPIC_DISABLED = "遵循服务器设置",
-        NONOEPIC_ENABLED = "覆盖服务器设置",
+
+        CAMERA = "战斗相机",
+        CAMERA_HOVER = "允许镜头在战斗中聚焦于巨兽\n坐着或隐藏可以让观众看到",
+        CAMERA_OPTION = "按钮",
+        CAMERA_OPTION_HOVER = "将鼠标悬停在健康栏上进行切换",
+        CAMERA_BUTTON = "切换战斗摄像机",
+        CAMERA_BUTTON_ALT = "切换观察者相机",
+        CAMERA_BUTTON_FAR = "太远",
+        CAMERA_BUTTON_BUSY = "无法使用",
     },
 }
 
