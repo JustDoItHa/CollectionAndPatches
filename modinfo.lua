@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.10.2.3"
+version = "14.10.2.6"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -1747,8 +1747,8 @@ local LOCALE = {
         --TRANSLATOR = "Translated by You",
         NAME = name,
         DESCRIPTION_FMT = "Update %s:\n\n%s",
-        HEADER_SERVER = "Server",
-        HEADER_CLIENT = "Client",
+        HEADER_SERVER = "(.a)Server",
+        HEADER_CLIENT = "(.b).Client",
         DISABLED = "Disabled",
         ENABLED = "Enabled",
 
@@ -1821,10 +1821,10 @@ local LOCALE = {
     DE =
     {
         TRANSLATOR = "Übersetzt von Bxucher",
-        NAME = "Epischelebensleiste",
+        NAME = name,
         DESCRIPTION_FMT = "Update %s:\n\n%s",
-        HEADER_SERVER = "Server",
-        HEADER_CLIENT = "Client",
+        HEADER_SERVER = "(.a)Server",
+        HEADER_CLIENT = "(.b).Client",
         DISABLED = "Deaktiviert",
         ENABLED = "Aktiviert",
 
@@ -1889,10 +1889,10 @@ local LOCALE = {
     ES =
     {
         TRANSLATOR = "Traducido por RavenCorwen",
-        NAME = "Barra de Salud Épica",
+        NAME = name,
         DESCRIPTION_FMT = "Actualizar %s:\n\n%s",
-        HEADER_SERVER = "Servidor",
-        HEADER_CLIENT = "Cliente",
+        HEADER_SERVER = "(.a)Servidor",
+        HEADER_CLIENT = "(.b)Cliente",
         DISABLED = "Desactivado",
         ENABLED = "Activado",
 
@@ -1957,10 +1957,10 @@ local LOCALE = {
     PT =
     {
         TRANSLATOR = "Traduzido por Pachibitalia",
-        NAME = "Barra de Vida Épica",
+        NAME = name,
         DESCRIPTION_FMT = "Atualização %s:\n\n%s",
-        HEADER_SERVER = "Servidor",
-        HEADER_CLIENT = "Cliente",
+        HEADER_SERVER = "(.a).Servidor",
+        HEADER_CLIENT = "(.b).Cliente",
         DISABLED = "Desativado",
         ENABLED = "Ativado",
 
@@ -2026,8 +2026,8 @@ local LOCALE = {
     {
         NAME = name,
         DESCRIPTION_FMT = "Обновление %s:\n\n%s",
-        HEADER_SERVER = "Сервер",
-        HEADER_CLIENT = "Клиент",
+        HEADER_SERVER = "(.a).Сервер",
+        HEADER_CLIENT = "(.b).Клиент",
         DISABLED = "Отключено",
         ENABLED = "Включено",
 
@@ -2092,10 +2092,10 @@ local LOCALE = {
     ZH =
     {
         TRANSLATOR = "由遇晚翻译",
-        NAME = "史诗血量条",
+        NAME = name,
         DESCRIPTION_FMT = "更新 %s:\n\n%s",
-        HEADER_SERVER = "服务器",
-        HEADER_CLIENT = "客户端",
+        HEADER_SERVER = "(.a)服务器",
+        HEADER_CLIENT = "(.b)客户端",
         DISABLED = "关闭",
         ENABLED = "开启",
         COMMANDS = { EPIC = "史诗" },
@@ -2162,9 +2162,10 @@ local LOCALE = {
 LOCALE.BR = LOCALE.PT
 LOCALE.CH = LOCALE.ZH
 
-local function MakeHeader(label, client)
-    return { name = "", label = label, options = { { description = "", data = "" } }, default = "", client = client }
+local function MakeHeader(name, client)
+    return { name = name, label = STRINGS[name], options = { { description = "", data = false } }, default = false, client = client }
 end
+
 local function GetToggleOptions(name)
     return
     {
@@ -2188,26 +2189,39 @@ function SetLocale(locale)
     STRINGS = locale ~= nil and LOCALE[locale:upper():sub(0, 2)] or LOCALE.EN
 
     name = STRINGS.NAME or name
+    description = STRINGS.DESCRIPTION_FMT:format(version, version_description)
+    local tag = { "NONE", "EPIC", "_HEALTH" }
+    for i = 1, #tag do
+        local name = "TAG_" .. tag[i]:match("%a+")
+        tag[i] = { description = STRINGS[name], data = tag[i], hover = STRINGS[name .. "_HOVER"] }
+    end
 
-    local HORIZONTAL_OFFSET_OPTIONS = {}
+    local horizontal_offset = {}
     for i = -200, 200, 25 do
         if i < 0 then
-            HORIZONTAL_OFFSET_OPTIONS[#HORIZONTAL_OFFSET_OPTIONS + 1] = { description = "" .. i, data = i, hover = STRINGS.HORIZONTAL_OFFSET_LEFT:format(-i) }
+            horizontal_offset[#horizontal_offset + 1] = { description = "" .. i, data = i, hover = STRINGS.HORIZONTAL_OFFSET_LEFT:format(-i) }
         elseif i == 0 then
-            HORIZONTAL_OFFSET_OPTIONS[#HORIZONTAL_OFFSET_OPTIONS + 1] = { description = STRINGS.DISABLED, data = 0, hover = STRINGS.HORIZONTAL_OFFSET_NONE }
+            horizontal_offset[#horizontal_offset + 1] = { description = STRINGS.DISABLED, data = 0, hover = STRINGS.HORIZONTAL_OFFSET_NONE }
         else
-            HORIZONTAL_OFFSET_OPTIONS[#HORIZONTAL_OFFSET_OPTIONS + 1] = { description = "" .. i, data = i, hover = STRINGS.HORIZONTAL_OFFSET_RIGHT:format(i) }
+            horizontal_offset[#horizontal_offset + 1] = { description = "" .. i, data = i, hover = STRINGS.HORIZONTAL_OFFSET_RIGHT:format(i) }
         end
     end
+
+    local camera = { { description = STRINGS.CAMERA_OPTION, data = true, hover = STRINGS.CAMERA_OPTION_HOVER } }
+
     configuration_options[#configuration_options + 1] = MakeHeader(STRINGS.HEADER_SERVER)
-    configuration_options[#configuration_options + 1] = MakeOption("NOEPIC", nil, false)
+    configuration_options[#configuration_options + 1] = MakeOption("GLOBAL_NUMBERS", nil, false)
+    configuration_options[#configuration_options + 1] = MakeOption("GLOBAL", nil, false)
+    configuration_options[#configuration_options + 1] = MakeOption("CAPTURE", nil, false)
+
     configuration_options[#configuration_options + 1] = MakeHeader(STRINGS.HEADER_CLIENT, true)
+    configuration_options[#configuration_options + 1] = MakeOption("TAG", tag, "EPIC", true)
     configuration_options[#configuration_options + 1] = MakeOption("FRAME_PHASES", nil, true, true)
     configuration_options[#configuration_options + 1] = MakeOption("DAMAGE_NUMBERS", nil, true, true)
     configuration_options[#configuration_options + 1] = MakeOption("DAMAGE_RESISTANCE", nil, true, true)
     configuration_options[#configuration_options + 1] = MakeOption("WETNESS_METER", nil, false, true)
-    configuration_options[#configuration_options + 1] = MakeOption("HORIZONTAL_OFFSET", HORIZONTAL_OFFSET_OPTIONS, 0, true)
-    configuration_options[#configuration_options + 1] = MakeOption("NONOEPIC", nil, false, true)
+    configuration_options[#configuration_options + 1] = MakeOption("HORIZONTAL_OFFSET", horizontal_offset, 0, true)
+    configuration_options[#configuration_options + 1] = MakeOption("CAMERA", camera, true, true)
 
 end
 SetLocale(locale)
