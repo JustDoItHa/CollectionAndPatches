@@ -28,33 +28,33 @@ local CaptureBrowser = Class(Screen, function(self, data, slot)
 	end
 
 	self.window = self:AddChild(TEMPLATES.RectangleWindow(WIDTH, HEIGHT, string.format("All Captures (%s)", #captures),
-	{
-		{ text = "Delete All", cb = function() self:DeleteAll() end },
-		{ text = "Chromakey", cb = function() self:ToggleChromakey() end },
-		{ text = STRINGS.UI.MODSSCREEN.BACK, cb = function() self:Close() end },
-    }))
+			{
+				{ text = "Delete All", cb = function() self:DeleteAll() end },
+				{ text = "Chromakey", cb = function() self:ToggleChromakey() end },
+				{ text = STRINGS.UI.MODSSCREEN.BACK, cb = function() self:Close() end },
+			}))
 
 	self.captures = self.window:AddChild(TEMPLATES.ScrollingGrid(captures,
-    {
-        scroll_context = { screen = self },
-        widget_width  = ROW_WIDTH,
-        widget_height = ROW_HEIGHT,
-        num_visible_rows = HEIGHT / ROW_HEIGHT - 2,
-        num_columns = 1,
-        item_ctor_fn = function(...) return self:MakeCaptureWidget(...) end,
-        apply_fn = function(...) self:UpdateCaptureWidget(...) end,
-        scrollbar_offset = 20,
-        scrollbar_height_offset = -60,
-    }))
+			{
+				scroll_context = { screen = self },
+				widget_width  = ROW_WIDTH,
+				widget_height = ROW_HEIGHT,
+				num_visible_rows = HEIGHT / ROW_HEIGHT - 2,
+				num_columns = 1,
+				item_ctor_fn = function(...) return self:MakeCaptureWidget(...) end,
+				apply_fn = function(...) self:UpdateCaptureWidget(...) end,
+				scrollbar_offset = 20,
+				scrollbar_height_offset = -60,
+			}))
 	self.captures:SetPosition(self.captures:CanScroll() and -15 or 0, -20)
 end)
 
 function CaptureBrowser:DeleteAll()
 	TheFrontEnd:PushScreen(PopupDialogScreen("Delete All?", "This action is irreversible.",
-	{
-		{ text = "Confirm",	cb = function() TheFrontEnd:PopScreen() self.data:Erase() self:Close() end },
-		{ text = "Cancel",	cb = function() TheFrontEnd:PopScreen() end },
-	}))
+			{
+				{ text = "Confirm",	cb = function() TheFrontEnd:PopScreen() self.data:Erase() self:Close() end },
+				{ text = "Cancel",	cb = function() TheFrontEnd:PopScreen() end },
+			}))
 end
 
 function CaptureBrowser:ToggleChromakey()
@@ -64,12 +64,12 @@ function CaptureBrowser:ToggleChromakey()
 	end
 
 	TheFrontEnd:PushScreen(PopupDialogScreen("Edit Chromakey Color", "You can set custom color with this tuning variable:\nTUNING.EPICHEALTHBAR.CHROMAKEY",
-	{
-		{ text = "Grey",	cb = function() select({ 0.5, 0.5, 0.5 }) end },
-		{ text = "Green",	cb = function() select({ 0, 1, 0 }) end },
-		{ text = "Blue",	cb = function() select({ 0, 0, 1 }) end },
-		{ text = "None",	cb = function() select(false) end },
-	}))
+			{
+				{ text = "Grey",	cb = function() select({ 0.5, 0.5, 0.5 }) end },
+				{ text = "Green",	cb = function() select({ 0, 1, 0 }) end },
+				{ text = "Blue",	cb = function() select({ 0, 0, 1 }) end },
+				{ text = "None",	cb = function() select(false) end },
+			}))
 end
 
 function CaptureBrowser:MakeCaptureWidget(context, index)
@@ -77,12 +77,12 @@ function CaptureBrowser:MakeCaptureWidget(context, index)
 	widget.move_on_click = true
 
 	widget.name = widget:AddChild(Text(CHATFONT, 22, nil, UICOLOURS.GOLD_UNIMPORTANT))
-    widget.name:SetHAlign(ANCHOR_LEFT)
-    widget.name:SetRegionSize(ROW_WIDTH - 50, ROW_HEIGHT)
+	widget.name:SetHAlign(ANCHOR_LEFT)
+	widget.name:SetRegionSize(ROW_WIDTH - 50, ROW_HEIGHT)
 
 	widget.length = widget:AddChild(Text(CHATFONT, 22, nil, UICOLOURS.GOLD_UNIMPORTANT))
-    widget.length:SetHAlign(ANCHOR_RIGHT)
-    widget.length:SetRegionSize(ROW_WIDTH - 50, ROW_HEIGHT)
+	widget.length:SetHAlign(ANCHOR_RIGHT)
+	widget.length:SetRegionSize(ROW_WIDTH - 50, ROW_HEIGHT)
 
 	return widget
 end
@@ -111,16 +111,16 @@ function CaptureBrowser:UpdateCaptureWidget(context, widget, data, index)
 end
 
 function CaptureBrowser:OnControl(control, down)
-    if Screen.OnControl(self, control, down) then
+	if Screen.OnControl(self, control, down) then
 		return true
 	elseif not down and control == CONTROL_CANCEL then
 		self:Close()
-	    return true
-    end
+		return true
+	end
 end
 
 function CaptureBrowser:Close()
-    TheFrontEnd:PopScreen()
+	TheFrontEnd:PopScreen()
 end
 
 return CaptureBrowser

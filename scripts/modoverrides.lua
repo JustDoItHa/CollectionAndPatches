@@ -19,7 +19,7 @@ local PRESETS =
 	EQUINOX =
 	{
 		BASE =					"QUAGMIRE",
-		FRAME_COLOUR =			{ 0, 0, 0, 0.5 },
+		FRAME_COLOUR =			{ 0, 0, 0, 0.45 },
 	},
 
 	WORTOX =

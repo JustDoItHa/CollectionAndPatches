@@ -15,8 +15,6 @@ local METER_HEIGHT = 20
 local MOVE_TIME = 0.4
 local METER_TINT_TIME = 0.5
 local METER_BURST_TIME = 2
-local OUT_OF_DATE_COLOUR = { 243 / 255, 95 / 255, 121 / 255, 1 }
-local OUT_OF_DATE_DURATION = 10
 local DROPS_PRESETS = {}
 for x = -200, 200, 50 do
 	table.insert(DROPS_PRESETS, { pos = Vector3(x, GetRandomWithVariance(90, 7.5)), time = math.random() })
@@ -33,7 +31,6 @@ local FOCUS_DURATION = 6
 local ATTACK_RANGE = 12
 local ATTACK_TIMEOUT = 2
 local ATTACK_TAGS = { "attack" }
-local BURST_ATTACK_WINDOW = 0.35
 
 local function RGBA(tint, alpha)
 	return { r = tint[1] or 1, g = tint[2] or 1, b = tint[3] or 1, a = alpha or tint[4] or 1 }
@@ -263,10 +260,10 @@ end
 
 function MeterDamage:IsSuspended()
 	return self.time <= 0
-		and self.widget:IsValid()
-		and self.lastwasdamagedtime ~= nil
-		and GetTime() - self.lastwasdamagedtime <= ATTACK_TIMEOUT
-		and self:GetPlayerCount() == 1
+			and self.widget:IsValid()
+			and self.lastwasdamagedtime ~= nil
+			and GetTime() - self.lastwasdamagedtime <= ATTACK_TIMEOUT
+			and self:GetPlayerCount() == 1
 end
 
 function MeterDamage:OnUpdate(dt)
@@ -435,9 +432,9 @@ end
 function PopupNumber:RefreshColour()
 	if self.colour1 ~= nil then
 		self.text.colour = self.progress < 1.3 and self.colour1
-						or self.progress < 1.4 and self.colour2
-						or self.progress < 1.5 and self.colour3
-												or self.colour1
+				or self.progress < 1.4 and self.colour2
+				or self.progress < 1.5 and self.colour3
+				or self.colour1
 	end
 end
 
@@ -695,13 +692,11 @@ local function ontarget(self, target, oldtarget)
 		self.build = nil
 		self.wet = nil
 		self.stimuli = nil
-		self.lastwasdamagedtime = nil
 		self.percent = nil
 		self.maxhealth = nil
 		self.currenthealth = nil
 		self.introduration = self:GetIntroTimeLeft(target)
 		self:StartTimer("introtimeleft", self.introduration)
-		self:StopTimer("outdatedtimeleft")
 		self:KillPopupNumbers()
 	end
 end
@@ -772,14 +767,6 @@ local function onbuild(self, build, oldbuild)
 	end
 end
 
-local function onlastwasdamagedtime(self, lastwasdamagedtime, oldlastwasdamagedtime)
-	if lastwasdamagedtime ~= oldlastwasdamagedtime then
-		self.burst = lastwasdamagedtime ~= nil
-			and oldlastwasdamagedtime ~= nil
-			and lastwasdamagedtime - oldlastwasdamagedtime <= BURST_ATTACK_WINDOW
-	end
-end
-
 local function onpercent(self, percent, oldpercent)
 	if percent ~= nil and percent ~= oldpercent then
 		self.meter_bg:SetPercent(percent)
@@ -819,8 +806,10 @@ local function oncurrenthealth(self, currenthealth, oldcurrenthealth)
 	if currenthealth ~= nil and currenthealth ~= oldcurrenthealth then
 		self.currenthealth_text:SetString(numberformat(currenthealth))
 
-		if oldcurrenthealth ~= nil and self.stimuli ~= "health" and TUNING.EPICHEALTHBAR.DAMAGE_NUMBERS then
-			if currenthealth ~= 0 then
+		if oldcurrenthealth ~= nil and TUNING.EPICHEALTHBAR.DAMAGE_NUMBERS then
+			if self.stimuli == "health" or self:TimerExists("introtimeleft") then
+				--skip popups for max health and during intros
+			elseif currenthealth ~= 0 then
 				local delta = currenthealth - oldcurrenthealth
 				self:ShowPopupNumber(math.abs(delta), delta < 0)
 			elseif oldcurrenthealth > 0 then
@@ -830,37 +819,10 @@ local function oncurrenthealth(self, currenthealth, oldcurrenthealth)
 	end
 end
 
-local function onoutdatedtimeleft(self, outdatedtimeleft, oldoutdatedtimeleft)
-	if outdatedtimeleft ~= oldoutdatedtimeleft then
-		local time = outdatedtimeleft or 0
-
-		onpercent(self, time / OUT_OF_DATE_DURATION)
-		onmaxhealth(self, time)
-		oncurrenthealth(self, time)
-
-		if oldoutdatedtimeleft == nil then
-			onwet(self, false)
-			self.meter:SetTint(unpack(OUT_OF_DATE_COLOUR))
-			self.meter_bg:SetTint(unpack(TUNING.EPICHEALTHBAR.BACKGROUND_COLOUR1))
-			self.name_text:SetString(nil)
-			self.update.tooltipcolour[4] = 0
-		elseif outdatedtimeleft == nil then
-			self.update.tooltipcolour[4] = 1
-			if self.target ~= nil then
-				self.update_text:Kill()
-			else
-				self.update_text.inst:DoTaskInTime(MOVE_TIME, function(inst) inst.widget:Kill() end)
-			end
-			self.update_text = nil
-		end
-		self.meter_resist:ShowResist(OUT_OF_DATE_COLOUR, -1)
-	end
-end
-
 local function onintrotimeleft(self, introtimeleft, oldintrotimeleft)
 	if self.percent ~= nil and self.currenthealth ~= nil then
 		if introtimeleft ~= nil then
-			if self.target ~= nil and self.target.epichealth.invincible then
+			if self.target ~= nil and self.target:HasTag("noattack") then
 				local time = self.introduration - introtimeleft
 				local progress = easing.inOutCubic(time, 0, 1, self.introduration)
 
@@ -1010,28 +972,24 @@ local EpicHealthbar = Class(Widget, function(self, owner, modinfo, modname)
 		self:MakeCaptureMode()
 	elseif TUNING.EPICHEALTHBAR.GLOBAL_NUMBERS then
 		self.popuproot:Hide()
-		self.inst:ListenForEvent("epicpopupnumber", function(owner, data)
-			OnGlobalPopupNumber(self, data)
-		end, owner)
+		self.inst:ListenForEvent("epicpopupnumber", function(owner, data) OnGlobalPopupNumber(self, data) end, owner)
 	end
 	if self:HasTargets() then
 		self:StartUpdating()
 	end
 end,
-{
-	danger = ondanger,
-	spectator = onspectator,
-	target = ontarget,
-	_name = onname,
-	build = onbuild,
-	wet = onwet,
-	lastwasdamagedtime = onlastwasdamagedtime,
-	percent = onpercent,
-	maxhealth = onmaxhealth,
-	currenthealth = oncurrenthealth,
-	outdatedtimeleft = onoutdatedtimeleft,
-	introtimeleft = onintrotimeleft,
-})
+		{
+			danger = ondanger,
+			spectator = onspectator,
+			target = ontarget,
+			_name = onname,
+			build = onbuild,
+			wet = onwet,
+			percent = onpercent,
+			maxhealth = onmaxhealth,
+			currenthealth = oncurrenthealth,
+			introtimeleft = onintrotimeleft,
+		})
 
 function EpicHealthbar:ShowMaxHealth()
 	self.currenthealth_text:Hide()
@@ -1116,7 +1074,18 @@ function EpicHealthbar:MakeCaptureMode()
 		end
 	end)
 
-	self.inst:ListenForEvent("onremove", function() self:StopTimer("timeleft") end)
+	self.inst:ListenForEvent("onremove", function() self:StopCapture() end)
+
+	if EpicHealthbar._simreset ~= true then
+		EpicHealthbar._simreset = true
+
+		Tykvesh.Parallel(_G, "SimReset", function(params)
+			local widget = Tykvesh.Browse(ThePlayer, "HUD", "controls", "epichealthbar")
+			if widget ~= nil then
+				widget:StopCapture()
+			end
+		end)
+	end
 
 	local function addevent(key, value)
 		if capture ~= nil then
@@ -1162,33 +1131,10 @@ function EpicHealthbar:MakeCaptureMode()
 	end
 end
 
-function EpicHealthbar:OutOfDateAnnouncement()
-	if self.update ~= nil then
-		return
-	end
-
-	local PauseScreen = require "screens/redux/pausescreen"
-	self.update = self.menu:AddChild(MiniButton("goto_url.tex", true))
-	self.update:SetOnClick(function() VisitURL("https://steamcommunity.com/sharedfiles/filedetails/changelog/1185229307"); TheFrontEnd:PushScreen(PauseScreen()) end)
-	self.update:MoveTo(Vector3(-30, 30), Vector3(-30, 0), MOVE_TIME)
-	self.update.icon:SetRotation(90)
-	self.name_text:SetRegionSize(285, 45)
-
-	local string = Tykvesh.Browse(STRINGS, "UI", "MAINSCREEN", "MOTD_NEW_UPDATE")
-	if string ~= nil and string:find("\n") then
-		string = string:sub(0, string:find("\n"))
-		self.update:SetTooltip(string)
-		self.update:SetTooltipColour(unpack(OUT_OF_DATE_COLOUR))
-
-		if self.data:Get("version") ~= self.modinfo.version then
-			self.data:Set("version", self.modinfo.version)
-			if not self.active then
-				self.update_text = self.barroot:AddChild(Text(BODYTEXTFONT, 32, string, OUT_OF_DATE_COLOUR))
-				self.update_text:SetPosition(0, 32)
-				self:StartTimer("outdatedtimeleft", OUT_OF_DATE_DURATION)
-				self:StartUpdating()
-			end
-		end
+function EpicHealthbar:StopCapture()
+	if self.active then
+		self.active = false
+		self:StopTimer("timeleft")
 	end
 end
 
@@ -1213,7 +1159,7 @@ function EpicHealthbar:RebuildPhases()
 		if phases ~= nil then
 			for i, v in ipairs(phases) do
 				local phase = self.frame_phases:AddChild(Image(self.frame.atlas, "phase.tex"))
-				phase:SetPosition(METER_WIDTH / -2 + METER_WIDTH * v, 0)
+				phase:SetPosition(METER_WIDTH * (v - 0.5), 0)
 				phase:SetTint(unpack(self.frame.tint))
 			end
 		end
@@ -1228,8 +1174,8 @@ end
 
 function EpicHealthbar:GetEffectTint(damaged, override)
 	return (not damaged and TUNING.EPICHEALTHBAR.HEAL_COLOUR)
-		or (self.stimuli == "fire" and TUNING.EPICHEALTHBAR.FIRE_COLOUR)
-		or (override or TUNING.EPICHEALTHBAR.DAMAGE_COLOUR1)
+			or (self.stimuli == "fire" and TUNING.EPICHEALTHBAR.FIRE_COLOUR)
+			or (override or TUNING.EPICHEALTHBAR.DAMAGE_COLOUR1)
 end
 
 function EpicHealthbar:ShowBurst(start, dest)
@@ -1240,28 +1186,22 @@ function EpicHealthbar:ShowBurst(start, dest)
 	self.meter_burst:Show()
 end
 
-function EpicHealthbar:GetBurstLevel(damaged)
-	if damaged and self.burst then
-		local level = 1
-		for popupnumber in pairs(self.damageroot.children) do
-			if popupnumber.progress < 1.75 then
-				level = level + 1
-			end
-		end
-		return math.min(5, level)
-	end
-end
-
 function EpicHealthbar:ShowPopupNumber(value, damaged)
 	local parent = damaged and self.damageroot or self.healroot
 	local pos = Vector3(METER_WIDTH * (self.percent - 0.5), self:GetHeight())
+	local level = nil
+	for popupnumber in pairs(parent.children) do
+		if popupnumber.progress < 1.75 then
+			level = (level or 0) + 1
+		end
+	end
 	local popupnumber = parent:AddChild(PopupNumber(value, damaged,
-	{
-		level = self:GetBurstLevel(damaged),
-		colour = self:GetEffectTint(damaged, self.popuptint),
-		stimuli = damaged and self.stimuli or nil,
-		wet = self.wet,
-	}))
+			{
+				level = level and math.min(5, level),
+				colour = self:GetEffectTint(damaged, self.popuptint),
+				stimuli = damaged and self.stimuli or nil,
+				wet = self.wet,
+			}))
 	if self:IsMoving() then
 		popupnumber:MoveTo(pos, Vector3(pos.x, SHOWN_Y), MOVE_TIME)
 	else
@@ -1368,7 +1308,7 @@ function EpicHealthbar:OnHide()
 end
 
 function EpicHealthbar:IsInIntro(target)
-	if target.epichealth.invincible and self:IsPriorityTarget(target) then
+	if target:HasTag("noattack") and self:IsPriorityTarget(target) then
 		local intros = self:GetTuningValue("INTROS", target)
 		if intros ~= nil then
 			for i, v in ipairs(intros) do
@@ -1393,8 +1333,8 @@ end
 
 function EpicHealthbar:IsEventSource(target, name)
 	return target.prefab == name
-		or target:HasTag(name)
-		or self._eventaliases[target.prefab] == name
+			or target:HasTag(name)
+			or self._eventaliases[target.prefab] == name
 end
 
 function EpicHealthbar:GetMusicTimeLeft(target, force)
@@ -1492,7 +1432,7 @@ function EpicHealthbar:GetIsSpectator()
 		end
 	end
 	return self.owner:HasAnyTag("hiding", "sitting_on_chair", "debugnoattack")
-		and (self.spectator or not self.owner:HasTag("busy"))
+			and (self.spectator or not self.owner:HasTag("busy"))
 end
 
 function EpicHealthbar:RefreshMenu()
@@ -1545,7 +1485,7 @@ end
 function EpicHealthbar:CanFocusTarget(target, dist)
 	if self:TargetIs(target) then
 		return (self:IsNear(target, dist) or self.spectator)
-			and self:PushFocus(target, self.active and FOCUS_DURATION or nil)
+				and self:PushFocus(target, self.active and FOCUS_DURATION or nil)
 	elseif not (self:IsNear(target, dist) and self:IsValidTarget(target)) then
 		return false
 	elseif self:InCombat(target) and self.active then
@@ -1585,9 +1525,9 @@ end
 
 function EpicHealthbar:CanFocusCamera()
 	return self:IsValidPlayer(self.owner)
-		and self.owner.HUD.controls.craftingandinventoryshown
-		and not self:HasDebuff(self.owner, "sporebomb")
-		and self:IsEpic()
+			and self.owner.HUD.controls.craftingandinventoryshown
+			and not self:HasDebuff(self.owner, "sporebomb")
+			and self:IsEpic()
 end
 
 function EpicHealthbar:UpdateFocus(dt, params)
@@ -1642,8 +1582,7 @@ function EpicHealthbar:UpdateFocus(dt, params)
 					percent = params.maxrange / dist
 				end
 			elseif dist < params.minrange then
-				percent = 1 - dist / params.minrange
-				percent = ((1 - percent) * percent)
+				percent = Tykvesh.ClampRemap(dist, params.minrange / 2, params.minrange, 0.5, 0)
 			end
 
 			offset.x = offset.x * percent
@@ -1690,8 +1629,8 @@ end
 
 function EpicHealthbar:IsAttackedBy(target, attacker)
 	return target ~= attacker
-		and attacker.replica.combat ~= nil
-		and attacker.replica.combat:GetTarget() == target
+			and attacker.replica.combat ~= nil
+			and attacker.replica.combat:GetTarget() == target
 end
 
 function EpicHealthbar:IsAttackedByGroup(target)
@@ -1748,39 +1687,39 @@ end
 
 function EpicHealthbar:GetDisplayName(target)
 	return target.components.talker ~= nil and STRINGS.NAMES[target.prefab:upper()]
-		or target:GetBasicDisplayName()
+			or target:GetBasicDisplayName()
 end
 
 function EpicHealthbar:IsBusy(target)
 	if target.IsEpic ~= nil then
 		return not target:IsEpic()
-	elseif target:HasTag("nonlethal") then
-		return not target:HasTag("hostile")
-	elseif target:HasTag("attack") then
+	elseif target:HasTag("nonlethal") and not target:HasTag("hostile") then
+		return true
+	elseif target:HasTag("attack") or self:IsInIntro(target) then
 		return false
 	elseif target:HasTag("flight") then
 		return target:HasTag("busy")
 	elseif target:HasTag("noattack") then
-		return (target.epichealth.invincible and not self:IsInIntro(target))
-			or target:HasTag("NOCLICK")
-			or not target:HasTag("locomotor")
+		return target.epichealth.invincible
+				or target:HasTag("NOCLICK")
+				or not target:HasTag("locomotor")
 	end
-	return target:HasTag("INLIMBO") and target:HasTag("locomotor")
+	return target:HasTags("INLIMBO", "locomotor")
 end
 
 function EpicHealthbar:IsValidTarget(target)
 	return self.targets[target]
-		and target:HasTag(TUNING.EPICHEALTHBAR.TAG)
-		and target.epichealth.maxhealth >= (self:IsEpic() and 1000 or 100)
-		and target.epichealth.currenthealth > 0
-		and target.replica.combat ~= nil
-		and not IsEntityDead(target, true)
-		and not self:IsBusy(target)
+			and target:HasTag(TUNING.EPICHEALTHBAR.TAG)
+			and target.epichealth.maxhealth >= (self:IsEpic() and 1000 or 100)
+			and target.epichealth.currenthealth > 0
+			and target.replica.combat ~= nil
+			and not IsEntityDead(target, true)
+			and not self:IsBusy(target)
 end
 
 function EpicHealthbar:IsValidPlayer(player)
 	return player.replica.combat ~= nil and not IsEntityDeadOrGhost(player, true)
-		and (player.player_classified ~= nil or player ~= self.owner)
+			and (player.player_classified ~= nil or player ~= self.owner)
 end
 
 function EpicHealthbar:ProximityCheck(target)
@@ -1790,16 +1729,16 @@ function EpicHealthbar:ProximityCheck(target)
 		return false
 	end
 	return target.entity:FrustumCheck()
-		or (not self:IsPlayingMusic(target) and self:TargetIs(target) and self:IsNear(target, DISENGAGED_DIST))
-		or (target.epichealth.overridefrustum and self:IsNear(target, 80))
+			or (not self:IsPlayingMusic(target) and self:TargetIs(target) and self:IsNear(target, DISENGAGED_DIST))
+			or (target.epichealth.overridefrustum and self:IsNear(target, 80))
 end
 
 function EpicHealthbar:InCombat(target)
 	return target.epichealth.lastwasdamagedtime ~= nil and target.epichealth.lastwasdamagedtime >= GetTime()
-		or target.replica.combat:IsValidTarget(target.replica.combat:GetTarget())
-		or target:HasTag("fire") --and target:HasActionComponent("burnable")
-		or target.AnimState ~= nil and target.AnimState:IsSymbolOverridden("swap_frozen") and target.AnimState:GetAddColour() > 0
-		or self:NearAttacker(target)
+			or target.replica.combat:IsValidTarget(target.replica.combat:GetTarget())
+			or target:HasTag("fire") --and target:HasActionComponent("burnable")
+			or target.AnimState ~= nil and target.AnimState:IsSymbolOverridden("swap_frozen") and target.AnimState:GetAddColour() > 0
+			or self:NearAttacker(target)
 end
 
 function EpicHealthbar:IsEngagedTarget(target)
@@ -1845,8 +1784,8 @@ function EpicHealthbar:GetNextTarget()
 				local dist = self:GetDistance(target)
 				local physdist = dist - target:GetPhysicsRadius(0)
 				if physdist <= mindist
-					or not next and self:IsPlayingMusic(target)
-					or not next and dist <= DISENGAGED_DIST and target.entity:FrustumCheck() then
+						or not next and self:IsPlayingMusic(target)
+						or not next and dist <= DISENGAGED_DIST and target.entity:FrustumCheck() then
 
 					next = target
 					mindist = physdist - TARGET_BIAS
@@ -1934,7 +1873,6 @@ function EpicHealthbar:OnUpdate(dt)
 			self.build = target.AnimState ~= nil and target.AnimState:GetBuild() or target.prefab
 			self.wet = target:GetIsWet()
 			self.stimuli = health.stimuli
-			self.lastwasdamagedtime = health.lastwasdamagedtime
 			self.percent = math.max(0, health.currenthealth / health.maxhealth)
 			self.maxhealth = health.maxhealth
 			self.currenthealth = health.currenthealth

@@ -3,9 +3,9 @@ for i, v in ipairs({ "_G", "setmetatable", "rawget" }) do
 end
 
 setmetatable(env,
-{
-	__index = function(table, key) return rawget(_G, key) end
-})
+		{
+			__index = function(table, key) return rawget(_G, key) end
+		})
 
 modpath = package.path:match("([^;]+)")
 package.path = package.path:sub(#modpath + 2) .. ";" .. modpath
@@ -134,8 +134,15 @@ else
 	Tykvesh = _G["Tykvesh"]
 end
 
+--for index, module in ipairs(Modules) do
+--	local result = kleiloadlua(MODROOT .. "scripts/" .. module .. ".lua")
+--	if type(result) == "function" then
+--		RunInEnvironment(result, env)
+--	end
+--end
+
 for index, module in ipairs(Modules) do
-	local result = kleiloadlua(MODROOT .. "scripts/" .. module .. ".lua")
+	local result = kleiloadlua(MODROOT .. "modules/epic_healthbar/" .. module .. ".lua")
 	if type(result) == "function" then
 		RunInEnvironment(result, env)
 	end

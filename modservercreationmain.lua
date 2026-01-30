@@ -3,9 +3,9 @@ for i, v in ipairs({ "_G", "setmetatable", "rawget" }) do
 end
 
 setmetatable(env,
-{
-	__index = function(table, key) return rawget(_G, key) end
-})
+		{
+			__index = function(table, key) return rawget(_G, key) end
+		})
 
 pcall(modinfo.SetLocaleMod, env)
 
@@ -120,7 +120,7 @@ if success and not ModConfigurationScreen._epichealthbarpatched then
 	function ModConfigurationScreen:LoadConfigurationOptions()
 		local config = KnownModIndex:LoadModConfigurationOptions(self.modname)
 		for _, option in ipairs(config or {}) do
-			if not option.client and option.options and #option.options > 1 then
+			if not option.client and #option.options > 1 then
 				local data = option.saved
 				if data == nil then
 					data = option.default
@@ -174,6 +174,9 @@ local function PatchModsTab()
 			end
 		end, true)
 
+		if mods_tab.OnBecomeActive ~= nil then
+			mods_tab:OnBecomeActive()
+		end
 		return true
 	end
 end
