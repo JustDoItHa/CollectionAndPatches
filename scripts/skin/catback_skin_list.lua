@@ -9,7 +9,7 @@ local item_list =            --有皮肤的物品代码
 
 local catback_skin_list =            --对应的皮肤
 {
-	--{"catback","catback","猫猫","idle"},
+	--{"catback","catbackym","猫猫","idle"},
 	{"catback","cbdz0","恶魔之翼","anim"},
 	{"catback","cbdz1","信仰之翼","anim"},
 	{"catback","cbdz2","炎热之火","anim"},

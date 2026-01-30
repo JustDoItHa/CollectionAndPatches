@@ -57,6 +57,7 @@ table.insert(Assets, Asset("ATLAS", "images/inventoryimages/cbdz7.xml"))
 table.insert(Assets, Asset("IMAGE", "images/inventoryimages/cbdz8.tex"))
 table.insert(Assets, Asset("ATLAS", "images/inventoryimages/cbdz8.xml"))
 
+table.insert(Assets, Asset("ANIM", "anim/catbackym.zip"))
 table.insert(Assets, Asset("ANIM", "anim/cbdz0.zip"))
 table.insert(Assets, Asset("ANIM", "anim/ui_cbdz0.zip"))
 table.insert(Assets, Asset("ANIM", "anim/cbdz1.zip"))
@@ -323,6 +324,7 @@ end)
 
 table.insert(TUNING.cap_skin_item_list,"catback")
 
+table.insert(TUNING.cap_skin_skin_list,{"catback","catbackym","小可爱","idle"})
 table.insert(TUNING.cap_skin_skin_list,{"catback","cbdz0","恶魔之翼","anim"})
 table.insert(TUNING.cap_skin_skin_list,{"catback","cbdz1","信仰之翼","anim"})
 table.insert(TUNING.cap_skin_skin_list,{"catback","cbdz2","炎热之火","anim"})
