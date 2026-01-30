@@ -26,7 +26,7 @@ description = [[
 ----------------------------------------------------------------------
 
 author = "EL"
-version = "14.10.2.6"
+version = "14.10.3.1"
 
 folder_name = folder_name or "Collection And Patches[合集和补丁]"
 if not folder_name:find("workshop-") then
@@ -2189,7 +2189,7 @@ function SetLocale(locale)
     STRINGS = locale ~= nil and LOCALE[locale:upper():sub(0, 2)] or LOCALE.EN
 
     name = STRINGS.NAME or name
-    description = STRINGS.DESCRIPTION_FMT:format(version, version_description)
+
     local tag = { "NONE", "EPIC", "_HEALTH" }
     for i = 1, #tag do
         local name = "TAG_" .. tag[i]:match("%a+")
@@ -2249,11 +2249,11 @@ function SetLocaleMod(env)
         end
     end
     if STRINGS.LOADING_TIPS then
-        local tab = { username = env.TheNet:GetLocalUserName() }
+        --local tab = { username = env.TheNet:GetLocalUserName() }
         for id, tip in env.pairs(STRINGS.LOADING_TIPS) do
             local category = "LOADING_SCREEN_" .. id:match("%a+") .. "_TIPS"
             local key = "EPICHEALTHBAR" .. (id:match("%d+") or "")
-            env.AddLoadingTip(env.STRINGS.UI[category], key, env.subfmt(tip, tab))
+            env.AddLoadingTip(env.STRINGS.UI[category], key, tip) --env.subfmt(tip, tab)
         end
     end
 end
