@@ -284,7 +284,7 @@ function API.arrangeContainer(inst)
 
 
 
-    -----@type Container
+    -- ---@type Container
     --local container = inst.components.container;
     --local slots = container.slots;
     --local keys = {};
