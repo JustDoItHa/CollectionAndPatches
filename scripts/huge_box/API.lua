@@ -714,8 +714,8 @@ end
 
 API.ItemsGICF = {};
 
----@param inventory Inventory
----@param priority table<string,number>
+-- --- @param inventory Inventory
+-- --- @param priority table<string,number>
 function API.ItemsGICF.itemsGoIntoContainersFirst(inventory, priority)
     local old_GiveItem = inventory.GiveItem;
 
@@ -811,7 +811,7 @@ function API.ItemsGICF.itemsGoIntoContainersFirst(inventory, priority)
             end);
 
             for _, c in ipairs(vip_containers) do
-                ---@type Container
+                -- ---@type Container
                 local container = c and c.components.container;
                 if container and container:IsOpen() then
                     if container:GiveItem(inst, nil, src_pos) then
@@ -850,7 +850,7 @@ end
 
 ---
 function API.ItemsGICF.clearAllFlag(inst)
-    ---@type Container
+    -- ---@type Container
     local container = inst.components.container;
     if container then
         for _, v in pairs(container.slots) do
