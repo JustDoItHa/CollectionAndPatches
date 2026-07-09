@@ -24,7 +24,7 @@ for k, v in pairs(actions) do
     AddAction(v)
 end
 
-local upvaluehelper = require "upvaluehelper"
+local upvaluehelper = require "components/upvaluehelper"
 
 -----修改原版动作的判定条件
 local actions = upvaluehelper.Get(EntityScript.CollectActions, "COMPONENT_ACTIONS")
