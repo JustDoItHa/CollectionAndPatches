@@ -807,6 +807,7 @@ function API.ItemsGICF.itemsGoIntoContainersFirst(inventory, priority)
                 if p1 and p2 then
                     return p1 > p2;
                 end
+                return false
             end);
 
             for _, c in ipairs(vip_containers) do
