@@ -894,8 +894,8 @@ function API.isDebug(env)
     return false;
 end
 
----@param env env
----@return boolean
+-- ---@param env env
+-- ---@return boolean
 function API.hasBeenReleased(env)
     if string.find(env.modname, "workshop") then
         return true;
