@@ -885,8 +885,8 @@ function API.ItemsGICF.setListenForEvent(inst)
     end)
 end
 
----@param env env
----@return boolean
+-- ---@param env env
+-- ---@return boolean
 function API.isDebug(env)
     if not string.find(env.modname, "workshop") then
         return true;
